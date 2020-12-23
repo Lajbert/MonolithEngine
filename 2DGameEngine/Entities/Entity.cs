@@ -100,6 +100,7 @@ namespace _2DGameEngine.Entities
 
         public override void Destroy()
         {
+            parent.RemoveChild(this);
             if (!children.Any())
             {
                 foreach (HasParent o in children) {
