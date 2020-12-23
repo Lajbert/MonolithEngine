@@ -9,7 +9,7 @@ namespace _2DGameEngine.Entities
     class ROOT : HasChildren
     {
 
-        private static List<HasParent> children = new List<HasParent>();
+        private static HashSet<HasParent> children = new HashSet<HasParent>();
 
         private static readonly ROOT instance = new ROOT();
 
@@ -21,9 +21,19 @@ namespace _2DGameEngine.Entities
             children.Add(gameObject);
         }
 
-        public List<HasParent> GetAllChildren()
+        public HashSet<HasParent> GetAllChildren()
         {
             return children;
+        }
+
+        HashSet<HasParent> HasChildren.GetAllChildren()
+        {
+            return children;
+        }
+
+        public void RemoveChild(HasParent gameObject)
+        {
+            children.Remove(gameObject);
         }
 
         public static ROOT Instance

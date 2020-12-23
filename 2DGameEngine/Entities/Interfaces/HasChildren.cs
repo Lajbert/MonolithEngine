@@ -6,8 +6,10 @@ namespace _2DGameEngine.Entities.Interfaces
 {
     interface HasChildren
     {
-        public List<HasParent> GetAllChildren();
+        public HashSet<HasParent> GetAllChildren();
 
         public void AddChild(HasParent gameObject);
+
+        public void RemoveChild(HasParent gameObject);
     }
 }

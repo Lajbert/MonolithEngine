@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using _2DGameEngine.Entities;
+using _2DGameEngine.Level;
 using _2DGameEngine.Entities.Interfaces;
 using System.Collections.Generic;
+using _2DGameEngine.Global;
 
 namespace _2DGameEngine
 {
@@ -12,22 +14,23 @@ namespace _2DGameEngine
     {
         private GraphicsDeviceManager graphics;
         ControllableEntity hero;
+        MyLevel level;
+        private SpriteFont font;
 
         public Main()
         {
             // >>>>>>> set framerate >>>>>>>>>>
-            /*
             this.IsFixedTimeStep = true;//false;
             this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 60d); //60);
-            */
+            
             graphics = new GraphicsDeviceManager(this);
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
             // uncapped framerate
-            /*graphics.SynchronizeWithVerticalRetrace = false;
-            this.IsFixedTimeStep = false;*/
+            //graphics.SynchronizeWithVerticalRetrace = false;
+            //this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -39,15 +42,32 @@ namespace _2DGameEngine
 
         protected override void LoadContent()
         {
-            
-            Vector2 startPosition = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
-
-            hero = new ControllableEntity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(30, Color.Black), startPosition);
-            EntityManager.AddObject(hero);
+            font = Content.Load<SpriteFont>("DefaultFont");
+            level = new MyLevel();
+            Vector2 startPosition = new Vector2(10 * Constants.GRID, 10 * Constants.GRID);
+            hero = new ControllableEntity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), startPosition, font);
+            level.AddObject(hero);
             // TODO: use this.Content to load your game content here
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 3840;
+            graphics.PreferredBackBufferHeight = 2160;
             graphics.ApplyChanges();
+            CreateLevel();
+        }
+
+        private void CreateLevel()
+        {
+            for (int i = 10 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
+            {
+                Entity e = new Entity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 20 * Constants.GRID), font);
+                level.AddObject(e);
+            }
+
+
+            for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
+            {
+                Entity e = new Entity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 19 * Constants.GRID), font);
+                level.AddObject(e);
+            }
         }
 
         private Texture2D CreateRectangle(int size, Color color)
@@ -65,7 +85,7 @@ namespace _2DGameEngine
                 Exit();
 
             // TODO: Add your update logic here
-            EntityManager.UpdateAll(gameTime);
+            level.UpdateAll(gameTime);
             base.Update(gameTime);
         }
 
@@ -74,7 +94,7 @@ namespace _2DGameEngine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            EntityManager.DrawAll(gameTime);
+            level.DrawAll(gameTime);
             base.Draw(gameTime);
         }
     }
