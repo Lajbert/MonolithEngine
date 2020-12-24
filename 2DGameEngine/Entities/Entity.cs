@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using _2DGameEngine.Global;
 using _2DGameEngine.Util;
+using _2DGameEngine.Level;
 
 namespace _2DGameEngine.Entities
 {
@@ -22,6 +23,8 @@ namespace _2DGameEngine.Entities
         private HasChildren parent;
         private bool hasCollision;
 
+        protected MyLevel level;
+
         protected SpriteFont font;
 
         //between 0 and 1: where the object is inside the grid cell
@@ -34,14 +37,18 @@ namespace _2DGameEngine.Entities
         //private float cy = 0f;
         protected Vector2 gridCoord = Vector2.Zero;
 
-        public Entity(HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
+        public Entity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
         {
-            //SetID();
+            if (level == null || parent == null)
+            {
+                throw new Exception("Parent object or level not set!");
+            }
             this.sprite = texture2D;
             if (graphicsDevice != null)
             {
                 spriteBatch = new SpriteBatch(graphicsDevice);
             }
+            this.level = level;
             this.children = new HashSet<HasParent>();
             this.updatables = new HashSet<Updatable>();
             this.drawables = new HashSet<Drawable>();
@@ -50,6 +57,8 @@ namespace _2DGameEngine.Entities
             this.hasCollision = true;
             SetPosition(startPosition);
             this.font = font;
+
+            level.AddObject(this);
         }
 
 

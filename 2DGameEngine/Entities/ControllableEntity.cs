@@ -20,13 +20,10 @@ namespace _2DGameEngine
         private float bdx = 0f;
         private float bdy = 0f;
 
-        private MyLevel level;
-
         private bool canJump = true;
 
-        public ControllableEntity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(parent, graphicsDevice, texture2D, startPosition, font)
+        public ControllableEntity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(level, parent, graphicsDevice, texture2D, startPosition, font)
         {
-            this.level = level;
             //gridCoord = new Vector2((int)Math.Floor(startPosition.X / Constants.GRID), (int)Math.Floor(startPosition.Y / Constants.GRID));
             //SetPosition(new Vector2((int)startPosition.X, (int)startPosition.Y));
         }

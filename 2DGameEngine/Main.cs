@@ -46,9 +46,7 @@ namespace _2DGameEngine
             level = new MyLevel();
             Vector2 startPosition = new Vector2(9 * Constants.GRID, 9 * Constants.GRID);
             hero = new ControllableEntity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), startPosition, font);
-            Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(8 , 8) * Constants.GRID, font);
-            level.AddObject(hero);
-            level.AddObject(child);
+            Entity child = new Entity(level, hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(8 , 8) * Constants.GRID, font);
             // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = 3840;
             graphics.PreferredBackBufferHeight = 2160;
@@ -60,32 +58,27 @@ namespace _2DGameEngine
         {
             for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 17 * Constants.GRID), font);
-                level.AddObject(e);
+                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 17 * Constants.GRID), font);
             }
 
             for (int i = 16 * Constants.GRID; i < 27 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 15 * Constants.GRID), font);
-                level.AddObject(e);
+                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 15 * Constants.GRID), font);
             }
 
             for (int i = 2 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
             {
-                Entity e = new Entity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 20 * Constants.GRID), font);
-                level.AddObject(e);
+                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 20 * Constants.GRID), font);
             }
 
             for (int i = 9 * Constants.GRID; i < 10 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 19 * Constants.GRID), font);
-                level.AddObject(e);
+                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 19 * Constants.GRID), font);
             }
 
             for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 19 * Constants.GRID), font);
-                level.AddObject(e);
+                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(i, 19 * Constants.GRID), font);
             }
         }
 
