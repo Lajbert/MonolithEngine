@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using _2DGameEngine.Entities;
 using _2DGameEngine.Entities.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace _2DGameEngine.Entities
 {

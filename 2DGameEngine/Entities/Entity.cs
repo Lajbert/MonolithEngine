@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using _2DGameEngine.Global;
+using _2DGameEngine.Util;
 
 namespace _2DGameEngine.Entities
 {
@@ -13,7 +14,7 @@ namespace _2DGameEngine.Entities
     {
 
         protected Vector2 position;
-        private Texture2D sprite;
+        protected Texture2D sprite;
         protected SpriteBatch spriteBatch;
         private HashSet<HasParent> children;
         private HashSet<Updatable> updatables;
@@ -21,7 +22,7 @@ namespace _2DGameEngine.Entities
         private HasChildren parent;
         private bool hasCollision;
 
-        private SpriteFont font;
+        protected SpriteFont font;
 
         //between 0 and 1: where the object is inside the grid cell
         //private float xr = 0.5f;
@@ -37,8 +38,10 @@ namespace _2DGameEngine.Entities
         {
             //SetID();
             this.sprite = texture2D;
-            this.position = startPosition;
-            spriteBatch = new SpriteBatch(graphicsDevice);
+            if (graphicsDevice != null)
+            {
+                spriteBatch = new SpriteBatch(graphicsDevice);
+            }
             this.children = new HashSet<HasParent>();
             this.updatables = new HashSet<Updatable>();
             this.drawables = new HashSet<Drawable>();
@@ -53,8 +56,16 @@ namespace _2DGameEngine.Entities
 
         public virtual void Draw(GameTime gameTime)
         {
+            
             spriteBatch.Begin();
-            spriteBatch.Draw(sprite, position, Color.White);
+            if (GetParent() != ROOT.Instance)
+            {
+                spriteBatch.Draw(sprite, position + ((Entity)GetParent()).GetPosition(), Color.White);
+            } else
+            {
+                spriteBatch.Draw(sprite, position, Color.White);
+            }
+
             if (font != null)
             {
                 spriteBatch.DrawString(font, gridCoord.X + "\n" + gridCoord.Y, position, Color.White);
@@ -128,7 +139,8 @@ namespace _2DGameEngine.Entities
 
         public void SetPosition(Vector2 positon)
         {
-            gridCoord = positon / Constants.GRID;
+            this.position = positon;
+            gridCoord = new Vector2((int)Math.Round(positon.X/ Constants.GRID), (int)Math.Round(positon.Y / Constants.GRID));
             inCellLocation = new Vector2(0f, 0f);
         }
     }

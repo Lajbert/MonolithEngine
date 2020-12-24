@@ -11,6 +11,17 @@ namespace _2DGameEngine.Util
         {
             return new Vector2(coord.X + 1, coord.Y);
         }
+
+        public static Vector2 GetRightBottomGrid(Vector2 coord)
+        {
+            return new Vector2(coord.X + 1, coord.Y + 1);
+        }
+
+        public static Vector2 GetLeftBottomGrid(Vector2 coord)
+        {
+            return new Vector2(coord.X - 1, coord.Y + 1);
+        }
+
         public static Vector2 GetLeftGrid(Vector2 coord)
         {
             return new Vector2(coord.X - 1, coord.Y);

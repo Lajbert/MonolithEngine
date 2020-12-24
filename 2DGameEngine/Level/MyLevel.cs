@@ -25,10 +25,6 @@ namespace _2DGameEngine.Level
 
         public bool HasColliderAt(Vector2 location)
         {
-            if(colliders.ContainsKey(location))
-            {
-                Logger.Log("COLLISION LOOKUP AT: " + location);
-            }
             return colliders.ContainsKey(location);
         }
 
@@ -45,8 +41,7 @@ namespace _2DGameEngine.Level
             if (gameObject is Collider)
             {
                 Collider c = (Collider)gameObject;
-                Vector2 gridLocation = new Vector2((int)Math.Floor(c.GetPosition().X / Constants.GRID), (int)Math.Floor(c.GetPosition().Y / Constants.GRID));
-                Logger.Log("COLLIDER ADDED AT: " + gridLocation);
+                Vector2 gridLocation = new Vector2((int)Math.Round(c.GetPosition().X / Constants.GRID), (int)Math.Round(c.GetPosition().Y / Constants.GRID));
                 colliders.Add(gridLocation, c);
             }
         }
