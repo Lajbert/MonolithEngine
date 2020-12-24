@@ -44,5 +44,10 @@ namespace _2DGameEngine.Entities
                 return instance;
             }
         }
+
+        public Vector2 GetPosition()
+        {
+            return Vector2.Zero;
+        }
     }
 }

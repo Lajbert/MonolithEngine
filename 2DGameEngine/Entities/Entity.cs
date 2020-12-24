@@ -58,13 +58,8 @@ namespace _2DGameEngine.Entities
         {
             
             spriteBatch.Begin();
-            if (GetParent() != ROOT.Instance)
-            {
-                spriteBatch.Draw(sprite, position + ((Entity)GetParent()).GetPosition(), Color.White);
-            } else
-            {
-                spriteBatch.Draw(sprite, position, Color.White);
-            }
+
+            spriteBatch.Draw(sprite, position + GetParent().GetPosition(), Color.White);
 
             if (font != null)
             {
