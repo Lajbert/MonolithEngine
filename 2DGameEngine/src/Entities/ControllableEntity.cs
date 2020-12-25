@@ -149,7 +149,7 @@ namespace _2DGameEngine
             position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             */
 
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Constants.TIME_OFFSET;
 
             float steps = (float)Math.Ceiling(Math.Abs((direction.X + bdx) * elapsedTime));
             float step = (float)(direction.X + bdx) * elapsedTime / steps;
@@ -204,7 +204,7 @@ namespace _2DGameEngine
 
                 if (HasCollision() && inCellLocation.Y < 0 && level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)))
                 {
-                    inCellLocation.Y = 0f;
+                    inCellLocation.Y = 0;
                 }
                    
                 while (inCellLocation.Y > 1) { inCellLocation.Y--; gridCoord.Y++; }
@@ -218,7 +218,6 @@ namespace _2DGameEngine
 
 
             position = new Vector2((float)(gridCoord.X + inCellLocation.X) * Constants.GRID, (float)(gridCoord.Y + inCellLocation.Y) * Constants.GRID);
-
 
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));

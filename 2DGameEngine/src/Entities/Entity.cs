@@ -55,7 +55,6 @@ namespace _2DGameEngine.Entities
 
         public virtual void Draw(GameTime gameTime)
         {
-            //position += GetParent().GetPosition();
             spriteBatch.Begin();
 
             spriteBatch.Draw(sprite, position + GetParent().GetPosition(), Color.White);
