@@ -68,9 +68,8 @@ namespace _2DGameEngine
                 //moveY = -1;
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
                 canJump = false;
-                direction.Y -= Constants.JUMP_FORCE * elapsedTime;
+                direction.Y -= Constants.JUMP_FORCE;
                 jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
-                Logger.Log("+++++++++++++++++++++++++++++++ " + Constants.JUMP_FORCE * elapsedTime);
             }
             previousKeyboardState = currentKeyboardState;
 
