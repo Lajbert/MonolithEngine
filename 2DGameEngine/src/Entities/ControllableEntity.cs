@@ -30,6 +30,9 @@ namespace _2DGameEngine
         private float bdx = 0f;
         private float bdy = 0f;
 
+        private KeyboardState currentKeyboardState;
+        private KeyboardState previousKeyboardState;
+
         private bool canJump = true;
 
         private float jumpStart;
@@ -41,10 +44,9 @@ namespace _2DGameEngine
 
         override public void Draw(GameTime gameTime)
         {
-            KeyboardState kstate = Keyboard.GetState();
+            currentKeyboardState = Keyboard.GetState();
 
-            if (kstate.IsKeyDown(Keys.R))
-            //if (kstate.IsKeyDown(Keys.Up) && (HasCollision() && !level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord))))
+            if (currentKeyboardState.IsKeyDown(Keys.R))
             {
                 SetPosition(new Vector2(9 * Constants.GRID, 9 * Constants.GRID));
             }
@@ -54,43 +56,39 @@ namespace _2DGameEngine
 
             float elapsedTime = GetTime(gameTime);
 
-            if (kstate.IsKeyDown(Keys.Up))
-            //if (kstate.IsKeyDown(Keys.Up) && (HasCollision() && !level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord))))
+            if (currentKeyboardState.IsKeyDown(Keys.Up))
             {
                 //moveY = -1;
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
                 direction.Y -= Constants.CHARACTER_SPEED * elapsedTime;
             }
 
-            if (kstate.IsKeyDown(Keys.Space) && canJump)
-            //if (kstate.IsKeyDown(Keys.Up) && (HasCollision() && !level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord))))
+            if (currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space) && canJump)
             {
                 //moveY = -1;
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
                 canJump = false;
                 direction.Y -= Constants.JUMP_FORCE * elapsedTime;
-                jumpStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+                jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+                Logger.Log("+++++++++++++++++++++++++++++++ " + Constants.JUMP_FORCE * elapsedTime);
             }
+            previousKeyboardState = currentKeyboardState;
 
-
-            if (kstate.IsKeyDown(Keys.Down))
-            //if (kstate.IsKeyDown(Keys.Down) && (HasCollision() && !level.HasColliderAt(GridUtil.GetBelowGrid(gridCoord))))
+            if (currentKeyboardState.IsKeyDown(Keys.Down))
             {
                 //moveY = 1;
                 //dy += Constants.CHARACTER_SPEED * elapsedTime;
                 direction.Y += Constants.CHARACTER_SPEED * elapsedTime;
             }
 
-            if (kstate.IsKeyDown(Keys.Left))
-            //if (kstate.IsKeyDown(Keys.Left) && (HasCollision() && !level.HasColliderAt(GridUtil.GetLeftGrid(gridCoord))))
+            if (currentKeyboardState.IsKeyDown(Keys.Left))
             {
                 //moveX = -1;
                 //dx -= Constants.CHARACTER_SPEED * elapsedTime;
                 direction.X -= Constants.CHARACTER_SPEED * elapsedTime;
             }
 
-            if (kstate.IsKeyDown(Keys.Right))
-            //if (kstate.IsKeyDown(Keys.Right) && (HasCollision() && !level.HasColliderAt(GridUtil.GetRightGrid(gridCoord))))
+            if (currentKeyboardState.IsKeyDown(Keys.Right))
             {
                 //moveX = 1;
                 //dx += Constants.CHARACTER_SPEED * elapsedTime;
@@ -100,7 +98,6 @@ namespace _2DGameEngine
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                //gridCoord = new Vector2((int)Math.Floor((double)mouseState.X / Constants.GRID), (int)Math.Floor((double)mouseState.Y / Constants.GRID));
                 gridCoord = GetGridCoord(new Vector2(mouseState.X, mouseState.Y));
                 if (HasCollision() && (!level.HasColliderAt(GridUtil.GetRightGrid(gridCoord)) &&
                     !level.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)) &&
@@ -184,11 +181,11 @@ namespace _2DGameEngine
             {   
                 if (jumpStart == 0)
                 {
-                    jumpStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+                    jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
                 }
-                //float gravity = (float)Math.Pow((gameTime.TotalGameTime.TotalMilliseconds / 1000 - jumpStart / 1000), 2);
-                float t = (float)(gameTime.TotalGameTime.TotalMilliseconds / 1000 - jumpStart / 1000);
-                direction.Y += GetGravityConstant() * t;
+                float t = (float)(gameTime.TotalGameTime.TotalSeconds - jumpStart) * Constants.JUMP_T_MULTIPLIER;
+                direction.Y += GetGravityConstant() * t * elapsedTime;
+                //direction.Y += GetGravityConstant() * (float)Math.Pow(t, 2) * elapsedTime;
                 canJump = false;
             }
                 
@@ -263,7 +260,7 @@ namespace _2DGameEngine
             this.jumpStart = 0;
         }
 
-        private float GetTime(GameTime gameTime)
+        float GetTime(GameTime gameTime)
         {
             return (float)gameTime.ElapsedGameTime.TotalSeconds * Constants.TIME_OFFSET;
         }
