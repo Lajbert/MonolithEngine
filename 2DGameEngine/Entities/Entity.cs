@@ -27,16 +27,6 @@ namespace _2DGameEngine.Entities
 
         protected SpriteFont font;
 
-        //between 0 and 1: where the object is inside the grid cell
-        //private float xr = 0.5f;
-        //private float yr = 1.0f;
-        protected Vector2 inCellLocation = new Vector2(0.5f, 1.0f);
-
-        //grid coordinates
-        //private float cx = 0f;
-        //private float cy = 0f;
-        protected Vector2 gridCoord = Vector2.Zero;
-
         public Entity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
         {
             if (level == null || parent == null)
@@ -55,7 +45,7 @@ namespace _2DGameEngine.Entities
             this.parent = parent;
             this.parent.AddChild(this);
             this.hasCollision = true;
-            SetPosition(startPosition);
+            this.position = startPosition;
             this.font = font;
 
             level.AddObject(this);
@@ -65,15 +55,16 @@ namespace _2DGameEngine.Entities
 
         public virtual void Draw(GameTime gameTime)
         {
-            
+            //position += GetParent().GetPosition();
             spriteBatch.Begin();
 
             spriteBatch.Draw(sprite, position + GetParent().GetPosition(), Color.White);
 
             if (font != null)
             {
-                spriteBatch.DrawString(font, gridCoord.X + "\n" + gridCoord.Y, position, Color.White);
+                spriteBatch.DrawString(font, GetGridCoord().X + "\n" + GetGridCoord().Y, position, Color.White);
             }
+
             spriteBatch.End();
         }
 
@@ -141,11 +132,15 @@ namespace _2DGameEngine.Entities
             return this.position;
         }
 
-        public void SetPosition(Vector2 positon)
+
+        protected Vector2 GetGridCoord()
         {
-            this.position = positon;
-            gridCoord = new Vector2((int)Math.Round(positon.X/ Constants.GRID), (int)Math.Round(positon.Y / Constants.GRID));
-            inCellLocation = new Vector2(0f, 0f);
+            return GetGridCoord(position);
+        }
+
+        protected Vector2 GetGridCoord(Vector2 position)
+        {
+            return new Vector2((int)Math.Floor(position.X / Constants.GRID), (int)Math.Floor(position.Y / Constants.GRID));
         }
     }
 }

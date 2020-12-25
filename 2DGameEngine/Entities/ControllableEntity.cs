@@ -17,6 +17,16 @@ namespace _2DGameEngine
         //private float dy = 0;
         private Vector2 direction = Vector2.Zero;
 
+        //between 0 and 1: where the object is inside the grid cell
+        //private float xr = 0.5f;
+        //private float yr = 1.0f;
+        protected Vector2 inCellLocation = new Vector2(0.5f, 1.0f);
+
+        //grid coordinates
+        //private float cx = 0f;
+        //private float cy = 0f;
+        protected Vector2 gridCoord = Vector2.Zero;
+
         private float bdx = 0f;
         private float bdy = 0f;
 
@@ -24,8 +34,7 @@ namespace _2DGameEngine
 
         public ControllableEntity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(level, parent, graphicsDevice, texture2D, startPosition, font)
         {
-            //gridCoord = new Vector2((int)Math.Floor(startPosition.X / Constants.GRID), (int)Math.Floor(startPosition.Y / Constants.GRID));
-            //SetPosition(new Vector2((int)startPosition.X, (int)startPosition.Y));
+            SetPosition(startPosition);
         }
 
         override public void Draw(GameTime gameTime)
@@ -89,7 +98,7 @@ namespace _2DGameEngine
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 //gridCoord = new Vector2((int)Math.Floor((double)mouseState.X / Constants.GRID), (int)Math.Floor((double)mouseState.Y / Constants.GRID));
-                gridCoord = new Vector2((int)Math.Floor((double)mouseState.X / Constants.GRID), (int)Math.Floor((double)mouseState.Y / Constants.GRID));
+                gridCoord = GetGridCoord(new Vector2(mouseState.X, mouseState.Y));
                 if (HasCollision() && (!level.HasColliderAt(GridUtil.GetRightGrid(gridCoord)) &&
                     !level.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)) &&
                     !level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)) &&
@@ -235,6 +244,12 @@ namespace _2DGameEngine
         {
             bool onGround = level.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
             return onGround;
+        }
+
+        public void SetPosition(Vector2 positon)
+        {
+            gridCoord = GetGridCoord(position);
+            inCellLocation = new Vector2(0f, 0f);
         }
 
     }

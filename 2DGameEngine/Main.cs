@@ -24,7 +24,7 @@ namespace _2DGameEngine
             this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 60d); //60);
             
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
