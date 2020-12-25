@@ -21,7 +21,7 @@ namespace _2DGameEngine
         {
             // >>>>>>> set framerate >>>>>>>>>>
             this.IsFixedTimeStep = true;//false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 60d); //60);
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Constants.FPS); //60);
             
             graphics = new GraphicsDeviceManager(this);
             //graphics.IsFullScreen = true;

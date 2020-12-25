@@ -15,5 +15,7 @@ namespace _2DGameEngine.Global
         public static float JUMP_FORCE = 0.15f;
 
         public static float TIME_OFFSET = 100;
+
+        public static int FPS = 60;
     }
 }
