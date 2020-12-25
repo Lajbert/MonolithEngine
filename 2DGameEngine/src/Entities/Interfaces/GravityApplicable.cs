@@ -8,6 +8,6 @@ namespace _2DGameEngine.Entities.Interfaces
     {
         public bool HasGravity();
 
-        public float GetGravity();
+        public float GetGravityConstant();
     }
 }

@@ -32,6 +32,8 @@ namespace _2DGameEngine
 
         private bool canJump = true;
 
+        private float jumpStart;
+
         public ControllableEntity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(level, parent, graphicsDevice, texture2D, startPosition, font)
         {
             SetPosition(startPosition);
@@ -50,7 +52,7 @@ namespace _2DGameEngine
 
             //moveX = moveY = 0;
 
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            float elapsedTime = GetTime(gameTime);
 
             if (kstate.IsKeyDown(Keys.Up))
             //if (kstate.IsKeyDown(Keys.Up) && (HasCollision() && !level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord))))
@@ -67,6 +69,7 @@ namespace _2DGameEngine
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
                 canJump = false;
                 direction.Y -= Constants.JUMP_FORCE * elapsedTime;
+                jumpStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
             }
 
 
@@ -149,7 +152,7 @@ namespace _2DGameEngine
             position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             */
 
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Constants.TIME_OFFSET;
+            float elapsedTime = GetTime(gameTime);
 
             float steps = (float)Math.Ceiling(Math.Abs((direction.X + bdx) * elapsedTime));
             float step = (float)(direction.X + bdx) * elapsedTime / steps;
@@ -178,8 +181,14 @@ namespace _2DGameEngine
 
             // Y
             if (!OnGround())
-            {
-                direction.Y += GetGravity() * elapsedTime;
+            {   
+                if (jumpStart == 0)
+                {
+                    jumpStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+                }
+                //float gravity = (float)Math.Pow((gameTime.TotalGameTime.TotalMilliseconds / 1000 - jumpStart / 1000), 2);
+                float t = (float)(gameTime.TotalGameTime.TotalMilliseconds / 1000 - jumpStart / 1000);
+                direction.Y += GetGravityConstant() * t;
                 canJump = false;
             }
                 
@@ -187,6 +196,7 @@ namespace _2DGameEngine
             {
                 //fallStartY = footY;
                 canJump = true;
+                jumpStart = 0;
             }
 
             float steps2 = (float)Math.Ceiling(Math.Abs((direction.Y + bdy) * elapsedTime));
@@ -234,7 +244,7 @@ namespace _2DGameEngine
             return Constants.GRAVITY_ON;
         }
 
-        public float GetGravity()
+        public float GetGravityConstant()
         {
             return Constants.GRAVITY_FORCE;
         }
@@ -245,10 +255,17 @@ namespace _2DGameEngine
             return onGround;
         }
 
-        public void SetPosition(Vector2 positon)
+        public void SetPosition(Vector2 position)
         {
             gridCoord = GetGridCoord(position);
             inCellLocation = new Vector2(0f, 0f);
+            this.position = position;
+            this.jumpStart = 0;
+        }
+
+        private float GetTime(GameTime gameTime)
+        {
+            return (float)gameTime.ElapsedGameTime.TotalSeconds * Constants.TIME_OFFSET;
         }
 
     }
