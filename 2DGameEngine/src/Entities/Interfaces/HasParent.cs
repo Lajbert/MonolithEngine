@@ -7,7 +7,7 @@ namespace _2DGameEngine.Entities.Interfaces
 {
     interface HasParent
     {
-        public HasChildren GetParent();
+        public Entity GetParent();
 
     }
 }

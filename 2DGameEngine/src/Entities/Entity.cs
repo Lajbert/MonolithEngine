@@ -17,21 +17,21 @@ namespace _2DGameEngine.Entities
         protected Vector2 position;
         protected Texture2D sprite;
         protected SpriteBatch spriteBatch;
-        private HashSet<HasParent> children;
+        private HashSet<Entity> children;
         private HashSet<Updatable> updatables;
         private HashSet<Drawable> drawables;
-        private HasChildren parent;
+        private Entity parent;
         private bool hasCollision;
 
         protected MyLevel level;
 
         protected SpriteFont font;
 
-        public Entity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
+        public Entity(MyLevel level, Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
         {
-            if (level == null || parent == null)
+            if (level == null)
             {
-                throw new Exception("Parent object or level not set!");
+                throw new Exception("Level not set!");
             }
             this.sprite = texture2D;
             if (graphicsDevice != null)
@@ -39,11 +39,17 @@ namespace _2DGameEngine.Entities
                 spriteBatch = new SpriteBatch(graphicsDevice);
             }
             this.level = level;
-            this.children = new HashSet<HasParent>();
+            this.children = new HashSet<Entity>();
             this.updatables = new HashSet<Updatable>();
             this.drawables = new HashSet<Drawable>();
-            this.parent = parent;
-            this.parent.AddChild(this);
+            if (parent != null) {
+                this.parent = parent;
+                this.parent.AddChild(this);
+            } else
+            {
+                RootContainer.Instance.AddChild(this);
+            }
+            
             this.hasCollision = true;
             this.position = startPosition;
             this.font = font;
@@ -52,12 +58,26 @@ namespace _2DGameEngine.Entities
         }
 
 
+        public virtual void PreDraw(GameTime gameTime)
+        {
+
+            foreach (Drawable child in drawables)
+            {
+                child.PreDraw(gameTime);
+            }
+        }
 
         public virtual void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-
-            spriteBatch.Draw(sprite, position + GetParent().GetPosition(), Color.White);
+            if (GetParent() != null)
+            {
+                spriteBatch.Draw(sprite, position + GetParent().GetPosition(), Color.White);
+            } else
+            {
+                spriteBatch.Draw(sprite, position, Color.White);
+            }
+            
 
             if (font != null)
             {
@@ -65,14 +85,28 @@ namespace _2DGameEngine.Entities
             }
 
             spriteBatch.End();
+
+            foreach (Drawable child in drawables)
+            {
+                child.Draw(gameTime);
+            }
         }
 
-        public HashSet<HasParent> GetAllChildren()
+        public virtual void PostDraw(GameTime gameTime)
+        {
+
+            foreach (Drawable child in drawables)
+            {
+                child.PostDraw(gameTime);
+            }
+        }
+
+        public HashSet<Entity> GetAllChildren()
         {
             return children;
         }
 
-        public void AddChild(HasParent gameObject)
+        public void AddChild(Entity gameObject)
         {
             children.Add(gameObject);
             if (gameObject is Drawable)
@@ -85,7 +119,7 @@ namespace _2DGameEngine.Entities
             }
         }
 
-        public void RemoveChild(HasParent gameObject)
+        public void RemoveChild(Entity gameObject)
         {
             children.Remove(gameObject);
             if (gameObject is Drawable)
@@ -98,7 +132,7 @@ namespace _2DGameEngine.Entities
             }
         }
 
-        public HasChildren GetParent()
+        public Entity GetParent()
         {
             return parent;
         }
@@ -108,9 +142,9 @@ namespace _2DGameEngine.Entities
             parent.RemoveChild(this);
             if (!children.Any())
             {
-                foreach (HasParent o in children) {
+                foreach (Entity o in children) {
                     if (o != null) {
-                        ((GameObject)o).Destroy();
+                        o.Destroy();
                     }
                 }
             }
@@ -141,5 +175,16 @@ namespace _2DGameEngine.Entities
         {
             return new Vector2((int)Math.Floor(position.X / Constants.GRID), (int)Math.Floor(position.Y / Constants.GRID));
         }
+
+        protected HashSet<Updatable> GetUpdatables()
+        {
+            return updatables;
+        }
+
+        protected HashSet<Drawable> GetDrawables()
+        {
+            return drawables;
+        }
+
     }
 }

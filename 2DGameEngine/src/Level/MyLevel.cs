@@ -13,15 +13,11 @@ namespace _2DGameEngine.Level
     {
 
         private Dictionary<Vector2, Collider> colliders;
-        private List<Drawable> drawables;
-        private List<Updatable> updatables;
 
         public MyLevel()
         {
             colliders = new Dictionary<Vector2, Collider>();
-            drawables = new List<Drawable>();
-            updatables = new List<Updatable>();
-    }
+        }
 
         public bool HasColliderAt(Vector2 location)
         {
@@ -30,35 +26,11 @@ namespace _2DGameEngine.Level
 
         public void AddObject(GameObject gameObject)
         {
-            if (gameObject is Drawable)
-            {
-                drawables.Add((Drawable)gameObject);
-            }
-            if (gameObject is Updatable)
-            {
-                updatables.Add((Updatable)gameObject);
-            }
             if (gameObject is Collider)
             {
                 Collider c = (Collider)gameObject;
                 Vector2 gridLocation = new Vector2((int)Math.Round(c.GetPosition().X / Constants.GRID), (int)Math.Round(c.GetPosition().Y / Constants.GRID));
                 colliders.Add(gridLocation, c);
-            }
-        }
-
-        public void DrawAll(GameTime gameTime)
-        {
-            foreach (Drawable o in drawables)
-            {
-                o.Draw(gameTime);
-            }
-        }
-
-        public void UpdateAll(GameTime gameTime)
-        {
-            foreach (Updatable o in updatables)
-            {
-                o.Update(gameTime);
             }
         }
     }

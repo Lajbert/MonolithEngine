@@ -37,7 +37,7 @@ namespace _2DGameEngine
 
         private float jumpStart;
 
-        public ControllableEntity(MyLevel level, HasChildren parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(level, parent, graphicsDevice, texture2D, startPosition, font)
+        public ControllableEntity(MyLevel level, Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(level, parent, graphicsDevice, texture2D, startPosition, font)
         {
             SetPosition(startPosition);
         }
@@ -135,6 +135,13 @@ namespace _2DGameEngine
             base.Draw(gameTime);
         }
 
+        public void PreUpdate(GameTime gameTime)
+        {
+            foreach (Updatable child in GetUpdatables())
+            {
+                child.PreUpdate(gameTime);
+            }
+        }
         public void Update(GameTime gameTime)
         {
             /*
@@ -227,6 +234,20 @@ namespace _2DGameEngine
 
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));
+
+            foreach(Updatable child in GetUpdatables())
+            {
+                child.Update(gameTime);
+            }
+        }
+
+        public void PostUpdate(GameTime gameTime)
+        {
+
+            foreach (Updatable child in GetUpdatables())
+            {
+                child.PostUpdate(gameTime);
+            }
         }
 
         /*public void SetPositionPixel(Vector2 posiiton)
@@ -263,6 +284,5 @@ namespace _2DGameEngine
         {
             return (float)gameTime.ElapsedGameTime.TotalSeconds * Constants.TIME_OFFSET;
         }
-
     }
 }

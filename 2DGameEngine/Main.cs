@@ -45,7 +45,7 @@ namespace _2DGameEngine
             font = Content.Load<SpriteFont>("DefaultFont");
             level = new MyLevel();
             Vector2 startPosition = new Vector2(9 * Constants.GRID, 9 * Constants.GRID);
-            hero = new ControllableEntity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
+            hero = new ControllableEntity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
             Entity child = new Entity(level, hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.BlueViolet), new Vector2(8 , 8) * Constants.GRID, font);
             // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = 3840;
@@ -58,27 +58,27 @@ namespace _2DGameEngine
         {
             for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 17 * Constants.GRID), font);
+                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 17 * Constants.GRID), font);
             }
 
             for (int i = 16 * Constants.GRID; i < 27 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 15 * Constants.GRID), font);
+                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 15 * Constants.GRID), font);
             }
 
             for (int i = 2 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
             {
-                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 20 * Constants.GRID), font);
+                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 20 * Constants.GRID), font);
             }
 
             for (int i = 9 * Constants.GRID; i < 10 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
+                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
             }
 
             for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, ROOT.Instance, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
+                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
             }
         }
 
@@ -97,7 +97,7 @@ namespace _2DGameEngine
                 Exit();
 
             // TODO: Add your update logic here
-            level.UpdateAll(gameTime);
+            RootContainer.Instance.UpdateAll(gameTime);
             base.Update(gameTime);
         }
 
@@ -106,7 +106,7 @@ namespace _2DGameEngine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            level.DrawAll(gameTime);
+            RootContainer.Instance.DrawAll(gameTime);
             base.Draw(gameTime);
         }
     }
