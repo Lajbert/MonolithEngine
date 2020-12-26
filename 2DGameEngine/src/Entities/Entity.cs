@@ -168,6 +168,14 @@ namespace _2DGameEngine.Entities
         public Vector2 GetPosition()
         {
             return this.position;
+            /*if (GetParent() != null)
+            {
+                return position + GetParent().GetPosition();
+            }
+            else
+            {
+                return position + RootContainer.Instance.GetRootPosition();
+            }*/
         }
 
         public Vector2 GetCenter()

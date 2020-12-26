@@ -1,5 +1,6 @@
 ﻿using _2DGameEngine.Entities;
 using _2DGameEngine.Global;
+using _2DGameEngine.Util;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,10 @@ namespace _2DGameEngine.src.Camera
 		public float targetTrackOffY = 0f;
 		public float zoom = 1f;
 
-		float gameMeW = 5000;
-		float gameMeH = 5000;
-		float levelcWid = 5000;
-		float levelcHei = 5000;
+		float gameMeW = 3840;
+		float gameMeH = 2160;
+		float levelcWid = 3840;
+		float levelcHei = 2160;
 
 		private float shakePower = 1.0f;
 
@@ -69,8 +70,8 @@ namespace _2DGameEngine.src.Camera
 		{
 			if (target != null) {
 
-				x = target.GetGridCoord().X + targetTrackOffX;
-				y = target.GetGridCoord().Y + targetTrackOffY;
+				x = target.GetPosition().X + targetTrackOffX;
+				y = target.GetPosition().Y + targetTrackOffY;
 			}
 		}
 
@@ -95,9 +96,9 @@ namespace _2DGameEngine.src.Camera
 			if (target != null)
 			{
 				float s = 0.006f;
-				float deadZone = 1;
-				float tx = target.GetGridCoord().X + targetTrackOffX;
-				float ty = target.GetGridCoord().Y + targetTrackOffY;
+				float deadZone = 0;
+				float tx = target.GetPosition().X + targetTrackOffX;
+				float ty = target.GetPosition().Y + targetTrackOffY;
 
 				float d = dist(x, y, tx, ty);
 				if (d >= deadZone)
