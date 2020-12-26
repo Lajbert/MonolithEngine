@@ -15,6 +15,17 @@ namespace _2DGameEngine.Entities
         private List<Updatable> updatables;
         private Vector2 position = Vector2.Zero;
 
+        public float X {
+            set { position.X = value; }
+            get { return position.X; } 
+        }
+
+        public float Y
+        {
+            set { position.Y = value; }
+            get { return position.Y; }
+        }
+
         private static readonly RootContainer instance = new RootContainer();
 
         private RootContainer()

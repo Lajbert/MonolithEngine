@@ -51,7 +51,7 @@ namespace _2DGameEngine.src.Camera
                 //float deadZone = 5f;
                 Vector2 tx = target.GetGridCoord() + offset;
 
-                float d = Dist(position, tx);
+                float d = Distance(position, tx);
                 Logger.Log("D: " + d);
                 Logger.Log("DeadZone: " + deadZone);
                 if (d >= deadZone)
@@ -69,21 +69,45 @@ namespace _2DGameEngine.src.Camera
                 direction.Y *= (float)Math.Pow(frict, tmod);
 
                 RootContainer.Instance.SetPosition(position * 0.5f);
-
+                
                 // Rounding
                 //float x = (float)Math.Round(RootContainer.Instance.GetRootPosition().X);
                 //float y = (float)Math.Round(RootContainer.Instance.GetRootPosition().Y);
                 //RootContainer.Instance.SetPosition(new Vector2(x, y));
+                Vector2 targetLocation = target.GetPosition() + offset;
+                /*
+                float distance = Dist(position, targetLocation);
 
+                if (distance > 0)
+                {
+                    if (position.X < targetLocation.X)
+                    {
+                        position.X += 10f * tmod;
+                    } else if (position.X > targetLocation.X)
+                    {
+                        position.X -= 10f * tmod;
+                    }
+
+                    if (position.Y < targetLocation.Y)
+                    {
+                        position.Y += 10f * tmod;
+                    }
+                    else if (position.Y > targetLocation.Y)
+                    {
+                        position.Y -= 10f * tmod;
+                    }
+
+                    RootContainer.Instance.SetPosition(position);
+                }*/
             }
         }
 
-        public float Dist(Vector2 a, Vector2 b)
+        public float Distance(Vector2 a, Vector2 b)
         {
-            return (float)Math.Sqrt(DistSqr(a, b));
+            return (float)Math.Sqrt(SquaredDistance(a, b));
         }
 
-        public float DistSqr(Vector2 a, Vector2 b)
+        public float SquaredDistance(Vector2 a, Vector2 b)
         {
             return (a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y);
         }

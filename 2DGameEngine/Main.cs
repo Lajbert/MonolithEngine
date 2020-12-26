@@ -15,7 +15,7 @@ namespace _2DGameEngine
         private GraphicsDeviceManager graphics;
         private ControllableEntity hero;
         private SpriteFont font;
-        private Camera camera;
+        private Camera2 camera;
 
         public Main()
         {
@@ -42,7 +42,7 @@ namespace _2DGameEngine
 
         protected override void LoadContent()
         {
-            camera = new Camera();
+            camera = new Camera2();
             font = Content.Load<SpriteFont>("DefaultFont");
             Vector2 startPosition = new Vector2(9 * Constants.GRID, 9 * Constants.GRID);
             hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
@@ -52,7 +52,7 @@ namespace _2DGameEngine
             graphics.PreferredBackBufferHeight = 2160;
             graphics.ApplyChanges();
             CreateLevel();
-            camera.Follow(hero, true);
+            camera.trackTarget(hero, true);
         }
 
         private void CreateLevel()
@@ -99,7 +99,8 @@ namespace _2DGameEngine
 
             // TODO: Add your update logic here
             RootContainer.Instance.UpdateAll(gameTime);
-            camera.UpdateCamera(gameTime);
+            camera.update(gameTime);
+            camera.postUpdate(gameTime);
             base.Update(gameTime);
         }
 
