@@ -1,7 +1,7 @@
 ﻿using _2DGameEngine.Entities;
 using _2DGameEngine.Entities.Interfaces;
 using _2DGameEngine.Global;
-using _2DGameEngine.Level;
+using _2DGameEngine.src;
 using _2DGameEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,11 +22,6 @@ namespace _2DGameEngine
         //private float yr = 1.0f;
         protected Vector2 inCellLocation = new Vector2(0.5f, 1.0f);
 
-        //grid coordinates
-        //private float cx = 0f;
-        //private float cy = 0f;
-        protected Vector2 gridCoord = Vector2.Zero;
-
         private float bdx = 0f;
         private float bdy = 0f;
 
@@ -37,7 +32,7 @@ namespace _2DGameEngine
 
         private float jumpStart;
 
-        public ControllableEntity(MyLevel level, Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(level, parent, graphicsDevice, texture2D, startPosition, font)
+        public ControllableEntity(Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(parent, graphicsDevice, texture2D, startPosition, font)
         {
             SetPosition(startPosition);
         }
@@ -97,11 +92,11 @@ namespace _2DGameEngine
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                gridCoord = GetGridCoord(new Vector2(mouseState.X, mouseState.Y));
-                if (HasCollision() && (!level.HasColliderAt(GridUtil.GetRightGrid(gridCoord)) &&
-                    !level.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)) &&
-                    !level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)) &&
-                    !level.HasColliderAt(GridUtil.GetBelowGrid(gridCoord))))
+                gridCoord = CalculateGridCoord(new Vector2(mouseState.X, mouseState.Y));
+                if (HasCollision() && (!Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(gridCoord)) &&
+                    !Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)) &&
+                    !Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)) &&
+                    !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord))))
                 {
                     position = new Vector2(mouseState.X, mouseState.Y);
                 }
@@ -163,12 +158,12 @@ namespace _2DGameEngine
             {
                 inCellLocation.X += step;
 
-                if (HasCollision() && inCellLocation.X >= 0 && level.HasColliderAt(GridUtil.GetRightGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.X >= 0 && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(gridCoord)))
                 {
                     inCellLocation.X = 0f;
                 }
 
-                if (HasCollision() && inCellLocation.X <= 0 && level.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.X <= 0 && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)))
                 {
                     inCellLocation.X = 0f;
                 }
@@ -183,7 +178,7 @@ namespace _2DGameEngine
             if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
 
             // Y
-            if (!OnGround())
+            if (HasGravity() && !OnGround())
             {   
                 if (jumpStart == 0)
                 {
@@ -195,7 +190,7 @@ namespace _2DGameEngine
                 canJump = false;
             }
                 
-            if (OnGround() /*|| direction.Y < 0*/)
+            if (HasGravity() && OnGround() /*|| direction.Y < 0*/)
             {
                 //fallStartY = footY;
                 canJump = true;
@@ -208,14 +203,14 @@ namespace _2DGameEngine
             {
                 inCellLocation.Y += step2;
 
-                if (HasCollision() && inCellLocation.Y > 0 && level.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.Y > 0 && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)))
                 {
                     direction.Y = 0;
                     inCellLocation.Y = 0;
                     bdy = 0;
                 }
 
-                if (HasCollision() && inCellLocation.Y < 0 && level.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.Y < 0 && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)))
                 {
                     inCellLocation.Y = 0;
                 }
@@ -268,13 +263,13 @@ namespace _2DGameEngine
 
         private bool OnGround()
         {
-            bool onGround = level.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
+            bool onGround = Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
             return onGround;
         }
 
         public void SetPosition(Vector2 position)
         {
-            gridCoord = GetGridCoord(position);
+            gridCoord = CalculateGridCoord(position);
             inCellLocation = new Vector2(0f, 0f);
             this.position = position;
             this.jumpStart = 0;

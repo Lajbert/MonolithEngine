@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using _2DGameEngine.Global;
 using _2DGameEngine.Util;
-using _2DGameEngine.Level;
+using _2DGameEngine.src;
 
 namespace _2DGameEngine.Entities
 {
@@ -23,22 +23,20 @@ namespace _2DGameEngine.Entities
         private Entity parent;
         private bool hasCollision;
 
-        protected MyLevel level;
+        //grid coordinates
+        //private float cx = 0f;
+        //private float cy = 0f;
+        protected Vector2 gridCoord = Vector2.Zero;
 
         protected SpriteFont font;
 
-        public Entity(MyLevel level, Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
+        public Entity(Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
         {
-            if (level == null)
-            {
-                throw new Exception("Level not set!");
-            }
             this.sprite = texture2D;
             if (graphicsDevice != null)
             {
                 spriteBatch = new SpriteBatch(graphicsDevice);
             }
-            this.level = level;
             this.children = new HashSet<Entity>();
             this.updatables = new HashSet<Updatable>();
             this.drawables = new HashSet<Drawable>();
@@ -54,7 +52,7 @@ namespace _2DGameEngine.Entities
             this.position = startPosition;
             this.font = font;
 
-            level.AddObject(this);
+            Scene.Instance.AddObject(this);
         }
 
 
@@ -75,13 +73,20 @@ namespace _2DGameEngine.Entities
                 spriteBatch.Draw(sprite, position + GetParent().GetPosition(), Color.White);
             } else
             {
-                spriteBatch.Draw(sprite, position, Color.White);
+                spriteBatch.Draw(sprite, position + RootContainer.Instance.GetRootPosition(), Color.White);
             }
             
 
             if (font != null)
             {
-                spriteBatch.DrawString(font, GetGridCoord().X + "\n" + GetGridCoord().Y, position, Color.White);
+                if (GetParent() != null)
+                {
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, position + GetParent().GetPosition(), Color.White);
+                } else
+                {
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, position + RootContainer.Instance.GetRootPosition(), Color.White);
+                }
+                
             }
 
             spriteBatch.End();
@@ -111,7 +116,7 @@ namespace _2DGameEngine.Entities
             children.Add(gameObject);
             if (gameObject is Drawable)
             {
-                drawables.Add((Drawable)gameObject);
+                drawables.Add(gameObject);
             }
             if (gameObject is Updatable)
             {
@@ -124,7 +129,7 @@ namespace _2DGameEngine.Entities
             children.Remove(gameObject);
             if (gameObject is Drawable)
             {
-                drawables.Remove((Drawable)gameObject);
+                drawables.Remove(gameObject);
             }
             if (gameObject is Updatable)
             {
@@ -165,15 +170,24 @@ namespace _2DGameEngine.Entities
             return this.position;
         }
 
-
-        protected Vector2 GetGridCoord()
+        public Vector2 GetCenter()
         {
-            return GetGridCoord(position);
+            return position;
         }
 
-        protected Vector2 GetGridCoord(Vector2 position)
+        protected Vector2 CalculateGridCoord()
+        {
+            return CalculateGridCoord(position);
+        }
+
+        protected Vector2 CalculateGridCoord(Vector2 position)
         {
             return new Vector2((int)Math.Floor(position.X / Constants.GRID), (int)Math.Floor(position.Y / Constants.GRID));
+        }
+
+        public Vector2 GetGridCoord()
+        {
+            return gridCoord;
         }
 
         protected HashSet<Updatable> GetUpdatables()
@@ -186,5 +200,21 @@ namespace _2DGameEngine.Entities
             return drawables;
         }
 
+        public void AddParent(Entity newParent)
+        {
+            if (parent != null)
+            {
+                parent.RemoveChild(this);
+                parent.AddChild(newParent);
+                newParent.AddChild(this);
+                parent = newParent;
+            } else
+            {
+                RootContainer.Instance.RemoveChild(this);
+                RootContainer.Instance.AddChild(newParent);
+                newParent.AddChild(this);
+                parent = newParent;
+            }
+        }
     }
 }

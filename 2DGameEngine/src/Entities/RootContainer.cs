@@ -13,6 +13,7 @@ namespace _2DGameEngine.Entities
         private HashSet<Entity> children = new HashSet<Entity>();
         private List<Drawable> drawables;
         private List<Updatable> updatables;
+        private Vector2 position = Vector2.Zero;
 
         private static readonly RootContainer instance = new RootContainer();
 
@@ -56,9 +57,14 @@ namespace _2DGameEngine.Entities
             }
         }
 
-        public Vector2 GetPosition()
+        public Vector2 GetRootPosition()
         {
-            return Vector2.Zero;
+            return position;
+        }
+
+        public void SetPosition(Vector2 newPosition)
+        {
+            position = newPosition;
         }
 
         public override void Destroy()

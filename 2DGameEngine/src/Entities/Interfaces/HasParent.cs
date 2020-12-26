@@ -9,5 +9,6 @@ namespace _2DGameEngine.Entities.Interfaces
     {
         public Entity GetParent();
 
+        public void AddParent(Entity newParent);
     }
 }

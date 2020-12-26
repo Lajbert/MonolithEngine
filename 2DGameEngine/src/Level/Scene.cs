@@ -1,23 +1,23 @@
-﻿using _2DGameEngine.Entities.Interfaces;
+﻿using _2DGameEngine.Entities;
+using _2DGameEngine.Entities.Interfaces;
+using _2DGameEngine.Global;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using _2DGameEngine.Entities;
 using System.Text;
-using _2DGameEngine.Global;
-using _2DGameEngine.Util;
 
-namespace _2DGameEngine.Level
+namespace _2DGameEngine.src
 {
-    class MyLevel
+    class Scene
     {
 
         private Dictionary<Vector2, Collider> colliders;
-
-        public MyLevel()
-        {
-            colliders = new Dictionary<Vector2, Collider>();
+        private Scene() {
+            this.colliders = new Dictionary<Vector2, Collider>();
         }
+        static Scene() { }
+
+        private static readonly Scene instance = new Scene();
 
         public bool HasColliderAt(Vector2 location)
         {
@@ -31,6 +31,14 @@ namespace _2DGameEngine.Level
                 Collider c = (Collider)gameObject;
                 Vector2 gridLocation = new Vector2((int)Math.Round(c.GetPosition().X / Constants.GRID), (int)Math.Round(c.GetPosition().Y / Constants.GRID));
                 colliders.Add(gridLocation, c);
+            }
+        }
+
+        public static Scene Instance
+        {
+            get
+            {
+                return instance;
             }
         }
     }

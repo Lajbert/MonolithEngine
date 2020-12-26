@@ -3,25 +3,25 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using _2DGameEngine.Entities;
-using _2DGameEngine.Level;
 using _2DGameEngine.Entities.Interfaces;
 using System.Collections.Generic;
 using _2DGameEngine.Global;
+using _2DGameEngine.src.Camera;
 
 namespace _2DGameEngine
 {
     public class Main : Game
     {
         private GraphicsDeviceManager graphics;
-        ControllableEntity hero;
-        MyLevel level;
+        private ControllableEntity hero;
         private SpriteFont font;
+        private Camera camera;
 
         public Main()
         {
             // >>>>>>> set framerate >>>>>>>>>>
-            this.IsFixedTimeStep = true;//false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Constants.FPS); //60);
+            //this.IsFixedTimeStep = true;//false;
+            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Constants.FPS); //60);
             
             graphics = new GraphicsDeviceManager(this);
             //graphics.IsFullScreen = true;
@@ -29,8 +29,8 @@ namespace _2DGameEngine
             IsMouseVisible = true;
 
             // uncapped framerate
-            //graphics.SynchronizeWithVerticalRetrace = false;
-            //this.IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -42,43 +42,44 @@ namespace _2DGameEngine
 
         protected override void LoadContent()
         {
+            camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
-            level = new MyLevel();
             Vector2 startPosition = new Vector2(9 * Constants.GRID, 9 * Constants.GRID);
-            hero = new ControllableEntity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
-            Entity child = new Entity(level, hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.BlueViolet), new Vector2(8 , 8) * Constants.GRID, font);
+            hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
+            Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.BlueViolet), new Vector2(8 , 8) * Constants.GRID, font);
             // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = 3840;
             graphics.PreferredBackBufferHeight = 2160;
             graphics.ApplyChanges();
             CreateLevel();
+            camera.Follow(hero, true);
         }
 
         private void CreateLevel()
         {
             for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 17 * Constants.GRID), font);
+                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 17 * Constants.GRID), font);
             }
 
             for (int i = 16 * Constants.GRID; i < 27 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 15 * Constants.GRID), font);
+                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 15 * Constants.GRID), font);
             }
 
             for (int i = 2 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
             {
-                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 20 * Constants.GRID), font);
+                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 20 * Constants.GRID), font);
             }
 
             for (int i = 9 * Constants.GRID; i < 10 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
+                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
             }
 
             for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
             {
-                Entity e = new Entity(level, null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
+                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
             }
         }
 
@@ -98,6 +99,7 @@ namespace _2DGameEngine
 
             // TODO: Add your update logic here
             RootContainer.Instance.UpdateAll(gameTime);
+            camera.UpdateCamera(gameTime);
             base.Update(gameTime);
         }
 
