@@ -1,120 +1,202 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using _2DGameEngine.Entities;
-using _2DGameEngine.Entities.Interfaces;
+﻿using _2DGameEngine.Entities;
 using _2DGameEngine.Global;
 using _2DGameEngine.Util;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace _2DGameEngine.src.Camera
 {
-    class Camera
-    {
+	class Camera
+	{
+		public Entity target;
+		public float x;
+		public float y;
+		public float dx;
+		public float dy;
+		//public int wid;
+		//public int hei;
 
-        private Entity target;
-        private Vector2 position;
-        private Vector2 offset;
-        private Vector2 direction;
+		float bumpOffX = 0f;
+		float bumpOffY = 0f;
 
-        public void Follow(Entity entity, bool immediate, Vector2 offset)
-        {
-            target = entity;
-            this.offset = offset;
-            if (immediate)
-            {
-                Recenter();
-            }
-        }
+		public float targetTrackOffX = 0f;
+		public float targetTrackOffY = 0f;
+		public float zoom = 1f;
 
-        public void Follow(Entity entity, bool immediate)
-        {
-            Follow(entity, immediate, new Vector2(0, 0));
-        }
+		float gameMeW = Constants.RES_W;
+		float gameMeH = Constants.RES_H;
+		float levelcWid = Constants.RES_W;
+		float levelcHei = Constants.RES_H;
 
-        private void Recenter()
-        {
-            if (target != null)
-            {
-                position = target.GetGridCoord() + offset;
-            }
-        }
+		private float shakePower = 1.0f;
 
-        public void UpdateCamera(GameTime gameTime)
-        {
-            float tmod = (float)gameTime.ElapsedGameTime.TotalSeconds * Constants.TIME_OFFSET;
-            if (target != null)
-            {
-                float s = 0.006f;
-                float deadZone = 5;
-                //float s = 1f;
-                //float deadZone = 5f;
-                Vector2 tx = target.GetGridCoord() + offset;
+		private float SCALE = 1;
+		private bool SCROLL = true;
 
-                float d = Distance(position, tx);
-                Logger.Log("D: " + d);
-                Logger.Log("DeadZone: " + deadZone);
-                if (d >= deadZone)
-                {
-                    float a = (float)Math.Atan2(tx.Y - position.Y, tx.X - position.X);
-                    direction.X -= (float)Math.Cos(a) * (d - deadZone) * s * tmod;
-                    direction.Y -= (float)Math.Sin(a) * (d - deadZone) * s * tmod;
-                }
+		RootContainer scroller;
 
-                float frict = 0.89f;
-                position.X += direction.X * tmod;
-                direction.X *= (float)Math.Pow(frict, tmod);
+		public Camera() {
+			x = y = 0;
+			dx = dy = 0;
+		}
 
-                position.Y += direction.Y * tmod;
-                direction.Y *= (float)Math.Pow(frict, tmod);
+		private float get_wid()
+		{
+			return (float)Math.Ceiling(gameMeW / SCALE);
+		}
 
-                RootContainer.Instance.SetPosition(position * 0.5f);
-                
-                // Rounding
-                //float x = (float)Math.Round(RootContainer.Instance.GetRootPosition().X);
-                //float y = (float)Math.Round(RootContainer.Instance.GetRootPosition().Y);
-                //RootContainer.Instance.SetPosition(new Vector2(x, y));
-                Vector2 targetLocation = target.GetPosition() + offset;
-                /*
-                float distance = Dist(position, targetLocation);
+		private float get_hei()
+		{
+			return (float)Math.Ceiling(gameMeH / SCALE);
+		}
 
-                if (distance > 0)
-                {
-                    if (position.X < targetLocation.X)
-                    {
-                        position.X += 10f * tmod;
-                    } else if (position.X > targetLocation.X)
-                    {
-                        position.X -= 10f * tmod;
-                    }
+		public void trackTarget(Entity e, bool immediate, float xOff = 0f, float yOff = 0f)
+		{
+			targetTrackOffX = xOff;
+			targetTrackOffY = yOff;
+			target = e;
+			if (immediate)
+				recenter();
+		}
 
-                    if (position.Y < targetLocation.Y)
-                    {
-                        position.Y += 10f * tmod;
-                    }
-                    else if (position.Y > targetLocation.Y)
-                    {
-                        position.Y -= 10f * tmod;
-                    }
+		public void stopTracking()
+		{
+			target = null;
+		}
 
-                    RootContainer.Instance.SetPosition(position);
-                }*/
-            }
-        }
+		public void recenter()
+		{
+			if (target != null) {
 
-        public float Distance(Vector2 a, Vector2 b)
-        {
-            return (float)Math.Sqrt(SquaredDistance(a, b));
-        }
+				x = target.GetPosition().X + targetTrackOffX;
+				y = target.GetPosition().Y + targetTrackOffY;
+			}
+		}
 
-        public float SquaredDistance(Vector2 a, Vector2 b)
-        {
-            return (a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y);
-        }
+		public float scrollerToGlobalX(float v) {
+			return v * SCALE + RootContainer.Instance.GetRootPosition().X;
+		}
+		public float scrollerToGlobalY(float v) {
+			return v * SCALE + RootContainer.Instance.GetRootPosition().Y;
+		}
 
-        /*public float DistSqr(float ax, float ay, float bx, float by)
-        {
-            return (ax - bx) * (ax - bx) + (ay - by) * (ay - by);
-        }*/
-    }
+		/*public void shakeS(float t, float pow = 1.0)
+		{
+			cd.setS("shaking", t, false);
+			shakePower = pow;
+		}*/
+
+		public void update(GameTime gameTime)
+		{
+
+			float tmod = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+			// Follow target entity
+			if (target != null)
+			{
+				float s = 0.006f;
+				float deadZone = 200;
+				float tx = target.GetPosition().X + targetTrackOffX;
+				float ty = target.GetPosition().Y + targetTrackOffY;
+
+				float d = dist(x, y, tx, ty);
+				if (d >= deadZone)
+				{
+					float a = (float)Math.Atan2(ty - y, tx - x);
+					dx += (float)Math.Cos(a) * (d - deadZone) * s * tmod;
+					dy += (float)Math.Sin(a) * (d - deadZone) * s * tmod;
+				}
+			}
+
+			float frict = 0.89f;
+			x += dx * tmod;
+			dx *= (float)Math.Pow(frict, tmod);
+
+			y += dy * tmod;
+			dy *= (float)Math.Pow(frict, tmod);
+		}
+
+		public void bumpAng(float a, float dist)
+		{
+			bumpOffX += (float)Math.Cos(a) * dist;
+			bumpOffY += (float)Math.Sin(a) * dist;
+		}
+
+		public void bump(float x, float y)
+		{
+			bumpOffX += x;
+			bumpOffY += y;
+		}
+
+
+		public void postUpdate(GameTime gameTime)
+		{
+			float tmod = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+			if (SCROLL)
+			{
+				scroller = RootContainer.Instance;
+
+				// Update scroller
+				if (get_wid() / zoom < levelcWid * Constants.GRID)
+					scroller.X = (float)(-x * zoom + get_wid() * 0.5);
+				else
+					scroller.X = (float)(get_wid() * 0.5 / zoom - levelcWid * 0.5 * Constants.GRID);
+
+				if (get_hei() / zoom < levelcHei * Constants.GRID)
+					scroller.Y = (float)(-y * zoom + get_hei() * 0.5);
+				else
+					scroller.Y = (float)(get_hei() * 0.5 / zoom - levelcHei * 0.5 * Constants.GRID);
+
+				// Clamp
+				float pad = Constants.GRID * 2;
+				if (get_wid() < levelcWid * Constants.GRID * zoom)
+					scroller.X = fclamp(scroller.X, get_wid() - levelcWid * Constants.GRID * zoom + pad, -pad);
+				if (get_hei() < levelcHei * Constants.GRID * zoom)
+					scroller.Y = fclamp(scroller.Y, get_hei() - levelcHei * Constants.GRID * zoom + pad, -pad);
+
+				// Bumps friction
+				bumpOffX *= (float)Math.Pow(0.75, tmod);
+				bumpOffY *= (float)Math.Pow(0.75, tmod);
+
+				// Bump
+				scroller.X += bumpOffX;
+				scroller.Y += bumpOffY;
+
+				// Shakes
+				/*if (cd.has("shaking"))
+				{
+					scroller.X += Math.cos(ftime * 1.1) * 2.5 * shakePower * cd.getRatio("shaking");
+					scroller.Y += Math.sin(0.3 + ftime * 1.7) * 2.5 * shakePower * cd.getRatio("shaking");
+				}*/
+
+				// Scaling
+				scroller.X *= SCALE;
+				scroller.Y *= SCALE;
+
+				// Rounding
+				scroller.X = (float)Math.Round(scroller.X);
+				scroller.Y = (float)Math.Round(scroller.Y);
+
+				// Zoom
+				//scroller.setScale(SCALE * zoom);
+			}
+		}
+
+		public float dist(float ax, float ay, float bx, float by)
+		{
+			return (float)Math.Sqrt(distSqr(ax, ay, bx, by));
+		}
+
+		public static float distSqr(float ax, float ay, float bx, float by) 
+		{
+			return (ax-bx)*(ax-bx) + (ay-by)*(ay-by);
+		}
+
+		public float fclamp(float x, float min, float max) 
+		{
+			return (x<min) ? min : (x > max) ? max : x;
+		}
+
+	}
 }

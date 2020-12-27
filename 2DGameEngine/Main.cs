@@ -15,7 +15,7 @@ namespace _2DGameEngine
         private GraphicsDeviceManager graphics;
         private ControllableEntity hero;
         private SpriteFont font;
-        private Camera2 camera;
+        private Camera camera;
 
         public Main()
         {
@@ -42,14 +42,14 @@ namespace _2DGameEngine
 
         protected override void LoadContent()
         {
-            camera = new Camera2();
+            camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
             Vector2 startPosition = new Vector2(9 * Constants.GRID, 9 * Constants.GRID);
             hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
             Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.BlueViolet), new Vector2(8 , 8) * Constants.GRID, font);
             // TODO: use this.Content to load your game content here
-            graphics.PreferredBackBufferWidth = 3840;
-            graphics.PreferredBackBufferHeight = 2160;
+            graphics.PreferredBackBufferWidth = Constants.RES_W;
+            graphics.PreferredBackBufferHeight = Constants.RES_H;
             graphics.ApplyChanges();
             CreateLevel();
             camera.trackTarget(hero, true);

@@ -2,6 +2,7 @@
 using _2DGameEngine.Entities.Interfaces;
 using _2DGameEngine.Global;
 using _2DGameEngine.src;
+using _2DGameEngine.src.Util;
 using _2DGameEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,7 +50,7 @@ namespace _2DGameEngine
 
             //moveX = moveY = 0;
 
-            float elapsedTime = GetTime(gameTime);
+            float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
             if (currentKeyboardState.IsKeyDown(Keys.Up))
             {
@@ -150,7 +151,7 @@ namespace _2DGameEngine
             position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             */
 
-            float elapsedTime = GetTime(gameTime);
+            float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
             float steps = (float)Math.Ceiling(Math.Abs((direction.X + bdx) * elapsedTime));
             float step = (float)(direction.X + bdx) * elapsedTime / steps;
@@ -273,11 +274,6 @@ namespace _2DGameEngine
             inCellLocation = new Vector2(0f, 0f);
             this.position = position;
             this.jumpStart = 0;
-        }
-
-        float GetTime(GameTime gameTime)
-        {
-            return (float)gameTime.ElapsedGameTime.TotalSeconds * Constants.TIME_OFFSET;
         }
     }
 }
