@@ -49,6 +49,7 @@ namespace _2DGameEngine
             Vector2 startPosition = new Vector2(9 * Constants.GRID, 9 * Constants.GRID);
             hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
             Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.BlueViolet), new Vector2(3 , 3) * Constants.GRID, font);
+            Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(3, 4) * Constants.GRID, font);
             // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = Constants.RES_W;
             graphics.PreferredBackBufferHeight = Constants.RES_H;

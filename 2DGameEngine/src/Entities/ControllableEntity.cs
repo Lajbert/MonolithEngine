@@ -18,11 +18,6 @@ namespace _2DGameEngine
         //private float dy = 0;
         private Vector2 direction = Vector2.Zero;
 
-        //between 0 and 1: where the object is inside the grid cell
-        //private float xr = 0.5f;
-        //private float yr = 1.0f;
-        protected Vector2 inCellLocation;
-
         private float bdx = 0f;
         private float bdy = 0f;
 
@@ -239,8 +234,8 @@ namespace _2DGameEngine
 
         public void PostUpdate(GameTime gameTime)
         {
-            currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
-            currentPosition.Y = (int)((gridCoord.Y + inCellLocation.Y) * Constants.GRID);
+            //currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
+            //currentPosition.Y = (int)((gridCoord.Y + inCellLocation.Y) * Constants.GRID);
             foreach (Updatable child in GetUpdatables())
             {
                 child.PostUpdate(gameTime);
@@ -271,7 +266,7 @@ namespace _2DGameEngine
 
         public void SetPosition(Vector2 position)
         {
-            inCellLocation = Vector2.Zero;
+            inCellLocation = new Vector2(0, 0);
             this.jumpStart = 0;
         }
     }

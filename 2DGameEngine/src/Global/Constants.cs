@@ -19,5 +19,7 @@ namespace _2DGameEngine.Global
         public static readonly int RES_W = 1920;
         public static readonly int RES_H = 1080;
         public static readonly int FPS = 60;
+        public static readonly bool GRAPHICS_DEBUG = true;
+        public static readonly int PIVOT_DIAM = 10;
     }
 }

@@ -23,11 +23,17 @@ namespace _2DGameEngine.Entities
         private HashSet<Drawable> drawables;
         private Entity parent;
         private bool hasCollision;
+        private Texture2D pivot;
 
         //grid coordinates
         //private float cx = 0f;
         //private float cy = 0f;
         protected Vector2 gridCoord = Vector2.Zero;
+
+        //between 0 and 1: where the object is inside the grid cell
+        //private float xr = 0.5f;
+        //private float yr = 1.0f;
+        protected Vector2 inCellLocation;
 
         protected SpriteFont font;
 
@@ -54,7 +60,41 @@ namespace _2DGameEngine.Entities
             this.startPosition = this.currentPosition = startPosition;
             this.font = font;
 
+            if (Constants.GRAPHICS_DEBUG)
+            {
+                pivot = CreateCircle(graphicsDevice, Constants.PIVOT_DIAM);
+            }
+
             Scene.Instance.AddObject(this);
+        }
+
+        Texture2D CreateCircle(GraphicsDevice graphicsDevice, int radius)
+        {
+            Texture2D texture = new Texture2D(graphicsDevice, radius, radius);
+            Color[] colorData = new Color[radius * radius];
+
+            float diam = radius / 2f;
+            float diamsq = diam * diam;
+
+            for (int x = 0; x < radius; x++)
+            {
+                for (int y = 0; y < radius; y++)
+                {
+                    int index = x * radius + y;
+                    Vector2 pos = new Vector2(x - diam, y - diam);
+                    if (pos.LengthSquared() <= diamsq)
+                    {
+                        colorData[index] = Color.Red;
+                    }
+                    else
+                    {
+                        colorData[index] = Color.Transparent;
+                    }
+                }
+            }
+
+            texture.SetData(colorData);
+            return texture;
         }
 
 
@@ -70,14 +110,21 @@ namespace _2DGameEngine.Entities
         public virtual void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
+            //Rectangle sourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
+            //private Vector2 origin = new Vector2(-16f, 0f);
+            Vector2 pos;
             if (GetParent() != null)
             {
-                spriteBatch.Draw(sprite, startPosition + GetParent().GetPositionWithParent(), Color.White);
+                pos = startPosition + GetParent().GetPositionWithParent();
             } else
             {
-                spriteBatch.Draw(sprite, currentPosition + RootContainer.Instance.GetRootPosition(), Color.White);
+                
+                pos = currentPosition + RootContainer.Instance.GetRootPosition();
             }
-            
+
+            //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, pos, Color.White);
+            spriteBatch.Draw(pivot, pos+inCellLocation, Color.White);
 
             if (font != null)
             {
@@ -184,7 +231,7 @@ namespace _2DGameEngine.Entities
         {
             if (GetParent() != null)
             {
-                return currentPosition + GetParent().GetPosition();
+                return currentPosition + GetParent().GetPositionWithParent();
             }
             else
             {
