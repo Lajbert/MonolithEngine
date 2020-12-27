@@ -21,18 +21,18 @@ namespace _2DGameEngine
         public Main()
         {
             // >>>>>>> set framerate >>>>>>>>>>
-            //this.IsFixedTimeStep = true;//false;
-            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Constants.FPS); //60);
+            this.IsFixedTimeStep = true;//false;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Constants.FPS); //60);
             
             graphics = new GraphicsDeviceManager(this);
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = Constants.FULLSCREEN;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             random = new Random();
 
             // uncapped framerate
-            graphics.SynchronizeWithVerticalRetrace = false;
-            this.IsFixedTimeStep = false;
+            //graphics.SynchronizeWithVerticalRetrace = false;
+            //this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()

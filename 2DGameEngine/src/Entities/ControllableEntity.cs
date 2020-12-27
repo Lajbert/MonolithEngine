@@ -40,7 +40,7 @@ namespace _2DGameEngine
 
             if (currentKeyboardState.IsKeyDown(Keys.R))
             {
-                SetPosition(new Vector2(9 * Constants.GRID, 9 * Constants.GRID));
+                SetPosition(new Vector2(9, 9) * Constants.GRID);
             }
 
 
@@ -278,6 +278,7 @@ namespace _2DGameEngine
         public void SetPosition(Vector2 position)
         {
             inCellLocation = Vector2.Zero;
+            this.currentPosition = startPosition = position;
             this.jumpStart = 0;
         }
     }
