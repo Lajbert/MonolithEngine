@@ -27,13 +27,15 @@ namespace _2DGameEngine.src.Camera
 
 		float gameMeW = Constants.RES_W;
 		float gameMeH = Constants.RES_H;
-		float levelcWid = Constants.RES_W;
-		float levelcHei = Constants.RES_H;
+		float levelGridCountW = (float)Math.Floor((decimal)Constants.RES_W / 10);
+		float levelGridCountH = (float)Math.Floor((decimal)Constants.RES_H / 10);
 
-		private float shakePower = 1.0f;
+		private float shakePower = 1.5f;
 
 		private float SCALE = 1;
 		private bool SCROLL = true;
+
+		private bool shake = false;
 
 		RootContainer scroller;
 
@@ -138,22 +140,22 @@ namespace _2DGameEngine.src.Camera
 				scroller = RootContainer.Instance;
 
 				// Update scroller
-				if (get_wid() / zoom < levelcWid * Constants.GRID)
+				if (get_wid() / zoom < levelGridCountW * Constants.GRID)
 					scroller.X = (float)(-x * zoom + get_wid() * 0.5);
 				else
-					scroller.X = (float)(get_wid() * 0.5 / zoom - levelcWid * 0.5 * Constants.GRID);
+					scroller.X = (float)(get_wid() * 0.5 / zoom - levelGridCountW * 0.5 * Constants.GRID);
 
-				if (get_hei() / zoom < levelcHei * Constants.GRID)
+				if (get_hei() / zoom < levelGridCountH * Constants.GRID)
 					scroller.Y = (float)(-y * zoom + get_hei() * 0.5);
 				else
-					scroller.Y = (float)(get_hei() * 0.5 / zoom - levelcHei * 0.5 * Constants.GRID);
+					scroller.Y = (float)(get_hei() * 0.5 / zoom - levelGridCountH * 0.5 * Constants.GRID);
 
 				// Clamp
 				float pad = Constants.GRID * 2;
-				if (get_wid() < levelcWid * Constants.GRID * zoom)
-					scroller.X = fclamp(scroller.X, get_wid() - levelcWid * Constants.GRID * zoom + pad, -pad);
-				if (get_hei() < levelcHei * Constants.GRID * zoom)
-					scroller.Y = fclamp(scroller.Y, get_hei() - levelcHei * Constants.GRID * zoom + pad, -pad);
+				if (get_wid() < levelGridCountW * Constants.GRID * zoom)
+					scroller.X = fclamp(scroller.X, get_wid() - levelGridCountW * Constants.GRID * zoom + pad, -pad);
+				if (get_hei() < levelGridCountH * Constants.GRID * zoom)
+					scroller.Y = fclamp(scroller.Y, get_hei() - levelGridCountH * Constants.GRID * zoom + pad, -pad);
 
 				// Bumps friction
 				bumpOffX *= (float)Math.Pow(0.75, tmod);
@@ -164,11 +166,11 @@ namespace _2DGameEngine.src.Camera
 				scroller.Y += bumpOffY;
 
 				// Shakes
-				/*if (cd.has("shaking"))
+				if (shake)
 				{
-					scroller.X += Math.cos(ftime * 1.1) * 2.5 * shakePower * cd.getRatio("shaking");
-					scroller.Y += Math.sin(0.3 + ftime * 1.7) * 2.5 * shakePower * cd.getRatio("shaking");
-				}*/
+					scroller.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
+					scroller.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
+				}
 
 				// Scaling
 				scroller.X *= SCALE;
