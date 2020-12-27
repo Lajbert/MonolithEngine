@@ -46,10 +46,10 @@ namespace _2DGameEngine
         {
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
-            Vector2 startPosition = new Vector2(9 * Constants.GRID, 9 * Constants.GRID);
-            hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), startPosition, font);
-            Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.BlueViolet), new Vector2(3 , 3) * Constants.GRID, font);
-            Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(3, 4) * Constants.GRID, font);
+            hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(5, 1) * Constants.GRID, font);
+            Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
+            Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(1, 0) * Constants.GRID, font);
+            Entity child3 = new Entity(child2, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(1, 0) * Constants.GRID, font);
             // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = Constants.RES_W;
             graphics.PreferredBackBufferHeight = Constants.RES_H;

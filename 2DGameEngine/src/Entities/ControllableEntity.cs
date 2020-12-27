@@ -25,6 +25,7 @@ namespace _2DGameEngine
         private KeyboardState previousKeyboardState;
 
         private bool canJump = true;
+        private bool gravity = Constants.GRAVITY_ON;
 
         private float jumpStart;
 
@@ -120,9 +121,13 @@ namespace _2DGameEngine
             //System.Diagnostics.Debug.WriteLine(move);
             position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             */
+
+#if GRAPHICS_DEBUG
             spriteBatch.Begin();
             spriteBatch.DrawString(font, inCellLocation.X + " : " + inCellLocation.Y, new Vector2(10,10), Color.White);
             spriteBatch.End();
+#endif
+
             base.Draw(gameTime);
         }
 
@@ -221,12 +226,13 @@ namespace _2DGameEngine
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
 
 
-            currentPosition = new Vector2((float)(gridCoord.X + inCellLocation.X) * Constants.GRID, (float)(gridCoord.Y + inCellLocation.Y) * Constants.GRID);
+            //currentPosition = new Vector2((float)(gridCoord.X + inCellLocation.X) * Constants.GRID, (float)(gridCoord.Y + inCellLocation.Y) * Constants.GRID);
+            currentPosition = (gridCoord + inCellLocation) * Constants.GRID;
 
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));
 
-            foreach(Updatable child in GetUpdatables())
+            foreach (Updatable child in GetUpdatables())
             {
                 child.Update(gameTime);
             }
@@ -250,7 +256,12 @@ namespace _2DGameEngine
 
         public bool HasGravity()
         {
-            return Constants.GRAVITY_ON;
+            return gravity;
+        }
+
+        public void SetGravity(bool gravityOn)
+        {
+            gravity = gravityOn;
         }
 
         public float GetGravityConstant()
@@ -266,7 +277,7 @@ namespace _2DGameEngine
 
         public void SetPosition(Vector2 position)
         {
-            inCellLocation = new Vector2(0, 0);
+            inCellLocation = Vector2.Zero;
             this.jumpStart = 0;
         }
     }

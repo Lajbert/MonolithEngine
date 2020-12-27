@@ -8,6 +8,7 @@ using System.Linq;
 using _2DGameEngine.Global;
 using _2DGameEngine.Util;
 using _2DGameEngine.src;
+using _2DGameEngine.src.Util;
 
 namespace _2DGameEngine.Entities
 {
@@ -23,7 +24,10 @@ namespace _2DGameEngine.Entities
         private HashSet<Drawable> drawables;
         private Entity parent;
         private bool hasCollision;
+#if GRAPHICS_DEBUG
         private Texture2D pivot;
+        protected SpriteFont font;
+#endif
 
         //grid coordinates
         //private float cx = 0f;
@@ -34,8 +38,6 @@ namespace _2DGameEngine.Entities
         //private float xr = 0.5f;
         //private float yr = 1.0f;
         protected Vector2 inCellLocation;
-
-        protected SpriteFont font;
 
         public Entity(Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
         {
@@ -51,23 +53,25 @@ namespace _2DGameEngine.Entities
             if (parent != null) {
                 this.parent = parent;
                 this.parent.AddChild(this);
+                this.startPosition = this.currentPosition = startPosition + GetParent().GetPositionWithParent();
             } else
             {
                 RootContainer.Instance.AddChild(this);
+                this.startPosition = this.currentPosition = startPosition;
             }
             
             this.hasCollision = true;
-            this.startPosition = this.currentPosition = startPosition;
-            this.font = font;
+            //this.startPosition = this.currentPosition = startPosition;
 
-            if (Constants.GRAPHICS_DEBUG)
-            {
-                pivot = CreateCircle(graphicsDevice, Constants.PIVOT_DIAM);
-            }
+#if GRAPHICS_DEBUG
+            pivot = CreateCircle(graphicsDevice, Constants.PIVOT_DIAM);
+            this.font = font;
+#endif
 
             Scene.Instance.AddObject(this);
         }
 
+#if GRAPHICS_DEBUG
         Texture2D CreateCircle(GraphicsDevice graphicsDevice, int radius)
         {
             Texture2D texture = new Texture2D(graphicsDevice, radius, radius);
@@ -96,6 +100,7 @@ namespace _2DGameEngine.Entities
             texture.SetData(colorData);
             return texture;
         }
+#endif
 
 
         public virtual void PreDraw(GameTime gameTime)
@@ -124,8 +129,15 @@ namespace _2DGameEngine.Entities
 
             //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
             spriteBatch.Draw(sprite, pos, Color.White);
-            spriteBatch.Draw(pivot, pos+inCellLocation, Color.White);
 
+            //if (Constants.GRAPHICS_DEBUG)
+            //{
+#if GRAPHICS_DEBUG
+                spriteBatch.Draw(pivot, pos + inCellLocation, Color.White);
+#endif
+            //}
+
+#if GRAPHICS_DEBUG
             if (font != null)
             {
                 if (GetParent() != null)
@@ -137,6 +149,7 @@ namespace _2DGameEngine.Entities
                 }
                 
             }
+#endif
 
             spriteBatch.End();
 
