@@ -97,8 +97,8 @@ namespace _2DGameEngine.src.Camera
 			// Follow target entity
 			if (target != null)
 			{
-				float s = 0.006f;
-				float deadZone = 200;
+				float cameraFollowDelay = 0.001f;
+				float deadZone = 250;
 				float tx = target.GetPosition().X + targetTrackOffX;
 				float ty = target.GetPosition().Y + targetTrackOffY;
 
@@ -106,8 +106,8 @@ namespace _2DGameEngine.src.Camera
 				if (d >= deadZone)
 				{
 					float a = (float)Math.Atan2(ty - y, tx - x);
-					dx += (float)Math.Cos(a) * (d - deadZone) * s * tmod;
-					dy += (float)Math.Sin(a) * (d - deadZone) * s * tmod;
+					dx += (float)Math.Cos(a) * (d - deadZone) * cameraFollowDelay * tmod;
+					dy += (float)Math.Sin(a) * (d - deadZone) * cameraFollowDelay * tmod;
 				}
 			}
 
