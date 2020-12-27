@@ -21,7 +21,7 @@ namespace _2DGameEngine
         //between 0 and 1: where the object is inside the grid cell
         //private float xr = 0.5f;
         //private float yr = 1.0f;
-        protected Vector2 inCellLocation = new Vector2(0.5f, 1.0f);
+        protected Vector2 inCellLocation;
 
         private float bdx = 0f;
         private float bdy = 0f;
@@ -99,7 +99,7 @@ namespace _2DGameEngine
                     !Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)) &&
                     !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord))))
                 {
-                    position = new Vector2(mouseState.X, mouseState.Y);
+                    currentPosition = new Vector2(mouseState.X, mouseState.Y);
                 }
                     
             }
@@ -161,12 +161,12 @@ namespace _2DGameEngine
 
                 if (HasCollision() && inCellLocation.X >= 0 && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(gridCoord)))
                 {
-                    inCellLocation.X = 0f;
+                    inCellLocation.X = 0;
                 }
 
                 if (HasCollision() && inCellLocation.X <= 0 && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)))
                 {
-                    inCellLocation.X = 0f;
+                    inCellLocation.X = 0;
                 }
 
                 while (inCellLocation.X > 1) { inCellLocation.X--; gridCoord.X++; }
@@ -226,7 +226,7 @@ namespace _2DGameEngine
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
 
 
-            position = new Vector2((float)(gridCoord.X + inCellLocation.X) * Constants.GRID, (float)(gridCoord.Y + inCellLocation.Y) * Constants.GRID);
+            currentPosition = new Vector2((float)(gridCoord.X + inCellLocation.X) * Constants.GRID, (float)(gridCoord.Y + inCellLocation.Y) * Constants.GRID);
 
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));
@@ -239,7 +239,8 @@ namespace _2DGameEngine
 
         public void PostUpdate(GameTime gameTime)
         {
-
+            currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
+            currentPosition.Y = (int)((gridCoord.Y + inCellLocation.Y) * Constants.GRID);
             foreach (Updatable child in GetUpdatables())
             {
                 child.PostUpdate(gameTime);
@@ -270,9 +271,7 @@ namespace _2DGameEngine
 
         public void SetPosition(Vector2 position)
         {
-            gridCoord = CalculateGridCoord(position);
-            inCellLocation = new Vector2(0f, 0f);
-            this.position = position;
+            inCellLocation = Vector2.Zero;
             this.jumpStart = 0;
         }
     }

@@ -14,7 +14,8 @@ namespace _2DGameEngine.Entities
     class Entity : GameObject, Drawable, HasParent, HasChildren, Collider
     {
 
-        protected Vector2 position;
+        protected Vector2 startPosition;
+        protected Vector2 currentPosition;
         protected Texture2D sprite;
         protected SpriteBatch spriteBatch;
         private HashSet<Entity> children;
@@ -37,6 +38,7 @@ namespace _2DGameEngine.Entities
             {
                 spriteBatch = new SpriteBatch(graphicsDevice);
             }
+            gridCoord = CalculateGridCoord(startPosition);
             this.children = new HashSet<Entity>();
             this.updatables = new HashSet<Updatable>();
             this.drawables = new HashSet<Drawable>();
@@ -49,7 +51,7 @@ namespace _2DGameEngine.Entities
             }
             
             this.hasCollision = true;
-            this.position = startPosition;
+            this.startPosition = this.currentPosition = startPosition;
             this.font = font;
 
             Scene.Instance.AddObject(this);
@@ -70,10 +72,10 @@ namespace _2DGameEngine.Entities
             spriteBatch.Begin();
             if (GetParent() != null)
             {
-                spriteBatch.Draw(sprite, position + GetParent().GetPosition(), Color.White);
+                spriteBatch.Draw(sprite, startPosition + GetParent().GetPositionWithParent(), Color.White);
             } else
             {
-                spriteBatch.Draw(sprite, position + RootContainer.Instance.GetRootPosition(), Color.White);
+                spriteBatch.Draw(sprite, currentPosition + RootContainer.Instance.GetRootPosition(), Color.White);
             }
             
 
@@ -81,10 +83,10 @@ namespace _2DGameEngine.Entities
             {
                 if (GetParent() != null)
                 {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, position + GetParent().GetPosition(), Color.White);
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, startPosition + GetParent().GetPositionWithParent(), Color.White);
                 } else
                 {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, position + RootContainer.Instance.GetRootPosition(), Color.White);
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, currentPosition + RootContainer.Instance.GetRootPosition(), Color.White);
                 }
                 
             }
@@ -167,7 +169,32 @@ namespace _2DGameEngine.Entities
 
         public Vector2 GetPosition()
         {
-            return this.position;
+            return this.currentPosition;
+            /*if (GetParent() != null)
+            {
+                return position + GetParent().GetPosition();
+            }
+            else
+            {
+                return position + RootContainer.Instance.GetRootPosition();
+            }*/
+        }
+
+        public Vector2 GetPositionWithParent()
+        {
+            if (GetParent() != null)
+            {
+                return currentPosition + GetParent().GetPosition();
+            }
+            else
+            {
+                return currentPosition + RootContainer.Instance.GetRootPosition();
+            }
+        }
+
+        public Vector2 GetStartPosition()
+        {
+            return this.startPosition;
             /*if (GetParent() != null)
             {
                 return position + GetParent().GetPosition();
@@ -180,12 +207,12 @@ namespace _2DGameEngine.Entities
 
         public Vector2 GetCenter()
         {
-            return position;
+            return currentPosition;
         }
 
         protected Vector2 CalculateGridCoord()
         {
-            return CalculateGridCoord(position);
+            return CalculateGridCoord(currentPosition);
         }
 
         protected Vector2 CalculateGridCoord(Vector2 position)
