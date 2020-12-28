@@ -15,6 +15,8 @@ namespace _2DGameEngine.Global
         public static readonly float JUMP_FORCE = 10f;
         public static readonly float JUMP_T_MULTIPLIER = 2f;
 
+        public static readonly float SPRITE_OFFSET = 0.4f;
+
         public static readonly float TIME_OFFSET = 10;
         public static readonly int RES_W = 1920;
         public static readonly int RES_H = 1080;

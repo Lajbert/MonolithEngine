@@ -17,6 +17,9 @@ namespace _2DGameEngine
         private SpriteFont font;
         private Camera camera;
         private Random random;
+        private Color background1;
+        private Color background2;
+        private float sin;
 
         public Main()
         {
@@ -29,7 +32,8 @@ namespace _2DGameEngine
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             random = new Random();
-
+            background1 = GetRandomColor();
+            background2 = GetRandomColor();
             // uncapped framerate
             //graphics.SynchronizeWithVerticalRetrace = false;
             //this.IsFixedTimeStep = false;
@@ -62,33 +66,27 @@ namespace _2DGameEngine
         {
             for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
             {
-                
-                Color c = Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
-                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, c), new Vector2(i, 17 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 17 * Constants.GRID), font);
             }
 
             for (int i = 16 * Constants.GRID; i < 27 * Constants.GRID; i += Constants.GRID)
             {
-                Color c = Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
-                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, c), new Vector2(i, 15 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 15 * Constants.GRID), font);
             }
 
             for (int i = 2 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
             {
-                Color c = Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
-                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, c), new Vector2(i, 20 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 20 * Constants.GRID), font);
             }
 
             for (int i = 9 * Constants.GRID; i < 10 * Constants.GRID; i += Constants.GRID)
             {
-                Color c = Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
-                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, c), new Vector2(i, 19 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 19 * Constants.GRID), font);
             }
 
             for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
             {
-                Color c = Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
-                Entity e = new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, c), new Vector2(i, 19 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 19 * Constants.GRID), font);
             }
         }
 
@@ -113,11 +111,26 @@ namespace _2DGameEngine
             base.Update(gameTime);
         }
 
+        private Color GetRandomColor()
+        {
+            return Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
+        }
+
         float deltaTime = 0;
         protected override void Draw(GameTime gameTime)
         {
             deltaTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            GraphicsDevice.Clear(Color.Lerp(Color.Green, Color.Orange, (float)Math.Sin(deltaTime)));
+            sin = (float)Math.Sin(deltaTime);
+            if (sin <= 0.01)
+            {
+                background2 = GetRandomColor();
+                deltaTime = 0;
+            } else if (sin >= 0.99)
+            {
+                background1 = GetRandomColor();
+            }
+            
+            GraphicsDevice.Clear(Color.Lerp(background1, background2, sin));
 
             // TODO: Add your drawing code here
             RootContainer.Instance.DrawAll(gameTime);

@@ -32,7 +32,7 @@ namespace _2DGameEngine.Entities
         //grid coordinates
         //private float cx = 0f;
         //private float cy = 0f;
-        protected Vector2 gridCoord = Vector2.Zero;
+        protected Vector2 gridCoord;
 
         //between 0 and 1: where the object is inside the grid cell
         //private float xr = 0.5f;
@@ -128,12 +128,14 @@ namespace _2DGameEngine.Entities
             }
 
             //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
-            spriteBatch.Draw(sprite, pos, Color.White);
-
+            if (this is ControllableEntity)
+                spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_OFFSET, -Constants.SPRITE_OFFSET) * Constants.GRID), Color.White);
+            else
+                spriteBatch.Draw(sprite, pos, Color.White);
             //if (Constants.GRAPHICS_DEBUG)
             //{
 #if GRAPHICS_DEBUG
-                spriteBatch.Draw(pivot, pos + inCellLocation, Color.White);
+            spriteBatch.Draw(pivot, pos, Color.White);
 #endif
             //}
 
