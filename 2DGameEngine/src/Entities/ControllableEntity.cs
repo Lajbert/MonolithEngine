@@ -159,14 +159,14 @@ namespace _2DGameEngine
             {
                 inCellLocation.X += step;
 
-                if (HasCollision() && inCellLocation.X >= Constants.SPRITE_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.X >= Constants.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(gridCoord)))
                 {
-                    inCellLocation.X = Constants.SPRITE_OFFSET;
+                    inCellLocation.X = Constants.SPRITE_COLLISION_OFFSET;
                 }
 
-                if (HasCollision() && inCellLocation.X <= Constants.SPRITE_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.X <= Constants.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)))
                 {
-                    inCellLocation.X = Constants.SPRITE_OFFSET;
+                    inCellLocation.X = Constants.SPRITE_COLLISION_OFFSET;
                 }
 
                 while (inCellLocation.X > 1) { inCellLocation.X--; gridCoord.X++; }
@@ -204,16 +204,16 @@ namespace _2DGameEngine
             {
                 inCellLocation.Y += step2;
 
-                if (HasCollision() && inCellLocation.Y > Constants.SPRITE_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.Y > Constants.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)))
                 {
                     direction.Y = 0;
-                    inCellLocation.Y = Constants.SPRITE_OFFSET;
+                    inCellLocation.Y = Constants.SPRITE_COLLISION_OFFSET;
                     bdy = 0;
                 }
 
-                if (HasCollision() && inCellLocation.Y < Constants.SPRITE_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)))
+                if (HasCollision() && inCellLocation.Y < Constants.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)))
                 {
-                    inCellLocation.Y = Constants.SPRITE_OFFSET;
+                    inCellLocation.Y = Constants.SPRITE_COLLISION_OFFSET;
                 }
                    
                 while (inCellLocation.Y > 1) { inCellLocation.Y--; gridCoord.Y++; }

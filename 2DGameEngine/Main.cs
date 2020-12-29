@@ -7,6 +7,7 @@ using _2DGameEngine.Entities.Interfaces;
 using System.Collections.Generic;
 using _2DGameEngine.Global;
 using _2DGameEngine.src.Camera;
+using _2DGameEngine.src.Level;
 
 namespace _2DGameEngine
 {
@@ -20,6 +21,7 @@ namespace _2DGameEngine
         private Color background1;
         private Color background2;
         private float sin;
+        private MapSerializer mapSerializer;
 
         public Main()
         {
@@ -37,6 +39,7 @@ namespace _2DGameEngine
             // uncapped framerate
             //graphics.SynchronizeWithVerticalRetrace = false;
             //this.IsFixedTimeStep = false;
+            mapSerializer = new LDTKJsonMapSerializer();
         }
 
         protected override void Initialize()
@@ -50,10 +53,10 @@ namespace _2DGameEngine
         {
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
-            hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(5, 1) * Constants.GRID, font);
-            Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
+            hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(0, 0) * Constants.GRID, font);
+            /*Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
             Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(1, 0) * Constants.GRID, font);
-            Entity child3 = new Entity(child2, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(1, 0) * Constants.GRID, font);
+            Entity child3 = new Entity(child2, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(1, 0) * Constants.GRID, font);*/
             // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = Constants.RES_W;
             graphics.PreferredBackBufferHeight = Constants.RES_H;
@@ -64,30 +67,37 @@ namespace _2DGameEngine
 
         private void CreateLevel()
         {
+
+            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
+            HashSet<Vector2> collisions = map.GetCollisions();
+            foreach (Vector2 coord in collisions) {
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), coord * Constants.GRID, font);
+            }
+            /*
             for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
             {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 17 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 17 * Constants.GRID), font);
             }
 
             for (int i = 16 * Constants.GRID; i < 27 * Constants.GRID; i += Constants.GRID)
             {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 15 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 15 * Constants.GRID), font);
             }
 
             for (int i = 2 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
             {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 20 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 20 * Constants.GRID), font);
             }
 
             for (int i = 9 * Constants.GRID; i < 10 * Constants.GRID; i += Constants.GRID)
             {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 19 * Constants.GRID), font);
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
             }
 
             for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
             {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i, 19 * Constants.GRID), font);
-            }
+                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
+            }*/
         }
 
         private Texture2D CreateRectangle(int size, Color color)

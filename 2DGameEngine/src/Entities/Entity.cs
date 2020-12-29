@@ -129,7 +129,7 @@ namespace _2DGameEngine.Entities
 
             //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
             if (this is ControllableEntity)
-                spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_OFFSET, -Constants.SPRITE_OFFSET) * Constants.GRID), Color.White);
+                spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_DRAW_OFFSET, -Constants.SPRITE_DRAW_OFFSET) * Constants.GRID), Color.White);
             else
                 spriteBatch.Draw(sprite, pos, Color.White);
             //if (Constants.GRAPHICS_DEBUG)

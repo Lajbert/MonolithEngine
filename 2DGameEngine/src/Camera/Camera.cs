@@ -27,8 +27,8 @@ namespace _2DGameEngine.src.Camera
 
 		float gameMeW = Constants.RES_W;
 		float gameMeH = Constants.RES_H;
-		float levelGridCountW = (float)Math.Floor((decimal)Constants.RES_W / 10);
-		float levelGridCountH = (float)Math.Floor((decimal)Constants.RES_H / 10);
+		float levelGridCountW = (float)Math.Floor((decimal)Constants.RES_W);
+		float levelGridCountH = (float)Math.Floor((decimal)Constants.RES_H);
 
 		private float shakePower = 1.5f;
 
