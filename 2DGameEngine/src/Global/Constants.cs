@@ -13,7 +13,7 @@ namespace _2DGameEngine.Global
         public static readonly bool GRAVITY_ON = true;
         public static readonly float GRAVITY_FORCE = 8f;
         public static readonly float JUMP_FORCE = 10f;
-        public static readonly float JUMP_T_MULTIPLIER = 2f;
+        public static readonly float GRAVITY_T_MULTIPLIER = 1.5f;
 
         public static readonly float SPRITE_DRAW_OFFSET = 0.4f;
         public static readonly float SPRITE_COLLISION_OFFSET = 0.4f;
@@ -24,5 +24,10 @@ namespace _2DGameEngine.Global
         public static readonly int FPS = 60;
         public static readonly bool FULLSCREEN = false;
         public static readonly int PIVOT_DIAM = 10;
+
+        public static readonly int CAMERA_TIME_MULTIPLIER = 1; // set this and CAMERA_FOLLOW_DELAY to a higher value to create a "wabbly" camera
+        public static readonly int CAMERA_DEADZONE = 250;
+        public static readonly float CAMERA_FRICTION = 0.89f;
+        public static readonly float CAMERA_FOLLOW_DELAY = 0.0005f;
     }
 }

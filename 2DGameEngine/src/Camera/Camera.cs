@@ -41,6 +41,8 @@ namespace _2DGameEngine.src.Camera
 
 		private bool shake = false;
 
+		private float elapsedTime;
+
 		RootContainer root;
 
 		public Camera() {
@@ -100,31 +102,28 @@ namespace _2DGameEngine.src.Camera
 
 		public void update(GameTime gameTime)
 		{
-
-			float tmod = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Constants.CAMERA_TIME_MULTIPLIER;
 			// Follow target entity
 			if (target != null)
 			{
-				float cameraFollowDelay = 0.001f;
-				float deadZone = 250;
 				float tx = target.GetPosition().X + targetTrackOffX;
 				float ty = target.GetPosition().Y + targetTrackOffY;
 
 				float d = dist(position.X, position.Y, tx, ty);
-				if (d >= deadZone)
+				if (d >= Constants.CAMERA_DEADZONE)
 				{
 					float a = (float)Math.Atan2(ty - position.Y, tx - position.X);
-					direction.X += (float)Math.Cos(a) * (d - deadZone) * cameraFollowDelay * tmod;
-					direction.Y += (float)Math.Sin(a) * (d - deadZone) * cameraFollowDelay * tmod;
+					direction.X += (float)Math.Cos(a) * (d - Constants.CAMERA_DEADZONE) * Constants.CAMERA_FOLLOW_DELAY * elapsedTime;
+					direction.Y += (float)Math.Sin(a) * (d - Constants.CAMERA_DEADZONE) * Constants.CAMERA_FOLLOW_DELAY * elapsedTime;
 				}
 			}
 
 			float frict = 0.89f;
-			position.X += direction.X * tmod;
-			direction.X *= (float)Math.Pow(frict, tmod);
+			position.X += direction.X * elapsedTime;
+			direction.X *= (float)Math.Pow(frict, elapsedTime);
 
-			position.Y += direction.Y * tmod;
-			direction.Y *= (float)Math.Pow(frict, tmod);
+			position.Y += direction.Y * elapsedTime;
+			direction.Y *= (float)Math.Pow(frict, elapsedTime);
 		}
 
 		public void bumpAng(float a, float dist)

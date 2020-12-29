@@ -26,6 +26,7 @@ namespace _2DGameEngine
         private KeyboardState previousKeyboardState;
 
         private bool canJump = true;
+        private bool doubleJump = false;
         private bool gravity = Constants.GRAVITY_ON;
 
         private float jumpStart;
@@ -49,17 +50,24 @@ namespace _2DGameEngine
 
             float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
-            if (currentKeyboardState.IsKeyDown(Keys.Up))
+            if (!HasGravity() && currentKeyboardState.IsKeyDown(Keys.Up))
             {
                 //moveY = -1;
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
                 direction.Y -= Constants.CHARACTER_SPEED * elapsedTime;
             }
 
-            if (currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space) && canJump)
+            if (HasGravity() && currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space) && (canJump || doubleJump))
             {
                 //moveY = -1;
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
+                if (canJump)
+                {
+                    doubleJump = true;
+                } else
+                {
+                    doubleJump = false;
+                }
                 canJump = false;
                 direction.Y -= Constants.JUMP_FORCE;
                 jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
@@ -186,7 +194,7 @@ namespace _2DGameEngine
                 {
                     jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
                 }
-                float t = (float)(gameTime.TotalGameTime.TotalSeconds - jumpStart) * Constants.JUMP_T_MULTIPLIER;
+                float t = (float)(gameTime.TotalGameTime.TotalSeconds - jumpStart) * Constants.GRAVITY_T_MULTIPLIER;
                 direction.Y += GetGravityConstant() * t * elapsedTime;
                 //direction.Y += GetGravityConstant() * (float)Math.Pow(t, 2) * elapsedTime;
                 canJump = false;
@@ -196,6 +204,7 @@ namespace _2DGameEngine
             {
                 //fallStartY = footY;
                 canJump = true;
+                doubleJump = true;
                 jumpStart = 0;
             }
 
