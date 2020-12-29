@@ -11,5 +11,15 @@ namespace _2DGameEngine.src.Util
         {
             return new Vector2((float)Math.Round(v.X), (float)Math.Round(v.Y));
         }
-    }
+
+		public static float Distance(float ax, float ay, float bx, float by)
+		{
+			return (float)Math.Sqrt(SquaredDistance(ax, ay, bx, by));
+		}
+
+		public static float SquaredDistance(float ax, float ay, float bx, float by)
+		{
+			return (ax - bx) * (ax - bx) + (ay - by) * (ay - by);
+		}
+	}
 }

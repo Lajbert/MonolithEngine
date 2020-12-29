@@ -11,10 +11,14 @@ namespace _2DGameEngine.src.Camera
 	class Camera
 	{
 		public Entity target;
-		public float x;
-		public float y;
-		public float dx;
-		public float dy;
+
+		private Vector2 position;
+		//public float x;
+		//public float y;
+
+		public Vector2 direction;
+		//public float dx;
+		//public float dy;
 		//public int wid;
 		//public int hei;
 
@@ -37,11 +41,13 @@ namespace _2DGameEngine.src.Camera
 
 		private bool shake = false;
 
-		RootContainer scroller;
+		RootContainer root;
 
 		public Camera() {
-			x = y = 0;
-			dx = dy = 0;
+			//x = y = 0;
+			//dx = dy = 0;
+			position = Vector2.Zero;
+			direction = Vector2.Zero;
 		}
 
 		private float get_wid()
@@ -60,7 +66,9 @@ namespace _2DGameEngine.src.Camera
 			targetTrackOffY = yOff;
 			target = e;
 			if (immediate)
+			{
 				recenter();
+			}
 		}
 
 		public void stopTracking()
@@ -71,9 +79,9 @@ namespace _2DGameEngine.src.Camera
 		public void recenter()
 		{
 			if (target != null) {
-
-				x = target.GetPosition().X + targetTrackOffX;
-				y = target.GetPosition().Y + targetTrackOffY;
+				position = new Vector2(target.GetPosition().X + targetTrackOffX, target.GetPosition().Y + targetTrackOffY);
+				//position.X = target.GetPosition().X + targetTrackOffX;
+				//position.Y = target.GetPosition().Y + targetTrackOffY;
 			}
 		}
 
@@ -102,21 +110,21 @@ namespace _2DGameEngine.src.Camera
 				float tx = target.GetPosition().X + targetTrackOffX;
 				float ty = target.GetPosition().Y + targetTrackOffY;
 
-				float d = dist(x, y, tx, ty);
+				float d = dist(position.X, position.Y, tx, ty);
 				if (d >= deadZone)
 				{
-					float a = (float)Math.Atan2(ty - y, tx - x);
-					dx += (float)Math.Cos(a) * (d - deadZone) * cameraFollowDelay * tmod;
-					dy += (float)Math.Sin(a) * (d - deadZone) * cameraFollowDelay * tmod;
+					float a = (float)Math.Atan2(ty - position.Y, tx - position.X);
+					direction.X += (float)Math.Cos(a) * (d - deadZone) * cameraFollowDelay * tmod;
+					direction.Y += (float)Math.Sin(a) * (d - deadZone) * cameraFollowDelay * tmod;
 				}
 			}
 
 			float frict = 0.89f;
-			x += dx * tmod;
-			dx *= (float)Math.Pow(frict, tmod);
+			position.X += direction.X * tmod;
+			direction.X *= (float)Math.Pow(frict, tmod);
 
-			y += dy * tmod;
-			dy *= (float)Math.Pow(frict, tmod);
+			position.Y += direction.Y * tmod;
+			direction.Y *= (float)Math.Pow(frict, tmod);
 		}
 
 		public void bumpAng(float a, float dist)
@@ -137,48 +145,48 @@ namespace _2DGameEngine.src.Camera
 			float tmod = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 			if (SCROLL)
 			{
-				scroller = RootContainer.Instance;
+				root = RootContainer.Instance;
 
 				// Update scroller
 				if (get_wid() / zoom < levelGridCountW * Constants.GRID)
-					scroller.X = (float)(-x * zoom + get_wid() * 0.5);
+					root.X = (float)(-position.X * zoom + get_wid() * 0.5);
 				else
-					scroller.X = (float)(get_wid() * 0.5 / zoom - levelGridCountW * 0.5 * Constants.GRID);
+					root.X = (float)(get_wid() * 0.5 / zoom - levelGridCountW * 0.5 * Constants.GRID);
 
 				if (get_hei() / zoom < levelGridCountH * Constants.GRID)
-					scroller.Y = (float)(-y * zoom + get_hei() * 0.5);
+					root.Y = (float)(-position.Y * zoom + get_hei() * 0.5);
 				else
-					scroller.Y = (float)(get_hei() * 0.5 / zoom - levelGridCountH * 0.5 * Constants.GRID);
+					root.Y = (float)(get_hei() * 0.5 / zoom - levelGridCountH * 0.5 * Constants.GRID);
 
 				// Clamp
 				float pad = Constants.GRID * 2;
 				if (get_wid() < levelGridCountW * Constants.GRID * zoom)
-					scroller.X = fclamp(scroller.X, get_wid() - levelGridCountW * Constants.GRID * zoom + pad, -pad);
+					root.X = fclamp(root.X, get_wid() - levelGridCountW * Constants.GRID * zoom + pad, -pad);
 				if (get_hei() < levelGridCountH * Constants.GRID * zoom)
-					scroller.Y = fclamp(scroller.Y, get_hei() - levelGridCountH * Constants.GRID * zoom + pad, -pad);
+					root.Y = fclamp(root.Y, get_hei() - levelGridCountH * Constants.GRID * zoom + pad, -pad);
 
 				// Bumps friction
 				bumpOffX *= (float)Math.Pow(0.75, tmod);
 				bumpOffY *= (float)Math.Pow(0.75, tmod);
 
 				// Bump
-				scroller.X += bumpOffX;
-				scroller.Y += bumpOffY;
+				root.X += bumpOffX;
+				root.Y += bumpOffY;
 
 				// Shakes
 				if (shake)
 				{
-					scroller.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
-					scroller.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
+					root.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
+					root.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
 				}
 
 				// Scaling
-				scroller.X *= SCALE;
-				scroller.Y *= SCALE;
+				root.X *= SCALE;
+				root.Y *= SCALE;
 
 				// Rounding
-				scroller.X = (float)Math.Round(scroller.X);
-				scroller.Y = (float)Math.Round(scroller.Y);
+				root.X = (float)Math.Round(root.X);
+				root.Y = (float)Math.Round(root.Y);
 
 				// Zoom
 				//scroller.setScale(SCALE * zoom);

@@ -8,6 +8,8 @@ namespace _2DGameEngine.src.Level
     class LDTKMap
     {
 
+        private readonly string COLLIDERS = "Collisions";
+
         public HashSet<Vector2> GetCollisions()
         {
             HashSet<Vector2> collisions = new HashSet<Vector2>();
@@ -15,18 +17,21 @@ namespace _2DGameEngine.src.Level
             {
                 foreach (LayerInstance layer in level.layerInstances)
                 {
-                    foreach (LayerInstance.IntGrid grid in layer.intGrid)
+                    if (layer.__identifier.Equals(COLLIDERS))
                     {
-                        //var coordId = gridBasedX + gridBasedY * gridBasedWidth;
-                        //var gridBasedY = Math.floor( coordId / gridBasedWidth );
-                        //var gridBasedX = coordId - gridBasedY * gridBasedWidth
-                        //cx / cy for a grid based X / Y
-                        //cWid / cHei for a grid based width / height
+                        foreach (LayerInstance.IntGrid grid in layer.intGrid)
+                        {
+                            //var coordId = gridBasedX + gridBasedY * gridBasedWidth;
+                            //var gridBasedY = Math.floor( coordId / gridBasedWidth );
+                            //var gridBasedX = coordId - gridBasedY * gridBasedWidth
+                            //cx / cy for a grid based X / Y
+                            //cWid / cHei for a grid based width / height
 
-                        int y = (int)Math.Floor((decimal)grid.coordId / layer.__cWid);
-                        int x = grid.coordId - y * layer.__cWid;
-                        
-                        collisions.Add(new Vector2(x, y));
+                            int y = (int)Math.Floor((decimal)grid.coordId / layer.__cWid);
+                            int x = grid.coordId - y * layer.__cWid;
+
+                            collisions.Add(new Vector2(x, y));
+                        }
                     }
                 }
             }
