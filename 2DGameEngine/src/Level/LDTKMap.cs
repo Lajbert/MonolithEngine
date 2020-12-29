@@ -23,8 +23,8 @@ namespace _2DGameEngine.src.Level
                         //cx / cy for a grid based X / Y
                         //cWid / cHei for a grid based width / height
 
-                        int y = (int)Math.Floor((decimal)grid.coordId / 35);
-                        int x = grid.coordId - y * 35;
+                        int y = (int)Math.Floor((decimal)grid.coordId / layer.__cWid);
+                        int x = grid.coordId - y * layer.__cWid;
                         
                         collisions.Add(new Vector2(x, y));
                     }
@@ -49,6 +49,8 @@ namespace _2DGameEngine.src.Level
             public List<IntGrid> intGrid { get; set; }
 
             public string __identifier { get; set; }
+
+            public int __cWid { get; set; }
 
             public class IntGrid
             {
