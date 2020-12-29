@@ -2,6 +2,7 @@
 using _2DGameEngine.Entities.Interfaces;
 using _2DGameEngine.Global;
 using _2DGameEngine.src;
+using _2DGameEngine.src.Layer;
 using _2DGameEngine.src.Util;
 using _2DGameEngine.Util;
 using Microsoft.Xna.Framework;
@@ -29,7 +30,7 @@ namespace _2DGameEngine
 
         private float jumpStart;
 
-        public ControllableEntity(Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(parent, graphicsDevice, texture2D, startPosition, font)
+        public ControllableEntity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, graphicsDevice, texture2D, startPosition, font)
         {
             SetPosition(startPosition);
         }

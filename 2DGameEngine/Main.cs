@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using _2DGameEngine.Global;
 using _2DGameEngine.src.Camera;
 using _2DGameEngine.src.Level;
+using _2DGameEngine.src;
 
 namespace _2DGameEngine
 {
@@ -53,7 +54,6 @@ namespace _2DGameEngine
         {
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
-            hero = new ControllableEntity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(0, 0) * Constants.GRID, font);
             /*Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
             Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(1, 0) * Constants.GRID, font);
             Entity child3 = new Entity(child2, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(1, 0) * Constants.GRID, font);*/
@@ -62,17 +62,59 @@ namespace _2DGameEngine
             graphics.PreferredBackBufferHeight = Constants.RES_H;
             graphics.ApplyChanges();
             CreateLevel();
+            hero = new ControllableEntity(Scene.Instance.GetEntityLayer(), null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(5, 5) * Constants.GRID, font);
             camera.trackTarget(hero, true);
         }
 
         private void CreateLevel()
         {
 
-            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
+
+
+            for (int i = 2;  i <= 300; i ++)
+            {
+                new Entity(Scene.Instance.GetColliderLayer(), null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(i * Constants.GRID, 25 * Constants.GRID), font);
+            }
+
+            Scene.Instance.AddScrollableLayer(0.7f, true);
+            Scene.Instance.AddScrollableLayer(0.5f, true);
+
+            for (int i = 3; i <= 300; i++)
+            {
+                if (i % 15 == 0)
+                {
+                    for (int j = 22; j < 25; j++)
+                    {
+                        new Entity(Scene.Instance.GetScrollableLayer(1), null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Brown), new Vector2(i * Constants.GRID, j * Constants.GRID), font);
+                    }
+                }
+
+            }
+
+            for (int i = 3; i <= 300; i ++)
+            {
+                if (i % 20 == 0)
+                {
+                    for (int j = 18; j < 25; j++)
+                    {
+                        new Entity(Scene.Instance.GetScrollableLayer(0), null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i * Constants.GRID, j * Constants.GRID), font);
+                    }
+                }
+            }
+
+            for (int i = 2; i <= 300; i += 20)
+            {
+                for (int j = i; j <= i + 5; j++)
+                {
+                    new Entity(Scene.Instance.GetColliderLayer(), null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, GetRandomColor()), new Vector2(j * Constants.GRID, 20 * Constants.GRID), font);
+                }
+
+            }
+            /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();
             foreach (Vector2 coord in collisions) {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), coord * Constants.GRID, font);
-            }
+                new Entity(Scene.Instance.GetColliderLayer(), null , graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), coord * Constants.GRID, font);
+            }*/
             /*
             for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using _2DGameEngine.Entities;
 using _2DGameEngine.Entities.Interfaces;
+using _2DGameEngine.src.Layer;
 using Microsoft.Xna.Framework;
 
 namespace _2DGameEngine.Entities
@@ -13,6 +14,7 @@ namespace _2DGameEngine.Entities
         private HashSet<Entity> children = new HashSet<Entity>();
         private List<Drawable> drawables;
         private List<Updatable> updatables;
+        private List<GraphicsLayer> layers;
         private Vector2 position = Vector2.Zero;
 
         public float X {
@@ -32,6 +34,7 @@ namespace _2DGameEngine.Entities
         {
             drawables = new List<Drawable>();
             updatables = new List<Updatable>();
+            layers = new List<GraphicsLayer>();
         }
         static RootContainer()
         {

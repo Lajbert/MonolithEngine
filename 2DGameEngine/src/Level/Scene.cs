@@ -1,6 +1,7 @@
 ﻿using _2DGameEngine.Entities;
 using _2DGameEngine.Entities.Interfaces;
 using _2DGameEngine.Global;
+using _2DGameEngine.src.Layer;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,16 @@ namespace _2DGameEngine.src
     class Scene
     {
 
-        private Dictionary<Vector2, Collider> colliders;
+        private GraphicsLayer background;
+        private List<GraphicsLayer> scrollableBackgrounds;
+        private GraphicsLayer colliders;
+        private GraphicsLayer entities;
+
         private Scene() {
-            this.colliders = new Dictionary<Vector2, Collider>();
+            background = new GraphicsLayer();
+            colliders = new GraphicsLayer();
+            entities = new GraphicsLayer();
+            scrollableBackgrounds = new List<GraphicsLayer>();
         }
         static Scene() { }
 
@@ -21,17 +29,7 @@ namespace _2DGameEngine.src
 
         public bool HasColliderAt(Vector2 location)
         {
-            return colliders.ContainsKey(location);
-        }
-
-        public void AddObject(GameObject gameObject)
-        {
-            if (gameObject is Collider)
-            {
-                Collider c = (Collider)gameObject;
-                Vector2 gridLocation = new Vector2((int)Math.Round(c.GetPosition().X / Constants.GRID), (int)Math.Round(c.GetPosition().Y / Constants.GRID));
-                colliders.Add(gridLocation, c);
-            }
+            return colliders.HasObjectAt(location);
         }
 
         public static Scene Instance
@@ -40,6 +38,31 @@ namespace _2DGameEngine.src
             {
                 return instance;
             }
+        }
+
+        public GraphicsLayer GetColliderLayer()
+        {
+            return colliders;
+        }
+
+        public GraphicsLayer GetEntityLayer()
+        {
+            return entities;
+        }
+
+        public GraphicsLayer GetBackgroundLayer()
+        {
+            return this.background;
+        }
+
+        public GraphicsLayer GetScrollableLayer(int index)
+        {
+            return scrollableBackgrounds[index];
+        }
+
+        public void AddScrollableLayer(float scrollSpeedMultiplier, bool lockY = false)
+        {
+            scrollableBackgrounds.Add(new GraphicsLayer(scrollSpeedMultiplier, lockY));
         }
     }
 }

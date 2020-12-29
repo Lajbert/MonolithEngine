@@ -9,6 +9,7 @@ using _2DGameEngine.Global;
 using _2DGameEngine.Util;
 using _2DGameEngine.src;
 using _2DGameEngine.src.Util;
+using _2DGameEngine.src.Layer;
 
 namespace _2DGameEngine.Entities
 {
@@ -24,6 +25,7 @@ namespace _2DGameEngine.Entities
         private HashSet<Drawable> drawables;
         private Entity parent;
         private bool hasCollision;
+        protected GraphicsLayer layer;
 #if GRAPHICS_DEBUG
         private Texture2D pivot;
         protected SpriteFont font;
@@ -39,9 +41,10 @@ namespace _2DGameEngine.Entities
         //private float yr = 1.0f;
         protected Vector2 inCellLocation;
 
-        public Entity(Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
+        public Entity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null)
         {
             this.sprite = texture2D;
+            this.layer = layer;
             if (graphicsDevice != null)
             {
                 spriteBatch = new SpriteBatch(graphicsDevice);
@@ -57,7 +60,7 @@ namespace _2DGameEngine.Entities
             } else
             {
                 RootContainer.Instance.AddChild(this);
-                this.startPosition = this.currentPosition = startPosition;
+                this.startPosition = this.currentPosition = startPosition + layer.GetPosition();
             }
             
             this.hasCollision = true;
@@ -67,8 +70,7 @@ namespace _2DGameEngine.Entities
             pivot = CreateCircle(graphicsDevice, Constants.PIVOT_DIAM);
             this.font = font;
 #endif
-
-            Scene.Instance.AddObject(this);
+            layer.AddObject(this);
         }
 
 #if GRAPHICS_DEBUG
@@ -124,7 +126,7 @@ namespace _2DGameEngine.Entities
             } else
             {
                 
-                pos = currentPosition + RootContainer.Instance.GetRootPosition();
+                pos = currentPosition + layer.GetPosition();
             }
 
             //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
@@ -147,7 +149,7 @@ namespace _2DGameEngine.Entities
                     spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, startPosition + GetParent().GetPositionWithParent(), Color.White);
                 } else
                 {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, currentPosition + RootContainer.Instance.GetRootPosition(), Color.White);
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, currentPosition + layer.GetPosition(), Color.White);
                 }
                 
             }
@@ -250,7 +252,7 @@ namespace _2DGameEngine.Entities
             }
             else
             {
-                return currentPosition + RootContainer.Instance.GetRootPosition();
+                return currentPosition + layer.GetPosition();
             }
         }
 
