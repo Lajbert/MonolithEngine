@@ -12,7 +12,7 @@ using System;
 
 namespace _2DGameEngine
 {
-    class ControllableEntity : Entity, Updatable, GravityApplicable
+    class ControllableEntity : Entity, IGravityApplicable
     {
 
         //private float dx = 0;
@@ -31,6 +31,9 @@ namespace _2DGameEngine
 
         private float jumpStart;
 
+        private MoveState currentState = MoveState.IDLE;
+        private MoveState previousState = MoveState.IDLE;
+
         public ControllableEntity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Texture2D texture2D, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, graphicsDevice, texture2D, startPosition, font)
         {
             SetPosition(startPosition);
@@ -38,6 +41,16 @@ namespace _2DGameEngine
 
         override public void Draw(GameTime gameTime)
         {
+            previousState = currentState;
+            if (!canJump)
+            {
+                currentState = MoveState.JUMPING;
+            }
+            else
+            {
+                currentState = MoveState.IDLE;
+            }
+
             currentKeyboardState = Keyboard.GetState();
 
             if (currentKeyboardState.IsKeyDown(Keys.R))
@@ -71,6 +84,7 @@ namespace _2DGameEngine
                 canJump = false;
                 direction.Y -= Constants.JUMP_FORCE;
                 jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+                currentState = MoveState.JUMPING;
             }
             previousKeyboardState = currentKeyboardState;
 
@@ -93,6 +107,8 @@ namespace _2DGameEngine
                 //moveX = 1;
                 //dx += Constants.CHARACTER_SPEED * elapsedTime;
                 direction.X += Constants.CHARACTER_SPEED * elapsedTime;
+                //currentAnimation = moveRightAnimation;
+                currentState = MoveState.MOVING_RIGHT;
             }
 
             MouseState mouseState = Mouse.GetState();
@@ -140,14 +156,11 @@ namespace _2DGameEngine
             base.Draw(gameTime);
         }
 
-        public void PreUpdate(GameTime gameTime)
+        public override void PreUpdate(GameTime gameTime)
         {
-            foreach (Updatable child in GetUpdatables())
-            {
-                child.PreUpdate(gameTime);
-            }
+            base.PreUpdate(gameTime);
         }
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             /*
             Vector2 move = new Vector2(moveX, moveY);
@@ -159,6 +172,9 @@ namespace _2DGameEngine
             //System.Diagnostics.Debug.WriteLine(move);
             position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             */
+
+            SetAnimation();
+
 
             float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
@@ -242,20 +258,47 @@ namespace _2DGameEngine
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));
 
-            foreach (Updatable child in GetUpdatables())
+            base.Update(gameTime);
+        }
+
+        private void SetAnimation()
+        {
+            if (currentState == MoveState.JUMPING)
             {
-                child.Update(gameTime);
+                if (previousState != MoveState.JUMPING)
+                {
+                    this.currentAnimation = jumpAnimation;
+                }
+                return;
+            }
+            if (currentState == MoveState.IDLE)
+            {
+                if (previousState != MoveState.IDLE)
+                {
+                    this.currentAnimation = idleAnimation;
+                }
+            }
+            else if (currentState == MoveState.MOVING_RIGHT)
+            {
+                if (previousState != MoveState.MOVING_RIGHT)
+                {
+                    this.currentAnimation = moveRightAnimation;
+                }
+            }
+            else if (currentState == MoveState.MOVING_LEFT)
+            {
+                if (previousState != MoveState.MOVING_LEFT)
+                {
+                    this.currentAnimation = moveLeftAnimation;
+                }
             }
         }
 
-        public void PostUpdate(GameTime gameTime)
+        public override void PostUpdate(GameTime gameTime)
         {
             //currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
             //currentPosition.Y = (int)((gridCoord.Y + inCellLocation.Y) * Constants.GRID);
-            foreach (Updatable child in GetUpdatables())
-            {
-                child.PostUpdate(gameTime);
-            }
+            base.PostUpdate(gameTime);
         }
 
         /*public void SetPositionPixel(Vector2 posiiton)
@@ -290,6 +333,17 @@ namespace _2DGameEngine
             inCellLocation = Vector2.Zero;
             this.currentPosition = startPosition = position;
             this.jumpStart = 0;
+        }
+
+        private enum MoveState
+        {
+            IDLE,
+            MOVING_LEFT,
+            MOVING_RIGHT,
+            MOVING_UP,
+            MOVING_DOWN,
+            FALLING,
+            JUMPING
         }
     }
 }

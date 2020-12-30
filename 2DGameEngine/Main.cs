@@ -9,6 +9,7 @@ using _2DGameEngine.Global;
 using _2DGameEngine.src.Camera;
 using _2DGameEngine.src.Level;
 using _2DGameEngine.src;
+using _2DGameEngine.src.Entities.Animation;
 
 namespace _2DGameEngine
 {
@@ -23,6 +24,7 @@ namespace _2DGameEngine
         private Color background2;
         private float sin;
         private MapSerializer mapSerializer;
+        private float elapsedTime = 0;
 
         public Main()
         {
@@ -46,7 +48,8 @@ namespace _2DGameEngine
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             base.Initialize();
         }
 
@@ -62,7 +65,43 @@ namespace _2DGameEngine
             graphics.PreferredBackBufferHeight = Constants.RES_H;
             graphics.ApplyChanges();
             CreateLevel();
-            hero = new ControllableEntity(Scene.Instance.GetEntityLayer(), null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(5, 5) * Constants.GRID, font);
+            List<Texture2D> knightIdle = new List<Texture2D>();
+            string folder = "HeroKnight/Idle/";
+            for (int i = 0; i <= 7; i++)
+            {
+                Texture2D t = Content.Load<Texture2D>(folder + "HeroKnight_Idle_" + i);
+                knightIdle.Add(t);
+            }
+            hero = new ControllableEntity(Scene.Instance.GetEntityLayer(), null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Transparent), new Vector2(5, 5) * Constants.GRID, font);
+            AnimatedSpriteGroup knightAnimationIdle = new AnimatedSpriteGroup(knightIdle, hero, spriteBatch, 30);
+            knightAnimationIdle.SetScale(1.5f);
+            knightAnimationIdle.SetOffset(new Vector2(70f, 15f) * -1);
+            hero.SetIdleAnimation(knightAnimationIdle);
+
+            List<Texture2D> knightRun = new List<Texture2D>();
+            folder = "HeroKnight/Run/";
+            for (int i = 0; i <= 7; i++)
+            {
+                Texture2D t = Content.Load<Texture2D>(folder + "HeroKnight_Run_" + i);
+                knightRun.Add(t);
+            }
+            AnimatedSpriteGroup knightRunRightAnimation = new AnimatedSpriteGroup(knightRun, hero, spriteBatch, 30);
+            knightRunRightAnimation.SetScale(1.5f);
+            knightRunRightAnimation.SetOffset(new Vector2(70f, 15f) * -1);
+            hero.SetMoveRightAnimation(knightRunRightAnimation);
+
+            List<Texture2D> knightJump = new List<Texture2D>();
+            folder = "HeroKnight/Jump/";
+            for (int i = 0; i <= 2; i++)
+            {
+                Texture2D t = Content.Load<Texture2D>(folder + "HeroKnight_Jump_" + i);
+                knightJump.Add(t);
+            }
+            AnimatedSpriteGroup knightJumpAnimation = new AnimatedSpriteGroup(knightJump, hero, spriteBatch, 30);
+            knightJumpAnimation.SetScale(1.5f);
+            knightJumpAnimation.SetOffset(new Vector2(70f, 15f) * -1);
+            hero.SetJumpAnimation(knightJumpAnimation);
+
             camera.trackTarget(hero, true);
         }
 
@@ -168,24 +207,28 @@ namespace _2DGameEngine
             return Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
         }
 
-        float deltaTime = 0;
+        private SpriteBatch spriteBatch;
         protected override void Draw(GameTime gameTime)
         {
-            deltaTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            sin = (float)Math.Sin(deltaTime);
+            /*elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            sin = (float)Math.Sin(elapsedTime);
             if (sin <= 0.01)
             {
                 background2 = GetRandomColor();
-                deltaTime = 0;
+                elapsedTime = 0;
             } else if (sin >= 0.99)
             {
                 background1 = GetRandomColor();
             }
             
             GraphicsDevice.Clear(Color.Lerp(background1, background2, sin));
+            */
+
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             RootContainer.Instance.DrawAll(gameTime);
+
             base.Draw(gameTime);
         }
     }

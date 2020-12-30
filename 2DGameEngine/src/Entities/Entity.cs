@@ -10,10 +10,11 @@ using _2DGameEngine.Util;
 using _2DGameEngine.src;
 using _2DGameEngine.src.Util;
 using _2DGameEngine.src.Layer;
+using _2DGameEngine.src.Entities.Animation;
 
 namespace _2DGameEngine.Entities
 {
-    class Entity : GameObject, Drawable, HasParent, HasChildren, Collider
+    class Entity : GameObject, Interfaces.IDrawable, IUpdatable, IHasParent, IHasChildren, ICollider
     {
 
         protected Vector2 startPosition;
@@ -21,11 +22,20 @@ namespace _2DGameEngine.Entities
         protected Texture2D sprite;
         protected SpriteBatch spriteBatch;
         private HashSet<Entity> children;
-        private HashSet<Updatable> updatables;
-        private HashSet<Drawable> drawables;
+        private HashSet<IUpdatable> updatables;
+        private HashSet<Interfaces.IDrawable> drawables;
         private Entity parent;
         private bool hasCollision;
         protected GraphicsLayer layer;
+
+        protected AbstractAnimation currentAnimation = null;
+        protected AbstractAnimation idleAnimation = null;
+        protected AbstractAnimation moveLeftAnimation = null;
+        protected AbstractAnimation moveRightAnimation = null;
+        protected AbstractAnimation moveUpAnimation = null;
+        protected AbstractAnimation moveDownAnimation = null;
+        protected AbstractAnimation jumpAnimation = null;
+
 #if GRAPHICS_DEBUG
         private Texture2D pivot;
         protected SpriteFont font;
@@ -51,8 +61,8 @@ namespace _2DGameEngine.Entities
             }
             gridCoord = CalculateGridCoord(startPosition);
             this.children = new HashSet<Entity>();
-            this.updatables = new HashSet<Updatable>();
-            this.drawables = new HashSet<Drawable>();
+            this.updatables = new HashSet<IUpdatable>();
+            this.drawables = new HashSet<Interfaces.IDrawable>();
             if (parent != null) {
                 this.parent = parent;
                 this.parent.AddChild(this);
@@ -108,7 +118,7 @@ namespace _2DGameEngine.Entities
         public virtual void PreDraw(GameTime gameTime)
         {
 
-            foreach (Drawable child in drawables)
+            foreach (Interfaces.IDrawable child in drawables)
             {
                 child.PreDraw(gameTime);
             }
@@ -129,17 +139,20 @@ namespace _2DGameEngine.Entities
                 pos = currentPosition + layer.GetPosition();
             }
 
-            //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
-            if (this is ControllableEntity)
-                spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_DRAW_OFFSET, -Constants.SPRITE_DRAW_OFFSET) * Constants.GRID), Color.White);
-            else
-                spriteBatch.Draw(sprite, pos, Color.White);
-            //if (Constants.GRAPHICS_DEBUG)
-            //{
 #if GRAPHICS_DEBUG
+            spriteBatch.Draw(sprite, pos, Color.White);
             spriteBatch.Draw(pivot, pos, Color.White);
 #endif
-            //}
+
+            //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
+            //if (this is ControllableEntity)
+            //    spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_DRAW_OFFSET, -Constants.SPRITE_DRAW_OFFSET) * Constants.GRID), Color.White);
+            //else
+
+            if (currentAnimation != null)
+            {
+                currentAnimation.Draw(pos);
+            }
 
 #if GRAPHICS_DEBUG
             if (font != null)
@@ -157,7 +170,7 @@ namespace _2DGameEngine.Entities
 
             spriteBatch.End();
 
-            foreach (Drawable child in drawables)
+            foreach (Interfaces.IDrawable child in drawables)
             {
                 child.Draw(gameTime);
             }
@@ -166,9 +179,39 @@ namespace _2DGameEngine.Entities
         public virtual void PostDraw(GameTime gameTime)
         {
 
-            foreach (Drawable child in drawables)
+            foreach (Interfaces.IDrawable child in drawables)
             {
                 child.PostDraw(gameTime);
+            }
+        }
+
+        public virtual void PreUpdate(GameTime gameTime)
+        {
+            foreach (IUpdatable child in updatables)
+            {
+                child.PreUpdate(gameTime);
+            }
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+
+            if (currentAnimation != null)
+            {
+                currentAnimation.Update(gameTime);
+            }
+
+            foreach (IUpdatable child in updatables)
+            {
+                child.Update(gameTime);
+            }
+        }
+
+        public virtual void PostUpdate(GameTime gameTime)
+        {
+            foreach (IUpdatable child in updatables)
+            {
+                child.PostUpdate(gameTime);
             }
         }
 
@@ -180,26 +223,26 @@ namespace _2DGameEngine.Entities
         public void AddChild(Entity gameObject)
         {
             children.Add(gameObject);
-            if (gameObject is Drawable)
+            if (gameObject is Interfaces.IDrawable)
             {
                 drawables.Add(gameObject);
             }
-            if (gameObject is Updatable)
+            if (gameObject is IUpdatable)
             {
-                updatables.Add((Updatable)gameObject);
+                updatables.Add((IUpdatable)gameObject);
             }
         }
 
         public void RemoveChild(Entity gameObject)
         {
             children.Remove(gameObject);
-            if (gameObject is Drawable)
+            if (gameObject is Interfaces.IDrawable)
             {
                 drawables.Remove(gameObject);
             }
-            if (gameObject is Updatable)
+            if (gameObject is IUpdatable)
             {
-                updatables.Remove((Updatable)gameObject);
+                updatables.Remove((IUpdatable)gameObject);
             }
         }
 
@@ -289,12 +332,12 @@ namespace _2DGameEngine.Entities
             return gridCoord;
         }
 
-        protected HashSet<Updatable> GetUpdatables()
+        protected HashSet<IUpdatable> GetUpdatables()
         {
             return updatables;
         }
 
-        protected HashSet<Drawable> GetDrawables()
+        protected HashSet<Interfaces.IDrawable> GetDrawables()
         {
             return drawables;
         }
@@ -314,6 +357,26 @@ namespace _2DGameEngine.Entities
                 newParent.AddChild(this);
                 parent = newParent;
             }
+        }
+
+        public void SetIdleAnimation(AbstractAnimation idleAnimation)
+        {
+            this.idleAnimation = idleAnimation;
+            this.currentAnimation = idleAnimation;
+        }
+
+        public void SetMoveRightAnimation(AbstractAnimation moveRightAnimation)
+        {
+            this.moveRightAnimation = moveRightAnimation;
+        }
+
+        public void SetMoveLeftAnimation(AbstractAnimation moveLeftAnimation)
+        {
+            this.moveLeftAnimation = moveLeftAnimation;
+        }
+        public void SetJumpAnimation(AbstractAnimation jumpAnimation)
+        {
+            this.jumpAnimation = jumpAnimation;
         }
     }
 }

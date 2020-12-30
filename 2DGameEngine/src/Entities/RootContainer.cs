@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework;
 
 namespace _2DGameEngine.Entities
 {
-    class RootContainer : GameObject, HasChildren
+    class RootContainer : GameObject, IHasChildren
     {
 
         private HashSet<Entity> children = new HashSet<Entity>();
-        private List<Drawable> drawables;
-        private List<Updatable> updatables;
+        private List<Interfaces.IDrawable> drawables;
+        private List<IUpdatable> updatables;
         private List<GraphicsLayer> layers;
         private Vector2 position = Vector2.Zero;
 
@@ -32,8 +32,8 @@ namespace _2DGameEngine.Entities
 
         private RootContainer()
         {
-            drawables = new List<Drawable>();
-            updatables = new List<Updatable>();
+            drawables = new List<Interfaces.IDrawable>();
+            updatables = new List<IUpdatable>();
             layers = new List<GraphicsLayer>();
         }
         static RootContainer()
@@ -42,13 +42,13 @@ namespace _2DGameEngine.Entities
 
         public void AddChild(Entity gameObject)
         {
-            if (gameObject is Drawable)
+            if (gameObject is Interfaces.IDrawable)
             {
-                drawables.Add((Drawable)gameObject);
+                drawables.Add((Interfaces.IDrawable)gameObject);
             }
-            if (gameObject is Updatable)
+            if (gameObject is IUpdatable)
             {
-                updatables.Add((Updatable)gameObject);
+                updatables.Add((IUpdatable)gameObject);
             }
             children.Add(gameObject);
         }
@@ -91,7 +91,7 @@ namespace _2DGameEngine.Entities
 
         public void DrawAll(GameTime gameTime)
         {
-            foreach (Drawable o in drawables)
+            foreach (Interfaces.IDrawable o in drawables)
             {
                 o.PreDraw(gameTime);
                 o.Draw(gameTime);
@@ -101,7 +101,7 @@ namespace _2DGameEngine.Entities
 
         public void UpdateAll(GameTime gameTime)
         {
-            foreach (Updatable o in updatables)
+            foreach (IUpdatable o in updatables)
             {
                 o.PreUpdate(gameTime);
                 o.Update(gameTime);
