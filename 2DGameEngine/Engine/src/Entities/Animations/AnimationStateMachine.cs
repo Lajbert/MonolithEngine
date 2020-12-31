@@ -26,10 +26,10 @@ namespace GameEngine2D.Engine.src.Entities.Animations
             }
             StateAnimation anim = new StateAnimation(state, animation, function, priority);
             animations.Add(anim);
-            animations.Sort((a, b) => a.priority.CompareTo(b.priority));
+            animations.Sort((a, b) => a.priority.CompareTo(b.priority) * -1);
         }
 
-        private class StateAnimation : IComparable<StateAnimation>
+        private class StateAnimation
         {
 
             public string state;
@@ -45,10 +45,6 @@ namespace GameEngine2D.Engine.src.Entities.Animations
                 this.function = function;
             }
 
-            public int CompareTo([AllowNull] StateAnimation other)
-            {
-                return priority.CompareTo(other.priority);
-            }
         }
 
         public void Draw(GameTime gameTime)

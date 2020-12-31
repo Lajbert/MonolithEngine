@@ -25,13 +25,9 @@ namespace GameEngine2D
         private bool doubleJump = false;
         private bool gravity = Constants.GRAVITY_ON;
 
-        private float jumpStart;
+        protected float jumpStart;
 
-        private MoveState currentState = MoveState.IDLE;
-        private MoveState previousState = MoveState.IDLE;
-
-        private FaceDirection currentFaceDirection = FaceDirection.RIGHT;
-        private FaceDirection prevFaceDirection = FaceDirection.RIGHT;
+        protected FaceDirection faceDirection = FaceDirection.RIGHT;
 
         public ControllableEntity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, graphicsDevice, startPosition, font)
         {
@@ -40,16 +36,6 @@ namespace GameEngine2D
 
         override public void Draw(GameTime gameTime)
         {
-            previousState = currentState;
-            prevFaceDirection = currentFaceDirection;
-            if (!canJump)
-            {
-                currentState = MoveState.JUMPING;
-            }
-            else
-            {
-                currentState = MoveState.IDLE;
-            }
 
             currentKeyboardState = Keyboard.GetState();
 
@@ -70,7 +56,7 @@ namespace GameEngine2D
                 direction.Y -= Constants.CHARACTER_SPEED * elapsedTime;
                 if (!HasGravity())
                 {
-                    currentFaceDirection = FaceDirection.UP;
+                    faceDirection = FaceDirection.UP;
                 }
             }
 
@@ -88,7 +74,6 @@ namespace GameEngine2D
                 canJump = false;
                 direction.Y -= Constants.JUMP_FORCE;
                 jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
-                currentState = MoveState.JUMPING;
             }
             previousKeyboardState = currentKeyboardState;
 
@@ -99,7 +84,7 @@ namespace GameEngine2D
                 direction.Y += Constants.CHARACTER_SPEED * elapsedTime;
                 if (!HasGravity())
                 {
-                    currentFaceDirection = FaceDirection.DOWN;
+                    faceDirection = FaceDirection.DOWN;
                 }
             }
 
@@ -108,12 +93,7 @@ namespace GameEngine2D
                 //moveX = -1;
                 //dx -= Constants.CHARACTER_SPEED * elapsedTime;
                 direction.X -= Constants.CHARACTER_SPEED * elapsedTime;
-                if (currentState != MoveState.JUMPING)
-                {
-                    currentState = MoveState.MOVING_LEFT;
-                }
-                
-                currentFaceDirection = FaceDirection.LEFT;
+                faceDirection = FaceDirection.LEFT;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right))
@@ -122,11 +102,7 @@ namespace GameEngine2D
                 //dx += Constants.CHARACTER_SPEED * elapsedTime;
                 direction.X += Constants.CHARACTER_SPEED * elapsedTime;
                 //currentAnimation = moveRightAnimation;
-                if (currentState != MoveState.JUMPING) 
-                {
-                    currentState = MoveState.MOVING_RIGHT;
-                }
-                currentFaceDirection = FaceDirection.RIGHT;
+                faceDirection = FaceDirection.RIGHT;
             }
 
             MouseState mouseState = Mouse.GetState();
@@ -289,72 +265,6 @@ namespace GameEngine2D
             base.Update(gameTime);
         }
 
-        /*private void SetAnimation()
-        {
-            if (HasGravity() && currentState == MoveState.JUMPING)
-            {
-                if (previousState != MoveState.JUMPING)
-                {
-                    if (currentFaceDirection == FaceDirection.LEFT)
-                    {
-                        this.currentAnimation = jumpLeftAnimation;
-                    } else
-                    {
-                        this.currentAnimation = jumpRightAnimation;
-                    }
-                    
-                } else if (prevFaceDirection != currentFaceDirection)
-                {
-                    if (currentFaceDirection == FaceDirection.LEFT)
-                    {
-                        this.currentAnimation = jumpLeftAnimation;
-                    }
-                    else
-                    {
-                        this.currentAnimation = jumpRightAnimation;
-                    }
-                }
-                return;
-            }
-            if (currentState == MoveState.IDLE)
-            {
-                if (previousState != MoveState.IDLE)
-                {
-                    if (currentFaceDirection == FaceDirection.RIGHT)
-                    {
-                        this.currentAnimation = idleAnimationRight;
-                    } 
-                    else if (currentFaceDirection == FaceDirection.LEFT)
-                    {
-                        this.currentAnimation = idleAnimationLeft;
-                    }
-                    else if (!HasGravity() && currentFaceDirection == FaceDirection.UP)
-                    {
-                        this.currentAnimation = idleAnimationLeft;
-                    }
-                    else if (!HasGravity() && currentFaceDirection == FaceDirection.DOWN)
-                    {
-                        this.currentAnimation = idleAnimationLeft;
-                    }
-
-                }
-            }
-            else if (currentState == MoveState.MOVING_RIGHT)
-            {
-                if (previousState != MoveState.MOVING_RIGHT)
-                {
-                    this.currentAnimation = moveRightAnimation;
-                }
-            }
-            else if (currentState == MoveState.MOVING_LEFT)
-            {
-                if (previousState != MoveState.MOVING_LEFT)
-                {
-                    this.currentAnimation = moveLeftAnimation;
-                }
-            }
-        }*/
-
         public override void PostUpdate(GameTime gameTime)
         {
             //currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
@@ -396,18 +306,7 @@ namespace GameEngine2D
             this.jumpStart = 0;
         }
 
-        private enum MoveState
-        {
-            IDLE,
-            MOVING_LEFT,
-            MOVING_RIGHT,
-            MOVING_UP,
-            MOVING_DOWN,
-            FALLING,
-            JUMPING
-        }
-
-        private enum FaceDirection
+        protected enum FaceDirection
         {
             UP,
             DOWN,
