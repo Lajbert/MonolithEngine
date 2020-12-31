@@ -36,7 +36,7 @@ namespace GameEngine2D.src.Entities.Animation
             }
         }
 
-        public abstract void Draw(Vector2 position);
+        public abstract void Play();
         public void Update(GameTime gameTime)
         {
             if (delay == 0)
@@ -69,6 +69,16 @@ namespace GameEngine2D.src.Entities.Animation
         public void SetOffset(Vector2 offset)
         {
             this.offset = offset;
+        }
+
+        public void Init()
+        {
+            currentFrame = 0;
+        }
+
+        public void Stop()
+        {
+            currentFrame = 0;
         }
     }
 }

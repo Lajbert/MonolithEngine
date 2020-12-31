@@ -10,6 +10,6 @@ namespace GameEngine2D.src.Entities.Animation.Interface
     {
         public void Update(GameTime gameTime);
 
-        public void Draw(Vector2 position);
+        public void Play();
     }
 }

@@ -17,7 +17,7 @@ namespace GameEngine2D.src.Entities.Animation
             this.textures = textures;
         }
 
-        public override void Draw(Vector2 position)
+        public override void Play()
         {
             Texture2D texture = textures[currentFrame];
             int width = Constants.GRID;
@@ -28,7 +28,7 @@ namespace GameEngine2D.src.Entities.Animation
             //SpriteBatch.Begin(SpriteSortMode, BlendState, SamplerState.PointClamp, DepthStencilState, RasterizerState)
             spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
             //public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
-            spriteBatch.Draw(texture, position + offset, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, spriteEffect, 0f);
+            spriteBatch.Draw(texture, parent.GetPositionWithParent() + offset, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, spriteEffect, 0f);
             //spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
             spriteBatch.End();
         }

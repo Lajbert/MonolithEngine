@@ -11,6 +11,7 @@ using GameEngine2D.src;
 using GameEngine2D.src.Util;
 using GameEngine2D.src.Layer;
 using GameEngine2D.src.Entities.Animation;
+using GameEngine2D.Engine.src.Entities.Animations;
 
 namespace GameEngine2D.Entities
 {
@@ -28,7 +29,7 @@ namespace GameEngine2D.Entities
         private bool hasCollision;
         protected GraphicsLayer layer;
 
-        protected AbstractAnimation currentAnimation = null;
+        /*protected AbstractAnimation currentAnimation = null;
         protected AbstractAnimation idleAnimationLeft = null;
         protected AbstractAnimation idleAnimationRight = null;
         protected AbstractAnimation idleAnimationUp = null;
@@ -38,7 +39,7 @@ namespace GameEngine2D.Entities
         protected AbstractAnimation moveUpAnimation = null;
         protected AbstractAnimation moveDownAnimation = null;
         protected AbstractAnimation jumpLeftAnimation = null;
-        protected AbstractAnimation jumpRightAnimation = null;
+        protected AbstractAnimation jumpRightAnimation = null;*/
 
 #if GRAPHICS_DEBUG
         private Texture2D pivot;
@@ -54,6 +55,12 @@ namespace GameEngine2D.Entities
         //private float xr = 0.5f;
         //private float yr = 1.0f;
         protected Vector2 inCellLocation;
+
+        //private float dx = 0;
+        //private float dy = 0;
+        protected Vector2 direction = Vector2.Zero;
+
+        protected AnimationStateMachine animationStates;
 
         public Entity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Vector2 startPosition, SpriteFont font = null)
         {
@@ -147,13 +154,13 @@ namespace GameEngine2D.Entities
             //    spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_DRAW_OFFSET, -Constants.SPRITE_DRAW_OFFSET) * Constants.GRID), Color.White);
             //else
 
-            if (currentAnimation != null)
+            /*if (currentAnimation != null)
             {
-                currentAnimation.Draw(pos);
+                currentAnimation.Play(pos);
             } else if (sprite != null)
             {
                 spriteBatch.Draw(sprite, pos, Color.White);
-            }
+            }*/
 
 #if GRAPHICS_DEBUG
             spriteBatch.Draw(pivot, pos, Color.White);
@@ -181,6 +188,11 @@ namespace GameEngine2D.Entities
             }
         }
 
+        public bool IsIdle()
+        {
+            return MathUtil.SmallerEqualAbs(direction, new Vector2(0.5f, 0.5f));
+        }
+
         public virtual void PostDraw(GameTime gameTime)
         {
 
@@ -201,10 +213,10 @@ namespace GameEngine2D.Entities
         public virtual void Update(GameTime gameTime)
         {
 
-            if (currentAnimation != null)
+            /*if (currentAnimation != null)
             {
                 currentAnimation.Update(gameTime);
-            }
+            }*/
 
             foreach (IUpdatable child in updatables)
             {
@@ -369,7 +381,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public void SetIdleAnimationLeft(AbstractAnimation idleAnimationLeft)
+        /*public void SetIdleAnimationLeft(AbstractAnimation idleAnimationLeft)
         {
             this.idleAnimationLeft = idleAnimationLeft;
             this.currentAnimation = idleAnimationLeft;
@@ -398,6 +410,11 @@ namespace GameEngine2D.Entities
         public void SetJumpRightAnimation(AbstractAnimation jumpRightAnimation)
         {
             this.jumpRightAnimation = jumpRightAnimation;
+        }*/
+
+        public void SetAnimationStateMachime(AnimationStateMachine animationStates)
+        {
+            this.animationStates = animationStates;
         }
     }
 }

@@ -15,10 +15,6 @@ namespace GameEngine2D
     class ControllableEntity : Entity, IGravityApplicable
     {
 
-        //private float dx = 0;
-        //private float dy = 0;
-        private Vector2 direction = Vector2.Zero;
-
         private float bdx = 0f;
         private float bdy = 0f;
 
@@ -175,6 +171,11 @@ namespace GameEngine2D
             spriteBatch.End();
 #endif
 
+            if (animationStates != null)
+            {
+                animationStates.Draw(gameTime);
+            }
+
             base.Draw(gameTime);
         }
 
@@ -195,7 +196,7 @@ namespace GameEngine2D
             position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             */
 
-            SetAnimation();
+            //SetAnimation();
 
 
             float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
@@ -280,10 +281,15 @@ namespace GameEngine2D
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));
 
+            if (animationStates != null)
+            {
+                animationStates.Update(gameTime);
+            }
+
             base.Update(gameTime);
         }
 
-        private void SetAnimation()
+        /*private void SetAnimation()
         {
             if (HasGravity() && currentState == MoveState.JUMPING)
             {
@@ -347,7 +353,7 @@ namespace GameEngine2D
                     this.currentAnimation = moveLeftAnimation;
                 }
             }
-        }
+        }*/
 
         public override void PostUpdate(GameTime gameTime)
         {
