@@ -34,7 +34,8 @@ namespace GameEngine2D
         private MoveState currentState = MoveState.IDLE;
         private MoveState previousState = MoveState.IDLE;
 
-        private FaceDirection faceDirection = FaceDirection.RIGHT;
+        private FaceDirection currentFaceDirection = FaceDirection.RIGHT;
+        private FaceDirection prevFaceDirection = FaceDirection.RIGHT;
 
         public ControllableEntity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, graphicsDevice, startPosition, font)
         {
@@ -44,6 +45,7 @@ namespace GameEngine2D
         override public void Draw(GameTime gameTime)
         {
             previousState = currentState;
+            prevFaceDirection = currentFaceDirection;
             if (!canJump)
             {
                 currentState = MoveState.JUMPING;
@@ -72,7 +74,7 @@ namespace GameEngine2D
                 direction.Y -= Constants.CHARACTER_SPEED * elapsedTime;
                 if (!HasGravity())
                 {
-                    faceDirection = FaceDirection.UP;
+                    currentFaceDirection = FaceDirection.UP;
                 }
             }
 
@@ -101,7 +103,7 @@ namespace GameEngine2D
                 direction.Y += Constants.CHARACTER_SPEED * elapsedTime;
                 if (!HasGravity())
                 {
-                    faceDirection = FaceDirection.DOWN;
+                    currentFaceDirection = FaceDirection.DOWN;
                 }
             }
 
@@ -115,7 +117,7 @@ namespace GameEngine2D
                     currentState = MoveState.MOVING_LEFT;
                 }
                 
-                faceDirection = FaceDirection.LEFT;
+                currentFaceDirection = FaceDirection.LEFT;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right))
@@ -128,7 +130,7 @@ namespace GameEngine2D
                 {
                     currentState = MoveState.MOVING_RIGHT;
                 }
-                faceDirection = FaceDirection.RIGHT;
+                currentFaceDirection = FaceDirection.RIGHT;
             }
 
             MouseState mouseState = Mouse.GetState();
@@ -287,7 +289,7 @@ namespace GameEngine2D
             {
                 if (previousState != MoveState.JUMPING)
                 {
-                    if (faceDirection == FaceDirection.LEFT)
+                    if (currentFaceDirection == FaceDirection.LEFT)
                     {
                         this.currentAnimation = jumpLeftAnimation;
                     } else
@@ -295,6 +297,16 @@ namespace GameEngine2D
                         this.currentAnimation = jumpRightAnimation;
                     }
                     
+                } else if (prevFaceDirection != currentFaceDirection)
+                {
+                    if (currentFaceDirection == FaceDirection.LEFT)
+                    {
+                        this.currentAnimation = jumpLeftAnimation;
+                    }
+                    else
+                    {
+                        this.currentAnimation = jumpRightAnimation;
+                    }
                 }
                 return;
             }
@@ -302,19 +314,19 @@ namespace GameEngine2D
             {
                 if (previousState != MoveState.IDLE)
                 {
-                    if (faceDirection == FaceDirection.RIGHT)
+                    if (currentFaceDirection == FaceDirection.RIGHT)
                     {
                         this.currentAnimation = idleAnimationRight;
                     } 
-                    else if (faceDirection == FaceDirection.LEFT)
+                    else if (currentFaceDirection == FaceDirection.LEFT)
                     {
                         this.currentAnimation = idleAnimationLeft;
                     }
-                    else if (!HasGravity() && faceDirection == FaceDirection.UP)
+                    else if (!HasGravity() && currentFaceDirection == FaceDirection.UP)
                     {
                         this.currentAnimation = idleAnimationLeft;
                     }
-                    else if (!HasGravity() && faceDirection == FaceDirection.DOWN)
+                    else if (!HasGravity() && currentFaceDirection == FaceDirection.DOWN)
                     {
                         this.currentAnimation = idleAnimationLeft;
                     }
