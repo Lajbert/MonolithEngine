@@ -18,7 +18,7 @@ namespace GameEngine2D.Engine.src.Entities.Animations
             animations = new List<StateAnimation>();
         }
 
-        public void RegisterStateAnimation(string state, AnimatedSpriteGroup animation, Func<bool> function = null, int priority = 0)
+        public void RegisterAnimation(string state, AnimatedSpriteGroup animation, Func<bool> function = null, int priority = 0)
         {
             if (function == null)
             {
