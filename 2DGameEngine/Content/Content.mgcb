@@ -20,7 +20,7 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
-#begin Effects/BlockFlash.png
+#begin SideScroller/KnightAssets/Effects/BlockFlash.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -30,9 +30,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/BlockFlash.png
+/build:SideScroller/KnightAssets/Effects/BlockFlash.png
 
-#begin Effects/BlockFlash/BlockFlash_0.png
+#begin SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -42,9 +42,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/BlockFlash/BlockFlash_0.png
+/build:SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_0.png
 
-#begin Effects/BlockFlash/BlockFlash_1.png
+#begin SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -54,9 +54,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/BlockFlash/BlockFlash_1.png
+/build:SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_1.png
 
-#begin Effects/BlockFlash/BlockFlash_2.png
+#begin SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -66,9 +66,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/BlockFlash/BlockFlash_2.png
+/build:SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_2.png
 
-#begin Effects/BlockFlash/BlockFlash_3.png
+#begin SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,9 +78,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/BlockFlash/BlockFlash_3.png
+/build:SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_3.png
 
-#begin Effects/BlockFlash/BlockFlash_4.png
+#begin SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -90,9 +90,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/BlockFlash/BlockFlash_4.png
+/build:SideScroller/KnightAssets/Effects/BlockFlash/BlockFlash_4.png
 
-#begin Effects/SlideDust.png
+#begin SideScroller/KnightAssets/Effects/SlideDust.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,9 +102,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/SlideDust.png
+/build:SideScroller/KnightAssets/Effects/SlideDust.png
 
-#begin Effects/SlideDust/SlideDust_0.png
+#begin SideScroller/KnightAssets/Effects/SlideDust/SlideDust_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -114,9 +114,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/SlideDust/SlideDust_0.png
+/build:SideScroller/KnightAssets/Effects/SlideDust/SlideDust_0.png
 
-#begin Effects/SlideDust/SlideDust_1.png
+#begin SideScroller/KnightAssets/Effects/SlideDust/SlideDust_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -126,9 +126,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/SlideDust/SlideDust_1.png
+/build:SideScroller/KnightAssets/Effects/SlideDust/SlideDust_1.png
 
-#begin Effects/SlideDust/SlideDust_2.png
+#begin SideScroller/KnightAssets/Effects/SlideDust/SlideDust_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -138,9 +138,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/SlideDust/SlideDust_2.png
+/build:SideScroller/KnightAssets/Effects/SlideDust/SlideDust_2.png
 
-#begin Effects/SlideDust/SlideDust_3.png
+#begin SideScroller/KnightAssets/Effects/SlideDust/SlideDust_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -150,9 +150,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/SlideDust/SlideDust_3.png
+/build:SideScroller/KnightAssets/Effects/SlideDust/SlideDust_3.png
 
-#begin Effects/SlideDust/SlideDust_4.png
+#begin SideScroller/KnightAssets/Effects/SlideDust/SlideDust_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -162,9 +162,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Effects/SlideDust/SlideDust_4.png
+/build:SideScroller/KnightAssets/Effects/SlideDust/SlideDust_4.png
 
-#begin EnvironmentTiles/EnvironmentTiles.png
+#begin SideScroller/KnightAssets/EnvironmentTiles/EnvironmentTiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -174,9 +174,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:EnvironmentTiles/EnvironmentTiles.png
+/build:SideScroller/KnightAssets/EnvironmentTiles/EnvironmentTiles.png
 
-#begin EnvironmentTiles/Tile_0.png
+#begin SideScroller/KnightAssets/EnvironmentTiles/Tile_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -186,9 +186,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:EnvironmentTiles/Tile_0.png
+/build:SideScroller/KnightAssets/EnvironmentTiles/Tile_0.png
 
-#begin EnvironmentTiles/Tile_1.png
+#begin SideScroller/KnightAssets/EnvironmentTiles/Tile_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -198,9 +198,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:EnvironmentTiles/Tile_1.png
+/build:SideScroller/KnightAssets/EnvironmentTiles/Tile_1.png
 
-#begin EnvironmentTiles/Tile_2.png
+#begin SideScroller/KnightAssets/EnvironmentTiles/Tile_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -210,9 +210,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:EnvironmentTiles/Tile_2.png
+/build:SideScroller/KnightAssets/EnvironmentTiles/Tile_2.png
 
-#begin EnvironmentTiles/Tile_3.png
+#begin SideScroller/KnightAssets/EnvironmentTiles/Tile_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -222,9 +222,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:EnvironmentTiles/Tile_3.png
+/build:SideScroller/KnightAssets/EnvironmentTiles/Tile_3.png
 
-#begin HeroKnight/Attack1/HeroKnight_Attack1_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -234,9 +234,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack1/HeroKnight_Attack1_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_0.png
 
-#begin HeroKnight/Attack1/HeroKnight_Attack1_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -246,9 +246,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack1/HeroKnight_Attack1_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_1.png
 
-#begin HeroKnight/Attack1/HeroKnight_Attack1_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -258,9 +258,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack1/HeroKnight_Attack1_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_2.png
 
-#begin HeroKnight/Attack1/HeroKnight_Attack1_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -270,9 +270,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack1/HeroKnight_Attack1_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_3.png
 
-#begin HeroKnight/Attack1/HeroKnight_Attack1_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -282,9 +282,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack1/HeroKnight_Attack1_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_4.png
 
-#begin HeroKnight/Attack1/HeroKnight_Attack1_5.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -294,9 +294,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack1/HeroKnight_Attack1_5.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack1/HeroKnight_Attack1_5.png
 
-#begin HeroKnight/Attack2/HeroKnight_Attack2_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -306,9 +306,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack2/HeroKnight_Attack2_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_0.png
 
-#begin HeroKnight/Attack2/HeroKnight_Attack2_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -318,9 +318,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack2/HeroKnight_Attack2_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_1.png
 
-#begin HeroKnight/Attack2/HeroKnight_Attack2_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -330,9 +330,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack2/HeroKnight_Attack2_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_2.png
 
-#begin HeroKnight/Attack2/HeroKnight_Attack2_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -342,9 +342,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack2/HeroKnight_Attack2_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_3.png
 
-#begin HeroKnight/Attack2/HeroKnight_Attack2_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -354,9 +354,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack2/HeroKnight_Attack2_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_4.png
 
-#begin HeroKnight/Attack2/HeroKnight_Attack2_5.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -366,9 +366,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack2/HeroKnight_Attack2_5.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack2/HeroKnight_Attack2_5.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -378,9 +378,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_0.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -390,9 +390,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_1.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -402,9 +402,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_2.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -414,9 +414,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_3.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -426,9 +426,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_4.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_5.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -438,9 +438,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_5.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_5.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_6.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -450,9 +450,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_6.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_6.png
 
-#begin HeroKnight/Attack3/HeroKnight_Attack3_7.png
+#begin SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -462,9 +462,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Attack3/HeroKnight_Attack3_7.png
+/build:SideScroller/KnightAssets/HeroKnight/Attack3/HeroKnight_Attack3_7.png
 
-#begin HeroKnight/Block/HeroKnight_Block_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -474,9 +474,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Block/HeroKnight_Block_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_0.png
 
-#begin HeroKnight/Block/HeroKnight_Block_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -486,9 +486,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Block/HeroKnight_Block_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_1.png
 
-#begin HeroKnight/Block/HeroKnight_Block_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -498,9 +498,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Block/HeroKnight_Block_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_2.png
 
-#begin HeroKnight/Block/HeroKnight_Block_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -510,9 +510,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Block/HeroKnight_Block_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_3.png
 
-#begin HeroKnight/Block/HeroKnight_Block_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -522,9 +522,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Block/HeroKnight_Block_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Block/HeroKnight_Block_4.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_0.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -534,9 +534,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_0.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_0.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_1.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -546,9 +546,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_1.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_1.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_2.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -558,9 +558,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_2.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_2.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_3.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -570,9 +570,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_3.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_3.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_4.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -582,9 +582,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_4.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_4.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_5.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -594,9 +594,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_5.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_5.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_6.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -606,9 +606,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_6.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_6.png
 
-#begin HeroKnight/BlockIdle/HeroKnight_Block Idle_7.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -618,9 +618,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockIdle/HeroKnight_Block Idle_7.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockIdle/HeroKnight_Block Idle_7.png
 
-#begin HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_0.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -630,9 +630,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_0.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_0.png
 
-#begin HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_1.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -642,9 +642,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_1.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_1.png
 
-#begin HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_2.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -654,9 +654,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_2.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_2.png
 
-#begin HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_3.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -666,9 +666,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_3.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_3.png
 
-#begin HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_4.png
+#begin SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -678,9 +678,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_4.png
+/build:SideScroller/KnightAssets/HeroKnight/BlockNoEffect/HeroKnight_BlockNoEffect_4.png
 
-#begin HeroKnight/Death/HeroKnight_Death_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -690,9 +690,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_0.png
 
-#begin HeroKnight/Death/HeroKnight_Death_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -702,9 +702,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_1.png
 
-#begin HeroKnight/Death/HeroKnight_Death_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -714,9 +714,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_2.png
 
-#begin HeroKnight/Death/HeroKnight_Death_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -726,9 +726,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_3.png
 
-#begin HeroKnight/Death/HeroKnight_Death_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -738,9 +738,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_4.png
 
-#begin HeroKnight/Death/HeroKnight_Death_5.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -750,9 +750,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_5.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_5.png
 
-#begin HeroKnight/Death/HeroKnight_Death_6.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -762,9 +762,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_6.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_6.png
 
-#begin HeroKnight/Death/HeroKnight_Death_7.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -774,9 +774,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_7.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_7.png
 
-#begin HeroKnight/Death/HeroKnight_Death_8.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_8.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -786,9 +786,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_8.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_8.png
 
-#begin HeroKnight/Death/HeroKnight_Death_9.png
+#begin SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_9.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -798,9 +798,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Death/HeroKnight_Death_9.png
+/build:SideScroller/KnightAssets/HeroKnight/Death/HeroKnight_Death_9.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_0.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -810,9 +810,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_0.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_0.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_1.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -822,9 +822,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_1.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_1.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_2.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -834,9 +834,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_2.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_2.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_3.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -846,9 +846,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_3.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_3.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_4.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -858,9 +858,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_4.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_4.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_5.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -870,9 +870,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_5.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_5.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_6.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -882,9 +882,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_6.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_6.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_7.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -894,9 +894,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_7.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_7.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_8.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_8.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -906,9 +906,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_8.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_8.png
 
-#begin HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_9.png
+#begin SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_9.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -918,9 +918,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_9.png
+/build:SideScroller/KnightAssets/HeroKnight/DeathNoBlood/HeroKnight_DeathNoBlood_9.png
 
-#begin HeroKnight/Fall/HeroKnight_Fall_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -930,9 +930,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Fall/HeroKnight_Fall_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_0.png
 
-#begin HeroKnight/Fall/HeroKnight_Fall_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -942,9 +942,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Fall/HeroKnight_Fall_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_1.png
 
-#begin HeroKnight/Fall/HeroKnight_Fall_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -954,9 +954,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Fall/HeroKnight_Fall_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_2.png
 
-#begin HeroKnight/Fall/HeroKnight_Fall_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -966,9 +966,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Fall/HeroKnight_Fall_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_3.png
 
-#begin HeroKnight/HeroKnight.png
+#begin SideScroller/KnightAssets/HeroKnight/HeroKnight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -978,9 +978,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/HeroKnight.png
+/build:SideScroller/KnightAssets/HeroKnight/HeroKnight.png
 
-#begin HeroKnight/HeroKnight_BlockNoEffect.png
+#begin SideScroller/KnightAssets/HeroKnight/HeroKnight_BlockNoEffect.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -990,9 +990,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/HeroKnight_BlockNoEffect.png
+/build:SideScroller/KnightAssets/HeroKnight/HeroKnight_BlockNoEffect.png
 
-#begin HeroKnight/HeroKnight_DeathNoBlood.png
+#begin SideScroller/KnightAssets/HeroKnight/HeroKnight_DeathNoBlood.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1002,9 +1002,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/HeroKnight_DeathNoBlood.png
+/build:SideScroller/KnightAssets/HeroKnight/HeroKnight_DeathNoBlood.png
 
-#begin HeroKnight/Hurt/HeroKnight_Hurt_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Hurt/HeroKnight_Hurt_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1014,9 +1014,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Hurt/HeroKnight_Hurt_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Hurt/HeroKnight_Hurt_0.png
 
-#begin HeroKnight/Hurt/HeroKnight_Hurt_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Hurt/HeroKnight_Hurt_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1026,9 +1026,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Hurt/HeroKnight_Hurt_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Hurt/HeroKnight_Hurt_1.png
 
-#begin HeroKnight/Hurt/HeroKnight_Hurt_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Hurt/HeroKnight_Hurt_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1038,9 +1038,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Hurt/HeroKnight_Hurt_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Hurt/HeroKnight_Hurt_2.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1050,9 +1050,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_0.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1062,9 +1062,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_1.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1074,9 +1074,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_2.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1086,9 +1086,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_3.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1098,9 +1098,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_4.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_5.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1110,9 +1110,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_5.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_5.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_6.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1122,9 +1122,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_6.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_6.png
 
-#begin HeroKnight/Idle/HeroKnight_Idle_7.png
+#begin SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1134,9 +1134,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Idle/HeroKnight_Idle_7.png
+/build:SideScroller/KnightAssets/HeroKnight/Idle/HeroKnight_Idle_7.png
 
-#begin HeroKnight/Jump/HeroKnight_Jump_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Jump/HeroKnight_Jump_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1146,9 +1146,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Jump/HeroKnight_Jump_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Jump/HeroKnight_Jump_0.png
 
-#begin HeroKnight/Jump/HeroKnight_Jump_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Jump/HeroKnight_Jump_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1158,9 +1158,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Jump/HeroKnight_Jump_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Jump/HeroKnight_Jump_1.png
 
-#begin HeroKnight/Jump/HeroKnight_Jump_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Jump/HeroKnight_Jump_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1170,9 +1170,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Jump/HeroKnight_Jump_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Jump/HeroKnight_Jump_2.png
 
-#begin HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_0.png
+#begin SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1182,9 +1182,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_0.png
+/build:SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_0.png
 
-#begin HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_1.png
+#begin SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1194,9 +1194,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_1.png
+/build:SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_1.png
 
-#begin HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_2.png
+#begin SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1206,9 +1206,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_2.png
+/build:SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_2.png
 
-#begin HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_3.png
+#begin SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1218,9 +1218,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_3.png
+/build:SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_3.png
 
-#begin HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_4.png
+#begin SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1230,9 +1230,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_4.png
+/build:SideScroller/KnightAssets/HeroKnight/LedgeGrab/HeroKnight_Grab Ledge_4.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1242,9 +1242,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_0.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1254,9 +1254,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_1.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1266,9 +1266,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_2.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1278,9 +1278,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_3.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1290,9 +1290,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_4.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_5.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1302,9 +1302,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_5.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_5.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_6.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1314,9 +1314,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_6.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_6.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_7.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1326,9 +1326,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_7.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_7.png
 
-#begin HeroKnight/Roll/HeroKnight_Roll_8.png
+#begin SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_8.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1338,9 +1338,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Roll/HeroKnight_Roll_8.png
+/build:SideScroller/KnightAssets/HeroKnight/Roll/HeroKnight_Roll_8.png
 
-#begin HeroKnight/Run/HeroKnight_Run_0.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1350,9 +1350,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_0.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_0.png
 
-#begin HeroKnight/Run/HeroKnight_Run_1.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1362,9 +1362,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_1.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_1.png
 
-#begin HeroKnight/Run/HeroKnight_Run_2.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1374,9 +1374,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_2.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_2.png
 
-#begin HeroKnight/Run/HeroKnight_Run_3.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1386,9 +1386,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_3.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_3.png
 
-#begin HeroKnight/Run/HeroKnight_Run_4.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1398,9 +1398,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_4.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_4.png
 
-#begin HeroKnight/Run/HeroKnight_Run_5.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1410,9 +1410,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_5.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_5.png
 
-#begin HeroKnight/Run/HeroKnight_Run_6.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1422,9 +1422,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_6.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_6.png
 
-#begin HeroKnight/Run/HeroKnight_Run_7.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_7.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1434,9 +1434,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_7.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_7.png
 
-#begin HeroKnight/Run/HeroKnight_Run_8.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_8.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1446,9 +1446,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_8.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_8.png
 
-#begin HeroKnight/Run/HeroKnight_Run_9.png
+#begin SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_9.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1458,9 +1458,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/Run/HeroKnight_Run_9.png
+/build:SideScroller/KnightAssets/HeroKnight/Run/HeroKnight_Run_9.png
 
-#begin HeroKnight/WallSlide/HeroKnight_Slide_0.png
+#begin SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1470,9 +1470,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/WallSlide/HeroKnight_Slide_0.png
+/build:SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_0.png
 
-#begin HeroKnight/WallSlide/HeroKnight_Slide_1.png
+#begin SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1482,9 +1482,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/WallSlide/HeroKnight_Slide_1.png
+/build:SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_1.png
 
-#begin HeroKnight/WallSlide/HeroKnight_Slide_2.png
+#begin SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1494,9 +1494,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/WallSlide/HeroKnight_Slide_2.png
+/build:SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_2.png
 
-#begin HeroKnight/WallSlide/HeroKnight_Slide_3.png
+#begin SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1506,9 +1506,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/WallSlide/HeroKnight_Slide_3.png
+/build:SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_3.png
 
-#begin HeroKnight/WallSlide/HeroKnight_Slide_4.png
+#begin SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1518,5 +1518,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/WallSlide/HeroKnight_Slide_4.png
+/build:SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_4.png
 

@@ -24,7 +24,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
         {
 
             List<Texture2D> knightIdle = new List<Texture2D>();
-            string folder = "HeroKnight/Idle/";
+            string folder = "SideScroller/KnightAssets/HeroKnight/Idle/";
             for (int i = 0; i <= 7; i++)
             {
                 Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Idle_" + i);
@@ -42,7 +42,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             SetIdleAnimationLeft(knightAnimationIdleRight);
 
             List<Texture2D> knightRun = new List<Texture2D>();
-            folder = "HeroKnight/Run/";
+            folder = "SideScroller/KnightAssets/HeroKnight/Run/";
             for (int i = 0; i <= 7; i++)
             {
                 Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Run_" + i);
@@ -59,7 +59,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             SetMoveLeftAnimation(knightRunLeftAnimation);
 
             List<Texture2D> knightJump = new List<Texture2D>();
-            folder = "HeroKnight/Jump/";
+            folder = "SideScroller/KnightAssets/HeroKnight/Jump/";
             for (int i = 0; i <= 2; i++)
             {
                 Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Jump_" + i);
