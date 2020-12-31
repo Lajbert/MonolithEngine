@@ -30,34 +30,23 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 
             animations = new AnimationStateMachine();
 
-            string folder = "SideScroller/KnightAssets/HeroKnight/Idle/";
+            string folder = "SideScroller/KnightAssets/HeroKnight/";
 
-            List<Texture2D> knightIdle = new List<Texture2D>();
-            
-            for (int i = 0; i <= 7; i++)
-            {
-                Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Idle_" + i);
-                knightIdle.Add(t);
-            }
+            List<Texture2D> knightIdle = SpriteUtil.LoadTextures(folder + "Idle/", "HeroKnight_Idle_", 7, content);
+
             AnimatedSpriteGroup knightAnimationIdleRight = new AnimatedSpriteGroup(knightIdle, this, spriteBatch, sourceRectangle, fps);
             knightAnimationIdleRight.SetScale(scale);
             knightAnimationIdleRight.SetOffset(spriteOffset);
             Func<bool> isIdleRight = () => IsIdle() && faceDirection == FaceDirection.RIGHT;
-            animations.RegisterStateAnimation("idleRight", knightAnimationIdleRight, isIdleRight);
+            animations.RegisterStateAnimation("IdleRight", knightAnimationIdleRight, isIdleRight);
 
             AnimatedSpriteGroup knightAnimationIdleLeft = new AnimatedSpriteGroup(knightIdle, this, spriteBatch, sourceRectangle, fps, SpriteEffects.FlipHorizontally);
             knightAnimationIdleLeft.SetScale(scale);
             knightAnimationIdleLeft.SetOffset(spriteOffset);
             Func<bool> isIdleLeft = () => IsIdle() && faceDirection == FaceDirection.LEFT;
-            animations.RegisterStateAnimation("idleRight", knightAnimationIdleLeft, isIdleLeft);
+            animations.RegisterStateAnimation("idleLeft", knightAnimationIdleLeft, isIdleLeft);
 
-            List<Texture2D> knightRun = new List<Texture2D>();
-            folder = "SideScroller/KnightAssets/HeroKnight/Run/";
-            for (int i = 0; i <= 7; i++)
-            {
-                Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Run_" + i);
-                knightRun.Add(t);
-            }
+            List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/", "HeroKnight_Run_", 7, content);
             AnimatedSpriteGroup knightRunRightAnimation = new AnimatedSpriteGroup(knightRun, this, spriteBatch, sourceRectangle, fps);
             knightRunRightAnimation.SetScale(scale);
             knightRunRightAnimation.SetOffset(spriteOffset);
@@ -70,24 +59,31 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             Func<bool> isRunningleft = () => direction.X < 0.5f;
             animations.RegisterStateAnimation("runLeft", knightRunLeftAnimation, isRunningleft);
             
-            List<Texture2D> knightJump = new List<Texture2D>();
-            folder = "SideScroller/KnightAssets/HeroKnight/Jump/";
-            for (int i = 0; i <= 2; i++)
-            {
-                Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Jump_" + i);
-                knightJump.Add(t);
-            }
+            List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/", "HeroKnight_Jump_", 2, content);
             AnimatedSpriteGroup knightJumpRightAnimation = new AnimatedSpriteGroup(knightJump, this, spriteBatch, sourceRectangle, fps);
             knightJumpRightAnimation.SetScale(scale);
             knightJumpRightAnimation.SetOffset(spriteOffset);
             Func<bool> isJumpingRight = () => jumpStart > 0f && faceDirection == FaceDirection.RIGHT;
-            animations.RegisterStateAnimation("jumpRight", knightJumpRightAnimation, isJumpingRight, 10);
+            animations.RegisterStateAnimation("jumpRight", knightJumpRightAnimation, isJumpingRight, 1);
 
             AnimatedSpriteGroup knightJumpLeftAnimation = new AnimatedSpriteGroup(knightJump, this, spriteBatch, sourceRectangle, fps, SpriteEffects.FlipHorizontally);
             knightJumpLeftAnimation.SetScale(scale);
             knightJumpLeftAnimation.SetOffset(spriteOffset);
             Func<bool> isJumpingLeft = () => jumpStart > 0f && faceDirection == FaceDirection.LEFT;
-            animations.RegisterStateAnimation("jumpLeft", knightJumpLeftAnimation, isJumpingLeft, 10);
+            animations.RegisterStateAnimation("jumpLeft", knightJumpLeftAnimation, isJumpingLeft, 1);
+
+            List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/", "HeroKnight_Fall_", 3, content);
+            AnimatedSpriteGroup knightFallRightAnimation = new AnimatedSpriteGroup(knightFall, this, spriteBatch, sourceRectangle, fps);
+            knightFallRightAnimation.SetScale(scale);
+            knightFallRightAnimation.SetOffset(spriteOffset);
+            Func<bool> isFallingRight = () => direction.Y > 0f && faceDirection == FaceDirection.RIGHT;
+            animations.RegisterStateAnimation("fallRight", knightFallRightAnimation, isFallingRight, 2);
+
+            AnimatedSpriteGroup knightFallLeftAnimation = new AnimatedSpriteGroup(knightFall, this, spriteBatch, sourceRectangle, fps, SpriteEffects.FlipHorizontally);
+            knightFallLeftAnimation.SetScale(scale);
+            knightFallLeftAnimation.SetOffset(spriteOffset);
+            Func<bool> isFallingLeftt = () => direction.Y > 0f && faceDirection == FaceDirection.LEFT;
+            animations.RegisterStateAnimation("fallLeft", knightFallLeftAnimation, isFallingLeftt, 2);
 
             //SetSprite(SpriteUtil.CreateRectangle(graphicsDevice, Constants.GRID, Color.Black));
 
