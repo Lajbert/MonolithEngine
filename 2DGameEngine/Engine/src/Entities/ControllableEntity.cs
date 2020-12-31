@@ -247,7 +247,7 @@ namespace GameEngine2D
 
 
             //currentPosition = new Vector2((float)(gridCoord.X + inCellLocation.X) * Constants.GRID, (float)(gridCoord.Y + inCellLocation.Y) * Constants.GRID);
-            currentPosition = (gridCoord + inCellLocation) * Constants.GRID;
+            //currentPosition = (gridCoord + inCellLocation) * Constants.GRID;
 
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));
@@ -259,6 +259,7 @@ namespace GameEngine2D
         {
             //currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
             //currentPosition.Y = (int)((gridCoord.Y + inCellLocation.Y) * Constants.GRID);
+            currentPosition = (gridCoord + inCellLocation) * Constants.GRID;
             base.PostUpdate(gameTime);
         }
 

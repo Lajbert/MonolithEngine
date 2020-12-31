@@ -95,7 +95,7 @@ namespace GameEngine2D.Entities
             {
                 o.PreDraw(gameTime);
                 o.Draw(gameTime);
-                o.PreDraw(gameTime);
+                o.PostDraw(gameTime);
             }
         }
 
@@ -105,7 +105,7 @@ namespace GameEngine2D.Entities
             {
                 o.PreUpdate(gameTime);
                 o.Update(gameTime);
-                o.PreUpdate(gameTime);
+                o.PostUpdate(gameTime);
             }
         }
     }
