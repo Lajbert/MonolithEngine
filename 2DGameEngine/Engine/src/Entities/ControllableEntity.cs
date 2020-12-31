@@ -110,7 +110,11 @@ namespace GameEngine2D
                 //moveX = -1;
                 //dx -= Constants.CHARACTER_SPEED * elapsedTime;
                 direction.X -= Constants.CHARACTER_SPEED * elapsedTime;
-                currentState = MoveState.MOVING_LEFT;
+                if (currentState != MoveState.JUMPING)
+                {
+                    currentState = MoveState.MOVING_LEFT;
+                }
+                
                 faceDirection = FaceDirection.LEFT;
             }
 
@@ -120,7 +124,10 @@ namespace GameEngine2D
                 //dx += Constants.CHARACTER_SPEED * elapsedTime;
                 direction.X += Constants.CHARACTER_SPEED * elapsedTime;
                 //currentAnimation = moveRightAnimation;
-                currentState = MoveState.MOVING_RIGHT;
+                if (currentState != MoveState.JUMPING) 
+                {
+                    currentState = MoveState.MOVING_RIGHT;
+                }
                 faceDirection = FaceDirection.RIGHT;
             }
 
