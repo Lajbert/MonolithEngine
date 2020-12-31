@@ -29,7 +29,7 @@ namespace GameEngine2D
 
         protected FaceDirection faceDirection = FaceDirection.RIGHT;
 
-        public ControllableEntity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, graphicsDevice, startPosition, font)
+        public ControllableEntity(GraphicsLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
             SetPosition(startPosition);
         }
@@ -147,11 +147,6 @@ namespace GameEngine2D
             spriteBatch.End();
 #endif
 
-            if (animationStates != null)
-            {
-                animationStates.Draw(gameTime);
-            }
-
             base.Draw(gameTime);
         }
 
@@ -256,11 +251,6 @@ namespace GameEngine2D
 
             //System.Diagnostics.Debug.WriteLine(position);
             //position = new Vector2((float)(cx + xr), (float)(cy + yr));
-
-            if (animationStates != null)
-            {
-                animationStates.Update(gameTime);
-            }
 
             base.Update(gameTime);
         }

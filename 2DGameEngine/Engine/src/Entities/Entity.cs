@@ -12,6 +12,7 @@ using GameEngine2D.src.Util;
 using GameEngine2D.src.Layer;
 using GameEngine2D.src.Entities.Animation;
 using GameEngine2D.Engine.src.Entities.Animations;
+using GameEngine2D.GameExamples2D.SideScroller.src;
 
 namespace GameEngine2D.Entities
 {
@@ -28,18 +29,6 @@ namespace GameEngine2D.Entities
         private Entity parent;
         private bool hasCollision;
         protected GraphicsLayer layer;
-
-        /*protected AbstractAnimation currentAnimation = null;
-        protected AbstractAnimation idleAnimationLeft = null;
-        protected AbstractAnimation idleAnimationRight = null;
-        protected AbstractAnimation idleAnimationUp = null;
-        protected AbstractAnimation idleAnimationDown = null;
-        protected AbstractAnimation moveLeftAnimation = null;
-        protected AbstractAnimation moveRightAnimation = null;
-        protected AbstractAnimation moveUpAnimation = null;
-        protected AbstractAnimation moveDownAnimation = null;
-        protected AbstractAnimation jumpLeftAnimation = null;
-        protected AbstractAnimation jumpRightAnimation = null;*/
 
 #if GRAPHICS_DEBUG
         private Texture2D pivot;
@@ -62,13 +51,10 @@ namespace GameEngine2D.Entities
 
         protected AnimationStateMachine animationStates;
 
-        public Entity(GraphicsLayer layer, Entity parent, GraphicsDevice graphicsDevice, Vector2 startPosition, SpriteFont font = null)
+        public Entity(GraphicsLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
         {
             this.layer = layer;
-            if (graphicsDevice != null)
-            {
-                spriteBatch = new SpriteBatch(graphicsDevice);
-            }
+            spriteBatch = new SpriteBatch(SideScrollerGame.graphics.GraphicsDevice);
             gridCoord = CalculateGridCoord(startPosition);
             this.children = new HashSet<Entity>();
             this.updatables = new HashSet<IUpdatable>();
@@ -87,16 +73,16 @@ namespace GameEngine2D.Entities
             //this.startPosition = this.currentPosition = startPosition;
 
 #if GRAPHICS_DEBUG
-            pivot = CreateCircle(graphicsDevice, Constants.PIVOT_DIAM);
+            pivot = CreateCircle(Constants.PIVOT_DIAM);
             this.font = font;
 #endif
             layer.AddObject(this);
         }
 
 #if GRAPHICS_DEBUG
-        Texture2D CreateCircle(GraphicsDevice graphicsDevice, int radius)
+        Texture2D CreateCircle(int radius)
         {
-            Texture2D texture = new Texture2D(graphicsDevice, radius, radius);
+            Texture2D texture = new Texture2D(SideScrollerGame.graphics.GraphicsDevice, radius, radius);
             Color[] colorData = new Color[radius * radius];
 
             float diam = radius / 2f;
@@ -136,7 +122,6 @@ namespace GameEngine2D.Entities
 
         public virtual void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
             //Rectangle sourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
             //private Vector2 origin = new Vector2(-16f, 0f);
             Vector2 pos;
@@ -161,12 +146,19 @@ namespace GameEngine2D.Entities
             {
                 spriteBatch.Draw(sprite, pos, Color.White);
             }*/
-
+            if (animationStates != null)
+            {
+                animationStates.Draw(gameTime);
+            }
+            else
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(sprite, pos, Color.White);
+                spriteBatch.End();
+            }
 #if GRAPHICS_DEBUG
+            spriteBatch.Begin();
             spriteBatch.Draw(pivot, pos, Color.White);
-#endif
-
-#if GRAPHICS_DEBUG
             if (font != null)
             {
                 if (GetParent() != null)
@@ -178,9 +170,8 @@ namespace GameEngine2D.Entities
                 }
                 
             }
-#endif
-
             spriteBatch.End();
+#endif
 
             foreach (Interfaces.IDrawable child in drawables)
             {
@@ -213,10 +204,10 @@ namespace GameEngine2D.Entities
         public virtual void Update(GameTime gameTime)
         {
 
-            /*if (currentAnimation != null)
+            if (animationStates != null)
             {
-                currentAnimation.Update(gameTime);
-            }*/
+                animationStates.Update(gameTime);
+            }
 
             foreach (IUpdatable child in updatables)
             {
@@ -304,7 +295,7 @@ namespace GameEngine2D.Entities
             }*/
         }
 
-                public void SetSprite(Texture2D texture)
+        public void SetSprite(Texture2D texture)
         {
             this.sprite = texture;
         }
