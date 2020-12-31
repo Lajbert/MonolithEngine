@@ -142,10 +142,6 @@ namespace GameEngine2D.Entities
                 pos = currentPosition + layer.GetPosition();
             }
 
-#if GRAPHICS_DEBUG
-            spriteBatch.Draw(pivot, pos, Color.White);
-#endif
-
             //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
             //if (this is ControllableEntity)
             //    spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_DRAW_OFFSET, -Constants.SPRITE_DRAW_OFFSET) * Constants.GRID), Color.White);
@@ -158,6 +154,10 @@ namespace GameEngine2D.Entities
             {
                 spriteBatch.Draw(sprite, pos, Color.White);
             }
+
+#if GRAPHICS_DEBUG
+            spriteBatch.Draw(pivot, pos, Color.White);
+#endif
 
 #if GRAPHICS_DEBUG
             if (font != null)

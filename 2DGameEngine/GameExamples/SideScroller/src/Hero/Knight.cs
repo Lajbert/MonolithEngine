@@ -15,8 +15,14 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 {
     class Knight : ControllableEntity
     {
-        public Knight(GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font) : base(Scene.Instance.GetEntityLayer(), null, graphicsDevice.GraphicsDevice, position, font)
+
+        private float scale = 1.5f;
+        private Rectangle sourceRectangle = new Rectangle(0, 0, 100, 55);
+        private Vector2 spriteOffset = new Vector2(70f, 15f) * -1;
+        private int fps = 30;
+        public Knight(GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font = null) : base(Scene.Instance.GetEntityLayer(), null, graphicsDevice.GraphicsDevice, position, font)
         {
+
             List<Texture2D> knightIdle = new List<Texture2D>();
             string folder = "HeroKnight/Idle/";
             for (int i = 0; i <= 7; i++)
@@ -25,14 +31,14 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
                 knightIdle.Add(t);
             }
             //knight = new ControllableEntity(Scene.Instance.GetEntityLayer(), null, graphicsDevice.GraphicsDevice, new Vector2(5, 5) * Constants.GRID, font);
-            AnimatedSpriteGroup knightAnimationIdleLeft = new AnimatedSpriteGroup(knightIdle, this, spriteBatch, 30);
-            knightAnimationIdleLeft.SetScale(1.5f);
-            knightAnimationIdleLeft.SetOffset(new Vector2(70f, 15f) * -1);
+            AnimatedSpriteGroup knightAnimationIdleLeft = new AnimatedSpriteGroup(knightIdle, this, spriteBatch, sourceRectangle, fps);
+            knightAnimationIdleLeft.SetScale(scale);
+            knightAnimationIdleLeft.SetOffset(spriteOffset);
             SetIdleAnimationRight(knightAnimationIdleLeft);
 
-            AnimatedSpriteGroup knightAnimationIdleRight = new AnimatedSpriteGroup(knightIdle, this, spriteBatch, 30, SpriteEffects.FlipHorizontally);
-            knightAnimationIdleRight.SetScale(1.5f);
-            knightAnimationIdleRight.SetOffset(new Vector2(70f, 15f) * -1);
+            AnimatedSpriteGroup knightAnimationIdleRight = new AnimatedSpriteGroup(knightIdle, this, spriteBatch, sourceRectangle, fps, SpriteEffects.FlipHorizontally);
+            knightAnimationIdleRight.SetScale(scale);
+            knightAnimationIdleRight.SetOffset(spriteOffset);
             SetIdleAnimationLeft(knightAnimationIdleRight);
 
             List<Texture2D> knightRun = new List<Texture2D>();
@@ -42,14 +48,14 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
                 Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Run_" + i);
                 knightRun.Add(t);
             }
-            AnimatedSpriteGroup knightRunRightAnimation = new AnimatedSpriteGroup(knightRun, this, spriteBatch, 30);
-            knightRunRightAnimation.SetScale(1.5f);
-            knightRunRightAnimation.SetOffset(new Vector2(70f, 15f) * -1);
+            AnimatedSpriteGroup knightRunRightAnimation = new AnimatedSpriteGroup(knightRun, this, spriteBatch, sourceRectangle, fps);
+            knightRunRightAnimation.SetScale(scale);
+            knightRunRightAnimation.SetOffset(spriteOffset);
             SetMoveRightAnimation(knightRunRightAnimation);
 
-            AnimatedSpriteGroup knightRunLeftAnimation = new AnimatedSpriteGroup(knightRun, this, spriteBatch, 30, SpriteEffects.FlipHorizontally);
-            knightRunLeftAnimation.SetScale(1.5f);
-            knightRunLeftAnimation.SetOffset(new Vector2(70f, 15f) * -1);
+            AnimatedSpriteGroup knightRunLeftAnimation = new AnimatedSpriteGroup(knightRun, this, spriteBatch, sourceRectangle, fps, SpriteEffects.FlipHorizontally);
+            knightRunLeftAnimation.SetScale(scale);
+            knightRunLeftAnimation.SetOffset(spriteOffset);
             SetMoveLeftAnimation(knightRunLeftAnimation);
 
             List<Texture2D> knightJump = new List<Texture2D>();
@@ -59,15 +65,17 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
                 Texture2D t = content.Load<Texture2D>(folder + "HeroKnight_Jump_" + i);
                 knightJump.Add(t);
             }
-            AnimatedSpriteGroup knightJumpRightAnimation = new AnimatedSpriteGroup(knightJump, this, spriteBatch, 30);
-            knightJumpRightAnimation.SetScale(1.5f);
-            knightJumpRightAnimation.SetOffset(new Vector2(70f, 15f) * -1);
+            AnimatedSpriteGroup knightJumpRightAnimation = new AnimatedSpriteGroup(knightJump, this, spriteBatch, sourceRectangle, fps);
+            knightJumpRightAnimation.SetScale(scale);
+            knightJumpRightAnimation.SetOffset(spriteOffset);
             SetJumpRightAnimation(knightJumpRightAnimation);
 
-            AnimatedSpriteGroup knightJumpLeftAnimation = new AnimatedSpriteGroup(knightJump, this, spriteBatch, 30, SpriteEffects.FlipHorizontally);
-            knightJumpLeftAnimation.SetScale(1.5f);
-            knightJumpLeftAnimation.SetOffset(new Vector2(70f, 15f) * -1);
+            AnimatedSpriteGroup knightJumpLeftAnimation = new AnimatedSpriteGroup(knightJump, this, spriteBatch, sourceRectangle, fps, SpriteEffects.FlipHorizontally);
+            knightJumpLeftAnimation.SetScale(scale);
+            knightJumpLeftAnimation.SetOffset(spriteOffset);
             SetJumpLeftAnimation(knightJumpLeftAnimation);
+
+            SetSprite(SpriteUtil.CreateRectangle(graphicsDevice, Constants.GRID, Color.Black));
         }
     }
 }

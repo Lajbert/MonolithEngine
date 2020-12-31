@@ -20,14 +20,16 @@ namespace GameEngine2D.src.Entities.Animation
         protected float scale = 0f;
         protected Vector2 offset = Vector2.Zero;
         protected SpriteEffects spriteEffect;
+        protected Rectangle sourceRectangle;
 
-        public AbstractAnimation(SpriteBatch spriteBatch, Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None)
+        public AbstractAnimation(SpriteBatch spriteBatch, Rectangle sourceRectangle, Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None)
         {
             this.spriteBatch = spriteBatch;
             this.parent = parent;
             currentFrame = 0;
             this.totalFrames = totalFrames;
             this.spriteEffect = spriteEffect;
+            this.sourceRectangle = sourceRectangle;
             if (framerate != 0)
             {
                 delay = TimeSpan.FromSeconds(1).TotalMilliseconds / framerate;
