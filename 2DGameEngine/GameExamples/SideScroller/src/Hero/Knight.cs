@@ -26,14 +26,14 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 
         private AnimationStateMachine animations;
 
-        public Knight(Vector2 position, SpriteFont font = null) : base(Scene.Instance.GetEntityLayer(), null, position, font)
+        public Knight(ContentManager contentManager, Vector2 position, SpriteFont font = null) : base(Scene.Instance.GetEntityLayer(), null, position, font)
         {
 
             animations = new AnimationStateMachine();
 
             string folder = "SideScroller/KnightAssets/HeroKnight/";
 
-            List<Texture2D> knightIdle = SpriteUtil.LoadTextures(folder + "Idle/HeroKnight_Idle_", 7, SideScrollerGame.contentManager);
+            List<Texture2D> knightIdle = SpriteUtil.LoadTextures(folder + "Idle/HeroKnight_Idle_", 7, contentManager);
 
             AnimatedSpriteGroup knightAnimationIdleRight = new AnimatedSpriteGroup(knightIdle, this, spriteBatch, sourceRectangle, fps);
             knightAnimationIdleRight.SetScale(scale);
@@ -47,7 +47,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             Func<bool> isIdleLeft = () => IsIdle() && faceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("IdleLeft", knightAnimationIdleLeft, isIdleLeft);
 
-            List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/HeroKnight_Run_", 7, SideScrollerGame.contentManager);
+            List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/HeroKnight_Run_", 7, contentManager);
             AnimatedSpriteGroup knightRunRightAnimation = new AnimatedSpriteGroup(knightRun, this, spriteBatch, sourceRectangle, fps);
             knightRunRightAnimation.SetScale(scale);
             knightRunRightAnimation.SetOffset(spriteOffset);
@@ -60,7 +60,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             Func<bool> isRunningleft = () => direction.X < 0.5f;
             animations.RegisterAnimation("RunLeft", knightRunLeftAnimation, isRunningleft);
             
-            List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2, SideScrollerGame.contentManager);
+            List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2, contentManager);
             AnimatedSpriteGroup knightJumpRightAnimation = new AnimatedSpriteGroup(knightJump, this, spriteBatch, sourceRectangle, fps);
             knightJumpRightAnimation.SetScale(scale);
             knightJumpRightAnimation.SetOffset(spriteOffset);
@@ -73,7 +73,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             Func<bool> isJumpingLeft = () => jumpStart > 0f && faceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("JumpLeft", knightJumpLeftAnimation, isJumpingLeft, 1);
 
-            List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/HeroKnight_Fall_", 3, SideScrollerGame.contentManager);
+            List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/HeroKnight_Fall_", 3, contentManager);
             AnimatedSpriteGroup knightFallRightAnimation = new AnimatedSpriteGroup(knightFall, this, spriteBatch, sourceRectangle, fps);
             knightFallRightAnimation.SetScale(scale);
             knightFallRightAnimation.SetOffset(spriteOffset);
@@ -90,5 +90,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 
             SetAnimationStateMachime(animations);
         }
+
+
     }
 }

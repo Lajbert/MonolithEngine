@@ -1,4 +1,5 @@
 ﻿using System;
+using GameEngine2D.GameExamples.TopDown.src;
 using GameEngine2D.GameExamples2D.SideScroller.src;
 namespace GameEngine2D
 {
@@ -7,7 +8,7 @@ namespace GameEngine2D
         [STAThread]
         static void Main()
         {
-            using (var game = new SideScrollerGame())
+            using (var game = new TopDownGame())
                 game.Run();
         }
     }

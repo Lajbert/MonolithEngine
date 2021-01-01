@@ -10,7 +10,7 @@ namespace GameEngine2D.src.Util
     {
         public static float GetElapsedTime(GameTime gameTime)
         {
-            return (float)gameTime.ElapsedGameTime.TotalSeconds * Constants.TIME_OFFSET;
+            return (float)gameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
         }
     }
 }

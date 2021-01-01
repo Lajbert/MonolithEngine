@@ -29,10 +29,10 @@ namespace GameEngine2D.src.Camera
 		public float targetTrackOffY = 0f;
 		public float zoom = 1f;
 
-		float gameMeW = Constants.RES_W;
-		float gameMeH = Constants.RES_H;
-		float levelGridCountW = (float)Math.Floor((decimal)Constants.RES_W);
-		float levelGridCountH = (float)Math.Floor((decimal)Constants.RES_H);
+		float gameMeW = Config.RES_W;
+		float gameMeH = Config.RES_H;
+		float levelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
+		float levelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
 
 		private float shakePower = 1.5f;
 
@@ -102,7 +102,7 @@ namespace GameEngine2D.src.Camera
 
 		public void update(GameTime gameTime)
 		{
-			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Constants.CAMERA_TIME_MULTIPLIER;
+			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Config.CAMERA_TIME_MULTIPLIER;
 			// Follow target entity
 			if (target != null)
 			{
@@ -110,11 +110,11 @@ namespace GameEngine2D.src.Camera
 				float ty = target.GetPosition().Y + targetTrackOffY;
 
 				float d = dist(position.X, position.Y, tx, ty);
-				if (d >= Constants.CAMERA_DEADZONE)
+				if (d >= Config.CAMERA_DEADZONE)
 				{
 					float a = (float)Math.Atan2(ty - position.Y, tx - position.X);
-					direction.X += (float)Math.Cos(a) * (d - Constants.CAMERA_DEADZONE) * Constants.CAMERA_FOLLOW_DELAY * elapsedTime;
-					direction.Y += (float)Math.Sin(a) * (d - Constants.CAMERA_DEADZONE) * Constants.CAMERA_FOLLOW_DELAY * elapsedTime;
+					direction.X += (float)Math.Cos(a) * (d - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+					direction.Y += (float)Math.Sin(a) * (d - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 				}
 			}
 
@@ -147,22 +147,22 @@ namespace GameEngine2D.src.Camera
 				root = RootContainer.Instance;
 
 				// Update scroller
-				if (get_wid() / zoom < levelGridCountW * Constants.GRID)
+				if (get_wid() / zoom < levelGridCountW * Config.GRID)
 					root.X = (float)(-position.X * zoom + get_wid() * 0.5);
 				else
-					root.X = (float)(get_wid() * 0.5 / zoom - levelGridCountW * 0.5 * Constants.GRID);
+					root.X = (float)(get_wid() * 0.5 / zoom - levelGridCountW * 0.5 * Config.GRID);
 
-				if (get_hei() / zoom < levelGridCountH * Constants.GRID)
+				if (get_hei() / zoom < levelGridCountH * Config.GRID)
 					root.Y = (float)(-position.Y * zoom + get_hei() * 0.5);
 				else
-					root.Y = (float)(get_hei() * 0.5 / zoom - levelGridCountH * 0.5 * Constants.GRID);
+					root.Y = (float)(get_hei() * 0.5 / zoom - levelGridCountH * 0.5 * Config.GRID);
 
 				// Clamp
-				float pad = Constants.GRID * 2;
-				if (get_wid() < levelGridCountW * Constants.GRID * zoom)
-					root.X = fclamp(root.X, get_wid() - levelGridCountW * Constants.GRID * zoom + pad, -pad);
-				if (get_hei() < levelGridCountH * Constants.GRID * zoom)
-					root.Y = fclamp(root.Y, get_hei() - levelGridCountH * Constants.GRID * zoom + pad, -pad);
+				float pad = Config.GRID * 2;
+				if (get_wid() < levelGridCountW * Config.GRID * zoom)
+					root.X = fclamp(root.X, get_wid() - levelGridCountW * Config.GRID * zoom + pad, -pad);
+				if (get_hei() < levelGridCountH * Config.GRID * zoom)
+					root.Y = fclamp(root.Y, get_hei() - levelGridCountH * Config.GRID * zoom + pad, -pad);
 
 				// Bumps friction
 				bumpOffX *= (float)Math.Pow(0.75, tmod);

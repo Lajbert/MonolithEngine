@@ -20,8 +20,8 @@ namespace GameEngine2D.src.Entities.Animation
         public override void Play()
         {
             Texture2D texture = textures[currentFrame];
-            int width = Constants.GRID;
-            int height = Constants.GRID;
+            int width = Config.GRID;
+            int height = Config.GRID;
             //Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, width, height);
 
             //spriteBatch.Begin();

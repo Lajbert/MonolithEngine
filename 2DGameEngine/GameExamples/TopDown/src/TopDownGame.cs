@@ -1,6 +1,9 @@
-﻿using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.src.Graphics.Primitives;
+using GameEngine2D.Engine.src.Physics.Raycast;
+using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.src.Hero;
+using GameEngine2D.GameExamples.TopDown.src.Hero;
 using GameEngine2D.Global;
 using GameEngine2D.src;
 using GameEngine2D.src.Camera;
@@ -15,9 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.GameExamples2D.SideScroller.src
+namespace GameEngine2D.GameExamples.TopDown.src
 {
-    public class SideScrollerGame : Game
+    class TopDownGame : Game
     {
         private GraphicsDeviceManager graphics;
         private ContentManager contentManager;
@@ -29,8 +32,11 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
         private float sin;
         private MapSerializer mapSerializer;
         private float elapsedTime = 0;
+        private SpriteBatch spriteBatch;
+        private Ray2D ray;
+        private Line line;
 
-        public SideScrollerGame()
+        public TopDownGame()
         {
             // >>>>>>> set framerate >>>>>>>>>>
             this.IsFixedTimeStep = true;//false;
@@ -48,6 +54,8 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             //this.IsFixedTimeStep = false;
             mapSerializer = new LDTKJsonMapSerializer();
             contentManager = Content;
+
+            Config.GRAVITY_ON = false;
         }
 
         protected override void Initialize()
@@ -59,6 +67,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
 
         protected override void LoadContent()
         {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
             /*Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
@@ -70,8 +79,10 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             graphics.ApplyChanges();
             CreateLevel();
             //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
-            Knight knight = new Knight(Content, new Vector2(5, 5) * Config.GRID, font);
-            camera.trackTarget(knight, true);
+            CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
+            camera.trackTarget(cube, true);
+            line = new Line(Scene.Instance.GetEntityLayer(), null, new Vector2(100, 100), 45, 1000, Color.Red);
+            ray = new Ray2D(new Vector2(200, 100), 45);
         }
 
         private void CreateLevel()
@@ -79,9 +90,9 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
 
 
 
-            for (int i = 2; i <= 300; i++)
+            /*for (int i = 2; i <= 300; i++)
             {
-                Entity level = new Entity(Scene.Instance.GetColliderLayer(), null, new Vector2(i * Config.GRID, 25 * Config.GRID), font);
+                Entity level = new Entity(graphics, Scene.Instance.GetColliderLayer(), null, new Vector2(i * Config.GRID, 25 * Config.GRID), font);
                 level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
             }
 
@@ -94,7 +105,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
                 {
                     for (int j = 22; j < 25; j++)
                     {
-                        Entity level = new Entity(Scene.Instance.GetScrollableLayer(1), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
+                        Entity level = new Entity(graphics, Scene.Instance.GetScrollableLayer(1), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
                         level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Brown));
                     }
                 }
@@ -107,7 +118,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
                 {
                     for (int j = 18; j < 25; j++)
                     {
-                        Entity level = new Entity(Scene.Instance.GetScrollableLayer(0), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
+                        Entity level = new Entity(graphics, Scene.Instance.GetScrollableLayer(0), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
                         level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
                     }
                 }
@@ -117,15 +128,17 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             {
                 for (int j = i; j <= i + 5; j++)
                 {
-                    Entity level = new Entity(Scene.Instance.GetColliderLayer(), null, new Vector2(j * Config.GRID, 20 * Config.GRID), font);
+                    Entity level = new Entity(graphics, Scene.Instance.GetColliderLayer(), null, new Vector2(j * Config.GRID, 20 * Config.GRID), font);
                     level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
                 }
 
-            }
+            }*/
             /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();
             foreach (Vector2 coord in collisions) {
-                new Entity(Scene.Instance.GetColliderLayer(), null , graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), coord * Constants.GRID, font);
+                Entity e =  new Entity(graphics, Scene.Instance.GetColliderLayer(), null , coord * Config.GRID, font);
+                e.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
+
             }*/
             /*
             for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
@@ -187,7 +200,9 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             GraphicsDevice.Clear(Color.Lerp(background1, background2, sin));
             */
 
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.Black);
+
+            ray.Cast(line);
 
             // TODO: Add your drawing code here
             RootContainer.Instance.DrawAll(gameTime);

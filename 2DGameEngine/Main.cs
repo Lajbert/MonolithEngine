@@ -22,10 +22,10 @@ namespace GameEngine2D
         {
             // >>>>>>> set framerate >>>>>>>>>>
             this.IsFixedTimeStep = true;//false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Constants.FPS); //60);
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = Constants.FULLSCREEN;
+            graphics.IsFullScreen = Config.FULLSCREEN;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -38,8 +38,8 @@ namespace GameEngine2D
 
         protected override void LoadContent()
         {
-            graphics.PreferredBackBufferWidth = Constants.RES_W;
-            graphics.PreferredBackBufferHeight = Constants.RES_H;
+            graphics.PreferredBackBufferWidth = Config.RES_W;
+            graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
         }
             

@@ -51,10 +51,12 @@ namespace GameEngine2D.Entities
 
         protected AnimationStateMachine animationStates;
 
+        protected static GraphicsDeviceManager graphicsDeviceManager;
+
         public Entity(GraphicsLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
         {
             this.layer = layer;
-            spriteBatch = new SpriteBatch(SideScrollerGame.graphics.GraphicsDevice);
+            spriteBatch = new SpriteBatch(graphicsDeviceManager.GraphicsDevice);
             gridCoord = CalculateGridCoord(startPosition);
             this.children = new HashSet<Entity>();
             this.updatables = new HashSet<IUpdatable>();
@@ -73,7 +75,7 @@ namespace GameEngine2D.Entities
             //this.startPosition = this.currentPosition = startPosition;
 
 #if GRAPHICS_DEBUG
-            pivot = CreateCircle(Constants.PIVOT_DIAM);
+            pivot = CreateCircle(Config.PIVOT_DIAM);
             this.font = font;
 #endif
             layer.AddObject(this);
@@ -82,7 +84,7 @@ namespace GameEngine2D.Entities
 #if GRAPHICS_DEBUG
         Texture2D CreateCircle(int radius)
         {
-            Texture2D texture = new Texture2D(SideScrollerGame.graphics.GraphicsDevice, radius, radius);
+            Texture2D texture = new Texture2D(graphicsDevice, radius, radius);
             Color[] colorData = new Color[radius * radius];
 
             float diam = radius / 2f;
@@ -124,14 +126,14 @@ namespace GameEngine2D.Entities
         {
             //Rectangle sourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
             //private Vector2 origin = new Vector2(-16f, 0f);
-            Vector2 pos;
+            Vector2 position;
             if (GetParent() != null)
             {
-                pos = startPosition + GetParent().GetPositionWithParent();
+                position = startPosition + GetParent().GetPositionWithParent();
             } else
             {
                 
-                pos = currentPosition + layer.GetPosition();
+                position = currentPosition + layer.GetPosition();
             }
 
             //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
@@ -152,9 +154,7 @@ namespace GameEngine2D.Entities
             }
             else
             {
-                spriteBatch.Begin();
-                spriteBatch.Draw(sprite, pos, Color.White);
-                spriteBatch.End();
+                DrawSprite(position);
             }
 #if GRAPHICS_DEBUG
             spriteBatch.Begin();
@@ -179,6 +179,13 @@ namespace GameEngine2D.Entities
             }
         }
 
+
+        protected virtual void DrawSprite(Vector2 position)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(sprite, position, Color.White);
+            spriteBatch.End();
+        }
         public bool IsIdle()
         {
             return MathUtil.SmallerEqualAbs(direction, new Vector2(0.5f, 0.5f));
@@ -337,7 +344,7 @@ namespace GameEngine2D.Entities
 
         protected Vector2 CalculateGridCoord(Vector2 position)
         {
-            return new Vector2((int)Math.Floor(position.X / Constants.GRID), (int)Math.Floor(position.Y / Constants.GRID));
+            return new Vector2((int)Math.Floor(position.X / Config.GRID), (int)Math.Floor(position.Y / Config.GRID));
         }
 
         public Vector2 GetGridCoord()
@@ -406,6 +413,11 @@ namespace GameEngine2D.Entities
         public void SetAnimationStateMachime(AnimationStateMachine animationStates)
         {
             this.animationStates = animationStates;
+        }
+
+        public static void SetGraphicsDeviceManager(GraphicsDeviceManager graphics)
+        {
+            graphicsDeviceManager = graphics;
         }
     }
 }
