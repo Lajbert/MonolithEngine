@@ -34,16 +34,21 @@ namespace GameEngine2D.GameExamples.TopDown.src
         private MapSerializer mapSerializer;
         private float elapsedTime = 0;
         private SpriteBatch spriteBatch;
-        private Ray2D ray;
+        //private Ray2D ray;
+        //private Circle marker;
         private Line line;
+        private Line line2;
+        private Line line3;
+        private Line line4;
+        private Line line5;
         private Vector2 intersection = Vector2.Zero;
-        private bool added = false;
+        private FrameCounter frameCounter;
 
         public TopDownGame()
         {
             // >>>>>>> set framerate >>>>>>>>>>
-            this.IsFixedTimeStep = true;//false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+            //this.IsFixedTimeStep = true;//false;
+            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = Config.FULLSCREEN;
@@ -52,11 +57,15 @@ namespace GameEngine2D.GameExamples.TopDown.src
             random = new Random();
             background1 = GetRandomColor();
             background2 = GetRandomColor();
+
             // uncapped framerate
-            //graphics.SynchronizeWithVerticalRetrace = false;
-            //this.IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            this.IsFixedTimeStep = false;
+
             mapSerializer = new LDTKJsonMapSerializer();
             contentManager = Content;
+
+            frameCounter = new FrameCounter();
 
             Config.GRAVITY_ON = false;
         }
@@ -84,92 +93,27 @@ namespace GameEngine2D.GameExamples.TopDown.src
             //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(cube, true);
-            line = new Line(Scene.Instance.GetEntityLayer(), null, new Vector2(200, 500), MathUtil.DegreesToRad(45), 1000, Color.Red);
-            Line l2 = new Line(Scene.Instance.GetBackgroundLayer(), null, new Vector2(600, 600), new Vector2(807.10675f, 807.10675f), Color.Yellow);
-            ray = new Ray2D(new Vector2(300, 300), MathUtil.DegreesToRad(90));
-            new Circle(Scene.Instance.GetBackgroundLayer(), null, new Vector2(300, 300), 10, Color.White);
-            new Circle(Scene.Instance.GetBackgroundLayer(), null, new Vector2(200, 500), 10, Color.White);
+            line = new Line(null, new Vector2(200, 500), MathUtil.DegreesToRad(45), 1000, Color.White);
+            line2 = new Line(null, new Vector2(500, 300), MathUtil.DegreesToRad(90), 100, Color.White);
+            line3 = new Line(null, new Vector2(400, 700), MathUtil.DegreesToRad(126), 200, Color.White);
+            line4 = new Line(null, new Vector2(700, 900), MathUtil.DegreesToRad(56), 500, Color.White);
+            line5 = new Line(null, new Vector2(600, 600), new Vector2(807.10675f, 807.10675f), Color.White);
+            //ray = new Ray2D(new Vector2(300, 300) + Scene.Instance.GetEntityLayer().GetPosition(), MathUtil.DegreesToRad(90));
+            //marker = new Circle(null, new Vector2(300, 300), 10, Color.Green);
+            new Circle(null, new Vector2(300, 300), 10, Color.White);
+            new Circle(null, new Vector2(200, 500), 10, Color.White);
+            Ray2DEmitter emitter = new Ray2DEmitter(cube);
         }
 
         private void CreateLevel()
         {
 
-
-
-            /*for (int i = 2; i <= 300; i++)
-            {
-                Entity level = new Entity(graphics, Scene.Instance.GetColliderLayer(), null, new Vector2(i * Config.GRID, 25 * Config.GRID), font);
-                level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
-            }
-
-            Scene.Instance.AddScrollableLayer(0.7f, true);
-            Scene.Instance.AddScrollableLayer(0.5f, true);
-
-            for (int i = 3; i <= 300; i++)
-            {
-                if (i % 15 == 0)
-                {
-                    for (int j = 22; j < 25; j++)
-                    {
-                        Entity level = new Entity(graphics, Scene.Instance.GetScrollableLayer(1), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
-                        level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Brown));
-                    }
-                }
-
-            }
-
-            for (int i = 3; i <= 300; i++)
-            {
-                if (i % 20 == 0)
-                {
-                    for (int j = 18; j < 25; j++)
-                    {
-                        Entity level = new Entity(graphics, Scene.Instance.GetScrollableLayer(0), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
-                        level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
-                    }
-                }
-            }
-
-            for (int i = 2; i <= 300; i += 20)
-            {
-                for (int j = i; j <= i + 5; j++)
-                {
-                    Entity level = new Entity(graphics, Scene.Instance.GetColliderLayer(), null, new Vector2(j * Config.GRID, 20 * Config.GRID), font);
-                    level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
-                }
-
-            }*/
             /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();
             foreach (Vector2 coord in collisions) {
                 Entity e =  new Entity(graphics, Scene.Instance.GetColliderLayer(), null , coord * Config.GRID, font);
                 e.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
 
-            }*/
-            /*
-            for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 17 * Constants.GRID), font);
-            }
-
-            for (int i = 16 * Constants.GRID; i < 27 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 15 * Constants.GRID), font);
-            }
-
-            for (int i = 2 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 20 * Constants.GRID), font);
-            }
-
-            for (int i = 9 * Constants.GRID; i < 10 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
-            }
-
-            for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
             }*/
         }
 
@@ -182,6 +126,11 @@ namespace GameEngine2D.GameExamples.TopDown.src
             RootContainer.Instance.UpdateAll(gameTime);
             camera.update(gameTime);
             camera.postUpdate(gameTime);
+            line.SetRayBlockers();
+            line2.SetRayBlockers();
+            line3.SetRayBlockers();
+            line4.SetRayBlockers();
+            line5.SetRayBlockers();
             base.Update(gameTime);
         }
 
@@ -192,6 +141,14 @@ namespace GameEngine2D.GameExamples.TopDown.src
 
         protected override void Draw(GameTime gameTime)
         {
+
+            MouseState ms = Mouse.GetState();
+            if (ms.LeftButton == ButtonState.Pressed)
+            {
+                //Logger.Log("Mouse x,y: " + ms.X + " " + ms.Y);
+                //Logger.Log("Mouse corrected x,y: " + (ms.X + Scene.Instance.GetEntityLayer().GetPosition().X) +  " " + (ms.Y + Scene.Instance.GetEntityLayer().GetPosition().Y));
+                //new Circle(null, new Vector2(ms.X, ms.Y), 10, Color.White);
+            }
             /*elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             sin = (float)Math.Sin(elapsedTime);
             if (sin <= 0.01)
@@ -207,17 +164,28 @@ namespace GameEngine2D.GameExamples.TopDown.src
             */
 
             GraphicsDevice.Clear(Color.Black);
-            intersection = ray.Cast(line);
-            if (!added && intersection != Vector2.Zero)
-            {
-                new Circle(Scene.Instance.GetEntityLayer(), null, intersection, 10, Color.Green);
-                added = true;
-                Logger.Log("Cast: :" + intersection);
-            }
+            //intersection = ray.Cast((line.GetRayBlockerLines()[0].start - Scene.Instance.GetEntityLayer().GetPosition(), line.GetRayBlockerLines()[0].end - Scene.Instance.GetEntityLayer().GetPosition()));
+            //intersection = ray.Cast(line.GetRayBlockerLines()[0]);
+            //ray.position = new Vector2(300, 300);
+            //if (intersection != Vector2.Zero)
+            //{
+                //marker.SetPosition(intersection);
+                //Logger.Log("Cast: :" + intersection);
+            //}
 
             // TODO: Add your drawing code here
             RootContainer.Instance.DrawAll(gameTime);
+            //Logger.Log("ENTITY LAYER: " + Scene.Instance.GetEntityLayer().GetPosition());
 
+
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            frameCounter.Update(deltaTime);
+
+            var fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

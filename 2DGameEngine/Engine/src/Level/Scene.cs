@@ -12,16 +12,18 @@ namespace GameEngine2D.src
     class Scene
     {
 
-        private GraphicsLayer background;
-        private List<GraphicsLayer> scrollableBackgrounds;
-        private GraphicsLayer colliders;
-        private GraphicsLayer entities;
+        private SimpleLayer background;
+        private List<SimpleLayer> scrollableBackgrounds;
+        private ColliderLayer colliders;
+        private SimpleLayer entities;
+        private SimpleLayer rayBlockers;
 
         private Scene() {
-            background = new GraphicsLayer();
-            colliders = new GraphicsLayer();
-            entities = new GraphicsLayer();
-            scrollableBackgrounds = new List<GraphicsLayer>();
+            background = new SimpleLayer();
+            colliders = new ColliderLayer();
+            entities = new SimpleLayer();
+            rayBlockers = new SimpleLayer();
+            scrollableBackgrounds = new List<SimpleLayer>();
         }
         static Scene() { }
 
@@ -40,29 +42,34 @@ namespace GameEngine2D.src
             }
         }
 
-        public GraphicsLayer GetColliderLayer()
+        public ColliderLayer GetColliderLayer()
         {
             return colliders;
         }
 
-        public GraphicsLayer GetEntityLayer()
+        public SimpleLayer GetEntityLayer()
         {
             return entities;
         }
 
-        public GraphicsLayer GetBackgroundLayer()
+        public SimpleLayer GetRayBlockersLayer()
+        {
+            return rayBlockers;
+        }
+
+        public SimpleLayer GetBackgroundLayer()
         {
             return this.background;
         }
 
-        public GraphicsLayer GetScrollableLayer(int index)
+        public SimpleLayer GetScrollableLayer(int index)
         {
             return scrollableBackgrounds[index];
         }
 
         public void AddScrollableLayer(float scrollSpeedMultiplier, bool lockY = false)
         {
-            scrollableBackgrounds.Add(new GraphicsLayer(scrollSpeedMultiplier, lockY));
+            scrollableBackgrounds.Add(new SimpleLayer(scrollSpeedMultiplier, lockY));
         }
     }
 }

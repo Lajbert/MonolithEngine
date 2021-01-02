@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.src.Layer;
+using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
 using GameEngine2D.src;
@@ -29,7 +30,7 @@ namespace GameEngine2D
 
         protected FaceDirection faceDirection = FaceDirection.RIGHT;
 
-        public ControllableEntity(GraphicsLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
+        public ControllableEntity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
             SetPosition(startPosition);
         }

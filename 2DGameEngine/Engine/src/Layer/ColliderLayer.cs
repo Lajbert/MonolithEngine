@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.src.Layer;
+using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -8,20 +9,20 @@ using System.Text;
 
 namespace GameEngine2D.src.Layer
 {
-    class GraphicsLayer
+    class ColliderLayer : AbstractLayer
     {
         private Dictionary<Vector2, Entity> objects;
         private float scrollSpeedModifier;
         private bool lockY;
 
-        public GraphicsLayer(float scrollSpeedModifier = 1f, bool lockY = false)
+        public ColliderLayer(float scrollSpeedModifier = 1f, bool lockY = false)
         {
             this.objects = new Dictionary<Vector2, Entity>();
             this.scrollSpeedModifier = scrollSpeedModifier;
             this.lockY = lockY;
         }
 
-        public void AddObject(Entity gameObject)
+        public override void AddObject(Entity gameObject)
         {
             objects.Add(gameObject.GetGridCoord(), gameObject);
         }
@@ -40,7 +41,7 @@ namespace GameEngine2D.src.Layer
             return objects.ContainsKey(position);
         }
 
-        public Vector2 GetPosition()
+        public override Vector2 GetPosition()
         {
             if (lockY)
             {
@@ -49,6 +50,10 @@ namespace GameEngine2D.src.Layer
             return RootContainer.Instance.GetRootPosition() * scrollSpeedModifier;
         }
 
+        public override List<Entity> GetAll()
+        {
+            return new List<Entity>(objects.Values);
+        }
 
     }
 }

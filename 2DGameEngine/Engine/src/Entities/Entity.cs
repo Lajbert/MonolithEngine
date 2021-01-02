@@ -13,10 +13,13 @@ using GameEngine2D.src.Layer;
 using GameEngine2D.src.Entities.Animation;
 using GameEngine2D.Engine.src.Entities.Animations;
 using GameEngine2D.GameExamples2D.SideScroller.src;
+using GameEngine2D.Engine.src.Entities.Interfaces;
+using GameEngine2D.Engine.src.Physics.Raycast;
+using GameEngine2D.Engine.src.Layer;
 
 namespace GameEngine2D.Entities
 {
-    class Entity : GameObject, Interfaces.IDrawable, IUpdatable, IHasParent, IHasChildren, ICollider
+    class Entity : GameObject, Interfaces.IDrawable, IUpdatable, IHasParent, IHasChildren, ICollider, IRayBlocker
     {
 
         protected Vector2 startPosition;
@@ -28,10 +31,11 @@ namespace GameEngine2D.Entities
         private HashSet<Interfaces.IDrawable> drawables;
         private Entity parent;
         private bool hasCollision;
-        protected GraphicsLayer layer;
+        protected AbstractLayer layer;
+        protected List<(Vector2 start, Vector2 end)> rayBlockerLines;
+        private bool blocksRay = true;
 
 #if GRAPHICS_DEBUG
-        private Texture2D pivot;
         protected SpriteFont font;
 #endif
 
@@ -51,9 +55,11 @@ namespace GameEngine2D.Entities
 
         protected AnimationStateMachine animationStates;
 
+        protected Ray2DEmitter rayEmitter;
+
         protected static GraphicsDeviceManager graphicsDeviceManager;
 
-        public Entity(GraphicsLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
+        public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
         {
             this.layer = layer;
             spriteBatch = new SpriteBatch(graphicsDeviceManager.GraphicsDevice);
@@ -71,47 +77,23 @@ namespace GameEngine2D.Entities
                 this.startPosition = this.currentPosition = startPosition + layer.GetPosition();
             }
             
-            this.hasCollision = true;
+            hasCollision = true;
+            rayBlockerLines = new List<(Vector2 start, Vector2 end)>();
             //this.startPosition = this.currentPosition = startPosition;
 
 #if GRAPHICS_DEBUG
-            pivot = CreateCircle(Config.PIVOT_DIAM);
             this.font = font;
 #endif
             layer.AddObject(this);
         }
 
-#if GRAPHICS_DEBUG
-        Texture2D CreateCircle(int radius)
+        public virtual void SetRayBlockers()
         {
-            Texture2D texture = new Texture2D(graphicsDevice, radius, radius);
-            Color[] colorData = new Color[radius * radius];
-
-            float diam = radius / 2f;
-            float diamsq = diam * diam;
-
-            for (int x = 0; x < radius; x++)
-            {
-                for (int y = 0; y < radius; y++)
-                {
-                    int index = x * radius + y;
-                    Vector2 pos = new Vector2(x - diam, y - diam);
-                    if (pos.LengthSquared() <= diamsq)
-                    {
-                        colorData[index] = Color.Red;
-                    }
-                    else
-                    {
-                        colorData[index] = Color.Transparent;
-                    }
-                }
-            }
-
-            texture.SetData(colorData);
-            return texture;
+            rayBlockerLines.Add((Vector2.Zero, new Vector2(0, Config.GRID)));
+            rayBlockerLines.Add((Vector2.Zero, new Vector2(Config.GRID, 0)));
+            rayBlockerLines.Add((new Vector2(Config.GRID, 0), new Vector2(0, Config.GRID)));
+            rayBlockerLines.Add((new Vector2(0, Config.GRID), new Vector2(Config.GRID, Config.GRID)));
         }
-#endif
-
 
         public virtual void PreDraw(GameTime gameTime)
         {
@@ -124,8 +106,6 @@ namespace GameEngine2D.Entities
 
         public virtual void Draw(GameTime gameTime)
         {
-            //Rectangle sourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
-            //private Vector2 origin = new Vector2(-16f, 0f);
             Vector2 position;
             if (GetParent() != null)
             {
@@ -136,18 +116,6 @@ namespace GameEngine2D.Entities
                 position = currentPosition + layer.GetPosition();
             }
 
-            //spriteBatch.Draw(sprite, pos, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
-            //if (this is ControllableEntity)
-            //    spriteBatch.Draw(sprite, pos + (new Vector2(-Constants.SPRITE_DRAW_OFFSET, -Constants.SPRITE_DRAW_OFFSET) * Constants.GRID), Color.White);
-            //else
-
-            /*if (currentAnimation != null)
-            {
-                currentAnimation.Play(pos);
-            } else if (sprite != null)
-            {
-                spriteBatch.Draw(sprite, pos, Color.White);
-            }*/
             if (animationStates != null)
             {
                 animationStates.Draw(gameTime);
@@ -158,7 +126,6 @@ namespace GameEngine2D.Entities
             }
 #if GRAPHICS_DEBUG
             spriteBatch.Begin();
-            spriteBatch.Draw(pivot, pos, Color.White);
             if (font != null)
             {
                 if (GetParent() != null)
@@ -182,9 +149,12 @@ namespace GameEngine2D.Entities
 
         protected virtual void DrawSprite(Vector2 position)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(sprite, position, Color.White);
-            spriteBatch.End();
+            if (sprite != null)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(sprite, position, Color.White);
+                spriteBatch.End();
+            }
         }
         public bool IsIdle()
         {
@@ -224,6 +194,12 @@ namespace GameEngine2D.Entities
 
         public virtual void PostUpdate(GameTime gameTime)
         {
+
+            if (rayEmitter != null)
+            {
+                rayEmitter.UpdateRays();
+            }
+
             foreach (IUpdatable child in updatables)
             {
                 child.PostUpdate(gameTime);
@@ -379,37 +355,6 @@ namespace GameEngine2D.Entities
             }
         }
 
-        /*public void SetIdleAnimationLeft(AbstractAnimation idleAnimationLeft)
-        {
-            this.idleAnimationLeft = idleAnimationLeft;
-            this.currentAnimation = idleAnimationLeft;
-        }
-
-        public void SetIdleAnimationRight(AbstractAnimation idleAnimationRight)
-        {
-            this.idleAnimationRight = idleAnimationRight;
-            this.currentAnimation = idleAnimationRight;
-        }
-
-        public void SetMoveRightAnimation(AbstractAnimation moveRightAnimation)
-        {
-            this.moveRightAnimation = moveRightAnimation;
-        }
-
-        public void SetMoveLeftAnimation(AbstractAnimation moveLeftAnimation)
-        {
-            this.moveLeftAnimation = moveLeftAnimation;
-        }
-        public void SetJumpLeftAnimation(AbstractAnimation jumpLeftAnimation)
-        {
-            this.jumpLeftAnimation = jumpLeftAnimation;
-        }
-
-        public void SetJumpRightAnimation(AbstractAnimation jumpRightAnimation)
-        {
-            this.jumpRightAnimation = jumpRightAnimation;
-        }*/
-
         public void SetAnimationStateMachime(AnimationStateMachine animationStates)
         {
             this.animationStates = animationStates;
@@ -418,6 +363,26 @@ namespace GameEngine2D.Entities
         public static void SetGraphicsDeviceManager(GraphicsDeviceManager graphics)
         {
             graphicsDeviceManager = graphics;
+        }
+
+        public void SetRayEmitter(Ray2DEmitter rayEmitter)
+        {
+            this.rayEmitter = rayEmitter;
+        }
+
+        public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()
+        {
+            return rayBlockerLines;
+        }
+
+        public bool BlocksRay()
+        {
+            return blocksRay;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            this.currentPosition = position;
         }
     }
 }

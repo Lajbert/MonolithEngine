@@ -8,7 +8,7 @@ namespace GameEngine2D.Global
 {
     class Config
     {
-        public static readonly float CHARACTER_SPEED = 3f;
+        public static readonly float CHARACTER_SPEED = 1f;
         public static readonly int GRID = 64;
         public static readonly float FRICTION = 0.2f;
         public static readonly float BUMB_FRICTION = 0.5f;

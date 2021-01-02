@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.src.Graphics.Primitives;
+﻿using GameEngine2D.Engine.src.Entities.Interfaces;
+using GameEngine2D.Engine.src.Graphics.Primitives;
 using GameEngine2D.src;
 using GameEngine2D.src.Util;
 using GameEngine2D.Util;
@@ -16,11 +17,21 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
         public Vector2 direction;
         public float angleRad;
 
+#if RAYCAST_DEBUG
+        public Line debugLine;
+        public Circle intersectionMarker;
+        public SpriteBatch spriteBatch;
+#endif
+
         public Ray2D(Vector2 position, Vector2 direction)
         {
             this.position = position;
             this.direction = direction;
             this.angleRad = (float)Math.Atan2(direction.Y - position.Y, direction.X - position.X);
+#if RAYCAST_DEBUG
+            debugLine = new Line(null, position, this.angleRad, 1000f, Color.White, 1);
+            intersectionMarker = new Circle(null, position, 10, Color.Red);
+#endif
         }
 
         public Ray2D(Vector2 position, float angleRad = 0f)
@@ -30,11 +41,12 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
             this.direction = MathUtil.RadToVector(angleRad);
 
 #if RAYCAST_DEBUG
-            new Line(Scene.Instance.GetEntityLayer(), null, position, this.angleRad, 1000f, Color.Blue);
+            debugLine = new Line(null, position, this.angleRad, 1000f, Color.White, 1);
+            intersectionMarker = new Circle(null, position, 10, Color.Red);
 #endif
         }
 
-        public Vector2 Cast(Line target)
+        public Vector2 Cast((Vector2 from, Vector2 to) target)
         {
             float x1 = target.from.X;
             float y1 = target.from.Y;

@@ -1,4 +1,6 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.src.Layer;
+using GameEngine2D.Entities;
+using GameEngine2D.src;
 using GameEngine2D.src.Layer;
 using GameEngine2D.src.Util;
 using GameEngine2D.Util;
@@ -17,37 +19,58 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
 
         public Vector2 from;
         public Vector2 to;
+
+        public Vector2 fromSaved;
+        public Vector2 toSaved;
+
         private Color color;
         private float thickness;
 
         private float angleRad;
         private float length;
 
-        public Line(GraphicsLayer layer, Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(layer, parent, from, null)
+        public Line(Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(Scene.Instance.GetEntityLayer(), parent, from, null)
         {
-            this.from = from;
-            this.to = to;
+            this.from = fromSaved = from;
+            this.to = toSaved = to;
             this.thickness = thickness;
             this.color = color;
             sprite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             sprite.SetData(new[] { Color.White });
             length = Vector2.Distance(from, to);
             angleRad = MathUtil.AngleFromVectors(from, to);
-            origin = new Vector2(0f, 0.5f);
+            origin = new Vector2(0f, 0f);
             scale = new Vector2(length, thickness);
         }
 
-        public Line(GraphicsLayer layer, Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(layer, parent, from, null)
+        public Line(Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(Scene.Instance.GetEntityLayer(), parent, from, null)
         {
-            this.from = from;
+            this.from = fromSaved = from;
             this.thickness = thickness;
             this.color = color;
             sprite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             sprite.SetData(new[] { Color.White });
             this.length = length;
             this.angleRad = angleRad;
-            to = MathUtil.EndPointOfLine(from, length, this.angleRad);
-            origin = new Vector2(0f, 0.5f);
+            to = toSaved = MathUtil.EndPointOfLine(from, length, this.angleRad);
+            origin = new Vector2(0f, 0f);
+            scale = new Vector2(length, thickness);
+        }
+
+        public void SetEnd(Vector2 end)
+        {
+            to = end;
+            length = Vector2.Distance(from, to);
+            angleRad = MathUtil.AngleFromVectors(from, to);
+            scale = new Vector2(length, thickness);
+        }
+
+        public void Reset()
+        {
+            from = fromSaved;
+            to = toSaved;
+            length = Vector2.Distance(from, to);
+            angleRad = MathUtil.AngleFromVectors(from, to);
             scale = new Vector2(length, thickness);
         }
 
@@ -55,8 +78,13 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
         {
             //base.DrawSprite(position);
             spriteBatch.Begin();
-            spriteBatch.Draw(sprite, from, null, color, angleRad, origin, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprite, position, null, color, angleRad, origin, scale, SpriteEffects.None, 0);
             spriteBatch.End();
+        }
+
+        public override void SetRayBlockers()
+        {
+            rayBlockerLines.Add((from, to));
         }
 
     }
