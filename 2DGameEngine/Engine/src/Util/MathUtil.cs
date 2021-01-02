@@ -8,6 +8,26 @@ namespace GameEngine2D.src.Util
     class MathUtil
     {
 
+		public static Vector2 RadToVector(float angleRad)
+        {
+			return new Vector2((float)Math.Cos(angleRad), (float)Math.Sin(angleRad));
+        }
+
+		public static Vector2 EndPointOfLine(Vector2 start, float length, float angleRad)
+        {
+			return new Vector2(start.X + length * (float)Math.Cos(angleRad), start.Y + length * (float)Math.Sin(angleRad));
+		}
+
+		public static float DegreesToRad(float angle)
+        {
+			return (float)(Math.PI / 180) * angle;
+		}
+
+		public static float AngleFromVectors(Vector2 v1, Vector2 v2)
+        {
+			return (float)Math.Atan2(v2.Y - v1.Y, v2.X - v1.X);
+		}
+
 		public static Vector2 Abs(Vector2 v)
         {
 			return new Vector2(Math.Abs(v.X), Math.Abs(v.Y));

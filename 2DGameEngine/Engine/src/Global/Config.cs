@@ -25,7 +25,7 @@ namespace GameEngine2D.Global
         public static readonly int RES_H = 1080;
         public static readonly int FPS = 60;
         public static readonly bool FULLSCREEN = false;
-        public static readonly int PIVOT_DIAM = 10;
+        public static readonly int PIVOT_RADIUS = 10;
 
         public static readonly int CAMERA_TIME_MULTIPLIER = 1; // set this and CAMERA_FOLLOW_DELAY to a higher value to create a "wabbly" camera
         public static readonly int CAMERA_DEADZONE = 250;

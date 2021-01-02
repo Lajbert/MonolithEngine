@@ -9,6 +9,7 @@ using GameEngine2D.src;
 using GameEngine2D.src.Camera;
 using GameEngine2D.src.Entities.Animation;
 using GameEngine2D.src.Level;
+using GameEngine2D.src.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -35,6 +36,8 @@ namespace GameEngine2D.GameExamples.TopDown.src
         private SpriteBatch spriteBatch;
         private Ray2D ray;
         private Line line;
+        private Vector2 intersection = Vector2.Zero;
+        private bool added = false;
 
         public TopDownGame()
         {
@@ -81,8 +84,11 @@ namespace GameEngine2D.GameExamples.TopDown.src
             //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(cube, true);
-            line = new Line(Scene.Instance.GetEntityLayer(), null, new Vector2(100, 100), 45, 1000, Color.Red);
-            ray = new Ray2D(new Vector2(200, 100), 45);
+            line = new Line(Scene.Instance.GetEntityLayer(), null, new Vector2(200, 500), MathUtil.DegreesToRad(45), 1000, Color.Red);
+            Line l2 = new Line(Scene.Instance.GetBackgroundLayer(), null, new Vector2(600, 600), new Vector2(807.10675f, 807.10675f), Color.Yellow);
+            ray = new Ray2D(new Vector2(300, 300), MathUtil.DegreesToRad(90));
+            new Circle(Scene.Instance.GetBackgroundLayer(), null, new Vector2(300, 300), 10, Color.White);
+            new Circle(Scene.Instance.GetBackgroundLayer(), null, new Vector2(200, 500), 10, Color.White);
         }
 
         private void CreateLevel()
@@ -201,8 +207,13 @@ namespace GameEngine2D.GameExamples.TopDown.src
             */
 
             GraphicsDevice.Clear(Color.Black);
-
-            ray.Cast(line);
+            intersection = ray.Cast(line);
+            if (!added && intersection != Vector2.Zero)
+            {
+                new Circle(Scene.Instance.GetEntityLayer(), null, intersection, 10, Color.Green);
+                added = true;
+                Logger.Log("Cast: :" + intersection);
+            }
 
             // TODO: Add your drawing code here
             RootContainer.Instance.DrawAll(gameTime);
