@@ -34,8 +34,6 @@ namespace GameEngine2D.GameExamples.TopDown.src
         private MapSerializer mapSerializer;
         private float elapsedTime = 0;
         private SpriteBatch spriteBatch;
-        //private Ray2D ray;
-        //private Circle marker;
         private Line line;
         private Line line2;
         private Line line3;
@@ -98,10 +96,13 @@ namespace GameEngine2D.GameExamples.TopDown.src
             line3 = new Line(null, new Vector2(400, 700), MathUtil.DegreesToRad(126), 200, Color.White);
             line4 = new Line(null, new Vector2(700, 900), MathUtil.DegreesToRad(56), 500, Color.White);
             line5 = new Line(null, new Vector2(600, 600), new Vector2(807.10675f, 807.10675f), Color.White);
-            //ray = new Ray2D(new Vector2(300, 300) + Scene.Instance.GetEntityLayer().GetPosition(), MathUtil.DegreesToRad(90));
-            //marker = new Circle(null, new Vector2(300, 300), 10, Color.Green);
-            new Circle(null, new Vector2(300, 300), 10, Color.White);
-            new Circle(null, new Vector2(200, 500), 10, Color.White);
+
+            line.SetRayBlockers();
+            line2.SetRayBlockers();
+            line3.SetRayBlockers();
+            line4.SetRayBlockers();
+            line5.SetRayBlockers();
+
             Ray2DEmitter emitter = new Ray2DEmitter(cube);
         }
 
@@ -126,11 +127,6 @@ namespace GameEngine2D.GameExamples.TopDown.src
             RootContainer.Instance.UpdateAll(gameTime);
             camera.update(gameTime);
             camera.postUpdate(gameTime);
-            line.SetRayBlockers();
-            line2.SetRayBlockers();
-            line3.SetRayBlockers();
-            line4.SetRayBlockers();
-            line5.SetRayBlockers();
             base.Update(gameTime);
         }
 
@@ -179,13 +175,12 @@ namespace GameEngine2D.GameExamples.TopDown.src
 
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             frameCounter.Update(deltaTime);
-
             var fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.White);
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }

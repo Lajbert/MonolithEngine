@@ -31,11 +31,15 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
         private MapSerializer mapSerializer;
         private float elapsedTime = 0;
 
+        private FrameCounter frameCounter;
+
+        private SpriteBatch spriteBatch;
+
         public SideScrollerGame()
         {
             // >>>>>>> set framerate >>>>>>>>>>
-            this.IsFixedTimeStep = true;//false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+            //this.IsFixedTimeStep = true;//false;
+            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = Config.FULLSCREEN;
@@ -45,10 +49,12 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             background1 = GetRandomColor();
             background2 = GetRandomColor();
             // uncapped framerate
-            //graphics.SynchronizeWithVerticalRetrace = false;
-            //this.IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            this.IsFixedTimeStep = false;
             mapSerializer = new LDTKJsonMapSerializer();
             contentManager = Content;
+
+            frameCounter = new FrameCounter();
         }
 
         protected override void Initialize()
@@ -60,6 +66,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
 
         protected override void LoadContent()
         {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
             /*Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
@@ -192,6 +199,13 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
 
             // TODO: Add your drawing code here
             RootContainer.Instance.DrawAll(gameTime);
+
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            frameCounter.Update(deltaTime);
+            var fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Black);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

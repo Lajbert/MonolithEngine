@@ -22,12 +22,11 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
             this.owner = owner;
             owner.SetRayEmitter(this);
             rays = new List<Ray2D>();
-            for (int i = 0; i <= 360; i+=5)
+            for (float i = 0; i <= 360; i+=1f)
             {
                 rays.Add(new Ray2D(owner.GetPosition(), MathUtil.DegreesToRad(i)));
             }
         }
-
         public void UpdateRays()
         {
             foreach (Ray2D ray in rays)
@@ -42,7 +41,6 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
 #endif
                 foreach (Entity e in Scene.Instance.GetEntityLayer().GetAll())
                 {
-                    
                     foreach ((Vector2, Vector2) line in e.GetRayBlockerLines())
                     {
                         Vector2 intersection = ray.Cast(line);
@@ -55,20 +53,14 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
                                 closestDistance = distance;
                                 closestIntersection = intersection;
                             }
-                            //ray.intersectionMarker.SetPosition(intersection);
-                            //ray.debugLine.SetEnd(intersection);
-                            //Logger.Log("Intersection: " + intersection);
                         }
-
-                        //ray.debugLine.SetPosition(owner.GetPosition());
-                        //ray.debugLine.SetEnd(intersection);
 #endif
                     }
                 }
 #if RAYCAST_DEBUG
                 if (closestDistance < float.MaxValue)
                 {
-                    ray.intersectionMarker.SetPosition(closestIntersection);
+                    //ray.intersectionMarker.SetPosition(closestIntersection);
                     ray.debugLine.SetEnd(closestIntersection);
                 }
 #endif
