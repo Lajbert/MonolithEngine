@@ -91,11 +91,17 @@ namespace GameEngine2D.GameExamples.TopDown.src
             //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(cube, true);
-            line = new Line(null, new Vector2(200, 500), MathUtil.DegreesToRad(45), 1000, Color.White);
+            /*line = new Line(null, new Vector2(200, 500), MathUtil.DegreesToRad(45), 1000, Color.White);
             line2 = new Line(null, new Vector2(500, 300), MathUtil.DegreesToRad(90), 100, Color.White);
             line3 = new Line(null, new Vector2(400, 700), MathUtil.DegreesToRad(126), 200, Color.White);
             line4 = new Line(null, new Vector2(700, 900), MathUtil.DegreesToRad(56), 500, Color.White);
             line5 = new Line(null, new Vector2(600, 600), new Vector2(807.10675f, 807.10675f), Color.White);
+
+            line.SetBlocksRay(true);
+            line2.SetBlocksRay(true);
+            line3.SetBlocksRay(true);
+            line4.SetBlocksRay(true);
+            line5.SetBlocksRay(true);*/
 
             /*line.SetRayBlockers();
             line2.SetRayBlockers();
@@ -109,13 +115,14 @@ namespace GameEngine2D.GameExamples.TopDown.src
         private void CreateLevel()
         {
 
-            /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
+            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();
             foreach (Vector2 coord in collisions) {
-                Entity e =  new Entity(graphics, Scene.Instance.GetColliderLayer(), null , coord * Config.GRID, font);
-                e.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
+                Entity e =  new Entity(Scene.Instance.GetColliderLayer(), null , coord * Config.GRID, font);
+                e.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.White));
+                e.SetBlocksRay(true);
 
-            }*/
+            }
         }
 
         protected override void Update(GameTime gameTime)

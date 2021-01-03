@@ -14,7 +14,6 @@ namespace GameEngine2D.Entities
         private HashSet<Entity> children = new HashSet<Entity>();
         private List<Interfaces.IDrawable> drawables;
         private List<IUpdatable> updatables;
-        private List<ColliderLayer> layers;
         private Vector2 position = Vector2.Zero;
 
         public float X {
@@ -34,7 +33,6 @@ namespace GameEngine2D.Entities
         {
             drawables = new List<Interfaces.IDrawable>();
             updatables = new List<IUpdatable>();
-            layers = new List<ColliderLayer>();
         }
         static RootContainer()
         {

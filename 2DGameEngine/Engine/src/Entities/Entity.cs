@@ -33,7 +33,7 @@ namespace GameEngine2D.Entities
         private bool hasCollision;
         protected AbstractLayer layer;
         protected List<(Vector2 start, Vector2 end)> rayBlockerLines;
-        protected bool blocksRay = true;
+        protected bool blocksRay = false;
 
 #if GRAPHICS_DEBUG
         protected SpriteFont font;
@@ -88,10 +88,15 @@ namespace GameEngine2D.Entities
 
         protected virtual void SetRayBlockers()
         {
-            rayBlockerLines.Add((Vector2.Zero, new Vector2(0, Config.GRID)));
+            /*rayBlockerLines.Add((Vector2.Zero, new Vector2(0, Config.GRID)));
             rayBlockerLines.Add((Vector2.Zero, new Vector2(Config.GRID, 0)));
             rayBlockerLines.Add((new Vector2(Config.GRID, 0), new Vector2(0, Config.GRID)));
-            rayBlockerLines.Add((new Vector2(0, Config.GRID), new Vector2(Config.GRID, Config.GRID)));
+            rayBlockerLines.Add((new Vector2(0, Config.GRID), new Vector2(Config.GRID, Config.GRID)));*/
+
+            rayBlockerLines.Add((currentPosition, new Vector2(currentPosition.X, currentPosition.Y + Config.GRID)));
+            rayBlockerLines.Add((currentPosition, new Vector2(currentPosition.X + Config.GRID, currentPosition.Y)));
+            rayBlockerLines.Add((new Vector2(currentPosition.X + Config.GRID, currentPosition.Y), new Vector2(currentPosition.X, currentPosition.Y + Config.GRID)));
+            rayBlockerLines.Add((new Vector2(currentPosition.X, currentPosition.Y + Config.GRID), new Vector2(currentPosition.X + Config.GRID, currentPosition.Y + Config.GRID)));
         }
 
         public virtual void PreDraw(GameTime gameTime)
@@ -373,7 +378,6 @@ namespace GameEngine2D.Entities
         {
             if (rayBlockerLines == null)
             {
-                Logger.Log("No ray blockers: " + this);
                 rayBlockerLines = new List<(Vector2 start, Vector2 end)>();
                 SetRayBlockers();
             }
@@ -387,6 +391,14 @@ namespace GameEngine2D.Entities
 
         public bool SetBlocksRay(bool blocksRay)
         {
+            if (!blocksRay)
+            {
+                Scene.Instance.GetRayBlockersLayer().RemoveObject(this);
+            }
+            else
+            {
+                Scene.Instance.GetRayBlockersLayer().AddObject(this);
+            }
             return this.blocksRay = blocksRay;
         }
 
