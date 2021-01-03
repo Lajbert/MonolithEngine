@@ -41,6 +41,10 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
 #endif
                 foreach (Entity e in Scene.Instance.GetEntityLayer().GetAll())
                 {
+                    if (!e.BlocksRay())
+                    {
+                        continue;
+                    }
                     foreach ((Vector2, Vector2) line in e.GetRayBlockerLines())
                     {
                         Vector2 intersection = ray.Cast(line);

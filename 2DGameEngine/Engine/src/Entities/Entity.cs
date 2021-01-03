@@ -33,7 +33,7 @@ namespace GameEngine2D.Entities
         private bool hasCollision;
         protected AbstractLayer layer;
         protected List<(Vector2 start, Vector2 end)> rayBlockerLines;
-        private bool blocksRay = true;
+        protected bool blocksRay = true;
 
 #if GRAPHICS_DEBUG
         protected SpriteFont font;
@@ -78,7 +78,6 @@ namespace GameEngine2D.Entities
             }
             
             hasCollision = true;
-            rayBlockerLines = new List<(Vector2 start, Vector2 end)>();
             //this.startPosition = this.currentPosition = startPosition;
 
 #if GRAPHICS_DEBUG
@@ -87,7 +86,7 @@ namespace GameEngine2D.Entities
             layer.AddObject(this);
         }
 
-        public virtual void SetRayBlockers()
+        protected virtual void SetRayBlockers()
         {
             rayBlockerLines.Add((Vector2.Zero, new Vector2(0, Config.GRID)));
             rayBlockerLines.Add((Vector2.Zero, new Vector2(Config.GRID, 0)));
@@ -372,12 +371,23 @@ namespace GameEngine2D.Entities
 
         public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()
         {
+            if (rayBlockerLines == null)
+            {
+                Logger.Log("No ray blockers: " + this);
+                rayBlockerLines = new List<(Vector2 start, Vector2 end)>();
+                SetRayBlockers();
+            }
             return rayBlockerLines;
         }
 
         public bool BlocksRay()
         {
             return blocksRay;
+        }
+
+        public bool SetBlocksRay(bool blocksRay)
+        {
+            return this.blocksRay = blocksRay;
         }
 
         public void SetPosition(Vector2 position)

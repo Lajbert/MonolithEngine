@@ -82,7 +82,7 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
             spriteBatch.End();
         }
 
-        public override void SetRayBlockers()
+        protected override void SetRayBlockers()
         {
             rayBlockerLines.Add((from, to));
         }

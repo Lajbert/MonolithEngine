@@ -97,11 +97,11 @@ namespace GameEngine2D.GameExamples.TopDown.src
             line4 = new Line(null, new Vector2(700, 900), MathUtil.DegreesToRad(56), 500, Color.White);
             line5 = new Line(null, new Vector2(600, 600), new Vector2(807.10675f, 807.10675f), Color.White);
 
-            line.SetRayBlockers();
+            /*line.SetRayBlockers();
             line2.SetRayBlockers();
             line3.SetRayBlockers();
             line4.SetRayBlockers();
-            line5.SetRayBlockers();
+            line5.SetRayBlockers();*/
 
             Ray2DEmitter emitter = new Ray2DEmitter(cube);
         }

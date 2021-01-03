@@ -37,6 +37,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
             this.angleRad = (float)Math.Atan2(direction.Y - position.Y, direction.X - position.X);
 #if RAYCAST_DEBUG
             debugLine = new Line(null, position, this.angleRad, 1000f, Color.White, 1);
+            debugLine.SetBlocksRay(false);
             //intersectionMarker = new Circle(null, position, 10, Color.Red);
 #endif
         }
@@ -49,6 +50,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
 
 #if RAYCAST_DEBUG
             debugLine = new Line(null, position, this.angleRad, 1000f, Color.White, 1);
+            debugLine.SetBlocksRay(false);
             //intersectionMarker = new Circle(null, position, 10, Color.Red);
 #endif
         }

@@ -15,7 +15,7 @@ namespace GameEngine2D.GameExamples.TopDown.src.Hero
         {
 
             //SetSprite(SpriteUtil.CreateRectangle(graphicsDeviceManager, Config.GRID, Color.White));
-
+            blocksRay = false;
         }
     }
 }
