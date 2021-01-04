@@ -1,7 +1,6 @@
 ﻿using GameEngine2D.Engine.src.Entities.Animations;
 using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
-using GameEngine2D.GameExamples2D.SideScroller.src;
 using GameEngine2D.Global;
 using GameEngine2D.src;
 using GameEngine2D.src.Entities.Animation;

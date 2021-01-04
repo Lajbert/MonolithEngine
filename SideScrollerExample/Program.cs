@@ -1,5 +1,4 @@
-﻿using GameEngine2D.GameExamples2D.SideScroller.src;
-using System;
+﻿using System;
 
 namespace SideScrollerExample
 {
