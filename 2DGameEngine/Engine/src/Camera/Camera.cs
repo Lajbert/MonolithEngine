@@ -10,7 +10,7 @@ namespace GameEngine2D.src.Camera
 {
 	public class Camera
 	{
-		public Entity target;
+		public Entity target { get; set; }
 
 		private Vector2 position;
 		//public float x;
@@ -22,17 +22,17 @@ namespace GameEngine2D.src.Camera
 		//public int wid;
 		//public int hei;
 
-		float bumpOffX = 0f;
-		float bumpOffY = 0f;
+		private float bumpOffX = 0f;
+		private float bumpOffY = 0f;
 
 		public float targetTrackOffX = 0f;
 		public float targetTrackOffY = 0f;
 		public float zoom = 1f;
 
-		float gameMeW = Config.RES_W;
-		float gameMeH = Config.RES_H;
-		float levelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
-		float levelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
+		private float gameMeW = Config.RES_W;
+		private float gameMeH = Config.RES_H;
+		private float levelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
+		private float levelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
 
 		private float shakePower = 1.5f;
 
