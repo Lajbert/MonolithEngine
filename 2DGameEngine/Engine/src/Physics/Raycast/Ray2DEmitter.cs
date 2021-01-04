@@ -32,7 +32,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
         {
             foreach (Ray2D ray in rays)
             {
-                ray.position = owner.Position;
+                ray.Position = owner.Position;
                 closestIntersection.X = closestIntersection.Y = int.MaxValue;
                 closestDistance = float.MaxValue;
 #if RAYCAST_DEBUG
@@ -53,7 +53,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
 #if RAYCAST_DEBUG
                         if (intersection != Vector2.Zero)
                         {
-                            float distance = Vector2.Distance(ray.position, intersection);
+                            float distance = Vector2.Distance(ray.Position, intersection);
                             if (distance < closestDistance)
                             {
                                 closestDistance = distance;
