@@ -12,6 +12,6 @@ namespace GameEngine2D.Engine.src.Layer
         public abstract void AddObject(Entity gameObject);
         public abstract Vector2 GetPosition();
 
-        public abstract List<Entity> GetAll();
+        public abstract IEnumerable<Entity> GetAll();
     }
 }

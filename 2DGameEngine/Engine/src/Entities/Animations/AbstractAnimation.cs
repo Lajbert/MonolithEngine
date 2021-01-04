@@ -11,25 +11,25 @@ namespace GameEngine2D.src.Entities.Animation
     abstract class AbstractAnimation : IAnimation
     {
 
-        protected int currentFrame;
+        protected int CurrentFrame;
         private int totalFrames;
         private double delay = 0;
         private double currentDelay = 0;
-        protected SpriteBatch spriteBatch;
-        protected Entity parent;
-        protected float scale = 0f;
-        protected Vector2 offset = Vector2.Zero;
-        protected SpriteEffects spriteEffect;
-        protected Rectangle sourceRectangle;
+        protected SpriteBatch SpriteBatch { get; set; }
+        protected Entity Parent { get; set; }
+        public float Scale = 0f;
+        public Vector2 Offset = Vector2.Zero;
+        protected SpriteEffects SpriteEffect { get; set; }
+        protected Rectangle SourceRectangle;
 
         public AbstractAnimation(SpriteBatch spriteBatch, Rectangle sourceRectangle, Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None)
         {
-            this.spriteBatch = spriteBatch;
-            this.parent = parent;
-            currentFrame = 0;
+            this.SpriteBatch = spriteBatch;
+            this.Parent = parent;
+            CurrentFrame = 0;
             this.totalFrames = totalFrames;
-            this.spriteEffect = spriteEffect;
-            this.sourceRectangle = sourceRectangle;
+            this.SpriteEffect = spriteEffect;
+            this.SourceRectangle = sourceRectangle;
             if (framerate != 0)
             {
                 delay = TimeSpan.FromSeconds(1).TotalMilliseconds / framerate;
@@ -41,13 +41,13 @@ namespace GameEngine2D.src.Entities.Animation
         {
             if (delay == 0)
             {
-                currentFrame++;
+                CurrentFrame++;
             }
             else
             {
                 if (currentDelay >= delay)
                 {
-                    currentFrame++;
+                    CurrentFrame++;
                     currentDelay = 0;
                 }
                 else
@@ -56,29 +56,19 @@ namespace GameEngine2D.src.Entities.Animation
                 }
             }
 
-            if (currentFrame == totalFrames) {
-                currentFrame = 0;
+            if (CurrentFrame == totalFrames) {
+                CurrentFrame = 0;
             }
-        }
-
-        public void SetScale(float scale)
-        {
-            this.scale = scale;
-        }
-
-        public void SetOffset(Vector2 offset)
-        {
-            this.offset = offset;
         }
 
         public void Init()
         {
-            currentFrame = 0;
+            CurrentFrame = 0;
         }
 
         public void Stop()
         {
-            currentFrame = 0;
+            CurrentFrame = 0;
         }
     }
 }

@@ -16,6 +16,12 @@ namespace GameEngine2D.Entities
         private List<IUpdatable> updatables;
         private Vector2 position = Vector2.Zero;
 
+        public Vector2 Position
+        {
+            get => position;
+            set => position = value;
+        }
+
         public float X {
             set { position.X = value; }
             get { return position.X; } 
@@ -67,16 +73,6 @@ namespace GameEngine2D.Entities
             {
                 return instance;
             }
-        }
-
-        public Vector2 GetRootPosition()
-        {
-            return position;
-        }
-
-        public void SetPosition(Vector2 newPosition)
-        {
-            position = newPosition;
         }
 
         public override void Destroy()

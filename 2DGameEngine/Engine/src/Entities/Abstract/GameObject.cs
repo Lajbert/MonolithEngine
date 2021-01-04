@@ -23,7 +23,7 @@ namespace GameEngine2D.Entities
             {
                 return false;
             }
-            return this.ID == ((GameObject)obj).ID;
+            return ID == ((GameObject)obj).ID;
         }
 
         public override int GetHashCode()

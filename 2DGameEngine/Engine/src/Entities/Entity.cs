@@ -51,11 +51,11 @@ namespace GameEngine2D.Entities
             {
                 if (!value)
                 {
-                    Scene.Instance.GetRayBlockersLayer().RemoveObject(this);
+                    Scene.Instance.RayBlockersLayer.RemoveObject(this);
                 }
                 else
                 {
-                    Scene.Instance.GetRayBlockersLayer().AddObject(this);
+                    Scene.Instance.RayBlockersLayer.AddObject(this);
                 }
                 blocksRay = value;
             }

@@ -39,12 +39,12 @@ namespace GameEngine2D.src.Layer
         {
             if (lockY)
             {
-                return new Vector2(RootContainer.Instance.GetRootPosition().X * scrollSpeedModifier, RootContainer.Instance.GetRootPosition().Y);
+                return new Vector2(RootContainer.Instance.Position.X * scrollSpeedModifier, RootContainer.Instance.Position.Y);
             }
-            return RootContainer.Instance.GetRootPosition() * scrollSpeedModifier;
+            return RootContainer.Instance.Position * scrollSpeedModifier;
         }
 
-        public override List<Entity> GetAll()
+        public override IEnumerable<Entity> GetAll()
         {
             return objects;
         }

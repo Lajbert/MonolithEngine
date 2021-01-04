@@ -12,18 +12,14 @@ namespace GameEngine2D.src
     class Scene
     {
 
-        private SimpleLayer background;
-        private List<SimpleLayer> scrollableBackgrounds;
-        private ColliderLayer colliders;
-        private SimpleLayer entities;
-        private SimpleLayer rayBlockers;
+        public SimpleLayer BackgroundLayer { get; } = new SimpleLayer();
+        public List<SimpleLayer> ScrollableBackgroundLayers { get; } = new List<SimpleLayer>();
+        public ColliderLayer ColliderLayer { get; } = new ColliderLayer();
+        public SimpleLayer EntityLayer { get; } = new SimpleLayer();
+        public SimpleLayer RayBlockersLayer { get; } = new SimpleLayer();
 
         private Scene() {
-            background = new SimpleLayer();
-            colliders = new ColliderLayer();
-            entities = new SimpleLayer();
-            rayBlockers = new SimpleLayer();
-            scrollableBackgrounds = new List<SimpleLayer>();
+
         }
         static Scene() { }
 
@@ -31,7 +27,7 @@ namespace GameEngine2D.src
 
         public bool HasColliderAt(Vector2 location)
         {
-            return colliders.HasObjectAt(location);
+            return ColliderLayer.HasObjectAt(location);
         }
 
         public static Scene Instance
@@ -42,34 +38,9 @@ namespace GameEngine2D.src
             }
         }
 
-        public ColliderLayer GetColliderLayer()
-        {
-            return colliders;
-        }
-
-        public SimpleLayer GetEntityLayer()
-        {
-            return entities;
-        }
-
-        public SimpleLayer GetRayBlockersLayer()
-        {
-            return rayBlockers;
-        }
-
-        public SimpleLayer GetBackgroundLayer()
-        {
-            return this.background;
-        }
-
-        public SimpleLayer GetScrollableLayer(int index)
-        {
-            return scrollableBackgrounds[index];
-        }
-
         public void AddScrollableLayer(float scrollSpeedMultiplier, bool lockY = false)
         {
-            scrollableBackgrounds.Add(new SimpleLayer(scrollSpeedMultiplier, lockY));
+            ScrollableBackgroundLayers.Add(new SimpleLayer(scrollSpeedMultiplier, lockY));
         }
     }
 }

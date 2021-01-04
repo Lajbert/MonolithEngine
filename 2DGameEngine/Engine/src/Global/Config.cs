@@ -15,7 +15,7 @@ namespace GameEngine2D.Global
         public static bool GRAVITY_ON = true;
         public static float GRAVITY_FORCE = 8f;
         public static float JUMP_FORCE = 10f;
-        public static float GRAVITY_T_MULTIPLIER = 1.5f;
+        public static float GRAVITY_T_MULTIPLIER = 0.1f;
 
         public static float SPRITE_DRAW_OFFSET = 0f;
         public static float SPRITE_COLLISION_OFFSET = 0f;

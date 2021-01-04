@@ -88,10 +88,10 @@ namespace GameEngine2D.src.Camera
 		}
 
 		public float scrollerToGlobalX(float v) {
-			return v * SCALE + RootContainer.Instance.GetRootPosition().X;
+			return v * SCALE + RootContainer.Instance.Position.X;
 		}
 		public float scrollerToGlobalY(float v) {
-			return v * SCALE + RootContainer.Instance.GetRootPosition().Y;
+			return v * SCALE + RootContainer.Instance.Position.Y;
 		}
 
 		/*public void shakeS(float t, float pow = 1.0)

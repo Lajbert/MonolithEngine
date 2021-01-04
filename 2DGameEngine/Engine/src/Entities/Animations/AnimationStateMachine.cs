@@ -10,8 +10,8 @@ namespace GameEngine2D.Engine.src.Entities.Animations
 {
     class AnimationStateMachine
     {
-        List<StateAnimation> animations;
-        StateAnimation currentAnimation = null;
+        private List<StateAnimation> animations;
+        private StateAnimation currentAnimation = null;
 
         public AnimationStateMachine()
         {

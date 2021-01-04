@@ -21,7 +21,7 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
         private Vector2 offset;
         public bool Visible;
 
-        public Circle(Entity parent, Vector2 center, int radius, Color color) : base(Scene.Instance.GetEntityLayer(), parent, center, null)
+        public Circle(Entity parent, Vector2 center, int radius, Color color) : base(Scene.Instance.EntityLayer, parent, center, null)
         {
             Sprite = CreateCircle(radius, color);
             this.color = color;

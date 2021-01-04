@@ -11,7 +11,7 @@ namespace GameEngine2D.GameExamples.TopDown.src.Hero
 {
     class CubeGuy : ControllableEntity
     {
-        public CubeGuy(Vector2 position, SpriteFont font = null) : base(Scene.Instance.GetEntityLayer(), null, position, font)
+        public CubeGuy(Vector2 position, SpriteFont font = null) : base(Scene.Instance.EntityLayer, null, position, font)
         {
             //SetSprite(SpriteUtil.CreateRectangle(graphicsDeviceManager, Config.GRID, Color.White));
         }

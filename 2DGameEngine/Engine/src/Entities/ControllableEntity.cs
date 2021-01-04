@@ -24,6 +24,12 @@ namespace GameEngine2D
 
         private bool canJump = true;
         private bool doubleJump = false;
+        private float elapsedTime;
+        private float steps;
+        private float step;
+        private float steps2;
+        private float step2;
+        private float t;
         public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
 
         public float JumpStart { get; set; }
@@ -45,15 +51,10 @@ namespace GameEngine2D
                 ResetPosition(new Vector2(9, 9) * Config.GRID);
             }
 
-
-            //moveX = moveY = 0;
-
-            float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
+            elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
             if (!HasGravity && currentKeyboardState.IsKeyDown(Keys.Up))
             {
-                //moveY = -1;
-                //dy -= Constants.CHARACTER_SPEED * elapsedTime;
                 Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
                 if (!HasGravity)
                 {
@@ -63,8 +64,6 @@ namespace GameEngine2D
 
             if (HasGravity && currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space) && (canJump || doubleJump))
             {
-                //moveY = -1;
-                //dy -= Constants.CHARACTER_SPEED * elapsedTime;
                 if (canJump)
                 {
                     doubleJump = true;
@@ -80,8 +79,6 @@ namespace GameEngine2D
 
             if (currentKeyboardState.IsKeyDown(Keys.Down))
             {
-                //moveY = 1;
-                //dy += Constants.CHARACTER_SPEED * elapsedTime;
                 Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
                 if (!HasGravity)
                 {
@@ -91,18 +88,13 @@ namespace GameEngine2D
 
             if (currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                //moveX = -1;
-                //dx -= Constants.CHARACTER_SPEED * elapsedTime;
                 Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
                 CurrentFaceDirection = FaceDirection.LEFT;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                //moveX = 1;
-                //dx += Constants.CHARACTER_SPEED * elapsedTime;
                 Direction.X += Config.CHARACTER_SPEED * elapsedTime;
-                //currentAnimation = moveRightAnimation;
                 CurrentFaceDirection = FaceDirection.RIGHT;
             }
 
@@ -120,28 +112,6 @@ namespace GameEngine2D
                     
             }
 
-            /*if (heroPosition.X > _graphics.PreferredBackBufferWidth - ballTexture.Width / 2)
-                ballPosition.X = _graphics.PreferredBackBufferWidth - ballTexture.Width / 2;
-            else if (ballPosition.X < ballTexture.Width / 2)
-                ballPosition.X = ballTexture.Width / 2;
-
-            if (ballPosition.Y > _graphics.PreferredBackBufferHeight - ballTexture.Height / 2)
-                ballPosition.Y = _graphics.PreferredBackBufferHeight - ballTexture.Height / 2;
-            else if (ballPosition.Y < ballTexture.Height / 2)
-                ballPosition.Y = ballTexture.Height / 2;*/
-
-
-            /*
-            Vector2 move = new Vector2(moveX, moveY);
-            if (move != Vector2.Zero)
-            {
-                move.Normalize();
-            }
-
-            //System.Diagnostics.Debug.WriteLine(move);
-            position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            */
-
 #if GRAPHICS_DEBUG
             spriteBatch.Begin();
             spriteBatch.DrawString(font, inCellLocation.X + " : " + inCellLocation.Y, new Vector2(10,10), Color.White);
@@ -157,24 +127,10 @@ namespace GameEngine2D
         }
         public override void Update(GameTime gameTime)
         {
-            /*
-            Vector2 move = new Vector2(moveX, moveY);
-            if (move != Vector2.Zero) 
-            {
-                move.Normalize();
-            }
-            
-            //System.Diagnostics.Debug.WriteLine(move);
-            position += move * speed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            */
+            elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
-            //SetAnimation();
-
-
-            float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
-
-            float steps = (float)Math.Ceiling(Math.Abs((Direction.X + bdx) * elapsedTime));
-            float step = (float)(Direction.X + bdx) * elapsedTime / steps;
+            steps = (float)Math.Ceiling(Math.Abs((Direction.X + bdx) * elapsedTime));
+            step = (float)(Direction.X + bdx) * elapsedTime / steps;
             while (steps > 0)
             {
                 InCellLocation.X += step;
@@ -205,9 +161,8 @@ namespace GameEngine2D
                 {
                     JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
                 }
-                float t = (float)(gameTime.TotalGameTime.TotalSeconds - JumpStart) * Config.GRAVITY_T_MULTIPLIER;
-                Direction.Y += GetGravityConstant() * t * elapsedTime;
-                //direction.Y += GetGravityConstant() * (float)Math.Pow(t, 2) * elapsedTime;
+                t = (float)(gameTime.TotalGameTime.TotalSeconds - JumpStart) * Config.GRAVITY_T_MULTIPLIER;
+                Direction.Y += GetGravityConstant() * t/* * elapsedTime*/;
                 canJump = false;
             }
                 
@@ -219,8 +174,8 @@ namespace GameEngine2D
                 JumpStart = 0;
             }
 
-            float steps2 = (float)Math.Ceiling(Math.Abs((Direction.Y + bdy) * elapsedTime));
-            float step2 = (float)(Direction.Y + bdy) * elapsedTime / steps2;
+            steps2 = (float)Math.Ceiling(Math.Abs((Direction.Y + bdy) * elapsedTime));
+            step2 = (float)(Direction.Y + bdy) * elapsedTime / steps2;
             while (steps2 > 0)
             {
                 InCellLocation.Y += step2;

@@ -118,7 +118,7 @@ namespace GameEngine2D.GameExamples.TopDown.src
             LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();
             foreach (Vector2 coord in collisions) {
-                Entity e =  new Entity(Scene.Instance.GetColliderLayer(), null , coord * Config.GRID, font);
+                Entity e =  new Entity(Scene.Instance.ColliderLayer, null , coord * Config.GRID, font);
                 e.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.White));
                 e.BlocksRay = true;
 

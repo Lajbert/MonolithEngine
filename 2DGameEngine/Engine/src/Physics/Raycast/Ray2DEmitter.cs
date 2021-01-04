@@ -38,9 +38,9 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
                 ray.debugLine.Reset();
                 ray.intersectionMarker.Visible = false;
                 ray.debugLine.Position = owner.Position;
-                ray.debugLine.from = owner.Position;
+                ray.debugLine.From = owner.Position;
 #endif
-                foreach (Entity e in Scene.Instance.GetRayBlockersLayer().GetAll())
+                foreach (Entity e in Scene.Instance.RayBlockersLayer.GetAll())
                 {
                     if (!e.BlocksRay)
                     {
