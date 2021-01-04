@@ -8,7 +8,7 @@ namespace GameEngine2D
         [STAThread]
         static void Main()
         {
-            using (var game = new TopDownGame())
+            using (var game = new LightsDemo())
                 game.Run();
         }
     }
