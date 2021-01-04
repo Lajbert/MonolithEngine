@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine2D.Entities.Interfaces
 {
-    interface IUpdatable
+    public interface IUpdatable
     {
         public void PreUpdate(GameTime gameTime);
         public void Update(GameTime gameTime);

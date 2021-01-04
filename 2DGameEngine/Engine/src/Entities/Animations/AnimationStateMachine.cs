@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Entities.Animations
 {
-    class AnimationStateMachine
+    public class AnimationStateMachine
     {
         private List<StateAnimation> animations;
         private StateAnimation currentAnimation = null;

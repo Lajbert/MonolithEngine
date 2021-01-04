@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Level
 {
-    class LDTKMap
+    public class LDTKMap
     {
 
         private readonly string COLLIDERS = "Collisions";

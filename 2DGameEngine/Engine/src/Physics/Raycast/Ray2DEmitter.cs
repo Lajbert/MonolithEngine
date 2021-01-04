@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Physics.Raycast
 {
-    class Ray2DEmitter
+    public class Ray2DEmitter
     {
 
         private List<Ray2D> rays;

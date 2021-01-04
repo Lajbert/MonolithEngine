@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Entities.Animation
 {
-    abstract class AbstractAnimation : IAnimation
+    public abstract class AbstractAnimation : IAnimation
     {
 
         protected int CurrentFrame;

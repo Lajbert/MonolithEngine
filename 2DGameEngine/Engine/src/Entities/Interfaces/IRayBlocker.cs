@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Entities.Interfaces
 {
-    interface IRayBlocker
+    public interface IRayBlocker
     {
         public bool BlocksRay { get; set; }
         public List<(Vector2 start, Vector2 end)> GetRayBlockerLines();

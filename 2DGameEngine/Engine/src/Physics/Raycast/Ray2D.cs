@@ -11,7 +11,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Physics.Raycast
 {
-    class Ray2D
+    public class Ray2D
     {
         public Vector2 position;
         public Vector2 direction;

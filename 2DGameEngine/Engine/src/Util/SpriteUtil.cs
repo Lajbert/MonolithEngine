@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Util
 {
-    class SpriteUtil
+    public class SpriteUtil
     {
         public static Texture2D CreateRectangle(GraphicsDeviceManager graphics, int size, Color color)
         {

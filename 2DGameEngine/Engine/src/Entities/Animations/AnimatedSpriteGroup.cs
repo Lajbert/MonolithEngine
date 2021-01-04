@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Entities.Animation
 {
-    class AnimatedSpriteGroup : AbstractAnimation
+    public class AnimatedSpriteGroup : AbstractAnimation
     {
         public List<Texture2D> Textures { get; set; }
 

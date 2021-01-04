@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Util
 {
-    class MathUtil
+    public class MathUtil
     {
 
 		public static Vector2 RadToVector(float angleRad)

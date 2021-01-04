@@ -1,12 +1,11 @@
-﻿using GameEngine2D.GameExamples.TopDown.src;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GameEngine2D.Global
 {
-    class Config
+    public class Config
     {
         public static float CHARACTER_SPEED = 1f;
         public static int GRID = 64;

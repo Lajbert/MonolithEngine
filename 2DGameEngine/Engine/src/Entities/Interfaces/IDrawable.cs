@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine2D.Entities.Interfaces
 {
-    interface IDrawable
+    public interface IDrawable
     {
 
         public void PreDraw(GameTime gameTime);

@@ -12,14 +12,13 @@ using GameEngine2D.src.Util;
 using GameEngine2D.src.Layer;
 using GameEngine2D.src.Entities.Animation;
 using GameEngine2D.Engine.src.Entities.Animations;
-using GameEngine2D.GameExamples2D.SideScroller.src;
 using GameEngine2D.Engine.src.Entities.Interfaces;
 using GameEngine2D.Engine.src.Physics.Raycast;
 using GameEngine2D.Engine.src.Layer;
 
 namespace GameEngine2D.Entities
 {
-    class Entity : GameObject, Interfaces.IDrawable, IUpdatable, ICollider, IRayBlocker
+    public class Entity : GameObject, Interfaces.IDrawable, IUpdatable, ICollider, IRayBlocker
     {
 
         protected Vector2 StartPosition;

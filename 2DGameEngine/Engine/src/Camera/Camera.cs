@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Camera
 {
-	class Camera
+	public class Camera
 	{
 		public Entity target;
 

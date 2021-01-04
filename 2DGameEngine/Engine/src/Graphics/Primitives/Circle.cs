@@ -11,7 +11,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Graphics.Primitives
 {
-    class Circle : Entity
+    public class Circle : Entity
     {
 
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Level
 {
-    interface MapSerializer
+    public interface MapSerializer
     {
         public LDTKMap Deserialize(String filePath);
     }

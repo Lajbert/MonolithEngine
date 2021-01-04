@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Layer
 {
-    abstract class AbstractLayer
+    public abstract class AbstractLayer
     {
 
         public abstract void AddObject(Entity gameObject);

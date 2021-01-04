@@ -1,13 +1,10 @@
-﻿using GameEngine2D.Engine.src.Graphics.Primitives;
-using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.src.Hero;
 using GameEngine2D.Global;
 using GameEngine2D.src;
 using GameEngine2D.src.Camera;
-using GameEngine2D.src.Entities.Animation;
 using GameEngine2D.src.Level;
-using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,9 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.GameExamples2D.SideScroller.src
+namespace SideScrollerExample
 {
-    public class LightsDemo : Game
+    public class SideScrollerGame : Game
     {
         private GraphicsDeviceManager graphics;
         private ContentManager contentManager;
@@ -35,18 +32,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
 
         private SpriteBatch spriteBatch;
 
-        Effect tutorialEffect;
-
-        Texture2D rect;
-
-        Texture2D lightMask;
-
-        RenderTarget2D lightsTarget;
-        RenderTarget2D mainTarget;
-
-        Knight knight;
-
-        public LightsDemo()
+        public SideScrollerGame()
         {
             // >>>>>>> set framerate >>>>>>>>>>
             this.IsFixedTimeStep = true;//false;
@@ -65,9 +51,9 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             mapSerializer = new LDTKJsonMapSerializer();
             contentManager = Content;
 
-            frameCounter = new FrameCounter();
-
             Config.CHARACTER_SPEED = 2f;
+
+            frameCounter = new FrameCounter();
         }
 
         protected override void Initialize()
@@ -82,7 +68,6 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
-            tutorialEffect = Content.Load<Effect>("Shaders/Effects/Tutorial");
             /*Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
             Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(1, 0) * Constants.GRID, font);
             Entity child3 = new Entity(child2, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(1, 0) * Constants.GRID, font);*/
@@ -92,18 +77,8 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             graphics.ApplyChanges();
             CreateLevel();
             //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
-            knight = new Knight(Content, new Vector2(5, 5) * Config.GRID, font);
+            Knight knight = new Knight(Content, new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(knight, true);
-
-            rect = SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.White);
-
-            lightMask = Content.Load<Texture2D>("Shaders/Textures/Lightmask");
-
-            PresentationParameters pp = GraphicsDevice.PresentationParameters;
-            lightsTarget = new RenderTarget2D(
-                GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight);
-            mainTarget = new RenderTarget2D(
-                GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight);
         }
 
         private void CreateLevel()
@@ -186,7 +161,6 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             }*/
         }
 
-        float angle = 0;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -196,9 +170,6 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             RootContainer.Instance.UpdateAll(gameTime);
             camera.update(gameTime);
             camera.postUpdate(gameTime);
-
-            angle += 0.025f;
-
             base.Update(gameTime);
         }
 
@@ -233,42 +204,6 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             var fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Black);
-            spriteBatch.End();
-
-            /*spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            tutorialEffect.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Draw(rect, new Vector2(300,300), Color.White);
-            spriteBatch.End();*/
-
-            GraphicsDevice.SetRenderTarget(lightsTarget);
-            GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            spriteBatch.Draw(lightMask, new Vector2(0, 0), Color.Blue);
-            spriteBatch.Draw(lightMask, new Vector2(100, 0), Color.Red);
-            spriteBatch.Draw(lightMask, new Vector2(200, 200), Color.White);
-            spriteBatch.Draw(lightMask, new Vector2(300, 300), Color.Yellow);
-            spriteBatch.Draw(lightMask, new Vector2(500, 200), Color.Orange);
-            spriteBatch.End();
-
-            // Draw the main scene to the Render Target
-            GraphicsDevice.SetRenderTarget(mainTarget);
-            GraphicsDevice.Clear(Color.White);
-            spriteBatch.Begin();
-            spriteBatch.Draw(rect, new Vector2(100, 0), Color.Red);
-            spriteBatch.Draw(rect, new Vector2(250, 250), Color.Red);
-            Vector2 pos = new Vector2((float)Math.Sin(angle) * 100, (float)Math.Cos(angle) * 100)  + new Vector2(400,400);
-            Logger.Log("Vec: " + pos);
-            spriteBatch.Draw(rect, pos, Color.Red);
-            //spriteBatch.Draw(rect, new Vector2(550, 225), Color.Red);
-            spriteBatch.End();
-
-            // Draw the main scene with a pixel shader
-            GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            tutorialEffect.Parameters["lightMask"].SetValue(lightsTarget);
-            tutorialEffect.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Draw(mainTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);

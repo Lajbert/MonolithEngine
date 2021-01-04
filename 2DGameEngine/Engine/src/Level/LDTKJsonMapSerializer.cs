@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace GameEngine2D.src.Level
 {
-    class LDTKJsonMapSerializer : MapSerializer
+    public class LDTKJsonMapSerializer : MapSerializer
     {
         public LDTKMap Deserialize(String filePath)
         {

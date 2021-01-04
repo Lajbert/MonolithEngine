@@ -12,7 +12,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Graphics.Primitives
 {
-    class Line : Entity
+    public class Line : Entity
     {
         private Vector2 Origin;
         private Vector2 Scale;

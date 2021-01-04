@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameEngine2D.Entities.Interfaces
 {
-    interface IGravityApplicable
+    public interface IGravityApplicable
     {
         public bool HasGravity { get; set; }
 

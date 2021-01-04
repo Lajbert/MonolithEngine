@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Entities.Animation.Interface
 {
-    interface IAnimation
+    public interface IAnimation
     {
         public void Update(GameTime gameTime);
 

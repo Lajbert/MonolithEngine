@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Layer
 {
-    class ColliderLayer : AbstractLayer
+    public class ColliderLayer : AbstractLayer
     {
         private Dictionary<Vector2, Entity> objects;
         private float scrollSpeedModifier;

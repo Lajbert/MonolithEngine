@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Entities
 {
-    class AnimatedSpriteSheet
+    public class AnimatedSpriteSheet
     {
         public Texture2D Texture { get; set; }
         public int Rows { get; set; }

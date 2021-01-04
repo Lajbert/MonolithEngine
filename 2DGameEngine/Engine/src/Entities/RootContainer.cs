@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine2D.Entities
 {
-    class RootContainer : GameObject
+    public class RootContainer : GameObject
     {
 
         private HashSet<Entity> children = new HashSet<Entity>();

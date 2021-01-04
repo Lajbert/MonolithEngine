@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Layer
 {
-    class SimpleLayer : AbstractLayer
+    public class SimpleLayer : AbstractLayer
     {
         private List<Entity> objects;
         private float scrollSpeedModifier;

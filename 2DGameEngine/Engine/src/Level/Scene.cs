@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GameEngine2D.src
 {
-    class Scene
+    public class Scene
     {
 
         public SimpleLayer BackgroundLayer { get; } = new SimpleLayer();

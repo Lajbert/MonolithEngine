@@ -13,7 +13,7 @@ using System;
 
 namespace GameEngine2D
 {
-    class ControllableEntity : Entity, IGravityApplicable
+    public class ControllableEntity : Entity, IGravityApplicable
     {
 
         private float bdx = 0f;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine2D.Entities.Interfaces
 {
-    interface ICollider
+    public interface ICollider
     {
         public bool HasCollision { get; set; }
 

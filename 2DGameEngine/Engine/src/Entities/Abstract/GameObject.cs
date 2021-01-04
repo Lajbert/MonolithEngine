@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine2D.Entities
 {
-    abstract class GameObject
+    public abstract class GameObject
     {
         private static int GLOBAL_ID = 0;
         private int ID { get; set; } = 0 ;

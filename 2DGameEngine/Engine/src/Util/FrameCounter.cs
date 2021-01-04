@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.src.Util
 {
-    class FrameCounter
+    public class FrameCounter
     {
         public FrameCounter()
         {

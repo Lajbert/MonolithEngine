@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameEngine2D.src.Util
 {
-    class TimeUtil
+    public class TimeUtil
     {
         public static float GetElapsedTime(GameTime gameTime)
         {

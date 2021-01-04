@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine2D.Entities.Interfaces
 {
-    interface IReusable
+    public interface IReusable
     {
         public void Reset(Vector2 position = new Vector2());
     }

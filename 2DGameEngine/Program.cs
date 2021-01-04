@@ -1,6 +1,5 @@
 ﻿using System;
-using GameEngine2D.GameExamples.TopDown.src;
-using GameEngine2D.GameExamples2D.SideScroller.src;
+
 namespace GameEngine2D
 {
     public static class Program
@@ -8,8 +7,8 @@ namespace GameEngine2D
         [STAThread]
         static void Main()
         {
-            using (var game = new SideScrollerGame())
-                game.Run();
+            //using (var game = new SideScrollerGame())
+            //    game.Run();
         }
     }
 }
