@@ -16,6 +16,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
         private Entity owner;
         private Vector2 closestIntersection;
         public float closestDistance;
+        private Vector2 intersection = Vector2.Zero;
 
         public Ray2DEmitter(Entity owner)
         {
@@ -32,7 +33,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
             foreach (Ray2D ray in rays)
             {
                 ray.position = owner.Position;
-                closestIntersection = new Vector2(int.MaxValue, int.MaxValue);
+                closestIntersection.X = closestIntersection.Y = int.MaxValue;
                 closestDistance = float.MaxValue;
 #if RAYCAST_DEBUG
                 ray.debugLine.Reset();
@@ -48,7 +49,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
                     }
                     foreach ((Vector2, Vector2) line in e.GetRayBlockerLines())
                     {
-                        Vector2 intersection = ray.Cast(line);
+                        ray.Cast(line, ref intersection);
 #if RAYCAST_DEBUG
                         if (intersection != Vector2.Zero)
                         {

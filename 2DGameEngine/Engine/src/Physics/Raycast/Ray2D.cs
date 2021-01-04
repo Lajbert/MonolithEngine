@@ -53,7 +53,7 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
 #endif
         }
 
-        public Vector2 Cast((Vector2 from, Vector2 to) target)
+        public void Cast((Vector2 from, Vector2 to) target, ref Vector2 result)
         {
             x4 = position.X + direction.X;
             y4 = position.Y + direction.Y;
@@ -61,16 +61,19 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
             den = (target.from.X - target.to.X) * (position.Y - y4) - (target.from.Y - target.to.Y) * (position.X - x4);
             if (den == 0)
             {
-                return Vector2.Zero;
+                result.X = result.Y = 0;
+                return;
             }
 
             t = ((target.from.X - position.X) * (position.Y - y4) - (target.from.Y - position.Y) * (position.X - x4)) / den;
             u = -((target.from.X - target.to.X) * (target.from.Y - position.Y) - (target.from.Y - target.to.Y) * (target.from.X - position.X)) / den;
             if (t > 0 && t < 1 && u > 0)
             {
-                return new Vector2(target.from.X + t * (target.to.X - target.from.X), target.from.Y + t * (target.to.Y - target.from.Y));
+                result.X = target.from.X + t * (target.to.X - target.from.X);
+                result.Y = target.from.Y + t * (target.to.Y - target.from.Y);
+                return;
             }
-            return Vector2.Zero;
+            result.X = result.Y = 0;
         }
     }
 }
