@@ -8,21 +8,11 @@ namespace GameEngine2D.Entities
     abstract class GameObject
     {
         private static int GLOBAL_ID = 0;
-        private int UNIQUE_ID = 0;
+        private int ID { get; set; } = 0 ;
 
         public GameObject()
         {
-            SetID();
-        }
-
-        public void SetID()
-        {
-            UNIQUE_ID = GLOBAL_ID++;
-        }
-
-        public int GetID()
-        {
-            return this.UNIQUE_ID;
+            ID = GLOBAL_ID++;
         }
 
         public abstract void Destroy();
@@ -33,12 +23,12 @@ namespace GameEngine2D.Entities
             {
                 return false;
             }
-            return this.UNIQUE_ID == ((GameObject)obj).UNIQUE_ID;
+            return this.ID == ((GameObject)obj).ID;
         }
 
         public override int GetHashCode()
         {
-            return UNIQUE_ID;
+            return ID;
         }
 
     }

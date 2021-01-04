@@ -38,8 +38,8 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
         public SideScrollerGame()
         {
             // >>>>>>> set framerate >>>>>>>>>>
-            //this.IsFixedTimeStep = true;//false;
-            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+            this.IsFixedTimeStep = true;//false;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = Config.FULLSCREEN;
@@ -49,8 +49,8 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             background1 = GetRandomColor();
             background2 = GetRandomColor();
             // uncapped framerate
-            graphics.SynchronizeWithVerticalRetrace = false;
-            this.IsFixedTimeStep = false;
+            //graphics.SynchronizeWithVerticalRetrace = false;
+            //this.IsFixedTimeStep = false;
             mapSerializer = new LDTKJsonMapSerializer();
             contentManager = Content;
 
@@ -60,7 +60,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entity.SetGraphicsDeviceManager(graphics);
+            Entity.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 

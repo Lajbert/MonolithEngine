@@ -7,10 +7,8 @@ namespace GameEngine2D.Entities.Interfaces
 {
     interface ICollider
     {
-        public bool HasCollision();
+        public bool HasCollision { get; set; }
 
-        public void SetCollisions(bool detectCollision);
-
-        public Vector2 GetPosition();
+        public Vector2 Position { get; set; }
     }
 }

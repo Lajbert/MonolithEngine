@@ -35,8 +35,8 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
             this.to = toSaved = to;
             this.thickness = thickness;
             this.color = color;
-            sprite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            sprite.SetData(new[] { Color.White });
+            Sprite = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Sprite.SetData(new[] { Color.White });
             length = Vector2.Distance(from, to);
             angleRad = MathUtil.AngleFromVectors(from, to);
             origin = new Vector2(0f, 0f);
@@ -48,8 +48,8 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
             this.from = fromSaved = from;
             this.thickness = thickness;
             this.color = color;
-            sprite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            sprite.SetData(new[] { Color.White });
+            Sprite = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Sprite.SetData(new[] { Color.White });
             this.length = length;
             this.angleRad = angleRad;
             to = toSaved = MathUtil.EndPointOfLine(from, length, this.angleRad);
@@ -77,14 +77,14 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
         protected override void DrawSprite(Vector2 position)
         {
             //base.DrawSprite(position);
-            spriteBatch.Begin();
-            spriteBatch.Draw(sprite, position, null, color, angleRad, origin, scale, SpriteEffects.None, 0);
-            spriteBatch.End();
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(Sprite, position, null, color, angleRad, origin, scale, SpriteEffects.None, 0);
+            SpriteBatch.End();
         }
 
         protected override void SetRayBlockers()
         {
-            rayBlockerLines.Add((from, to));
+            RayBlockerLines.Add((from, to));
         }
 
     }

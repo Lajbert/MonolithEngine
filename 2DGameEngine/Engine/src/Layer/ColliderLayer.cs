@@ -24,7 +24,7 @@ namespace GameEngine2D.src.Layer
 
         public override void AddObject(Entity gameObject)
         {
-            objects.Add(gameObject.GetGridCoord(), gameObject);
+            objects.Add(gameObject.GridCoordinates, gameObject);
         }
 
         public void RemoveObject(Vector2 position)
@@ -32,7 +32,7 @@ namespace GameEngine2D.src.Layer
             Entity e = objects[position];
             objects.Remove(position);
             foreach (Entity child in e.GetAllChildren()) {
-                RemoveObject(e.GetPosition());
+                RemoveObject(e.GridCoordinates);
             }
         }
 

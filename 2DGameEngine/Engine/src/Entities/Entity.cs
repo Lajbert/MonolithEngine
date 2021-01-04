@@ -19,21 +19,47 @@ using GameEngine2D.Engine.src.Layer;
 
 namespace GameEngine2D.Entities
 {
-    class Entity : GameObject, Interfaces.IDrawable, IUpdatable, IHasParent, IHasChildren, ICollider, IRayBlocker
+    class Entity : GameObject, Interfaces.IDrawable, IUpdatable, ICollider, IRayBlocker
     {
 
-        protected Vector2 startPosition;
-        protected Vector2 currentPosition;
-        protected Texture2D sprite;
-        protected SpriteBatch spriteBatch;
+        protected Vector2 StartPosition;
+        private Vector2 position;
+
+        public Vector2 Position
+        {
+            get => position;
+            set { position = value; }
+        }
+
+        protected Texture2D Sprite { get; set; }
+        protected SpriteBatch SpriteBatch { get; set; }
         private HashSet<Entity> children;
         private HashSet<IUpdatable> updatables;
         private HashSet<Interfaces.IDrawable> drawables;
+
         private Entity parent;
-        private bool hasCollision;
-        protected AbstractLayer layer;
-        protected List<(Vector2 start, Vector2 end)> rayBlockerLines;
-        protected bool blocksRay = false;
+
+        public bool HasCollision { get; set; }
+
+        protected AbstractLayer Layer { get; set; }
+        protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
+
+        private bool blocksRay = false;
+        public bool BlocksRay {
+            get => blocksRay;
+            set
+            {
+                if (!value)
+                {
+                    Scene.Instance.GetRayBlockersLayer().RemoveObject(this);
+                }
+                else
+                {
+                    Scene.Instance.GetRayBlockersLayer().AddObject(this);
+                }
+                blocksRay = value;
+            }
+        }
 
 #if GRAPHICS_DEBUG
         protected SpriteFont font;
@@ -42,42 +68,42 @@ namespace GameEngine2D.Entities
         //grid coordinates
         //private float cx = 0f;
         //private float cy = 0f;
-        protected Vector2 gridCoord;
+        public Vector2 GridCoordinates;
 
         //between 0 and 1: where the object is inside the grid cell
         //private float xr = 0.5f;
         //private float yr = 1.0f;
-        protected Vector2 inCellLocation;
+        protected Vector2 InCellLocation;
 
         //private float dx = 0;
         //private float dy = 0;
-        protected Vector2 direction = Vector2.Zero;
+        protected Vector2 Direction = Vector2.Zero;
 
-        protected AnimationStateMachine animationStates;
+        protected AnimationStateMachine Animations { get; set; }
 
-        protected Ray2DEmitter rayEmitter;
+        public Ray2DEmitter RayEmitter { private get; set; }
 
-        protected static GraphicsDeviceManager graphicsDeviceManager;
+        public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
 
         public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
         {
-            this.layer = layer;
-            spriteBatch = new SpriteBatch(graphicsDeviceManager.GraphicsDevice);
-            gridCoord = CalculateGridCoord(startPosition);
-            this.children = new HashSet<Entity>();
-            this.updatables = new HashSet<IUpdatable>();
-            this.drawables = new HashSet<Interfaces.IDrawable>();
+            this.Layer = layer;
+            SpriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
+            GridCoordinates = CalculateGridCoord(startPosition);
+            children = new HashSet<Entity>();
+            updatables = new HashSet<IUpdatable>();
+            drawables = new HashSet<Interfaces.IDrawable>();
             if (parent != null) {
                 this.parent = parent;
                 this.parent.AddChild(this);
-                this.startPosition = this.currentPosition = startPosition + GetParent().GetPositionWithParent();
+                this.StartPosition = this.Position = startPosition + parent.GetPositionWithParent();
             } else
             {
                 RootContainer.Instance.AddChild(this);
-                this.startPosition = this.currentPosition = startPosition + layer.GetPosition();
+                this.StartPosition = this.Position = startPosition + layer.GetPosition();
             }
             
-            hasCollision = true;
+            HasCollision = true;
             //this.startPosition = this.currentPosition = startPosition;
 
 #if GRAPHICS_DEBUG
@@ -93,10 +119,10 @@ namespace GameEngine2D.Entities
             rayBlockerLines.Add((new Vector2(Config.GRID, 0), new Vector2(0, Config.GRID)));
             rayBlockerLines.Add((new Vector2(0, Config.GRID), new Vector2(Config.GRID, Config.GRID)));*/
 
-            rayBlockerLines.Add((currentPosition, new Vector2(currentPosition.X, currentPosition.Y + Config.GRID)));
-            rayBlockerLines.Add((currentPosition, new Vector2(currentPosition.X + Config.GRID, currentPosition.Y)));
-            rayBlockerLines.Add((new Vector2(currentPosition.X + Config.GRID, currentPosition.Y), new Vector2(currentPosition.X, currentPosition.Y + Config.GRID)));
-            rayBlockerLines.Add((new Vector2(currentPosition.X, currentPosition.Y + Config.GRID), new Vector2(currentPosition.X + Config.GRID, currentPosition.Y + Config.GRID)));
+            RayBlockerLines.Add((Position, new Vector2(Position.X, Position.Y + Config.GRID))); //0, 1
+            RayBlockerLines.Add((Position, new Vector2(Position.X + Config.GRID, Position.Y))); //1, 0
+            RayBlockerLines.Add((new Vector2(Position.X + Config.GRID, Position.Y), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID))); //1
+            RayBlockerLines.Add((new Vector2(Position.X, Position.Y + Config.GRID), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID)));
         }
 
         public virtual void PreDraw(GameTime gameTime)
@@ -111,18 +137,18 @@ namespace GameEngine2D.Entities
         public virtual void Draw(GameTime gameTime)
         {
             Vector2 position;
-            if (GetParent() != null)
+            if (parent != null)
             {
-                position = startPosition + GetParent().GetPositionWithParent();
+                position = StartPosition + parent.GetPositionWithParent();
             } else
             {
                 
-                position = currentPosition + layer.GetPosition();
+                position = Position + Layer.GetPosition();
             }
 
-            if (animationStates != null)
+            if (Animations != null)
             {
-                animationStates.Draw(gameTime);
+                Animations.Draw(gameTime);
             }
             else
             {
@@ -153,16 +179,16 @@ namespace GameEngine2D.Entities
 
         protected virtual void DrawSprite(Vector2 position)
         {
-            if (sprite != null)
+            if (Sprite != null)
             {
-                spriteBatch.Begin();
-                spriteBatch.Draw(sprite, position, Color.White);
-                spriteBatch.End();
+                SpriteBatch.Begin();
+                SpriteBatch.Draw(Sprite, position, Color.White);
+                SpriteBatch.End();
             }
         }
         public bool IsIdle()
         {
-            return MathUtil.SmallerEqualAbs(direction, new Vector2(0.5f, 0.5f));
+            return MathUtil.SmallerEqualAbs(Direction, new Vector2(0.5f, 0.5f));
         }
 
         public virtual void PostDraw(GameTime gameTime)
@@ -185,9 +211,9 @@ namespace GameEngine2D.Entities
         public virtual void Update(GameTime gameTime)
         {
 
-            if (animationStates != null)
+            if (Animations != null)
             {
-                animationStates.Update(gameTime);
+                Animations.Update(gameTime);
             }
 
             foreach (IUpdatable child in updatables)
@@ -199,9 +225,9 @@ namespace GameEngine2D.Entities
         public virtual void PostUpdate(GameTime gameTime)
         {
 
-            if (rayEmitter != null)
+            if (RayEmitter != null)
             {
-                rayEmitter.UpdateRays();
+                RayEmitter.UpdateRays();
             }
 
             foreach (IUpdatable child in updatables)
@@ -241,11 +267,6 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public Entity GetParent()
-        {
-            return parent;
-        }
-
         public override void Destroy()
         {
             parent.RemoveChild(this);
@@ -259,87 +280,31 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public bool HasCollision()
-        {
-            return this.hasCollision;
-        }
-
-        public void SetCollisions(bool detectCollision)
-        {
-            this.hasCollision = detectCollision;
-        }
-
-        public Vector2 GetPosition()
-        {
-            return this.currentPosition;
-            /*if (GetParent() != null)
-            {
-                return position + GetParent().GetPosition();
-            }
-            else
-            {
-                return position + RootContainer.Instance.GetRootPosition();
-            }*/
-        }
-
         public void SetSprite(Texture2D texture)
         {
-            this.sprite = texture;
+            this.Sprite = texture;
         }
 
         public Vector2 GetPositionWithParent()
         {
-            if (GetParent() != null)
+            if (parent != null)
             {
-                return currentPosition + GetParent().GetPositionWithParent();
+                return Position + parent.GetPositionWithParent();
             }
             else
             {
-                return currentPosition + layer.GetPosition();
+                return Position + Layer.GetPosition();
             }
-        }
-
-        public Vector2 GetStartPosition()
-        {
-            return this.startPosition;
-            /*if (GetParent() != null)
-            {
-                return position + GetParent().GetPosition();
-            }
-            else
-            {
-                return position + RootContainer.Instance.GetRootPosition();
-            }*/
-        }
-
-        public Vector2 GetCenter()
-        {
-            return currentPosition;
         }
 
         protected Vector2 CalculateGridCoord()
         {
-            return CalculateGridCoord(currentPosition);
+            return CalculateGridCoord(Position);
         }
 
         protected Vector2 CalculateGridCoord(Vector2 position)
         {
             return new Vector2((int)Math.Floor(position.X / Config.GRID), (int)Math.Floor(position.Y / Config.GRID));
-        }
-
-        public Vector2 GetGridCoord()
-        {
-            return gridCoord;
-        }
-
-        protected HashSet<IUpdatable> GetUpdatables()
-        {
-            return updatables;
-        }
-
-        protected HashSet<Interfaces.IDrawable> GetDrawables()
-        {
-            return drawables;
         }
 
         public void AddParent(Entity newParent)
@@ -359,52 +324,14 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public void SetAnimationStateMachime(AnimationStateMachine animationStates)
-        {
-            this.animationStates = animationStates;
-        }
-
-        public static void SetGraphicsDeviceManager(GraphicsDeviceManager graphics)
-        {
-            graphicsDeviceManager = graphics;
-        }
-
-        public void SetRayEmitter(Ray2DEmitter rayEmitter)
-        {
-            this.rayEmitter = rayEmitter;
-        }
-
         public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()
         {
-            if (rayBlockerLines == null)
+            if (RayBlockerLines == null)
             {
-                rayBlockerLines = new List<(Vector2 start, Vector2 end)>();
+                RayBlockerLines = new List<(Vector2 start, Vector2 end)>();
                 SetRayBlockers();
             }
-            return rayBlockerLines;
-        }
-
-        public bool BlocksRay()
-        {
-            return blocksRay;
-        }
-
-        public bool SetBlocksRay(bool blocksRay)
-        {
-            if (!blocksRay)
-            {
-                Scene.Instance.GetRayBlockersLayer().RemoveObject(this);
-            }
-            else
-            {
-                Scene.Instance.GetRayBlockersLayer().AddObject(this);
-            }
-            return this.blocksRay = blocksRay;
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            this.currentPosition = position;
+            return RayBlockerLines;
         }
     }
 }

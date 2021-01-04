@@ -24,15 +24,15 @@ namespace GameEngine2D
 
         private bool canJump = true;
         private bool doubleJump = false;
-        private bool gravity = Config.GRAVITY_ON;
+        public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
 
-        protected float jumpStart;
+        public float JumpStart { get; set; }
 
-        protected FaceDirection faceDirection = FaceDirection.RIGHT;
+        protected FaceDirection CurrentFaceDirection { get; set; } = FaceDirection.RIGHT;
 
         public ControllableEntity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
-            SetPosition(startPosition);
+            ResetPosition(startPosition);
         }
 
         override public void Draw(GameTime gameTime)
@@ -42,7 +42,7 @@ namespace GameEngine2D
 
             if (currentKeyboardState.IsKeyDown(Keys.R))
             {
-                SetPosition(new Vector2(9, 9) * Config.GRID);
+                ResetPosition(new Vector2(9, 9) * Config.GRID);
             }
 
 
@@ -50,18 +50,18 @@ namespace GameEngine2D
 
             float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
-            if (!HasGravity() && currentKeyboardState.IsKeyDown(Keys.Up))
+            if (!HasGravity && currentKeyboardState.IsKeyDown(Keys.Up))
             {
                 //moveY = -1;
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
-                direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
-                if (!HasGravity())
+                Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
+                if (!HasGravity)
                 {
-                    faceDirection = FaceDirection.UP;
+                    CurrentFaceDirection = FaceDirection.UP;
                 }
             }
 
-            if (HasGravity() && currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space) && (canJump || doubleJump))
+            if (HasGravity && currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space) && (canJump || doubleJump))
             {
                 //moveY = -1;
                 //dy -= Constants.CHARACTER_SPEED * elapsedTime;
@@ -73,8 +73,8 @@ namespace GameEngine2D
                     doubleJump = false;
                 }
                 canJump = false;
-                direction.Y -= Config.JUMP_FORCE;
-                jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+                Direction.Y -= Config.JUMP_FORCE;
+                JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
             }
             previousKeyboardState = currentKeyboardState;
 
@@ -82,10 +82,10 @@ namespace GameEngine2D
             {
                 //moveY = 1;
                 //dy += Constants.CHARACTER_SPEED * elapsedTime;
-                direction.Y += Config.CHARACTER_SPEED * elapsedTime;
-                if (!HasGravity())
+                Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
+                if (!HasGravity)
                 {
-                    faceDirection = FaceDirection.DOWN;
+                    CurrentFaceDirection = FaceDirection.DOWN;
                 }
             }
 
@@ -93,29 +93,29 @@ namespace GameEngine2D
             {
                 //moveX = -1;
                 //dx -= Constants.CHARACTER_SPEED * elapsedTime;
-                direction.X -= Config.CHARACTER_SPEED * elapsedTime;
-                faceDirection = FaceDirection.LEFT;
+                Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
+                CurrentFaceDirection = FaceDirection.LEFT;
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right))
             {
                 //moveX = 1;
                 //dx += Constants.CHARACTER_SPEED * elapsedTime;
-                direction.X += Config.CHARACTER_SPEED * elapsedTime;
+                Direction.X += Config.CHARACTER_SPEED * elapsedTime;
                 //currentAnimation = moveRightAnimation;
-                faceDirection = FaceDirection.RIGHT;
+                CurrentFaceDirection = FaceDirection.RIGHT;
             }
 
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                gridCoord = CalculateGridCoord(new Vector2(mouseState.X, mouseState.Y));
-                if (HasCollision() && (!Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(gridCoord)) &&
-                    !Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)) &&
-                    !Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)) &&
-                    !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord))))
+                GridCoordinates = CalculateGridCoord(new Vector2(mouseState.X, mouseState.Y));
+                if (HasCollision && (!Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) &&
+                    !Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) &&
+                    !Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)) &&
+                    !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))))
                 {
-                    currentPosition = new Vector2(mouseState.X, mouseState.Y);
+                    Position = new Vector2(mouseState.X, mouseState.Y);
                 }
                     
             }
@@ -173,77 +173,77 @@ namespace GameEngine2D
 
             float elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
-            float steps = (float)Math.Ceiling(Math.Abs((direction.X + bdx) * elapsedTime));
-            float step = (float)(direction.X + bdx) * elapsedTime / steps;
+            float steps = (float)Math.Ceiling(Math.Abs((Direction.X + bdx) * elapsedTime));
+            float step = (float)(Direction.X + bdx) * elapsedTime / steps;
             while (steps > 0)
             {
-                inCellLocation.X += step;
+                InCellLocation.X += step;
 
-                if (HasCollision() && inCellLocation.X >= Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(gridCoord)))
+                if (HasCollision && InCellLocation.X >= Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 {
-                    inCellLocation.X = Config.SPRITE_COLLISION_OFFSET;
+                    InCellLocation.X = Config.SPRITE_COLLISION_OFFSET;
                 }
 
-                if (HasCollision() && inCellLocation.X <= Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(gridCoord)))
+                if (HasCollision && InCellLocation.X <= Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 {
-                    inCellLocation.X = Config.SPRITE_COLLISION_OFFSET;
+                    InCellLocation.X = Config.SPRITE_COLLISION_OFFSET;
                 }
 
-                while (inCellLocation.X > 1) { inCellLocation.X--; gridCoord.X++; }
-                while (inCellLocation.X < 0) { inCellLocation.X++; gridCoord.X--; }
+                while (InCellLocation.X > 1) { InCellLocation.X--; GridCoordinates.X++; }
+                while (InCellLocation.X < 0) { InCellLocation.X++; GridCoordinates.X--; }
                 steps--;
             }
-            direction.X *= (float)Math.Pow(Config.FRICTION, elapsedTime);
+            Direction.X *= (float)Math.Pow(Config.FRICTION, elapsedTime);
             bdx *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
-            if (Math.Abs(direction.X) <= 0.0005 * elapsedTime) direction.X = 0;
+            if (Math.Abs(Direction.X) <= 0.0005 * elapsedTime) Direction.X = 0;
             if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
 
             // Y
-            if (HasGravity() && !OnGround())
+            if (HasGravity && !OnGround())
             {   
-                if (jumpStart == 0)
+                if (JumpStart == 0)
                 {
-                    jumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+                    JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
                 }
-                float t = (float)(gameTime.TotalGameTime.TotalSeconds - jumpStart) * Config.GRAVITY_T_MULTIPLIER;
-                direction.Y += GetGravityConstant() * t * elapsedTime;
+                float t = (float)(gameTime.TotalGameTime.TotalSeconds - JumpStart) * Config.GRAVITY_T_MULTIPLIER;
+                Direction.Y += GetGravityConstant() * t * elapsedTime;
                 //direction.Y += GetGravityConstant() * (float)Math.Pow(t, 2) * elapsedTime;
                 canJump = false;
             }
                 
-            if (HasGravity() && OnGround() /*|| direction.Y < 0*/)
+            if (HasGravity && OnGround() /*|| direction.Y < 0*/)
             {
                 //fallStartY = footY;
                 canJump = true;
                 doubleJump = true;
-                jumpStart = 0;
+                JumpStart = 0;
             }
 
-            float steps2 = (float)Math.Ceiling(Math.Abs((direction.Y + bdy) * elapsedTime));
-            float step2 = (float)(direction.Y + bdy) * elapsedTime / steps2;
+            float steps2 = (float)Math.Ceiling(Math.Abs((Direction.Y + bdy) * elapsedTime));
+            float step2 = (float)(Direction.Y + bdy) * elapsedTime / steps2;
             while (steps2 > 0)
             {
-                inCellLocation.Y += step2;
+                InCellLocation.Y += step2;
 
-                if (HasCollision() && inCellLocation.Y > Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)))
+                if (HasCollision && InCellLocation.Y > Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
                 {
-                    direction.Y = 0;
-                    inCellLocation.Y = Config.SPRITE_COLLISION_OFFSET;
+                    Direction.Y = 0;
+                    InCellLocation.Y = Config.SPRITE_COLLISION_OFFSET;
                     bdy = 0;
                 }
 
-                if (HasCollision() && inCellLocation.Y < Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(gridCoord)))
+                if (HasCollision && InCellLocation.Y < Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
-                    inCellLocation.Y = Config.SPRITE_COLLISION_OFFSET;
+                    InCellLocation.Y = Config.SPRITE_COLLISION_OFFSET;
                 }
                    
-                while (inCellLocation.Y > 1) { inCellLocation.Y--; gridCoord.Y++; }
-                while (inCellLocation.Y < 0) { inCellLocation.Y++; gridCoord.Y--; }
+                while (InCellLocation.Y > 1) { InCellLocation.Y--; GridCoordinates.Y++; }
+                while (InCellLocation.Y < 0) { InCellLocation.Y++; GridCoordinates.Y--; }
                 steps2--;
             }
-            direction.Y *= (float)Math.Pow(Config.FRICTION, elapsedTime);
+            Direction.Y *= (float)Math.Pow(Config.FRICTION, elapsedTime);
             bdy *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
-            if (Math.Abs(direction.Y) <= 0.0005 * elapsedTime) direction.Y = 0;
+            if (Math.Abs(Direction.Y) <= 0.0005 * elapsedTime) Direction.Y = 0;
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
 
 
@@ -260,7 +260,7 @@ namespace GameEngine2D
         {
             //currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
             //currentPosition.Y = (int)((gridCoord.Y + inCellLocation.Y) * Constants.GRID);
-            currentPosition = (gridCoord + inCellLocation) * Config.GRID;
+            Position = (GridCoordinates + InCellLocation) * Config.GRID;
             base.PostUpdate(gameTime);
         }
 
@@ -270,16 +270,6 @@ namespace GameEngine2D
             inCellLocation = new Vector2((posiiton.X - gridCoord.X * Constants.GRID) / Constants.GRID, (posiiton.Y - gridCoord.Y * Constants.GRID) / Constants.GRID);
         }*/
 
-        public bool HasGravity()
-        {
-            return gravity;
-        }
-
-        public void SetGravity(bool gravityOn)
-        {
-            gravity = gravityOn;
-        }
-
         public float GetGravityConstant()
         {
             return Config.GRAVITY_FORCE;
@@ -287,15 +277,15 @@ namespace GameEngine2D
 
         private bool OnGround()
         {
-            bool onGround = Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(gridCoord)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
+            bool onGround = Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
             return onGround;
         }
 
-        public void SetPosition(Vector2 position)
+        public void ResetPosition(Vector2 position)
         {
-            inCellLocation = Vector2.Zero;
-            this.currentPosition = startPosition = position;
-            this.jumpStart = 0;
+            InCellLocation = Vector2.Zero;
+            this.Position = StartPosition = position;
+            this.JumpStart = 0;
         }
 
         protected enum FaceDirection

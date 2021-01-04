@@ -6,7 +6,7 @@ namespace GameEngine2D.Entities.Interfaces
 {
     interface IGravityApplicable
     {
-        public bool HasGravity();
+        public bool HasGravity { get; set; }
 
         public float GetGravityConstant();
     }

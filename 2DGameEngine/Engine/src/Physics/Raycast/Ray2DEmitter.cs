@@ -20,28 +20,29 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
         public Ray2DEmitter(Entity owner)
         {
             this.owner = owner;
-            owner.SetRayEmitter(this);
+            owner.RayEmitter = this;
             rays = new List<Ray2D>();
             for (float i = 0; i <= 360; i+=1f)
             {
-                rays.Add(new Ray2D(owner.GetPosition(), MathUtil.DegreesToRad(i)));
+                rays.Add(new Ray2D(owner.Position, MathUtil.DegreesToRad(i)));
             }
         }
         public void UpdateRays()
         {
             foreach (Ray2D ray in rays)
             {
-                ray.position = owner.GetPosition();
+                ray.position = owner.Position;
                 closestIntersection = new Vector2(int.MaxValue, int.MaxValue);
                 closestDistance = float.MaxValue;
 #if RAYCAST_DEBUG
                 ray.debugLine.Reset();
-                ray.debugLine.SetPosition(owner.GetPosition());
-                ray.debugLine.from = owner.GetPosition();
+                ray.intersectionMarker.Visible = false;
+                ray.debugLine.Position = owner.Position;
+                ray.debugLine.from = owner.Position;
 #endif
                 foreach (Entity e in Scene.Instance.GetRayBlockersLayer().GetAll())
                 {
-                    if (!e.BlocksRay())
+                    if (!e.BlocksRay)
                     {
                         continue;
                     }
@@ -64,7 +65,8 @@ namespace GameEngine2D.Engine.src.Physics.Raycast
 #if RAYCAST_DEBUG
                 if (closestDistance < float.MaxValue)
                 {
-                    //ray.intersectionMarker.SetPosition(closestIntersection);
+                    ray.intersectionMarker.Position = closestIntersection;
+                    ray.intersectionMarker.Visible = true;
                     ray.debugLine.SetEnd(closestIntersection);
                 }
 #endif

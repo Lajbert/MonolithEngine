@@ -81,7 +81,7 @@ namespace GameEngine2D.src.Camera
 		public void recenter()
 		{
 			if (target != null) {
-				position = new Vector2(target.GetPosition().X + targetTrackOffX, target.GetPosition().Y + targetTrackOffY);
+				position = new Vector2(target.Position.X + targetTrackOffX, target.Position.Y + targetTrackOffY);
 				//position.X = target.GetPosition().X + targetTrackOffX;
 				//position.Y = target.GetPosition().Y + targetTrackOffY;
 			}
@@ -106,8 +106,8 @@ namespace GameEngine2D.src.Camera
 			// Follow target entity
 			if (target != null)
 			{
-				float tx = target.GetPosition().X + targetTrackOffX;
-				float ty = target.GetPosition().Y + targetTrackOffY;
+				float tx = target.Position.X + targetTrackOffX;
+				float ty = target.Position.Y + targetTrackOffY;
 
 				float d = dist(position.X, position.Y, tx, ty);
 				if (d >= Config.CAMERA_DEADZONE)

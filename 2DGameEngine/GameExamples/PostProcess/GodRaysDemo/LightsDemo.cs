@@ -73,7 +73,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entity.SetGraphicsDeviceManager(graphics);
+            Entity.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 

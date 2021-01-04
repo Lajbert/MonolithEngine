@@ -19,10 +19,11 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
         private Color color;
         private float radius;
         private Vector2 offset;
+        public bool Visible;
 
         public Circle(Entity parent, Vector2 center, int radius, Color color) : base(Scene.Instance.GetEntityLayer(), parent, center, null)
         {
-            sprite = CreateCircle(radius, color);
+            Sprite = CreateCircle(radius, color);
             this.color = color;
             this.center = center;
             this.radius = radius;
@@ -32,14 +33,18 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
         protected override void DrawSprite(Vector2 position)
         {
             //base.DrawSprite(position);
-            spriteBatch.Begin();
-            spriteBatch.Draw(sprite, position - offset, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-            spriteBatch.End();
+            if (Visible)
+            {
+                SpriteBatch.Begin();
+                SpriteBatch.Draw(Sprite, position - offset, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                SpriteBatch.End();
+
+            }
         }
 
         Texture2D CreateCircle(int radius, Color color)
         {
-            Texture2D texture = new Texture2D(spriteBatch.GraphicsDevice, radius, radius);
+            Texture2D texture = new Texture2D(SpriteBatch.GraphicsDevice, radius, radius);
             Color[] colorData = new Color[radius * radius];
 
             float diam = radius / 2f;

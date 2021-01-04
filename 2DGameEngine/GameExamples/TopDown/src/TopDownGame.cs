@@ -71,7 +71,7 @@ namespace GameEngine2D.GameExamples.TopDown.src
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entity.SetGraphicsDeviceManager(graphics);
+            Entity.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
@@ -120,7 +120,7 @@ namespace GameEngine2D.GameExamples.TopDown.src
             foreach (Vector2 coord in collisions) {
                 Entity e =  new Entity(Scene.Instance.GetColliderLayer(), null , coord * Config.GRID, font);
                 e.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.White));
-                e.SetBlocksRay(true);
+                e.BlocksRay = true;
 
             }
         }

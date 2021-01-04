@@ -8,7 +8,7 @@ namespace GameEngine2D
         [STAThread]
         static void Main()
         {
-            using (var game = new LightsDemo())
+            using (var game = new SideScrollerGame())
                 game.Run();
         }
     }
