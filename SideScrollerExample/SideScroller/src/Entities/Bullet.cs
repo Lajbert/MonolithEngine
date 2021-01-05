@@ -17,8 +17,6 @@ namespace SideScrollerExample.SideScroller.src.Entities
         private int mul = 1;
         public Bullet(Entity parent, FaceDirection faceDirection) : base(Scene.Instance.EntityLayer, null, parent.Position)
         {
-            Logger.Log("Parent position: " + parent.Position);
-            Logger.Log("Parent position with root: " + parent.GetPositionWithParent());
             if (faceDirection == FaceDirection.LEFT)
             {
                 mul = -1;

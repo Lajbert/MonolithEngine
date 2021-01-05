@@ -91,8 +91,6 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             Action shoot = () =>
             {
                 new Bullet(this, CurrentFaceDirection);
-                Logger.Log("This position: " + Position);
-                Logger.Log("This position with root: " + GetPositionWithParent());
             };
 
             UserInput.RegisterControllerState(Keys.RightShift, shoot, true);
