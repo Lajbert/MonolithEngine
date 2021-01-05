@@ -69,15 +69,10 @@ namespace SideScrollerExample
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
-            /*Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
-            Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(1, 0) * Constants.GRID, font);
-            Entity child3 = new Entity(child2, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(1, 0) * Constants.GRID, font);*/
-            // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             CreateLevel();
-            //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
             Knight knight = new Knight(Content, new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(knight, true);
         }
@@ -94,10 +89,7 @@ namespace SideScrollerExample
                 {
                     for (int j = 22; j < 25; j++)
                     {
-                        //Entity level = new Entity(Scene.Instance.ScrollableBackgroundLayers[1], null, new Vector2(i * Config.GRID, j * Config.GRID), font);
-                        //level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Brown));
                         Tile t = new Tile(Content, Scene.Instance.ScrollableBackgroundLayers[1], new Vector2(i * Config.GRID, j * Config.GRID), Color.Yellow, font);
-                        //t.HasCollision = false;
                     }
                 }
 
@@ -109,8 +101,6 @@ namespace SideScrollerExample
                 {
                     for (int j = 18; j < 25; j++)
                     {
-                        //Entity level = new Entity(Scene.Instance.ScrollableBackgroundLayers[0], null, new Vector2(i * Config.GRID, j * Config.GRID), font);
-                        //level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Green));
                         Tile t = new Tile(Content, Scene.Instance.ScrollableBackgroundLayers[0], new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, font);
                     }
                 }
@@ -120,8 +110,6 @@ namespace SideScrollerExample
             {
                 for (int j = i; j <= i + 5; j++)
                 {
-                    //Entity level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(j * Config.GRID, 20 * Config.GRID), font);
-                    //level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
                     Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(j * Config.GRID, 20 * Config.GRID), Color.Black, font);
                 }
 
@@ -129,15 +117,11 @@ namespace SideScrollerExample
 
             for (int i = 2; i <= 300; i++)
             {
-                //Entity level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(i * Config.GRID, 25 * Config.GRID), font);
-                //level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
                 new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(i * Config.GRID, 25 * Config.GRID), Color.Black, font);
                 if (i % 5 == 0)
                 {
                     for (int j = i; j < i + 2; j++)
                     {
-                        //level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(j * Config.GRID, 24 * Config.GRID), font);
-                        //level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
                         Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(j * Config.GRID, 24 * Config.GRID), Color.DarkRed, font);
                     }
                 }
@@ -148,31 +132,7 @@ namespace SideScrollerExample
             foreach (Vector2 coord in collisions) {
                 new Entity(Scene.Instance.GetColliderLayer(), null , graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), coord * Constants.GRID, font);
             }*/
-            /*
-            for (int i = 2 * Constants.GRID; i < 15 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 17 * Constants.GRID), font);
-            }
-
-            for (int i = 16 * Constants.GRID; i < 27 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 15 * Constants.GRID), font);
-            }
-
-            for (int i = 2 * Constants.GRID; i < 25 * Constants.GRID; i+= Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 20 * Constants.GRID), font);
-            }
-
-            for (int i = 9 * Constants.GRID; i < 10 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
-            }
-
-            for (int i = 25 * Constants.GRID; i < 50 * Constants.GRID; i += Constants.GRID)
-            {
-                new Entity(null, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(i, 19 * Constants.GRID), font);
-            }*/
+            
         }
 
         protected override void Update(GameTime gameTime)
