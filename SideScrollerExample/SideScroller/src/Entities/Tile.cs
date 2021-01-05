@@ -39,7 +39,7 @@ namespace SideScrollerExample.SideScroller.src.Entities
             Animations.Offset = spriteOffset;
             SetDestroyAnimation(explode);
 
-            DestroySound = contentManager.Load<SoundEffect>("Audio/Effects/Explosion");
+            //DestroySound = contentManager.Load<SoundEffect>("Audio/Effects/Explosion");
             //Func<bool> isExploding = () => true;
             //Animations.RegisterAnimation("Idle", explode, isExploding);
         }

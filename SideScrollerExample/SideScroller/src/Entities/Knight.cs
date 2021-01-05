@@ -107,7 +107,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
                 {
                     lastBulletInSeconds = 0;
                     new Bullet(this, CurrentFaceDirection);
-                    shotEffect.Play();
+                    //shotEffect.Play();
                 }
             };
 
