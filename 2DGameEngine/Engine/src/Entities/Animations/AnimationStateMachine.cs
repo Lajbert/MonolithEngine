@@ -15,6 +15,8 @@ namespace GameEngine2D.Engine.src.Entities.Animations
 
         private Vector2 offset = Vector2.Zero;
 
+        private StateAnimation animationOverride = null;
+
         public Vector2 Offset {
             get => offset;
             set {
@@ -29,7 +31,7 @@ namespace GameEngine2D.Engine.src.Entities.Animations
             animations = new List<StateAnimation>();
         }
 
-        public void RegisterAnimation(string state, AnimatedSpriteGroup animation, Func<bool> function = null, int priority = 0)
+        public void RegisterAnimation(string state, AbstractAnimation animation, Func<bool> function = null, int priority = 0)
         {
             if (function == null)
             {
@@ -41,15 +43,29 @@ namespace GameEngine2D.Engine.src.Entities.Animations
             animations.Sort((a, b) => a.priority.CompareTo(b.priority) * -1);
         }
 
+        public void PlayAnimation(string state)
+        {
+            foreach (StateAnimation anim in animations)
+            {
+                if (anim.state.Equals(state))
+                {
+                    animationOverride = anim;
+                    animationOverride.animation.Init();
+                    return;
+                }
+            }
+            throw new Exception("Requested animation not found");
+        }
+
         private class StateAnimation
         {
 
             public string state;
             public Func<bool> function;
-            public AnimatedSpriteGroup animation;
+            public AbstractAnimation animation;
             public int priority;
 
-            public StateAnimation(string state, AnimatedSpriteGroup animation, Func<bool> function = null, int priority = 0)
+            public StateAnimation(string state, AbstractAnimation animation, Func<bool> function = null, int priority = 0)
             {
                 this.state = state;
                 this.animation = animation;
@@ -57,6 +73,18 @@ namespace GameEngine2D.Engine.src.Entities.Animations
                 this.function = function;
             }
 
+        }
+
+        public bool HasAnimation(string state)
+        {
+            foreach (StateAnimation anim in animations)
+            {
+                if (anim.state.Equals(state))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void Draw(GameTime gameTime)
@@ -71,6 +99,10 @@ namespace GameEngine2D.Engine.src.Entities.Animations
 
         private void Play(GameTime gameTime)
         {   
+            if (animationOverride != null && animationOverride.animation.Finished())
+            {
+                animationOverride = null;
+            }
             StateAnimation nextAnimation = Pop();
             if (nextAnimation == null)
             {
@@ -100,6 +132,10 @@ namespace GameEngine2D.Engine.src.Entities.Animations
 
         private StateAnimation Pop()
         {
+            if (animationOverride != null)
+            {
+                return animationOverride;
+            }
             foreach (StateAnimation anim in animations)
             {
                 if (anim.function.Invoke())

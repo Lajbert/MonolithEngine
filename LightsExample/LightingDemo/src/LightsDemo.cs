@@ -252,7 +252,6 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             spriteBatch.Draw(rect, new Vector2(100, 0), Color.Red);
             spriteBatch.Draw(rect, new Vector2(250, 250), Color.Red);
             Vector2 pos = new Vector2((float)Math.Sin(angle) * 100, (float)Math.Cos(angle) * 100)  + new Vector2(400,400);
-            Logger.Log("Vec: " + pos);
             spriteBatch.Draw(rect, pos, Color.Red);
             //spriteBatch.Draw(rect, new Vector2(550, 225), Color.Red);
             spriteBatch.End();

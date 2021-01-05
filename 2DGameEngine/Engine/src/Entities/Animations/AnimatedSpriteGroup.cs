@@ -17,7 +17,12 @@ namespace GameEngine2D.src.Entities.Animation
             this.Textures = textures;
         }
 
-        public override void Play()
+        protected override Texture2D GetTexture()
+        {
+            return Textures[CurrentFrame];
+        }
+
+       /* public override void Play()
         {
             Texture2D texture = Textures[CurrentFrame];
             int width = Config.GRID;
@@ -31,6 +36,6 @@ namespace GameEngine2D.src.Entities.Animation
             SpriteBatch.Draw(texture, Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
             //spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
             SpriteBatch.End();
-        }
+        }*/
     }
 }

@@ -3,6 +3,7 @@ using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.src;
+using GameEngine2D.src.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using System;
@@ -13,7 +14,7 @@ namespace SideScrollerExample.SideScroller.src.Entities
 {
     class Bullet : Entity
     {
-        private float speed = 15f;
+        private float speed = 300f;
         private int mul = 1;
 
         public Bullet(Entity parent, FaceDirection faceDirection) : base(Scene.Instance.EntityLayer, null, parent.Position)
@@ -26,13 +27,11 @@ namespace SideScrollerExample.SideScroller.src.Entities
             SinglePointCollisionChecks.Add(faceDirection);
 
             SetSprite(SpriteUtil.CreateRectangle(GraphicsDeviceManager, Config.GRID / 3, Color.Red));
-
-            Logger.Log("Bullet created");
         }
 
         public override void Update(GameTime gameTime)
         {
-            X += speed * mul;
+            X += speed * mul * TimeUtil.GetElapsedTime(gameTime);
 
             base.Update(gameTime);
         }

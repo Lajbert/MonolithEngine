@@ -27,7 +27,7 @@ namespace GameEngine2D.src
 
         public bool HasColliderAt(Vector2 location)
         {
-            return ColliderLayer.HasObjectAt(location);
+            return ColliderLayer.HasObjectAt(location) && ColliderLayer.GetObjectAt(location).HasCollision;
         }
 
         public Entity GetColliderAt(Vector2 location)

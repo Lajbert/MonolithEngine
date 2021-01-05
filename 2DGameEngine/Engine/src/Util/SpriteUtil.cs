@@ -50,8 +50,13 @@ namespace GameEngine2D.Engine.src.Util
 
         public static List<Texture2D> LoadTextures(string fullPath, int frames, ContentManager content)
         {
+            return LoadTextures(fullPath, 0, frames, content);
+        }
+
+        public static List<Texture2D> LoadTextures(string fullPath, int startFrame, int endFrame, ContentManager content)
+        {
             List<Texture2D> result = new List<Texture2D>();
-            for (int i = 0; i <= frames; i++)
+            for (int i = startFrame; i <= endFrame; i++)
             {
                 result.Add(content.Load<Texture2D>(fullPath + i));
             }

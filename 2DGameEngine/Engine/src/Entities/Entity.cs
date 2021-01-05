@@ -22,7 +22,9 @@ namespace GameEngine2D.Entities
 {
     public class Entity : GameObject, Interfaces.IDrawable, IUpdatable, ICollider, IRayBlocker
     {
-        
+
+        private readonly string DESTROY_AMINATION = "Destroy";
+
         protected Vector2 StartPosition;
         private Vector2 position;
 
@@ -169,16 +171,16 @@ namespace GameEngine2D.Entities
                 position = Position + Layer.GetPosition();
             }
 
-            if (Animations != null)
+            if (Sprite != null)
+            {
+                DrawSprite(position);
+            }
+            else
             {
                 if (Visible)
                 {
                     Animations.Draw(gameTime);
                 }
-            }
-            else
-            {
-                DrawSprite(position);
             }
 #if GRAPHICS_DEBUG
             if (Visible)
@@ -392,6 +394,19 @@ namespace GameEngine2D.Entities
 
         public override void Destroy()
         {
+            //Visible = false;
+            if (Animations != null && Animations.HasAnimation(DESTROY_AMINATION))
+            {
+                Sprite = null;
+                Animations.PlayAnimation(DESTROY_AMINATION);
+                return;
+            }
+            RemoveCollisions();
+            Cleanup();
+        }
+
+        protected void Cleanup()
+        {
             RootContainer.Instance.RemoveChild(this);
             Layer.Remove(this);
             if (parent != null)
@@ -400,12 +415,39 @@ namespace GameEngine2D.Entities
             }
             if (children.Any())
             {
-                foreach (Entity o in children) {
-                    if (o != null) {
+                foreach (Entity o in children)
+                {
+                    if (o != null)
+                    {
                         o.Destroy();
                     }
                 }
             }
+        }
+
+        private void RemoveCollisions()
+        {
+            HasCollision = false;
+        }
+
+        public void SetDestroyAnimation(AbstractAnimation destroyAnimation)
+        {
+            if (Animations == null)
+            {
+                Animations = new AnimationStateMachine();
+            }
+            if (destroyAnimation.StartedAction == null)
+            {
+                destroyAnimation.StartedAction = () => RemoveCollisions();
+                //destroyAnimation.StoppedAction = () => { };
+            }
+            if (destroyAnimation.StoppedAction == null)
+            {
+                destroyAnimation.StoppedAction = () => Cleanup();
+                //destroyAnimation.StoppedAction = () => { };
+            }
+            destroyAnimation.Looping = false;
+            Animations.RegisterAnimation(DESTROY_AMINATION, destroyAnimation, () => false);
         }
 
         public void SetSprite(Texture2D texture)
