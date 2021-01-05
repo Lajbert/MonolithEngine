@@ -165,7 +165,6 @@ namespace GameEngine2D
             bdy *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
             if (Math.Abs(Direction.Y) <= 0.0005 * elapsedTime) Direction.Y = 0;
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
-            Logger.Log("DIRECTION " + Direction);
             base.Update(gameTime);
         }
 
