@@ -19,6 +19,12 @@
 /processorParam:Quality=Best
 /build:Audio/Effects/Explosion.wav
 
+#begin Audio/Effects/GunShot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Effects/GunShot.wav
+
 #begin DefaultFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

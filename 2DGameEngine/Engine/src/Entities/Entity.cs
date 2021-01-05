@@ -416,6 +416,14 @@ namespace GameEngine2D.Entities
         protected void Cleanup()
         {
             RootContainer.Instance.RemoveChild(this);
+            if (Sprite != null)
+            {
+                Sprite.Dispose();
+            }
+            if (DestroySound != null)
+            {
+                //DestroySound.Dispose();
+            }
             Layer.Remove(this);
             if (parent != null)
             {

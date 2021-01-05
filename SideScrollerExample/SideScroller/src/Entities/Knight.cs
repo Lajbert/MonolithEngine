@@ -10,6 +10,7 @@ using GameEngine2D.src.Layer;
 using GameEngine2D.src.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -34,6 +35,8 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 
         private static double lastBulletInSeconds = 0f;
 
+        private SoundEffect shotEffect;
+
         public Knight(ContentManager contentManager, Vector2 position, SpriteFont font = null) : base(Scene.Instance.RayBlockersLayer, null, position, font)
         {
 
@@ -44,6 +47,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             CollisionOffsetBottom = 0.2f;
             CollisionOffsetTop = 0.7f;
             animations.Offset = new Vector2(-120f, -80f);
+            shotEffect = contentManager.Load<SoundEffect>("Audio/Effects/GunShot");
 
         }
 
@@ -103,6 +107,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
                 {
                     lastBulletInSeconds = 0;
                     new Bullet(this, CurrentFaceDirection);
+                    shotEffect.Play();
                 }
             };
 
