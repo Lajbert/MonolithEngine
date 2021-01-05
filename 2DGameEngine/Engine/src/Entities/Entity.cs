@@ -27,7 +27,19 @@ namespace GameEngine2D.Entities
         public Vector2 Position
         {
             get => position;
-            set { position = value; }
+            set => position = value;
+        }
+
+        public float X
+        {
+            get => position.X;
+            set => position.X = value;
+        }
+
+        public float Y
+        {
+            get => position.Y;
+            set => position.Y = value;
         }
 
         protected Texture2D Sprite { get; set; }
@@ -95,11 +107,11 @@ namespace GameEngine2D.Entities
             if (parent != null) {
                 this.parent = parent;
                 this.parent.AddChild(this);
-                this.StartPosition = this.Position = startPosition + parent.GetPositionWithParent();
+                this.StartPosition = this.Position = startPosition;
             } else
             {
                 RootContainer.Instance.AddChild(this);
-                this.StartPosition = this.Position = startPosition + layer.GetPosition();
+                this.StartPosition = this.Position = startPosition;
             }
             
             HasCollision = true;

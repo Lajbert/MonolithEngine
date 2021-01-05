@@ -95,7 +95,7 @@ namespace GameEngine2D.Entities
 
         public void UpdateAll(GameTime gameTime)
         {
-            foreach (IUpdatable o in updatables)
+            foreach (IUpdatable o in new List<IUpdatable>(updatables))
             {
                 o.PreUpdate(gameTime);
                 o.Update(gameTime);

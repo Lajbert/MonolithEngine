@@ -1,4 +1,6 @@
-﻿using GameEngine2D.Engine.src.Entities.Animations;
+﻿using GameEngine2D.Engine.src.Entities;
+using GameEngine2D.Engine.src.Entities.Animations;
+using GameEngine2D.Engine.src.Entities.Controller;
 using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -6,9 +8,12 @@ using GameEngine2D.src;
 using GameEngine2D.src.Entities.Animation;
 using GameEngine2D.src.Layer;
 using GameEngine2D.src.Util;
+using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using SideScrollerExample.SideScroller.src.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +33,74 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
         public Knight(ContentManager contentManager, Vector2 position, SpriteFont font = null) : base(Scene.Instance.RayBlockersLayer, null, position, font)
         {
 
+            SetupAnimations(contentManager);
+            SetupController();
+
+        }
+
+        private void SetupController()
+        {
+            UserInput = new UserInputController();
+
+            UserInput.RegisterControllerState(Keys.Right, () => {
+                Direction.X += Config.CHARACTER_SPEED * elapsedTime;
+                CurrentFaceDirection = FaceDirection.RIGHT;
+            });
+
+            UserInput.RegisterControllerState(Keys.Left, () => {
+                Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
+                CurrentFaceDirection = FaceDirection.LEFT;
+            });
+
+            UserInput.RegisterControllerState(Keys.Space, () => {
+                if (!HasGravity || (!canJump && !doubleJump))
+                {
+                    return;
+                }
+                if (canJump)
+                {
+                    doubleJump = true;
+                }
+                else
+                {
+                    doubleJump = false;
+                }
+                canJump = false;
+                Direction.Y -= Config.JUMP_FORCE;
+                JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+            }, true);
+
+            UserInput.RegisterControllerState(Keys.Down, () => {
+                if (HasGravity)
+                {
+                    return;
+                }
+                Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
+                CurrentFaceDirection = FaceDirection.DOWN;
+            });
+
+            UserInput.RegisterControllerState(Keys.Up, () => {
+                if (HasGravity)
+                {
+                    return;
+                }
+                Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
+                CurrentFaceDirection = FaceDirection.UP;
+            });
+
+            Action shoot = () =>
+            {
+                new Bullet(this, CurrentFaceDirection);
+                Logger.Log("This position: " + Position);
+                Logger.Log("This position with root: " + GetPositionWithParent());
+            };
+
+            UserInput.RegisterControllerState(Keys.RightShift, shoot, true);
+            UserInput.RegisterControllerState(Keys.LeftShift, shoot, true);
+        }
+
+        private void SetupAnimations(ContentManager contentManager)
+        {
             animations = new AnimationStateMachine();
 
             string folder = "SideScroller/KnightAssets/HeroKnight/";
@@ -58,7 +131,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             knightRunLeftAnimation.Offset = spriteOffset;
             Func<bool> isRunningleft = () => Direction.X < 0.5f;
             animations.RegisterAnimation("RunLeft", knightRunLeftAnimation, isRunningleft);
-            
+
             List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2, contentManager);
             AnimatedSpriteGroup knightJumpRightAnimation = new AnimatedSpriteGroup(knightJump, this, SpriteBatch, sourceRectangle, fps);
             knightJumpRightAnimation.Scale = scale;
@@ -87,9 +160,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 
             //SetSprite(SpriteUtil.CreateRectangle(graphicsDevice, Constants.GRID, Color.Black));
 
-            Animations =  animations;
+            Animations = animations;
         }
-
-
     }
 }

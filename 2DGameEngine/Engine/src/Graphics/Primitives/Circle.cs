@@ -13,8 +13,6 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
 {
     public class Circle : Entity
     {
-
-
         private Vector2 center;
         private Color color;
         private float radius;

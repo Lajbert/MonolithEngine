@@ -1,4 +1,6 @@
-﻿using GameEngine2D.Engine.src.Layer;
+﻿using GameEngine2D.Engine.src.Entities;
+using GameEngine2D.Engine.src.Entities.Controller;
+using GameEngine2D.Engine.src.Layer;
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
@@ -19,12 +21,11 @@ namespace GameEngine2D
         private float bdx = 0f;
         private float bdy = 0f;
 
-        private KeyboardState currentKeyboardState;
-        private KeyboardState previousKeyboardState;
+        protected UserInputController UserInput;
 
-        private bool canJump = true;
-        private bool doubleJump = false;
-        private float elapsedTime;
+        protected bool canJump = true;
+        protected bool doubleJump = false;
+        protected float elapsedTime;
         private float steps;
         private float step;
         private float steps2;
@@ -33,6 +34,8 @@ namespace GameEngine2D
         public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
 
         public float JumpStart { get; set; }
+
+        protected GameTime gameTime;
 
         protected FaceDirection CurrentFaceDirection { get; set; } = FaceDirection.RIGHT;
 
@@ -44,59 +47,10 @@ namespace GameEngine2D
         override public void Draw(GameTime gameTime)
         {
 
-            currentKeyboardState = Keyboard.GetState();
-
-            if (currentKeyboardState.IsKeyDown(Keys.R))
-            {
-                ResetPosition(new Vector2(9, 9) * Config.GRID);
-            }
+            this.gameTime = gameTime;
 
             elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
-            if (!HasGravity && currentKeyboardState.IsKeyDown(Keys.Up))
-            {
-                Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
-                if (!HasGravity)
-                {
-                    CurrentFaceDirection = FaceDirection.UP;
-                }
-            }
-
-            if (HasGravity && currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space) && (canJump || doubleJump))
-            {
-                if (canJump)
-                {
-                    doubleJump = true;
-                } else
-                {
-                    doubleJump = false;
-                }
-                canJump = false;
-                Direction.Y -= Config.JUMP_FORCE;
-                JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
-            }
-            previousKeyboardState = currentKeyboardState;
-
-            if (currentKeyboardState.IsKeyDown(Keys.Down))
-            {
-                Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
-                if (!HasGravity)
-                {
-                    CurrentFaceDirection = FaceDirection.DOWN;
-                }
-            }
-
-            if (currentKeyboardState.IsKeyDown(Keys.Left))
-            {
-                Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = FaceDirection.LEFT;
-            }
-
-            if (currentKeyboardState.IsKeyDown(Keys.Right))
-            {
-                Direction.X += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = FaceDirection.RIGHT;
-            }
 
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -117,17 +71,23 @@ namespace GameEngine2D
             spriteBatch.DrawString(font, inCellLocation.X + " : " + inCellLocation.Y, new Vector2(10,10), Color.White);
             spriteBatch.End();
 #endif
-
+            
             base.Draw(gameTime);
         }
 
         public override void PreUpdate(GameTime gameTime)
         {
+            if (UserInput != null)
+            {
+                UserInput.Update();
+            }
             base.PreUpdate(gameTime);
         }
         public override void Update(GameTime gameTime)
         {
             elapsedTime = TimeUtil.GetElapsedTime(gameTime);
+
+            this.gameTime = gameTime;
 
             steps = (float)Math.Ceiling(Math.Abs((Direction.X + bdx) * elapsedTime));
             step = (float)(Direction.X + bdx) * elapsedTime / steps;
@@ -168,7 +128,6 @@ namespace GameEngine2D
                 
             if (HasGravity && OnGround() /*|| direction.Y < 0*/)
             {
-                //fallStartY = footY;
                 canJump = true;
                 doubleJump = true;
                 JumpStart = 0;
@@ -201,29 +160,14 @@ namespace GameEngine2D
             if (Math.Abs(Direction.Y) <= 0.0005 * elapsedTime) Direction.Y = 0;
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
 
-
-            //currentPosition = new Vector2((float)(gridCoord.X + inCellLocation.X) * Constants.GRID, (float)(gridCoord.Y + inCellLocation.Y) * Constants.GRID);
-            //currentPosition = (gridCoord + inCellLocation) * Constants.GRID;
-
-            //System.Diagnostics.Debug.WriteLine(position);
-            //position = new Vector2((float)(cx + xr), (float)(cy + yr));
-
             base.Update(gameTime);
         }
 
         public override void PostUpdate(GameTime gameTime)
         {
-            //currentPosition.X = (int)((gridCoord.X + inCellLocation.X) * Constants.GRID);
-            //currentPosition.Y = (int)((gridCoord.Y + inCellLocation.Y) * Constants.GRID);
             Position = (GridCoordinates + InCellLocation) * Config.GRID;
             base.PostUpdate(gameTime);
         }
-
-        /*public void SetPositionPixel(Vector2 posiiton)
-        {
-            gridCoord = new Vector2((int)(posiiton.X / Constants.GRID), (int)(posiiton.Y / Constants.GRID));
-            inCellLocation = new Vector2((posiiton.X - gridCoord.X * Constants.GRID) / Constants.GRID, (posiiton.Y - gridCoord.Y * Constants.GRID) / Constants.GRID);
-        }*/
 
         public float GetGravityConstant()
         {
@@ -241,14 +185,6 @@ namespace GameEngine2D
             InCellLocation = Vector2.Zero;
             this.Position = StartPosition = position;
             this.JumpStart = 0;
-        }
-
-        protected enum FaceDirection
-        {
-            UP,
-            DOWN,
-            LEFT,
-            RIGHT
         }
     }
 }
