@@ -8,7 +8,7 @@ namespace GameEngine2D.Util
     {
         public static void Log(string message)
         {
-            System.Diagnostics.Debug.WriteLine(message);
+            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [DEBUG]: " + message);
         }
     }
 }

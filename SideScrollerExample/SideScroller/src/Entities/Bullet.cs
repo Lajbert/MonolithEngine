@@ -13,16 +13,21 @@ namespace SideScrollerExample.SideScroller.src.Entities
 {
     class Bullet : Entity
     {
-        private float speed = 50f;
+        private float speed = 15f;
         private int mul = 1;
+
         public Bullet(Entity parent, FaceDirection faceDirection) : base(Scene.Instance.EntityLayer, null, parent.Position)
         {
-            if (faceDirection == FaceDirection.LEFT)
+            if (faceDirection == GameEngine2D.Engine.src.Entities.FaceDirection.LEFT)
             {
                 mul = -1;
             }
 
+            SinglePointCollisionChecks.Add(faceDirection);
+
             SetSprite(SpriteUtil.CreateRectangle(GraphicsDeviceManager, Config.GRID / 3, Color.Red));
+
+            Logger.Log("Bullet created");
         }
 
         public override void Update(GameTime gameTime)
@@ -30,6 +35,17 @@ namespace SideScrollerExample.SideScroller.src.Entities
             X += speed * mul;
 
             base.Update(gameTime);
+        }
+
+        protected override void OnCollisionStart(Entity otherCollider)
+        {
+            otherCollider.Destroy();
+            Destroy();
+        }
+
+        protected override void OnCollisionEnd(Entity otherCollider)
+        {
+
         }
     }
 }

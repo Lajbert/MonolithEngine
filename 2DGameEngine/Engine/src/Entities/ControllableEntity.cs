@@ -43,7 +43,7 @@ namespace GameEngine2D
 
         protected GameTime gameTime;
 
-        protected FaceDirection CurrentFaceDirection { get; set; } = FaceDirection.RIGHT;
+        protected FaceDirection CurrentFaceDirection { get; set; } = Engine.src.Entities.FaceDirection.RIGHT;
 
         public ControllableEntity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {

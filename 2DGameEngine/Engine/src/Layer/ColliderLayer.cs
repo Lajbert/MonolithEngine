@@ -22,12 +22,17 @@ namespace GameEngine2D.src.Layer
             this.lockY = lockY;
         }
 
+        public Entity GetObjectAt(Vector2 position)
+        {
+            return objects[position];
+        }
+
         public override void AddObject(Entity gameObject)
         {
             objects.Add(gameObject.GridCoordinates, gameObject);
         }
 
-        public void RemoveObject(Vector2 position)
+        private void RemoveObject(Vector2 position)
         {
             Entity e = objects[position];
             objects.Remove(position);
@@ -53,6 +58,11 @@ namespace GameEngine2D.src.Layer
         public override IEnumerable<Entity> GetAll()
         {
             return objects.Values;
+        }
+
+        public override void Remove(Entity gameObject)
+        {
+            RemoveObject(gameObject.GridCoordinates);
         }
 
     }

@@ -30,6 +30,11 @@ namespace GameEngine2D.src
             return ColliderLayer.HasObjectAt(location);
         }
 
+        public Entity GetColliderAt(Vector2 location)
+        {
+            return ColliderLayer.GetObjectAt(location);
+        }
+
         public static Scene Instance
         {
             get

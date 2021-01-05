@@ -117,7 +117,7 @@ namespace SideScrollerExample
                 for (int j = i; j <= i + 5; j++)
                 {
                     Entity level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(j * Config.GRID, 20 * Config.GRID), font);
-                    level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
+                    level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
                 }
 
             }

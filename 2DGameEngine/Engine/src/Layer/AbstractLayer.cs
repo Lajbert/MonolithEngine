@@ -13,5 +13,7 @@ namespace GameEngine2D.Engine.src.Layer
         public abstract Vector2 GetPosition();
 
         public abstract IEnumerable<Entity> GetAll();
+
+        public abstract void Remove(Entity gameObject);
     }
 }

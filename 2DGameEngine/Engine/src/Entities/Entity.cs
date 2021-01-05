@@ -16,14 +16,17 @@ using GameEngine2D.Engine.src.Entities.Interfaces;
 using GameEngine2D.Engine.src.Physics.Raycast;
 using GameEngine2D.Engine.src.Layer;
 using GameEngine2D.Engine.src.Util;
+using GameEngine2D.Engine.src.Entities;
 
 namespace GameEngine2D.Entities
 {
     public class Entity : GameObject, Interfaces.IDrawable, IUpdatable, ICollider, IRayBlocker
     {
-
+        
         protected Vector2 StartPosition;
         private Vector2 position;
+
+        public bool Visible = true;
 
         protected Vector2 DrawOffset { get; set; } = Vector2.Zero;
 
@@ -59,13 +62,15 @@ namespace GameEngine2D.Entities
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
 
         private bool blocksRay = false;
+
+        protected List<FaceDirection> SinglePointCollisionChecks = new List<FaceDirection>();
         public bool BlocksRay {
             get => blocksRay;
             set
             {
                 if (!value)
                 {
-                    Scene.Instance.RayBlockersLayer.RemoveObject(this);
+                    Scene.Instance.RayBlockersLayer.Remove(this);
                 }
                 else
                 {
@@ -100,6 +105,8 @@ namespace GameEngine2D.Entities
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
 
         private Texture2D pivot;
+
+        private Dictionary<Entity, bool> collidesWith = new Dictionary<Entity, bool>();
 
         public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
         {
@@ -144,7 +151,6 @@ namespace GameEngine2D.Entities
 
         public virtual void PreDraw(GameTime gameTime)
         {
-
             foreach (Interfaces.IDrawable child in drawables)
             {
                 child.PreDraw(gameTime);
@@ -165,28 +171,34 @@ namespace GameEngine2D.Entities
 
             if (Animations != null)
             {
-                Animations.Draw(gameTime);
+                if (Visible)
+                {
+                    Animations.Draw(gameTime);
+                }
             }
             else
             {
                 DrawSprite(position);
             }
 #if GRAPHICS_DEBUG
-            SpriteBatch.Begin();
-            if (font != null)
+            if (Visible)
             {
-                if (parent != null)
+                SpriteBatch.Begin();
+                if (font != null)
                 {
-                    SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
-                } else
-                {
-                    SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
-                }
-                
-            }
+                    if (parent != null)
+                    {
+                        SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
+                    }
+                    else
+                    {
+                        SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
+                    }
 
-            SpriteBatch.Draw(pivot, position, Color.White);
-            SpriteBatch.End();
+                }
+                SpriteBatch.Draw(pivot, position, Color.White);
+                SpriteBatch.End();
+            }
 #endif
 
             foreach (Interfaces.IDrawable child in drawables)
@@ -195,10 +207,45 @@ namespace GameEngine2D.Entities
             }
         }
 
+        protected virtual void OnCollisionStart(Entity otherCollider)
+        {
+
+        }
+
+        protected virtual void OnCollisionEnd(Entity otherCollider)
+        {
+
+        }
+
+        public Entity GetSamePositionCollider()
+        {
+            return Scene.Instance.GetColliderAt(GridCoordinates);
+        }
+
+        public Entity GetLeftCollider()
+        {
+            return Scene.Instance.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
+        }
+
+        public Entity GetRightCollider()
+        {
+            return Scene.Instance.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates));
+        }
+
+        public Entity GetTopCollider()
+        {
+            return Scene.Instance.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates));
+        }
+
+        public Entity GetBottomCollider()
+        {
+            return Scene.Instance.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
+        }
+
 
         protected virtual void DrawSprite(Vector2 position)
         {
-            if (Sprite != null)
+            if (Sprite != null && Visible)
             {
                 SpriteBatch.Begin();
                 SpriteBatch.Draw(Sprite, position + DrawOffset, Color.White);
@@ -221,6 +268,8 @@ namespace GameEngine2D.Entities
 
         public virtual void PreUpdate(GameTime gameTime)
         {
+            CheckCollisions();
+
             foreach (IUpdatable child in updatables)
             {
                 child.PreUpdate(gameTime);
@@ -252,6 +301,61 @@ namespace GameEngine2D.Entities
             foreach (IUpdatable child in updatables)
             {
                 child.PostUpdate(gameTime);
+            }
+        }
+
+        private void CheckCollisions()
+        {
+
+            if (SinglePointCollisionChecks.Count == 0)
+            {
+                return;
+            }
+
+            GridCoordinates = CalculateGridCoord();
+
+            foreach (Entity e in new List<Entity>(collidesWith.Keys))
+            {
+                collidesWith[e] = false;
+                //collidesWith[e] = false;
+            }
+
+            if (Scene.Instance.HasColliderAt(GridCoordinates))
+            {
+                if (!collidesWith.ContainsKey(GetSamePositionCollider()))
+                {
+                    collidesWith.Add(GetSamePositionCollider(), true);
+                    OnCollisionStart(GetSamePositionCollider());
+                }
+                else
+                {
+                    collidesWith[GetSamePositionCollider()] = true;
+                }
+            }
+
+            /*foreach (FaceDirection dir in SinglePointCollisionChecks)
+            {
+                if (dir == FaceDirection.LEFT)
+                {
+                    if (Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                    {
+                        if (!collidesWith.ContainsKey(GetLeftCollider()))
+                        {
+                            collidesWith.Add(GetLeftCollider(), true);
+                            OnCollisionStart(GetLeftCollider());
+                        }
+                        else
+                        {
+                            collidesWith[GetLeftCollider()] = true;
+                        }
+                    }
+                }
+            }*/
+
+            foreach (KeyValuePair<Entity, bool> e in collidesWith.Where(e => !e.Value))
+            {
+                collidesWith.Remove(e.Key);
+                OnCollisionEnd(e.Key);
             }
         }
 
@@ -288,8 +392,13 @@ namespace GameEngine2D.Entities
 
         public override void Destroy()
         {
-            parent.RemoveChild(this);
-            if (!children.Any())
+            RootContainer.Instance.RemoveChild(this);
+            Layer.Remove(this);
+            if (parent != null)
+            {
+                parent.RemoveChild(this);
+            }
+            if (children.Any())
             {
                 foreach (Entity o in children) {
                     if (o != null) {

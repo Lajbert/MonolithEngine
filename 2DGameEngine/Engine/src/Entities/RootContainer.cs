@@ -65,6 +65,8 @@ namespace GameEngine2D.Entities
         public void RemoveChild(Entity gameObject)
         {
             children.Remove(gameObject);
+            updatables.Remove(gameObject);
+            drawables.Remove(gameObject);
         }
 
         public static RootContainer Instance
@@ -74,6 +76,7 @@ namespace GameEngine2D.Entities
                 return instance;
             }
         }
+
 
         public override void Destroy()
         {

@@ -27,7 +27,7 @@ namespace GameEngine2D.src.Layer
             objects.Add(gameObject);
         }
 
-        public void RemoveObject(Entity position)
+        private void RemoveObject(Entity position)
         {
             objects.Remove(position);
             foreach (Entity child in position.GetAllChildren()) {
@@ -47,6 +47,11 @@ namespace GameEngine2D.src.Layer
         public override IEnumerable<Entity> GetAll()
         {
             return objects;
+        }
+
+        public override void Remove(Entity gameObject)
+        {
+            RemoveObject(gameObject);
         }
 
     }
