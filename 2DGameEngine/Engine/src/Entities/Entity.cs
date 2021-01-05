@@ -17,6 +17,8 @@ using GameEngine2D.Engine.src.Physics.Raycast;
 using GameEngine2D.Engine.src.Layer;
 using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Engine.src.Entities;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace GameEngine2D.Entities
 {
@@ -64,6 +66,8 @@ namespace GameEngine2D.Entities
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
 
         private bool blocksRay = false;
+
+        public SoundEffect DestroySound;
 
         protected List<FaceDirection> SinglePointCollisionChecks = new List<FaceDirection>();
         public bool BlocksRay {
@@ -395,6 +399,10 @@ namespace GameEngine2D.Entities
         public override void Destroy()
         {
             //Visible = false;
+            if (DestroySound != null)
+            {
+                DestroySound.Play();
+            }
             if (Animations != null && Animations.HasAnimation(DESTROY_AMINATION))
             {
                 Sprite = null;

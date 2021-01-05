@@ -6,8 +6,10 @@ using GameEngine2D.Global;
 using GameEngine2D.src;
 using GameEngine2D.src.Entities.Animation;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,6 +38,8 @@ namespace SideScrollerExample.SideScroller.src.Entities
             explode.Scale = scale;
             Animations.Offset = spriteOffset;
             SetDestroyAnimation(explode);
+
+            DestroySound = contentManager.Load<SoundEffect>("Audio/Effects/Explosion");
             //Func<bool> isExploding = () => true;
             //Animations.RegisterAnimation("Idle", explode, isExploding);
         }
