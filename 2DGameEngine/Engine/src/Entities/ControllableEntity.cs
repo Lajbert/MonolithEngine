@@ -18,6 +18,12 @@ namespace GameEngine2D
     public class ControllableEntity : Entity, IGravityApplicable
     {
 
+        protected float CollisionOffsetLeft = 0f;
+        protected float CollisionOffsetRight = 0f;
+        protected float CollisionOffsetBottom = 0f;
+        protected float CollisionOffsetTop = 0f;
+
+
         private float bdx = 0f;
         private float bdy = 0f;
 
@@ -67,9 +73,9 @@ namespace GameEngine2D
             }
 
 #if GRAPHICS_DEBUG
-            spriteBatch.Begin();
-            spriteBatch.DrawString(font, inCellLocation.X + " : " + inCellLocation.Y, new Vector2(10,10), Color.White);
-            spriteBatch.End();
+            SpriteBatch.Begin();
+            SpriteBatch.DrawString(font, InCellLocation.X + " : " + InCellLocation.Y, new Vector2(10,10), Color.White);
+            SpriteBatch.End();
 #endif
             
             base.Draw(gameTime);
@@ -95,14 +101,14 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (HasCollision && InCellLocation.X >= Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 {
-                    InCellLocation.X = Config.SPRITE_COLLISION_OFFSET;
+                    InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasCollision && InCellLocation.X <= Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 {
-                    InCellLocation.X = Config.SPRITE_COLLISION_OFFSET;
+                    InCellLocation.X = CollisionOffsetRight;
                 }
 
                 while (InCellLocation.X > 1) { InCellLocation.X--; GridCoordinates.X++; }
@@ -139,16 +145,16 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (HasCollision && InCellLocation.Y > Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
                 {
                     Direction.Y = 0;
-                    InCellLocation.Y = Config.SPRITE_COLLISION_OFFSET;
+                    InCellLocation.Y = CollisionOffsetBottom;
                     bdy = 0;
                 }
 
-                if (HasCollision && InCellLocation.Y < Config.SPRITE_COLLISION_OFFSET && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
-                    InCellLocation.Y = Config.SPRITE_COLLISION_OFFSET;
+                    InCellLocation.Y = CollisionOffsetTop;
                 }
                    
                 while (InCellLocation.Y > 1) { InCellLocation.Y--; GridCoordinates.Y++; }
@@ -159,7 +165,7 @@ namespace GameEngine2D
             bdy *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
             if (Math.Abs(Direction.Y) <= 0.0005 * elapsedTime) Direction.Y = 0;
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
-
+            Logger.Log("DIRECTION " + Direction);
             base.Update(gameTime);
         }
 

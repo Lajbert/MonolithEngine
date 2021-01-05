@@ -15,6 +15,7 @@ using GameEngine2D.Engine.src.Entities.Animations;
 using GameEngine2D.Engine.src.Entities.Interfaces;
 using GameEngine2D.Engine.src.Physics.Raycast;
 using GameEngine2D.Engine.src.Layer;
+using GameEngine2D.Engine.src.Util;
 
 namespace GameEngine2D.Entities
 {
@@ -23,6 +24,8 @@ namespace GameEngine2D.Entities
 
         protected Vector2 StartPosition;
         private Vector2 position;
+
+        protected Vector2 DrawOffset { get; set; } = Vector2.Zero;
 
         public Vector2 Position
         {
@@ -96,6 +99,8 @@ namespace GameEngine2D.Entities
 
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
 
+        private Texture2D pivot;
+
         public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
         {
             this.Layer = layer;
@@ -119,6 +124,7 @@ namespace GameEngine2D.Entities
 
 #if GRAPHICS_DEBUG
             this.font = font;
+            pivot = SpriteUtil.CreateCircle(GraphicsDeviceManager, 10, Color.Red);
 #endif
             layer.AddObject(this);
         }
@@ -166,19 +172,21 @@ namespace GameEngine2D.Entities
                 DrawSprite(position);
             }
 #if GRAPHICS_DEBUG
-            spriteBatch.Begin();
+            SpriteBatch.Begin();
             if (font != null)
             {
-                if (GetParent() != null)
+                if (parent != null)
                 {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, startPosition + GetParent().GetPositionWithParent(), Color.White);
+                    SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
                 } else
                 {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, currentPosition + layer.GetPosition(), Color.White);
+                    SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
                 }
                 
             }
-            spriteBatch.End();
+
+            SpriteBatch.Draw(pivot, position, Color.White);
+            SpriteBatch.End();
 #endif
 
             foreach (Interfaces.IDrawable child in drawables)
@@ -193,7 +201,7 @@ namespace GameEngine2D.Entities
             if (Sprite != null)
             {
                 SpriteBatch.Begin();
-                SpriteBatch.Draw(Sprite, position, Color.White);
+                SpriteBatch.Draw(Sprite, position + DrawOffset, Color.White);
                 SpriteBatch.End();
             }
         }

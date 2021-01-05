@@ -1,4 +1,5 @@
 ﻿using GameEngine2D.Engine.src.Layer;
+using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.src;
 using GameEngine2D.src.Layer;
@@ -21,7 +22,7 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
 
         public Circle(Entity parent, Vector2 center, int radius, Color color) : base(Scene.Instance.EntityLayer, parent, center, null)
         {
-            Sprite = CreateCircle(radius, color);
+            Sprite = SpriteUtil.CreateCircle(GraphicsDeviceManager, radius, color);
             this.color = color;
             this.center = center;
             this.radius = radius;
@@ -38,35 +39,6 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
                 SpriteBatch.End();
 
             }
-        }
-
-        Texture2D CreateCircle(int radius, Color color)
-        {
-            Texture2D texture = new Texture2D(SpriteBatch.GraphicsDevice, radius, radius);
-            Color[] colorData = new Color[radius * radius];
-
-            float diam = radius / 2f;
-            float diamsq = diam * diam;
-
-            for (int x = 0; x < radius; x++)
-            {
-                for (int y = 0; y < radius; y++)
-                {
-                    int index = x * radius + y;
-                    Vector2 pos = new Vector2(x - diam, y - diam);
-                    if (pos.LengthSquared() <= diamsq)
-                    {
-                        colorData[index] = color;
-                    }
-                    else
-                    {
-                        colorData[index] = Color.Transparent;
-                    }
-                }
-            }
-
-            texture.SetData(colorData);
-            return texture;
         }
     }
 }

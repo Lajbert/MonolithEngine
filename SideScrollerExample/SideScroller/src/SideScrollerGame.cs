@@ -84,14 +84,6 @@ namespace SideScrollerExample
         private void CreateLevel()
         {
 
-
-
-            for (int i = 2; i <= 300; i++)
-            {
-                Entity level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(i * Config.GRID, 25 * Config.GRID), font);
-                level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
-            }
-
             Scene.Instance.AddScrollableLayer(0.7f, true);
             Scene.Instance.AddScrollableLayer(0.5f, true);
 
@@ -115,7 +107,7 @@ namespace SideScrollerExample
                     for (int j = 18; j < 25; j++)
                     {
                         Entity level = new Entity(Scene.Instance.ScrollableBackgroundLayers[0], null, new Vector2(i * Config.GRID, j * Config.GRID), font);
-                        level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
+                        level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Green));
                     }
                 }
             }
@@ -129,6 +121,21 @@ namespace SideScrollerExample
                 }
 
             }
+
+            for (int i = 2; i <= 300; i++)
+            {
+                Entity level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(i * Config.GRID, 25 * Config.GRID), font);
+                level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
+                if (i % 5 == 0)
+                {
+                    for (int j = i; j < i + 2; j++)
+                    {
+                        level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(j * Config.GRID, 24 * Config.GRID), font);
+                        level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
+                    }
+                }
+            }
+
             /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();
             foreach (Vector2 coord in collisions) {

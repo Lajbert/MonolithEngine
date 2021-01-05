@@ -13,6 +13,17 @@ namespace GameEngine2D.Engine.src.Entities.Animations
         private List<StateAnimation> animations;
         private StateAnimation currentAnimation = null;
 
+        private Vector2 offset = Vector2.Zero;
+
+        public Vector2 Offset {
+            get => offset;
+            set {
+                offset = value;
+                foreach (StateAnimation anim in animations) {
+                    anim.animation.Offset = offset;
+                }
+            } }
+
         public AnimationStateMachine()
         {
             animations = new List<StateAnimation>();
@@ -24,6 +35,7 @@ namespace GameEngine2D.Engine.src.Entities.Animations
             {
                 function = () => (true);
             }
+            animation.Offset = Offset;
             StateAnimation anim = new StateAnimation(state, animation, function, priority);
             animations.Add(anim);
             animations.Sort((a, b) => a.priority.CompareTo(b.priority) * -1);
