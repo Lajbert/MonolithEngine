@@ -18,8 +18,8 @@ namespace GameEngine2D.Source.Level
     {
         public LDTKMap(LDTKJson json)
         {
-            Globals.Camera.LevelGridCountH = 10000;
-            Globals.Camera.LevelGridCountW = 10000;
+            //Globals.Camera.LevelGridCountH = 256;
+            //Globals.Camera.LevelGridCountW = 256;
 
             foreach (GameEngine2D.Engine.Source.Level.Level level in json.Levels)
             {

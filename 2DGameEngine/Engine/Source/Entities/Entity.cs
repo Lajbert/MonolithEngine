@@ -19,6 +19,7 @@ using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Engine.Source.Entities;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using GameEngine2D.Engine.Source.Camera;
 
 namespace GameEngine2D.Entities
 {
@@ -117,6 +118,9 @@ namespace GameEngine2D.Entities
         private Texture2D pivotMarker;
 
         private Dictionary<Entity, bool> collidesWith = new Dictionary<Entity, bool>();
+
+        //public static ResolutionIndependentRenderer ResolutionIndependentRenderer;
+        //public static Camera2D Camera2D;
 
         public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
         {
@@ -258,6 +262,7 @@ namespace GameEngine2D.Entities
         {
             if (Sprite != null && Visible)
             {
+
                 //SpriteBatch.Begin();
                 //SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
                 SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
@@ -265,6 +270,14 @@ namespace GameEngine2D.Entities
                 //SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, Sprite.Width, Sprite.Height), Color.White, 0f, new Vector2(Sprite.Width / 2, Sprite.Height / 2), Config.SCALE, SpriteEffects.None, 0f);
                 SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White,  0f, Pivot, Config.SCALE, SpriteEffects.None, Layer.LayerDepth);
                 SpriteBatch.End();
+                
+
+                /*ResolutionIndependentRenderer.BeginDraw();
+                SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, null, Camera2D.GetViewTransformationMatrix());
+                //SpriteBatch.Draw(Sprite, (position + DrawOffset), Color.White);
+                SpriteBatch.Draw(Sprite, (position + DrawOffset), SourceRectangle, Color.White, 0f, Pivot, Config.SCALE, SpriteEffects.None, Layer.LayerDepth);
+                SpriteBatch.End();*/
+
             }
         }
         public bool IsIdle()

@@ -47,7 +47,7 @@ namespace SideScrollerExample.SideScroller.Source.Entities
         public override void Destroy()
         {
             base.Destroy();
-            Globals.Camera.Shake(2, 0.3f);
+            //Globals.Camera.Shake(2, 0.3f);
         }
     }
 }

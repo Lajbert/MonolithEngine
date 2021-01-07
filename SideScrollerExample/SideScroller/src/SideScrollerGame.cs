@@ -1,4 +1,6 @@
-﻿using GameEngine2D.Engine.Source.Global;
+﻿using GameEngine2D.Engine.Source.Camera;
+using GameEngine2D.Engine.Source.Global;
+using GameEngine2D.Engine.Source.Layer;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.Source.Hero;
@@ -34,6 +36,11 @@ namespace SideScrollerExample
 
         private SpriteBatch spriteBatch;
 
+        //private Camera2D Camera2D;
+        //private ResolutionIndependentRenderer resolutionIndependentRenderer;
+
+        private Knight knight;
+
         public SideScrollerGame()
         {
             // >>>>>>> set framerate >>>>>>>>>>
@@ -61,24 +68,29 @@ namespace SideScrollerExample
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entity.GraphicsDeviceManager = graphics;
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
+            Entity.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+            //resolutionIndependentRenderer = new ResolutionIndependentRenderer(this);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Camera = new Camera();
+            //Camera2D = new Camera2D(resolutionIndependentRenderer);
+            //Entity.Camera2D = Camera2D;
+            //Entity.ResolutionIndependentRenderer = resolutionIndependentRenderer;
             Globals.Camera = Camera;
             font = Content.Load<SpriteFont>("DefaultFont");
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
+            Camera.Position = new Vector2(0, 0);
             CreateLevel();
-            Knight knight = new Knight(Content, new Vector2(350, 0), font);
-            Camera.trackTarget(knight, true);
+            knight = new Knight(Content, new Vector2(350, 0), font);
+            //Camera.trackTarget(knight, true);
         }
 
         private void CreateLevel()
@@ -152,6 +164,9 @@ namespace SideScrollerExample
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            MouseState ms = Mouse.GetState();
+            //Camera.Position = new Vector2(ms.X, ms.Y);
+
             // TODO: Add your update logic here
             RootContainer.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
@@ -186,6 +201,8 @@ namespace SideScrollerExample
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Black);
             spriteBatch.End();
+
+            //Camera2D.Position = knight.Position;
 
             base.Draw(gameTime);
         }

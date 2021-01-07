@@ -12,7 +12,7 @@ namespace GameEngine2D.Source.Camera
 	{
 		public Entity target { get; set; }
 
-		private Vector2 position;
+		public Vector2 Position;
 		//public float x;
 		//public float y;
 
@@ -64,6 +64,7 @@ namespace GameEngine2D.Source.Camera
 		private float tx;
 		private float ty;
 		private float d;
+		private float a;
 
 		float frict = 0.89f;
 
@@ -72,7 +73,7 @@ namespace GameEngine2D.Source.Camera
 		public Camera() {
 			//x = y = 0;
 			//dx = dy = 0;
-			position = Vector2.Zero;
+			Position = Vector2.Zero;
 			direction = Vector2.Zero;
 		}
 
@@ -105,7 +106,7 @@ namespace GameEngine2D.Source.Camera
 		public void Recenter()
 		{
 			if (target != null) {
-				position = new Vector2(target.Position.X + TargetTrackOffX, target.Position.Y + TargetTrackOffY);
+				Position = new Vector2(target.Position.X + TargetTrackOffX, target.Position.Y + TargetTrackOffY);
 				//position.X = target.GetPosition().X + targetTrackOffX;
 				//position.Y = target.GetPosition().Y + targetTrackOffY;
 			}
@@ -140,19 +141,19 @@ namespace GameEngine2D.Source.Camera
 				tx = target.Position.X + TargetTrackOffX;
 				ty = target.Position.Y + TargetTrackOffY;
 
-				d = dist(position.X, position.Y, tx, ty);
+				d = dist(Position.X, Position.Y, tx, ty);
 				if (d >= Config.CAMERA_DEADZONE)
 				{
-					float a = (float)Math.Atan2(ty - position.Y, tx - position.X);
+					a = (float)Math.Atan2(ty - Position.Y, tx - Position.X);
 					direction.X += (float)Math.Cos(a) * (d - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 					direction.Y += (float)Math.Sin(a) * (d - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 				}
 			}
 
-			position.X += direction.X * elapsedTime;
+			Position.X += direction.X * elapsedTime;
 			direction.X *= (float)Math.Pow(frict, elapsedTime);
 
-			position.Y += direction.Y * elapsedTime;
+			Position.Y += direction.Y * elapsedTime;
 			direction.Y *= (float)Math.Pow(frict, elapsedTime);
 		}
 
@@ -178,12 +179,12 @@ namespace GameEngine2D.Source.Camera
 
 				// Update scroller
 				if (get_wid() / Zoom < LevelGridCountW * Config.GRID)
-					root.X = (float)(-position.X * Zoom + get_wid() * 0.5);
+					root.X = (float)(-Position.X * Zoom + get_wid() * 0.5);
 				else
 					root.X = (float)(get_wid() * 0.5 / Zoom - LevelGridCountW * 0.5 * Config.GRID);
 
 				if (get_hei() / Zoom < LevelGridCountH * Config.GRID)
-					root.Y = (float)(-position.Y * Zoom + get_hei() * 0.5);
+					root.Y = (float)(-Position.Y * Zoom + get_hei() * 0.5);
 				else
 					root.Y = (float)(get_hei() * 0.5 / Zoom - LevelGridCountH * 0.5 * Config.GRID);
 

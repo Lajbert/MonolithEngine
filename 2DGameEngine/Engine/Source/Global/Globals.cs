@@ -8,7 +8,7 @@ namespace GameEngine2D.Engine.Source.Global
     public class Globals
     {
 
-        public static Camera Camera;
+        public static GameEngine2D.Source.Camera.Camera Camera;
 
     }
 }
