@@ -51,6 +51,8 @@ namespace GameEngine2D.src.Camera
 		public float LevelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
 
 		private float shakePower = 1.5f;
+		private float shakeStarted = 0f;
+		private float shakeDuration = 0f;
 
 		private float SCALE = 1;
 		private bool SCROLL = true;
@@ -115,6 +117,13 @@ namespace GameEngine2D.src.Camera
 		public float scrollerToGlobalY(float v) {
 			return v * SCALE + RootContainer.Instance.Position.Y;
 		}
+
+		public void Shake(float power = 1, float duration = 1)
+        {
+			shakePower = power;
+			shakeDuration = duration;
+			shake = true;
+        }
 
 		/*public void shakeS(float t, float pow = 1.0)
 		{
@@ -196,8 +205,17 @@ namespace GameEngine2D.src.Camera
 				// Shakes
 				if (shake)
 				{
+					shakeStarted += (float)gameTime.ElapsedGameTime.TotalSeconds;
 					root.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
 					root.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
+
+					if (shakeStarted > shakeDuration)
+					{
+						shake = false;
+						shakeStarted = 0f;
+						//Recenter();
+
+					}
 				}
 
 				// Scaling

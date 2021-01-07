@@ -101,14 +101,17 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (!HasGravity && !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
+                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+                //if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (/*!HasGravity && */!OnGround() && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
+                //if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (/*!HasGravity && */!Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
                 {
                     //Direction.X = 0;
                     //bdx = 0;
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && (Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) || (!HasGravity && !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X - 1, GridCoordinates.Y + 1)))))
+                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                //if (HasCollision && InCellLocation.X <= CollisionOffsetRight && (Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) || (/*!HasGravity && */!Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X - 1, GridCoordinates.Y + 1)))))
                 {
                     //Direction.X = 0;
                     //bdx = 0;
@@ -152,12 +155,16 @@ namespace GameEngine2D
                 //if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && (Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))))
                 if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround())
                 {
-                    Direction.Y = 0;
+                    if (HasGravity)
+                    {
+                        Direction.Y = 0;
+                        bdy = 0;
+                    }
+
                     InCellLocation.Y = CollisionOffsetBottom;
-                    bdy = 0;
                 }
 
-                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && (Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetUpperRightGrid(GridCoordinates))))
+                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
                     InCellLocation.Y = CollisionOffsetTop;
                 }
@@ -186,7 +193,8 @@ namespace GameEngine2D
 
         private bool OnGround()
         {
-            return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
+            return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
+            //return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
         }
 
         public void ResetPosition(Vector2 position)

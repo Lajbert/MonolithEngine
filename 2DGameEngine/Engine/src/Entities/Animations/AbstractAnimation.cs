@@ -25,6 +25,7 @@ namespace GameEngine2D.src.Entities.Animation
         protected bool Started = false;
         public Action StoppedAction;
         public Action StartedAction;
+        public Vector2 Pivot;
 
         public AbstractAnimation(SpriteBatch spriteBatch, Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
         {
@@ -51,6 +52,7 @@ namespace GameEngine2D.src.Entities.Animation
             
             int width = Config.GRID;
             int height = Config.GRID;
+            Pivot = new Vector2((float)Math.Floor((decimal)GetTexture().Width / 2), (float)Math.Floor((decimal)GetTexture().Height / 2));
             //Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, width, height);
 
             //spriteBatch.Begin();
@@ -58,7 +60,7 @@ namespace GameEngine2D.src.Entities.Animation
             SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
             //public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
             //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
-            SpriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, GetTexture().Width, GetTexture().Height), Color.White, 0f, new Vector2((float)Math.Floor((decimal)GetTexture().Width / 2), (float)Math.Floor((decimal)GetTexture().Height / 2)), Scale * Config.SCALE, SpriteEffect, 0f);
+            SpriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, GetTexture().Width, GetTexture().Height), Color.White, 0f, Pivot, Scale * Config.SCALE, SpriteEffect, 0f);
             //spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
             SpriteBatch.End();
         }

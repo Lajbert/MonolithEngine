@@ -44,11 +44,11 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 
             SetupAnimations(contentManager);
             SetupController();
-            CollisionOffsetRight = 0f;
-            CollisionOffsetLeft = 0f;
+            CollisionOffsetRight = 0.5f;
+            CollisionOffsetLeft = 0.5f;
             CollisionOffsetBottom = 0f;
-            //CollisionOffsetTop = 0.5f;
-            animations.Offset = new Vector2(0, -32f);
+            CollisionOffsetTop = 0.5f;
+            //animations.Offset = new Vector2(0, -32f);
             shotEffect = contentManager.Load<SoundEffect>("Audio/Effects/GunShot");
 
         }
@@ -184,9 +184,14 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             Func<bool> isFallingLeftt = () => Direction.Y > 0f && CurrentFaceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("FallLeft", knightFallLeftAnimation, isFallingLeftt, 3);
 
-            SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
-
             Animations = animations;
+
+            /*SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
+            Pivot = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+            CollisionOffsetRight = 0.5f;
+            CollisionOffsetLeft = 0.5f;
+            CollisionOffsetBottom = 0.5f;
+            CollisionOffsetTop = 0.5f;*/
         }
     }
 }

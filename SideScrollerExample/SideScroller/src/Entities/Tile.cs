@@ -1,4 +1,5 @@
 ﻿using GameEngine2D.Engine.src.Entities.Animations;
+using GameEngine2D.Engine.src.Global;
 using GameEngine2D.Engine.src.Layer;
 using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
@@ -21,8 +22,7 @@ namespace SideScrollerExample.SideScroller.src.Entities
     {
 
         private float scale = 2.5f;
-        private Rectangle sourceRectangle = new Rectangle(0, 0, 63, 63);
-        private Vector2 spriteOffset = new Vector2(-50f, -50f);
+        private Vector2 animOffset = new Vector2(30, 30);
         private int animationFps = 120;
 
         public Tile(ContentManager contentManager, AbstractLayer layer, Vector2 position, Color color, SpriteFont font = null) : base(layer, null, position, null, font)
@@ -36,12 +36,18 @@ namespace SideScrollerExample.SideScroller.src.Entities
 
             AnimatedSpriteGroup explode = new AnimatedSpriteGroup(explosion, this, SpriteBatch, animationFps);
             explode.Scale = scale;
-            Animations.Offset = spriteOffset;
+            Animations.Offset = animOffset;
             SetDestroyAnimation(explode);
 
             //DestroySound = contentManager.Load<SoundEffect>("Audio/Effects/Explosion");
             //Func<bool> isExploding = () => true;
             //Animations.RegisterAnimation("Idle", explode, isExploding);
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            Globals.Camera.Shake(2, 0.3f);
         }
     }
 }

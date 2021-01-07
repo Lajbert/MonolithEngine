@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.src.Global;
+using GameEngine2D.Engine.src.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.src.Hero;
 using GameEngine2D.Global;
@@ -69,6 +70,7 @@ namespace SideScrollerExample
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Camera = new Camera();
+            Globals.Camera = Camera;
             font = Content.Load<SpriteFont>("DefaultFont");
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
@@ -126,6 +128,14 @@ namespace SideScrollerExample
                         Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(j * Config.GRID, 24 * Config.GRID), Color.DarkRed, font);
                     }
                 }
+
+                if (i % 4 == 0)
+                {
+                    for (int j = 14; j < 19; j++)
+                    {
+                        Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, font);
+                    }
+                }
             }
 
             /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
@@ -133,7 +143,7 @@ namespace SideScrollerExample
             foreach (Vector2 coord in collisions) {
                 new Entity(Scene.Instance.GetColliderLayer(), null , graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), coord * Constants.GRID, font);
             }*/
-            
+
         }
 
         protected override void Update(GameTime gameTime)

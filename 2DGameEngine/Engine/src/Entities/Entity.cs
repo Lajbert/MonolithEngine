@@ -34,6 +34,8 @@ namespace GameEngine2D.Entities
 
         protected Vector2 DrawOffset { get; set; } = Vector2.Zero;
 
+        protected Vector2 Pivot = Vector2.Zero;
+
         public Vector2 Position
         {
             get => position;
@@ -110,7 +112,7 @@ namespace GameEngine2D.Entities
 
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
 
-        private Texture2D pivot;
+        private Texture2D pivotMarker;
 
         private Dictionary<Entity, bool> collidesWith = new Dictionary<Entity, bool>();
 
@@ -138,7 +140,7 @@ namespace GameEngine2D.Entities
 
 #if GRAPHICS_DEBUG
             this.font = font;
-            pivot = SpriteUtil.CreateCircle(10, Color.Red);
+            pivotMarker = SpriteUtil.CreateCircle(10, Color.Red);
 #endif
             layer.AddObject(this);
         }
@@ -203,7 +205,7 @@ namespace GameEngine2D.Entities
                     }
 
                 }
-                SpriteBatch.Draw(pivot, position, Color.White);
+                SpriteBatch.Draw(pivotMarker, position, Color.White);
                 SpriteBatch.End();
             }
 #endif
@@ -257,7 +259,8 @@ namespace GameEngine2D.Entities
                 //SpriteBatch.Begin();
                 SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
                 //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
-                SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0,0, Sprite.Width, Sprite.Height), Color.White,  0f, new Vector2(Sprite.Width / 2, Sprite.Height / 2), Config.SCALE, SpriteEffects.None, 0f);
+                //SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, Sprite.Width, Sprite.Height), Color.White, 0f, new Vector2(Sprite.Width / 2, Sprite.Height / 2), Config.SCALE, SpriteEffects.None, 0f);
+                SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0,0, Sprite.Width, Sprite.Height), Color.White,  0f, Pivot, Config.SCALE, SpriteEffects.None, 0f);
                 SpriteBatch.End();
             }
         }
