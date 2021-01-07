@@ -103,11 +103,15 @@ namespace GameEngine2D
 
                 if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 {
+                    //Direction.X = 0;
+                    //bdx = 0;
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
                 if (HasCollision && InCellLocation.X <= CollisionOffsetRight && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 {
+                    //Direction.X = 0;
+                    //bdx = 0;
                     InCellLocation.X = CollisionOffsetRight;
                 }
 

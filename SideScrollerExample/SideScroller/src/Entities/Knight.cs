@@ -184,7 +184,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             Func<bool> isFallingLeftt = () => Direction.Y > 0f && CurrentFaceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("FallLeft", knightFallLeftAnimation, isFallingLeftt, 3);
 
-            //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
+            SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
 
             Animations = animations;
         }
