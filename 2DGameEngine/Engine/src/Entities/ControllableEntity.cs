@@ -101,14 +101,14 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (!HasGravity && !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
                 {
                     //Direction.X = 0;
                     //bdx = 0;
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && (Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) || (!HasGravity && !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X - 1, GridCoordinates.Y + 1)))))
                 {
                     //Direction.X = 0;
                     //bdx = 0;
@@ -157,7 +157,7 @@ namespace GameEngine2D
                     bdy = 0;
                 }
 
-                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && (Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetUpperRightGrid(GridCoordinates))))
                 {
                     InCellLocation.Y = CollisionOffsetTop;
                 }
@@ -186,8 +186,7 @@ namespace GameEngine2D
 
         private bool OnGround()
         {
-            bool onGround = (Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
-            return onGround;
+            return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
         }
 
         public void ResetPosition(Vector2 position)

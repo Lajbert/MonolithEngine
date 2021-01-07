@@ -47,7 +47,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
             CollisionOffsetRight = 0f;
             CollisionOffsetLeft = 0f;
             CollisionOffsetBottom = 0f;
-            CollisionOffsetTop = 0.5f;
+            //CollisionOffsetTop = 0.5f;
             animations.Offset = new Vector2(0, -32f);
             shotEffect = contentManager.Load<SoundEffect>("Audio/Effects/GunShot");
 
