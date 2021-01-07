@@ -96,8 +96,11 @@ namespace TopDownExample
 
             }*/
 
-            camera.LevelGridCountW = map.worldGridWidth;
-            camera.LevelGridCountH = map.worldGridHeight;
+            //camera.LevelGridCountW = map.worldGridWidth;
+            //camera.LevelGridCountH = map.worldGridHeight;
+
+            camera.LevelGridCountW = 16;
+            camera.LevelGridCountH = 16;
 
             Ray2DEmitter emitter = new Ray2DEmitter(cube);
         }

@@ -79,7 +79,7 @@ namespace GameEngine2D.src.Level
                             int atlasGridBaseWidth = 16;
                             int padding = 0;
                             int spacing = 0;
-                            int gridSize = Config.GRID;
+                            int gridSize = 16;
 
                             int gridTileX = tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
                             int pixelTileX = padding + gridTileX * (gridSize + spacing);
@@ -87,7 +87,7 @@ namespace GameEngine2D.src.Level
                             int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
                             var pixelTileY = padding + gridTileY * (gridSize + spacing);
 
-                            new Entity(Scene.Instance.ColliderLayer, null, new Vector2(gridTile.px[0], gridTile.px[1]) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
+                            new Entity(Scene.Instance.ColliderLayer, null, new Vector2(gridTile.px[0], gridTile.px[1]), SpriteUtil.CreateRectangle(Config.GRID, SpriteUtil.GetRandomColor()));
 
                             Logger.Log(JsonSerializer.Serialize(gridTile));
 

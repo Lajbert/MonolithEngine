@@ -65,5 +65,11 @@ namespace GameEngine2D.Engine.src.Util
 
             return result;
         }
+
+        public static  Color GetRandomColor()
+        {
+            Random random = new Random();
+            return Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
+        }
     }
 }

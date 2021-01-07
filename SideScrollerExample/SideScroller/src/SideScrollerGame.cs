@@ -44,8 +44,8 @@ namespace SideScrollerExample
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             random = new Random();
-            background1 = GetRandomColor();
-            background2 = GetRandomColor();
+            background1 = SpriteUtil.GetRandomColor();
+            background2 = SpriteUtil.GetRandomColor();
             // uncapped framerate
             //graphics.SynchronizeWithVerticalRetrace = false;
             //this.IsFixedTimeStep = false;
@@ -146,11 +146,6 @@ namespace SideScrollerExample
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
             base.Update(gameTime);
-        }
-
-        private Color GetRandomColor()
-        {
-            return Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
         }
 
         protected override void Draw(GameTime gameTime)
