@@ -21,20 +21,18 @@ namespace GameEngine2D.src.Entities.Animation
         public float Scale = 0f;
         public Vector2 Offset = Vector2.Zero;
         protected SpriteEffects SpriteEffect { get; set; }
-        protected Rectangle SourceRectangle;
         public bool Looping = true;
         protected bool Started = false;
         public Action StoppedAction;
         public Action StartedAction;
 
-        public AbstractAnimation(SpriteBatch spriteBatch, Rectangle sourceRectangle, Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
+        public AbstractAnimation(SpriteBatch spriteBatch, Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
         {
             this.SpriteBatch = spriteBatch;
             this.Parent = parent;
             CurrentFrame = 0;
             this.totalFrames = totalFrames;
             this.SpriteEffect = spriteEffect;
-            this.SourceRectangle = sourceRectangle;
             this.StartedAction = startCallback;
             this.StoppedAction = stopCallback;
             if (framerate != 0)
@@ -59,7 +57,8 @@ namespace GameEngine2D.src.Entities.Animation
             //SpriteBatch.Begin(SpriteSortMode, BlendState, SamplerState.PointClamp, DepthStencilState, RasterizerState)
             SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
             //public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
-            SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
+            //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
+            SpriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, GetTexture().Width, GetTexture().Height), Color.White, 0f, new Vector2((float)Math.Floor((decimal)GetTexture().Width / 2), (float)Math.Floor((decimal)GetTexture().Height / 2)), Scale * Config.SCALE, SpriteEffect, 0f);
             //spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
             SpriteBatch.End();
         }

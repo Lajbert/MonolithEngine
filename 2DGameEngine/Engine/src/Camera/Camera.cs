@@ -25,14 +25,30 @@ namespace GameEngine2D.src.Camera
 		private float bumpOffX = 0f;
 		private float bumpOffY = 0f;
 
-		public float targetTrackOffX = 0f;
-		public float targetTrackOffY = 0f;
+		private float targetTrackOffX = 0f;
+		private float targetTrackOffY = 0f;
+
+		public float TargetTrackOffX { 
+
+			get => targetTrackOffX * Config.SCALE;
+			
+			set => targetTrackOffX = value;
+		}
+
+		public float TargetTrackOffY
+		{
+
+			get => targetTrackOffY * Config.SCALE;
+
+			set => targetTrackOffY = value;
+		}
+
 		public float zoom = 1f;
 
 		private float gameMeW = Config.RES_W;
 		private float gameMeH = Config.RES_H;
-		private float levelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
-		private float levelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
+		public float LevelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
+		public float LevelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
 
 		private float shakePower = 1.5f;
 
@@ -42,6 +58,12 @@ namespace GameEngine2D.src.Camera
 		private bool shake = false;
 
 		private float elapsedTime;
+
+		private float tx;
+		private float ty;
+		private float d;
+
+		float frict = 0.89f;
 
 		RootContainer root;
 
@@ -64,12 +86,12 @@ namespace GameEngine2D.src.Camera
 
 		public void trackTarget(Entity e, bool immediate, float xOff = 0f, float yOff = 0f)
 		{
-			targetTrackOffX = xOff;
-			targetTrackOffY = yOff;
+			TargetTrackOffX = xOff;
+			TargetTrackOffY = yOff;
 			target = e;
 			if (immediate)
 			{
-				recenter();
+				Recenter();
 			}
 		}
 
@@ -78,10 +100,10 @@ namespace GameEngine2D.src.Camera
 			target = null;
 		}
 
-		public void recenter()
+		public void Recenter()
 		{
 			if (target != null) {
-				position = new Vector2(target.Position.X + targetTrackOffX, target.Position.Y + targetTrackOffY);
+				position = new Vector2(target.Position.X + TargetTrackOffX, target.Position.Y + TargetTrackOffY);
 				//position.X = target.GetPosition().X + targetTrackOffX;
 				//position.Y = target.GetPosition().Y + targetTrackOffY;
 			}
@@ -106,10 +128,10 @@ namespace GameEngine2D.src.Camera
 			// Follow target entity
 			if (target != null)
 			{
-				float tx = target.Position.X + targetTrackOffX;
-				float ty = target.Position.Y + targetTrackOffY;
+				tx = target.Position.X + TargetTrackOffX;
+				ty = target.Position.Y + TargetTrackOffY;
 
-				float d = dist(position.X, position.Y, tx, ty);
+				d = dist(position.X, position.Y, tx, ty);
 				if (d >= Config.CAMERA_DEADZONE)
 				{
 					float a = (float)Math.Atan2(ty - position.Y, tx - position.X);
@@ -118,7 +140,6 @@ namespace GameEngine2D.src.Camera
 				}
 			}
 
-			float frict = 0.89f;
 			position.X += direction.X * elapsedTime;
 			direction.X *= (float)Math.Pow(frict, elapsedTime);
 
@@ -147,22 +168,22 @@ namespace GameEngine2D.src.Camera
 				root = RootContainer.Instance;
 
 				// Update scroller
-				if (get_wid() / zoom < levelGridCountW * Config.GRID)
+				if (get_wid() / zoom < LevelGridCountW * Config.GRID)
 					root.X = (float)(-position.X * zoom + get_wid() * 0.5);
 				else
-					root.X = (float)(get_wid() * 0.5 / zoom - levelGridCountW * 0.5 * Config.GRID);
+					root.X = (float)(get_wid() * 0.5 / zoom - LevelGridCountW * 0.5 * Config.GRID);
 
-				if (get_hei() / zoom < levelGridCountH * Config.GRID)
+				if (get_hei() / zoom < LevelGridCountH * Config.GRID)
 					root.Y = (float)(-position.Y * zoom + get_hei() * 0.5);
 				else
-					root.Y = (float)(get_hei() * 0.5 / zoom - levelGridCountH * 0.5 * Config.GRID);
+					root.Y = (float)(get_hei() * 0.5 / zoom - LevelGridCountH * 0.5 * Config.GRID);
 
 				// Clamp
 				float pad = Config.GRID * 2;
-				if (get_wid() < levelGridCountW * Config.GRID * zoom)
-					root.X = fclamp(root.X, get_wid() - levelGridCountW * Config.GRID * zoom + pad, -pad);
-				if (get_hei() < levelGridCountH * Config.GRID * zoom)
-					root.Y = fclamp(root.Y, get_hei() - levelGridCountH * Config.GRID * zoom + pad, -pad);
+				if (get_wid() < LevelGridCountW * Config.GRID * zoom)
+					root.X = fclamp(root.X, get_wid() - LevelGridCountW * Config.GRID * zoom + pad, -pad);
+				if (get_hei() < LevelGridCountH * Config.GRID * zoom)
+					root.Y = fclamp(root.Y, get_hei() - LevelGridCountH * Config.GRID * zoom + pad, -pad);
 
 				// Bumps friction
 				bumpOffX *= (float)Math.Pow(0.75, tmod);

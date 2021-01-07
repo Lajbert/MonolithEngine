@@ -26,7 +26,7 @@ namespace SideScrollerExample.SideScroller.src.Entities
 
             SinglePointCollisionChecks.Add(faceDirection);
 
-            SetSprite(SpriteUtil.CreateRectangle(GraphicsDeviceManager, Config.GRID / 3, Color.Red));
+            SetSprite(SpriteUtil.CreateRectangle(Config.GRID / 3, Color.Red));
         }
 
         public override void Update(GameTime gameTime)

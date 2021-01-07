@@ -22,7 +22,7 @@ namespace GameEngine2D.Engine.src.Graphics.Primitives
 
         public Circle(Entity parent, Vector2 center, int radius, Color color) : base(Scene.Instance.EntityLayer, parent, center, null)
         {
-            Sprite = SpriteUtil.CreateCircle(GraphicsDeviceManager, radius, color);
+            Sprite = SpriteUtil.CreateCircle(radius, color);
             this.color = color;
             this.center = center;
             this.radius = radius;

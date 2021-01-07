@@ -45,7 +45,7 @@ namespace GameEngine2D
 
         protected FaceDirection CurrentFaceDirection { get; set; } = Engine.src.Entities.FaceDirection.RIGHT;
 
-        public ControllableEntity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
+        public ControllableEntity(AbstractLayer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
             ResetPosition(startPosition);
         }

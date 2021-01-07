@@ -11,9 +11,11 @@ namespace GameEngine2D.Engine.src.Util
 {
     public class SpriteUtil
     {
-        public static Texture2D CreateCircle(GraphicsDeviceManager graphics, int radius, Color color)
+
+        public static GraphicsDeviceManager GraphicsDeviceManager;
+        public static Texture2D CreateCircle(int radius, Color color)
         {
-            Texture2D texture = new Texture2D(graphics.GraphicsDevice, radius, radius);
+            Texture2D texture = new Texture2D(GraphicsDeviceManager.GraphicsDevice, radius, radius);
             Color[] colorData = new Color[radius * radius];
 
             float diam = radius / 2f;
@@ -39,9 +41,9 @@ namespace GameEngine2D.Engine.src.Util
             texture.SetData(colorData);
             return texture;
         }
-        public static Texture2D CreateRectangle(GraphicsDeviceManager graphics, int size, Color color)
+        public static Texture2D CreateRectangle(int size, Color color)
         {
-            Texture2D rect = new Texture2D(graphics.GraphicsDevice, size, size);
+            Texture2D rect = new Texture2D(GraphicsDeviceManager.GraphicsDevice, size, size);
             Color[] data = new Color[size * size];
             for (int i = 0; i < data.Length; ++i) data[i] = color;
             rect.SetData(data);

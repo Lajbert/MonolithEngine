@@ -25,16 +25,16 @@ namespace SideScrollerExample.SideScroller.src.Entities
         private Vector2 spriteOffset = new Vector2(-50f, -50f);
         private int animationFps = 120;
 
-        public Tile(ContentManager contentManager, AbstractLayer layer, Vector2 position, Color color, SpriteFont font = null) : base(layer, null, position, font)
+        public Tile(ContentManager contentManager, AbstractLayer layer, Vector2 position, Color color, SpriteFont font = null) : base(layer, null, position, null, font)
         {
-            Sprite = SpriteUtil.CreateRectangle(GraphicsDeviceManager, Config.GRID, color);
+            Sprite = SpriteUtil.CreateRectangle(Config.GRID, color);
             Animations = new AnimationStateMachine();
             //Animations = new AnimationStateMachine();
             string folder = "PixelSimulations/";
             List<Texture2D> explosion = SpriteUtil.LoadTextures(folder + "Explosion3/000", 1, 9, contentManager);
             explosion.AddRange(SpriteUtil.LoadTextures(folder + "Explosion3/00", 10, 30, contentManager));
 
-            AnimatedSpriteGroup explode = new AnimatedSpriteGroup(explosion, this, SpriteBatch, sourceRectangle, animationFps);
+            AnimatedSpriteGroup explode = new AnimatedSpriteGroup(explosion, this, SpriteBatch, animationFps);
             explode.Scale = scale;
             Animations.Offset = spriteOffset;
             SetDestroyAnimation(explode);

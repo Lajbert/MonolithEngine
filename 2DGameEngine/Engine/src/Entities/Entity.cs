@@ -114,7 +114,7 @@ namespace GameEngine2D.Entities
 
         private Dictionary<Entity, bool> collidesWith = new Dictionary<Entity, bool>();
 
-        public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, SpriteFont font = null)
+        public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
         {
             this.Layer = layer;
             SpriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
@@ -122,6 +122,7 @@ namespace GameEngine2D.Entities
             children = new HashSet<Entity>();
             updatables = new HashSet<IUpdatable>();
             drawables = new HashSet<Interfaces.IDrawable>();
+            Sprite = sprite;
             if (parent != null) {
                 this.parent = parent;
                 this.parent.AddChild(this);
@@ -137,7 +138,7 @@ namespace GameEngine2D.Entities
 
 #if GRAPHICS_DEBUG
             this.font = font;
-            pivot = SpriteUtil.CreateCircle(GraphicsDeviceManager, 10, Color.Red);
+            pivot = SpriteUtil.CreateCircle(10, Color.Red);
 #endif
             layer.AddObject(this);
         }
@@ -179,7 +180,7 @@ namespace GameEngine2D.Entities
             {
                 DrawSprite(position);
             }
-            else
+            else if (Animations != null)
             {
                 if (Visible)
                 {
@@ -253,8 +254,10 @@ namespace GameEngine2D.Entities
         {
             if (Sprite != null && Visible)
             {
-                SpriteBatch.Begin();
-                SpriteBatch.Draw(Sprite, position + DrawOffset, Color.White);
+                //SpriteBatch.Begin();
+                SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
+                //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
+                SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0,0, Sprite.Width, Sprite.Height), Color.White,  0f, new Vector2(Sprite.Width / 2, Sprite.Height / 2), Config.SCALE, SpriteEffects.None, 0f);
                 SpriteBatch.End();
             }
         }
@@ -379,7 +382,7 @@ namespace GameEngine2D.Entities
             }
             if (gameObject is IUpdatable)
             {
-                updatables.Add((IUpdatable)gameObject);
+                updatables.Add(gameObject);
             }
         }
 
@@ -392,7 +395,7 @@ namespace GameEngine2D.Entities
             }
             if (gameObject is IUpdatable)
             {
-                updatables.Remove((IUpdatable)gameObject);
+                updatables.Remove(gameObject);
             }
         }
 

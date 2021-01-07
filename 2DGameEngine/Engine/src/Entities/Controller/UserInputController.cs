@@ -12,10 +12,21 @@ namespace GameEngine2D.Engine.src.Entities.Controller
         private Dictionary<KeyMapping, Action> keyActions = new Dictionary<KeyMapping, Action>();
         private KeyboardState currentKeyboardState;
         private KeyboardState prevKeyboardState;
+        private MouseState mouseState;
+
+        private int prevMouseScrollWheelValue = 0;
+        private Action mouseWheelUpAction;
+        private Action mouseWheelDownAction;
 
         public void RegisterControllerState(Keys key, Action action, bool singlePressOnly = false) {
             keyActions.Add(new KeyMapping(key, singlePressOnly), action);
             pressedKeys.Add(key, false);
+        }
+
+        public void RegisterMouseActions(Action wheelUpAction, Action wheelDownAction)
+        {
+            mouseWheelUpAction = wheelUpAction;
+            mouseWheelDownAction = wheelDownAction;
         }
 
         public bool IsKeyPressed(Keys key)
@@ -26,6 +37,7 @@ namespace GameEngine2D.Engine.src.Entities.Controller
         public void Update()
         {
             currentKeyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
 
             foreach (KeyValuePair<KeyMapping, Action> mapping in keyActions)
             {
@@ -44,6 +56,22 @@ namespace GameEngine2D.Engine.src.Entities.Controller
             }
 
             prevKeyboardState = currentKeyboardState;
+
+            if (mouseState.ScrollWheelValue > prevMouseScrollWheelValue)
+            {
+                if (mouseWheelUpAction != null)
+                {
+                    mouseWheelUpAction.Invoke();
+                    prevMouseScrollWheelValue = mouseState.ScrollWheelValue;
+                }
+            } else if (mouseState.ScrollWheelValue < prevMouseScrollWheelValue)
+            {
+                if (mouseWheelDownAction != null)
+                {
+                    mouseWheelDownAction.Invoke();
+                    prevMouseScrollWheelValue = mouseState.ScrollWheelValue;
+                }
+            }
         }
 
         private class KeyMapping

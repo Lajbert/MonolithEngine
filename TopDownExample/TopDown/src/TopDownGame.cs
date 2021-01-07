@@ -7,6 +7,7 @@ using GameEngine2D.Global;
 using GameEngine2D.src;
 using GameEngine2D.src.Camera;
 using GameEngine2D.src.Level;
+using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -62,12 +63,14 @@ namespace TopDownExample
             frameCounter = new FrameCounter();
 
             Config.GRAVITY_ON = false;
+            Config.CHARACTER_SPEED = 5f;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             Entity.GraphicsDeviceManager = graphics;
+            SpriteUtil.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
@@ -76,49 +79,27 @@ namespace TopDownExample
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
-            /*Entity child = new Entity(hero, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Black), new Vector2(1 , 0) * Constants.GRID, font);
-            Entity child2 = new Entity(child, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Red), new Vector2(1, 0) * Constants.GRID, font);
-            Entity child3 = new Entity(child2, graphics.GraphicsDevice, CreateRectangle(Constants.GRID, Color.Blue), new Vector2(1, 0) * Constants.GRID, font);*/
-            // TODO: use this.Content to load your game content here
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
-            CreateLevel();
-            //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(cube, true);
-            /*line = new Line(null, new Vector2(200, 500), MathUtil.DegreesToRad(45), 1000, Color.White);
-            line2 = new Line(null, new Vector2(500, 300), MathUtil.DegreesToRad(90), 100, Color.White);
-            line3 = new Line(null, new Vector2(400, 700), MathUtil.DegreesToRad(126), 200, Color.White);
-            line4 = new Line(null, new Vector2(700, 900), MathUtil.DegreesToRad(56), 500, Color.White);
-            line5 = new Line(null, new Vector2(600, 600), new Vector2(807.10675f, 807.10675f), Color.White);
 
-            line.SetBlocksRay(true);
-            line2.SetBlocksRay(true);
-            line3.SetBlocksRay(true);
-            line4.SetBlocksRay(true);
-            line5.SetBlocksRay(true);*/
-
-            /*line.SetRayBlockers();
-            line2.SetRayBlockers();
-            line3.SetRayBlockers();
-            line4.SetRayBlockers();
-            line5.SetRayBlockers();*/
-
-            Ray2DEmitter emitter = new Ray2DEmitter(cube);
-        }
-
-        private void CreateLevel()
-        {
-
-            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
-            HashSet<Vector2> collisions = map.GetCollisions();
-            foreach (Vector2 coord in collisions) {
-                Entity e =  new Entity(Scene.Instance.ColliderLayer, null , coord * Config.GRID, font);
-                e.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.White));
+            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/small_example.json");
+            map.LoadMap();
+            HashSet<Vector2> colliders = map.Colliders;
+            /*foreach (Vector2 coord in colliders)
+            {
+                Entity e = new Entity(Scene.Instance.ColliderLayer, null, coord * Config.GRID, font);
+                e.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.White));
                 e.BlocksRay = true;
 
-            }
+            }*/
+
+            camera.LevelGridCountW = map.worldGridWidth;
+            camera.LevelGridCountH = map.worldGridHeight;
+
+            Ray2DEmitter emitter = new Ray2DEmitter(cube);
         }
 
         protected override void Update(GameTime gameTime)
@@ -162,7 +143,7 @@ namespace TopDownExample
             GraphicsDevice.Clear(Color.Lerp(background1, background2, sin));
             */
 
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             //intersection = ray.Cast((line.GetRayBlockerLines()[0].start - Scene.Instance.GetEntityLayer().GetPosition(), line.GetRayBlockerLines()[0].end - Scene.Instance.GetEntityLayer().GetPosition()));
             //intersection = ray.Cast(line.GetRayBlockerLines()[0]);
             //ray.position = new Vector2(300, 300);

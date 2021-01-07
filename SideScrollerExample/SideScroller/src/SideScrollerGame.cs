@@ -21,7 +21,7 @@ namespace SideScrollerExample
         private GraphicsDeviceManager graphics;
         private ContentManager contentManager;
         private SpriteFont font;
-        private Camera camera;
+        public static Camera Camera;
         private Random random;
         private Color background1;
         private Color background2;
@@ -61,20 +61,21 @@ namespace SideScrollerExample
         {
             // TODO: Add your initialization logic here
             Entity.GraphicsDeviceManager = graphics;
+            SpriteUtil.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            camera = new Camera();
+            Camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             CreateLevel();
             Knight knight = new Knight(Content, new Vector2(5, 5) * Config.GRID, font);
-            camera.trackTarget(knight, true);
+            Camera.trackTarget(knight, true);
         }
 
         private void CreateLevel()
@@ -142,8 +143,8 @@ namespace SideScrollerExample
 
             // TODO: Add your update logic here
             RootContainer.Instance.UpdateAll(gameTime);
-            camera.update(gameTime);
-            camera.postUpdate(gameTime);
+            Camera.update(gameTime);
+            Camera.postUpdate(gameTime);
             base.Update(gameTime);
         }
 
