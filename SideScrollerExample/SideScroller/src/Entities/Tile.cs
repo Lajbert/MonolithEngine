@@ -1,11 +1,11 @@
-﻿using GameEngine2D.Engine.src.Entities.Animations;
-using GameEngine2D.Engine.src.Global;
-using GameEngine2D.Engine.src.Layer;
-using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.Source.Entities.Animations;
+using GameEngine2D.Engine.Source.Global;
+using GameEngine2D.Engine.Source.Layer;
+using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
-using GameEngine2D.src;
-using GameEngine2D.src.Entities.Animation;
+using GameEngine2D.Source;
+using GameEngine2D.Source.Entities.Animation;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SideScrollerExample.SideScroller.src.Entities
+namespace SideScrollerExample.SideScroller.Source.Entities
 {
 
     public class Tile : Entity

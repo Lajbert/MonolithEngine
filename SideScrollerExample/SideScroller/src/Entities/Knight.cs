@@ -1,13 +1,13 @@
-﻿using GameEngine2D.Engine.src.Entities;
-using GameEngine2D.Engine.src.Entities.Animations;
-using GameEngine2D.Engine.src.Entities.Controller;
-using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Animations;
+using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
-using GameEngine2D.src;
-using GameEngine2D.src.Entities.Animation;
-using GameEngine2D.src.Layer;
-using GameEngine2D.src.Util;
+using GameEngine2D.Source;
+using GameEngine2D.Source.Entities.Animation;
+using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -15,12 +15,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SideScrollerExample;
-using SideScrollerExample.SideScroller.src.Entities;
+using SideScrollerExample.SideScroller.Source.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.GameExamples.SideScroller.src.Hero
+namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 {
     class Knight : ControllableEntity
     {
@@ -59,12 +59,12 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
 
             UserInput.RegisterControllerState(Keys.Right, () => {
                 Direction.X += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.RIGHT;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.RIGHT;
             });
 
             UserInput.RegisterControllerState(Keys.Left, () => {
                 Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.LEFT;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.LEFT;
             });
 
             UserInput.RegisterControllerState(Keys.Space, () => {
@@ -91,7 +91,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
                     return;
                 }
                 Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.DOWN;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.DOWN;
             });
 
             UserInput.RegisterControllerState(Keys.Up, () => {
@@ -100,7 +100,7 @@ namespace GameEngine2D.GameExamples.SideScroller.src.Hero
                     return;
                 }
                 Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.UP;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.UP;
             });
 
             Action shoot = () =>

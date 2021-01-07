@@ -1,8 +1,8 @@
-﻿using GameEngine2D.Engine.src.Entities;
-using GameEngine2D.Engine.src.Entities.Controller;
-using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Global;
-using GameEngine2D.src;
+using GameEngine2D.Source;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.GameExamples.TopDown.src.Hero
+namespace GameEngine2D.GameExamples.TopDown.Source.Hero
 {
     class CubeGuy : ControllableEntity
     {
@@ -26,22 +26,22 @@ namespace GameEngine2D.GameExamples.TopDown.src.Hero
 
             UserInput.RegisterControllerState(Keys.Right, () => {
                 Direction.X += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.RIGHT;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.RIGHT;
             });
 
             UserInput.RegisterControllerState(Keys.Left, () => {
                 Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.LEFT;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.LEFT;
             });
 
             UserInput.RegisterControllerState(Keys.Down, () => {
                 Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.DOWN;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.DOWN;
             });
 
             UserInput.RegisterControllerState(Keys.Up, () => {
                 Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.src.Entities.FaceDirection.UP;
+                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.UP;
             });
         }
     }

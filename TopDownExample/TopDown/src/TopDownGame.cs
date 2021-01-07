@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.src.Graphics.Primitives;
-using GameEngine2D.Engine.src.Physics.Raycast;
-using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.Source.Graphics.Primitives;
+using GameEngine2D.Engine.Source.Physics.Raycast;
+using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
-using GameEngine2D.GameExamples.TopDown.src.Hero;
+using GameEngine2D.GameExamples.TopDown.Source.Hero;
 using GameEngine2D.Global;
-using GameEngine2D.src;
-using GameEngine2D.src.Camera;
-using GameEngine2D.src.Level;
+using GameEngine2D.Source;
+using GameEngine2D.Source.Camera;
+using GameEngine2D.Source.Level;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -64,13 +64,12 @@ namespace TopDownExample
 
             Config.GRAVITY_ON = false;
             Config.CHARACTER_SPEED = 5f;
+            Config.GRID = 16;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entity.GraphicsDeviceManager = graphics;
-            SpriteUtil.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
@@ -82,12 +81,17 @@ namespace TopDownExample
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
+
+            Entity.GraphicsDeviceManager = graphics;
+            SpriteUtil.GraphicsDeviceManager = graphics;
+            SpriteUtil.Content = Content;
+
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(cube, true);
 
             LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/small_example.json");
-            map.LoadMap();
-            HashSet<Vector2> colliders = map.Colliders;
+            /*map.LoadMap();
+            HashSet<Vector2> colliders = map.Colliders;*/
             /*foreach (Vector2 coord in colliders)
             {
                 Entity e = new Entity(Scene.Instance.ColliderLayer, null, coord * Config.GRID, font);

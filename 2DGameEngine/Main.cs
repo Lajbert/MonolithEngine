@@ -6,10 +6,10 @@ using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using System.Collections.Generic;
 using GameEngine2D.Global;
-using GameEngine2D.src.Camera;
-using GameEngine2D.src.Level;
-using GameEngine2D.src;
-using GameEngine2D.src.Entities.Animation;
+using GameEngine2D.Source.Camera;
+using GameEngine2D.Source.Level;
+using GameEngine2D.Source;
+using GameEngine2D.Source.Entities.Animation;
 using GameEngine2D.Util;
 
 namespace GameEngine2D

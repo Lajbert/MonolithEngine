@@ -1,16 +1,16 @@
-﻿using GameEngine2D.Engine.src.Entities;
-using GameEngine2D.Engine.src.Util;
+﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
-using GameEngine2D.src;
-using GameEngine2D.src.Util;
+using GameEngine2D.Source;
+using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SideScrollerExample.SideScroller.src.Entities
+namespace SideScrollerExample.SideScroller.Source.Entities
 {
     class Bullet : Entity
     {
@@ -19,7 +19,7 @@ namespace SideScrollerExample.SideScroller.src.Entities
 
         public Bullet(Entity parent, FaceDirection faceDirection) : base(Scene.Instance.EntityLayer, null, parent.Position)
         {
-            if (faceDirection == GameEngine2D.Engine.src.Entities.FaceDirection.LEFT)
+            if (faceDirection == GameEngine2D.Engine.Source.Entities.FaceDirection.LEFT)
             {
                 mul = -1;
             }
