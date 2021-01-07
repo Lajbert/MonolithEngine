@@ -30,7 +30,7 @@ namespace GameEngine2D.Source.Camera
 
 		public float TargetTrackOffX { 
 
-			get => targetTrackOffX * Config.SCALE;
+			get => targetTrackOffX;
 			
 			set => targetTrackOffX = value;
 		}
@@ -38,7 +38,7 @@ namespace GameEngine2D.Source.Camera
 		public float TargetTrackOffY
 		{
 
-			get => targetTrackOffY * Config.SCALE;
+			get => targetTrackOffY;
 
 			set => targetTrackOffY = value;
 		}
