@@ -26,5 +26,10 @@ namespace GameEngine2D.Util
         {
             return new Vector2(coord.X, coord.Y + 1);
         }
+
+        public static Vector2 GetRightBelowGrid(Vector2 coord)
+        {
+            return new Vector2(coord.X + 1, coord.Y + 1);
+        }
     }
 }

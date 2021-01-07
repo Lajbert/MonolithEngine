@@ -9,7 +9,7 @@ namespace GameEngine2D.Global
     {
         public static float CHARACTER_SPEED = 1f;
         public static float SCALE = 1f;
-        public static int   GRID = 16;
+        public static int   GRID = 64;
         public static float FRICTION = 0.2f;
         public static float BUMB_FRICTION = 0.5f;
         public static bool  GRAVITY_ON = true;

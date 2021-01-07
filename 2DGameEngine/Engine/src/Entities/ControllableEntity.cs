@@ -145,7 +145,8 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
+                //if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && (Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))))
+                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround())
                 {
                     Direction.Y = 0;
                     InCellLocation.Y = CollisionOffsetBottom;
@@ -181,7 +182,7 @@ namespace GameEngine2D
 
         private bool OnGround()
         {
-            bool onGround = Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
+            bool onGround = (Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))) /*&& inCellLocation.Y == 1 && direction.Y >= 0*/;
             return onGround;
         }
 
