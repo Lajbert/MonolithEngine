@@ -1,6 +1,7 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -27,7 +28,8 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 
         private readonly float SHOOT_RATE = 0.1f;
 
-        private float scale = 2.5f;
+        //private float scale = 2.5f;
+        private float scale = 1f;
         //private Rectangle sourceRectangle = new Rectangle(0, 0, 100, 55);
         private Vector2 spriteOffset = new Vector2(0, 0f);
         //private Vector2 spriteOffset = Vector2.Zero;
@@ -39,15 +41,15 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 
         private SoundEffect shotEffect;
 
-        public Knight(ContentManager contentManager, Vector2 position, SpriteFont font = null) : base(Scene.Instance.RayBlockersLayer, null, position, null, font)
+        public Knight(ContentManager contentManager, Vector2 position, SpriteFont font = null) : base(Scene.Instance.EntityLayer, null, position, null, font)
         {
 
             SetupAnimations(contentManager);
-            SetupController();
             CollisionOffsetRight = 0.5f;
             CollisionOffsetLeft = 0.5f;
             CollisionOffsetBottom = 0f;
             CollisionOffsetTop = 0.5f;
+            SetupController();
             //animations.Offset = new Vector2(0, -32f);
             shotEffect = contentManager.Load<SoundEffect>("Audio/Effects/GunShot");
 
@@ -116,7 +118,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             UserInput.RegisterControllerState(Keys.RightShift, shoot, true);
             UserInput.RegisterControllerState(Keys.LeftShift, shoot, true);
 
-            UserInput.RegisterMouseActions(() => {Config.SCALE += 0.1f; }, () => { Config.SCALE -= 0.1f; });
+            UserInput.RegisterMouseActions(() => {Config.SCALE += 0.1f; Globals.Camera.Recenter();  }, () => { Config.SCALE -= 0.1f; Globals.Camera.Recenter(); });
         }
 
         public override void Update(GameTime gameTime)
@@ -131,7 +133,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 
             string folder = "SideScroller/KnightAssets/HeroKnight/";
 
-            List<Texture2D> knightIdle = SpriteUtil.LoadTextures(folder + "Idle/HeroKnight_Idle_", 7, contentManager);
+            List<Texture2D> knightIdle = SpriteUtil.LoadTextures(folder + "Idle/HeroKnight_Idle_", 7);
 
             AnimatedSpriteGroup knightAnimationIdleRight = new AnimatedSpriteGroup(knightIdle, this, SpriteBatch, animationFps);
             knightAnimationIdleRight.Scale = scale;
@@ -145,7 +147,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             Func<bool> isIdleLeft = () => CurrentFaceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("IdleLeft", knightAnimationIdleLeft, isIdleLeft);
 
-            List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/HeroKnight_Run_", 7, contentManager);
+            List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/HeroKnight_Run_", 7);
             AnimatedSpriteGroup knightRunRightAnimation = new AnimatedSpriteGroup(knightRun, this, SpriteBatch, animationFps);
             knightRunRightAnimation.Scale = scale;
             knightRunRightAnimation.Offset = spriteOffset;
@@ -158,7 +160,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             Func<bool> isRunningleft = () => Direction.X < -0.5f && !Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
             animations.RegisterAnimation("RunLeft", knightRunLeftAnimation, isRunningleft, 1);
 
-            List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2, contentManager);
+            List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2);
             AnimatedSpriteGroup knightJumpRightAnimation = new AnimatedSpriteGroup(knightJump, this, SpriteBatch, animationFps);
             knightJumpRightAnimation.Scale = scale;
             knightJumpRightAnimation.Offset = spriteOffset;
@@ -171,7 +173,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             Func<bool> isJumpingLeft = () => JumpStart > 0f && CurrentFaceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("JumpLeft", knightJumpLeftAnimation, isJumpingLeft, 2);
 
-            List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/HeroKnight_Fall_", 3, contentManager);
+            List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/HeroKnight_Fall_", 3);
             AnimatedSpriteGroup knightFallRightAnimation = new AnimatedSpriteGroup(knightFall, this, SpriteBatch, animationFps);
             knightFallRightAnimation.Scale = scale;
             knightFallRightAnimation.Offset = spriteOffset;

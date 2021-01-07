@@ -8,7 +8,7 @@ namespace GameEngine2D.Engine.Source.Layer
 {
     public abstract class AbstractLayer
     {
-
+        public float LayerDepth { get; set; } = 0;
         public abstract void AddObject(Entity gameObject);
         public abstract Vector2 GetPosition();
 

@@ -1910,6 +1910,54 @@
 /processorParam:TextureFormat=Color
 /build:SideScroller/KnightAssets/HeroKnight/WallSlide/HeroKnight_Slide_4.png
 
+#begin SpriteSheets/MagicCliffsEnvironment/clouds.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/MagicCliffsEnvironment/clouds.png
+
+#begin SpriteSheets/MagicCliffsEnvironment/far-grounds.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/MagicCliffsEnvironment/far-grounds.png
+
+#begin SpriteSheets/MagicCliffsEnvironment/sea.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/MagicCliffsEnvironment/sea.png
+
+#begin SpriteSheets/MagicCliffsEnvironment/sky.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/MagicCliffsEnvironment/sky.png
+
 #begin SpriteSheets/MagicCliffsEnvironment/tileset.png
 /importer:TextureImporter
 /processor:TextureProcessor

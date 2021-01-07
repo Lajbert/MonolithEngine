@@ -43,9 +43,10 @@ namespace GameEngine2D.Source
             }
         }
 
-        public void AddScrollableLayer(float scrollSpeedMultiplier, bool lockY = false)
+        public SimpleLayer AddScrollableLayer(float scrollSpeedMultiplier = 1, bool lockY = false)
         {
             ScrollableBackgroundLayers.Add(new SimpleLayer(scrollSpeedMultiplier, lockY));
+            return ScrollableBackgroundLayers[ScrollableBackgroundLayers.Count - 1];
         }
     }
 }

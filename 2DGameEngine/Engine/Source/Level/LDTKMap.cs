@@ -1,7 +1,10 @@
-﻿using GameEngine2D.Engine.Source.Level;
+﻿using GameEngine2D.Engine.Source.Global;
+using GameEngine2D.Engine.Source.Layer;
+using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
+using GameEngine2D.Source.Layer;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using System;
@@ -13,39 +16,82 @@ namespace GameEngine2D.Source.Level
 {
     public class LDTKMap
     {
-
         public LDTKMap(LDTKJson json)
         {
-            Logger.Log("JSON: " + json.Levels);
+            Globals.Camera.LevelGridCountH = 10000;
+            Globals.Camera.LevelGridCountW = 10000;
+
             foreach (GameEngine2D.Engine.Source.Level.Level level in json.Levels)
             {
+                Array.Reverse(level.LayerInstances);
                 foreach (GameEngine2D.Engine.Source.Level.LayerInstance layerInstance in level.LayerInstances)
                 {
-                    foreach (TileInstance tile in layerInstance.GridTiles)
+                    AbstractLayer currentLayer = null;
+                    string tileSet = null;
+                    if (layerInstance.Identifier.StartsWith("Colliders"))
                     {
-                        //Logger.Log("Tile: " + tile.);
+                        currentLayer = Scene.Instance.ColliderLayer;
+                        tileSet = null;
+                        //continue;
+                    } else if (layerInstance.Identifier.StartsWith("Background"))
+                    {
+                        //currentLayer = Scene.Instance.BackgroundLayer;
+                        currentLayer = Scene.Instance.AddScrollableLayer();
+                        tileSet = "tileset";
+                    }
+                    else
+                    {
+                        if (layerInstance.Identifier.StartsWith("Island"))
+                        {
+                            tileSet = "far-grounds";
+                        } else if(layerInstance.Identifier.StartsWith("Sea"))
+                        {
+                            tileSet = "sea";
+                        }
+                        else if (layerInstance.Identifier.StartsWith("Sky"))
+                        {
+                            tileSet = "sky";
+                        }
+                        else if (layerInstance.Identifier.StartsWith("Clouds"))
+                        {
+                            tileSet = "clouds";
+                        }
+                        currentLayer = Scene.Instance.AddScrollableLayer();
+                    }
+                    if (currentLayer.Equals(Scene.Instance.ColliderLayer))
+                    {
+                        //public Dictionary<string, dynamic>[] IntGrid { get; set; }
+                        foreach (Dictionary<string, dynamic> dict in layerInstance.IntGrid )
+                        {
+                            int y = (int)Math.Floor((decimal)dict["coordId"] / layerInstance.CWid);
+                            int x = (int)(dict["coordId"] - y * layerInstance.CWid);
+                            Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(16, Color.Black));
+                            e.Visible = false;
+                        }
 
-                        long tileId = tile.T;
-                        int atlasGridBaseWidth = 16;
-                        int padding = 0;
-                        int spacing = 0;
-                        int gridSize = 16;
+                    } else
+                    {
+                        foreach (TileInstance tile in layerInstance.GridTiles)
+                        {
+                            //Logger.Log("Tile: " + tile.);
 
-                        int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
-                        int pixelTileX = padding + gridTileX * (gridSize + spacing);
+                            long tileId = tile.T;
+                            int atlasGridBaseWidth = (int)layerInstance.GridSize;
+                            int padding = 0;
+                            int spacing = 0;
+                            int gridSize = 16;
 
-                        int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
-                        var pixelTileY = padding + gridTileY * (gridSize + spacing);
+                            int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
+                            int pixelTileX = padding + gridTileX * (gridSize + spacing);
 
-                        Logger.Log("Pixel tiles: " + pixelTileX + " " + pixelTileY);
-                        Logger.Log("Tile src: " + (int)tile.Src[0] + " " + (int)tile.Src[1]);
+                            int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
+                            var pixelTileY = padding + gridTileY * (gridSize + spacing);
 
-                        Entity e = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(tile.Px[0], tile.Px[1]), SpriteUtil.LoadTexture("SpriteSheets/MagicCliffsEnvironment/tileset"));
-                        //Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-                        e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                        e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
-                        //e.SourceRectangle = new Rectangle(pixelTileX, pixelTileY, pixelTileX + gridSize, pixelTileY + gridSize);
-                        //e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], (int)tile.Src[0] + gridSize, (int)tile.Src[1] + gridSize);
+                            Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), SpriteUtil.LoadTexture("SpriteSheets/MagicCliffsEnvironment/" + tileSet));
+                            e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
+                            e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
+
+                        }
                     }
                 }
             }

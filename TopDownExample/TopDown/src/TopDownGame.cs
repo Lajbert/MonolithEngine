@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Graphics.Primitives;
+﻿using GameEngine2D.Engine.Source.Global;
+using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -77,6 +78,7 @@ namespace TopDownExample
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera();
+            Globals.Camera = camera;
             font = Content.Load<SpriteFont>("DefaultFont");
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
@@ -89,7 +91,7 @@ namespace TopDownExample
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(cube, true);
 
-            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/small_example.json");
+            //LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise3_pivot.json");
             /*map.LoadMap();
             HashSet<Vector2> colliders = map.Colliders;*/
             /*foreach (Vector2 coord in colliders)
@@ -102,9 +104,6 @@ namespace TopDownExample
 
             //camera.LevelGridCountW = map.worldGridWidth;
             //camera.LevelGridCountH = map.worldGridHeight;
-
-            camera.LevelGridCountW = 16;
-            camera.LevelGridCountH = 16;
 
             Ray2DEmitter emitter = new Ray2DEmitter(cube);
         }

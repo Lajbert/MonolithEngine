@@ -31,8 +31,8 @@ namespace SideScrollerExample.SideScroller.Source.Entities
             Animations = new AnimationStateMachine();
             //Animations = new AnimationStateMachine();
             string folder = "PixelSimulations/";
-            List<Texture2D> explosion = SpriteUtil.LoadTextures(folder + "Explosion3/000", 1, 9, contentManager);
-            explosion.AddRange(SpriteUtil.LoadTextures(folder + "Explosion3/00", 10, 30, contentManager));
+            List<Texture2D> explosion = SpriteUtil.LoadTextures(folder + "Explosion3/000", 1, 9);
+            explosion.AddRange(SpriteUtil.LoadTextures(folder + "Explosion3/00", 10, 30));
 
             AnimatedSpriteGroup explode = new AnimatedSpriteGroup(explosion, this, SpriteBatch, animationFps);
             explode.Scale = scale;

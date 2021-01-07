@@ -62,6 +62,7 @@ namespace SideScrollerExample
         {
             // TODO: Add your initialization logic here
             Entity.GraphicsDeviceManager = graphics;
+            SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
@@ -76,67 +77,67 @@ namespace SideScrollerExample
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             CreateLevel();
-            Knight knight = new Knight(Content, new Vector2(5, 5) * Config.GRID, font);
+            Knight knight = new Knight(Content, new Vector2(350, 0), font);
             Camera.trackTarget(knight, true);
         }
 
         private void CreateLevel()
         {
+            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise3_pivot.json");
+            /* Scene.Instance.AddScrollableLayer(0.7f, true);
+             Scene.Instance.AddScrollableLayer(0.5f, true);
 
-            Scene.Instance.AddScrollableLayer(0.7f, true);
-            Scene.Instance.AddScrollableLayer(0.5f, true);
+             for (int i = 3; i <= 300; i++)
+             {
+                 if (i % 15 == 0)
+                 {
+                     for (int j = 22; j < 25; j++)
+                     {
+                         Tile t = new Tile(Content, Scene.Instance.ScrollableBackgroundLayers[1], new Vector2(i * Config.GRID, j * Config.GRID), Color.Yellow, font);
+                     }
+                 }
 
-            for (int i = 3; i <= 300; i++)
-            {
-                if (i % 15 == 0)
-                {
-                    for (int j = 22; j < 25; j++)
-                    {
-                        Tile t = new Tile(Content, Scene.Instance.ScrollableBackgroundLayers[1], new Vector2(i * Config.GRID, j * Config.GRID), Color.Yellow, font);
-                    }
-                }
+             }
 
-            }
+             for (int i = 3; i <= 300; i++)
+             {
+                 if (i % 20 == 0)
+                 {
+                     for (int j = 18; j < 25; j++)
+                     {
+                         Tile t = new Tile(Content, Scene.Instance.ScrollableBackgroundLayers[0], new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, font);
+                     }
+                 }
+             }
 
-            for (int i = 3; i <= 300; i++)
-            {
-                if (i % 20 == 0)
-                {
-                    for (int j = 18; j < 25; j++)
-                    {
-                        Tile t = new Tile(Content, Scene.Instance.ScrollableBackgroundLayers[0], new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, font);
-                    }
-                }
-            }
+             for (int i = 2; i <= 300; i += 20)
+             {
+                 for (int j = i; j <= i + 5; j++)
+                 {
+                     Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(j * Config.GRID, 20 * Config.GRID), Color.Black, font);
+                 }
 
-            for (int i = 2; i <= 300; i += 20)
-            {
-                for (int j = i; j <= i + 5; j++)
-                {
-                    Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(j * Config.GRID, 20 * Config.GRID), Color.Black, font);
-                }
+             }
 
-            }
+             for (int i = 2; i <= 300; i++)
+             {
+                 new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(i * Config.GRID, 25 * Config.GRID), Color.Black, font);
+                 if (i % 5 == 0)
+                 {
+                     for (int j = i; j < i + 2; j++)
+                     {
+                         Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(j * Config.GRID, 24 * Config.GRID), Color.DarkRed, font);
+                     }
+                 }
 
-            for (int i = 2; i <= 300; i++)
-            {
-                new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(i * Config.GRID, 25 * Config.GRID), Color.Black, font);
-                if (i % 5 == 0)
-                {
-                    for (int j = i; j < i + 2; j++)
-                    {
-                        Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(j * Config.GRID, 24 * Config.GRID), Color.DarkRed, font);
-                    }
-                }
-
-                if (i % 4 == 0)
-                {
-                    for (int j = 14; j < 19; j++)
-                    {
-                        Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, font);
-                    }
-                }
-            }
+                 if (i % 4 == 0)
+                 {
+                     for (int j = 14; j < 19; j++)
+                     {
+                         Tile t = new Tile(Content, Scene.Instance.ColliderLayer, new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, font);
+                     }
+                 }
+             }*/
 
             /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();

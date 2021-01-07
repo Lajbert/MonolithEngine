@@ -259,10 +259,11 @@ namespace GameEngine2D.Entities
             if (Sprite != null && Visible)
             {
                 //SpriteBatch.Begin();
+                //SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
                 SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
                 //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
                 //SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, Sprite.Width, Sprite.Height), Color.White, 0f, new Vector2(Sprite.Width / 2, Sprite.Height / 2), Config.SCALE, SpriteEffects.None, 0f);
-                SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White,  0f, Pivot, Config.SCALE, SpriteEffects.None, 0f);
+                SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White,  0f, Pivot, Config.SCALE, SpriteEffects.None, Layer.LayerDepth);
                 SpriteBatch.End();
             }
         }
@@ -482,7 +483,7 @@ namespace GameEngine2D.Entities
             }
 
             this.Sprite = sprite;
-            //SourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
+            SourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
         }
 
         public Vector2 GetPositionWithParent()
