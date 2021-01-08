@@ -12,6 +12,8 @@ namespace GameEngine2D.Source.Layer
     public class Layer
     {
         private List<Entity> rootObjects = new List<Entity>();
+        private List<Entity> newObjects = new List<Entity>();
+        private List<Entity> removedObjects = new List<Entity>();
         private float scrollSpeedModifier;
         private bool lockY;
 
@@ -34,15 +36,12 @@ namespace GameEngine2D.Source.Layer
 
         public void AddRootObject(Entity gameObject)
         {
-            rootObjects.Add(gameObject);
+            newObjects.Add(gameObject);
         }
 
-        private void RemoveObject(Entity position)
+        private void RemoveObject(Entity gameObject)
         {
-            rootObjects.Remove(position);
-            foreach (Entity child in position.GetAllChildren()) {
-                RemoveObject(child);
-            }
+            removedObjects.Add(gameObject);
         }
 
         public Vector2 GetPosition()
@@ -75,6 +74,19 @@ namespace GameEngine2D.Source.Layer
                 entity.PostDraw(spriteBatch, gameTime);
             }
             spriteBatch.End();
+            if (newObjects.Count > 0)
+            {
+                rootObjects.AddRange(newObjects);
+                newObjects.Clear();
+            }
+            if (removedObjects.Count > 0)
+            {
+                foreach (Entity toRemove in removedObjects)
+                {
+                    rootObjects.Remove(toRemove);
+                }
+                removedObjects.Clear();
+            }
         }
 
         public void UpdateAll(GameTime gameTime)
@@ -84,6 +96,19 @@ namespace GameEngine2D.Source.Layer
                 entity.PreUpdate(gameTime);
                 entity.Update(gameTime);
                 entity.PostUpdate(gameTime);
+            }
+            if (newObjects.Count > 0)
+            {
+                rootObjects.AddRange(newObjects);
+                newObjects.Clear();
+            }
+            if (removedObjects.Count > 0)
+            {
+                foreach (Entity toRemove in removedObjects)
+                {
+                    rootObjects.Remove(toRemove);
+                }
+                removedObjects.Clear();
             }
         }
 

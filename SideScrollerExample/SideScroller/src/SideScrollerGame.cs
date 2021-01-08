@@ -88,10 +88,10 @@ namespace SideScrollerExample
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
-            Camera.Position = new Vector2(0, 0);
+            Camera.Position = Vector2.Zero;
             CreateLevel();
             knight = new Knight(Content, new Vector2(350, 0), font);
-            Camera.trackTarget(knight, true);
+            //Camera.trackTarget(knight, true);
         }
 
         private void CreateLevel()
