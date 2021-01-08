@@ -85,7 +85,7 @@ namespace SideScrollerExample.SideScroller
 
             for (int i = 0; i < 5000; i++)
             {
-                cubes.Add(SpriteUtil.CreateRectangle(16, Color.Black));
+                cubes.Add(SpriteUtil.LoadTexture("SideScroller/KnightAssets/HeroKnight/Fall/HeroKnight_Fall_0"));
             }
         }
 
@@ -117,10 +117,15 @@ namespace SideScrollerExample.SideScroller
             spriteBatch.Begin();
             foreach (Texture2D sprite in cubes)
             {
+                
                 spriteBatch.Draw(sprite, new Vector2(500, 500), Color.White);
+                
             }
+            spriteBatch.End();
+            spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
             spriteBatch.End();
+
 
             //Camera2D.Position = knight.Position;
 

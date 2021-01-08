@@ -8,7 +8,7 @@ namespace SideScrollerExample
         [STAThread]
         static void Main()
         {
-            using (var game = new SideScrollerGame())
+            using (var game = new SpriteTester())
                 game.Run();
         }
     }
