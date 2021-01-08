@@ -12,7 +12,7 @@ namespace GameEngine2D.Source.Entities.Animation
     {
         public List<Texture2D> Textures { get; set; }
 
-        public AnimatedSpriteGroup(List<Texture2D> textures, Entity parent, SpriteBatch spriteBatch,  int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(spriteBatch, parent, textures.Count, framerate, spriteEffect)
+        public AnimatedSpriteGroup(List<Texture2D> textures, Entity parent, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, textures.Count, framerate, spriteEffect)
         {
             this.Textures = textures;
         }

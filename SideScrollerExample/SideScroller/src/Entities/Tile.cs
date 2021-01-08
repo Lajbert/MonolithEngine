@@ -1,11 +1,11 @@
 ﻿using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Layer;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source;
 using GameEngine2D.Source.Entities.Animation;
+using GameEngine2D.Source.Layer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -25,16 +25,16 @@ namespace SideScrollerExample.SideScroller.Source.Entities
         private Vector2 animOffset = new Vector2(30, 30);
         private int animationFps = 120;
 
-        public Tile(ContentManager contentManager, AbstractLayer layer, Vector2 position, Color color, SpriteFont font = null) : base(layer, null, position, null, font)
+        public Tile(Layer layer, Vector2 position, Color color, bool coolider = true, SpriteFont font = null) : base(layer, null, position, null, coolider, font)
         {
-            Sprite = SpriteUtil.CreateRectangle(Config.GRID, color);
+            SetSprite(SpriteUtil.CreateRectangle(Config.GRID, color));
             Animations = new AnimationStateMachine();
             //Animations = new AnimationStateMachine();
             string folder = "PixelSimulations/";
             List<Texture2D> explosion = SpriteUtil.LoadTextures(folder + "Explosion3/000", 1, 9);
             explosion.AddRange(SpriteUtil.LoadTextures(folder + "Explosion3/00", 10, 30));
 
-            AnimatedSpriteGroup explode = new AnimatedSpriteGroup(explosion, this, SpriteBatch, animationFps);
+            AnimatedSpriteGroup explode = new AnimatedSpriteGroup(explosion, this, animationFps);
             explode.Scale = scale;
             Animations.Offset = animOffset;
             SetDestroyAnimation(explode);

@@ -13,6 +13,7 @@ namespace GameEngine2D.Entities
         public GameObject()
         {
             ID = GLOBAL_ID++;
+            Logger.Log("ID " + ID);
         }
 
         public abstract void Destroy();

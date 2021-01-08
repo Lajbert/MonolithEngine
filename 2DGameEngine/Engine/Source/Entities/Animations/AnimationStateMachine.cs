@@ -1,6 +1,7 @@
 ﻿using GameEngine2D.Source.Entities.Animation;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -87,17 +88,17 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
             return false;
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (animations.Count == 0)
             {
                 return;
             }
 
-            Play(gameTime);
+            Play(spriteBatch, gameTime);
         }
 
-        private void Play(GameTime gameTime)
+        private void Play(SpriteBatch spriteBatch, GameTime gameTime)
         {   
             if (animationOverride != null && animationOverride.animation.Finished())
             {
@@ -117,7 +118,7 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
                 currentAnimation = nextAnimation;
                 currentAnimation.animation.Init();
             }
-            currentAnimation.animation.Play();
+            currentAnimation.animation.Play(spriteBatch);
         }
 
         public void Update(GameTime gameTime)

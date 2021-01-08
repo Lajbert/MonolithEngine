@@ -1,6 +1,5 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Controller;
-using GameEngine2D.Engine.Source.Layer;
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
@@ -45,12 +44,12 @@ namespace GameEngine2D
 
         protected FaceDirection CurrentFaceDirection { get; set; } = Engine.Source.Entities.FaceDirection.RIGHT;
 
-        public ControllableEntity(AbstractLayer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
+        public ControllableEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
         {
             ResetPosition(startPosition);
         }
 
-        override public void Draw(GameTime gameTime)
+        override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
             this.gameTime = gameTime;
@@ -62,10 +61,10 @@ namespace GameEngine2D
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 GridCoordinates = CalculateGridCoord(new Vector2(mouseState.X, mouseState.Y));
-                if (HasCollision && (!Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) &&
-                    !Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) &&
-                    !Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)) &&
-                    !Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))))
+                if (HasCollision && (!CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) &&
+                    !CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) &&
+                    !CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)) &&
+                    !CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))))
                 {
                     Position = new Vector2(mouseState.X, mouseState.Y);
                 }
@@ -73,12 +72,10 @@ namespace GameEngine2D
             }
 
 #if GRAPHICS_DEBUG
-            SpriteBatch.Begin();
-            SpriteBatch.DrawString(font, InCellLocation.X + " : " + InCellLocation.Y, new Vector2(10,10), Color.White);
-            SpriteBatch.End();
+            spriteBatch.DrawString(font, InCellLocation.X + " : " + InCellLocation.Y, new Vector2(10,10), Color.White);
 #endif
             
-            base.Draw(gameTime);
+            base.Draw(spriteBatch, gameTime);
         }
 
         public override void PreUpdate(GameTime gameTime)
@@ -101,7 +98,7 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 //if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (/*!HasGravity && */!OnGround() && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
                 //if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (/*!HasGravity && */!Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
                 {
@@ -110,7 +107,7 @@ namespace GameEngine2D
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 //if (HasCollision && InCellLocation.X <= CollisionOffsetRight && (Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) || (/*!HasGravity && */!Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X - 1, GridCoordinates.Y + 1)))))
                 {
                     //Direction.X = 0;
@@ -164,7 +161,7 @@ namespace GameEngine2D
                     InCellLocation.Y = CollisionOffsetBottom;
                 }
 
-                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && Scene.Instance.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
                     InCellLocation.Y = CollisionOffsetTop;
                 }
@@ -193,7 +190,7 @@ namespace GameEngine2D
 
         private bool OnGround()
         {
-            return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
+            return CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
             //return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
         }
 

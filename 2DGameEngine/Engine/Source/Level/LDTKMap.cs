@@ -1,5 +1,4 @@
 ﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Layer;
 using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -7,6 +6,7 @@ using GameEngine2D.Global;
 using GameEngine2D.Source.Layer;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,8 +16,13 @@ namespace GameEngine2D.Source.Level
 {
     public class LDTKMap
     {
+
+        string path = "SpriteSheets/MagicCliffsEnvironment/";
+        Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
+
         public LDTKMap(LDTKJson json)
         {
+            int c = 0;
             //Globals.Camera.LevelGridCountH = 256;
             //Globals.Camera.LevelGridCountW = 256;
 
@@ -26,21 +31,22 @@ namespace GameEngine2D.Source.Level
                 Array.Reverse(level.LayerInstances);
                 foreach (GameEngine2D.Engine.Source.Level.LayerInstance layerInstance in level.LayerInstances)
                 {
-                    AbstractLayer currentLayer = null;
+                    Layer.Layer currentLayer = null;
                     string tileSet = null;
                     if (layerInstance.Identifier.StartsWith("Colliders"))
                     {
-                        currentLayer = Scene.Instance.ColliderLayer;
+                        currentLayer = RootContainer.Instance.EntityLayer;
                         tileSet = null;
                         //continue;
                     } else if (layerInstance.Identifier.StartsWith("Background"))
                     {
-                        //currentLayer = Scene.Instance.BackgroundLayer;
-                        currentLayer = Scene.Instance.AddScrollableLayer();
+                        //currentLayer = RootContainer.Instance.BackgroundLayer;
+                        currentLayer = RootContainer.Instance.AddScrollableLayer();
                         tileSet = "tileset";
                     }
                     else
                     {
+                        //continue;
                         if (layerInstance.Identifier.StartsWith("Island"))
                         {
                             tileSet = "far-grounds";
@@ -56,17 +62,21 @@ namespace GameEngine2D.Source.Level
                         {
                             tileSet = "clouds";
                         }
-                        currentLayer = Scene.Instance.AddScrollableLayer();
+                        currentLayer = RootContainer.Instance.AddScrollableLayer();
                     }
-                    if (currentLayer.Equals(Scene.Instance.ColliderLayer))
+                    if (tileSet != null && !spriteSheets.ContainsKey(path+tileSet)) {
+                        spriteSheets.Add(path + tileSet, SpriteUtil.LoadTexture("SpriteSheets/MagicCliffsEnvironment/" + tileSet));
+                    }
+                    if (layerInstance.Identifier.StartsWith("Colliders"))
                     {
                         //public Dictionary<string, dynamic>[] IntGrid { get; set; }
                         foreach (Dictionary<string, dynamic> dict in layerInstance.IntGrid )
                         {
                             int y = (int)Math.Floor((decimal)dict["coordId"] / layerInstance.CWid);
                             int x = (int)(dict["coordId"] - y * layerInstance.CWid);
-                            Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(16, Color.Black));
+                            Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
                             e.Visible = false;
+                            c++;
                         }
 
                     } else
@@ -87,14 +97,16 @@ namespace GameEngine2D.Source.Level
                             int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
                             var pixelTileY = padding + gridTileY * (gridSize + spacing);
 
-                            Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), SpriteUtil.LoadTexture("SpriteSheets/MagicCliffsEnvironment/" + tileSet));
+                            Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), spriteSheets["SpriteSheets/MagicCliffsEnvironment/" + tileSet]);
                             e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                            e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
+                            c++;
+                            //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
 
                         }
                     }
                 }
             }
+            Logger.Log("C++ + " + c);
         }
 
         /*private readonly string LEVEL = "Level";
@@ -171,7 +183,7 @@ namespace GameEngine2D.Source.Level
                             int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
                             var pixelTileY = padding + gridTileY * (gridSize + spacing);
 
-                            new Entity(Scene.Instance.ColliderLayer, null, new Vector2(gridTile.px[0], gridTile.px[1]), SpriteUtil.CreateRectangle(Config.GRID, SpriteUtil.GetRandomColor()));
+                            new Entity(RootContainer.Instance.ColliderLayer, null, new Vector2(gridTile.px[0], gridTile.px[1]), SpriteUtil.CreateRectangle(Config.GRID, SpriteUtil.GetRandomColor()));
 
                             Logger.Log(JsonSerializer.Serialize(gridTile));
 
