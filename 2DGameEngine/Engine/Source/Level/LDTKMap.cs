@@ -6,6 +6,7 @@ using GameEngine2D.Global;
 using GameEngine2D.Source.Layer;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,10 @@ namespace GameEngine2D.Source.Level
 {
     public class LDTKMap
     {
+
+        string path = "SpriteSheets/MagicCliffsEnvironment/";
+        Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
+
         public LDTKMap(LDTKJson json)
         {
             int c = 0;
@@ -59,6 +64,9 @@ namespace GameEngine2D.Source.Level
                         }
                         currentLayer = RootContainer.Instance.AddScrollableLayer();
                     }
+                    if (tileSet != null && !spriteSheets.ContainsKey(path+tileSet)) {
+                        spriteSheets.Add(path + tileSet, SpriteUtil.LoadTexture("SpriteSheets/MagicCliffsEnvironment/" + tileSet));
+                    }
                     if (layerInstance.Identifier.StartsWith("Colliders"))
                     {
                         //public Dictionary<string, dynamic>[] IntGrid { get; set; }
@@ -67,7 +75,7 @@ namespace GameEngine2D.Source.Level
                             int y = (int)Math.Floor((decimal)dict["coordId"] / layerInstance.CWid);
                             int x = (int)(dict["coordId"] - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
-                            e.Visible = true;
+                            e.Visible = false;
                             c++;
                         }
 
@@ -89,7 +97,7 @@ namespace GameEngine2D.Source.Level
                             int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
                             var pixelTileY = padding + gridTileY * (gridSize + spacing);
 
-                            Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), SpriteUtil.LoadTexture("SpriteSheets/MagicCliffsEnvironment/" + tileSet));
+                            Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), spriteSheets["SpriteSheets/MagicCliffsEnvironment/" + tileSet]);
                             e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
                             c++;
                             //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);

@@ -66,14 +66,15 @@ namespace GameEngine2D.Source.Layer
 
         public void DrawAll(GameTime gameTime)
         {
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
+            //spriteBatch.Begin(SpriteSortMode.BackToFront, null, SamplerState.PointClamp, null, null);
             foreach (Entity entity in rootObjects)
             {
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null, SamplerState.PointClamp, null, null);
                 entity.PreDraw(spriteBatch, gameTime);
                 entity.Draw(spriteBatch, gameTime);
                 entity.PostDraw(spriteBatch, gameTime);
-                spriteBatch.End();
             }
+            spriteBatch.End();
         }
 
         public void UpdateAll(GameTime gameTime)
