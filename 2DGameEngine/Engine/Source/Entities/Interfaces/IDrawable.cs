@@ -6,8 +6,8 @@ namespace GameEngine2D.Entities.Interfaces
     public interface IDrawable
     {
 
-        public void PreDraw(GameTime gameTime);
-        public void Draw(GameTime gameTime);
-        public void PostDraw(GameTime gameTime);
+        public void PreDraw(SpriteBatch spriteBatch, GameTime gameTime);
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+        public void PostDraw(SpriteBatch spriteBatch, GameTime gameTime);
     }
 }

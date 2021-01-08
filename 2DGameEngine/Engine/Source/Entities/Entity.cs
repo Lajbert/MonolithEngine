@@ -14,7 +14,6 @@ using GameEngine2D.Source.Entities.Animation;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Physics.Raycast;
-using GameEngine2D.Engine.Source.Layer;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Engine.Source.Entities;
 using Microsoft.Xna.Framework.Audio;
@@ -27,6 +26,8 @@ namespace GameEngine2D.Entities
     {
 
         private readonly string DESTROY_AMINATION = "Destroy";
+
+        protected static OnePointCollider CollisionChecker { get; } = new OnePointCollider();
 
         protected Vector2 StartPosition;
         private Vector2 position;
@@ -58,16 +59,29 @@ namespace GameEngine2D.Entities
         }
 
         protected Texture2D Sprite { get; set; }
-        protected SpriteBatch SpriteBatch { get; set; }
         private HashSet<Entity> children;
         private HashSet<IUpdatable> updatables;
         private HashSet<Interfaces.IDrawable> drawables;
 
         private Entity parent;
 
-        public bool HasCollision { get; set; }
+        private bool hasCollisions;
 
-        protected AbstractLayer Layer { get; set; }
+        public bool HasCollision {
+            get => hasCollisions;
+            set { 
+                hasCollisions = value; 
+                if (value)
+                {
+                    CollisionChecker.AddObject(this);
+                } else
+                {
+                    CollisionChecker.Remove(this);
+                }
+            }
+        }
+
+        protected Layer Layer { get; set; }
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
 
         private bool blocksRay = false;
@@ -81,11 +95,11 @@ namespace GameEngine2D.Entities
             {
                 if (!value)
                 {
-                    Scene.Instance.RayBlockersLayer.Remove(this);
+                    RootContainer.Instance.RayBlockersLayer.RemoveRoot(this);
                 }
                 else
                 {
-                    Scene.Instance.RayBlockersLayer.AddObject(this);
+                    RootContainer.Instance.RayBlockersLayer.AddRootObject(this);
                 }
                 blocksRay = value;
             }
@@ -113,23 +127,23 @@ namespace GameEngine2D.Entities
 
         public Ray2DEmitter RayEmitter { private get; set; }
 
-        public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
-
         private Texture2D pivotMarker;
 
         private Dictionary<Entity, bool> collidesWith = new Dictionary<Entity, bool>();
 
+        public float Depth = 0f;
+
         //public static ResolutionIndependentRenderer ResolutionIndependentRenderer;
         //public static Camera2D Camera2D;
 
-        public Entity(AbstractLayer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
+        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, bool collider = false, SpriteFont font = null)
         {
             this.Layer = layer;
-            SpriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
             GridCoordinates = CalculateGridCoord(startPosition);
             children = new HashSet<Entity>();
             updatables = new HashSet<IUpdatable>();
             drawables = new HashSet<Interfaces.IDrawable>();
+            this.HasCollision = collider;
             SetSprite(sprite);
             if (parent != null) {
                 this.parent = parent;
@@ -137,18 +151,15 @@ namespace GameEngine2D.Entities
                 this.StartPosition = this.Position = startPosition;
             } else
             {
-                RootContainer.Instance.AddChild(this);
+                layer.AddRootObject(this);
                 this.StartPosition = this.Position = startPosition;
             }
-            
-            HasCollision = true;
             //this.startPosition = this.currentPosition = startPosition;
 
 #if GRAPHICS_DEBUG
             this.font = font;
             pivotMarker = SpriteUtil.CreateCircle(10, Color.Red);
 #endif
-            layer.AddObject(this);
         }
 
         protected virtual void SetRayBlockers()
@@ -164,15 +175,15 @@ namespace GameEngine2D.Entities
             RayBlockerLines.Add((new Vector2(Position.X, Position.Y + Config.GRID), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID)));
         }
 
-        public virtual void PreDraw(GameTime gameTime)
+        public virtual void PreDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (Interfaces.IDrawable child in drawables)
             {
-                child.PreDraw(gameTime);
+                child.PreDraw(spriteBatch, gameTime);
             }
         }
 
-        public virtual void Draw(GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             Vector2 position;
             if (parent != null)
@@ -186,39 +197,37 @@ namespace GameEngine2D.Entities
 
             if (Sprite != null)
             {
-                DrawSprite(position);
+                DrawSprite(spriteBatch, position);
             }
             else if (Animations != null)
             {
                 if (Visible)
                 {
-                    Animations.Draw(gameTime);
+                    Animations.Draw(spriteBatch, gameTime);
                 }
             }
 #if GRAPHICS_DEBUG
             if (Visible)
             {
-                SpriteBatch.Begin();
                 if (font != null)
                 {
                     if (parent != null)
                     {
-                        SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
+                        spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
                     }
                     else
                     {
-                        SpriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
+                        spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
                     }
 
                 }
-                SpriteBatch.Draw(pivotMarker, position, Color.White);
-                SpriteBatch.End();
+                spriteBatch.Draw(pivotMarker, position, Color.White);
             }
 #endif
 
             foreach (Interfaces.IDrawable child in drawables)
             {
-                child.Draw(gameTime);
+                child.Draw(spriteBatch, gameTime);
             }
         }
 
@@ -234,42 +243,43 @@ namespace GameEngine2D.Entities
 
         public Entity GetSamePositionCollider()
         {
-            return Scene.Instance.GetColliderAt(GridCoordinates);
+            return CollisionChecker.GetColliderAt(GridCoordinates);
         }
 
         public Entity GetLeftCollider()
         {
-            return Scene.Instance.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
+            return CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
         }
 
         public Entity GetRightCollider()
         {
-            return Scene.Instance.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates));
+            return CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates));
         }
 
         public Entity GetTopCollider()
         {
-            return Scene.Instance.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates));
+            return CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates));
         }
 
         public Entity GetBottomCollider()
         {
-            return Scene.Instance.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
+            return CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
         }
 
 
-        protected virtual void DrawSprite(Vector2 position)
+        protected virtual void DrawSprite(SpriteBatch spriteBatch, Vector2 position)
         {
             if (Sprite != null && Visible)
             {
 
                 //SpriteBatch.Begin();
                 //SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
-                SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
                 //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
                 //SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, Sprite.Width, Sprite.Height), Color.White, 0f, new Vector2(Sprite.Width / 2, Sprite.Height / 2), Config.SCALE, SpriteEffects.None, 0f);
-                SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White,  0f, Pivot, Config.SCALE, SpriteEffects.None, Layer.LayerDepth);
-                SpriteBatch.End();
+
+                //spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
+                spriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White,  0f, Pivot, Config.SCALE, SpriteEffects.None, Depth);
+                //spriteBatch.End();
                 
 
                 /*ResolutionIndependentRenderer.BeginDraw();
@@ -285,12 +295,12 @@ namespace GameEngine2D.Entities
             return MathUtil.SmallerEqualAbs(Direction, new Vector2(0.5f, 0.5f));
         }
 
-        public virtual void PostDraw(GameTime gameTime)
+        public virtual void PostDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
             foreach (Interfaces.IDrawable child in drawables)
             {
-                child.PostDraw(gameTime);
+                child.PostDraw(spriteBatch, gameTime);
             }
         }
 
@@ -348,7 +358,7 @@ namespace GameEngine2D.Entities
                 //collidesWith[e] = false;
             }
 
-            if (Scene.Instance.HasColliderAt(GridCoordinates))
+            if (CollisionChecker.HasColliderAt(GridCoordinates))
             {
                 if (!collidesWith.ContainsKey(GetSamePositionCollider()))
                 {
@@ -437,7 +447,6 @@ namespace GameEngine2D.Entities
 
         protected void Cleanup()
         {
-            RootContainer.Instance.RemoveChild(this);
             if (Sprite != null)
             {
                 Sprite.Dispose();
@@ -446,7 +455,7 @@ namespace GameEngine2D.Entities
             {
                 //DestroySound.Dispose();
             }
-            Layer.Remove(this);
+            Layer.RemoveRoot(this);
             if (parent != null)
             {
                 parent.RemoveChild(this);
@@ -531,8 +540,7 @@ namespace GameEngine2D.Entities
                 parent = newParent;
             } else
             {
-                RootContainer.Instance.RemoveChild(this);
-                RootContainer.Instance.AddChild(newParent);
+                Layer.RemoveRoot(this);
                 newParent.AddChild(this);
                 parent = newParent;
             }

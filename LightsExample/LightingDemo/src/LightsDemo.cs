@@ -70,7 +70,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Entity.GraphicsDeviceManager = graphics;
+            SpriteUtil.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
@@ -90,7 +90,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             CreateLevel();
             //public Knight(GraphicsLayer layer, Entity parent, GraphicsDeviceManager graphicsDevice, ContentManager content, SpriteBatch spriteBatch, Vector2 position, SpriteFont font)
 
-            rect = SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.White);
+            rect = SpriteUtil.CreateRectangle(Config.GRID, Color.White);
 
             lightMask = Content.Load<Texture2D>("Shaders/Textures/Lightmask");
 
@@ -109,11 +109,8 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
             for (int i = 2; i <= 300; i++)
             {
                 Entity level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(i * Config.GRID, 25 * Config.GRID), font);
-                level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
+                level.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, GetRandomColor()));
             }
-
-            Scene.Instance.AddScrollableLayer(0.7f, true);
-            Scene.Instance.AddScrollableLayer(0.5f, true);
 
             for (int i = 3; i <= 300; i++)
             {
@@ -121,8 +118,8 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
                 {
                     for (int j = 22; j < 25; j++)
                     {
-                        Entity level = new Entity(Scene.Instance.ScrollableBackgroundLayers[1], null, new Vector2(i * Config.GRID, j * Config.GRID), font);
-                        level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Brown));
+                        Entity level = new Entity(RootContainer.Instance.AddScrollableLayer(0, 0.7f, true), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
+                        level.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Brown));
                     }
                 }
 
@@ -134,8 +131,8 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
                 {
                     for (int j = 18; j < 25; j++)
                     {
-                        Entity level = new Entity(Scene.Instance.ScrollableBackgroundLayers[0], null, new Vector2(i * Config.GRID, j * Config.GRID), font);
-                        level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, Color.Black));
+                        Entity level = new Entity(RootContainer.Instance.AddScrollableLayer(0, 0.5f, true), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
+                        level.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
                     }
                 }
             }
@@ -145,7 +142,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
                 for (int j = i; j <= i + 5; j++)
                 {
                     Entity level = new Entity(Scene.Instance.ColliderLayer, null, new Vector2(j * Config.GRID, 20 * Config.GRID), font);
-                    level.SetSprite(SpriteUtil.CreateRectangle(graphics, Config.GRID, GetRandomColor()));
+                    level.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, GetRandomColor()));
                 }
 
             }

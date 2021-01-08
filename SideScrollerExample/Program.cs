@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SideScrollerExample.SideScroller;
+using System;
 
 namespace SideScrollerExample
 {

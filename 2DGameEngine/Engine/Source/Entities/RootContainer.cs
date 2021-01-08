@@ -11,10 +11,12 @@ namespace GameEngine2D.Entities
 {
     public class RootContainer : GameObject
     {
+        private List<Layer> layers = new List<Layer>();
 
-        private HashSet<Entity> children = new HashSet<Entity>();
-        private List<Interfaces.IDrawable> drawables;
-        private List<IUpdatable> updatables;
+        public Layer EntityLayer;
+
+        public Layer RayBlockersLayer;
+
         private Vector2 position = Vector2.Zero;
 
         public Vector2 Position
@@ -38,36 +40,16 @@ namespace GameEngine2D.Entities
 
         private RootContainer()
         {
-            drawables = new List<Interfaces.IDrawable>();
-            updatables = new List<IUpdatable>();
+
         }
         static RootContainer()
         {
         }
 
-        public void AddChild(Entity gameObject)
+        public void InitLayers()
         {
-            if (gameObject is Interfaces.IDrawable)
-            {
-                drawables.Add((Interfaces.IDrawable)gameObject);
-            }
-            if (gameObject is IUpdatable)
-            {
-                updatables.Add((IUpdatable)gameObject);
-            }
-            children.Add(gameObject);
-        }
-
-        public HashSet<Entity> GetAllChildren()
-        {
-            return children;
-        }
-
-        public void RemoveChild(Entity gameObject)
-        {
-            children.Remove(gameObject);
-            updatables.Remove(gameObject);
-            drawables.Remove(gameObject);
+            EntityLayer = new Layer(10);
+            RayBlockersLayer = new Layer();
         }
 
         public static RootContainer Instance
@@ -78,33 +60,41 @@ namespace GameEngine2D.Entities
             }
         }
 
-
         public override void Destroy()
         {
-            foreach(Entity root in children)
+            foreach (Layer layer in layers)
             {
-                root.Destroy();
+                layer.Destroy();
             }
         }
 
         public void DrawAll(GameTime gameTime)
         {
-            foreach (Interfaces.IDrawable o in drawables)
+            foreach (Layer layer in layers)
             {
-                o.PreDraw(gameTime);
-                o.Draw(gameTime);
-                o.PostDraw(gameTime);
+                layer.DrawAll(gameTime);
             }
         }
 
         public void UpdateAll(GameTime gameTime)
         {
-            foreach (IUpdatable o in new List<IUpdatable>(updatables))
+            foreach (Layer layer in layers)
             {
-                o.PreUpdate(gameTime);
-                o.Update(gameTime);
-                o.PostUpdate(gameTime);
+                layer.UpdateAll(gameTime);
             }
+        }
+
+        public void AddLayer(Layer layer)
+        {
+            layers.Add(layer);
+            layers.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+        }
+
+        public Layer AddScrollableLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
+        {
+            Layer l = new Layer(priority, scrollSpeedMultiplier, lockY);
+            AddLayer(l);
+            return l;
         }
     }
 }

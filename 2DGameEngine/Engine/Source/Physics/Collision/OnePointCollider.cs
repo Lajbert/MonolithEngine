@@ -1,5 +1,4 @@
-﻿using GameEngine2D.Engine.Source.Layer;
-using GameEngine2D.Entities;
+﻿using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -9,13 +8,13 @@ using System.Text;
 
 namespace GameEngine2D.Source.Layer
 {
-    public class ColliderLayer : AbstractLayer
+    public class OnePointCollider
     {
         private Dictionary<Vector2, Entity> objects;
         private float scrollSpeedModifier;
         private bool lockY;
 
-        public ColliderLayer(float scrollSpeedModifier = 1f, bool lockY = false)
+        public OnePointCollider(float scrollSpeedModifier = 1f, bool lockY = false)
         {
             this.objects = new Dictionary<Vector2, Entity>();
             this.scrollSpeedModifier = scrollSpeedModifier;
@@ -27,13 +26,22 @@ namespace GameEngine2D.Source.Layer
             return objects[position];
         }
 
-        public override void AddObject(Entity gameObject)
+        public void AddObject(Entity gameObject)
         {
             objects.Add(gameObject.GridCoordinates, gameObject);
         }
 
+        public Entity GetColliderAt(Vector2 position)
+        {
+            return objects[position];
+        }
+
         private void RemoveObject(Vector2 position)
         {
+            if (!objects.ContainsKey(position))
+            {
+                return;
+            }
             Entity e = objects[position];
             objects.Remove(position);
             foreach (Entity child in e.GetAllChildren()) {
@@ -41,12 +49,12 @@ namespace GameEngine2D.Source.Layer
             }
         }
 
-        public bool HasObjectAt(Vector2 position)
+        public bool HasColliderAt(Vector2 position)
         {
             return objects.ContainsKey(position);
         }
 
-        public override Vector2 GetPosition()
+        public Vector2 GetPosition()
         {
             if (lockY)
             {
@@ -55,12 +63,12 @@ namespace GameEngine2D.Source.Layer
             return RootContainer.Instance.Position * scrollSpeedModifier;
         }
 
-        public override IEnumerable<Entity> GetAll()
+        public IEnumerable<Entity> GetAll()
         {
             return objects.Values;
         }
 
-        public override void Remove(Entity gameObject)
+        public void Remove(Entity gameObject)
         {
             RemoveObject(gameObject.GridCoordinates);
         }

@@ -16,7 +16,6 @@ namespace GameEngine2D.Source.Entities.Animation
         private int totalFrames;
         private double delay = 0;
         private double currentDelay = 0;
-        protected SpriteBatch SpriteBatch { get; set; }
         protected Entity Parent { get; set; }
         public float Scale = 0f;
         public Vector2 Offset = Vector2.Zero;
@@ -27,9 +26,8 @@ namespace GameEngine2D.Source.Entities.Animation
         public Action StartedAction;
         public Vector2 Pivot;
 
-        public AbstractAnimation(SpriteBatch spriteBatch, Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
+        public AbstractAnimation(Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
         {
-            this.SpriteBatch = spriteBatch;
             this.Parent = parent;
             CurrentFrame = 0;
             this.totalFrames = totalFrames;
@@ -47,22 +45,19 @@ namespace GameEngine2D.Source.Entities.Animation
             return CurrentFrame == 0 && !Started;
         }
 
-        public virtual void Play()
+        public virtual void Play(SpriteBatch spriteBatch)
         {
-            
-            int width = Config.GRID;
-            int height = Config.GRID;
             Pivot = new Vector2((float)Math.Floor((decimal)GetTexture().Width / 2), (float)Math.Floor((decimal)GetTexture().Height / 2));
             //Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, width, height);
 
             //spriteBatch.Begin();
             //SpriteBatch.Begin(SpriteSortMode, BlendState, SamplerState.PointClamp, DepthStencilState, RasterizerState)
-            SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
+            //SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
             //public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
             //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
-            SpriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, GetTexture().Width, GetTexture().Height), Color.White, 0f, Pivot, Scale * Config.SCALE, SpriteEffect, 0f);
+            spriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, GetTexture().Width, GetTexture().Height), Color.White, 0f, Pivot, Scale * Config.SCALE, SpriteEffect, 0f);
             //spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-            SpriteBatch.End();
+            //SpriteBatch.End();
         }
 
         protected abstract Texture2D GetTexture();
