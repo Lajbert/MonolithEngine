@@ -27,22 +27,22 @@ namespace GameEngine2D.GameExamples.TopDown.Source.Hero
 
             UserInput.RegisterControllerState(Keys.Right, () => {
                 Direction.X += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.RIGHT;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.RIGHT;
             });
 
             UserInput.RegisterControllerState(Keys.Left, () => {
                 Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.LEFT;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.LEFT;
             });
 
             UserInput.RegisterControllerState(Keys.Down, () => {
                 Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.DOWN;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.DOWN;
             });
 
             UserInput.RegisterControllerState(Keys.Up, () => {
                 Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.UP;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.UP;
             });
         }
     }

@@ -89,7 +89,7 @@ namespace GameEngine2D.Entities
 
         public SoundEffect DestroySound;
 
-        protected List<FaceDirection> SinglePointCollisionChecks = new List<FaceDirection>();
+        protected HashSet<Direction> SinglePointCollisionChecks = new HashSet<Direction>();
         public bool BlocksRay {
             get => blocksRay;
             set

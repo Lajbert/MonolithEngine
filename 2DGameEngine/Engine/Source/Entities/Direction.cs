@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Entities
 {
-    public enum FaceDirection
+    public enum Direction
     {
         UP,
         DOWN,

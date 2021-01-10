@@ -61,12 +61,12 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 
             UserInput.RegisterControllerState(Keys.Right, () => {
                 Direction.X += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.RIGHT;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.RIGHT;
             });
 
             UserInput.RegisterControllerState(Keys.Left, () => {
                 Direction.X -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.LEFT;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.LEFT;
             });
 
             UserInput.RegisterControllerState(Keys.Space, () => {
@@ -93,7 +93,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
                     return;
                 }
                 Direction.Y += Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.DOWN;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.DOWN;
             });
 
             UserInput.RegisterControllerState(Keys.Up, () => {
@@ -102,7 +102,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
                     return;
                 }
                 Direction.Y -= Config.CHARACTER_SPEED * elapsedTime;
-                CurrentFaceDirection = Engine.Source.Entities.FaceDirection.UP;
+                CurrentFaceDirection = Engine.Source.Entities.Direction.UP;
             });
 
             Action shoot = () =>
@@ -137,12 +137,12 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 
             SpriteGroupAnimation knightAnimationIdleRight = new SpriteGroupAnimation(knightIdle, this, animationFps);
             knightAnimationIdleRight.Scale = scale;
-            Func<bool> isIdleRight = () => CurrentFaceDirection == FaceDirection.RIGHT;
+            Func<bool> isIdleRight = () => CurrentFaceDirection == Engine.Source.Entities.Direction.RIGHT;
             animations.RegisterAnimation("IdleRight", knightAnimationIdleRight, isIdleRight);
 
             SpriteGroupAnimation knightAnimationIdleLeft = new SpriteGroupAnimation(knightIdle, this, animationFps, SpriteEffects.FlipHorizontally);
             knightAnimationIdleLeft.Scale = scale;
-            Func<bool> isIdleLeft = () => CurrentFaceDirection == FaceDirection.LEFT;
+            Func<bool> isIdleLeft = () => CurrentFaceDirection == Engine.Source.Entities.Direction.LEFT;
             animations.RegisterAnimation("IdleLeft", knightAnimationIdleLeft, isIdleLeft);
 
             List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/HeroKnight_Run_", 9);
@@ -159,24 +159,24 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2);
             SpriteGroupAnimation knightJumpRightAnimation = new SpriteGroupAnimation(knightJump, this, animationFps);
             knightJumpRightAnimation.Scale = scale;
-            Func<bool> isJumpingRight = () => JumpStart > 0f && CurrentFaceDirection == FaceDirection.RIGHT;
+            Func<bool> isJumpingRight = () => JumpStart > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.RIGHT;
             animations.RegisterAnimation("JumpRight", knightJumpRightAnimation, isJumpingRight, 2);
 
             SpriteGroupAnimation knightJumpLeftAnimation = new SpriteGroupAnimation(knightJump, this, animationFps, SpriteEffects.FlipHorizontally);
             knightJumpLeftAnimation.Scale = scale;
-            Func<bool> isJumpingLeft = () => JumpStart > 0f && CurrentFaceDirection == FaceDirection.LEFT;
+            Func<bool> isJumpingLeft = () => JumpStart > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.LEFT;
             animations.RegisterAnimation("JumpLeft", knightJumpLeftAnimation, isJumpingLeft, 2);
 
             List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/HeroKnight_Fall_", 3);
             SpriteGroupAnimation knightFallRightAnimation = new SpriteGroupAnimation(knightFall, this, animationFps);
             knightFallRightAnimation.Scale = scale;
             knightFallRightAnimation.Offset = spriteOffset;
-            Func<bool> isFallingRight = () => Direction.Y > 0f && CurrentFaceDirection == FaceDirection.RIGHT;
+            Func<bool> isFallingRight = () => Direction.Y > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.RIGHT;
             animations.RegisterAnimation("FallRight", knightFallRightAnimation, isFallingRight, 3);
 
             SpriteGroupAnimation knightFallLeftAnimation = new SpriteGroupAnimation(knightFall, this, animationFps, SpriteEffects.FlipHorizontally);
             knightFallLeftAnimation.Scale = scale;
-            Func<bool> isFallingLeftt = () => Direction.Y > 0f && CurrentFaceDirection == FaceDirection.LEFT;
+            Func<bool> isFallingLeftt = () => Direction.Y > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.LEFT;
             animations.RegisterAnimation("FallLeft", knightFallLeftAnimation, isFallingLeftt, 3);
 
             Animations = animations;

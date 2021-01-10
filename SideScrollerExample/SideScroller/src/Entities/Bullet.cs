@@ -17,9 +17,9 @@ namespace SideScrollerExample.SideScroller.Source.Entities
         private float speed = 300f;
         private int mul = 1;
 
-        public Bullet(Entity parent, FaceDirection faceDirection) : base(RootContainer.Instance.EntityLayer, null, parent.Position)
+        public Bullet(Entity parent, Direction faceDirection) : base(RootContainer.Instance.EntityLayer, null, parent.Position)
         {
-            if (faceDirection == GameEngine2D.Engine.Source.Entities.FaceDirection.LEFT)
+            if (faceDirection == GameEngine2D.Engine.Source.Entities.Direction.LEFT)
             {
                 mul = -1;
             }

@@ -101,9 +101,9 @@ namespace SideScrollerExample
 
         private void CreateLevel()
         {
-            //LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise3_pivot.json");
+            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise3_pivot.json");
 
-             for (int i = 3; i <= 300; i++)
+             /*for (int i = 3; i <= 300; i++)
              {
                  if (i % 15 == 0)
                  {
@@ -154,7 +154,7 @@ namespace SideScrollerExample
                         //Tile t = new Tile(RootContainer.Instance.EntityLayer, new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, true, font);
                     }
                  }
-             }
+             }*/
 
             /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();

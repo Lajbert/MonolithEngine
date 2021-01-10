@@ -42,7 +42,7 @@ namespace GameEngine2D
 
         protected GameTime gameTime;
 
-        protected FaceDirection CurrentFaceDirection { get; set; } = Engine.Source.Entities.FaceDirection.RIGHT;
+        protected Direction CurrentFaceDirection { get; set; } = Engine.Source.Entities.Direction.RIGHT;
 
         public ControllableEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
         {
@@ -57,7 +57,7 @@ namespace GameEngine2D
             elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
 
-            MouseState mouseState = Mouse.GetState();
+            /*MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 GridCoordinates = CalculateGridCoord(new Vector2(mouseState.X, mouseState.Y));
@@ -69,7 +69,7 @@ namespace GameEngine2D
                     Position = new Vector2(mouseState.X, mouseState.Y);
                 }
                     
-            }
+            }*/
 
 #if GRAPHICS_DEBUG
             spriteBatch.DrawString(font, InCellLocation.X + " : " + InCellLocation.Y, new Vector2(10,10), Color.White);
