@@ -16,6 +16,7 @@ using SideScrollerExample.SideScroller.Source.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using GameEngine2D.Util;
 
 namespace SideScrollerExample
 {
@@ -54,9 +55,11 @@ namespace SideScrollerExample
             random = new Random();
             background1 = SpriteUtil.GetRandomColor();
             background2 = SpriteUtil.GetRandomColor();
+
             // uncapped framerate
             graphics.SynchronizeWithVerticalRetrace = false;
             this.IsFixedTimeStep = false;
+
             mapSerializer = new LDTKJsonMapSerializer();
             contentManager = Content;
 
@@ -90,15 +93,17 @@ namespace SideScrollerExample
             graphics.ApplyChanges();
             Camera.Position = Vector2.Zero;
             CreateLevel();
-            knight = new Knight(Content, new Vector2(350, 0), font);
-            //Camera.trackTarget(knight, true);
+            knight = new Knight(Content, new Vector2(800, 0), font);
+            Camera.trackTarget(knight, true);
+
+            Logger.Log("Game objects created: " + GameObject.GetObjectCount());
         }
 
         private void CreateLevel()
         {
-            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise3_pivot.json");
+            //LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise3_pivot.json");
 
-             /*for (int i = 3; i <= 300; i++)
+             for (int i = 3; i <= 300; i++)
              {
                  if (i % 15 == 0)
                  {
@@ -138,7 +143,7 @@ namespace SideScrollerExample
                  {
                      for (int j = i; j < i + 2; j++)
                      {
-                        Tile t = new Tile(RootContainer.Instance.EntityLayer, new Vector2(j * Config.GRID, 24 * Config.GRID), Color.DarkRed, true, font);
+                        //Tile t = new Tile(RootContainer.Instance.EntityLayer, new Vector2(j * Config.GRID, 24 * Config.GRID), Color.DarkRed, true, font);
                      }
                  }
 
@@ -146,10 +151,10 @@ namespace SideScrollerExample
                  {
                      for (int j = 14; j < 19; j++)
                      {
-                        Tile t = new Tile(RootContainer.Instance.EntityLayer, new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, true, font);
+                        //Tile t = new Tile(RootContainer.Instance.EntityLayer, new Vector2(i * Config.GRID, j * Config.GRID), Color.Green, true, font);
                     }
                  }
-             }*/
+             }
 
             /*LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/2DGameEngine/Content/practise.json");
             HashSet<Vector2> collisions = map.GetCollisions();
@@ -169,6 +174,7 @@ namespace SideScrollerExample
 
             // TODO: Add your update logic here
             RootContainer.Instance.UpdateAll(gameTime);
+            Camera.Position.X += 0.5f;
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
             base.Update(gameTime);

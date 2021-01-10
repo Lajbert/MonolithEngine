@@ -1,6 +1,7 @@
 ﻿using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities.Animation.Interface;
+using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

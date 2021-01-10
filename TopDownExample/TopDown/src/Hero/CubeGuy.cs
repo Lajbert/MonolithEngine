@@ -1,6 +1,7 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Util;
+using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source;
 using Microsoft.Xna.Framework;
@@ -14,7 +15,7 @@ namespace GameEngine2D.GameExamples.TopDown.Source.Hero
 {
     class CubeGuy : ControllableEntity
     {
-        public CubeGuy(Vector2 position, SpriteFont font = null) : base(Scene.Instance.EntityLayer, null, position, null, font)
+        public CubeGuy(Vector2 position, SpriteFont font = null) : base(RootContainer.Instance.EntityLayer, null, position, null, false, font)
         {
             SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
             SetupController();

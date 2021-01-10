@@ -74,6 +74,19 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
                 this.function = function;
             }
 
+            public override bool Equals(object obj)
+            {
+                return obj is StateAnimation animation &&
+                       state == animation.state &&
+                       EqualityComparer<Func<bool>>.Default.Equals(function, animation.function) &&
+                       EqualityComparer<AbstractAnimation>.Default.Equals(this.animation, animation.animation) &&
+                       priority == animation.priority;
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(state, function, animation, priority);
+            }
         }
 
         public bool HasAnimation(string state)

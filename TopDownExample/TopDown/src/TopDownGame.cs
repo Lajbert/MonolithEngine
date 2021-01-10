@@ -7,6 +7,7 @@ using GameEngine2D.GameExamples.TopDown.Source.Hero;
 using GameEngine2D.Global;
 using GameEngine2D.Source;
 using GameEngine2D.Source.Camera;
+using GameEngine2D.Source.Layer;
 using GameEngine2D.Source.Level;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -71,6 +72,8 @@ namespace TopDownExample
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Layer.GraphicsDeviceManager = graphics;
+            RootContainer.Instance.InitLayers();
             base.Initialize();
         }
 
@@ -83,8 +86,6 @@ namespace TopDownExample
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
-
-            Entity.GraphicsDeviceManager = graphics;
             SpriteUtil.GraphicsDeviceManager = graphics;
             SpriteUtil.Content = Content;
 

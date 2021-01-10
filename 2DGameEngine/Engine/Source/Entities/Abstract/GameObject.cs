@@ -13,7 +13,6 @@ namespace GameEngine2D.Entities
         public GameObject()
         {
             ID = GLOBAL_ID++;
-            Logger.Log("ID " + ID);
         }
 
         public abstract void Destroy();
@@ -30,6 +29,11 @@ namespace GameEngine2D.Entities
         public override int GetHashCode()
         {
             return ID;
+        }
+
+        public static int GetObjectCount()
+        {
+            return GLOBAL_ID;
         }
 
     }

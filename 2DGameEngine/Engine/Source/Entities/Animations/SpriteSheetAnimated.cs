@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameEngine2D.Source.Entities
 {
-    public class AnimatedSpriteSheet
+    public class SpriteSheetAnimated
     {
         public Texture2D Texture { get; set; }
         public int Rows { get; set; }
@@ -16,12 +16,12 @@ namespace GameEngine2D.Source.Entities
         private double delay = 0;
         private double currentDelay = 0;
 
-        public AnimatedSpriteSheet(Texture2D texture, int rows, int columns) : this(texture, rows, columns, 0)
+        public SpriteSheetAnimated(Texture2D texture, int rows, int columns) : this(texture, rows, columns, 0)
         {
 
         }
 
-        public AnimatedSpriteSheet(Texture2D texture, int rows, int columns, int framerate)
+        public SpriteSheetAnimated(Texture2D texture, int rows, int columns, int framerate)
         {
             Texture = texture;
             Rows = rows;
@@ -36,7 +36,7 @@ namespace GameEngine2D.Source.Entities
 
         public void Update(GameTime gameTime)
         {
-            if (delay == 0)
+            /*if (delay == 0)
             {
                 currentFrame++;
             }
@@ -54,12 +54,12 @@ namespace GameEngine2D.Source.Entities
             }
 
             if (currentFrame == totalFrames)
-                currentFrame = 0;
+                currentFrame = 0;*/
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 location)
         {
-            int width = Texture.Width / Columns;
+            /*int width = Texture.Width / Columns;
             int height = Texture.Height / Rows;
             int row = (int)((float)currentFrame / (float)Columns);
             int column = currentFrame % Columns;
@@ -69,7 +69,7 @@ namespace GameEngine2D.Source.Entities
 
             spriteBatch.Begin();
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-            spriteBatch.End();
+            spriteBatch.End();*/
         }
     }
 }

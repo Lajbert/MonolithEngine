@@ -33,6 +33,7 @@ namespace GameEngine2D.Entities
         private Vector2 position;
 
         public bool Visible = true;
+        public bool Active = true;
 
         protected Vector2 DrawOffset { get; set; } = Vector2.Zero;
 
@@ -177,6 +178,12 @@ namespace GameEngine2D.Entities
 
         public virtual void PreDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+
+            if (!Visible)
+            {
+                return;
+            }
+
             foreach (Interfaces.IDrawable child in drawables)
             {
                 child.PreDraw(spriteBatch, gameTime);
@@ -185,6 +192,12 @@ namespace GameEngine2D.Entities
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+
+            if(!Visible)
+            {
+                return;
+            }
+
             Vector2 position;
             if (parent != null)
             {
@@ -201,33 +214,49 @@ namespace GameEngine2D.Entities
             }
             else if (Animations != null)
             {
-                if (Visible)
-                {
-                    Animations.Draw(spriteBatch, gameTime);
-                }
+                Animations.Draw(spriteBatch, gameTime);
             }
 #if GRAPHICS_DEBUG
-            if (Visible)
+            if (font != null)
             {
-                if (font != null)
+                if (parent != null)
                 {
-                    if (parent != null)
-                    {
-                        spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
-                    }
-                    else
-                    {
-                        spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
-                    }
-
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
                 }
-                spriteBatch.Draw(pivotMarker, position, Color.White);
+                else
+                {
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
+                }
+
             }
+            spriteBatch.Draw(pivotMarker, position, Color.White);
 #endif
 
             foreach (Interfaces.IDrawable child in drawables)
             {
                 child.Draw(spriteBatch, gameTime);
+            }
+        }
+
+        public virtual void PostDraw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+
+            if (!Visible)
+            {
+                return;
+            }
+
+            foreach (Interfaces.IDrawable child in drawables)
+            {
+                child.PostDraw(spriteBatch, gameTime);
+            }
+        }
+
+        protected virtual void DrawSprite(SpriteBatch spriteBatch, Vector2 position)
+        {
+            if (Sprite != null)
+            {
+                spriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White, 0f, Pivot, Config.SCALE, SpriteEffects.None, Depth);
             }
         }
 
@@ -266,46 +295,19 @@ namespace GameEngine2D.Entities
             return CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
         }
 
-
-        protected virtual void DrawSprite(SpriteBatch spriteBatch, Vector2 position)
-        {
-            if (Sprite != null && Visible)
-            {
-
-                //SpriteBatch.Begin();
-                //SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
-                //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
-                //SpriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), new Rectangle(0, 0, Sprite.Width, Sprite.Height), Color.White, 0f, new Vector2(Sprite.Width / 2, Sprite.Height / 2), Config.SCALE, SpriteEffects.None, 0f);
-
-                //spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
-                spriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White,  0f, Pivot, Config.SCALE, SpriteEffects.None, Depth);
-                //spriteBatch.End();
-                
-
-                /*ResolutionIndependentRenderer.BeginDraw();
-                SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, null, Camera2D.GetViewTransformationMatrix());
-                //SpriteBatch.Draw(Sprite, (position + DrawOffset), Color.White);
-                SpriteBatch.Draw(Sprite, (position + DrawOffset), SourceRectangle, Color.White, 0f, Pivot, Config.SCALE, SpriteEffects.None, Layer.LayerDepth);
-                SpriteBatch.End();*/
-
-            }
-        }
         public bool IsIdle()
         {
             return MathUtil.SmallerEqualAbs(Direction, new Vector2(0.5f, 0.5f));
         }
 
-        public virtual void PostDraw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-
-            foreach (Interfaces.IDrawable child in drawables)
-            {
-                child.PostDraw(spriteBatch, gameTime);
-            }
-        }
-
         public virtual void PreUpdate(GameTime gameTime)
         {
+
+            if (!Active)
+            {
+                return;
+            }
+
             CheckCollisions();
 
             foreach (IUpdatable child in updatables)
@@ -316,6 +318,11 @@ namespace GameEngine2D.Entities
 
         public virtual void Update(GameTime gameTime)
         {
+
+            if (!Active)
+            {
+                return;
+            }
 
             if (Animations != null)
             {
@@ -330,6 +337,11 @@ namespace GameEngine2D.Entities
 
         public virtual void PostUpdate(GameTime gameTime)
         {
+
+            if (!Active)
+            {
+                return;
+            }
 
             if (RayEmitter != null)
             {

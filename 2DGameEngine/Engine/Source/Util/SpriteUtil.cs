@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace GameEngine2D.Engine.Source.Util
@@ -14,6 +15,9 @@ namespace GameEngine2D.Engine.Source.Util
 
         public static GraphicsDeviceManager GraphicsDeviceManager;
         public static ContentManager Content;
+
+        private static Dictionary<RectangleKey, Texture2D> rectangleCache = new Dictionary<RectangleKey, Texture2D>();
+
         public static Texture2D CreateCircle(int radius, Color color)
         {
             Texture2D texture = new Texture2D(GraphicsDeviceManager.GraphicsDevice, radius, radius);
@@ -44,17 +48,55 @@ namespace GameEngine2D.Engine.Source.Util
         }
         public static Texture2D CreateRectangle(int size, Color color)
         {
+            if (rectangleCache.ContainsKey(new RectangleKey(size, color))) {
+                return rectangleCache[new RectangleKey(size, color)];
+            }
             Texture2D rect = new Texture2D(GraphicsDeviceManager.GraphicsDevice, size, size);
             Color[] data = new Color[size * size];
             for (int i = 0; i < data.Length; ++i) data[i] = color;
             rect.SetData(data);
+
+            rectangleCache.Add(new RectangleKey(size, color), rect);
+            Logger.Log("+++++++++++++++++++++++++++");
             return rect;
         }
 
-        public static List<Texture2D> LoadTextures(string fullPath, int frames)
+        public static List<Texture2D> LoadTextures(string fullPath, int frameCount)
         {
-            return LoadTextures(fullPath, 0, frames);
+            return LoadTextures(fullPath, 0, frameCount);
         }
+
+        /*public static Texture2D LoadTexturesWithMerge(string fullPath, int frameCount)
+        {
+            return LoadTexturesWithMerge(fullPath, 0, frameCount);
+        }
+
+        public static Texture2D LoadTexturesWithMerge(string fullPath, int startFrame, int endFrame)
+        {
+            List<Texture2D> textures = LoadTextures(fullPath, startFrame, endFrame);
+            int resWidth = 0;
+            int resHeight = 0;
+            foreach (Texture2D texture in textures)
+            {
+                resWidth += texture.Width;
+                resHeight += texture.Height;
+            }
+            //Color[] resultColor = new Color[resWidth * resHeight];
+            int i = 0;
+            Color[] currentColor;
+            Texture2D result = new Texture2D(GraphicsDeviceManager.GraphicsDevice, resWidth, resHeight);
+            foreach (Texture2D texture in textures)
+            {
+                currentColor = new Color[texture.Width * texture.Height];
+                texture.GetData(currentColor);
+                result.SetData(currentColor, i, currentColor.Length);
+                //currentColor.CopyTo(resultColor, i);
+                i += currentColor.Length + 1;
+            }
+            
+            //result.SetData(resultColor);
+            return result;
+        }*/
 
         public static List<Texture2D> LoadTextures(string fullPath, int startFrame, int endFrame)
         {
@@ -76,6 +118,30 @@ namespace GameEngine2D.Engine.Source.Util
         {
             Random random = new Random();
             return Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
+        }
+
+        private class RectangleKey
+        {
+            public int size;
+            public Color color;
+
+            public RectangleKey(int size, Color color)
+            {
+                this.size = size;
+                this.color = color;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is RectangleKey key &&
+                       size == key.size &&
+                       color.Equals(key.color);
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(size, color);
+            }
         }
     }
 }

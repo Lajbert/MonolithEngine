@@ -135,51 +135,53 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 
             List<Texture2D> knightIdle = SpriteUtil.LoadTextures(folder + "Idle/HeroKnight_Idle_", 7);
 
-            AnimatedSpriteGroup knightAnimationIdleRight = new AnimatedSpriteGroup(knightIdle, this, animationFps);
+            SpriteGroupAnimation knightAnimationIdleRight = new SpriteGroupAnimation(knightIdle, this, animationFps);
             knightAnimationIdleRight.Scale = scale;
             Func<bool> isIdleRight = () => CurrentFaceDirection == FaceDirection.RIGHT;
             animations.RegisterAnimation("IdleRight", knightAnimationIdleRight, isIdleRight);
 
-            AnimatedSpriteGroup knightAnimationIdleLeft = new AnimatedSpriteGroup(knightIdle, this, animationFps, SpriteEffects.FlipHorizontally);
+            SpriteGroupAnimation knightAnimationIdleLeft = new SpriteGroupAnimation(knightIdle, this, animationFps, SpriteEffects.FlipHorizontally);
             knightAnimationIdleLeft.Scale = scale;
             Func<bool> isIdleLeft = () => CurrentFaceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("IdleLeft", knightAnimationIdleLeft, isIdleLeft);
 
-            List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/HeroKnight_Run_", 7);
-            AnimatedSpriteGroup knightRunRightAnimation = new AnimatedSpriteGroup(knightRun, this, animationFps);
+            List<Texture2D> knightRun = SpriteUtil.LoadTextures(folder + "Run/HeroKnight_Run_", 9);
+            SpriteGroupAnimation knightRunRightAnimation = new SpriteGroupAnimation(knightRun, this, animationFps);
             knightRunRightAnimation.Scale = scale;
             Func<bool> isRunningRight = () => Direction.X > 0.5f && !CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates));
             animations.RegisterAnimation("RunRight", knightRunRightAnimation, isRunningRight, 1);
 
-            AnimatedSpriteGroup knightRunLeftAnimation = new AnimatedSpriteGroup(knightRun, this, animationFps, SpriteEffects.FlipHorizontally);
+            SpriteGroupAnimation knightRunLeftAnimation = new SpriteGroupAnimation(knightRun, this, animationFps, SpriteEffects.FlipHorizontally);
             knightRunLeftAnimation.Scale = scale;
             Func<bool> isRunningleft = () => Direction.X < -0.5f && !CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
             animations.RegisterAnimation("RunLeft", knightRunLeftAnimation, isRunningleft, 1);
 
             List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2);
-            AnimatedSpriteGroup knightJumpRightAnimation = new AnimatedSpriteGroup(knightJump, this, animationFps);
+            SpriteGroupAnimation knightJumpRightAnimation = new SpriteGroupAnimation(knightJump, this, animationFps);
             knightJumpRightAnimation.Scale = scale;
             Func<bool> isJumpingRight = () => JumpStart > 0f && CurrentFaceDirection == FaceDirection.RIGHT;
             animations.RegisterAnimation("JumpRight", knightJumpRightAnimation, isJumpingRight, 2);
 
-            AnimatedSpriteGroup knightJumpLeftAnimation = new AnimatedSpriteGroup(knightJump, this, animationFps, SpriteEffects.FlipHorizontally);
+            SpriteGroupAnimation knightJumpLeftAnimation = new SpriteGroupAnimation(knightJump, this, animationFps, SpriteEffects.FlipHorizontally);
             knightJumpLeftAnimation.Scale = scale;
             Func<bool> isJumpingLeft = () => JumpStart > 0f && CurrentFaceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("JumpLeft", knightJumpLeftAnimation, isJumpingLeft, 2);
 
             List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/HeroKnight_Fall_", 3);
-            AnimatedSpriteGroup knightFallRightAnimation = new AnimatedSpriteGroup(knightFall, this, animationFps);
+            SpriteGroupAnimation knightFallRightAnimation = new SpriteGroupAnimation(knightFall, this, animationFps);
             knightFallRightAnimation.Scale = scale;
             knightFallRightAnimation.Offset = spriteOffset;
             Func<bool> isFallingRight = () => Direction.Y > 0f && CurrentFaceDirection == FaceDirection.RIGHT;
             animations.RegisterAnimation("FallRight", knightFallRightAnimation, isFallingRight, 3);
 
-            AnimatedSpriteGroup knightFallLeftAnimation = new AnimatedSpriteGroup(knightFall, this, animationFps, SpriteEffects.FlipHorizontally);
+            SpriteGroupAnimation knightFallLeftAnimation = new SpriteGroupAnimation(knightFall, this, animationFps, SpriteEffects.FlipHorizontally);
             knightFallLeftAnimation.Scale = scale;
             Func<bool> isFallingLeftt = () => Direction.Y > 0f && CurrentFaceDirection == FaceDirection.LEFT;
             animations.RegisterAnimation("FallLeft", knightFallLeftAnimation, isFallingLeftt, 3);
 
             Animations = animations;
+
+            //SetSprite(SpriteUtil.LoadTexturesWithMerge(folder + "Run/HeroKnight_Run_", 9));
 
             /*SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
             Pivot = new Vector2(Sprite.Width / 2, Sprite.Height / 2);

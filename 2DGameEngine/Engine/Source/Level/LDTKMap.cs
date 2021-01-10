@@ -22,7 +22,6 @@ namespace GameEngine2D.Source.Level
 
         public LDTKMap(LDTKJson json)
         {
-            int c = 0;
             //Globals.Camera.LevelGridCountH = 256;
             //Globals.Camera.LevelGridCountW = 256;
 
@@ -76,7 +75,6 @@ namespace GameEngine2D.Source.Level
                             int x = (int)(dict["coordId"] - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
                             e.Visible = false;
-                            c++;
                         }
 
                     } else
@@ -99,14 +97,12 @@ namespace GameEngine2D.Source.Level
 
                             Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), spriteSheets["SpriteSheets/MagicCliffsEnvironment/" + tileSet]);
                             e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                            c++;
                             //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
 
                         }
                     }
                 }
             }
-            Logger.Log("C++ + " + c);
         }
 
         /*private readonly string LEVEL = "Level";
