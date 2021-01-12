@@ -57,7 +57,6 @@ namespace GameEngine2D.Engine.Source.Util
             rect.SetData(data);
 
             rectangleCache.Add(new RectangleKey(size, color), rect);
-            Logger.Log("+++++++++++++++++++++++++++");
             return rect;
         }
 
