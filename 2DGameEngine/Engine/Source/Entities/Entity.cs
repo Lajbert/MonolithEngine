@@ -256,7 +256,9 @@ namespace GameEngine2D.Entities
         {
             if (Sprite != null)
             {
-                spriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White, 0f, Pivot, Config.SCALE, SpriteEffects.None, Depth);
+                //Pivot = new Vector2(SourceRectangle.Width / 2, SourceRectangle.Height / 2);
+                //spriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White, 0f, Pivot, Config.SCALE, SpriteEffects.None, Depth);
+                spriteBatch.Draw(Sprite, (position + DrawOffset) /** new Vector2(Config.SCALE, Config.SCALE)*/, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
             }
         }
 

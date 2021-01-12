@@ -75,9 +75,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
         protected override void DrawSprite(SpriteBatch spriteBatch, Vector2 position)
         {
             //base.DrawSprite(position);
-            spriteBatch.Begin();
             spriteBatch.Draw(Sprite, position, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
-            spriteBatch.End();
         }
 
         protected override void SetRayBlockers()

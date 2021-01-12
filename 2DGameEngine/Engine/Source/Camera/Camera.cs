@@ -10,9 +10,9 @@ namespace GameEngine2D.Source.Camera
 {
 	public class Camera
 	{
-		public Entity target { get; set; }
+		public static Entity target { get; set; }
 
-		public Vector2 Position;
+		public static Vector2 Position;
 		//public float x;
 		//public float y;
 
@@ -55,7 +55,7 @@ namespace GameEngine2D.Source.Camera
 		private float shakeDuration = 0f;
 
 		public float Scale = 1f;
-		private bool SCROLL = true;
+		private bool SCROLL = false;
 
 		private bool shake = false;
 

@@ -1,5 +1,7 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Camera;
+using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
+using GameEngine2D.Global;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,6 +24,8 @@ namespace GameEngine2D.Source.Layer
         public static GraphicsDeviceManager GraphicsDeviceManager;
 
         public int Priority = 0;
+
+        //public static Camera3 Camera;
 
         public float Depth { get; set; } = 0;
 
@@ -65,7 +69,27 @@ namespace GameEngine2D.Source.Layer
 
         public void DrawAll(GameTime gameTime)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
+            //Vector2 origin = -Camera.Camera.Position + new Vector2(Config.RES_W / 2, Config.RES_H / 2);
+            Vector2 origin = new Vector2(Config.RES_W / 2, Config.RES_H / 2);
+            //Vector2 origin = Camera.Camera.target.Position + new Vector2(Camera.Camera.target.SourceRectangle.Width, Camera.Camera.target.SourceRectangle.Height) / 2f;
+            Matrix matrix = new Matrix();
+            matrix =
+            //Matrix.CreateTranslation(-RootContainer.Instance.Position.X, -RootContainer.Instance.Position.Y, 0) *
+            //Matrix.CreateTranslation(0, 0, 0) *
+            //Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position.X + Config.RES_W / 2, -Camera.Camera.Position.Y + Config.RES_H / 2, 0)) *
+
+            Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position + new Vector2(Config.RES_W / 2, Config.RES_H / 2), 0)) *
+            Matrix.CreateTranslation(new Vector3(-origin, 0)) *
+            Matrix.CreateScale(Config.SCALE, Config.SCALE, 1) *
+            Matrix.CreateTranslation(new Vector3(origin, 0));
+            //Matrix.CreateTranslation(new Vector3(-origin, 0));
+
+            //Matrix.CreateTranslation(new Vector3(Camera.Camera.Position.X + Config.RES_W / 2, Camera.Camera.Position.Y + Config.RES_H / 2, 0));
+            //Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position.X + 1920 / 2, -Camera.Camera.Position.Y + 1080 / 2, 0));
+            //Matrix.CreateTranslation(new Vector3(RootContainer.Instance.X +  1920 / 2, RootContainer.Instance.Y + 1080 / 2, 0));
+            //public void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, matrix);
+            //spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
             //spriteBatch.Begin(SpriteSortMode.BackToFront, null, SamplerState.PointClamp, null, null);
             foreach (Entity entity in rootObjects)
             {

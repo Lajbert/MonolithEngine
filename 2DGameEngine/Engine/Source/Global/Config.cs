@@ -29,7 +29,7 @@ namespace GameEngine2D.Global
         public static int PIVOT_RADIUS = 10;
 
         public static int CAMERA_TIME_MULTIPLIER = 1; // set this and CAMERA_FOLLOW_DELAY to a higher value to create a "wabbly" camera
-        public static float CAMERA_DEADZONE = 1;
+        public static float CAMERA_DEADZONE = 100;
         public static float CAMERA_FRICTION = 0.89f;
         public static float CAMERA_FOLLOW_DELAY = 0.0005f;
         public static float CAMERA_ZOOM = 1;

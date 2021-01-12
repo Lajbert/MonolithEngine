@@ -37,6 +37,8 @@ namespace SideScrollerExample
 
         private SpriteBatch spriteBatch;
 
+        //Camera3 camera3;
+
         //private Camera2D Camera2D;
         //private ResolutionIndependentRenderer resolutionIndependentRenderer;
 
@@ -86,7 +88,7 @@ namespace SideScrollerExample
             //Camera2D = new Camera2D(resolutionIndependentRenderer);
             //Entity.Camera2D = Camera2D;
             //Entity.ResolutionIndependentRenderer = resolutionIndependentRenderer;
-            Globals.Camera = Camera;
+            //Globals.Camera = Camera;
             font = Content.Load<SpriteFont>("DefaultFont");
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
@@ -95,6 +97,10 @@ namespace SideScrollerExample
             CreateLevel();
             knight = new Knight(Content, new Vector2(800, 0), font);
             Camera.trackTarget(knight, true);
+
+            //camera3 = new Camera3(graphics.GraphicsDevice.Viewport);
+            //camera3.Limits = null;
+            //Layer.Camera = camera3;
 
             Logger.Log("Game objects created: " + GameObject.GetObjectCount());
         }
@@ -174,7 +180,6 @@ namespace SideScrollerExample
 
             // TODO: Add your update logic here
             RootContainer.Instance.UpdateAll(gameTime);
-            Camera.Position.X += 0.5f;
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
             base.Update(gameTime);
