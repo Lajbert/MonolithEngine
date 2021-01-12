@@ -71,7 +71,7 @@ namespace GameEngine2D.Engine.Source.Camera
             {
                 return Matrix.CreateTranslation(new Vector3(-_position, 0f)) *
                        Matrix.CreateTranslation(new Vector3(-_origin, 0f)) *
-                       Matrix.CreateScale(Config.SCALE, Config.SCALE, 1f) *
+                       Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1f) *
                        Matrix.CreateTranslation(new Vector3(_origin, 0f));
             }
         }

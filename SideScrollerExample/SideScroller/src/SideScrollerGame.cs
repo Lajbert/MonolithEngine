@@ -102,6 +102,8 @@ namespace SideScrollerExample
             //camera3.Limits = null;
             //Layer.Camera = camera3;
 
+            Config.ZOOM = 3f;
+
             Logger.Log("Game objects created: " + GameObject.GetObjectCount());
         }
 

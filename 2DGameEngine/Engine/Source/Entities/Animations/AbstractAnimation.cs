@@ -49,16 +49,7 @@ namespace GameEngine2D.Source.Entities.Animation
         public virtual void Play(SpriteBatch spriteBatch)
         {
             Pivot = new Vector2((float)Math.Floor((decimal)GetTexture().Width / 2), (float)Math.Floor((decimal)GetTexture().Height / 2));
-            //Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, width, height);
-
-            //spriteBatch.Begin();
-            //SpriteBatch.Begin(SpriteSortMode, BlendState, SamplerState.PointClamp, DepthStencilState, RasterizerState)
-            //SpriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointClamp, null, null);
-            //public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
-            //SpriteBatch.Draw(GetTexture(), Parent.GetPositionWithParent() + Offset, SourceRectangle, Color.White, 0f, Vector2.Zero, Scale, SpriteEffect, 0f);
             spriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset), new Rectangle(0, 0, GetTexture().Width, GetTexture().Height), Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
-            //spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-            //SpriteBatch.End();
         }
 
         protected abstract Texture2D GetTexture();

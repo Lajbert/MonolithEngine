@@ -80,7 +80,7 @@ namespace GameEngine2D.Source.Layer
 
             Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position + new Vector2(Config.RES_W / 2, Config.RES_H / 2), 0)) *
             Matrix.CreateTranslation(new Vector3(-origin, 0)) *
-            Matrix.CreateScale(Config.SCALE, Config.SCALE, 1) *
+            Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
             Matrix.CreateTranslation(new Vector3(origin, 0));
             //Matrix.CreateTranslation(new Vector3(-origin, 0));
 

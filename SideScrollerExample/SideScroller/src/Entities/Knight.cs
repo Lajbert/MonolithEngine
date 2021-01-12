@@ -118,7 +118,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             UserInput.RegisterControllerState(Keys.RightShift, shoot, true);
             UserInput.RegisterControllerState(Keys.LeftShift, shoot, true);
 
-            UserInput.RegisterMouseActions(() => {Config.SCALE += 0.1f; /*Globals.Camera.Recenter(); */ }, () => { Config.SCALE -= 0.1f; /*Globals.Camera.Recenter(); */});
+            UserInput.RegisterMouseActions(() => {Config.ZOOM += 0.1f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.1f; /*Globals.Camera.Recenter(); */});
         }
 
         public override void Update(GameTime gameTime)
