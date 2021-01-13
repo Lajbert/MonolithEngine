@@ -97,7 +97,7 @@ namespace GameEngine2D.Entities
             layers.Sort((a, b) => a.Priority.CompareTo(b.Priority));
         }
 
-        public Layer AddScrollableLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
+        public Layer CreateParallaxLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
         {
             Layer l = new Layer(Camera, priority, scrollSpeedMultiplier, lockY);
             AddLayer(l);

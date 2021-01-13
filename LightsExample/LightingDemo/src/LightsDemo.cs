@@ -118,7 +118,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
                 {
                     for (int j = 22; j < 25; j++)
                     {
-                        Entity level = new Entity(RootContainer.Instance.AddScrollableLayer(0, 0.7f, true), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
+                        Entity level = new Entity(RootContainer.Instance.CreateParallaxLayer(0, 0.7f, true), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
                         level.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Brown));
                     }
                 }
@@ -131,7 +131,7 @@ namespace GameEngine2D.GameExamples2D.SideScroller.src
                 {
                     for (int j = 18; j < 25; j++)
                     {
-                        Entity level = new Entity(RootContainer.Instance.AddScrollableLayer(0, 0.5f, true), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
+                        Entity level = new Entity(RootContainer.Instance.CreateParallaxLayer(0, 0.5f, true), null, new Vector2(i * Config.GRID, j * Config.GRID), font);
                         level.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
                     }
                 }

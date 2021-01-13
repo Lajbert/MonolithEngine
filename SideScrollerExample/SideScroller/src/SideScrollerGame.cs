@@ -1,5 +1,4 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Source.Layer;
+﻿using GameEngine2D.Source.Layer;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.Source.Hero;

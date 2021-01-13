@@ -1,5 +1,4 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Source.Layer;
+﻿using GameEngine2D.Source.Layer;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.Source.Hero;
@@ -79,7 +78,6 @@ namespace SideScrollerExample.SideScroller
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
-            Globals.Camera = Camera;
 
             for (int i = 0; i < 5000; i++)
             {

@@ -29,7 +29,7 @@ namespace GameEngine2D.Source.Layer
 
         private Camera camera;
 
-        public Layer(Camera camera, int priority = 0, float scrollSpeedModifier = 1f, bool lockY = false)
+        public Layer(Camera camera, int priority = 0, float scrollSpeedModifier = 1f, bool lockY = true)
         {
             this.scrollSpeedModifier = scrollSpeedModifier;
             this.camera = camera;
@@ -70,7 +70,7 @@ namespace GameEngine2D.Source.Layer
 
         public void DrawAll(GameTime gameTime)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix());
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix(scrollSpeedModifier, lockY));
 
             foreach (Entity entity in rootObjects)
             {

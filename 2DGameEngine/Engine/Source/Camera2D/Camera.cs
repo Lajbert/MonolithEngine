@@ -24,12 +24,14 @@ namespace GameEngine2D.Source.Camera2D
 		private float resolutionHeight = Config.RES_H;
 		public float LevelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
 		public float LevelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
+		//public float LevelGridCountW = 98;
+		//public float LevelGridCountH = 36;
 
 		private float shakePower = 1.5f;
 		private float shakeStarted = 0f;
 		private float shakeDuration = 0f;
 
-		private bool SCROLL = false;
+		private bool SCROLL = true;
 
 		private bool shake = false;
 
@@ -40,13 +42,14 @@ namespace GameEngine2D.Source.Camera2D
 		private float targetCameraDistance;
 		private float a;
 
-		float friction = 0.89f;
-
-		RootContainer root;
+		private float friction = 0.89f;
 
 		private Matrix transformMatrix;
 
 		private Vector2 viewportCenter;
+		private Vector3 viewportCenterTransform;
+
+		private RootContainer root;
 
 		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
 			position = Vector2.Zero;
@@ -54,6 +57,7 @@ namespace GameEngine2D.Source.Camera2D
 			resolutionWidth = graphicsDeviceManager.PreferredBackBufferWidth;
 			resolutionHeight = graphicsDeviceManager.PreferredBackBufferHeight;
 			viewportCenter = new Vector2(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight) / 2;
+			viewportCenterTransform = new Vector3(viewportCenter, 0);
 		}
 
 		public void trackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
@@ -87,6 +91,10 @@ namespace GameEngine2D.Source.Camera2D
 
 		public void update(GameTime gameTime)
 		{
+			if (!SCROLL)
+            {
+				return;
+            }
 			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Config.CAMERA_TIME_MULTIPLIER;
 			// Follow target entity
 			if (target != null)
@@ -102,16 +110,29 @@ namespace GameEngine2D.Source.Camera2D
 				}
 			}
 
-			position.X += direction.X * elapsedTime;
-			direction.X *= (float)Math.Pow(friction, elapsedTime);
-
-			position.Y += direction.Y * elapsedTime;
-			direction.Y *= (float)Math.Pow(friction, elapsedTime);
+			position += direction * elapsedTime;
+			if (position.X < 500)
+            {
+				position.X = 500;
+            }
+			if (position.Y < 300)
+            {
+				position.Y = 300;
+            }
+			if (position.X > 1120)
+			{
+				position.X = 1120;
+			}
+			if (position.Y > 380)
+			{
+				position.Y = 380;
+			}
+			direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
 		}
 
 		public void postUpdate(GameTime gameTime)
 		{
-			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+			/*elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 			if (SCROLL)
 			{
 				root = RootContainer.Instance;
@@ -139,13 +160,13 @@ namespace GameEngine2D.Source.Camera2D
 
 				// Bump
 				root.Position += bumpOffset;
-
+			
 				// Shakes
 				if (shake)
 				{
 					shakeStarted += (float)gameTime.ElapsedGameTime.TotalSeconds;
-					root.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
-					root.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
+					position.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
+					position.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
 
 					if (shakeStarted > shakeDuration)
 					{
@@ -158,23 +179,33 @@ namespace GameEngine2D.Source.Camera2D
 
 				// Rounding
 				root.Position = MathUtil.Round(root.Position);
-			}
+			}*/
 		}
 
-		public Matrix GetTransformMatrix()
+		public Matrix GetTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)
         {
-			CalculateTransformMatrix();
+			CalculateTransformMatrix(scrollSpeedModifier, lockY);
 
 			return transformMatrix;
         }
 		
-		private void CalculateTransformMatrix()
+		private void CalculateTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = true)
         {
-			transformMatrix =
-				Matrix.CreateTranslation(new Vector3(-position + viewportCenter, 0)) *
-				Matrix.CreateTranslation(new Vector3(-viewportCenter, 0)) *
-				Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
-				Matrix.CreateTranslation(new Vector3(viewportCenter, 0));
+			if (lockY)
+            {
+				transformMatrix =
+					Matrix.CreateTranslation(new Vector3(new Vector2((-position.X + viewportCenter.X) * scrollSpeedModifier, (-position.Y + viewportCenter.Y)), 0)) *
+					Matrix.CreateTranslation(-viewportCenterTransform) *
+					Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
+					Matrix.CreateTranslation(viewportCenterTransform);
+			} else
+            {
+				transformMatrix =
+					Matrix.CreateTranslation(new Vector3(-position + viewportCenter, 0) * scrollSpeedModifier) *
+					Matrix.CreateTranslation(-viewportCenterTransform) *
+					Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
+					Matrix.CreateTranslation(viewportCenterTransform);
+			}
 		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Level;
+﻿using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -40,7 +39,7 @@ namespace GameEngine2D.Source.Level
                     } else if (layerInstance.Identifier.StartsWith("Background"))
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
-                        currentLayer = RootContainer.Instance.AddScrollableLayer();
+                        currentLayer = RootContainer.Instance.CreateParallaxLayer();
                         tileSet = "tileset";
                     }
                     else
@@ -49,19 +48,23 @@ namespace GameEngine2D.Source.Level
                         if (layerInstance.Identifier.StartsWith("Island"))
                         {
                             tileSet = "far-grounds";
+                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
                         } else if(layerInstance.Identifier.StartsWith("Sea"))
                         {
                             tileSet = "sea";
+                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
                         }
                         else if (layerInstance.Identifier.StartsWith("Sky"))
                         {
                             tileSet = "sky";
+                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
                         }
                         else if (layerInstance.Identifier.StartsWith("Clouds"))
                         {
                             tileSet = "clouds";
+                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
                         }
-                        currentLayer = RootContainer.Instance.AddScrollableLayer();
+                        //currentLayer = RootContainer.Instance.AddScrollableLayer();
                     }
                     if (tileSet != null && !spriteSheets.ContainsKey(path+tileSet)) {
                         spriteSheets.Add(path + tileSet, SpriteUtil.LoadTexture("SpriteSheets/MagicCliffsEnvironment/" + tileSet));
