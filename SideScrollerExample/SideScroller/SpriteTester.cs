@@ -79,7 +79,6 @@ namespace SideScrollerExample.SideScroller
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
-            Camera.Position = new Vector2(0, 0);
             Globals.Camera = Camera;
 
             for (int i = 0; i < 5000; i++)

@@ -70,28 +70,8 @@ namespace GameEngine2D.Source.Layer
 
         public void DrawAll(GameTime gameTime)
         {
-            //Vector2 origin = -Camera.Camera.Position + new Vector2(Config.RES_W / 2, Config.RES_H / 2);
-            Vector2 origin = new Vector2(Config.RES_W / 2, Config.RES_H / 2);
-            //Vector2 origin = Camera.Camera.target.Position + new Vector2(Camera.Camera.target.SourceRectangle.Width, Camera.Camera.target.SourceRectangle.Height) / 2f;
-            Matrix matrix = new Matrix();
-            matrix =
-            //Matrix.CreateTranslation(-RootContainer.Instance.Position.X, -RootContainer.Instance.Position.Y, 0) *
-            //Matrix.CreateTranslation(0, 0, 0) *
-            //Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position.X + Config.RES_W / 2, -Camera.Camera.Position.Y + Config.RES_H / 2, 0)) *
-
-            Matrix.CreateTranslation(new Vector3(-Camera2D.Camera.Position + new Vector2(Config.RES_W / 2, Config.RES_H / 2), 0)) *
-            Matrix.CreateTranslation(new Vector3(-origin, 0)) *
-            Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
-            Matrix.CreateTranslation(new Vector3(origin, 0));
-            //Matrix.CreateTranslation(new Vector3(-origin, 0));
-
-            //Matrix.CreateTranslation(new Vector3(Camera.Camera.Position.X + Config.RES_W / 2, Camera.Camera.Position.Y + Config.RES_H / 2, 0));
-            //Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position.X + 1920 / 2, -Camera.Camera.Position.Y + 1080 / 2, 0));
-            //Matrix.CreateTranslation(new Vector3(RootContainer.Instance.X +  1920 / 2, RootContainer.Instance.Y + 1080 / 2, 0));
-            //public void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix());
-            //spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
-            //spriteBatch.Begin(SpriteSortMode.BackToFront, null, SamplerState.PointClamp, null, null);
+
             foreach (Entity entity in rootObjects)
             {
                 entity.PreDraw(spriteBatch, gameTime);

@@ -93,7 +93,6 @@ namespace SideScrollerExample
             Camera = new Camera(graphics);
             RootContainer.Instance.Camera = Camera;
             RootContainer.Instance.InitLayers();
-            Camera.Position = Vector2.Zero;
             CreateLevel();
             knight = new Knight(Content, new Vector2(800, 0), font);
             Camera.trackTarget(knight, true);

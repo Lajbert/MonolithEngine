@@ -14,20 +14,11 @@ namespace GameEngine2D.Source.Camera2D
 	{
 		public static Entity target { get; set; }
 
-		public static Vector2 Position;
-		//public float x;
-		//public float y;
+		private static Vector2 position = Vector2.Zero;
 
-		public Vector2 direction;
-		//public float dx;
-		//public float dy;
-		//public int wid;
-		//public int hei;
+		private Vector2 direction;
 
-		private float bumpOffX = 0f;
-		private float bumpOffY = 0f;
-
-		public float Zoom = 1f;
+		private Vector2 bumpOffset;
 
 		private float resolutionWidth = Config.RES_W;
 		private float resolutionHeight = Config.RES_H;
@@ -38,7 +29,6 @@ namespace GameEngine2D.Source.Camera2D
 		private float shakeStarted = 0f;
 		private float shakeDuration = 0f;
 
-		public float Scale = 1f;
 		private bool SCROLL = false;
 
 		private bool shake = false;
@@ -50,7 +40,7 @@ namespace GameEngine2D.Source.Camera2D
 		private float targetCameraDistance;
 		private float a;
 
-		float frict = 0.89f;
+		float friction = 0.89f;
 
 		RootContainer root;
 
@@ -61,21 +51,11 @@ namespace GameEngine2D.Source.Camera2D
 		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
 			//x = y = 0;
 			//dx = dy = 0;
-			Position = Vector2.Zero;
+			position = Vector2.Zero;
 			direction = Vector2.Zero;
 			resolutionWidth = graphicsDeviceManager.PreferredBackBufferWidth;
 			resolutionHeight = graphicsDeviceManager.PreferredBackBufferHeight;
 			viewportCenter = new Vector2(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight) / 2;
-		}
-
-		private float get_wid()
-		{
-			return (float)Math.Ceiling(resolutionWidth / Scale);
-		}
-
-		private float get_hei()
-		{
-			return (float)Math.Ceiling(resolutionHeight / Scale);
 		}
 
 		public void trackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
@@ -96,15 +76,8 @@ namespace GameEngine2D.Source.Camera2D
 		public void Recenter()
 		{
 			if (target != null) {
-				Position = target.Position + targetTracingOffset;
+				position = target.Position + targetTracingOffset;
 			}
-		}
-
-		public float scrollerToGlobalX(float v) {
-			return v * Scale + RootContainer.Instance.Position.X;
-		}
-		public float scrollerToGlobalY(float v) {
-			return v * Scale + RootContainer.Instance.Position.Y;
 		}
 
 		public void Shake(float power = 1, float duration = 1)
@@ -122,34 +95,21 @@ namespace GameEngine2D.Source.Camera2D
 			{
 				targetPosition = target.Position + targetTracingOffset;
 
-				targetCameraDistance = MathUtil.Distance(Position, targetPosition);
+				targetCameraDistance = MathUtil.Distance(position, targetPosition);
 				if (targetCameraDistance >= Config.CAMERA_DEADZONE)
 				{
-					a = (float)Math.Atan2(targetPosition.Y - Position.Y, targetPosition.X - Position.X);
+					a = (float)Math.Atan2(targetPosition.Y - position.Y, targetPosition.X - position.X);
 					direction.X += (float)Math.Cos(a) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 					direction.Y += (float)Math.Sin(a) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 				}
 			}
 
-			Position.X += direction.X * elapsedTime;
-			direction.X *= (float)Math.Pow(frict, elapsedTime);
+			position.X += direction.X * elapsedTime;
+			direction.X *= (float)Math.Pow(friction, elapsedTime);
 
-			Position.Y += direction.Y * elapsedTime;
-			direction.Y *= (float)Math.Pow(frict, elapsedTime);
+			position.Y += direction.Y * elapsedTime;
+			direction.Y *= (float)Math.Pow(friction, elapsedTime);
 		}
-
-		public void bumpAng(float a, float dist)
-		{
-			bumpOffX += (float)Math.Cos(a) * dist;
-			bumpOffY += (float)Math.Sin(a) * dist;
-		}
-
-		public void bump(float x, float y)
-		{
-			bumpOffX += x;
-			bumpOffY += y;
-		}
-
 
 		public void postUpdate(GameTime gameTime)
 		{
@@ -159,30 +119,28 @@ namespace GameEngine2D.Source.Camera2D
 				root = RootContainer.Instance;
 
 				// Update scroller
-				if (get_wid() / Zoom < LevelGridCountW * Config.GRID)
-					root.X = (float)(-Position.X * Zoom + get_wid() * 0.5);
+				if (resolutionWidth < LevelGridCountW * Config.GRID)
+					root.X = (float)(-position.X + resolutionWidth * 0.5);
 				else
-					root.X = (float)(get_wid() * 0.5 / Zoom - LevelGridCountW * 0.5 * Config.GRID);
+					root.X = (float)(resolutionWidth * 0.5  - LevelGridCountW * 0.5 * Config.GRID);
 
-				if (get_hei() / Zoom < LevelGridCountH * Config.GRID)
-					root.Y = (float)(-Position.Y * Zoom + get_hei() * 0.5);
+				if (resolutionHeight < LevelGridCountH * Config.GRID)
+					root.Y = (float)(-position.Y + resolutionHeight * 0.5);
 				else
-					root.Y = (float)(get_hei() * 0.5 / Zoom - LevelGridCountH * 0.5 * Config.GRID);
+					root.Y = (float)(resolutionHeight * 0.5 - LevelGridCountH * 0.5 * Config.GRID);
 
 				// Clamp
 				float pad = Config.GRID * 2;
-				if (get_wid() < LevelGridCountW * Config.GRID * Zoom)
-					root.X = MathUtil.Clamp(root.X, get_wid() - LevelGridCountW * Config.GRID * Zoom + pad, -pad);
-				if (get_hei() < LevelGridCountH * Config.GRID * Zoom)
-					root.Y = MathUtil.Clamp(root.Y, get_hei() - LevelGridCountH * Config.GRID * Zoom + pad, -pad);
+				if (resolutionWidth < LevelGridCountW * Config.GRID)
+					root.X = MathUtil.Clamp(root.X, resolutionWidth - LevelGridCountW * Config.GRID + pad, -pad);
+				if (resolutionHeight < LevelGridCountH * Config.GRID)
+					root.Y = MathUtil.Clamp(root.Y, resolutionHeight - LevelGridCountH * Config.GRID + pad, -pad);
 
 				// Bumps friction
-				bumpOffX *= (float)Math.Pow(0.75, elapsedTime);
-				bumpOffY *= (float)Math.Pow(0.75, elapsedTime);
+				bumpOffset *= new Vector2((float)Math.Pow(0.75, elapsedTime), (float)Math.Pow(0.75, elapsedTime));
 
 				// Bump
-				root.X += bumpOffX;
-				root.Y += bumpOffY;
+				root.Position += bumpOffset;
 
 				// Shakes
 				if (shake)
@@ -199,10 +157,6 @@ namespace GameEngine2D.Source.Camera2D
 
 					}
 				}
-
-				// Scaling
-				root.X *= Scale;
-				root.Y *= Scale;
 
 				// Rounding
 				root.X = (float)Math.Round(root.X);
@@ -223,7 +177,7 @@ namespace GameEngine2D.Source.Camera2D
 		private void CalculateTransformMatrix()
         {
 			transformMatrix =
-				Matrix.CreateTranslation(new Vector3(-Position + viewportCenter, 0)) *
+				Matrix.CreateTranslation(new Vector3(-position + viewportCenter, 0)) *
 				Matrix.CreateTranslation(new Vector3(-viewportCenter, 0)) *
 				Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
 				Matrix.CreateTranslation(new Vector3(viewportCenter, 0));
