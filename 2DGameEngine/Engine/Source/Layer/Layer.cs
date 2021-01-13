@@ -1,5 +1,4 @@
-﻿using GameEngine2D.Engine.Source.Camera;
-using GameEngine2D.Entities;
+﻿using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;

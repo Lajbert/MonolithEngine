@@ -18,7 +18,6 @@ using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Engine.Source.Entities;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
-using GameEngine2D.Engine.Source.Camera;
 
 namespace GameEngine2D.Entities
 {

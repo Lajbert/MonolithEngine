@@ -45,14 +45,19 @@ namespace GameEngine2D.Source.Util
             return new Vector2((float)Math.Round(v.X), (float)Math.Round(v.Y));
         }
 
-		public static float Distance(float ax, float ay, float bx, float by)
+		public static float Distance(Vector2 a, Vector2 b)
 		{
-			return (float)Math.Sqrt(SquaredDistance(ax, ay, bx, by));
+			return (float)Math.Sqrt(SquaredDistance(a, b));
 		}
 
-		public static float SquaredDistance(float ax, float ay, float bx, float by)
+		public static float SquaredDistance(Vector2 a, Vector2 b)
 		{
-			return (ax - bx) * (ax - bx) + (ay - by) * (ay - by);
+			return (a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y);
+		}
+
+		public static float Clamp(float x, float min, float max)
+		{
+			return (x < min) ? min : (x > max) ? max : x;
 		}
 	}
 }

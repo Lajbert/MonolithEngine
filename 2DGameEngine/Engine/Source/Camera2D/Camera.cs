@@ -1,5 +1,6 @@
 ﻿using GameEngine2D.Entities;
 using GameEngine2D.Global;
+using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,28 +27,10 @@ namespace GameEngine2D.Source.Camera2D
 		private float bumpOffX = 0f;
 		private float bumpOffY = 0f;
 
-		private float targetTrackOffX = 0f;
-		private float targetTrackOffY = 0f;
-
-		public float TargetTrackOffX { 
-
-			get => targetTrackOffX;
-			
-			set => targetTrackOffX = value;
-		}
-
-		public float TargetTrackOffY
-		{
-
-			get => targetTrackOffY;
-
-			set => targetTrackOffY = value;
-		}
-
 		public float Zoom = 1f;
 
-		private float gameMeW = Config.RES_W;
-		private float gameMeH = Config.RES_H;
+		private float resolutionWidth = Config.RES_W;
+		private float resolutionHeight = Config.RES_H;
 		public float LevelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
 		public float LevelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
 
@@ -62,9 +45,9 @@ namespace GameEngine2D.Source.Camera2D
 
 		private float elapsedTime;
 
-		private float tx;
-		private float ty;
-		private float d;
+		private Vector2 targetPosition = Vector2.Zero;
+		private Vector2 targetTracingOffset = Vector2.Zero;
+		private float targetCameraDistance;
 		private float a;
 
 		float frict = 0.89f;
@@ -80,23 +63,24 @@ namespace GameEngine2D.Source.Camera2D
 			//dx = dy = 0;
 			Position = Vector2.Zero;
 			direction = Vector2.Zero;
-            viewportCenter = new Vector2(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight) / 2;
+			resolutionWidth = graphicsDeviceManager.PreferredBackBufferWidth;
+			resolutionHeight = graphicsDeviceManager.PreferredBackBufferHeight;
+			viewportCenter = new Vector2(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight) / 2;
 		}
 
 		private float get_wid()
 		{
-			return (float)Math.Ceiling(gameMeW / Scale);
+			return (float)Math.Ceiling(resolutionWidth / Scale);
 		}
 
 		private float get_hei()
 		{
-			return (float)Math.Ceiling(gameMeH / Scale);
+			return (float)Math.Ceiling(resolutionHeight / Scale);
 		}
 
-		public void trackTarget(Entity e, bool immediate, float xOff = 0f, float yOff = 0f)
+		public void trackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
 		{
-			TargetTrackOffX = xOff;
-			TargetTrackOffY = yOff;
+			targetTracingOffset = tracingOffset;
 			target = e;
 			if (immediate)
 			{
@@ -112,9 +96,7 @@ namespace GameEngine2D.Source.Camera2D
 		public void Recenter()
 		{
 			if (target != null) {
-				Position = new Vector2(target.Position.X + TargetTrackOffX, target.Position.Y + TargetTrackOffY);
-				//position.X = target.GetPosition().X + targetTrackOffX;
-				//position.Y = target.GetPosition().Y + targetTrackOffY;
+				Position = target.Position + targetTracingOffset;
 			}
 		}
 
@@ -132,27 +114,20 @@ namespace GameEngine2D.Source.Camera2D
 			shake = true;
         }
 
-		/*public void shakeS(float t, float pow = 1.0)
-		{
-			cd.setS("shaking", t, false);
-			shakePower = pow;
-		}*/
-
 		public void update(GameTime gameTime)
 		{
 			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Config.CAMERA_TIME_MULTIPLIER;
 			// Follow target entity
 			if (target != null)
 			{
-				tx = target.Position.X + TargetTrackOffX;
-				ty = target.Position.Y + TargetTrackOffY;
+				targetPosition = target.Position + targetTracingOffset;
 
-				d = dist(Position.X, Position.Y, tx, ty);
-				if (d >= Config.CAMERA_DEADZONE)
+				targetCameraDistance = MathUtil.Distance(Position, targetPosition);
+				if (targetCameraDistance >= Config.CAMERA_DEADZONE)
 				{
-					a = (float)Math.Atan2(ty - Position.Y, tx - Position.X);
-					direction.X += (float)Math.Cos(a) * (d - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
-					direction.Y += (float)Math.Sin(a) * (d - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+					a = (float)Math.Atan2(targetPosition.Y - Position.Y, targetPosition.X - Position.X);
+					direction.X += (float)Math.Cos(a) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+					direction.Y += (float)Math.Sin(a) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 				}
 			}
 
@@ -197,9 +172,9 @@ namespace GameEngine2D.Source.Camera2D
 				// Clamp
 				float pad = Config.GRID * 2;
 				if (get_wid() < LevelGridCountW * Config.GRID * Zoom)
-					root.X = fclamp(root.X, get_wid() - LevelGridCountW * Config.GRID * Zoom + pad, -pad);
+					root.X = MathUtil.Clamp(root.X, get_wid() - LevelGridCountW * Config.GRID * Zoom + pad, -pad);
 				if (get_hei() < LevelGridCountH * Config.GRID * Zoom)
-					root.Y = fclamp(root.Y, get_hei() - LevelGridCountH * Config.GRID * Zoom + pad, -pad);
+					root.Y = MathUtil.Clamp(root.Y, get_hei() - LevelGridCountH * Config.GRID * Zoom + pad, -pad);
 
 				// Bumps friction
 				bumpOffX *= (float)Math.Pow(0.75, elapsedTime);
@@ -236,21 +211,6 @@ namespace GameEngine2D.Source.Camera2D
 				// Zoom
 				//scroller.setScale(SCALE * zoom);
 			}
-		}
-
-		public float dist(float ax, float ay, float bx, float by)
-		{
-			return (float)Math.Sqrt(distSqr(ax, ay, bx, by));
-		}
-
-		public static float distSqr(float ax, float ay, float bx, float by) 
-		{
-			return (ax-bx)*(ax-bx) + (ay-by)*(ay-by);
-		}
-
-		public float fclamp(float x, float min, float max) 
-		{
-			return (x<min) ? min : (x > max) ? max : x;
 		}
 
 		public Matrix GetTransformMatrix()
