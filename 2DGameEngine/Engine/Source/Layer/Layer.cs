@@ -2,6 +2,7 @@
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
+using GameEngine2D.Source.Camera2D;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,13 +26,14 @@ namespace GameEngine2D.Source.Layer
 
         public int Priority = 0;
 
-        //public static Camera3 Camera;
-
         public float Depth { get; set; } = 0;
 
-        public Layer(int priority = 0, float scrollSpeedModifier = 1f, bool lockY = false)
+        private Camera camera;
+
+        public Layer(Camera camera, int priority = 0, float scrollSpeedModifier = 1f, bool lockY = false)
         {
             this.scrollSpeedModifier = scrollSpeedModifier;
+            this.camera = camera;
             Priority = priority;
             this.lockY = lockY;
             spriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
@@ -78,7 +80,7 @@ namespace GameEngine2D.Source.Layer
             //Matrix.CreateTranslation(0, 0, 0) *
             //Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position.X + Config.RES_W / 2, -Camera.Camera.Position.Y + Config.RES_H / 2, 0)) *
 
-            Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position + new Vector2(Config.RES_W / 2, Config.RES_H / 2), 0)) *
+            Matrix.CreateTranslation(new Vector3(-Camera2D.Camera.Position + new Vector2(Config.RES_W / 2, Config.RES_H / 2), 0)) *
             Matrix.CreateTranslation(new Vector3(-origin, 0)) *
             Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
             Matrix.CreateTranslation(new Vector3(origin, 0));
@@ -88,7 +90,7 @@ namespace GameEngine2D.Source.Layer
             //Matrix.CreateTranslation(new Vector3(-Camera.Camera.Position.X + 1920 / 2, -Camera.Camera.Position.Y + 1080 / 2, 0));
             //Matrix.CreateTranslation(new Vector3(RootContainer.Instance.X +  1920 / 2, RootContainer.Instance.Y + 1080 / 2, 0));
             //public void Begin(SpriteSortMode sortMode = SpriteSortMode.Deferred, BlendState blendState = null, SamplerState samplerState = null, DepthStencilState depthStencilState = null, RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, matrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix());
             //spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
             //spriteBatch.Begin(SpriteSortMode.BackToFront, null, SamplerState.PointClamp, null, null);
             foreach (Entity entity in rootObjects)

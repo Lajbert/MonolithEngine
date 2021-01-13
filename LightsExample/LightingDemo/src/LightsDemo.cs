@@ -3,7 +3,7 @@ using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source;
-using GameEngine2D.Source.Camera;
+using GameEngine2D.Source.Camera2D;
 using GameEngine2D.Source.Entities.Animation;
 using GameEngine2D.Source.Level;
 using GameEngine2D.Util;

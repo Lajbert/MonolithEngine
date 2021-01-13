@@ -4,6 +4,7 @@ using System.Text;
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
+using GameEngine2D.Source.Camera2D;
 using GameEngine2D.Source.Layer;
 using Microsoft.Xna.Framework;
 
@@ -18,6 +19,8 @@ namespace GameEngine2D.Entities
         public Layer RayBlockersLayer;
 
         private Vector2 position = Vector2.Zero;
+
+        public Camera Camera;
 
         public Vector2 Position
         {
@@ -52,8 +55,8 @@ namespace GameEngine2D.Entities
             {
                 throw new Exception("Root already initialized!");
             }
-            EntityLayer = new Layer(10);
-            RayBlockersLayer = new Layer();
+            EntityLayer = new Layer(Camera, 10);
+            RayBlockersLayer = new Layer(Camera);
         }
 
         public static RootContainer Instance
@@ -96,7 +99,7 @@ namespace GameEngine2D.Entities
 
         public Layer AddScrollableLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
         {
-            Layer l = new Layer(priority, scrollSpeedMultiplier, lockY);
+            Layer l = new Layer(Camera, priority, scrollSpeedMultiplier, lockY);
             AddLayer(l);
             return l;
         }

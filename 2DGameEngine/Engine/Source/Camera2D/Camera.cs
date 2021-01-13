@@ -2,11 +2,12 @@
 using GameEngine2D.Global;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Camera
+namespace GameEngine2D.Source.Camera2D
 {
 	public class Camera
 	{
@@ -70,11 +71,16 @@ namespace GameEngine2D.Source.Camera
 
 		RootContainer root;
 
-		public Camera() {
+		private Matrix transformMatrix;
+
+		private Vector2 viewportCenter;
+
+		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
 			//x = y = 0;
 			//dx = dy = 0;
 			Position = Vector2.Zero;
 			direction = Vector2.Zero;
+            viewportCenter = new Vector2(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight) / 2;
 		}
 
 		private float get_wid()
@@ -172,7 +178,7 @@ namespace GameEngine2D.Source.Camera
 
 		public void postUpdate(GameTime gameTime)
 		{
-			float tmod = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 			if (SCROLL)
 			{
 				root = RootContainer.Instance;
@@ -196,8 +202,8 @@ namespace GameEngine2D.Source.Camera
 					root.Y = fclamp(root.Y, get_hei() - LevelGridCountH * Config.GRID * Zoom + pad, -pad);
 
 				// Bumps friction
-				bumpOffX *= (float)Math.Pow(0.75, tmod);
-				bumpOffY *= (float)Math.Pow(0.75, tmod);
+				bumpOffX *= (float)Math.Pow(0.75, elapsedTime);
+				bumpOffY *= (float)Math.Pow(0.75, elapsedTime);
 
 				// Bump
 				root.X += bumpOffX;
@@ -247,5 +253,20 @@ namespace GameEngine2D.Source.Camera
 			return (x<min) ? min : (x > max) ? max : x;
 		}
 
+		public Matrix GetTransformMatrix()
+        {
+			CalculateTransformMatrix();
+
+			return transformMatrix;
+        }
+		
+		private void CalculateTransformMatrix()
+        {
+			transformMatrix =
+				Matrix.CreateTranslation(new Vector3(-Position + viewportCenter, 0)) *
+				Matrix.CreateTranslation(new Vector3(-viewportCenter, 0)) *
+				Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
+				Matrix.CreateTranslation(new Vector3(viewportCenter, 0));
+		}
 	}
 }

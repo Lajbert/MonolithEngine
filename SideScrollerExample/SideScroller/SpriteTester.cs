@@ -6,7 +6,7 @@ using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.Source.Hero;
 using GameEngine2D.Global;
 using GameEngine2D.Source;
-using GameEngine2D.Source.Camera;
+using GameEngine2D.Source.Camera2D;
 using GameEngine2D.Source.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -72,16 +72,16 @@ namespace SideScrollerExample.SideScroller
         {
             //resolutionIndependentRenderer = new ResolutionIndependentRenderer(this);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Camera = new Camera();
             font = Content.Load<SpriteFont>("DefaultFont");
             //Camera2D = new Camera2D(resolutionIndependentRenderer);
             //Entity.Camera2D = Camera2D;
             //Entity.ResolutionIndependentRenderer = resolutionIndependentRenderer;
-            Globals.Camera = Camera;
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
+            Camera = new Camera(graphics);
             Camera.Position = new Vector2(0, 0);
+            Globals.Camera = Camera;
 
             for (int i = 0; i < 5000; i++)
             {

@@ -6,7 +6,7 @@ using GameEngine2D.Entities;
 using GameEngine2D.GameExamples.SideScroller.Source.Hero;
 using GameEngine2D.Global;
 using GameEngine2D.Source;
-using GameEngine2D.Source.Camera;
+using GameEngine2D.Source.Camera2D;
 using GameEngine2D.Source.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -76,7 +76,6 @@ namespace SideScrollerExample
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
-            RootContainer.Instance.InitLayers();
             base.Initialize();
         }
 
@@ -84,7 +83,6 @@ namespace SideScrollerExample
         {
             //resolutionIndependentRenderer = new ResolutionIndependentRenderer(this);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Camera = new Camera();
             //Camera2D = new Camera2D(resolutionIndependentRenderer);
             //Entity.Camera2D = Camera2D;
             //Entity.ResolutionIndependentRenderer = resolutionIndependentRenderer;
@@ -93,6 +91,9 @@ namespace SideScrollerExample
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
+            Camera = new Camera(graphics);
+            RootContainer.Instance.Camera = Camera;
+            RootContainer.Instance.InitLayers();
             Camera.Position = Vector2.Zero;
             CreateLevel();
             knight = new Knight(Content, new Vector2(800, 0), font);
