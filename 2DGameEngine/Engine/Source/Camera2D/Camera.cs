@@ -49,8 +49,6 @@ namespace GameEngine2D.Source.Camera2D
 		private Vector2 viewportCenter;
 
 		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
-			//x = y = 0;
-			//dx = dy = 0;
 			position = Vector2.Zero;
 			direction = Vector2.Zero;
 			resolutionWidth = graphicsDeviceManager.PreferredBackBufferWidth;
@@ -159,11 +157,7 @@ namespace GameEngine2D.Source.Camera2D
 				}
 
 				// Rounding
-				root.X = (float)Math.Round(root.X);
-				root.Y = (float)Math.Round(root.Y);
-
-				// Zoom
-				//scroller.setScale(SCALE * zoom);
+				root.Position = MathUtil.Round(root.Position);
 			}
 		}
 
