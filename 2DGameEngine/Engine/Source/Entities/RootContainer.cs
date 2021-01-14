@@ -18,6 +18,10 @@ namespace GameEngine2D.Entities
 
         public Layer RayBlockersLayer;
 
+        public Layer ForegroundEnvironment;
+
+        public Layer BackgroundEnviornment;
+
         private Vector2 position = Vector2.Zero;
 
         public Camera Camera;
@@ -99,7 +103,7 @@ namespace GameEngine2D.Entities
 
         public Layer CreateParallaxLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
         {
-            Layer l = new Layer(Camera, priority, scrollSpeedMultiplier, lockY);
+            Layer l = new Layer(Camera, priority, false, scrollSpeedMultiplier, lockY);
             AddLayer(l);
             return l;
         }

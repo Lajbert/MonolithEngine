@@ -1,5 +1,4 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Graphics.Primitives;
+﻿using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -65,32 +64,37 @@ namespace TopDownExample
             frameCounter = new FrameCounter();
 
             Config.GRAVITY_ON = false;
-            Config.CHARACTER_SPEED = 5f;
-            Config.GRID = 16;
+            Config.CHARACTER_SPEED = 2f;
+            Config.GRID = 64;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             Layer.GraphicsDeviceManager = graphics;
-            RootContainer.Instance.InitLayers();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            camera = new Camera();
-            Globals.Camera = camera;
             font = Content.Load<SpriteFont>("DefaultFont");
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
+            camera = new Camera(graphics);
+            RootContainer.Instance.Camera = camera;
+            RootContainer.Instance.InitLayers();
             SpriteUtil.GraphicsDeviceManager = graphics;
             SpriteUtil.Content = Content;
 
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.trackTarget(cube, true);
+
+            Entity e = new Entity(RootContainer.Instance.EntityLayer, null, new Vector2(10, 5) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Red), false);
+            //e.BlocksRay = true;
+
+            //LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise.json");
 
             //LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise3_pivot.json");
             /*map.LoadMap();

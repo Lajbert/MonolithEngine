@@ -18,7 +18,7 @@ namespace GameEngine2D.Source.Layer
         private List<Entity> removedObjects = new List<Entity>();
         private float scrollSpeedModifier;
         private bool lockY;
-
+        private bool ySorting = false;
         private SpriteBatch spriteBatch;
 
         public static GraphicsDeviceManager GraphicsDeviceManager;
@@ -29,12 +29,17 @@ namespace GameEngine2D.Source.Layer
 
         private Camera camera;
 
-        public Layer(Camera camera, int priority = 0, float scrollSpeedModifier = 1f, bool lockY = true)
+        public Layer(Camera camera, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
         {
+            if (camera == null)
+            {
+                throw new Exception("Camera not provided for layer!");
+            }
             this.scrollSpeedModifier = scrollSpeedModifier;
             this.camera = camera;
             Priority = priority;
             this.lockY = lockY;
+            this.ySorting = ySorting;
             spriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
             RootContainer.Instance.AddLayer(this);
         }
@@ -70,6 +75,11 @@ namespace GameEngine2D.Source.Layer
 
         public void DrawAll(GameTime gameTime)
         {
+            if (ySorting)
+            {
+                rootObjects.Sort((a, b) => a.Position.Y.CompareTo(b.Position.Y));
+            }
+            
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix(scrollSpeedModifier, lockY));
 
             foreach (Entity entity in rootObjects)
