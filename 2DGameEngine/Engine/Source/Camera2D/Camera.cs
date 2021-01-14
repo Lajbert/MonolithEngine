@@ -40,7 +40,7 @@ namespace GameEngine2D.Source.Camera2D
 		private Vector2 targetPosition = Vector2.Zero;
 		private Vector2 targetTracingOffset = Vector2.Zero;
 		private float targetCameraDistance;
-		private float a;
+		private float angle;
 
 		private float friction = 0.89f;
 
@@ -48,6 +48,7 @@ namespace GameEngine2D.Source.Camera2D
 
 		private Vector2 viewportCenter;
 		private Vector3 viewportCenterTransform;
+		public Vector2 CurrentCenter;
 
 		private RootContainer root;
 
@@ -104,9 +105,9 @@ namespace GameEngine2D.Source.Camera2D
 				targetCameraDistance = MathUtil.Distance(position, targetPosition);
 				if (targetCameraDistance >= Config.CAMERA_DEADZONE)
 				{
-					a = (float)Math.Atan2(targetPosition.Y - position.Y, targetPosition.X - position.X);
-					direction.X += (float)Math.Cos(a) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
-					direction.Y += (float)Math.Sin(a) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+					angle = MathUtil.AngleFromVectors(position, targetPosition);
+					direction.X += (float)Math.Cos(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+					direction.Y += (float)Math.Sin(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 				}
 			}
 
