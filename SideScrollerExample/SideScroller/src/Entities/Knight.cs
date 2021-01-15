@@ -69,21 +69,21 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             });
 
             UserInput.RegisterControllerState(Keys.Space, () => {
-                if (!HasGravity || (!canJump && !doubleJump))
+                if (!HasGravity || (!canJump && !canDoubleJump))
                 {
                     return;
                 }
                 if (canJump)
                 {
-                    doubleJump = true;
+                    canDoubleJump = true;
                 }
                 else
                 {
-                    doubleJump = false;
+                    canDoubleJump = false;
                 }
                 canJump = false;
                 Direction.Y -= Config.JUMP_FORCE;
-                JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+                JumpStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
             }, true);
 
             UserInput.RegisterControllerState(Keys.Down, () => {
@@ -158,12 +158,12 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
             List<Texture2D> knightJump = SpriteUtil.LoadTextures(folder + "Jump/HeroKnight_Jump_", 2);
             SpriteGroupAnimation knightJumpRightAnimation = new SpriteGroupAnimation(this, knightJump, animationFps);
             knightJumpRightAnimation.Scale = scale;
-            Func<bool> isJumpingRight = () => JumpStart > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.RIGHT;
+            Func<bool> isJumpingRight = () => JumpStartedAt > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.RIGHT;
             animations.RegisterAnimation("JumpRight", knightJumpRightAnimation, isJumpingRight, 2);
 
             SpriteGroupAnimation knightJumpLeftAnimation = new SpriteGroupAnimation(this, knightJump, animationFps, SpriteEffects.FlipHorizontally);
             knightJumpLeftAnimation.Scale = scale;
-            Func<bool> isJumpingLeft = () => JumpStart > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.LEFT;
+            Func<bool> isJumpingLeft = () => JumpStartedAt > 0f && CurrentFaceDirection == Engine.Source.Entities.Direction.LEFT;
             animations.RegisterAnimation("JumpLeft", knightJumpLeftAnimation, isJumpingLeft, 2);
 
             List<Texture2D> knightFall = SpriteUtil.LoadTextures(folder + "Fall/HeroKnight_Fall_", 3);

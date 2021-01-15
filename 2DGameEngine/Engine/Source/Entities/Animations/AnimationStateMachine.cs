@@ -131,6 +131,7 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
                 currentAnimation = nextAnimation;
                 currentAnimation.animation.Init();
             }
+            Logger.Log("Currently playing:" + currentAnimation.state);
             currentAnimation.animation.Play(spriteBatch);
         }
 

@@ -29,7 +29,7 @@ namespace GameEngine2D
         protected UserInputController UserInput;
 
         protected bool canJump = true;
-        protected bool doubleJump = false;
+        protected bool canDoubleJump = false;
         protected float elapsedTime;
         private float steps;
         private float step;
@@ -38,7 +38,7 @@ namespace GameEngine2D
         private float t;
         public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
 
-        public float JumpStart { get; set; }
+        public float JumpStartedAt { get; set; }
 
         protected GameTime gameTime;
 
@@ -127,20 +127,21 @@ namespace GameEngine2D
             // Y
             if (HasGravity && !OnGround())
             {   
-                if (JumpStart == 0)
+                if (JumpStartedAt == 0)
                 {
-                    JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+                    JumpStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
                 }
-                t = (float)(gameTime.TotalGameTime.TotalSeconds - JumpStart) * Config.GRAVITY_T_MULTIPLIER;
+                t = (float)(gameTime.TotalGameTime.TotalSeconds - JumpStartedAt) * Config.GRAVITY_T_MULTIPLIER;
                 Direction.Y += GetGravityConstant() * t/* * elapsedTime*/;
                 canJump = false;
+                canDoubleJump = true;
             }
                 
             if (HasGravity && OnGround() /*|| direction.Y < 0*/)
             {
                 canJump = true;
-                doubleJump = true;
-                JumpStart = 0;
+                canDoubleJump = false;
+                JumpStartedAt = 0;
             }
 
             steps2 = (float)Math.Ceiling(Math.Abs((Direction.Y + bdy) * elapsedTime));
@@ -198,7 +199,7 @@ namespace GameEngine2D
         {
             InCellLocation = Vector2.Zero;
             this.Position = StartPosition = position;
-            this.JumpStart = 0;
+            this.JumpStartedAt = 0;
         }
     }
 }

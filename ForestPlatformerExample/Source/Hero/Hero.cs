@@ -22,6 +22,7 @@ namespace ForestPlatformerExample.Source.Hero
 
         private readonly float JUMP_RATE = 0.5f;
         private static double lastJump = 0f;
+        private bool doubleJumping = false;
 
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
@@ -57,13 +58,32 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isRunningLeft = () => Direction.X < -0.5f && !CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
+            spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
+            SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 13, 64, 64, 24);
+            Animations.Offset = new Vector2(0, -20);
+            Func<bool> isJumpingRight = () => JumpStartedAt > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.RIGHT;
+            Animations.RegisterAnimation("JumpingRight", jumpRight, isJumpingRight, 2);
+
+            SpriteSheetAnimation jumpLeft = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 13, 64, 64, 24, SpriteEffects.FlipHorizontally);
+            Animations.Offset = new Vector2(0, -20);
+            Func<bool> isJumpingLeft = () => JumpStartedAt > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.LEFT;
+            Animations.RegisterAnimation("JumpingLeft", jumpLeft, isJumpingLeft, 2);
+
+            spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@double-jump-sheet");
+            SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 21, 64, 64, 30);
+            Animations.Offset = new Vector2(0, -20);
+            Func<bool> isDoubleJumpingRight = () => doubleJumping && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.RIGHT;
+            //Func<bool> isDoubleJumpingRight = () => JumpStartedAt > 0f;
+            Animations.RegisterAnimation("DoubleJumpingRight", doubleJumpRight, isDoubleJumpingRight, 3);
+
+            SpriteSheetAnimation doubleJumpLeft = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 21, 64, 64, 30, SpriteEffects.FlipHorizontally);
+            Animations.Offset = new Vector2(0, -20);
+            Func<bool> isDoubleJumpingLeft = () => doubleJumping && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.LEFT;
+            //Func<bool> isDoubleJumpingLeft = () => JumpStartedAt > 0f;
+            Animations.RegisterAnimation("DoubleJumpingLeft", doubleJumpLeft, isDoubleJumpingLeft, 3);
 
 
-            Func<bool> isRunningleft = () => Direction.X < -0.5f && !CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
 
-            Func<bool> isJumpingRight = () => JumpStart > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.RIGHT;
-
-            Func<bool> isJumpingLeft = () => JumpStart > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.LEFT;
 
             Func<bool> isFallingRight = () => Direction.Y > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.RIGHT;
 
@@ -92,14 +112,14 @@ namespace ForestPlatformerExample.Source.Hero
             });
 
             UserInput.RegisterControllerState(Keys.Space, () => {
-                if (!HasGravity || (!canJump && !doubleJump))
+                if (!HasGravity || (!canJump && !canDoubleJump))
                 {
                     return;
                 }
 
                 if (canJump)
                 {
-                    doubleJump = true;
+                    canDoubleJump = true;
                     canJump = false;
                 }
                 else
@@ -109,10 +129,11 @@ namespace ForestPlatformerExample.Source.Hero
                         return;
                     }
                     lastJump = 0f;
-                    doubleJump = false;
+                    canDoubleJump = false;
+                    doubleJumping = true;
                 }
                 Direction.Y -= Config.JUMP_FORCE;
-                JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
+                JumpStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
             }, true);
 
             UserInput.RegisterControllerState(Keys.Down, () => {
@@ -138,7 +159,13 @@ namespace ForestPlatformerExample.Source.Hero
 
         public override void Update(GameTime gameTime)
         {
-            lastJump += gameTime.ElapsedGameTime.TotalSeconds;
+            if (JumpStartedAt > 0)
+            {
+                lastJump += gameTime.ElapsedGameTime.TotalSeconds;
+            } else
+            {
+                doubleJumping = false;
+            }
             base.Update(gameTime);
         }
     }
