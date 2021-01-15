@@ -89,7 +89,7 @@ namespace TopDownExample
             SpriteUtil.Content = Content;
 
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
-            camera.trackTarget(cube, true);
+            camera.TrackTarget(cube, true);
             new Entity(RootContainer.Instance.EntityLayer, null, new Vector2(5, 5) * Config.GRID, SpriteUtil.CreateCircle(Config.GRID, Color.Red));
 
             Entity e = new Entity(RootContainer.Instance.EntityLayer, null, new Vector2(10, 5) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Red), false);

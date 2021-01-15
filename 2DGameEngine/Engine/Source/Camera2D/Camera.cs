@@ -61,7 +61,7 @@ namespace GameEngine2D.Source.Camera2D
 			viewportCenterTransform = new Vector3(viewportCenter, 0);
 		}
 
-		public void trackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
+		public void TrackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
 		{
 			targetTracingOffset = tracingOffset;
 			target = e;

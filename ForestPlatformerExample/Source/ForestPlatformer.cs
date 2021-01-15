@@ -15,9 +15,10 @@ namespace ForestPlatformerExample
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Texture2D texture;
-
         private Camera Camera;
+
+        private SpriteFont font;
+        private FrameCounter frameCounter;
 
         Hero hero;
 
@@ -27,6 +28,7 @@ namespace ForestPlatformerExample
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Config.GRAVITY_ON = false;
+            Config.ZOOM = 2f;
         }
 
         protected override void Initialize()
@@ -48,9 +50,13 @@ namespace ForestPlatformerExample
             RootContainer.Instance.Camera = Camera;
             RootContainer.Instance.InitLayers();
 
-            //texture = Content.Load<Texture2D>("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
-            hero = new Hero(new Vector2(300, 300));
+            font = Content.Load<SpriteFont>("DefaultFont");
+
+            hero = new Hero(new Vector2(300, 300), font);
+            //Camera.TrackTarget(hero, true);
             // TODO: use this.Content to load your game content here
+
+            frameCounter = new FrameCounter();
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,10 +78,14 @@ namespace ForestPlatformerExample
 
             RootContainer.Instance.DrawAll(gameTime);
 
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            frameCounter.Update(deltaTime);
+            var fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
+            spriteBatch.End();
+
             // TODO: Add your drawing code here
-            //spriteBatch.Begin();
-            //spriteBatch.Draw(texture, new Vector2(100, 100), Color.White);
-            //spriteBatch.End();
 
             base.Draw(gameTime);
         }

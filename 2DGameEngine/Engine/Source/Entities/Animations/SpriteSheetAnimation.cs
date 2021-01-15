@@ -20,15 +20,20 @@ namespace GameEngine2D.Source.Entities
         private int currentRow;
         private int currentColumn;
 
-        public SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
+        public SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width = 0, int height = 0, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
         {
             this.texture = texture;
             this.rows = rows;
             this.columns = columns;
-            //width = texture.Width / columns;
-            //height = texture.Height / rows;
-            width = 64;
-            height = 64;
+            if (width == 0 || height == 0)
+            {
+                this.width = texture.Width / columns;
+                this.height = texture.Height / rows;
+            } else
+            {
+                this.width = width;
+                this.height = height;
+            }
         }
 
         /*public void Update(GameTime gameTime)
@@ -58,8 +63,8 @@ namespace GameEngine2D.Source.Entities
         {
             currentRow = (int)((float)CurrentFrame / (float)columns);
             currentColumn = CurrentFrame % columns;
-            Logger.Log("Current: " + currentRow + " : " + currentColumn);
             SourceRectangle = new Rectangle(width * currentColumn, height * currentRow, width, height);
+            Pivot = new Vector2(width / 2, height / 2);
             //SourceRectangle = new Rectangle(height * currentRow, width * currentColumn, width, height);
             return texture;
         }
