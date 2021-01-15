@@ -50,7 +50,7 @@ namespace GameEngine2D.Source.Camera2D
 		private Vector3 viewportCenterTransform;
 		public Vector2 CurrentCenter;
 
-		private RootContainer root;
+		private LayerManager root;
 
 		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
 			position = Vector2.Zero;

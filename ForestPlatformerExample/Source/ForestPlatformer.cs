@@ -4,9 +4,11 @@ using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
 using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace ForestPlatformerExample
 {
@@ -20,15 +22,20 @@ namespace ForestPlatformerExample
         private SpriteFont font;
         private FrameCounter frameCounter;
 
-        Hero hero;
+        private Hero hero;
 
         public ForestPlatformer()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            Config.GRAVITY_ON = false;
+            Config.GRAVITY_ON = true;
             Config.ZOOM = 2f;
+            Config.CHARACTER_SPEED = 3f;
+            //Config.GRID = 64;
+
+            this.IsFixedTimeStep = true;//false;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
         }
 
         protected override void Initialize()
@@ -36,7 +43,7 @@ namespace ForestPlatformerExample
             // TODO: Add your initialization logic here
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
-            Layer.GraphicsDeviceManager = graphics;
+            Layer2D.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
@@ -47,16 +54,24 @@ namespace ForestPlatformerExample
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
-            RootContainer.Instance.Camera = Camera;
-            RootContainer.Instance.InitLayers();
+            LayerManager.Instance.Camera = Camera;
+            LayerManager.Instance.InitLayers();
 
             font = Content.Load<SpriteFont>("DefaultFont");
 
             hero = new Hero(new Vector2(300, 300), font);
-            //Camera.TrackTarget(hero, true);
+            Camera.TrackTarget(hero, true);
             // TODO: use this.Content to load your game content here
 
             frameCounter = new FrameCounter();
+
+            LoadLevel();
+        }
+
+        private void LoadLevel()
+        {
+            MapSerializer mapSerializer = new LDTKJsonMapSerializer();
+            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/forest_platformer/level.json");
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,7 +80,7 @@ namespace ForestPlatformerExample
                 Exit();
 
             // TODO: Add your update logic here
-            RootContainer.Instance.UpdateAll(gameTime);
+            LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
 
@@ -76,7 +91,7 @@ namespace ForestPlatformerExample
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            RootContainer.Instance.DrawAll(gameTime);
+            LayerManager.Instance.DrawAll(gameTime);
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameCounter.Update(deltaTime);

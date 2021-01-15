@@ -71,7 +71,7 @@ namespace TopDownExample
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Layer.GraphicsDeviceManager = graphics;
+            Layer2D.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
@@ -83,16 +83,16 @@ namespace TopDownExample
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             camera = new Camera(graphics);
-            RootContainer.Instance.Camera = camera;
-            RootContainer.Instance.InitLayers();
+            LayerManager.Instance.Camera = camera;
+            LayerManager.Instance.InitLayers();
             SpriteUtil.GraphicsDeviceManager = graphics;
             SpriteUtil.Content = Content;
 
             CubeGuy cube = new CubeGuy(new Vector2(5, 5) * Config.GRID, font);
             camera.TrackTarget(cube, true);
-            new Entity(RootContainer.Instance.EntityLayer, null, new Vector2(5, 5) * Config.GRID, SpriteUtil.CreateCircle(Config.GRID, Color.Red));
+            new Entity(LayerManager.Instance.EntityLayer, null, new Vector2(5, 5) * Config.GRID, SpriteUtil.CreateCircle(Config.GRID, Color.Red));
 
-            Entity e = new Entity(RootContainer.Instance.EntityLayer, null, new Vector2(10, 5) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Red), false);
+            Entity e = new Entity(LayerManager.Instance.EntityLayer, null, new Vector2(10, 5) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Red), false);
             //e.BlocksRay = true;
 
             //LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/practise/practise.json");
@@ -120,7 +120,7 @@ namespace TopDownExample
                 Exit();
 
             // TODO: Add your update logic here
-            RootContainer.Instance.UpdateAll(gameTime);
+            LayerManager.Instance.UpdateAll(gameTime);
             camera.update(gameTime);
             camera.postUpdate(gameTime);
             base.Update(gameTime);
@@ -166,7 +166,7 @@ namespace TopDownExample
             //}
 
             // TODO: Add your drawing code here
-            RootContainer.Instance.DrawAll(gameTime);
+            LayerManager.Instance.DrawAll(gameTime);
             //Logger.Log("ENTITY LAYER: " + Scene.Instance.GetEntityLayer().GetPosition());
 
 

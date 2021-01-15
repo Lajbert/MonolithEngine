@@ -16,15 +16,106 @@ namespace GameEngine2D.Source.Level
     public class LDTKMap
     {
 
-        string path = "SpriteSheets/MagicCliffsEnvironment/";
-        Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
+        private readonly string CONTENT = "Content/";
+        private readonly string EXTENSION_DOT = ".";
+        private readonly string BACKGROUND = "Background";
+        private readonly string FOREGROUND = "Foreground";
+        private readonly string PARALLAX = "Parallax";
+        private readonly string COLLIDERS = "Colliders";
+        private readonly string ENTITIES = "Entities";
+
+        //string path = "SpriteSheets/MagicCliffsEnvironment/";
+        //Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
+
+        Dictionary<string, Texture2D> tilesets = new Dictionary<string, Texture2D>();
+
+        private float scrollSpeedModifier = 0f;
 
         public LDTKMap(LDTKJson json)
         {
             //Globals.Camera.LevelGridCountH = 256;
             //Globals.Camera.LevelGridCountW = 256;
 
+            foreach (TilesetDefinition tileset in json.Defs.Tilesets) {
+                string path = GetMonoGameContentName(tileset.RelPath);
+                tilesets.Add(path, SpriteUtil.LoadTexture(path));
+            }
+
             foreach (GameEngine2D.Engine.Source.Level.Level level in json.Levels)
+            {
+                Array.Reverse(level.LayerInstances);
+                foreach (LayerInstance layerInstance in level.LayerInstances)
+                {
+
+                    string layerName = layerInstance.Identifier;
+                    Layer2D currentLayer = null;
+                    Texture2D tileSet = null;
+                    if (layerName.StartsWith(COLLIDERS))
+                    {
+                        currentLayer = LayerManager.Instance.EntityLayer;
+                        tileSet = null;
+                        //continue;
+                    } else if (layerName.StartsWith(BACKGROUND))
+                    {
+                        //currentLayer = RootContainer.Instance.BackgroundLayer;
+                        currentLayer = LayerManager.Instance.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
+                        tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
+                    }
+                    else if (layerName.StartsWith(PARALLAX))
+                    {
+                        //currentLayer = RootContainer.Instance.BackgroundLayer;
+                        scrollSpeedModifier += 0.1f;
+                        currentLayer = LayerManager.Instance.CreateParallaxLayer(int.Parse(layerName[layerName.Length - 1] + ""), scrollSpeedModifier, true);
+                        tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
+                    }
+                    else if (layerName.StartsWith(FOREGROUND))
+                    {
+                        //currentLayer = RootContainer.Instance.BackgroundLayer;
+                        currentLayer = LayerManager.Instance.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
+                        tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
+                    }
+                 
+                    if (layerInstance.Identifier.StartsWith("Colliders"))
+                    {
+                        //public Dictionary<string, dynamic>[] IntGrid { get; set; }
+                        foreach (Dictionary<string, dynamic> dict in layerInstance.IntGrid )
+                        {
+                            int y = (int)Math.Floor((decimal)dict["coordId"] / layerInstance.CWid);
+                            int x = (int)(dict["coordId"] - y * layerInstance.CWid);
+                            Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
+                            e.Pivot = new Vector2(5, 5);
+                            e.Visible = false;
+                        }
+
+                    } else
+                    {
+                        foreach (TileInstance tile in layerInstance.GridTiles)
+                        {
+                            //Logger.Log("Tile: " + tile.);
+
+                            long tileId = tile.T;
+                            int atlasGridBaseWidth = (int)layerInstance.GridSize;
+                            int padding = 0;
+                            int spacing = 0;
+                            int gridSize = Config.GRID;
+
+                            int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
+                            int pixelTileX = padding + gridTileX * (gridSize + spacing);
+
+                            int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
+                            var pixelTileY = padding + gridTileY * (gridSize + spacing);
+
+                            Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
+                            e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
+                            e.Pivot = new Vector2(5, 5);
+                            //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
+
+                        }
+                    }
+                }
+            }
+
+            /*foreach (GameEngine2D.Engine.Source.Level.Level level in json.Levels)
             {
                 Array.Reverse(level.LayerInstances);
                 foreach (GameEngine2D.Engine.Source.Level.LayerInstance layerInstance in level.LayerInstances)
@@ -33,13 +124,13 @@ namespace GameEngine2D.Source.Level
                     string tileSet = null;
                     if (layerInstance.Identifier.StartsWith("Colliders"))
                     {
-                        currentLayer = RootContainer.Instance.EntityLayer;
+                        currentLayer = LayerManager.Instance.EntityLayer;
                         tileSet = null;
                         //continue;
                     } else if (layerInstance.Identifier.StartsWith("Background"))
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
-                        currentLayer = RootContainer.Instance.CreateParallaxLayer();
+                        currentLayer = LayerManager.Instance.CreateParallaxLayer();
                         tileSet = "tileset";
                     }
                     else
@@ -48,21 +139,21 @@ namespace GameEngine2D.Source.Level
                         if (layerInstance.Identifier.StartsWith("Island"))
                         {
                             tileSet = "far-grounds";
-                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
+                            currentLayer = LayerManager.Instance.CreateParallaxLayer(0, 0.9f, true);
                         } else if(layerInstance.Identifier.StartsWith("Sea"))
                         {
                             tileSet = "sea";
-                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
+                            currentLayer = LayerManager.Instance.CreateParallaxLayer(0, 0.9f, true);
                         }
                         else if (layerInstance.Identifier.StartsWith("Sky"))
                         {
                             tileSet = "sky";
-                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
+                            currentLayer = LayerManager.Instance.CreateParallaxLayer(0, 0.9f, true);
                         }
                         else if (layerInstance.Identifier.StartsWith("Clouds"))
                         {
                             tileSet = "clouds";
-                            currentLayer = RootContainer.Instance.CreateParallaxLayer(0, 0.9f, true);
+                            currentLayer = LayerManager.Instance.CreateParallaxLayer(0, 0.9f, true);
                         }
                         //currentLayer = RootContainer.Instance.AddScrollableLayer();
                     }
@@ -105,7 +196,13 @@ namespace GameEngine2D.Source.Level
                         }
                     }
                 }
-            }
+            }*/
+        }
+
+        private string GetMonoGameContentName(string fullpath)
+        {
+            string path = fullpath.Substring(fullpath.IndexOf(CONTENT) + CONTENT.Length);
+            return path.Substring(0, path.LastIndexOf(EXTENSION_DOT));
         }
 
         /*private readonly string LEVEL = "Level";

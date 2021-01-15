@@ -81,7 +81,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-        protected Layer Layer { get; set; }
+        protected Layer2D Layer { get; set; }
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
 
         private bool blocksRay = false;
@@ -95,11 +95,11 @@ namespace GameEngine2D.Entities
             {
                 if (!value)
                 {
-                    RootContainer.Instance.RayBlockersLayer.RemoveRoot(this);
+                    LayerManager.Instance.RayBlockersLayer.RemoveRoot(this);
                 }
                 else
                 {
-                    RootContainer.Instance.RayBlockersLayer.AddRootObject(this);
+                    LayerManager.Instance.RayBlockersLayer.AddRootObject(this);
                 }
                 blocksRay = value;
             }
@@ -136,7 +136,7 @@ namespace GameEngine2D.Entities
         //public static ResolutionIndependentRenderer ResolutionIndependentRenderer;
         //public static Camera2D Camera2D;
 
-        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, bool collider = false, SpriteFont font = null)
+        public Entity(Layer2D layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, bool collider = false, SpriteFont font = null)
         {
             this.Layer = layer;
             GridCoordinates = CalculateGridCoord(startPosition);
@@ -158,7 +158,7 @@ namespace GameEngine2D.Entities
 
 #if GRAPHICS_DEBUG
             this.font = font;
-            pivotMarker = SpriteUtil.CreateCircle(10, Color.Red);
+            pivotMarker = SpriteUtil.CreateCircle(5, Color.Black);
 #endif
         }
 
@@ -204,7 +204,7 @@ namespace GameEngine2D.Entities
             } else
             {
                 
-                position = Position + Layer.GetPosition();
+                position = Position;
             }
 
             if (Sprite != null)
@@ -224,7 +224,7 @@ namespace GameEngine2D.Entities
                 }
                 else
                 {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position + Layer.GetPosition(), Color.White);
+                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position, Color.White);
                 }
 
             }
@@ -529,7 +529,7 @@ namespace GameEngine2D.Entities
             }
             else
             {
-                return Position + Layer.GetPosition();
+                return Position;
             }
         }
 

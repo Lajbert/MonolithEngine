@@ -11,7 +11,7 @@ using System.Text;
 
 namespace GameEngine2D.Source.Layer
 {
-    public class Layer
+    public class Layer2D
     {
         private List<Entity> rootObjects = new List<Entity>();
         private List<Entity> newObjects = new List<Entity>();
@@ -29,7 +29,7 @@ namespace GameEngine2D.Source.Layer
 
         private Camera camera;
 
-        public Layer(Camera camera, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
+        internal Layer2D(Camera camera, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
         {
             if (camera == null)
             {
@@ -41,7 +41,6 @@ namespace GameEngine2D.Source.Layer
             this.lockY = lockY;
             this.ySorting = ySorting;
             spriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
-            RootContainer.Instance.AddLayer(this);
         }
 
         public void AddRootObject(Entity gameObject)
@@ -52,15 +51,6 @@ namespace GameEngine2D.Source.Layer
         private void RemoveObject(Entity gameObject)
         {
             removedObjects.Add(gameObject);
-        }
-
-        public Vector2 GetPosition()
-        {
-            if (lockY)
-            {
-                return new Vector2(RootContainer.Instance.Position.X * scrollSpeedModifier, RootContainer.Instance.Position.Y);
-            }
-            return RootContainer.Instance.Position * scrollSpeedModifier;
         }
 
         public IEnumerable<Entity> GetAll()

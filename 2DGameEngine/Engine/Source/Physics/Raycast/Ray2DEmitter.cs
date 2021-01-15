@@ -41,7 +41,7 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
                 ray.debugLine.Position = owner.Position;
                 ray.debugLine.From = owner.Position;
 #endif
-                foreach (Entity e in RootContainer.Instance.RayBlockersLayer.GetAll())
+                foreach (Entity e in LayerManager.Instance.RayBlockersLayer.GetAll())
                 {
                     if (!e.BlocksRay)
                     {

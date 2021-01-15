@@ -29,7 +29,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
         private float angleRad;
         private float length;
 
-        public Line(Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(RootContainer.Instance.EntityLayer, parent, from, null)
+        public Line(Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(LayerManager.Instance.EntityLayer, parent, from, null)
         {
             this.From = fromSaved = from;
             this.To = toSaved = to;
@@ -42,7 +42,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
             Scale = new Vector2(length, thickness);
         }
 
-        public Line(Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(RootContainer.Instance.EntityLayer, parent, from, null)
+        public Line(Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(LayerManager.Instance.EntityLayer, parent, from, null)
         {
             this.From = fromSaved = from;
             this.thickness = thickness;

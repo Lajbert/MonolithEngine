@@ -40,7 +40,7 @@ namespace GameEngine2D.GameExamples.SideScroller.Source.Hero
 
         private SoundEffect shotEffect;
 
-        public Knight(ContentManager contentManager, Vector2 position, SpriteFont font = null) : base(RootContainer.Instance.EntityLayer, null, position, null, true, font)
+        public Knight(ContentManager contentManager, Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
             SetupAnimations(contentManager);

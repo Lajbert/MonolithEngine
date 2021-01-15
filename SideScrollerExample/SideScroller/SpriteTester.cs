@@ -61,8 +61,8 @@ namespace SideScrollerExample.SideScroller
             // TODO: Add your initialization logic here
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
-            Layer.GraphicsDeviceManager = graphics;
-            RootContainer.Instance.InitLayers();
+            Layer2D.GraphicsDeviceManager = graphics;
+            LayerManager.Instance.InitLayers();
             base.Initialize();
         }
 
@@ -105,7 +105,7 @@ namespace SideScrollerExample.SideScroller
             GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
-            RootContainer.Instance.DrawAll(gameTime);
+            LayerManager.Instance.DrawAll(gameTime);
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameCounter.Update(deltaTime);

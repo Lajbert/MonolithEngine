@@ -193,3 +193,63 @@
 /processorParam:TextureFormat=Color
 /build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@wall-slide-sheet.png
 
+#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills1.png
+
+#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills2.png
+
+#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-sky.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-sky.png
+
+#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-trees.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-trees.png
+
+#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/forest-tileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/forest-tileset.png
+

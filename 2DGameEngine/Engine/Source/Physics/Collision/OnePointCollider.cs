@@ -54,15 +54,6 @@ namespace GameEngine2D.Source.Layer
             return objects.ContainsKey(position);
         }
 
-        public Vector2 GetPosition()
-        {
-            if (lockY)
-            {
-                return new Vector2(RootContainer.Instance.Position.X * scrollSpeedModifier, RootContainer.Instance.Position.Y);
-            }
-            return RootContainer.Instance.Position * scrollSpeedModifier;
-        }
-
         public IEnumerable<Entity> GetAll()
         {
             return objects.Values;

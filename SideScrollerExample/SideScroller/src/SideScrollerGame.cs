@@ -73,7 +73,7 @@ namespace SideScrollerExample
             // TODO: Add your initialization logic here
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
-            Layer.GraphicsDeviceManager = graphics;
+            Layer2D.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 
@@ -90,8 +90,8 @@ namespace SideScrollerExample
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
-            RootContainer.Instance.Camera = Camera;
-            RootContainer.Instance.InitLayers();
+            LayerManager.Instance.Camera = Camera;
+            LayerManager.Instance.InitLayers();
             CreateLevel();
             knight = new Knight(Content, new Vector2(800, 0), font);
             Camera.TrackTarget(knight, true);
@@ -179,7 +179,7 @@ namespace SideScrollerExample
             //Camera.Position = new Vector2(ms.X, ms.Y);
 
             // TODO: Add your update logic here
-            RootContainer.Instance.UpdateAll(gameTime);
+            LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
             base.Update(gameTime);
@@ -204,7 +204,7 @@ namespace SideScrollerExample
             GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
-            RootContainer.Instance.DrawAll(gameTime);
+            LayerManager.Instance.DrawAll(gameTime);
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameCounter.Update(deltaTime);

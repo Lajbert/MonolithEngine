@@ -18,7 +18,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
         private float radius;
         private Vector2 offset;
 
-        public Circle(Entity parent, Vector2 center, int radius, Color color) : base(RootContainer.Instance.EntityLayer, parent, center, null)
+        public Circle(Entity parent, Vector2 center, int radius, Color color) : base(LayerManager.Instance.EntityLayer, parent, center, null)
         {
             Sprite = SpriteUtil.CreateCircle(radius, color);
             this.color = color;

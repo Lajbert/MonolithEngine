@@ -24,7 +24,7 @@ namespace SideScrollerExample.SideScroller.Source.Entities
         private Vector2 animOffset = new Vector2(30, 30);
         private int animationFps = 120;
 
-        public Tile(Layer layer, Vector2 position, Color color, bool coolider = true, SpriteFont font = null) : base(layer, null, position, null, coolider, font)
+        public Tile(Layer2D layer, Vector2 position, Color color, bool coolider = true, SpriteFont font = null) : base(layer, null, position, null, coolider, font)
         {
             SetSprite(SpriteUtil.CreateRectangle(Config.GRID, color));
             Animations = new AnimationStateMachine();
