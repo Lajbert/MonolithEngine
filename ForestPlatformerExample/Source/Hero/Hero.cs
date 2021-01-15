@@ -1,10 +1,12 @@
 ﻿using GameEngine2D;
+using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities;
+using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -36,10 +38,36 @@ namespace ForestPlatformerExample.Source.Hero
             Texture2D spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
             SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 24, 64, 64, 24);
             Animations.Offset = new Vector2(0, -20);
-            //knightAnimationIdleRight.Scale = scale;
-            //Func<bool> isIdleRight = () => CurrentFaceDirection == Engine.Source.Entities.Direction.RIGHT;
-            Func<bool> isIdleRight = () => true;
+            Func<bool> isIdleRight = () => CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.RIGHT;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
+
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 24, 64, 64, 24, SpriteEffects.FlipHorizontally);
+            Animations.Offset = new Vector2(0, -20);
+            Func<bool> isIdleLeft = () => CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.LEFT;
+            Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
+
+            spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-sheet");
+            SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, spiteSheet, 1, 10, 10, 64, 64, 24);
+            Animations.Offset = new Vector2(0, -20);
+            Func<bool> isRunningRight = () => Direction.X > 0.5f && !CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates));
+            Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
+
+            SpriteSheetAnimation runningLeft = new SpriteSheetAnimation(this, spiteSheet, 1, 10, 10, 64, 64, 24, SpriteEffects.FlipHorizontally);
+            Animations.Offset = new Vector2(0, -20);
+            Func<bool> isRunningLeft = () => Direction.X < -0.5f && !CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
+            Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
+
+
+
+            Func<bool> isRunningleft = () => Direction.X < -0.5f && !CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
+
+            Func<bool> isJumpingRight = () => JumpStart > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.RIGHT;
+
+            Func<bool> isJumpingLeft = () => JumpStart > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.LEFT;
+
+            Func<bool> isFallingRight = () => Direction.Y > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.RIGHT;
+
+            Func<bool> isFallingLeftt = () => Direction.Y > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.Direction.LEFT;
 
             CollisionOffsetRight = 0f;
             CollisionOffsetLeft = 0f;
