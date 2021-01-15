@@ -16,6 +16,11 @@ namespace ForestPlatformerExample.Source.Hero
 {
     class Hero : ControllableEntity
     {
+
+
+        private readonly float JUMP_RATE = 0.5f;
+        private static double lastJump = 0f;
+
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
@@ -30,16 +35,16 @@ namespace ForestPlatformerExample.Source.Hero
             Animations = new AnimationStateMachine();
             Texture2D spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
             SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 24, 64, 64, 24);
-            Animations.Offset = new Vector2(5, -15);
+            Animations.Offset = new Vector2(0, -20);
             //knightAnimationIdleRight.Scale = scale;
             //Func<bool> isIdleRight = () => CurrentFaceDirection == Engine.Source.Entities.Direction.RIGHT;
             Func<bool> isIdleRight = () => true;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
-            CollisionOffsetRight = 0.7f;
-            CollisionOffsetLeft = 0.5f;
+            CollisionOffsetRight = 0f;
+            CollisionOffsetLeft = 0f;
             CollisionOffsetBottom = 0f;
-            CollisionOffsetTop = 0.5f;
+            CollisionOffsetTop = 0f;
 
             //SetSprite(spiteSheet);
         }
@@ -63,15 +68,21 @@ namespace ForestPlatformerExample.Source.Hero
                 {
                     return;
                 }
+
                 if (canJump)
                 {
                     doubleJump = true;
+                    canJump = false;
                 }
                 else
                 {
+                    if (lastJump < JUMP_RATE)
+                    {
+                        return;
+                    }
+                    lastJump = 0f;
                     doubleJump = false;
                 }
-                canJump = false;
                 Direction.Y -= Config.JUMP_FORCE;
                 JumpStart = (float)gameTime.TotalGameTime.TotalSeconds;
             }, true);
@@ -95,6 +106,12 @@ namespace ForestPlatformerExample.Source.Hero
             });
 
             UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.1f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.1f; /*Globals.Camera.Recenter(); */});
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            lastJump += gameTime.ElapsedGameTime.TotalSeconds;
+            base.Update(gameTime);
         }
     }
 }

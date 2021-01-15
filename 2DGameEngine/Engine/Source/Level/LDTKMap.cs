@@ -83,7 +83,7 @@ namespace GameEngine2D.Source.Level
                             int y = (int)Math.Floor((decimal)dict["coordId"] / layerInstance.CWid);
                             int x = (int)(dict["coordId"] - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
-                            e.Pivot = new Vector2(5, 5);
+                            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
                             e.Visible = false;
                         }
 
@@ -107,7 +107,7 @@ namespace GameEngine2D.Source.Level
 
                             Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
                             e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                            e.Pivot = new Vector2(5, 5);
+                            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
                             //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
 
                         }

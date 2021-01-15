@@ -158,7 +158,7 @@ namespace GameEngine2D.Entities
 
 #if GRAPHICS_DEBUG
             this.font = font;
-            pivotMarker = SpriteUtil.CreateCircle(5, Color.Black);
+            pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
 #endif
         }
 
