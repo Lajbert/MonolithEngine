@@ -33,7 +33,7 @@ namespace SideScrollerExample.SideScroller.Source.Entities
             List<Texture2D> explosion = SpriteUtil.LoadTextures(folder + "Explosion3/000", 1, 9);
             explosion.AddRange(SpriteUtil.LoadTextures(folder + "Explosion3/00", 10, 30));
 
-            SpriteGroupAnimation explode = new SpriteGroupAnimation(explosion, this, animationFps);
+            SpriteGroupAnimation explode = new SpriteGroupAnimation(this, explosion, animationFps);
             explode.Scale = scale;
             Animations.Offset = animOffset;
             SetDestroyAnimation(explode);

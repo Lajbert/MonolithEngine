@@ -18,7 +18,7 @@ namespace GameEngine2D.Source.Entities.Animation
         private double delay = 0;
         private double currentDelay = 0;
         protected Entity Parent { get; set; }
-        public float Scale = 0f;
+        public float Scale = 1f;
         public Vector2 Offset = Vector2.Zero;
         protected SpriteEffects SpriteEffect { get; set; }
         public bool Looping = true;
@@ -26,6 +26,8 @@ namespace GameEngine2D.Source.Entities.Animation
         public Action StoppedAction;
         public Action StartedAction;
         public Vector2 Pivot;
+
+        protected Rectangle SourceRectangle;
 
         public AbstractAnimation(Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
         {
@@ -48,8 +50,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public virtual void Play(SpriteBatch spriteBatch)
         {
-            Pivot = new Vector2((float)Math.Floor((decimal)GetTexture().Width / 2), (float)Math.Floor((decimal)GetTexture().Height / 2));
-            spriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset), new Rectangle(0, 0, GetTexture().Width, GetTexture().Height), Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
+            spriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset), SourceRectangle, Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
         }
 
         protected abstract Texture2D GetTexture();

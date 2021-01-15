@@ -9,6 +9,10 @@ namespace GameEngine2D.Engine.Source.Entities
         UP,
         DOWN,
         LEFT,
-        RIGHT
+        RIGHT,
+        TOPLEFT,
+        TOPRIGHT,
+        BOTTOMLEFT,
+        BOTTOMRIGHT
     }
 }

@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightsExample", "LightsExam
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogExamples", "BlogExamples\BlogExamples.csproj", "{9B163485-7F9D-4694-A07E-37D5E63DBFA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForestPlatformerExample", "ForestPlatformerExample\ForestPlatformerExample.csproj", "{FCB53008-141A-414D-A271-391F863FE58B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
 	EndProjectSection
@@ -47,10 +47,10 @@ Global
 		{98BD62CE-BC3E-4B91-B3F0-8BD484D219DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98BD62CE-BC3E-4B91-B3F0-8BD484D219DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98BD62CE-BC3E-4B91-B3F0-8BD484D219DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B163485-7F9D-4694-A07E-37D5E63DBFA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B163485-7F9D-4694-A07E-37D5E63DBFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B163485-7F9D-4694-A07E-37D5E63DBFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B163485-7F9D-4694-A07E-37D5E63DBFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB53008-141A-414D-A271-391F863FE58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB53008-141A-414D-A271-391F863FE58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB53008-141A-414D-A271-391F863FE58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB53008-141A-414D-A271-391F863FE58B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

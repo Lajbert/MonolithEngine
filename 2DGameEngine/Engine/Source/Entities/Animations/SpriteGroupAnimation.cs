@@ -13,13 +13,15 @@ namespace GameEngine2D.Source.Entities.Animation
     {
         public List<Texture2D> Textures;
 
-        public SpriteGroupAnimation(List<Texture2D> textures, Entity parent, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, textures.Count, framerate, spriteEffect)
+        public SpriteGroupAnimation(Entity parent, List<Texture2D> textures, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, textures.Count, framerate, spriteEffect)
         {
             this.Textures = textures;
         }
 
         protected override Texture2D GetTexture()
         {
+            Pivot = new Vector2((float)Math.Floor((decimal)Textures[CurrentFrame].Width / 2), (float)Math.Floor((decimal)Textures[CurrentFrame].Height / 2));
+            SourceRectangle = new Rectangle(0, 0, Textures[CurrentFrame].Width, Textures[CurrentFrame].Height);
             return Textures[CurrentFrame];
         }
     }
