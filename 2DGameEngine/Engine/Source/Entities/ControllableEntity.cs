@@ -130,11 +130,12 @@ namespace GameEngine2D
                 if (JumpStartedAt == 0)
                 {
                     JumpStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
+                    canDoubleJump = true;
                 }
                 t = (float)(gameTime.TotalGameTime.TotalSeconds - JumpStartedAt) * Config.GRAVITY_T_MULTIPLIER;
                 Direction.Y += GetGravityConstant() * t/* * elapsedTime*/;
                 canJump = false;
-                canDoubleJump = true;
+                
             }
                 
             if (HasGravity && OnGround() /*|| direction.Y < 0*/)

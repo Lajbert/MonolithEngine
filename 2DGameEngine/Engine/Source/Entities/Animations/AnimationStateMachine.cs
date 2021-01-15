@@ -65,6 +65,7 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
             public Func<bool> function;
             public AbstractAnimation animation;
             public int priority;
+            public bool played;
 
             public StateAnimation(string state, AbstractAnimation animation, Func<bool> function = null, int priority = 0)
             {
@@ -72,6 +73,7 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
                 this.animation = animation;
                 this.priority = priority;
                 this.function = function;
+                played = false;
             }
 
             public override bool Equals(object obj)
@@ -131,7 +133,6 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
                 currentAnimation = nextAnimation;
                 currentAnimation.animation.Init();
             }
-            Logger.Log("Currently playing:" + currentAnimation.state);
             currentAnimation.animation.Play(spriteBatch);
         }
 

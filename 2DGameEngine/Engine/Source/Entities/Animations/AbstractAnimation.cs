@@ -27,12 +27,20 @@ namespace GameEngine2D.Source.Entities.Animation
         public Action StartedAction;
         public Vector2 Pivot;
 
+        public int StartFrame = 0;
+        public int EndFrame
+        {
+            get => totalFrames;
+
+            set => totalFrames = value;
+        }
+
         protected Rectangle SourceRectangle;
 
         public AbstractAnimation(Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
         {
             this.Parent = parent;
-            CurrentFrame = 0;
+            CurrentFrame = StartFrame;
             this.totalFrames = totalFrames;
             this.SpriteEffect = spriteEffect;
             this.StartedAction = startCallback;
@@ -45,7 +53,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public bool Finished()
         {
-            return CurrentFrame == 0 && !Started;
+            return CurrentFrame == StartFrame && !Started;
         }
 
         public virtual void Play(SpriteBatch spriteBatch)
@@ -62,7 +70,7 @@ namespace GameEngine2D.Source.Entities.Animation
                 return;
             }
 
-            if (CurrentFrame == 0)
+            if (CurrentFrame == StartFrame)
             {
                 if (StartedAction != null && !Looping)
                 {
@@ -105,13 +113,13 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public void Init()
         {
-            CurrentFrame = 0;
+            CurrentFrame = StartFrame;
             Started = true;
         }
 
         public void Stop()
         {
-            CurrentFrame = 0;
+            CurrentFrame = StartFrame;
             Started = false;
         }
     }
