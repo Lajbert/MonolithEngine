@@ -82,7 +82,7 @@ namespace ForestPlatformerExample
         private void LoadLevel()
         {
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
-            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/LDTK levels/forest_platformer/level.json");
+            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
         }
 
         protected override void Update(GameTime gameTime)
