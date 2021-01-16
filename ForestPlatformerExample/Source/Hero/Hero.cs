@@ -137,7 +137,7 @@ namespace ForestPlatformerExample.Source.Hero
                 CurrentFaceDirection = GridDirection.LEFT;
             });
 
-            UserInput.RegisterControllerState(Keys.Space, () => {
+            UserInput.RegisterControllerState(Keys.Up, () => {
                 if (!HasGravity || (!canJump && !canDoubleJump))
                 {
                     return;

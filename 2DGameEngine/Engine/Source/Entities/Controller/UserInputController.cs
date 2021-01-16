@@ -20,7 +20,9 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
 
         public void RegisterControllerState(Keys key, Action action, bool singlePressOnly = false) {
             keyActions.Add(new KeyMapping(key, singlePressOnly), action);
-            pressedKeys.Add(key, false);
+            if (!pressedKeys.ContainsKey(key)) {
+                pressedKeys.Add(key, false);
+            }
         }
 
         public void RegisterMouseActions(Action wheelUpAction, Action wheelDownAction)
