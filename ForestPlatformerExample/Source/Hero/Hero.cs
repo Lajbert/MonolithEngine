@@ -94,14 +94,7 @@ namespace ForestPlatformerExample.Source.Hero
             Animations.Offset = new Vector2(0, -20);
             Animations.RegisterAnimation("DoubleJumpingLeft", doubleJumpLeft, () => true, -1);
 
-
-
-
-            Func<bool> isFallingRight = () => Direction.Y > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.GridDirection.RIGHT;
-
-            Func<bool> isFallingLeftt = () => Direction.Y > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.GridDirection.LEFT;
-
-            CollisionOffsetRight = 0f;
+            CollisionOffsetRight = 0.5f;
             CollisionOffsetLeft = 0f;
             CollisionOffsetBottom = 0f;
             CollisionOffsetTop = 0f;
