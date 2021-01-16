@@ -189,7 +189,11 @@ namespace GameEngine2D
 
                 if (HasCollision && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
-                    InCellLocation.Y = CollisionOffsetTop;
+                    if (!CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates)).HasTag("Platform"))
+                    {
+                        Direction.Y =
+                        InCellLocation.Y = CollisionOffsetTop;
+                    }
                 }
                    
                 while (InCellLocation.Y > 1) { InCellLocation.Y--; GridCoordinates.Y++; }

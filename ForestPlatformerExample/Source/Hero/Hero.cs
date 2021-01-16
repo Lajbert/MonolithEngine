@@ -39,12 +39,12 @@ namespace ForestPlatformerExample.Source.Hero
             Texture2D spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
             SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 24, 64, 64, 24);
             Animations.Offset = new Vector2(0, -20);
-            Func<bool> isIdleRight = () => CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.GridDirection.RIGHT;
+            Func<bool> isIdleRight = () => CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
             SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 24, 64, 64, 24, SpriteEffects.FlipHorizontally);
             Animations.Offset = new Vector2(0, -20);
-            Func<bool> isIdleLeft = () => CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.GridDirection.LEFT;
+            Func<bool> isIdleLeft = () => CurrentFaceDirection == GridDirection.LEFT;
             Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
 
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-sheet");
@@ -61,12 +61,12 @@ namespace ForestPlatformerExample.Source.Hero
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
             SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 13, 64, 64, 24);
             Animations.Offset = new Vector2(0, -20);
-            Func<bool> isJumpingRight = () => FallStartedAt > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.GridDirection.RIGHT;
+            Func<bool> isJumpingRight = () => FallStartedAt > 0f && CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("JumpingRight", jumpRight, isJumpingRight, 2);
 
             SpriteSheetAnimation jumpLeft = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 13, 64, 64, 24, SpriteEffects.FlipHorizontally);
             Animations.Offset = new Vector2(0, -20);
-            Func<bool> isJumpingLeft = () => FallStartedAt > 0f && CurrentFaceDirection == GameEngine2D.Engine.Source.Entities.GridDirection.LEFT;
+            Func<bool> isJumpingLeft = () => FallStartedAt > 0f && CurrentFaceDirection == GridDirection.LEFT;
             Animations.RegisterAnimation("JumpingLeft", jumpLeft, isJumpingLeft, 2);
 
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@wall-slide-sheet");
@@ -142,13 +142,6 @@ namespace ForestPlatformerExample.Source.Hero
                     lastJump = 0f;
                     canDoubleJump = false;
                     doubleJumping = true;
-                    /*if (CurrentFaceDirection == GridDirection.LEFT)
-                    {
-                        Animations.PlayAnimation("DoubleJumpingLeft");
-                    } else if (CurrentFaceDirection == GridDirection.RIGHT)
-                    {
-                        Animations.PlayAnimation("DoubleJumpingRight");
-                    }*/
                 }
                 Direction.Y -= Config.JUMP_FORCE + JumpModifier.Y;
                 Direction.X += JumpModifier.X;
