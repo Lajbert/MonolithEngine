@@ -19,7 +19,6 @@ namespace ForestPlatformerExample.Source.Hero
     class Hero : ControllableEntity
     {
 
-
         private readonly float JUMP_RATE = 0.5f;
         private static double lastJump = 0f;
         private bool doubleJumping = false;
@@ -73,22 +72,20 @@ namespace ForestPlatformerExample.Source.Hero
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@wall-slide-sheet");
             SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, spiteSheet, 1, 6, 6, 64, 64, 12, SpriteEffects.FlipHorizontally);
             Func<bool> isSlidingRight = () => JumpModifier != Vector2.Zero && CurrentFaceDirection == GridDirection.RIGHT;
-            Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isSlidingRight, 4);
+            Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isSlidingRight, 6);
 
             SpriteSheetAnimation wallSlideLeft = new SpriteSheetAnimation(this, spiteSheet, 1, 6, 6, 64, 64, 12);
             Func<bool> isSlidingLeft = () => JumpModifier != Vector2.Zero && CurrentFaceDirection == GridDirection.LEFT;
-            Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isSlidingLeft, 4);
+            Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isSlidingLeft, 6);
 
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@double-jump-sheet");
             SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 16, 64, 64, 12);
-            doubleJumpRight.Looping = false;
             doubleJumpRight.StartFrame = 12;
             doubleJumpRight.EndFrame = 16;
             Func<bool> isDoubleJumpingRight = () => doubleJumping && CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("DoubleJumpingRight", doubleJumpRight, isDoubleJumpingRight, 3);
 
             SpriteSheetAnimation doubleJumpLeft = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 16, 64, 64, 12, SpriteEffects.FlipHorizontally);
-            doubleJumpLeft.Looping = false;
             doubleJumpLeft.StartFrame = 12;
             doubleJumpLeft.EndFrame = 16;
             Func<bool> isDoubleJumpingLeft = () => doubleJumping && CurrentFaceDirection == GridDirection.LEFT;
@@ -101,12 +98,27 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isClimbing = () => !HasGravity;
             Func<bool> isHangingOnLadder = () => (Math.Abs(Direction.X) < 0.5f && Math.Abs(Direction.Y) < 0.5f);
             climb.AnimationPauseCondition = isHangingOnLadder;
-            Animations.RegisterAnimation("WallSlideRight", climb, isClimbing, 5);
+            Animations.RegisterAnimation("HangingOnLadder", climb, isClimbing, 6);
+
+            spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
+            SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 13, 64, 64, 24);
+            fallingRight.StartFrame = 9;
+            fallingRight.EndFrame = 11;
+            Func<bool> isFallingRight = () => HasGravity && Direction.Y > 0 && CurrentFaceDirection == GridDirection.RIGHT;
+            Animations.RegisterAnimation("FallingRight", fallingRight, isFallingRight, 5);
+
+            SpriteSheetAnimation fallingLeft = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 13, 64, 64, 24, SpriteEffects.FlipHorizontally);
+            fallingLeft.StartFrame = 9;
+            fallingLeft.EndFrame = 11;
+            Func<bool> isFallingLeft = () => HasGravity && Direction.Y > 0 && CurrentFaceDirection == GridDirection.LEFT;
+            Animations.RegisterAnimation("FallingLeft", fallingLeft, isFallingLeft, 5);
+
+            Animations.AddFrameTransition("FallingRight", "FallingLeft");
 
             CollisionOffsetRight = 0.5f;
             CollisionOffsetLeft = 0.2f;
             CollisionOffsetBottom = 0f;
-            CollisionOffsetTop = 0f;
+            CollisionOffsetTop = 0.5f;
 
             //SetSprite(spiteSheet);
         }

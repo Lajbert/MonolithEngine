@@ -14,7 +14,7 @@ using System;
 
 namespace GameEngine2D
 {
-    public class ControllableEntity : Entity, IGravityApplicable
+    public class ControllableEntity : Entity
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -40,6 +40,8 @@ namespace GameEngine2D
         protected float MovementSpeed = Config.CHARACTER_SPEED;
 
         protected Vector2 JumpModifier = Vector2.Zero;
+
+        public float GravityValue = Config.GRAVITY_FORCE;
 
         public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
 
@@ -137,16 +139,16 @@ namespace GameEngine2D
             if (HasCollision && HasGravity && !OnGround())
             {
 
-                float gravityContant = GetGravityConstant();
+                GravityValue = Config.GRAVITY_FORCE;
 
-                if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X > 0) {
-                    gravityContant /= 4;
+                if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X > 0.5) {
+                    GravityValue /= 4;
                     canDoubleJump = true;
                     JumpModifier = new Vector2(-5, -2);
                 } 
-                else if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X < 0)
+                else if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X < -0.5)
                 {
-                    gravityContant /= 4;
+                    GravityValue /= 4;
                     canDoubleJump = true;
                     JumpModifier = new Vector2(5, -2);
                 } 
@@ -162,7 +164,7 @@ namespace GameEngine2D
 
                 
                 t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
-                Direction.Y += gravityContant * t/* * elapsedTime*/;
+                Direction.Y += GravityValue * t/* * elapsedTime*/;
                 canJump = false;
                 
             }
@@ -218,15 +220,9 @@ namespace GameEngine2D
             base.PostUpdate(gameTime);
         }
 
-        public float GetGravityConstant()
-        {
-            return Config.GRAVITY_FORCE;
-        }
-
         private bool OnGround()
         {
-            return CollisionChecker.HasBlockingColliderAt(GridUtil.GetBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
-            //return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
+            return CollisionChecker.HasBlockingColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
         }
 
         public void ResetPosition(Vector2 position)
