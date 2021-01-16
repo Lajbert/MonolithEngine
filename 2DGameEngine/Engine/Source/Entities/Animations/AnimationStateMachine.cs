@@ -12,11 +12,16 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
     public class AnimationStateMachine
     {
         private List<StateAnimation> animations;
+
+        private HashSet<(string, string)> transitions = new HashSet<(string, string)>();
+
         private StateAnimation currentAnimation = null;
 
         private Vector2 offset = Vector2.Zero;
 
         private StateAnimation animationOverride = null;
+
+        private int? transitionFrame = null;
 
         public Vector2 Offset {
             get => offset;
@@ -114,7 +119,8 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
         }
 
         private void Play(SpriteBatch spriteBatch, GameTime gameTime)
-        {   
+        {
+            transitionFrame = null;
             if (animationOverride != null && animationOverride.animation.Finished())
             {
                 animationOverride = null;
@@ -128,12 +134,21 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
             {
                 if (currentAnimation != null)
                 {
+                    if (transitions.Contains((currentAnimation.state, nextAnimation.state))) {
+                        transitionFrame = currentAnimation.animation.GetCurrentFrame();
+                    }
                     currentAnimation.animation.Stop();
                 }
                 currentAnimation = nextAnimation;
-                currentAnimation.animation.Init();
+                currentAnimation.animation.Init(transitionFrame);
             }
             currentAnimation.animation.Play(spriteBatch);
+        }
+
+        public void AddFrameTransition(string anim1, string anim2)
+        {
+            transitions.Add((anim1, anim2));
+            transitions.Add((anim2, anim1));
         }
 
         public void Update(GameTime gameTime)

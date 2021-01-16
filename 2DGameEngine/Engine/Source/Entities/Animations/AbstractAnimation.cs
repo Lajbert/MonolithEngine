@@ -111,9 +111,20 @@ namespace GameEngine2D.Source.Entities.Animation
             }
         }
 
-        public void Init()
+        public int GetCurrentFrame()
         {
-            CurrentFrame = StartFrame;
+            return CurrentFrame;
+        }
+
+        public void Init(int? startFrame = null)
+        {
+            if (startFrame == null)
+            {
+                CurrentFrame = StartFrame;
+            } else
+            {
+                CurrentFrame = (int)startFrame;
+            }
             Started = true;
         }
 
@@ -121,6 +132,11 @@ namespace GameEngine2D.Source.Entities.Animation
         {
             CurrentFrame = StartFrame;
             Started = false;
+        }
+
+        public void StartPlayingAt(int frame)
+        {
+
         }
     }
 }
