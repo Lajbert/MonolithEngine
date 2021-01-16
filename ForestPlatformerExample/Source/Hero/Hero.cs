@@ -36,38 +36,35 @@ namespace ForestPlatformerExample.Source.Hero
         private void SetupAnimations()
         {
             Animations = new AnimationStateMachine();
+            Animations.Offset = new Vector2(0, -20);
+
             Texture2D spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
             SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 24, 64, 64, 24);
-            Animations.Offset = new Vector2(0, -20);
+            
             Func<bool> isIdleRight = () => CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
             SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, spiteSheet, 3, 10, 24, 64, 64, 24, SpriteEffects.FlipHorizontally);
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isIdleLeft = () => CurrentFaceDirection == GridDirection.LEFT;
             Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
 
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-sheet");
             SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, spiteSheet, 1, 10, 10, 64, 64, 24);
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isRunningRight = () => Direction.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates));
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = new SpriteSheetAnimation(this, spiteSheet, 1, 10, 10, 64, 64, 24, SpriteEffects.FlipHorizontally);
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isRunningLeft = () => Direction.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
             SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 11, 64, 64, 24);
             jumpRight.Looping = false;
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isJumpingRight = () => FallStartedAt > 0f && CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("JumpingRight", jumpRight, isJumpingRight, 2);
 
             SpriteSheetAnimation jumpLeft = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 11, 64, 64, 24, SpriteEffects.FlipHorizontally);
             jumpLeft.Looping = false;
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isJumpingLeft = () => FallStartedAt > 0f && CurrentFaceDirection == GridDirection.LEFT;
             Animations.RegisterAnimation("JumpingLeft", jumpLeft, isJumpingLeft, 2);
 
@@ -75,12 +72,10 @@ namespace ForestPlatformerExample.Source.Hero
 
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@wall-slide-sheet");
             SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, spiteSheet, 1, 6, 6, 64, 64, 12, SpriteEffects.FlipHorizontally);
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isSlidingRight = () => JumpModifier != Vector2.Zero && CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isSlidingRight, 4);
 
             SpriteSheetAnimation wallSlideLeft = new SpriteSheetAnimation(this, spiteSheet, 1, 6, 6, 64, 64, 12);
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isSlidingLeft = () => JumpModifier != Vector2.Zero && CurrentFaceDirection == GridDirection.LEFT;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isSlidingLeft, 4);
 
@@ -89,7 +84,6 @@ namespace ForestPlatformerExample.Source.Hero
             doubleJumpRight.Looping = false;
             doubleJumpRight.StartFrame = 12;
             doubleJumpRight.EndFrame = 16;
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isDoubleJumpingRight = () => doubleJumping && CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("DoubleJumpingRight", doubleJumpRight, isDoubleJumpingRight, 3);
 
@@ -97,7 +91,6 @@ namespace ForestPlatformerExample.Source.Hero
             doubleJumpLeft.Looping = false;
             doubleJumpLeft.StartFrame = 12;
             doubleJumpLeft.EndFrame = 16;
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isDoubleJumpingLeft = () => doubleJumping && CurrentFaceDirection == GridDirection.LEFT;
             Animations.RegisterAnimation("DoubleJumpingLeft", doubleJumpLeft, isDoubleJumpingLeft, 3);
 
@@ -105,7 +98,6 @@ namespace ForestPlatformerExample.Source.Hero
 
             spiteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@climb-sheet");
             SpriteSheetAnimation climb = new SpriteSheetAnimation(this, spiteSheet, 2, 10, 12, 64, 64, 30);
-            Animations.Offset = new Vector2(0, -20);
             Func<bool> isClimbing = () => !HasGravity;
             Func<bool> isHangingOnLadder = () => (Math.Abs(Direction.X) < 0.5f && Math.Abs(Direction.Y) < 0.5f);
             climb.AnimationPauseCondition = isHangingOnLadder;

@@ -30,13 +30,22 @@ namespace ForestPlatformerExample
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
-            Config.GRAVITY_FORCE = 2f;
+            Config.GRAVITY_FORCE = 6f;
             Config.ZOOM = 2f;
             Config.CHARACTER_SPEED = 3f;
+
+            //Config.RES_W = 3840;
+            //Config.RES_W = 2160;
+            //Config.FULLSCREEN = true;
+
             //Config.GRID = 64;
 
             this.IsFixedTimeStep = true;//false;
             this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+
+            // uncapped framerate
+            //graphics.SynchronizeWithVerticalRetrace = false;
+            //this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -53,6 +62,7 @@ namespace ForestPlatformerExample
             spriteBatch = new SpriteBatch(GraphicsDevice);
             graphics.PreferredBackBufferWidth = Config.RES_W;
             graphics.PreferredBackBufferHeight = Config.RES_H;
+            graphics.IsFullScreen = Config.FULLSCREEN;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
             LayerManager.Instance.Camera = Camera;
