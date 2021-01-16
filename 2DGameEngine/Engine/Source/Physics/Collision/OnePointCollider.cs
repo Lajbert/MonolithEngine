@@ -11,14 +11,10 @@ namespace GameEngine2D.Source.Layer
     public class OnePointCollider
     {
         private Dictionary<Vector2, Entity> objects;
-        private float scrollSpeedModifier;
-        private bool lockY;
 
         public OnePointCollider(float scrollSpeedModifier = 1f, bool lockY = false)
         {
-            this.objects = new Dictionary<Vector2, Entity>();
-            this.scrollSpeedModifier = scrollSpeedModifier;
-            this.lockY = lockY;
+            objects = new Dictionary<Vector2, Entity>();
         }
 
         public Entity GetObjectAt(Vector2 position)
@@ -45,13 +41,18 @@ namespace GameEngine2D.Source.Layer
             Entity e = objects[position];
             objects.Remove(position);
             foreach (Entity child in e.GetAllChildren()) {
-                RemoveObject(e.GridCoordinates);
+                RemoveObject(child.GridCoordinates);
             }
         }
 
-        public bool HasColliderAt(Vector2 position)
+        public bool HasObjectAtWithTag(Vector2 gridCoord, string tag)
         {
-            return objects.ContainsKey(position);
+            return objects.ContainsKey(gridCoord) && objects[gridCoord].HasTag(tag);
+        }
+
+        public bool HasBlockingColliderAt(Vector2 gridCoord)
+        {
+            return objects.ContainsKey(gridCoord) && objects[gridCoord].BlocksMovement;
         }
 
         public IEnumerable<Entity> GetAll()

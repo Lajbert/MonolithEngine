@@ -28,6 +28,13 @@ namespace GameEngine2D.Entities
 
         private HashSet<string> tags = new HashSet<string>();
 
+        private List<string> movementBlockerTags = new List<string>()
+        {
+            "Collider",
+            "SlideWall",
+            "Platform"
+        };
+
         protected static OnePointCollider CollisionChecker { get; } = new OnePointCollider();
 
         protected Vector2 StartPosition;
@@ -41,6 +48,8 @@ namespace GameEngine2D.Entities
         public Vector2 Pivot = Vector2.Zero;
 
         public Rectangle SourceRectangle;
+
+        public bool BlocksMovement = false;
 
         public Vector2 Position
         {
@@ -166,11 +175,6 @@ namespace GameEngine2D.Entities
 
         protected virtual void SetRayBlockers()
         {
-            /*rayBlockerLines.Add((Vector2.Zero, new Vector2(0, Config.GRID)));
-            rayBlockerLines.Add((Vector2.Zero, new Vector2(Config.GRID, 0)));
-            rayBlockerLines.Add((new Vector2(Config.GRID, 0), new Vector2(0, Config.GRID)));
-            rayBlockerLines.Add((new Vector2(0, Config.GRID), new Vector2(Config.GRID, Config.GRID)));*/
-
             RayBlockerLines.Add((Position, new Vector2(Position.X, Position.Y + Config.GRID))); //0, 1
             RayBlockerLines.Add((Position, new Vector2(Position.X + Config.GRID, Position.Y))); //1, 0
             RayBlockerLines.Add((new Vector2(Position.X + Config.GRID, Position.Y), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID))); //1
@@ -257,8 +261,6 @@ namespace GameEngine2D.Entities
         {
             if (Sprite != null)
             {
-                //Pivot = new Vector2(SourceRectangle.Width / 2, SourceRectangle.Height / 2);
-                //spriteBatch.Draw(Sprite, (position + DrawOffset) * new Vector2(Config.SCALE, Config.SCALE), SourceRectangle, Color.White, 0f, Pivot, Config.SCALE, SpriteEffects.None, Depth);
                 spriteBatch.Draw(Sprite, (position + DrawOffset) /** new Vector2(Config.SCALE, Config.SCALE)*/, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
             }
         }
@@ -373,7 +375,7 @@ namespace GameEngine2D.Entities
                 //collidesWith[e] = false;
             }
 
-            if (CollisionChecker.HasColliderAt(GridCoordinates))
+            if (CollisionChecker.HasBlockingColliderAt(GridCoordinates))
             {
                 if (!collidesWith.ContainsKey(GetSamePositionCollider()))
                 {
@@ -498,14 +500,14 @@ namespace GameEngine2D.Entities
             {
                 Animations = new AnimationStateMachine();
             }
-            if (destroyAnimation.StartedAction == null)
+            if (destroyAnimation.StartedCallback == null)
             {
-                destroyAnimation.StartedAction = () => RemoveCollisions();
+                destroyAnimation.StartedCallback = () => RemoveCollisions();
                 //destroyAnimation.StoppedAction = () => { };
             }
-            if (destroyAnimation.StoppedAction == null)
+            if (destroyAnimation.StoppedCallback == null)
             {
-                destroyAnimation.StoppedAction = () => Cleanup();
+                destroyAnimation.StoppedCallback = () => Cleanup();
                 //destroyAnimation.StoppedAction = () => { };
             }
             destroyAnimation.Looping = false;
@@ -574,6 +576,10 @@ namespace GameEngine2D.Entities
         public void SetTag(string tag)
         {
             tags.Add(tag);
+            if (movementBlockerTags.Contains(tag))
+            {
+                BlocksMovement = true;
+            }
         }
 
         public bool HasTag(string tag)
@@ -584,6 +590,14 @@ namespace GameEngine2D.Entities
         public void RemoveTag(string tag)
         {
             tags.Remove(tag);
+            foreach (string t in tags)
+            {
+                if (movementBlockerTags.Contains(t))
+                {
+                    return;
+                }
+            }
+            BlocksMovement = false;
         }
     }
 }

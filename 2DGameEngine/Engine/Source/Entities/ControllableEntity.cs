@@ -37,6 +37,8 @@ namespace GameEngine2D
         private float step2;
         private float t;
 
+        protected float MovementSpeed = Config.CHARACTER_SPEED;
+
         protected Vector2 JumpModifier = Vector2.Zero;
 
         public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
@@ -60,20 +62,6 @@ namespace GameEngine2D
             elapsedTime = TimeUtil.GetElapsedTime(gameTime);
 
 
-            /*MouseState mouseState = Mouse.GetState();
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                GridCoordinates = CalculateGridCoord(new Vector2(mouseState.X, mouseState.Y));
-                if (HasCollision && (!CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) &&
-                    !CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) &&
-                    !CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)) &&
-                    !CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))))
-                {
-                    Position = new Vector2(mouseState.X, mouseState.Y);
-                }
-                    
-            }*/
-
 #if GRAPHICS_DEBUG
             spriteBatch.DrawString(font, InCellLocation.X + " : " + InCellLocation.Y, new Vector2(10,10), Color.White);
 #endif
@@ -95,23 +83,41 @@ namespace GameEngine2D
 
             this.gameTime = gameTime;
 
+            if (CollisionChecker.HasObjectAtWithTag(GridCoordinates, "Ladder")) {
+                if (HasGravity)
+                {
+                    MovementSpeed /= 2;
+                    HasGravity = false;
+                }
+                FallStartedAt = 0;
+            } else
+            {
+                if (!HasGravity)
+                {
+                    HasGravity = true;
+                    MovementSpeed = Config.CHARACTER_SPEED;
+                    if (Direction.Y < -0.5) 
+                    {
+                        Direction.Y -= Config.JUMP_FORCE;
+                    }
+                    
+                }
+            }
+
             steps = (float)Math.Ceiling(Math.Abs((Direction.X + bdx) * elapsedTime));
             step = (float)(Direction.X + bdx) * elapsedTime / steps;
             while (steps > 0)
             {
                 InCellLocation.X += step;
 
-                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
-                //if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (/*!HasGravity && */!OnGround() && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
-                //if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && (Scene.Instance.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || (/*!HasGravity && */!Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X + 1, GridCoordinates.Y + 1)))))
+                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 {
                     //Direction.X = 0;
                     //bdx = 0;
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
-                //if (HasCollision && InCellLocation.X <= CollisionOffsetRight && (Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) || (/*!HasGravity && */!Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) && Scene.Instance.HasColliderAt(new Vector2(GridCoordinates.X - 1, GridCoordinates.Y + 1)))))
+                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 {
                     //Direction.X = 0;
                     //bdx = 0;
@@ -133,12 +139,12 @@ namespace GameEngine2D
 
                 float gravityContant = GetGravityConstant();
 
-                if (CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X > 0) {
+                if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X > 0) {
                     gravityContant /= 4;
                     canDoubleJump = true;
                     JumpModifier = new Vector2(-5, -2);
                 } 
-                else if (CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X < 0)
+                else if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X < 0)
                 {
                     gravityContant /= 4;
                     canDoubleJump = true;
@@ -175,7 +181,6 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                //if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && (Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))))
                 if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround())
                 {
                     if (HasGravity)
@@ -187,11 +192,11 @@ namespace GameEngine2D
                     InCellLocation.Y = CollisionOffsetBottom;
                 }
 
-                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
                     if (!CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates)).HasTag("Platform"))
                     {
-                        Direction.Y =
+                        Direction.Y = 0;
                         InCellLocation.Y = CollisionOffsetTop;
                     }
                 }
@@ -220,7 +225,7 @@ namespace GameEngine2D
 
         private bool OnGround()
         {
-            return CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
+            return CollisionChecker.HasBlockingColliderAt(GridUtil.GetBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
             //return Scene.Instance.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) || Scene.Instance.HasColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates))/* && InCellLocation.Y == 1 && Direction.Y >= 0*/;
         }
 
