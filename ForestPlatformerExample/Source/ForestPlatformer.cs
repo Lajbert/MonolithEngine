@@ -30,7 +30,7 @@ namespace ForestPlatformerExample
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
-            Config.GRAVITY_FORCE = 6f;
+            Config.GRAVITY_FORCE = 10f;
             Config.ZOOM = 2f;
             Config.CHARACTER_SPEED = 3f;
 
@@ -89,7 +89,7 @@ namespace ForestPlatformerExample
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic here
             LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
@@ -100,6 +100,7 @@ namespace ForestPlatformerExample
 
         protected override void Draw(GameTime gameTime)
         {
+            //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             LayerManager.Instance.DrawAll(gameTime);

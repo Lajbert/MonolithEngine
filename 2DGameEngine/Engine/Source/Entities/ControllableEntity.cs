@@ -85,9 +85,10 @@ namespace GameEngine2D
 
             this.gameTime = gameTime;
 
-            if (CollisionChecker.HasObjectAtWithTag(GridCoordinates, "Ladder")) {
+            if (CollisionChecker.HasObjectAtWithTag(GridCoordinates, "Ladder") && !OnGround()) {
                 if (HasGravity)
                 {
+                    Direction.Y = 0;
                     MovementSpeed /= 2;
                     HasGravity = false;
                 }
@@ -100,7 +101,7 @@ namespace GameEngine2D
                     MovementSpeed = Config.CHARACTER_SPEED;
                     if (Direction.Y < -0.5) 
                     {
-                        Direction.Y -= Config.JUMP_FORCE;
+                        Direction.Y -= Config.JUMP_FORCE / 2;
                     }
                     
                 }
@@ -132,6 +133,8 @@ namespace GameEngine2D
             }
             Direction.X *= (float)Math.Pow(Config.FRICTION, elapsedTime);
             bdx *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
+
+            //rounding stuff
             if (Math.Abs(Direction.X) <= 0.0005 * elapsedTime) Direction.X = 0;
             if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
 
@@ -140,29 +143,35 @@ namespace GameEngine2D
             {
 
                 GravityValue = Config.GRAVITY_FORCE;
+                JumpModifier = Vector2.Zero;
 
-                if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X > 0.5) {
+                if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) 
+                    && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall")
+                    && InCellLocation.X >= CollisionOffsetLeft /* && Direction.X > 0.5*/) {
                     GravityValue /= 4;
                     canDoubleJump = true;
-                    JumpModifier = new Vector2(-5, -2);
+                    JumpModifier = new Vector2(-5, 0);
                 } 
-                else if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X < -0.5)
+                else if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) 
+                    && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall")
+                    && InCellLocation.X <= CollisionOffsetRight /* && Direction.X < -0.5*/)
                 {
                     GravityValue /= 4;
                     canDoubleJump = true;
-                    JumpModifier = new Vector2(5, -2);
+                    JumpModifier = new Vector2(5, 0);
                 } 
                 else
                 {
                     JumpModifier = Vector2.Zero;
-                    if (FallStartedAt == 0)
-                    {
-                        FallStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
-                        canDoubleJump = true;
-                    }
                 }
 
-                
+                if (FallStartedAt == 0)
+                {
+                    FallStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
+                    canDoubleJump = true;
+                }
+
+
                 t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
                 Direction.Y += GravityValue * t/* * elapsedTime*/;
                 canJump = false;
@@ -209,6 +218,7 @@ namespace GameEngine2D
             }
             Direction.Y *= (float)Math.Pow(Config.FRICTION, elapsedTime);
             bdy *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
+            //rounding stuff
             if (Math.Abs(Direction.Y) <= 0.0005 * elapsedTime) Direction.Y = 0;
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
             base.Update(gameTime);

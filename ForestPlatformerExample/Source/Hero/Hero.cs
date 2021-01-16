@@ -19,7 +19,7 @@ namespace ForestPlatformerExample.Source.Hero
     class Hero : ControllableEntity
     {
 
-        private readonly float JUMP_RATE = 0.5f;
+        private readonly float JUMP_RATE = 0.2f;
         private static double lastJump = 0f;
         private bool doubleJumping = false;
 
@@ -116,7 +116,7 @@ namespace ForestPlatformerExample.Source.Hero
             Animations.AddFrameTransition("FallingRight", "FallingLeft");
 
             CollisionOffsetRight = 0.5f;
-            CollisionOffsetLeft = 0.2f;
+            CollisionOffsetLeft = 0f;
             CollisionOffsetBottom = 0f;
             CollisionOffsetTop = 0.5f;
 
