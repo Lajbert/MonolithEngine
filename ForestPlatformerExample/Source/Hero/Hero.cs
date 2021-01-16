@@ -174,6 +174,9 @@ namespace ForestPlatformerExample.Source.Hero
             UserInput.RegisterControllerState(Keys.Down, () => {
                 if (HasGravity)
                 {
+                    if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetBelowGrid(GridCoordinates), "Platform") && CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement) {
+                        CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement = false;
+                    }
                     return;
                 }
                 Direction.Y += MovementSpeed * elapsedTime;
@@ -202,6 +205,14 @@ namespace ForestPlatformerExample.Source.Hero
                 doubleJumping = false;
             }
             base.Update(gameTime);
+        }
+
+        protected override void OnCollisionEnd(Entity otherCollider)
+        {
+            if (otherCollider.HasTag("Platform") && !otherCollider.BlocksMovement)
+            {
+                otherCollider.BlocksMovement = true;
+            }
         }
     }
 }

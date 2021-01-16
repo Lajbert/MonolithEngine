@@ -99,7 +99,6 @@ namespace GameEngine2D.Entities
 
         public SoundEffect DestroySound;
 
-        protected HashSet<GridDirection> SinglePointCollisionChecks = new HashSet<GridDirection>();
         public bool BlocksRay {
             get => blocksRay;
             set
@@ -362,11 +361,6 @@ namespace GameEngine2D.Entities
         private void CheckCollisions()
         {
 
-            if (SinglePointCollisionChecks.Count == 0)
-            {
-                return;
-            }
-
             GridCoordinates = CalculateGridCoord();
 
             foreach (Entity e in new List<Entity>(collidesWith.Keys))
@@ -375,7 +369,7 @@ namespace GameEngine2D.Entities
                 //collidesWith[e] = false;
             }
 
-            if (CollisionChecker.HasBlockingColliderAt(GridCoordinates))
+            if (CollisionChecker.HasColliderAt(GridCoordinates))
             {
                 if (!collidesWith.ContainsKey(GetSamePositionCollider()))
                 {

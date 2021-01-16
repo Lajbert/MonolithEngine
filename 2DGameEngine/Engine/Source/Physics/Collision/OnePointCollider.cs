@@ -50,6 +50,11 @@ namespace GameEngine2D.Source.Layer
             return objects.ContainsKey(gridCoord) && objects[gridCoord].HasTag(tag);
         }
 
+        public bool HasColliderAt(Vector2 gridCoord)
+        {
+            return objects.ContainsKey(gridCoord);
+        }
+
         public bool HasBlockingColliderAt(Vector2 gridCoord)
         {
             return objects.ContainsKey(gridCoord) && objects[gridCoord].BlocksMovement;
