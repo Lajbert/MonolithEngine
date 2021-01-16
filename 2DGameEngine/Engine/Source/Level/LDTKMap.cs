@@ -83,6 +83,14 @@ namespace GameEngine2D.Source.Level
                             int y = (int)Math.Floor((decimal)dict["coordId"] / layerInstance.CWid);
                             int x = (int)(dict["coordId"] - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
+                            if (dict["v"] == 1)
+                            {
+                                e.SetTag("SlideWall");
+                            }
+                            else if (dict["v"] == 2)
+                            {
+                                e.SetTag("Platform");
+                            }
                             e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
                             e.Visible = false;
                         }

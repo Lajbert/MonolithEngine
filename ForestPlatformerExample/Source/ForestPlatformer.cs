@@ -30,7 +30,7 @@ namespace ForestPlatformerExample
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
-            Config.GRAVITY_FORCE = 2f;
+            Config.GRAVITY_FORCE = 12f;
             Config.ZOOM = 2f;
             Config.CHARACTER_SPEED = 3f;
             //Config.GRID = 64;

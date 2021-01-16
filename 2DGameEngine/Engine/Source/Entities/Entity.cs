@@ -26,6 +26,8 @@ namespace GameEngine2D.Entities
 
         private readonly string DESTROY_AMINATION = "Destroy";
 
+        private HashSet<string> tags = new HashSet<string>();
+
         protected static OnePointCollider CollisionChecker { get; } = new OnePointCollider();
 
         protected Vector2 StartPosition;
@@ -88,7 +90,7 @@ namespace GameEngine2D.Entities
 
         public SoundEffect DestroySound;
 
-        protected HashSet<Direction> SinglePointCollisionChecks = new HashSet<Direction>();
+        protected HashSet<GridDirection> SinglePointCollisionChecks = new HashSet<GridDirection>();
         public bool BlocksRay {
             get => blocksRay;
             set
@@ -567,6 +569,21 @@ namespace GameEngine2D.Entities
                 SetRayBlockers();
             }
             return RayBlockerLines;
+        }
+
+        public void SetTag(string tag)
+        {
+            tags.Add(tag);
+        }
+
+        public bool HasTag(string tag)
+        {
+            return tags.Contains(tag);
+        }
+
+        public void RemoveTag(string tag)
+        {
+            tags.Remove(tag);
         }
     }
 }

@@ -36,13 +36,16 @@ namespace GameEngine2D
         private float steps2;
         private float step2;
         private float t;
+
+        protected Vector2 JumpModifier = Vector2.Zero;
+
         public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
 
-        public float JumpStartedAt { get; set; }
+        public float FallStartedAt { get; set; }
 
         protected GameTime gameTime;
 
-        protected Direction CurrentFaceDirection { get; set; } = Engine.Source.Entities.Direction.RIGHT;
+        protected GridDirection CurrentFaceDirection { get; set; } = Engine.Source.Entities.GridDirection.RIGHT;
 
         public ControllableEntity(Layer2D layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
         {
@@ -125,15 +128,35 @@ namespace GameEngine2D
             if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
 
             // Y
-            if (HasGravity && !OnGround())
-            {   
-                if (JumpStartedAt == 0)
-                {
-                    JumpStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
+            if (HasCollision && HasGravity && !OnGround())
+            {
+
+                float gravityContant = GetGravityConstant();
+
+                if (CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X > 0) {
+                    gravityContant /= 4;
                     canDoubleJump = true;
+                    JumpModifier = new Vector2(-5, -2);
+                } 
+                else if (CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall") && Direction.X < 0)
+                {
+                    gravityContant /= 4;
+                    canDoubleJump = true;
+                    JumpModifier = new Vector2(5, -2);
+                } 
+                else
+                {
+                    JumpModifier = Vector2.Zero;
+                    if (FallStartedAt == 0)
+                    {
+                        FallStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
+                        canDoubleJump = true;
+                    }
                 }
-                t = (float)(gameTime.TotalGameTime.TotalSeconds - JumpStartedAt) * Config.GRAVITY_T_MULTIPLIER;
-                Direction.Y += GetGravityConstant() * t/* * elapsedTime*/;
+
+                
+                t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
+                Direction.Y += gravityContant * t/* * elapsedTime*/;
                 canJump = false;
                 
             }
@@ -142,7 +165,8 @@ namespace GameEngine2D
             {
                 canJump = true;
                 canDoubleJump = false;
-                JumpStartedAt = 0;
+                FallStartedAt = 0;
+                JumpModifier = Vector2.Zero;
             }
 
             steps2 = (float)Math.Ceiling(Math.Abs((Direction.Y + bdy) * elapsedTime));
@@ -200,7 +224,7 @@ namespace GameEngine2D
         {
             InCellLocation = Vector2.Zero;
             this.Position = StartPosition = position;
-            this.JumpStartedAt = 0;
+            this.FallStartedAt = 0;
         }
     }
 }
