@@ -14,15 +14,17 @@ namespace ForestPlatformerExample.Source.Items
     {
         public Coin(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, null, true)
         {
+            //DEBUG_SHOW_PIVOT = true;
+
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(10, 5);
+            Animations.Offset = new Vector2(4, 3);
+
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/coin-pickup");
             SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, spriteSheet, 5, 5, 24, 32, 32, 24);
             Animations.RegisterAnimation("IdleRight", coinAnim);
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/pickup-effect");
             SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, spriteSheet, 2, 2, 6, 32, 32, 24);
-
             SetDestroyAnimation(pickupAnim);
         }
     }

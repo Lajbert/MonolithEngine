@@ -80,8 +80,8 @@ namespace GameEngine2D.Entities
 
         public bool HasCollision {
             get => hasCollisions;
-            set { 
-                hasCollisions = value; 
+            set {
+                hasCollisions = value;
                 if (value)
                 {
                     CollisionChecker.AddObject(this);
@@ -143,6 +143,8 @@ namespace GameEngine2D.Entities
 
         public float Depth = 0f;
 
+        public bool DEBUG_SHOW_PIVOT = false;
+
         //public static ResolutionIndependentRenderer ResolutionIndependentRenderer;
         //public static Camera2D Camera2D;
 
@@ -168,9 +170,10 @@ namespace GameEngine2D.Entities
 
 #if GRAPHICS_DEBUG
             this.font = font;
-            pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
+            //pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
 #endif
         }
+
 
         protected virtual void SetRayBlockers()
         {
@@ -233,8 +236,15 @@ namespace GameEngine2D.Entities
                 }
 
             }
-            spriteBatch.Draw(pivotMarker, position, Color.White);
 #endif
+            if (DEBUG_SHOW_PIVOT)
+            {
+                if (pivotMarker == null)
+                {
+                    pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
+                }
+                spriteBatch.Draw(pivotMarker, position, Color.White);
+            }
 
             foreach (Interfaces.IDrawable child in drawables)
             {
