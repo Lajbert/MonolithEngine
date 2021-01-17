@@ -31,6 +31,11 @@ namespace ForestPlatformerExample.Source.Hero
 
             SetupController();
 
+            foreach (GridDirection direction in new List<GridDirection>() { GridDirection.UP, GridDirection.DOWN, GridDirection.LEFT, GridDirection.RIGHT })
+            {
+                CollisionCheckDirections.Add(direction);
+            }
+
         }
 
         private void SetupAnimations()
@@ -143,10 +148,8 @@ namespace ForestPlatformerExample.Source.Hero
                 {
                     return;
                 }
-                Logger.Log("Invoking jump");
                 if (canJump)
                 {
-                    Logger.Log("Normal jump");
                     canDoubleJump = true;
                     canJump = false;
                 }
@@ -156,12 +159,11 @@ namespace ForestPlatformerExample.Source.Hero
                     {
                         return;
                     }
-                    Logger.Log("Double jump");
                     lastJump = 0f;
                     canDoubleJump = false;
                     doubleJumping = true;
                 }
-                Logger.Log("Jump happening");
+
                 Direction.Y -= Config.JUMP_FORCE + JumpModifier.Y;
                 Direction.X += JumpModifier.X;
                 if (JumpModifier.X < 0)

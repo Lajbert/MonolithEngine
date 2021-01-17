@@ -81,7 +81,7 @@ namespace GameEngine2D.Entities
 
         private Entity parent;
 
-        private bool hasCollisions;
+        private bool hasCollisions = false;
 
         public bool HasCollision {
             get => hasCollisions;
@@ -103,6 +103,8 @@ namespace GameEngine2D.Entities
         private bool blocksRay = false;
 
         public SoundEffect DestroySound;
+
+        protected HashSet<GridDirection> CollisionCheckDirections = new HashSet<GridDirection>();
 
         public bool BlocksRay {
             get => blocksRay;
@@ -376,15 +378,19 @@ namespace GameEngine2D.Entities
         private void CheckCollisions()
         {
 
+            if (CollisionCheckDirections.Count == 0)
+            {
+                return;
+            }
+
             GridCoordinates = CalculateGridCoord();
 
             foreach (Entity e in new List<Entity>(collidesWith.Keys))
             {
                 collidesWith[e] = false;
-                //collidesWith[e] = false;
             }
 
-            if (CollisionChecker.HasColliderAt(GridCoordinates))
+            if (CollisionCheckDirections.Contains(GridDirection.CENTER) && CollisionChecker.HasColliderAt(GridCoordinates))
             {
                 if (!collidesWith.ContainsKey(GetSamePositionCollider()))
                 {
@@ -397,7 +403,7 @@ namespace GameEngine2D.Entities
                 }
             }
 
-            if (CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+            if (CollisionCheckDirections.Contains(GridDirection.LEFT) && CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
             {
                 if (InCellLocation.X <= CollisionOffsetRight)
                 {
@@ -414,7 +420,7 @@ namespace GameEngine2D.Entities
 
             }
 
-            if (CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+            if (CollisionCheckDirections.Contains(GridDirection.RIGHT) && CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
             {
                 if (InCellLocation.X >= CollisionOffsetLeft)
                 {
@@ -431,7 +437,7 @@ namespace GameEngine2D.Entities
                 
             }
 
-            if (CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
+            if (CollisionCheckDirections.Contains(GridDirection.DOWN) && CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
             {
                 if (InCellLocation.Y >= CollisionOffsetBottom)
                 {
@@ -447,7 +453,7 @@ namespace GameEngine2D.Entities
                 }
             }
 
-            if (CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+            if (CollisionCheckDirections.Contains(GridDirection.UP) && CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
             {
                 if (InCellLocation.Y < CollisionOffsetTop)
                 {

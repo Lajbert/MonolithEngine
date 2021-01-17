@@ -20,10 +20,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightsExample", "LightsExam
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForestPlatformerExample", "ForestPlatformerExample\ForestPlatformerExample.csproj", "{FCB53008-141A-414D-A271-391F863FE58B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForestPlatformerExample", "ForestPlatformerExample\ForestPlatformerExample.csproj", "{FCB53008-141A-414D-A271-391F863FE58B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{9C5147AC-A7D5-4F33-B1E2-89F1431B47B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{FCB53008-141A-414D-A271-391F863FE58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCB53008-141A-414D-A271-391F863FE58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCB53008-141A-414D-A271-391F863FE58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C5147AC-A7D5-4F33-B1E2-89F1431B47B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C5147AC-A7D5-4F33-B1E2-89F1431B47B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C5147AC-A7D5-4F33-B1E2-89F1431B47B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C5147AC-A7D5-4F33-B1E2-89F1431B47B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

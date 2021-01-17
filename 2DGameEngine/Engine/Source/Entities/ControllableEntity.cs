@@ -167,7 +167,7 @@ namespace GameEngine2D
 
 
                 t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
-                Direction.Y += GravityValue * t/* * elapsedTime*/;
+                Direction.Y += GravityValue * t * elapsedTime;
                 canJump = false;
                 
             }

@@ -6,6 +6,7 @@ using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
 using GameEngine2D.Source.Layer;
 using GameEngine2D.Source.Level;
+using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -36,18 +37,18 @@ namespace ForestPlatformerExample
             Config.CHARACTER_SPEED = 3f;
             Config.JUMP_FORCE = 6f;
 
-            //Config.RES_W = 3840;
-            //Config.RES_W = 2160;
-            //Config.FULLSCREEN = true;
+            Config.RES_W = 3840;
+            Config.RES_W = 2160;
+            Config.FULLSCREEN = true;
 
             //Config.GRID = 64;
 
-            this.IsFixedTimeStep = true;//false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+            //this.IsFixedTimeStep = true;//false;
+            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             // uncapped framerate
-            //graphics.SynchronizeWithVerticalRetrace = false;
-            //this.IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -72,13 +73,15 @@ namespace ForestPlatformerExample
 
             font = Content.Load<SpriteFont>("DefaultFont");
 
+            LoadLevel();
+
             hero = new Hero(new Vector2(300, 300), font);
             Camera.TrackTarget(hero, true);
             // TODO: use this.Content to load your game content here
 
             frameCounter = new FrameCounter();
 
-            LoadLevel();
+            Logger.Log("Object count: " + GameObject.GetObjectCount());
         }
 
         private void LoadLevel()
