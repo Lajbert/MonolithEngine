@@ -72,10 +72,9 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
             Scale = new Vector2(length, thickness);
         }
 
-        protected override void DrawSprite(SpriteBatch spriteBatch, Vector2 position)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            //base.DrawSprite(position);
-            spriteBatch.Draw(Sprite, position, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(Sprite, DrawPosition, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
         }
 
         protected override void SetRayBlockers()

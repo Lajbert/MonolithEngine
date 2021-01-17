@@ -95,7 +95,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-        protected Layer2D Layer { get; set; }
+        protected Layer Layer { get; set; }
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
 
         private bool blocksRay = false;
@@ -153,7 +153,9 @@ namespace GameEngine2D.Entities
         //public static ResolutionIndependentRenderer ResolutionIndependentRenderer;
         //public static Camera2D Camera2D;
 
-        public Entity(Layer2D layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, bool collider = false, SpriteFont font = null)
+        protected Vector2 DrawPosition;
+
+        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, bool collider = false, SpriteFont font = null)
         {
             this.Layer = layer;
             GridCoordinates = CalculateGridCoord(startPosition);
@@ -169,6 +171,17 @@ namespace GameEngine2D.Entities
                 layer.AddRootObject(this);
                 this.StartPosition = this.Position = startPosition;
             }
+
+            if (parent != null)
+            {
+                DrawPosition = StartPosition + parent.GetPositionWithParent();
+            }
+            else
+            {
+
+                DrawPosition = Position;
+            }
+
             //this.startPosition = this.currentPosition = startPosition;
 
 #if GRAPHICS_DEBUG
@@ -189,43 +202,34 @@ namespace GameEngine2D.Entities
         public virtual void PreDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
-            if (!Visible)
-            {
-                return;
-            }
-
             foreach (Entity child in children)
             {
                 child.PreDraw(spriteBatch, gameTime);
             }
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void _Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-
-            if(!Visible)
-            {
-                return;
-            }
-
-            Vector2 position;
-            if (parent != null)
-            {
-                position = StartPosition + parent.GetPositionWithParent();
-            } else
-            {
-                
-                position = Position;
-            }
 
             if (Sprite != null)
             {
-                DrawSprite(spriteBatch, position);
+                spriteBatch.Draw(Sprite, (position) /** new Vector2(Config.SCALE, Config.SCALE)*/, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
+            }
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+
+            if (Sprite != null)
+            {
+                //DrawSprite(spriteBatch, drawPosition);
+                spriteBatch.Draw(Sprite, (position + DrawOffset) /** new Vector2(Config.SCALE, Config.SCALE)*/, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
             }
             else if (Animations != null)
             {
                 Animations.Draw(spriteBatch, gameTime);
             }
+            /*
 #if GRAPHICS_DEBUG
             if (font != null)
             {
@@ -239,41 +243,32 @@ namespace GameEngine2D.Entities
                 }
 
             }
-#endif
-            if (DEBUG_SHOW_PIVOT)
+#endif*/
+            /*if (DEBUG_SHOW_PIVOT)
             {
                 if (pivotMarker == null)
                 {
                     pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
                 }
-                spriteBatch.Draw(pivotMarker, position, Color.White);
-            }
-
-            foreach (Entity child in children)
+                spriteBatch.Draw(pivotMarker, drawPosition, Color.White);
+            }*/
+            /*
+            if (children.Count > 0)
             {
-                child.Draw(spriteBatch, gameTime);
+                foreach (Entity child in children)
+                {
+                    child.Draw(spriteBatch, gameTime);
+                }
             }
+            */
         }
 
         public virtual void PostDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
-            if (!Visible)
-            {
-                return;
-            }
-
             foreach (Entity child in children)
             {
                 child.PostDraw(spriteBatch, gameTime);
-            }
-        }
-
-        protected virtual void DrawSprite(SpriteBatch spriteBatch, Vector2 position)
-        {
-            if (Sprite != null)
-            {
-                spriteBatch.Draw(Sprite, (position + DrawOffset) /** new Vector2(Config.SCALE, Config.SCALE)*/, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
             }
         }
 
@@ -320,11 +315,6 @@ namespace GameEngine2D.Entities
         public virtual void PreUpdate(GameTime gameTime)
         {
 
-            if (!Active)
-            {
-                return;
-            }
-
             CheckCollisions();
 
             foreach (Entity child in children)
@@ -336,10 +326,16 @@ namespace GameEngine2D.Entities
         public virtual void Update(GameTime gameTime)
         {
 
-            if (!Active)
+            if (parent != null)
             {
-                return;
+                DrawPosition = StartPosition + parent.GetPositionWithParent() + DrawOffset;
             }
+            else
+            {
+
+                DrawPosition = Position + DrawOffset;
+            }
+
 
             if (Animations != null)
             {
@@ -354,11 +350,6 @@ namespace GameEngine2D.Entities
 
         public virtual void PostUpdate(GameTime gameTime)
         {
-
-            if (!Active)
-            {
-                return;
-            }
 
             if (RayEmitter != null)
             {
@@ -509,7 +500,7 @@ namespace GameEngine2D.Entities
 
         public override void Destroy()
         {
-            //Visible = false;
+
             if (DestroySound != null)
             {
                 DestroySound.Play();

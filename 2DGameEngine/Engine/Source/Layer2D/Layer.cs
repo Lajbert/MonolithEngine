@@ -11,11 +11,14 @@ using System.Text;
 
 namespace GameEngine2D.Source.Layer
 {
-    public class Layer2D
+    public class Layer
     {
-        private List<Entity> rootObjects = new List<Entity>();
+        private List<Entity> activeObjects = new List<Entity>();
+        private List<Entity> visibleObjects = new List<Entity>();
+
         private List<Entity> newObjects = new List<Entity>();
         private List<Entity> removedObjects = new List<Entity>();
+
         private float scrollSpeedModifier;
         private bool lockY;
         private bool ySorting = false;
@@ -29,7 +32,7 @@ namespace GameEngine2D.Source.Layer
 
         private Camera camera;
 
-        internal Layer2D(Camera camera, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
+        internal Layer(Camera camera, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
         {
             if (camera == null)
             {
@@ -55,7 +58,7 @@ namespace GameEngine2D.Source.Layer
 
         public IEnumerable<Entity> GetAll()
         {
-            return rootObjects;
+            return activeObjects;
         }
 
         public void RemoveRoot(Entity gameObject)
@@ -67,12 +70,12 @@ namespace GameEngine2D.Source.Layer
         {
             if (ySorting)
             {
-                rootObjects.Sort((a, b) => a.Position.Y.CompareTo(b.Position.Y));
+                activeObjects.Sort((a, b) => a.Position.Y.CompareTo(b.Position.Y));
             }
             
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix(scrollSpeedModifier, lockY));
 
-            foreach (Entity entity in rootObjects)
+            foreach (Entity entity in visibleObjects)
             {
                 entity.PreDraw(spriteBatch, gameTime);
                 entity.Draw(spriteBatch, gameTime);
@@ -81,14 +84,32 @@ namespace GameEngine2D.Source.Layer
             spriteBatch.End();
             if (newObjects.Count > 0)
             {
-                rootObjects.AddRange(newObjects);
+                foreach (Entity e in newObjects)
+                {
+                    if (e.Visible)
+                    {
+                        visibleObjects.Add(e);
+                    }
+                    if (e.Active)
+                    {
+                        activeObjects.Add(e);
+                    }
+                }
                 newObjects.Clear();
             }
             if (removedObjects.Count > 0)
             {
                 foreach (Entity toRemove in removedObjects)
                 {
-                    rootObjects.Remove(toRemove);
+                    if (toRemove.Active)
+                    {
+                        activeObjects.Remove(toRemove);
+                    }
+
+                    if (toRemove.Visible)
+                    {
+                        visibleObjects.Remove(toRemove);
+                    }
                 }
                 removedObjects.Clear();
             }
@@ -96,7 +117,7 @@ namespace GameEngine2D.Source.Layer
 
         public void UpdateAll(GameTime gameTime)
         {
-            foreach (Entity entity in rootObjects)
+            foreach (Entity entity in activeObjects)
             {
                 entity.PreUpdate(gameTime);
                 entity.Update(gameTime);
@@ -104,14 +125,32 @@ namespace GameEngine2D.Source.Layer
             }
             if (newObjects.Count > 0)
             {
-                rootObjects.AddRange(newObjects);
+                foreach (Entity e in newObjects)
+                {
+                    if (e.Visible)
+                    {
+                        visibleObjects.Add(e);
+                    }
+                    if (e.Active)
+                    {
+                        activeObjects.Add(e);
+                    }
+                }
                 newObjects.Clear();
             }
             if (removedObjects.Count > 0)
             {
                 foreach (Entity toRemove in removedObjects)
                 {
-                    rootObjects.Remove(toRemove);
+                    if (toRemove.Active)
+                    {
+                        activeObjects.Remove(toRemove);
+                    }
+
+                    if (toRemove.Visible)
+                    {
+                        visibleObjects.Remove(toRemove);
+                    }
                 }
                 removedObjects.Clear();
             }
@@ -119,7 +158,7 @@ namespace GameEngine2D.Source.Layer
 
         public void Destroy()
         {
-            foreach (Entity entity in rootObjects)
+            foreach (Entity entity in activeObjects)
             {
                 entity.Destroy();
             }

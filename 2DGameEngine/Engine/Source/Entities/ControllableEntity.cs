@@ -45,7 +45,7 @@ namespace GameEngine2D
 
         protected GridDirection CurrentFaceDirection { get; set; } = Engine.Source.Entities.GridDirection.RIGHT;
 
-        public ControllableEntity(Layer2D layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
+        public ControllableEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
         {
             Active = true;
             ResetPosition(startPosition);

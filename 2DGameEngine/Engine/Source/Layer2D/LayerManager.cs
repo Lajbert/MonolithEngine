@@ -12,17 +12,17 @@ namespace GameEngine2D.Entities
 {
     public class LayerManager : GameObject
     {
-        private List<Layer2D> parallaxLayers = new List<Layer2D>();
+        private List<Layer> parallaxLayers = new List<Layer>();
 
-        List<List<Layer2D>> allLayers = new List<List<Layer2D>>();
+        List<List<Layer>> allLayers = new List<List<Layer>>();
 
-        public Layer2D EntityLayer;
+        public Layer EntityLayer;
 
-        public Layer2D RayBlockersLayer;
+        public Layer RayBlockersLayer;
 
-        private List<Layer2D> foregroundLayers = new List<Layer2D>();
+        private List<Layer> foregroundLayers = new List<Layer>();
 
-        private List<Layer2D> backgroundLayers = new List<Layer2D>();
+        private List<Layer> backgroundLayers = new List<Layer>();
 
         public Camera Camera;
 
@@ -42,13 +42,13 @@ namespace GameEngine2D.Entities
             {
                 throw new Exception("Root already initialized!");
             }
-            EntityLayer = new Layer2D(Camera, 10);
-            RayBlockersLayer = new Layer2D(Camera);
+            EntityLayer = new Layer(Camera, 10);
+            RayBlockersLayer = new Layer(Camera);
 
             allLayers.Add(parallaxLayers);
             allLayers.Add(backgroundLayers);
             allLayers.Add(
-                new List<Layer2D>()
+                new List<Layer>()
                     {
                         EntityLayer,
                         RayBlockersLayer
@@ -67,9 +67,9 @@ namespace GameEngine2D.Entities
 
         public override void Destroy()
         {
-            foreach (List<Layer2D> layers in allLayers)
+            foreach (List<Layer> layers in allLayers)
             {
-                foreach (Layer2D l in layers)
+                foreach (Layer l in layers)
                 {
                     l.Destroy();
                 }
@@ -78,9 +78,9 @@ namespace GameEngine2D.Entities
 
         public void DrawAll(GameTime gameTime)
         {
-            foreach (List<Layer2D> layers in allLayers)
+            foreach (List<Layer> layers in allLayers)
             {
-                foreach (Layer2D l in layers)
+                foreach (Layer l in layers)
                 {
                     l.DrawAll(gameTime);
                 }
@@ -89,37 +89,37 @@ namespace GameEngine2D.Entities
 
         public void UpdateAll(GameTime gameTime)
         {
-            foreach (List<Layer2D> layers in allLayers)
+            foreach (List<Layer> layers in allLayers)
             {
-                foreach (Layer2D l in layers)
+                foreach (Layer l in layers)
                 {
                     l.UpdateAll(gameTime);
                 }
             }
         }
 
-        public Layer2D CreateForegroundLayer(int priority = 0)
+        public Layer CreateForegroundLayer(int priority = 0)
         {
-            Layer2D l = new Layer2D(Camera, priority, false);
+            Layer l = new Layer(Camera, priority, false);
             AddLayer(foregroundLayers, l);
             return l;
         }
 
-        public Layer2D CreateBackgroundLayer(int priority = 0)
+        public Layer CreateBackgroundLayer(int priority = 0)
         {
-            Layer2D l = new Layer2D(Camera, priority, false);
+            Layer l = new Layer(Camera, priority, false);
             AddLayer(backgroundLayers, l);
             return l;
         }
 
-        public Layer2D CreateParallaxLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
+        public Layer CreateParallaxLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
         {
-            Layer2D l = new Layer2D(Camera, priority, false, scrollSpeedMultiplier, lockY);
+            Layer l = new Layer(Camera, priority, false, scrollSpeedMultiplier, lockY);
             AddLayer(parallaxLayers, l);
             return l;
         }
 
-        private void AddLayer(List<Layer2D> layer, Layer2D newLayer)
+        private void AddLayer(List<Layer> layer, Layer newLayer)
         {
             layer.Add(newLayer);
             layer.Sort((a, b) => a.Priority.CompareTo(b.Priority));

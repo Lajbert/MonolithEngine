@@ -27,13 +27,10 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
             this.offset = new Vector2(radius, radius) / 2;
         }
 
-        protected override void DrawSprite(SpriteBatch spriteBatch, Vector2 position)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            //base.DrawSprite(position);
-            if (Visible)
-            {
-                spriteBatch.Draw(Sprite, position - offset, null, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-            }
+            DrawPosition -= offset;
+            base.Draw(spriteBatch, gameTime);
         }
     }
 }

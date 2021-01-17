@@ -56,7 +56,7 @@ namespace ForestPlatformerExample
             // TODO: Add your initialization logic here
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
-            Layer2D.GraphicsDeviceManager = graphics;
+            Layer.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 

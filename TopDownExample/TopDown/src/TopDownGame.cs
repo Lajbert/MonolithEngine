@@ -71,7 +71,7 @@ namespace TopDownExample
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Layer2D.GraphicsDeviceManager = graphics;
+            Layer.GraphicsDeviceManager = graphics;
             base.Initialize();
         }
 

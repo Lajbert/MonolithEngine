@@ -56,7 +56,7 @@ namespace GameEngine2D.Source.Level
                     }
 
                     string layerName = layerInstance.Identifier;
-                    Layer2D currentLayer = null;
+                    Layer.Layer currentLayer = null;
                     Texture2D tileSet = null;
                     if (layerName.StartsWith(COLLIDERS))
                     {
@@ -116,7 +116,7 @@ namespace GameEngine2D.Source.Level
                         foreach (TileInstance tile in layerInstance.GridTiles)
                         {
                             //Logger.Log("Tile: " + tile.);
-                            //if (layerInstance.Identifier.StartsWith(PARALLAX)) continue;
+                            //if (layerInstance.Identifier.StartsWith(PARALLAX) || layerInstance.Identifier.StartsWith(BACKGROUND)) continue;
                             
                             long tileId = tile.T;
                             int atlasGridBaseWidth = (int)layerInstance.GridSize;
