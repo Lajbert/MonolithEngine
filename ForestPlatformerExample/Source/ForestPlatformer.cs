@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Hero;
+using ForestPlatformerExample.Source.Items;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -33,6 +34,7 @@ namespace ForestPlatformerExample
             Config.GRAVITY_FORCE = 10f;
             Config.ZOOM = 2f;
             Config.CHARACTER_SPEED = 3f;
+            Config.JUMP_FORCE = 6f;
 
             //Config.RES_W = 3840;
             //Config.RES_W = 2160;
@@ -83,6 +85,13 @@ namespace ForestPlatformerExample
         {
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
             LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
+            foreach ((string, Vector2) entity in map.entities)
+            {
+                if (entity.Item1.Equals("Coin"))
+                {
+                    new Coin(entity.Item2);
+                }
+            }
         }
 
         protected override void Update(GameTime gameTime)

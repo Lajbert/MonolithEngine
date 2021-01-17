@@ -192,7 +192,7 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround())
+                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Direction.Y > 0)
                 {
                     if (HasGravity)
                     {

@@ -23,11 +23,14 @@ namespace GameEngine2D.Source.Level
         private readonly string PARALLAX = "Parallax";
         private readonly string COLLIDERS = "Colliders";
         private readonly string ENTITIES = "Entities";
+        private readonly string COIN = "Coin";
 
         //string path = "SpriteSheets/MagicCliffsEnvironment/";
         //Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
 
         Dictionary<string, Texture2D> tilesets = new Dictionary<string, Texture2D>();
+
+        public HashSet<(string, Vector2)> entities = new HashSet<(string, Vector2)>();
 
         private float scrollSpeedModifier = 0f;
 
@@ -46,6 +49,11 @@ namespace GameEngine2D.Source.Level
                 Array.Reverse(level.LayerInstances);
                 foreach (LayerInstance layerInstance in level.LayerInstances)
                 {
+
+                    foreach (EntityInstance entity in layerInstance.EntityInstances)
+                    {
+                        entities.Add((entity.Identifier, new Vector2(entity.Px[0], entity.Px[1])));
+                    }
 
                     string layerName = layerInstance.Identifier;
                     Layer2D currentLayer = null;
@@ -75,7 +83,7 @@ namespace GameEngine2D.Source.Level
                         tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
                     }
                  
-                    if (layerInstance.Identifier.StartsWith("Colliders"))
+                    if (layerInstance.Identifier.StartsWith(COLLIDERS))
                     {
                         //public Dictionary<string, dynamic>[] IntGrid { get; set; }
                         foreach (Dictionary<string, dynamic> dict in layerInstance.IntGrid )
