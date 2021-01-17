@@ -46,7 +46,7 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
                 Keys key = mapping.Key.Key;
                 if (currentKeyboardState.IsKeyDown(key))
                 {
-                    if(mapping.Key.SinglePressOnly && (prevKeyboardState != null && prevKeyboardState == currentKeyboardState)) {
+                    if(mapping.Key.SinglePressOnly && (prevKeyboardState != null && (prevKeyboardState == currentKeyboardState || pressedKeys[key] ))) {
                         continue;
                     }
                     pressedKeys[key] = true;

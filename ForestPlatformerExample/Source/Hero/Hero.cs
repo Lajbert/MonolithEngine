@@ -19,7 +19,7 @@ namespace ForestPlatformerExample.Source.Hero
     class Hero : ControllableEntity
     {
 
-        private readonly float JUMP_RATE = 0.2f;
+        private readonly float JUMP_RATE = 0.1f;
         private static double lastJump = 0f;
         private bool doubleJumping = false;
 
@@ -142,9 +142,10 @@ namespace ForestPlatformerExample.Source.Hero
                 {
                     return;
                 }
-
+                Logger.Log("Invoking jump");
                 if (canJump)
                 {
+                    Logger.Log("Normal jump");
                     canDoubleJump = true;
                     canJump = false;
                 }
@@ -154,10 +155,12 @@ namespace ForestPlatformerExample.Source.Hero
                     {
                         return;
                     }
+                    Logger.Log("Double jump");
                     lastJump = 0f;
                     canDoubleJump = false;
                     doubleJumping = true;
                 }
+                Logger.Log("Jump happening");
                 Direction.Y -= Config.JUMP_FORCE + JumpModifier.Y;
                 Direction.X += JumpModifier.X;
                 if (JumpModifier.X < 0)
@@ -177,6 +180,13 @@ namespace ForestPlatformerExample.Source.Hero
                     if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetBelowGrid(GridCoordinates), "Platform") && CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement) {
                         CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement = false;
                     }
+                }
+                //CurrentFaceDirection = GridDirection.DOWN;
+            }, true);
+
+            UserInput.RegisterControllerState(Keys.Down, () => {
+                if (HasGravity)
+                {
                     return;
                 }
                 Direction.Y += MovementSpeed * elapsedTime;
