@@ -377,7 +377,9 @@
 						{ "__identifier": "Coin", "__grid": [8,32], "__tile": null, "defUid": 21, "px": [128,512], "fieldInstances": [] },
 						{ "__identifier": "Coin", "__grid": [8,28], "__tile": null, "defUid": 21, "px": [128,448], "fieldInstances": [] },
 						{ "__identifier": "Coin", "__grid": [15,28], "__tile": null, "defUid": 21, "px": [240,448], "fieldInstances": [] },
-						{ "__identifier": "Coin", "__grid": [15,32], "__tile": null, "defUid": 21, "px": [240,512], "fieldInstances": [] }
+						{ "__identifier": "Coin", "__grid": [15,32], "__tile": null, "defUid": 21, "px": [240,512], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [10,37], "__tile": null, "defUid": 21, "px": [160,592], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [14,37], "__tile": null, "defUid": 21, "px": [224,592], "fieldInstances": [] }
 					]
 				},
 				{

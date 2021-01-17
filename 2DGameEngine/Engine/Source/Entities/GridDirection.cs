@@ -6,6 +6,7 @@ namespace GameEngine2D.Engine.Source.Entities
 {
     public enum GridDirection
     {
+        CENTER,
         UP,
         DOWN,
         LEFT,

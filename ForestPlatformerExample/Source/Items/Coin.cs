@@ -14,7 +14,7 @@ namespace ForestPlatformerExample.Source.Items
     {
         public Coin(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, null, true)
         {
-            //DEBUG_SHOW_PIVOT = true;
+            DEBUG_SHOW_PIVOT = true;
 
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(4, 3);
@@ -26,6 +26,9 @@ namespace ForestPlatformerExample.Source.Items
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/pickup-effect");
             SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, spriteSheet, 2, 2, 6, 32, 32, 24);
             SetDestroyAnimation(pickupAnim);
+
+            //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));
+            //Pivot = new Vector2(5, 5);
         }
     }
 }

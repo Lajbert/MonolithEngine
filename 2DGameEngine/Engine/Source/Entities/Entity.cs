@@ -24,6 +24,11 @@ namespace GameEngine2D.Entities
     public class Entity : GameObject, Interfaces.IDrawable, IUpdatable, ICollider, IRayBlocker
     {
 
+        protected float CollisionOffsetLeft = 0f;
+        protected float CollisionOffsetRight = 0f;
+        protected float CollisionOffsetBottom = 0f;
+        protected float CollisionOffsetTop = 0f;
+
         private readonly string DESTROY_AMINATION = "Destroy";
 
         private HashSet<string> tags = new HashSet<string>();
@@ -390,6 +395,73 @@ namespace GameEngine2D.Entities
                 {
                     collidesWith[GetSamePositionCollider()] = true;
                 }
+            }
+
+            if (CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+            {
+                if (InCellLocation.X <= CollisionOffsetRight)
+                {
+                    if (!collidesWith.ContainsKey(GetLeftCollider()))
+                    {
+                        collidesWith.Add(GetLeftCollider(), true);
+                        OnCollisionStart(GetLeftCollider());
+                    }
+                    else
+                    {
+                        collidesWith[GetLeftCollider()] = true;
+                    }
+                }
+
+            }
+
+            if (CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+            {
+                if (InCellLocation.X >= CollisionOffsetLeft)
+                {
+                    if (!collidesWith.ContainsKey(GetRightCollider()))
+                    {
+                        collidesWith.Add(GetRightCollider(), true);
+                        OnCollisionStart(GetRightCollider());
+                    }
+                    else
+                    {
+                        collidesWith[GetRightCollider()] = true;
+                    }
+                }
+                
+            }
+
+            if (CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
+            {
+                if (InCellLocation.Y >= CollisionOffsetBottom)
+                {
+                    if (!collidesWith.ContainsKey(GetBottomCollider()))
+                    {
+                        collidesWith.Add(GetBottomCollider(), true);
+                        OnCollisionStart(GetBottomCollider());
+                    }
+                    else
+                    {
+                        collidesWith[GetBottomCollider()] = true;
+                    }
+                }
+            }
+
+            if (CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+            {
+                if (InCellLocation.Y < CollisionOffsetTop)
+                {
+                    if (!collidesWith.ContainsKey(GetTopCollider()))
+                    {
+                        collidesWith.Add(GetTopCollider(), true);
+                        OnCollisionStart(GetTopCollider());
+                    }
+                    else
+                    {
+                        collidesWith[GetTopCollider()] = true;
+                    }
+                }
+
             }
 
             /*foreach (FaceDirection dir in SinglePointCollisionChecks)

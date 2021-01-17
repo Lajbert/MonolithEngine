@@ -95,7 +95,7 @@ namespace ForestPlatformerExample.Source.Hero
             Animations.AddFrameTransition("DoubleJumpingRight", "DoubleJumpingLeft");
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@climb-sheet");
-            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 30);
+            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 60);
             Func<bool> isClimbing = () => !HasGravity;
             Func<bool> isHangingOnLadder = () => (Math.Abs(Direction.X) < 0.5f && Math.Abs(Direction.Y) < 0.5f);
             climb.AnimationPauseCondition = isHangingOnLadder;

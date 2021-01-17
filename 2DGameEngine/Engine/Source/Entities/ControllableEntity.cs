@@ -17,12 +17,6 @@ namespace GameEngine2D
     public class ControllableEntity : Entity
     {
 
-        protected float CollisionOffsetLeft = 0f;
-        protected float CollisionOffsetRight = 0f;
-        protected float CollisionOffsetBottom = 0f;
-        protected float CollisionOffsetTop = 0f;
-
-
         private float bdx = 0f;
         private float bdy = 0f;
 
@@ -192,7 +186,7 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Direction.Y > 0)
+                if (HasCollision && InCellLocation.Y >= CollisionOffsetBottom && OnGround() && Direction.Y > 0)
                 {
                     if (HasGravity)
                     {
@@ -203,7 +197,7 @@ namespace GameEngine2D
                     InCellLocation.Y = CollisionOffsetBottom;
                 }
 
-                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (HasCollision && InCellLocation.Y <= CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
                     if (!CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates)).HasTag("Platform"))
                     {

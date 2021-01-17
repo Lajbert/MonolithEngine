@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -43,6 +44,41 @@ namespace GameEngine2D.Source.Layer
             foreach (Entity child in e.GetAllChildren()) {
                 RemoveObject(child.GridCoordinates);
             }
+        }
+
+        public List<(Entity, GridDirection)> HasCollisionAt(Vector2 gridCoord, List<GridDirection> directionsToCheck = null)
+        {
+            List<(Entity, GridDirection)> result = new List<(Entity, GridDirection)>();
+            if (directionsToCheck == null)
+            {
+                if (objects.ContainsKey(gridCoord))
+                {
+                    result.Add((objects[gridCoord], GridDirection.CENTER));
+                }
+            } else
+            {
+                foreach (GridDirection direction in directionsToCheck)
+                {
+                    if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
+                    {
+                        result.Add((objects[GetGridCoord(gridCoord, direction)], direction));
+                    }
+                }
+            }
+
+            return result;
+            
+        }
+
+        private Vector2 GetGridCoord(Vector2 gridCoord, GridDirection direction)
+        {
+            if (direction == GridDirection.CENTER) return gridCoord;
+            if (direction == GridDirection.LEFT) return GridUtil.GetLeftGrid(gridCoord);
+            if (direction == GridDirection.RIGHT) return GridUtil.GetRightGrid(gridCoord);
+            if (direction == GridDirection.UP) return GridUtil.GetUpperGrid(gridCoord);
+            if (direction == GridDirection.DOWN) return GridUtil.GetBelowGrid(gridCoord);
+
+            throw new Exception("Unknown direction!");
         }
 
         public bool HasObjectAtWithTag(Vector2 gridCoord, string tag)
