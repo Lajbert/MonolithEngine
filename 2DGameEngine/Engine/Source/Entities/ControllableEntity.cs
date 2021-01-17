@@ -47,6 +47,7 @@ namespace GameEngine2D
 
         public ControllableEntity(Layer2D layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
         {
+            Active = true;
             ResetPosition(startPosition);
         }
 

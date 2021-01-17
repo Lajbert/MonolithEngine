@@ -21,7 +21,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, Interfaces.IDrawable, IUpdatable, ICollider, IRayBlocker
+    public class Entity : GameObject, ICollider, IRayBlocker
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -46,7 +46,7 @@ namespace GameEngine2D.Entities
         private Vector2 position;
 
         public bool Visible = true;
-        public bool Active = true;
+        public bool Active = false;
 
         protected Vector2 DrawOffset { get; set; } = Vector2.Zero;
 
@@ -76,8 +76,6 @@ namespace GameEngine2D.Entities
 
         protected Texture2D Sprite { get; set; }
         private HashSet<Entity> children;
-        private HashSet<IUpdatable> updatables;
-        private HashSet<Interfaces.IDrawable> drawables;
 
         private Entity parent;
 
@@ -160,8 +158,6 @@ namespace GameEngine2D.Entities
             this.Layer = layer;
             GridCoordinates = CalculateGridCoord(startPosition);
             children = new HashSet<Entity>();
-            updatables = new HashSet<IUpdatable>();
-            drawables = new HashSet<Interfaces.IDrawable>();
             this.HasCollision = collider;
             SetSprite(sprite);
             if (parent != null) {
@@ -198,7 +194,7 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            foreach (Interfaces.IDrawable child in drawables)
+            foreach (Entity child in children)
             {
                 child.PreDraw(spriteBatch, gameTime);
             }
@@ -253,7 +249,7 @@ namespace GameEngine2D.Entities
                 spriteBatch.Draw(pivotMarker, position, Color.White);
             }
 
-            foreach (Interfaces.IDrawable child in drawables)
+            foreach (Entity child in children)
             {
                 child.Draw(spriteBatch, gameTime);
             }
@@ -267,7 +263,7 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            foreach (Interfaces.IDrawable child in drawables)
+            foreach (Entity child in children)
             {
                 child.PostDraw(spriteBatch, gameTime);
             }
@@ -331,7 +327,7 @@ namespace GameEngine2D.Entities
 
             CheckCollisions();
 
-            foreach (IUpdatable child in updatables)
+            foreach (Entity child in children)
             {
                 child.PreUpdate(gameTime);
             }
@@ -350,7 +346,7 @@ namespace GameEngine2D.Entities
                 Animations.Update(gameTime);
             }
 
-            foreach (IUpdatable child in updatables)
+            foreach (Entity child in children)
             {
                 child.Update(gameTime);
             }
@@ -369,7 +365,7 @@ namespace GameEngine2D.Entities
                 RayEmitter.UpdateRays();
             }
 
-            foreach (IUpdatable child in updatables)
+            foreach (Entity child in children)
             {
                 child.PostUpdate(gameTime);
             }
@@ -504,27 +500,11 @@ namespace GameEngine2D.Entities
         public void AddChild(Entity gameObject)
         {
             children.Add(gameObject);
-            if (gameObject is Interfaces.IDrawable)
-            {
-                drawables.Add(gameObject);
-            }
-            if (gameObject is IUpdatable)
-            {
-                updatables.Add(gameObject);
-            }
         }
 
         public void RemoveChild(Entity gameObject)
         {
             children.Remove(gameObject);
-            if (gameObject is Interfaces.IDrawable)
-            {
-                drawables.Remove(gameObject);
-            }
-            if (gameObject is IUpdatable)
-            {
-                updatables.Remove(gameObject);
-            }
         }
 
         public override void Destroy()

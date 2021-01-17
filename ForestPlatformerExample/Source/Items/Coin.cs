@@ -14,7 +14,10 @@ namespace ForestPlatformerExample.Source.Items
     {
         public Coin(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, null, true)
         {
-            DEBUG_SHOW_PIVOT = true;
+
+            Active = true;
+
+            //DEBUG_SHOW_PIVOT = true;
 
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(4, 3);

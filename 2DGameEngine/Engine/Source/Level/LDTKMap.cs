@@ -116,10 +116,8 @@ namespace GameEngine2D.Source.Level
                         foreach (TileInstance tile in layerInstance.GridTiles)
                         {
                             //Logger.Log("Tile: " + tile.);
-                            if (layerInstance.Identifier.StartsWith(PARALLAX))
-                            {
-                                continue;
-                            }
+                            //if (layerInstance.Identifier.StartsWith(PARALLAX)) continue;
+                            
                             long tileId = tile.T;
                             int atlasGridBaseWidth = (int)layerInstance.GridSize;
                             int padding = 0;
@@ -135,6 +133,8 @@ namespace GameEngine2D.Source.Level
                             Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
                             e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
                             e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
+                            //e.Visible = false;
+                            //e.Active = false;
                             //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
 
                         }
