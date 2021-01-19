@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Level;
+﻿using GameEngine2D.Engine.Source.Graphics;
+using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -31,6 +32,8 @@ namespace GameEngine2D.Source.Level
         Dictionary<string, Texture2D> tilesets = new Dictionary<string, Texture2D>();
 
         public HashSet<(string, Vector2)> entities = new HashSet<(string, Vector2)>();
+
+        private TileGroup tileGroup;
 
         private float scrollSpeedModifier = 0f;
 
@@ -68,6 +71,7 @@ namespace GameEngine2D.Source.Level
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = LayerManager.Instance.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
+                        tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(PARALLAX))
                     {
@@ -75,12 +79,14 @@ namespace GameEngine2D.Source.Level
                         scrollSpeedModifier += 0.1f;
                         currentLayer = LayerManager.Instance.CreateParallaxLayer(int.Parse(layerName[layerName.Length - 1] + ""), scrollSpeedModifier, true);
                         tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
+                        tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(FOREGROUND))
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = LayerManager.Instance.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
+                        tileGroup = new TileGroup();
                     }
                  
                     if (layerInstance.Identifier.StartsWith(COLLIDERS))
@@ -108,7 +114,7 @@ namespace GameEngine2D.Source.Level
                                 e.SetTag("Ladder");
                             }
                             e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
-                            e.Visible = false;
+                            e.Visible = true;
                         }
 
                     } else
@@ -130,13 +136,25 @@ namespace GameEngine2D.Source.Level
                             int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
                             var pixelTileY = padding + gridTileY * (gridSize + spacing);
 
-                            Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
+                            /*Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
                             e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
+                            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);*/
+
+                            Rectangle rect = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
+                            Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
+                            Color[] data = new Color[gridSize * gridSize];
+                            //tileSet.GetData<Color>(data);
+                            tileSet.GetData<Color>(0, rect, data, 0, data.Length);
+                            //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
+                            tileGroup.AddColorData(data, pos);
                             //e.Visible = false;
                             //e.Active = false;
                             //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
 
+                        }
+                        if (currentLayer != null)
+                        {
+                            new Entity(currentLayer, null, new Vector2(0, 0) - new Vector2(Config.GRID / 4, Config.GRID / 4), tileGroup.GetTexture());
                         }
                     }
                 }

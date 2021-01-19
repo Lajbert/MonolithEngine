@@ -1,5 +1,6 @@
 ﻿using ForestPlatformerExample.Source.Hero;
 using ForestPlatformerExample.Source.Items;
+using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -57,7 +58,8 @@ namespace ForestPlatformerExample
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
-            font = Content.Load<SpriteFont>("DefaultFont");
+            TileGroup.GraphicsDevice = graphics.GraphicsDevice;
+            //font = Content.Load<SpriteFont>("DefaultFont");
             base.Initialize();
         }
 
