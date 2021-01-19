@@ -48,7 +48,7 @@ namespace ForestPlatformerExample.Source.Hero
 
             CollisionOffsetRight = 0.5f;
             CollisionOffsetLeft = 0f;
-            CollisionOffsetBottom = 0.5f;
+            CollisionOffsetBottom = 0.4f;
             CollisionOffsetTop = 0.5f;
 
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
