@@ -121,13 +121,12 @@ namespace ForestPlatformerExample
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
-
             LayerManager.Instance.DrawAll(gameTime);
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameCounter.Update(deltaTime);
             
-            if (lastPrint > 300)
+            if (lastPrint > 10)
             {
                 fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
                 lastPrint = 0;

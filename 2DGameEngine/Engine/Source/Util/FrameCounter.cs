@@ -18,18 +18,18 @@ namespace GameEngine2D.Engine.Source.Util
 
         public const int MAXIMUM_SAMPLES = 100;
 
-        private Queue<float> _sampleBuffer = new Queue<float>();
+        private Queue<float> sampleBuffer = new Queue<float>();
 
         public bool Update(float deltaTime)
         {
             CurrentFramesPerSecond = 1.0f / deltaTime;
 
-            _sampleBuffer.Enqueue(CurrentFramesPerSecond);
+            sampleBuffer.Enqueue(CurrentFramesPerSecond);
 
-            if (_sampleBuffer.Count > MAXIMUM_SAMPLES)
+            if (sampleBuffer.Count > MAXIMUM_SAMPLES)
             {
-                _sampleBuffer.Dequeue();
-                AverageFramesPerSecond = _sampleBuffer.Average(i => i);
+                sampleBuffer.Dequeue();
+                AverageFramesPerSecond = sampleBuffer.Average(i => i);
             }
             else
             {

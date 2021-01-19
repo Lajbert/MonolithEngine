@@ -37,6 +37,8 @@ namespace GameEngine2D.Source.Level
 
         private float scrollSpeedModifier = 0f;
 
+        private Vector2 pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
+
         public LDTKMap(LDTKJson json)
         {
             //Globals.Camera.LevelGridCountH = 256;
@@ -113,8 +115,8 @@ namespace GameEngine2D.Source.Level
                             {
                                 e.SetTag("Ladder");
                             }
-                            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
-                            e.Visible = true;
+                            e.Pivot = pivot;
+                            e.Visible = false;
                         }
 
                     } else
@@ -138,7 +140,7 @@ namespace GameEngine2D.Source.Level
 
                             /*Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
                             e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);*/
+                            e.Pivot = pivot;*/
 
                             Rectangle rect = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
                             Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
@@ -154,7 +156,7 @@ namespace GameEngine2D.Source.Level
                         }
                         if (currentLayer != null)
                         {
-                            new Entity(currentLayer, null, new Vector2(0, 0) - new Vector2(Config.GRID / 4, Config.GRID / 4), tileGroup.GetTexture());
+                            new Entity(currentLayer, null, new Vector2(0, 0) - pivot, tileGroup.GetTexture());
                         }
                     }
                 }
