@@ -36,52 +36,14 @@ namespace GameEngine2D.Source.Entities
             }
         }
 
-        /*public void Update(GameTime gameTime)
-        {
-            if (delay == 0)
-            {
-                currentFrame++;
-            }
-            else
-            {
-                if (currentDelay >= delay)
-                {
-                    currentFrame++;
-                    currentDelay = 0;
-                }
-                else
-                {
-                    currentDelay += gameTime.ElapsedGameTime.TotalMilliseconds;
-                }
-            }
-
-            if (currentFrame == totalFrames)
-                currentFrame = 0;
-        }*/
-
         protected override Texture2D GetTexture()
         {
             currentRow = (int)((float)CurrentFrame / (float)columns);
             currentColumn = CurrentFrame % columns;
             SourceRectangle = new Rectangle(width * currentColumn, height * currentRow, width, height);
             Pivot = new Vector2(width / 2, height / 2);
-            //SourceRectangle = new Rectangle(height * currentRow, width * currentColumn, width, height);
             return texture;
         }
 
-        /*public void Draw(SpriteBatch spriteBatch, Vector2 location)
-        {
-            int width = Texture.Width / Columns;
-            int height = Texture.Height / Rows;
-            int row = (int)((float)currentFrame / (float)Columns);
-            int column = currentFrame % Columns;
-
-            Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
-
-            spriteBatch.Begin();
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-            spriteBatch.End();
-        }*/
     }
 }

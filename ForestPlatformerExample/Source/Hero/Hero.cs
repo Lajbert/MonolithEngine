@@ -27,6 +27,8 @@ namespace ForestPlatformerExample.Source.Hero
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
+            DEBUG_SHOW_PIVOT = true;
+
             SetupAnimations();
 
             SetupController();
@@ -41,7 +43,13 @@ namespace ForestPlatformerExample.Source.Hero
         private void SetupAnimations()
         {
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(0, -20);
+            //Animations.Offset = new Vector2(3, -20);
+            Animations.Offset = new Vector2(3, -27);
+
+            CollisionOffsetRight = 0f;
+            CollisionOffsetLeft = 0f;
+            CollisionOffsetBottom = 0.5f;
+            CollisionOffsetTop = 0.5f;
 
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
             SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 24, 64, 64, 24);
@@ -110,23 +118,20 @@ namespace ForestPlatformerExample.Source.Hero
             SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 13, 64, 64, 24);
             fallingRight.StartFrame = 9;
             fallingRight.EndFrame = 11;
-            Func<bool> isFallingRight = () => HasGravity && Direction.Y > 0 && CurrentFaceDirection == GridDirection.RIGHT;
+            Func<bool> isFallingRight = () => HasGravity && Direction.Y > 0.1 && CurrentFaceDirection == GridDirection.RIGHT;
             Animations.RegisterAnimation("FallingRight", fallingRight, isFallingRight, 5);
 
             SpriteSheetAnimation fallingLeft = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 13, 64, 64, 24, SpriteEffects.FlipHorizontally);
             fallingLeft.StartFrame = 9;
             fallingLeft.EndFrame = 11;
-            Func<bool> isFallingLeft = () => HasGravity && Direction.Y > 0 && CurrentFaceDirection == GridDirection.LEFT;
+            Func<bool> isFallingLeft = () => HasGravity && Direction.Y > 0.1 && CurrentFaceDirection == GridDirection.LEFT;
             Animations.RegisterAnimation("FallingLeft", fallingLeft, isFallingLeft, 5);
 
             Animations.AddFrameTransition("FallingRight", "FallingLeft");
 
-            CollisionOffsetRight = 0.5f;
-            CollisionOffsetLeft = 0f;
-            CollisionOffsetBottom = 0f;
-            CollisionOffsetTop = 0.5f;
-
             //SetSprite(spriteSheet);
+            /*SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
+            DrawOffset = new Vector2(15, 15);*/
         }
 
         private void SetupController()
@@ -174,7 +179,7 @@ namespace ForestPlatformerExample.Source.Hero
                     CurrentFaceDirection = GridDirection.RIGHT;
                 }
                 JumpModifier = Vector2.Zero;
-                FallStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
+                FallStartedAt = (float)GameTime.TotalGameTime.TotalSeconds;
             }, true);
 
             UserInput.RegisterControllerState(Keys.Down, () => {

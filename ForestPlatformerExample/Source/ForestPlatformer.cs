@@ -32,10 +32,10 @@ namespace ForestPlatformerExample
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
-            Config.GRAVITY_FORCE = 10f;
+            Config.GRAVITY_FORCE = 16f;
             Config.ZOOM = 2f;
             Config.CHARACTER_SPEED = 3f;
-            Config.JUMP_FORCE = 6f;
+            Config.JUMP_FORCE = 7f;
 
             Config.RES_W = 3840;
             Config.RES_W = 2160;
@@ -43,8 +43,8 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-            //this.IsFixedTimeStep = true;//false;
-            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+           //this.IsFixedTimeStep = true;//false;
+           //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             // uncapped framerate
             graphics.SynchronizeWithVerticalRetrace = false;
@@ -57,6 +57,7 @@ namespace ForestPlatformerExample
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
+            font = Content.Load<SpriteFont>("DefaultFont");
             base.Initialize();
         }
 
@@ -110,19 +111,30 @@ namespace ForestPlatformerExample
             base.Update(gameTime);
         }
 
+        private float lastPrint = 0;
+        string fps = "";
         protected override void Draw(GameTime gameTime)
         {
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            lastPrint += gameTime.ElapsedGameTime.Milliseconds;
+
             LayerManager.Instance.DrawAll(gameTime);
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameCounter.Update(deltaTime);
-            var fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+            
+            if (lastPrint > 300)
+            {
+                fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+                lastPrint = 0;
+            }
+
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
             spriteBatch.End();
+
 
             // TODO: Add your drawing code here
 

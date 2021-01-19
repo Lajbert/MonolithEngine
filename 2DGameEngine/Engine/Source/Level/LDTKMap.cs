@@ -108,7 +108,7 @@ namespace GameEngine2D.Source.Level
                                 e.SetTag("Ladder");
                             }
                             e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
-                            e.Visible = false;
+                            //e.Visible = false;
                         }
 
                     } else

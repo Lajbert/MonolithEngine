@@ -48,7 +48,15 @@ namespace GameEngine2D.Entities
         public bool Visible = true;
         public bool Active = false;
 
-        protected Vector2 DrawOffset { get; set; } = Vector2.Zero;
+        private Vector2 drawOffset = Vector2.Zero;
+
+        protected Vector2 DrawOffset { 
+            get => drawOffset; 
+            set {
+                drawOffset = value;
+                SetDrawPosition();
+            }
+        }
 
         public Vector2 Pivot = Vector2.Zero;
 
@@ -120,9 +128,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-#if GRAPHICS_DEBUG
         protected SpriteFont font;
-#endif
 
         //grid coordinates
         //private float cx = 0f;
@@ -161,6 +167,8 @@ namespace GameEngine2D.Entities
             GridCoordinates = CalculateGridCoord(startPosition);
             children = new HashSet<Entity>();
             this.HasCollision = collider;
+            this.font = font;
+
             SetSprite(sprite);
             if (parent != null) {
                 this.parent = parent;
@@ -172,22 +180,20 @@ namespace GameEngine2D.Entities
                 this.StartPosition = this.Position = startPosition;
             }
 
+            SetDrawPosition();
+        }
+
+        private void SetDrawPosition()
+        {
             if (parent != null)
             {
-                DrawPosition = StartPosition + parent.GetPositionWithParent();
+                DrawPosition = StartPosition + parent.GetPositionWithParent() + drawOffset;
             }
             else
             {
 
-                DrawPosition = Position;
+                DrawPosition = Position + drawOffset;
             }
-
-            //this.startPosition = this.currentPosition = startPosition;
-
-#if GRAPHICS_DEBUG
-            this.font = font;
-            //pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
-#endif
         }
 
 
@@ -208,51 +214,32 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public virtual void _Draw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-
-            if (Sprite != null)
-            {
-                spriteBatch.Draw(Sprite, (position) /** new Vector2(Config.SCALE, Config.SCALE)*/, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
-            }
-        }
-
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
             if (Sprite != null)
             {
-                //DrawSprite(spriteBatch, drawPosition);
-                spriteBatch.Draw(Sprite, (position + DrawOffset) /** new Vector2(Config.SCALE, Config.SCALE)*/, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
+                spriteBatch.Draw(Sprite, DrawPosition, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
             }
             else if (Animations != null)
             {
                 Animations.Draw(spriteBatch, gameTime);
             }
-            /*
-#if GRAPHICS_DEBUG
-            if (font != null)
-            {
-                if (parent != null)
-                {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, StartPosition + parent.GetPositionWithParent(), Color.White);
-                }
-                else
-                {
-                    spriteBatch.DrawString(font, CalculateGridCoord().X + "\n" + CalculateGridCoord().Y, Position, Color.White);
-                }
 
-            }
-#endif*/
-            /*if (DEBUG_SHOW_PIVOT)
+            if (DEBUG_SHOW_PIVOT)
             {
                 if (pivotMarker == null)
                 {
                     pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
                 }
-                spriteBatch.Draw(pivotMarker, drawPosition, Color.White);
-            }*/
-            /*
+                if (font != null)
+                {
+                    //spriteBatch.DrawString(font, "Direction Y: " + InCellLocation, DrawPosition, Color.White);
+                    //spriteBatch.DrawString(font, "Direction Y: " + Direction.Y, DrawPosition, Color.White);
+                }
+                spriteBatch.Draw(pivotMarker, Position, Color.White);
+            }
+            
             if (children.Count > 0)
             {
                 foreach (Entity child in children)
@@ -260,7 +247,7 @@ namespace GameEngine2D.Entities
                     child.Draw(spriteBatch, gameTime);
                 }
             }
-            */
+            
         }
 
         public virtual void PostDraw(SpriteBatch spriteBatch, GameTime gameTime)
