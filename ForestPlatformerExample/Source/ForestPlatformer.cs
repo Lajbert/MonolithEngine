@@ -1,5 +1,6 @@
 ﻿using ForestPlatformerExample.Source.Hero;
 using ForestPlatformerExample.Source.Items;
+using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -57,7 +58,8 @@ namespace ForestPlatformerExample
             SpriteUtil.Content = Content;
             SpriteUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
-            font = Content.Load<SpriteFont>("DefaultFont");
+            TileGroup.GraphicsDevice = graphics.GraphicsDevice;
+            //font = Content.Load<SpriteFont>("DefaultFont");
             base.Initialize();
         }
 
@@ -119,13 +121,12 @@ namespace ForestPlatformerExample
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
-
             LayerManager.Instance.DrawAll(gameTime);
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameCounter.Update(deltaTime);
             
-            if (lastPrint > 300)
+            if (lastPrint > 10)
             {
                 fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
                 lastPrint = 0;
