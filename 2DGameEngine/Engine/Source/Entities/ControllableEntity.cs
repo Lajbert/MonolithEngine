@@ -53,18 +53,6 @@ namespace GameEngine2D
 
         override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-
-            this.GameTime = gameTime;
-
-            elapsedTime = TimeUtil.GetElapsedTime(gameTime);
-
-            // in case of skipped frame, we should just recalculate everything
-            if (elapsedTime > 1)
-            {
-                return;
-            }
-
-
 #if GRAPHICS_DEBUG
             spriteBatch.DrawString(font, InCellLocation.X + " : " + InCellLocation.Y, new Vector2(10,10), Color.White);
 #endif
@@ -85,12 +73,6 @@ namespace GameEngine2D
         {
 
             elapsedTime = TimeUtil.GetElapsedTime(gameTime);
-
-            // in case of skipped frame, we should just recalculate everything
-            if (elapsedTime > 1)
-            {
-                return;
-            }
 
             this.GameTime = gameTime;
 

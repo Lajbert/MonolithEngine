@@ -37,9 +37,9 @@ namespace ForestPlatformerExample
             Config.CHARACTER_SPEED = 3f;
             Config.JUMP_FORCE = 7f;
 
-            Config.RES_W = 3840;
-            Config.RES_W = 2160;
-            Config.FULLSCREEN = true;
+            //Config.RES_W = 3840;
+            //Config.RES_W = 2160;
+            //Config.FULLSCREEN = true;
 
             //Config.GRID = 64;
 

@@ -2,6 +2,7 @@
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
+using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -68,6 +69,7 @@ namespace GameEngine2D.Source.Layer
 
         public void DrawAll(GameTime gameTime)
         {
+
             if (ySorting)
             {
                 activeObjects.Sort((a, b) => a.Position.Y.CompareTo(b.Position.Y));
@@ -117,6 +119,12 @@ namespace GameEngine2D.Source.Layer
 
         public void UpdateAll(GameTime gameTime)
         {
+            // in case of skipped frame, we should just recalculate everything
+            if (TimeUtil.GetElapsedTime(gameTime) > 1)
+            {
+                return;
+            }
+
             foreach (Entity entity in activeObjects)
             {
                 entity.PreUpdate(gameTime);

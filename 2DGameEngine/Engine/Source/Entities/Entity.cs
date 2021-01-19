@@ -429,7 +429,7 @@ namespace GameEngine2D.Entities
 
             if (CollisionCheckDirections.Contains(GridDirection.UP) && CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
             {
-                if (InCellLocation.Y < CollisionOffsetTop)
+                if (InCellLocation.Y <= CollisionOffsetTop)
                 {
                     if (!collidesWith.ContainsKey(GetTopCollider()))
                     {

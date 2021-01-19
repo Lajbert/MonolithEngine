@@ -27,13 +27,13 @@ namespace ForestPlatformerExample.Source.Hero
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
-            DEBUG_SHOW_PIVOT = true;
+            //DEBUG_SHOW_PIVOT = true;
 
             SetupAnimations();
 
             SetupController();
 
-            foreach (GridDirection direction in new List<GridDirection>() { GridDirection.UP, GridDirection.DOWN, GridDirection.LEFT, GridDirection.RIGHT })
+            foreach (GridDirection direction in new List<GridDirection>() { GridDirection.CENTER, GridDirection.UP, GridDirection.DOWN, GridDirection.LEFT, GridDirection.RIGHT })
             {
                 CollisionCheckDirections.Add(direction);
             }
@@ -44,9 +44,9 @@ namespace ForestPlatformerExample.Source.Hero
         {
             Animations = new AnimationStateMachine();
             //Animations.Offset = new Vector2(3, -20);
-            Animations.Offset = new Vector2(3, -27);
+            Animations.Offset = new Vector2(0, -27);
 
-            CollisionOffsetRight = 0f;
+            CollisionOffsetRight = 0.5f;
             CollisionOffsetLeft = 0f;
             CollisionOffsetBottom = 0.5f;
             CollisionOffsetTop = 0.5f;
