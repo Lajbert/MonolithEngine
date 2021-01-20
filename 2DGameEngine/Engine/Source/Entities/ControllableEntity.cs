@@ -31,6 +31,9 @@ namespace GameEngine2D
         private float step2;
         private float t;
 
+        protected float Friction = Config.FRICTION;
+        protected float BumpFriction = Config.BUMP_FRICTION;
+
         protected float MovementSpeed = Config.CHARACTER_SPEED;
 
         protected Vector2 JumpModifier = Vector2.Zero;
@@ -43,7 +46,7 @@ namespace GameEngine2D
 
         protected GameTime GameTime;
 
-        protected GridDirection CurrentFaceDirection { get; set; } = Engine.Source.Entities.GridDirection.RIGHT;
+        protected Direction CurrentFaceDirection { get; set; } = Engine.Source.Entities.Direction.RIGHT;
 
         public ControllableEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
         {
@@ -79,7 +82,7 @@ namespace GameEngine2D
             if (CollisionChecker.HasObjectAtWithTag(GridCoordinates, "Ladder") && !OnGround()) {
                 if (HasGravity)
                 {
-                    Direction.Y = 0;
+                    Velocity.Y = 0;
                     MovementSpeed /= 2;
                     HasGravity = false;
                 }
@@ -90,16 +93,16 @@ namespace GameEngine2D
                 {
                     HasGravity = true;
                     MovementSpeed = Config.CHARACTER_SPEED;
-                    if (Direction.Y < -0.5) 
+                    if (Velocity.Y < -0.5) 
                     {
-                        Direction.Y -= Config.JUMP_FORCE / 2;
+                        Velocity.Y -= Config.JUMP_FORCE / 2;
                     }
                     
                 }
             }
 
-            steps = (float)Math.Ceiling(Math.Abs((Direction.X + bdx) * elapsedTime));
-            step = (float)(Direction.X + bdx) * elapsedTime / steps;
+            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bdx) * elapsedTime));
+            step = (float)(Velocity.X + bdx) * elapsedTime / steps;
             while (steps > 0)
             {
                 InCellLocation.X += step;
@@ -129,11 +132,11 @@ namespace GameEngine2D
                 while (InCellLocation.X < 0) { InCellLocation.X++; GridCoordinates.X--; }
                 steps--;
             }
-            Direction.X *= (float)Math.Pow(Config.FRICTION, elapsedTime);
-            bdx *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
+            Velocity.X *= (float)Math.Pow(Friction, elapsedTime);
+            bdx *= (float)Math.Pow(BumpFriction, elapsedTime);
 
             //rounding stuff
-            if (Math.Abs(Direction.X) <= 0.0005 * elapsedTime) Direction.X = 0;
+            if (Math.Abs(Velocity.X) <= 0.0005 * elapsedTime) Velocity.X = 0;
             if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
 
             // Y
@@ -170,7 +173,7 @@ namespace GameEngine2D
                 }
 
                 t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
-                Direction.Y += GravityValue * t * elapsedTime;
+                Velocity.Y += GravityValue * t * elapsedTime;
                 canJump = false;
             }
                 
@@ -182,17 +185,17 @@ namespace GameEngine2D
                 JumpModifier = Vector2.Zero;
             }
 
-            steps2 = (float)Math.Ceiling(Math.Abs((Direction.Y + bdy) * elapsedTime));
-            step2 = (float)(Direction.Y + bdy) * elapsedTime / steps2;
+            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bdy) * elapsedTime));
+            step2 = (float)(Velocity.Y + bdy) * elapsedTime / steps2;
             while (steps2 > 0)
             {
                 InCellLocation.Y += step2;
 
-                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Direction.Y > 0)
+                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Velocity.Y > 0)
                 {
                     if (HasGravity)
                     {
-                        Direction.Y = 0;
+                        Velocity.Y = 0;
                         bdy = 0;
                     }
 
@@ -203,7 +206,7 @@ namespace GameEngine2D
                 {
                     if (!CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates)).HasTag("Platform"))
                     {
-                        Direction.Y = 0;
+                        Velocity.Y = 0;
                         InCellLocation.Y = CollisionOffsetTop;
                     }
                 }
@@ -215,7 +218,7 @@ namespace GameEngine2D
 
             // workaround for bug when character ends up standing inside a collider or slightly above it
             // when the movement started from below or the fall started from height less than sprite graphics offset
-            if (OnGround() && HasGravity && Math.Abs(Direction.Y) < 0.05)
+            if (OnGround() && HasGravity && Math.Abs(Velocity.Y) < 0.05)
             {
 
                 if (InCellLocation.Y > CollisionOffsetBottom) {
@@ -228,10 +231,10 @@ namespace GameEngine2D
                 //InCellLocation.Y = CollisionOffsetBottom;
             }
 
-            Direction.Y *= (float)Math.Pow(Config.FRICTION, elapsedTime);
-            bdy *= (float)Math.Pow(Config.BUMB_FRICTION, elapsedTime);
+            Velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
+            bdy *= (float)Math.Pow(BumpFriction, elapsedTime);
             //rounding stuff
-            if (Math.Abs(Direction.Y) <= 0.0005 * elapsedTime) Direction.Y = 0;
+            if (Math.Abs(Velocity.Y) <= 0.0005 * elapsedTime) Velocity.Y = 0;
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
             base.Update(gameTime);
         }

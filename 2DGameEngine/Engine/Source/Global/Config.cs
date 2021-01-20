@@ -11,7 +11,7 @@ namespace GameEngine2D.Global
         public static float ZOOM = 1f;
         public static int   GRID = 16;
         public static float FRICTION = 0.2f;
-        public static float BUMB_FRICTION = 0.5f;
+        public static float BUMP_FRICTION = 0.5f;
         //public static float BUMB_FRICTION = 0f;
         public static bool  GRAVITY_ON = true;
         public static float GRAVITY_FORCE = 8f;

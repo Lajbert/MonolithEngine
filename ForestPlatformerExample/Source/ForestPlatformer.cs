@@ -1,4 +1,5 @@
-﻿using ForestPlatformerExample.Source.Hero;
+﻿using ForestPlatformerExample.Source.Environment;
+using ForestPlatformerExample.Source.Hero;
 using ForestPlatformerExample.Source.Items;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Util;
@@ -44,12 +45,12 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-           //this.IsFixedTimeStep = true;//false;
-           //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+           this.IsFixedTimeStep = true;//false;
+           this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             // uncapped framerate
-            graphics.SynchronizeWithVerticalRetrace = false;
-            this.IsFixedTimeStep = false;
+            //graphics.SynchronizeWithVerticalRetrace = false;
+            //this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -81,6 +82,8 @@ namespace ForestPlatformerExample
             hero = new Hero(new Vector2(300, 300), font);
             Camera.TrackTarget(hero, true);
             // TODO: use this.Content to load your game content here
+
+            MovingPlatform mp = new MovingPlatform(new Vector2(300, 350));
 
             frameCounter = new FrameCounter();
 

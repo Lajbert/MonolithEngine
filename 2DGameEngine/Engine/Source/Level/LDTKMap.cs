@@ -101,19 +101,19 @@ namespace GameEngine2D.Source.Level
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
                             if (dict["v"] == 0)
                             {
-                                e.SetTag("Collider");
+                                e.AddTag("Collider");
                             }
                             else if (dict["v"] == 1)
                             {
-                                e.SetTag("SlideWall");
+                                e.AddTag("SlideWall");
                             }
                             else if (dict["v"] == 2)
                             {
-                                e.SetTag("Platform");
+                                e.AddTag("Platform");
                             }
                             else if (dict["v"] == 3)
                             {
-                                e.SetTag("Ladder");
+                                e.AddTag("Ladder");
                             }
                             e.Pivot = pivot;
                             e.Visible = false;

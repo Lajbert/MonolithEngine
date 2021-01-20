@@ -46,18 +46,18 @@ namespace GameEngine2D.Source.Layer
             }
         }
 
-        public List<(Entity, GridDirection)> HasCollisionAt(Vector2 gridCoord, List<GridDirection> directionsToCheck = null)
+        public List<(Entity, Direction)> HasCollisionAt(Vector2 gridCoord, List<Direction> directionsToCheck = null)
         {
-            List<(Entity, GridDirection)> result = new List<(Entity, GridDirection)>();
+            List<(Entity, Direction)> result = new List<(Entity, Direction)>();
             if (directionsToCheck == null)
             {
                 if (objects.ContainsKey(gridCoord))
                 {
-                    result.Add((objects[gridCoord], GridDirection.CENTER));
+                    result.Add((objects[gridCoord], Direction.CENTER));
                 }
             } else
             {
-                foreach (GridDirection direction in directionsToCheck)
+                foreach (Direction direction in directionsToCheck)
                 {
                     if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
                     {
@@ -70,13 +70,13 @@ namespace GameEngine2D.Source.Layer
             
         }
 
-        private Vector2 GetGridCoord(Vector2 gridCoord, GridDirection direction)
+        private Vector2 GetGridCoord(Vector2 gridCoord, Direction direction)
         {
-            if (direction == GridDirection.CENTER) return gridCoord;
-            if (direction == GridDirection.LEFT) return GridUtil.GetLeftGrid(gridCoord);
-            if (direction == GridDirection.RIGHT) return GridUtil.GetRightGrid(gridCoord);
-            if (direction == GridDirection.UP) return GridUtil.GetUpperGrid(gridCoord);
-            if (direction == GridDirection.DOWN) return GridUtil.GetBelowGrid(gridCoord);
+            if (direction == Direction.CENTER) return gridCoord;
+            if (direction == Direction.LEFT) return GridUtil.GetLeftGrid(gridCoord);
+            if (direction == Direction.RIGHT) return GridUtil.GetRightGrid(gridCoord);
+            if (direction == Direction.UP) return GridUtil.GetUpperGrid(gridCoord);
+            if (direction == Direction.DOWN) return GridUtil.GetBelowGrid(gridCoord);
 
             throw new Exception("Unknown direction!");
         }
