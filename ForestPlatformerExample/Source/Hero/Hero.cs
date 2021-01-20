@@ -245,7 +245,7 @@ namespace ForestPlatformerExample.Source.Hero
         {
             if (otherCollider.HasTag("MovingPlatform"))
             {
-                Velocity.X += otherCollider.Velocity.X / 3;
+                Velocity.X += otherCollider.Velocity.X * elapsedTime;
                 //if (Direction.X > otherCollider.Direction.X) Direction.X = otherCollider.Direction.X;
                 //if (Direction.X < otherCollider.Direction.X) Direction.X = otherCollider.Direction.X;
             }

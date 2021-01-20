@@ -124,7 +124,7 @@ namespace GameEngine2D.Source.Level
                         foreach (TileInstance tile in layerInstance.GridTiles)
                         {
                             //Logger.Log("Tile: " + tile.);
-                            //if (layerInstance.Identifier.StartsWith(PARALLAX) || layerInstance.Identifier.StartsWith(BACKGROUND)) continue;
+                            //if (layerInstance.Identifier.StartsWith(PARALLAX)) { currentLayer = null;  continue; }
                             
                             long tileId = tile.T;
                             int atlasGridBaseWidth = (int)layerInstance.GridSize;

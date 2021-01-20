@@ -47,12 +47,12 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-           this.IsFixedTimeStep = true;//false;
-           this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+           //this.IsFixedTimeStep = true;//false;
+           //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             // uncapped framerate
-            //graphics.SynchronizeWithVerticalRetrace = false;
-            //this.IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
