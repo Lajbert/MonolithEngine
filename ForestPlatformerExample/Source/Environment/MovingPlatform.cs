@@ -17,30 +17,42 @@ namespace ForestPlatformerExample.Source.Environment
         private float speed = Config.CHARACTER_SPEED;
         private float currentPos = 0f;
 
-        private int direction = 1;
+        private int direction = -1;
+        
+        private int travelDistance = 0;
 
         List<Entity> platformElements = new List<Entity>();
 
-        public MovingPlatform(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position)
+        private Texture2D texture = null;
+
+        public MovingPlatform(int travelDistance) : base(LayerManager.Instance.EntityLayer, null, Vector2.Zero)
         {
 
-            for (int i = 0; i < 5; i++)
-            {
-                Entity e = new Entity(LayerManager.Instance.EntityLayer, this, new Vector2(0 + (i * Config.GRID), 0), SpriteUtil.CreateRectangle(Config.GRID, Color.Red), true);
-                //e.Active = false;
-                e.AddTag("MovingPlatform");
-                platformElements.Add(e);
-
-                e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
-            }
+            this.travelDistance = travelDistance;
             SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
             Active = true;
+            texture = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/forest-tileset");
+        }
+
+        public void AddPlatformElement(Vector2 position)
+        {
+            Entity e = new Entity(LayerManager.Instance.EntityLayer, this, position, texture, true);
+            //e.Active = false;
+            e.AddTag("MovingPlatform");
+            platformElements.Add(e);
+            //e.SetSprite(texture);
+            e.SourceRectangle = new Rectangle(304, 288, Config.GRID, Config.GRID);
+            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
         }
 
         public override void Update(GameTime gameTime)
         {
 
-            if (Math.Abs(StartPosition.X - Position.X) > 50)
+            if (Math.Abs(StartPosition.X - Position.X) >= travelDistance)
+            {
+                direction *= -1;
+            }
+            if (Position.X < StartPosition.X)
             {
                 direction *= -1;
             }

@@ -31,7 +31,7 @@ namespace GameEngine2D.Source.Level
 
         Dictionary<string, Texture2D> tilesets = new Dictionary<string, Texture2D>();
 
-        public HashSet<(string, Vector2)> entities = new HashSet<(string, Vector2)>();
+        public HashSet<EntityInstance> entities = new HashSet<EntityInstance>();
 
         private TileGroup tileGroup;
 
@@ -57,7 +57,7 @@ namespace GameEngine2D.Source.Level
 
                     foreach (EntityInstance entity in layerInstance.EntityInstances)
                     {
-                        entities.Add((entity.Identifier, new Vector2(entity.Px[0], entity.Px[1])));
+                        entities.Add(entity);
                     }
 
                     string layerName = layerInstance.Identifier;

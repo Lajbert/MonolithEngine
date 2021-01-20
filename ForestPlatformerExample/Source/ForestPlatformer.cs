@@ -2,6 +2,7 @@
 using ForestPlatformerExample.Source.Hero;
 using ForestPlatformerExample.Source.Items;
 using GameEngine2D.Engine.Source.Graphics;
+using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -13,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace ForestPlatformerExample
 {
@@ -83,8 +85,6 @@ namespace ForestPlatformerExample
             Camera.TrackTarget(hero, true);
             // TODO: use this.Content to load your game content here
 
-            MovingPlatform mp = new MovingPlatform(new Vector2(300, 350));
-
             frameCounter = new FrameCounter();
 
             Logger.Log("Object count: " + GameObject.GetObjectCount());
@@ -92,13 +92,41 @@ namespace ForestPlatformerExample
 
         private void LoadLevel()
         {
+            Dictionary<int, MovingPlatform> platformGroups = new Dictionary<int, MovingPlatform>();
+
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
             LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
-            foreach ((string, Vector2) entity in map.entities)
+            foreach (EntityInstance entity in map.entities)
             {
-                if (entity.Item1.Equals("Coin"))
+                if (entity.Identifier.Equals("Coin"))
                 {
-                    new Coin(entity.Item2);
+                    new Coin(new Vector2(entity.Px[0], entity.Px[1]));
+                }
+                else if (entity.Identifier.Equals("MovingPlatform"))
+                {
+                    int group = -1;
+                    int travelDistance = 0;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+                        
+                        if (field.Identifier == "group")
+                        {
+                            group = (int)field.Value;
+                        } else if (field.Identifier == "travel_distance")
+                        {
+                            travelDistance = (int)field.Value;
+                        }
+                    }
+                    if (group == -1 || travelDistance == 0)
+                    {
+                        throw new Exception("Can't initialize platform group");
+                    }
+                    if (!platformGroups.ContainsKey(group))
+                    {
+                        platformGroups.Add(group, new MovingPlatform(travelDistance));
+                    }
+                    MovingPlatform currentPlatform = platformGroups[group];
+                    currentPlatform.AddPlatformElement(new Vector2(entity.Px[0], entity.Px[1]));
                 }
             }
         }
