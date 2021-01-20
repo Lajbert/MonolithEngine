@@ -147,7 +147,28 @@ namespace GameEngine2D.Source.Level
                             Color[] data = new Color[gridSize * gridSize];
                             //tileSet.GetData<Color>(data);
                             tileSet.GetData<Color>(0, rect, data, 0, data.Length);
+
+                            if (tile.F != 0)
+                            {
+                                Texture2D flipped = SpriteUtil.CreateRectangle(gridSize, Color.Black);
+                                flipped.SetData<Color>(data);
+                                if (tile.F == 1)
+                                {
+                                    flipped = SpriteUtil.FlipTexture(flipped, false, true);
+                                } 
+                                else if (tile.F == 2)
+                                {
+                                    flipped = SpriteUtil.FlipTexture(flipped, true, false);
+                                }
+                                else
+                                {
+                                    flipped = SpriteUtil.FlipTexture(flipped, true, true);
+                                }
+                                
+                                flipped.GetData<Color>(data);
+                            }
                             //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
+                            
                             tileGroup.AddColorData(data, pos);
                             //e.Visible = false;
                             //e.Active = false;

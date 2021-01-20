@@ -25,6 +25,11 @@ namespace GameEngine2D.Source.Layer
 
         public void AddObject(Entity gameObject)
         {
+            if (objects.ContainsKey(gameObject.GridCoordinates))
+            {
+                Entity e = objects[gameObject.GridCoordinates];
+                Logger.Log("ITT");
+            }
             objects.Add(gameObject.GridCoordinates, gameObject);
         }
 

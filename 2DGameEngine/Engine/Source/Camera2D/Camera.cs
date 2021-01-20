@@ -116,17 +116,17 @@ namespace GameEngine2D.Source.Camera2D
             {
 				position.X = 500;
             }
-			if (position.Y < 300)
+			if (position.Y < 350)
             {
-				position.Y = 300;
+				position.Y = 350;
             }
-			if (position.X > 1120)
+			if (position.X > 2000)
 			{
-				position.X = 1120;
+				position.X = 2000;
 			}
-			if (position.Y > 380)
+			if (position.Y > 450)
 			{
-				position.Y = 380;
+				position.Y = 450;
 			}
 			direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
 		}

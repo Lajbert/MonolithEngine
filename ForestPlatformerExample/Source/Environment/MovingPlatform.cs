@@ -27,7 +27,6 @@ namespace ForestPlatformerExample.Source.Environment
 
         public MovingPlatform(int travelDistance) : base(LayerManager.Instance.EntityLayer, null, Vector2.Zero)
         {
-
             this.travelDistance = travelDistance;
             SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
             Active = true;
