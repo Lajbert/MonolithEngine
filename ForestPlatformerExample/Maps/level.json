@@ -13,7 +13,7 @@
 	"defaultGridSize": 16,
 	"bgColor": "#7F8093",
 	"defaultLevelBgColor": "#7F8093",
-	"nextUid": 33,
+	"nextUid": 34,
 	"minifyJson": false,
 	"exportTiled": false,
 	"worldLayout": "Free",
@@ -401,6 +401,24 @@
 						"regex": null,
 						"acceptFileTypes": null,
 						"defaultOverride": null
+					},
+					{
+						"identifier": "speed",
+						"__type": "Int",
+						"uid": 33,
+						"type": "F_Int",
+						"isArray": false,
+						"canBeNull": false,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "Hidden",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": null,
+						"max": null,
+						"regex": null,
+						"acceptFileTypes": null,
+						"defaultOverride": { "id": "V_Int", "params": [1] }
 					}
 				]
 			}
@@ -657,7 +675,20 @@
 							"__type": "Int",
 							"defUid": 28,
 							"realEditorValues": [{ "id": "V_Int", "params": [35] }]
-						}] }
+						}] },
+						{ "__identifier": "EnemyCarrot", "__grid": [31,33], "__tile": null, "defUid": 30, "px": [496,528], "fieldInstances": [
+							{
+								"__identifier": "direction",
+								"__value": "LEFT",
+								"__type": "LocalEnum.Direction",
+								"defUid": 32,
+								"realEditorValues": [{
+									"id": "V_String",
+									"params": ["LEFT"]
+								}]
+							},
+							{ "__identifier": "speed", "__value": 1, "__type": "Int", "defUid": 33, "realEditorValues": [] }
+						] }
 					]
 				},
 				{

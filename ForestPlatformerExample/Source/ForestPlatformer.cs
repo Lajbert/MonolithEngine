@@ -1,6 +1,8 @@
-﻿using ForestPlatformerExample.Source.Environment;
+﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Hero;
 using ForestPlatformerExample.Source.Items;
+using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
@@ -142,6 +144,19 @@ namespace ForestPlatformerExample
                         }
                     }
                     Spring spring = new Spring(position, power);
+                }
+                else if (entity.Identifier.Equals("EnemyCarrot"))
+                {
+                    int speed = -1;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+
+                        if (field.Identifier == "speed")
+                        {
+                            speed = (int)field.Value;
+                        }
+                    }
+                    Carrot carrot = new Carrot(position, Direction.RIGHT);
                 }
             }
         }

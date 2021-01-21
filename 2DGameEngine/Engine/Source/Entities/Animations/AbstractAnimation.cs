@@ -27,6 +27,7 @@ namespace GameEngine2D.Source.Entities.Animation
         public Action StartedCallback;
 
         public Func<bool> AnimationPauseCondition;
+        public Action<int> FrameAction;
         private int? PausedFrame = null;
 
         public Vector2 Pivot;
@@ -97,6 +98,10 @@ namespace GameEngine2D.Source.Entities.Animation
                 if (currentDelay >= delay)
                 {
                     CurrentFrame++;
+                    if (FrameAction != null)
+                    {
+                        FrameAction.Invoke(CurrentFrame);
+                    }
                     currentDelay = 0;
                 }
                 else

@@ -51,7 +51,6 @@ namespace GameEngine2D.Entities
         protected static OnePointCollider CollisionChecker { get; } = new OnePointCollider();
 
         protected Vector2 StartPosition;
-        private Vector2 position;
 
         public bool Visible = true;
         public bool Active = false;
@@ -71,6 +70,8 @@ namespace GameEngine2D.Entities
         public Rectangle SourceRectangle;
 
         public bool BlocksMovement = false;
+
+        private Vector2 position;
 
         public Vector2 Position
         {

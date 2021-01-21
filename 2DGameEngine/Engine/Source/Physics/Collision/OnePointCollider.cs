@@ -82,6 +82,8 @@ namespace GameEngine2D.Source.Layer
             if (direction == Direction.RIGHT) return GridUtil.GetRightGrid(gridCoord);
             if (direction == Direction.UP) return GridUtil.GetUpperGrid(gridCoord);
             if (direction == Direction.DOWN) return GridUtil.GetBelowGrid(gridCoord);
+            if (direction == Direction.BOTTOMRIGHT) return GridUtil.GetRightBelowGrid(gridCoord);
+            if (direction == Direction.BOTTOMLEFT) return GridUtil.GetLeftBelowGrid(gridCoord);
 
             throw new Exception("Unknown direction!");
         }
