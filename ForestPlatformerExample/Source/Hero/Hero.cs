@@ -1,4 +1,5 @@
-﻿using ForestPlatformerExample.Source.Items;
+﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Items;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
@@ -237,9 +238,7 @@ namespace ForestPlatformerExample.Source.Hero
             if (otherCollider is Coin)
             {
                 otherCollider.Destroy();
-            }
-
-            if (otherCollider.HasTag("MovingPlatform"))
+            } else if (otherCollider.HasTag("MovingPlatform"))
             {
                 onMovingPlatform = true;
             }
@@ -258,6 +257,10 @@ namespace ForestPlatformerExample.Source.Hero
 
                 Velocity.Y = 0;
                 Velocity.Y -= ((Spring)otherCollider).Power;
+            }
+            else if(otherCollider is Carrot)
+            {
+                //Logger.Log("Carrot " + direction);
             }
         }
 

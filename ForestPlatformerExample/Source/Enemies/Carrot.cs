@@ -31,6 +31,8 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
+            AddTag("MovingEnemy");
+
             this.faceDirection = faceDirection;
 
             if (faceDirection == Direction.LEFT)
@@ -43,7 +45,7 @@ namespace ForestPlatformerExample.Source.Enemies
             }
 
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(0, -20);
+            Animations.Offset = new Vector2(5, -20);
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@move-sheet");
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.faceDirection == Direction.LEFT);

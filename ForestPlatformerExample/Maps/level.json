@@ -669,13 +669,6 @@
 								"realEditorValues": [{ "id": "V_Int", "params": [300] }]
 							}
 						] },
-						{ "__identifier": "Spring", "__grid": [33,33], "__tile": null, "defUid": 23, "px": [528,528], "fieldInstances": [{
-							"__identifier": "power",
-							"__value": 35,
-							"__type": "Int",
-							"defUid": 28,
-							"realEditorValues": [{ "id": "V_Int", "params": [35] }]
-						}] },
 						{ "__identifier": "EnemyCarrot", "__grid": [31,33], "__tile": null, "defUid": 30, "px": [496,528], "fieldInstances": [
 							{
 								"__identifier": "direction",

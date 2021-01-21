@@ -73,7 +73,7 @@ namespace ForestPlatformerExample.Source.Environment
             foreach (Entity e in platformElements)
             {
                 e.Velocity = Velocity;
-                e.HasCollision = true;
+                //e.HasCollision = true;
             }
         }
     }

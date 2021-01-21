@@ -44,6 +44,7 @@ namespace GameEngine2D.Entities
         private List<string> gridCoordUpdateTags = new List<string>()
         {
             "MovingPlatform",
+            "MovingEnemy",
         };
 
         private bool updateGridPosition = false;
@@ -317,18 +318,18 @@ namespace GameEngine2D.Entities
             if (parent != null)
             {
                 DrawPosition = StartPosition + parent.GetPositionWithParent() + DrawOffset;
-                if (updateGridPosition)
-                {
-                    GridCoordinates = CalculateGridCoord(StartPosition + parent.GetPositionWithParent());
-                }
+
             }
             else
             {
-                if (updateGridPosition)
-                {
-                    GridCoordinates = CalculateGridCoord(Position);
-                }
                 DrawPosition = Position + DrawOffset;
+            }
+
+            if (updateGridPosition)
+            {
+                CollisionChecker.Remove(this);
+                GridCoordinates = CalculateGridCoord(DrawPosition);
+                CollisionChecker.AddObject(this);
             }
 
 
