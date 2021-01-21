@@ -53,7 +53,6 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Action<int> setSpeed = frame =>
             {
-                Logger.Log("CURENT FRAME" + frame);
                 if (frame > 3 && frame < 8)
                 {
                     CurrentSpeed = speed;
