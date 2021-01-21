@@ -235,7 +235,7 @@ namespace GameEngine2D.Entities
                 }
                 if (font != null)
                 {
-                    spriteBatch.DrawString(font, "Direction X: " + Velocity.X, DrawPosition, Color.Black);
+                    spriteBatch.DrawString(font, "Direction Y: " + Velocity.Y, DrawPosition, Color.Black);
                 }
                 spriteBatch.Draw(pivotMarker, Position, Color.White);
             }

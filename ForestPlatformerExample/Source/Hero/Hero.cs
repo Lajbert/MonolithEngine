@@ -141,6 +141,10 @@ namespace ForestPlatformerExample.Source.Hero
         {
             UserInput = new UserInputController();
 
+            UserInput.RegisterControllerState(Keys.R, () => {
+                ResetPosition(new Vector2(200, 200));
+            }, true);
+
             UserInput.RegisterControllerState(Keys.Right, () => {
                 Velocity.X += MovementSpeed * elapsedTime;
                 CurrentFaceDirection = Direction.RIGHT;

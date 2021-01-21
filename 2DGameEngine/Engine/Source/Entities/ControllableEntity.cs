@@ -146,21 +146,20 @@ namespace GameEngine2D
                 GravityValue = Config.GRAVITY_FORCE;
                 JumpModifier = Vector2.Zero;
 
-                if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) 
-                    && CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("SlideWall")
-                    && InCellLocation.X >= CollisionOffsetLeft /* && Direction.X > 0.5*/) {
+                if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetRightGrid(GridCoordinates), "SlideWall")
+                    && InCellLocation.X >= CollisionOffsetLeft /* && Direction.X > 0.5*/)
+                {
                     GravityValue /= 4;
                     canDoubleJump = true;
                     JumpModifier = new Vector2(-5, 0);
-                } 
-                else if (CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) 
-                    && CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("SlideWall")
+                }
+                else if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetLeftGrid(GridCoordinates), "SlideWall")
                     && InCellLocation.X <= CollisionOffsetRight /* && Direction.X < -0.5*/)
                 {
                     GravityValue /= 4;
                     canDoubleJump = true;
                     JumpModifier = new Vector2(5, 0);
-                } 
+                }
                 else
                 {
                     JumpModifier = Vector2.Zero;
