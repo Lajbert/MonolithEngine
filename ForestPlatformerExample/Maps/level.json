@@ -681,7 +681,14 @@
 								}]
 							},
 							{ "__identifier": "speed", "__value": 1, "__type": "Int", "defUid": 33, "realEditorValues": [] }
-						] }
+						] },
+						{ "__identifier": "Spring", "__grid": [33,33], "__tile": null, "defUid": 23, "px": [528,528], "fieldInstances": [{
+							"__identifier": "power",
+							"__value": 25,
+							"__type": "Int",
+							"defUid": 28,
+							"realEditorValues": [{ "id": "V_Int", "params": [25] }]
+						}] }
 					]
 				},
 				{

@@ -11,11 +11,12 @@ namespace GameEngine2D.Source.Layer
 {
     public class OnePointCollider
     {
-        private Dictionary<Vector2, Entity> objects;
+        private Dictionary<Vector2, Entity> objects = new Dictionary<Vector2, Entity>();
+        private Dictionary<Entity, Vector2> objectPositions = new Dictionary<Entity, Vector2>();
+        private List<Entity> lowPriorityObjects = new List<Entity>();
 
-        public OnePointCollider(float scrollSpeedModifier = 1f, bool lockY = false)
+        public OnePointCollider()
         {
-            objects = new Dictionary<Vector2, Entity>();
         }
 
         public Entity GetObjectAt(Vector2 position)
@@ -23,13 +24,52 @@ namespace GameEngine2D.Source.Layer
             return objects[position];
         }
 
-        public void AddObject(Entity gameObject)
+        public void AddOrUpdate(Entity gameObject)
         {
+            if (objectPositions.ContainsKey(gameObject))
+            {
+                objects.Remove(objectPositions[gameObject]);
+            }
             if (objects.ContainsKey(gameObject.GridCoordinates))
             {
-                Entity e = objects[gameObject.GridCoordinates];
+                if (objects[gameObject.GridCoordinates] != gameObject && objects[gameObject.GridCoordinates].CollisionPriority < gameObject.CollisionPriority)
+                {
+                    lowPriorityObjects.Add(objects[gameObject.GridCoordinates]);
+                    objects.Remove(gameObject.GridCoordinates);
+                }
             }
+            objectPositions[gameObject] = gameObject.GridCoordinates;
             objects.Add(gameObject.GridCoordinates, gameObject);
+
+            /*Entity e = null;
+            if (objects.ContainsKey(gameObject.GridCoordinates))
+            {
+                e = objects[gameObject.GridCoordinates];
+            }
+            if (e != null && e.Equals(this))
+            {
+                return;
+            }
+            objects.Add(gameObject.GridCoordinates, gameObject);*/
+        }
+
+        private void TryRestoreLowPriorityObjects()
+        {
+            foreach (Entity e in new List<Entity>(lowPriorityObjects))
+            {
+                if (objects.ContainsKey(e.GridCoordinates))
+                {
+                    if (objects[e.GridCoordinates].CollisionPriority < e.CollisionPriority)
+                    {
+                        lowPriorityObjects.Add(objects[e.GridCoordinates]);
+                        objects[e.GridCoordinates] = e;
+                        lowPriorityObjects.Remove(e);
+                    }
+                } else
+                {
+                    objects[e.GridCoordinates] = e;
+                }
+            }
         }
 
         public Entity GetColliderAt(Vector2 position)
@@ -37,7 +77,7 @@ namespace GameEngine2D.Source.Layer
             return objects[position];
         }
 
-        private void RemoveObject(Vector2 position)
+        /*private void RemoveObject(Vector2 position)
         {
             if (!objects.ContainsKey(position))
             {
@@ -48,10 +88,12 @@ namespace GameEngine2D.Source.Layer
             foreach (Entity child in e.GetAllChildren()) {
                 RemoveObject(child.GridCoordinates);
             }
-        }
+        }*/
 
         public List<(Entity, Direction)> HasCollisionAt(Vector2 gridCoord, ICollection<Direction> directionsToCheck = null)
         {
+            TryRestoreLowPriorityObjects();
+
             List<(Entity, Direction)> result = new List<(Entity, Direction)>();
             if (directionsToCheck == null)
             {
@@ -92,24 +134,27 @@ namespace GameEngine2D.Source.Layer
             return objects.ContainsKey(gridCoord) && objects[gridCoord].HasTag(tag);
         }
 
-        public bool HasColliderAt(Vector2 gridCoord)
-        {
-            return objects.ContainsKey(gridCoord);
-        }
-
         public bool HasBlockingColliderAt(Vector2 gridCoord)
         {
             return objects.ContainsKey(gridCoord) && objects[gridCoord].BlocksMovement;
         }
 
-        public IEnumerable<Entity> GetAll()
-        {
-            return objects.Values;
-        }
-
         public void Remove(Entity gameObject)
         {
-            RemoveObject(gameObject.GridCoordinates);
+            if (gameObject == null)
+            {
+                return;
+            }
+            if (objectPositions.ContainsKey(gameObject))
+            {
+                Vector2 position = objectPositions[gameObject];
+                objects.Remove(position);
+                /*foreach (Entity child in gameObject.GetAllChildren())
+                {
+                    Remove(child);
+                }*/
+            }
+            //RemoveObject(gameObject.GridCoordinates);
         }
 
     }

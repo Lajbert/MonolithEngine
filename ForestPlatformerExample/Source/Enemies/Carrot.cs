@@ -14,12 +14,12 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
-    class Carrot : Entity
+    class Carrot : ControllableEntity
     {
 
-        private float speed = 0.1f;
+        private float speed = 0.01f;
 
-        public float CurrentSpeed = 0.1f;
+        public float CurrentSpeed = 0.01f;
 
         private Direction faceDirection;
 
@@ -28,6 +28,8 @@ namespace ForestPlatformerExample.Source.Enemies
         public Carrot(Vector2 position, Direction faceDirection) : base(LayerManager.Instance.EntityLayer, null, position)
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
+
+            CollisionPriority = 1;
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
@@ -110,7 +112,7 @@ namespace ForestPlatformerExample.Source.Enemies
             //Logger.Log("Speed * direction * gameTime.ElapsedGameTime.Milliseconds: " + (Speed * direction * gameTime.ElapsedGameTime.Milliseconds));
 
             //X += Speed * direction * gameTime.ElapsedGameTime.Milliseconds;
-            X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            Velocity.X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
         private bool WillCollideOrFall()

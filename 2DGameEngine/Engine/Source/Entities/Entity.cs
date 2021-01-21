@@ -29,6 +29,8 @@ namespace GameEngine2D.Entities
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
+        public int CollisionPriority = 0;
+
         private readonly string DESTROY_AMINATION = "Destroy";
 
         private HashSet<string> tags = new HashSet<string>();
@@ -105,7 +107,7 @@ namespace GameEngine2D.Entities
                 hasCollisions = value;
                 if (value)
                 {
-                    CollisionChecker.AddObject(this);
+                    CollisionChecker.AddOrUpdate(this);
                 } else
                 {
                     CollisionChecker.Remove(this);
@@ -327,9 +329,11 @@ namespace GameEngine2D.Entities
 
             if (updateGridPosition)
             {
-                CollisionChecker.Remove(this);
-                GridCoordinates = CalculateGridCoord(DrawPosition);
-                CollisionChecker.AddObject(this);
+                
+                if (CalculateGridCoord() != GridCoordinates)
+                {
+                    CollisionChecker.AddOrUpdate(this);
+                }
             }
 
 
