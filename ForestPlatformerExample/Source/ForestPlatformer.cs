@@ -83,7 +83,7 @@ namespace ForestPlatformerExample
 
             hero = new Hero(new Vector2(300, 500), font);
             Camera.TrackTarget(hero, true);
-            // TODO: use this.Content to load your game content here
+            //TODO: use this.Content to load your game content here
 
             frameCounter = new FrameCounter();
 
@@ -98,9 +98,10 @@ namespace ForestPlatformerExample
             LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
             foreach (EntityInstance entity in map.entities)
             {
+                Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
                 if (entity.Identifier.Equals("Coin"))
                 {
-                    new Coin(new Vector2(entity.Px[0], entity.Px[1]));
+                    new Coin(position);
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
@@ -108,11 +109,12 @@ namespace ForestPlatformerExample
                     int travelDistance = 0;
                     foreach (FieldInstance field in entity.FieldInstances)
                     {
-                        
+
                         if (field.Identifier == "group")
                         {
                             group = (int)field.Value;
-                        } else if (field.Identifier == "travel_distance")
+                        }
+                        else if (field.Identifier == "travel_distance")
                         {
                             travelDistance = (int)field.Value;
                         }
@@ -126,7 +128,20 @@ namespace ForestPlatformerExample
                         platformGroups.Add(group, new MovingPlatform(travelDistance));
                     }
                     MovingPlatform currentPlatform = platformGroups[group];
-                    currentPlatform.AddPlatformElement(new Vector2(entity.Px[0], entity.Px[1]));
+                    currentPlatform.AddPlatformElement(position);
+                }
+                else if (entity.Identifier.Equals("Spring"))
+                {
+                    int power = -1;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+
+                        if (field.Identifier == "power")
+                        {
+                            power = (int)field.Value;
+                        }
+                    }
+                    Spring spring = new Spring(position, power);
                 }
             }
         }

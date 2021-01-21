@@ -51,7 +51,7 @@ namespace GameEngine2D.Source.Layer
             }
         }
 
-        public List<(Entity, Direction)> HasCollisionAt(Vector2 gridCoord, List<Direction> directionsToCheck = null)
+        public List<(Entity, Direction)> HasCollisionAt(Vector2 gridCoord, ICollection<Direction> directionsToCheck = null)
         {
             List<(Entity, Direction)> result = new List<(Entity, Direction)>();
             if (directionsToCheck == null)

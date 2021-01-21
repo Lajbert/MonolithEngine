@@ -152,7 +152,7 @@ namespace GameEngine2D.Entities
 
         private Texture2D pivotMarker;
 
-        private Dictionary<Entity, bool> collidesWith = new Dictionary<Entity, bool>();
+        private Dictionary<(Entity, Direction), bool> collidesWith = new Dictionary<(Entity, Direction), bool>();
 
         public float Depth = 0f;
 
@@ -259,17 +259,17 @@ namespace GameEngine2D.Entities
             }
         }
 
-        protected virtual void OnCollision(Entity otherCollider)
+        protected virtual void OnCollision(Entity otherCollider, Direction direction)
         {
 
         }
 
-        protected virtual void OnCollisionStart(Entity otherCollider)
+        protected virtual void OnCollisionStart(Entity otherCollider, Direction direction)
         {
 
         }
 
-        protected virtual void OnCollisionEnd(Entity otherCollider)
+        protected virtual void OnCollisionEnd(Entity otherCollider, Direction direction)
         {
 
         }
@@ -366,119 +366,29 @@ namespace GameEngine2D.Entities
 
             GridCoordinates = CalculateGridCoord();
 
-            foreach (Entity e in new List<Entity>(collidesWith.Keys))
+            foreach ((Entity, Direction) e in new List<(Entity, Direction)>(collidesWith.Keys))
             {
                 collidesWith[e] = false;
             }
 
-            if (CollisionCheckDirections.Contains(Direction.CENTER) && CollisionChecker.HasColliderAt(GridCoordinates))
+            foreach ((Entity, Direction) collision in CollisionChecker.HasCollisionAt(GridCoordinates, CollisionCheckDirections))
             {
-                if (!collidesWith.ContainsKey(GetSamePositionCollider()))
+                if (!collidesWith.ContainsKey(collision))
                 {
-                    collidesWith.Add(GetSamePositionCollider(), true);
-                    OnCollisionStart(GetSamePositionCollider());
+                    collidesWith.Add(collision, true);
+                    OnCollisionStart(collision.Item1, collision.Item2);
                 }
                 else
                 {
-                    collidesWith[GetSamePositionCollider()] = true;
-                    OnCollision(GetSamePositionCollider());
+                    collidesWith[collision] = true;
+                    OnCollision(collision.Item1, collision.Item2);
                 }
             }
 
-            if (CollisionCheckDirections.Contains(Direction.LEFT) && CollisionChecker.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
-            {
-                if (InCellLocation.X <= CollisionOffsetRight)
-                {
-                    if (!collidesWith.ContainsKey(GetLeftCollider()))
-                    {
-                        collidesWith.Add(GetLeftCollider(), true);
-                        OnCollisionStart(GetLeftCollider());
-                    }
-                    else
-                    {
-                        collidesWith[GetLeftCollider()] = true;
-                        OnCollision(GetLeftCollider());
-                    }
-                }
-
-            }
-
-            if (CollisionCheckDirections.Contains(Direction.RIGHT) && CollisionChecker.HasColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
-            {
-                if (InCellLocation.X >= CollisionOffsetLeft)
-                {
-                    if (!collidesWith.ContainsKey(GetRightCollider()))
-                    {
-                        collidesWith.Add(GetRightCollider(), true);
-                        OnCollisionStart(GetRightCollider());
-                    }
-                    else
-                    {
-                        collidesWith[GetRightCollider()] = true;
-                        OnCollision(GetRightCollider());
-                    }
-                }
-                
-            }
-
-            if (CollisionCheckDirections.Contains(Direction.DOWN) && CollisionChecker.HasColliderAt(GridUtil.GetBelowGrid(GridCoordinates)))
-            {
-                if (InCellLocation.Y >= CollisionOffsetBottom)
-                {
-                    if (!collidesWith.ContainsKey(GetBottomCollider()))
-                    {
-                        collidesWith.Add(GetBottomCollider(), true);
-                        OnCollisionStart(GetBottomCollider());
-                    }
-                    else
-                    {
-                        collidesWith[GetBottomCollider()] = true;
-                        OnCollision(GetBottomCollider());
-                    }
-                }
-            }
-
-            if (CollisionCheckDirections.Contains(Direction.UP) && CollisionChecker.HasColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
-            {
-                if (InCellLocation.Y <= CollisionOffsetTop)
-                {
-                    if (!collidesWith.ContainsKey(GetTopCollider()))
-                    {
-                        collidesWith.Add(GetTopCollider(), true);
-                        OnCollisionStart(GetTopCollider());
-                    }
-                    else
-                    {
-                        collidesWith[GetTopCollider()] = true;
-                        OnCollision(GetTopCollider());
-                    }
-                }
-
-            }
-
-            /*foreach (FaceDirection dir in SinglePointCollisionChecks)
-            {
-                if (dir == FaceDirection.LEFT)
-                {
-                    if (Scene.Instance.HasColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
-                    {
-                        if (!collidesWith.ContainsKey(GetLeftCollider()))
-                        {
-                            collidesWith.Add(GetLeftCollider(), true);
-                            OnCollisionStart(GetLeftCollider());
-                        }
-                        else
-                        {
-                            collidesWith[GetLeftCollider()] = true;
-                        }
-                    }
-                }
-            }*/
-
-            foreach (KeyValuePair<Entity, bool> e in collidesWith.Where(e => !e.Value))
+            foreach (KeyValuePair<(Entity, Direction), bool> e in collidesWith.Where(e => !e.Value))
             {
                 collidesWith.Remove(e.Key);
-                OnCollisionEnd(e.Key);
+                OnCollisionEnd(e.Key.Item1, e.Key.Item2);
             }
         }
 

@@ -232,7 +232,7 @@ namespace ForestPlatformerExample.Source.Hero
             base.Update(gameTime);
         }
 
-        protected override void OnCollisionStart(Entity otherCollider)
+        protected override void OnCollisionStart(Entity otherCollider, Direction direction)
         {
             if (otherCollider is Coin)
             {
@@ -243,9 +243,25 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 onMovingPlatform = true;
             }
+            else if (otherCollider is Spring && direction == Direction.CENTER)
+            {
+                ((Spring)otherCollider).PlayBounceAnimation();
+                /*if (Velocity.Y > 0)
+                {
+                    Velocity.Y = 0;
+                    Velocity.Y -= ((Spring)otherCollider).Power + Velocity.Y;
+                } else
+                {
+                    Velocity.Y = 0;
+                    Velocity.Y -= ((Spring)otherCollider).Power;
+                }*/
+
+                Velocity.Y = 0;
+                Velocity.Y -= ((Spring)otherCollider).Power;
+            }
         }
 
-        protected override void OnCollision(Entity otherCollider)
+        protected override void OnCollision(Entity otherCollider, Direction direction)
         {
             if (otherCollider.HasTag("MovingPlatform"))
             {
@@ -255,16 +271,19 @@ namespace ForestPlatformerExample.Source.Hero
             }
         }
 
-        protected override void OnCollisionEnd(Entity otherCollider)
+        protected override void OnCollisionEnd(Entity otherCollider, Direction direction)
         {
             if (otherCollider.HasTag("Platform") && !otherCollider.BlocksMovement)
             {
                 otherCollider.BlocksMovement = true;
             }
-
-            if (otherCollider.HasTag("MovingPlatform"))
+            else if (otherCollider.HasTag("MovingPlatform"))
             {
                 onMovingPlatform = false;
+            }
+            else if (otherCollider is Spring && direction == Direction.CENTER)
+            {
+                FallStartedAt = 0;
             }
         }
     }
