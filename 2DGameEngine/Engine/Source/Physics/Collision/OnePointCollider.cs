@@ -14,6 +14,7 @@ namespace GameEngine2D.Source.Layer
         private Dictionary<Vector2, Entity> objects = new Dictionary<Vector2, Entity>();
         private Dictionary<Entity, Vector2> objectPositions = new Dictionary<Entity, Vector2>();
         private List<Entity> lowPriorityObjects = new List<Entity>();
+        private List<Entity> tmpList = new List<Entity>();
 
         public OnePointCollider()
         {
@@ -55,7 +56,15 @@ namespace GameEngine2D.Source.Layer
 
         private void TryRestoreLowPriorityObjects()
         {
-            foreach (Entity e in new List<Entity>(lowPriorityObjects))
+            if (lowPriorityObjects.Count == 0)
+            {
+                return;
+            }
+
+            // TODO: review this list copy stuff!
+            tmpList.Clear();
+            tmpList.AddRange(lowPriorityObjects);
+            foreach (Entity e in tmpList)
             {
                 if (objects.ContainsKey(e.GridCoordinates))
                 {
@@ -131,11 +140,13 @@ namespace GameEngine2D.Source.Layer
 
         public bool HasObjectAtWithTag(Vector2 gridCoord, string tag)
         {
+            TryRestoreLowPriorityObjects();
             return objects.ContainsKey(gridCoord) && objects[gridCoord].HasTag(tag);
         }
 
         public bool HasBlockingColliderAt(Vector2 gridCoord)
         {
+            TryRestoreLowPriorityObjects();
             return objects.ContainsKey(gridCoord) && objects[gridCoord].BlocksMovement;
         }
 
