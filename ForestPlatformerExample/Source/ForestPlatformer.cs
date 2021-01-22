@@ -167,6 +167,7 @@ namespace ForestPlatformerExample
                 Exit();
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic here
+            Timer.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
             LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);

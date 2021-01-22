@@ -22,13 +22,12 @@ namespace GameEngine2D.Source.Entities.Animation
         public Vector2 Offset = Vector2.Zero;
         protected SpriteEffects SpriteEffect { get; set; }
         public bool Looping = true;
-        protected bool Started = false;
+        public bool Started = false;
         public Action StoppedCallback;
         public Action StartedCallback;
 
         public Func<bool> AnimationPauseCondition;
         public Action<int> FrameAction;
-        private int? PausedFrame = null;
 
         public Vector2 Pivot;
 
@@ -58,7 +57,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public bool Finished()
         {
-            return CurrentFrame == StartFrame && !Started;
+            return !Started;
         }
 
         public virtual void Play(SpriteBatch spriteBatch)

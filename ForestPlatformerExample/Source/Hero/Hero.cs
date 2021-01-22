@@ -55,9 +55,17 @@ namespace ForestPlatformerExample.Source.Hero
             CollisionOffsetBottom = 0.4f;
             CollisionOffsetTop = 0.5f;
 
-            Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
+            Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@hurt-sheet");
+            SpriteSheetAnimation hurtRight = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 24);
+            hurtRight.Looping = false;
+            Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
+
+            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 24, SpriteEffects.FlipHorizontally);
+            hurtLeft.Looping = false;
+            Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
+
+            spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
             SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 24, 64, 64, 24);
-            
             Func<bool> isIdleRight = () => CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
@@ -260,7 +268,27 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if(otherCollider is Carrot)
             {
-                //Logger.Log("Carrot " + direction);
+                if (Timer.IsCounting("Damage"))
+                {
+                    return;
+                }
+
+                Timer.StartTimer("Damage", (float)TimeSpan.FromSeconds(1).TotalMilliseconds);
+
+                if (CurrentFaceDirection == Direction.LEFT)
+                {
+                    Animations.PlayAnimation("HurtLeft");
+                } else if (CurrentFaceDirection == Direction.RIGHT)
+                {
+                    Animations.PlayAnimation("HurtRight");
+                }
+                if (direction == Direction.LEFT)
+                {
+                    Velocity += new Vector2(2, -2);
+                } else if (direction == Direction.RIGHT)
+                {
+                    Velocity += new Vector2(-2, -2);
+                }
             }
         }
 
@@ -269,8 +297,6 @@ namespace ForestPlatformerExample.Source.Hero
             if (otherCollider.HasTag("MovingPlatform"))
             {
                 Velocity.X += otherCollider.Velocity.X * elapsedTime;
-                //if (Direction.X > otherCollider.Direction.X) Direction.X = otherCollider.Direction.X;
-                //if (Direction.X < otherCollider.Direction.X) Direction.X = otherCollider.Direction.X;
             }
         }
 

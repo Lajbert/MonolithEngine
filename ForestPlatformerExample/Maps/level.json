@@ -684,10 +684,10 @@
 						] },
 						{ "__identifier": "Spring", "__grid": [33,33], "__tile": null, "defUid": 23, "px": [528,528], "fieldInstances": [{
 							"__identifier": "power",
-							"__value": 25,
+							"__value": 30,
 							"__type": "Int",
 							"defUid": 28,
-							"realEditorValues": [{ "id": "V_Int", "params": [25] }]
+							"realEditorValues": [{ "id": "V_Int", "params": [30] }]
 						}] }
 					]
 				},

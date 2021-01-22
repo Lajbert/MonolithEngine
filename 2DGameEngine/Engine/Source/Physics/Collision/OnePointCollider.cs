@@ -41,17 +41,6 @@ namespace GameEngine2D.Source.Layer
             }
             objectPositions[gameObject] = gameObject.GridCoordinates;
             objects.Add(gameObject.GridCoordinates, gameObject);
-
-            /*Entity e = null;
-            if (objects.ContainsKey(gameObject.GridCoordinates))
-            {
-                e = objects[gameObject.GridCoordinates];
-            }
-            if (e != null && e.Equals(this))
-            {
-                return;
-            }
-            objects.Add(gameObject.GridCoordinates, gameObject);*/
         }
 
         private void TryRestoreLowPriorityObjects()
