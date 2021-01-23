@@ -248,7 +248,7 @@ namespace ForestPlatformerExample.Source.Hero
                 }
                 if (thumbStickPosition.Y != 0)
                 {
-                    Velocity.Y += GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
+                    Velocity.Y -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
                 } 
                 else
                 {
@@ -264,7 +264,7 @@ namespace ForestPlatformerExample.Source.Hero
                 }
                 if (thumbStickPosition.Y != 0)
                 {
-                    Velocity.Y += GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
+                    Velocity.Y -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
                 }
                 else
                 {
