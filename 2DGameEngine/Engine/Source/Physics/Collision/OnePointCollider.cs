@@ -33,7 +33,7 @@ namespace GameEngine2D.Source.Layer
             }
             if (objects.ContainsKey(gameObject.GridCoordinates))
             {
-                if (objects[gameObject.GridCoordinates] != gameObject && objects[gameObject.GridCoordinates].CollisionPriority < gameObject.CollisionPriority)
+                if (objects[gameObject.GridCoordinates] != gameObject && objects[gameObject.GridCoordinates].CollisionPriority <= gameObject.CollisionPriority)
                 {
                     lowPriorityObjects.Add(objects[gameObject.GridCoordinates]);
                     objects.Remove(gameObject.GridCoordinates);
@@ -57,7 +57,7 @@ namespace GameEngine2D.Source.Layer
             {
                 if (objects.ContainsKey(e.GridCoordinates))
                 {
-                    if (objects[e.GridCoordinates].CollisionPriority < e.CollisionPriority)
+                    if (objects[e.GridCoordinates].CollisionPriority <= e.CollisionPriority)
                     {
                         lowPriorityObjects.Add(objects[e.GridCoordinates]);
                         objects[e.GridCoordinates] = e;

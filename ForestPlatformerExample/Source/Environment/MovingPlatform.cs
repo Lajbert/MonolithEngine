@@ -63,7 +63,7 @@ namespace ForestPlatformerExample.Source.Environment
             //Logger.Log("SIN: " + sin);
             foreach (Entity e in platformElements)
             {
-                e.HasCollision = false;
+                //e.HasCollision = false;
             }
             //Direction.X += sin * elapsedTime;
             Velocity.X += speed * elapsedTime * direction;
