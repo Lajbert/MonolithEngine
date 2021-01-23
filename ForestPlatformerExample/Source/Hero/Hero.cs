@@ -133,9 +133,15 @@ namespace ForestPlatformerExample.Source.Hero
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@climb-sheet");
             SpriteSheetAnimation climb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 60);
             Func<bool> isClimbing = () => !HasGravity;
-            Func<bool> isHangingOnLadder = () => (Math.Abs(Velocity.X) < 0.5f && Math.Abs(Velocity.Y) < 0.5f);
+            Func<bool> isHangingOnLadder = () => (Math.Abs(Velocity.X) <= 0.1f && Math.Abs(Velocity.Y) <= 0.1f);
             climb.AnimationPauseCondition = isHangingOnLadder;
-            Animations.RegisterAnimation("HangingOnLadder", climb, isClimbing, 6);
+            Animations.RegisterAnimation("ClimbingLadder", climb, isClimbing, 6);
+
+            SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 30);
+            Func<bool> isSlowClimbing = () => !HasGravity && ((Math.Abs(Velocity.X) > 0.1 && Math.Abs(Velocity.X) < 0.5) || (Math.Abs(Velocity.Y) > 0.1 && Math.Abs(Velocity.Y) < 0.5));
+            //Func<bool> isHangingOnLadder = () => (Math.Abs(Velocity.X) <= 0.1f && Math.Abs(Velocity.Y) <= 0.1f);
+            climb.AnimationPauseCondition = isHangingOnLadder;
+            Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
             SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 13, 64, 64, 24);
@@ -258,10 +264,16 @@ namespace ForestPlatformerExample.Source.Hero
             });
 
             UserInput.RegisterControllerState(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
-                if (HasGravity)
+                if (HasGravity && (GetSamePositionCollider() == null || !GetSamePositionCollider().HasTag("Ladder")))
                 {
                     return;
                 }
+
+                if (HasGravity)
+                {
+                    Velocity.Y -= Config.JUMP_FORCE;
+                }
+
                 if (thumbStickPosition.Y != 0)
                 {
                     Velocity.Y -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;

@@ -283,26 +283,6 @@ namespace GameEngine2D.Entities
             return CollisionChecker.GetColliderAt(GridCoordinates);
         }
 
-        public Entity GetLeftCollider()
-        {
-            return CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates));
-        }
-
-        public Entity GetRightCollider()
-        {
-            return CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates));
-        }
-
-        public Entity GetTopCollider()
-        {
-            return CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates));
-        }
-
-        public Entity GetBottomCollider()
-        {
-            return CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
-        }
-
         public virtual void PreUpdate(GameTime gameTime)
         {
 

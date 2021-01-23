@@ -72,6 +72,10 @@ namespace GameEngine2D.Source.Layer
 
         public Entity GetColliderAt(Vector2 position)
         {
+            if (!objects.ContainsKey(position))
+            {
+                return null;
+            }
             return objects[position];
         }
 
