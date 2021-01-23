@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,20 +10,37 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
     {
 
         private Dictionary<Keys, bool> pressedKeys = new Dictionary<Keys, bool>();
-        private Dictionary<KeyMapping, Action> keyActions = new Dictionary<KeyMapping, Action>();
+        private Dictionary<Buttons, bool> pressedButtons = new Dictionary<Buttons, bool>();
+        private Dictionary<KeyMapping, Action<Vector2>> keyActions = new Dictionary<KeyMapping, Action<Vector2>>();
         private KeyboardState currentKeyboardState;
         private KeyboardState prevKeyboardState;
+        private GamePadState prevGamepadState;
         private MouseState mouseState;
+        private GamePadState currentGamepadState;
 
         private int prevMouseScrollWheelValue = 0;
         private Action mouseWheelUpAction;
         private Action mouseWheelDownAction;
 
-        public void RegisterControllerState(Keys key, Action action, bool singlePressOnly = false) {
-            keyActions.Add(new KeyMapping(key, singlePressOnly), action);
-            if (!pressedKeys.ContainsKey(key)) {
-                pressedKeys.Add(key, false);
-            }
+        private Vector2 leftThumbstick = Vector2.Zero;
+        private Vector2 rightThumbStick = Vector2.Zero;
+
+        public void RegisterControllerState(Keys key, Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false)
+        {
+            keyActions.Add(new KeyMapping(key, controllerButton, singlePressOnly), action);
+            pressedKeys[key] = false;
+            pressedButtons[controllerButton] = false;
+        }
+
+        public void RegisterControllerState(Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false)
+        {
+            keyActions.Add(new KeyMapping(null, controllerButton, singlePressOnly), action);
+            pressedButtons[controllerButton] = false;
+        }
+
+        public void RegisterControllerState(Keys key, Action<Vector2> action, bool singlePressOnly = false) {
+            keyActions.Add(new KeyMapping(key, null, singlePressOnly), action);
+            pressedKeys[key] = false;
         }
 
         public void RegisterMouseActions(Action wheelUpAction, Action wheelDownAction)
@@ -40,24 +58,74 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
         {
             currentKeyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState();
+            currentGamepadState = GamePad.GetState(PlayerIndex.One);
 
-            foreach (KeyValuePair<KeyMapping, Action> mapping in keyActions)
+            foreach (KeyValuePair<KeyMapping, Action<Vector2>> mapping in keyActions)
             {
-                Keys key = mapping.Key.Key;
-                if (currentKeyboardState.IsKeyDown(key))
+                Keys? key = mapping.Key.Key;
+                if (key.HasValue)
                 {
-                    if(mapping.Key.SinglePressOnly && (prevKeyboardState != null && (prevKeyboardState == currentKeyboardState || pressedKeys[key] ))) {
-                        continue;
+                    if (currentKeyboardState.IsKeyDown(key.Value))
+                    {
+                        if (mapping.Key.SinglePressOnly && (prevKeyboardState != null && (prevKeyboardState == currentKeyboardState || pressedKeys[key.Value])))
+                        {
+                            continue;
+                        }
+                        pressedKeys[key.Value] = true;
+                        mapping.Value.Invoke(Vector2.Zero);
                     }
-                    pressedKeys[key] = true;
-                    mapping.Value.Invoke();
-                } else
-                {
-                    pressedKeys[key] = false;
+                    else
+                    {
+                        pressedKeys[key.Value] = false;
+                    }
                 }
+
+                Buttons? button = mapping.Key.Button;
+                if (button.HasValue)
+                {
+                    if (currentGamepadState.IsButtonDown(button.Value))
+                    {
+                        if (mapping.Key.SinglePressOnly && (prevGamepadState != null && (prevGamepadState == currentGamepadState || pressedButtons[button.Value])))
+                        {
+                            continue;
+                        }
+                        pressedButtons[button.Value] = true;
+                        if (button.Value == Buttons.LeftThumbstickLeft || button.Value == Buttons.LeftThumbstickRight)
+                        {
+                            leftThumbstick.X = currentGamepadState.ThumbSticks.Left.X;
+                            mapping.Value.Invoke(leftThumbstick);
+                        } else if (button.Value == Buttons.LeftThumbstickUp || button.Value == Buttons.LeftThumbstickDown)
+                        {
+                            leftThumbstick.Y = currentGamepadState.ThumbSticks.Left.Y;
+                            mapping.Value.Invoke(leftThumbstick);
+                        }
+                        else if (button.Value == Buttons.RightThumbstickLeft || button.Value == Buttons.RightThumbstickRight)
+                        {
+                            rightThumbStick.X = currentGamepadState.ThumbSticks.Right.X;
+                            mapping.Value.Invoke(rightThumbStick);
+                        }
+                        else if (button.Value == Buttons.RightThumbstickUp || button.Value == Buttons.RightThumbstickDown)
+                        {
+                            rightThumbStick.Y = currentGamepadState.ThumbSticks.Right.Y;
+                            mapping.Value.Invoke(rightThumbStick);
+                        }
+                        else
+                        {
+                            mapping.Value.Invoke(Vector2.Zero);
+                        }
+
+
+                    }
+                    else
+                    {
+                        pressedButtons[button.Value] = false;
+                    }
+                }
+                
             }
 
             prevKeyboardState = currentKeyboardState;
+            prevGamepadState = currentGamepadState;
 
             if (mouseState.ScrollWheelValue > prevMouseScrollWheelValue)
             {
@@ -78,25 +146,27 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
 
         private class KeyMapping
         {
-            public Keys Key;
+            public Keys? Key;
+            public Buttons? Button;
             public bool SinglePressOnly;
 
-            public KeyMapping(Keys key, bool singlePressOnly)
+            public KeyMapping(Keys? key, Buttons? button, bool singlePressOnly)
             {
                 Key = key;
+                this.Button = button;
                 SinglePressOnly = singlePressOnly;
             }
-
             public override bool Equals(object obj)
             {
                 return obj is KeyMapping mapping &&
                        Key == mapping.Key &&
+                       Button == mapping.Button &&
                        SinglePressOnly == mapping.SinglePressOnly;
             }
 
             public override int GetHashCode()
             {
-                return HashCode.Combine(Key, SinglePressOnly);
+                return HashCode.Combine(Key, Button, SinglePressOnly);
             }
         }
     }

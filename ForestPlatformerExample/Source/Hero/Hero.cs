@@ -82,6 +82,17 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
+            SpriteSheetAnimation walingLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12, SpriteEffects.FlipHorizontally);
+            Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
+            Animations.RegisterAnimation("WalkingLeft", walingLeft, isWalkingLeft, 1);
+
+            SpriteSheetAnimation walingRight = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12);
+            Func<bool> isWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
+            Animations.RegisterAnimation("WalkingRight", walingRight, isWalkingRight, 1);
+
+            Animations.AddFrameTransition("RunningRight", "WalkingRight");
+            Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
+
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
             SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 11, 64, 64, 24);
             jumpRight.Looping = false;
@@ -150,21 +161,43 @@ namespace ForestPlatformerExample.Source.Hero
         {
             UserInput = new UserInputController();
 
-            UserInput.RegisterControllerState(Keys.R, () => {
+            UserInput.RegisterControllerState(Keys.R, (Vector2 thumbStickPosition) => {
                 ResetPosition(new Vector2(200, 200));
             }, true);
 
-            UserInput.RegisterControllerState(Keys.Right, () => {
-                Velocity.X += MovementSpeed * elapsedTime;
-                CurrentFaceDirection = Direction.RIGHT;
+            UserInput.RegisterControllerState(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
+                if (thumbStickPosition.X > 0)
+                {
+                    Velocity.X += GetVelocity(thumbStickPosition.X, MovementSpeed) * elapsedTime;
+                    if (Velocity.X > 0.1)
+                    {
+                        CurrentFaceDirection = Direction.RIGHT;
+                    }
+                } else if (thumbStickPosition.X == 0)
+                {
+                    Velocity.X += MovementSpeed * elapsedTime;
+                    CurrentFaceDirection = Direction.RIGHT;
+                }
+                //CurrentFaceDirection = Direction.RIGHT;
             });
 
-            UserInput.RegisterControllerState(Keys.Left, () => {
-                Velocity.X -= MovementSpeed * elapsedTime;
-                CurrentFaceDirection = Direction.LEFT;
+            UserInput.RegisterControllerState(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
+                if (thumbStickPosition.X < -0)
+                {
+                    Velocity.X += GetVelocity(thumbStickPosition.X, MovementSpeed) * elapsedTime;
+                    if (Velocity.X < -0.1)
+                    {
+                        CurrentFaceDirection = Direction.LEFT;
+                    }
+                } else if (thumbStickPosition.X == 0)
+                {
+                    Velocity.X -= MovementSpeed * elapsedTime;
+                    CurrentFaceDirection = Direction.LEFT;
+                }
+                //CurrentFaceDirection = Direction.LEFT;
             });
 
-            UserInput.RegisterControllerState(Keys.Up, () => {
+            UserInput.RegisterControllerState(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) => {
                 if (!HasGravity || (!canJump && !canDoubleJump))
                 {
                     return;
@@ -198,7 +231,7 @@ namespace ForestPlatformerExample.Source.Hero
                 FallStartedAt = (float)GameTime.TotalGameTime.TotalSeconds;
             }, true);
 
-            UserInput.RegisterControllerState(Keys.Down, () => {
+            UserInput.RegisterControllerState(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
                     if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetBelowGrid(GridCoordinates), "Platform") && CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement) {
@@ -208,21 +241,35 @@ namespace ForestPlatformerExample.Source.Hero
                 //CurrentFaceDirection = GridDirection.DOWN;
             }, true);
 
-            UserInput.RegisterControllerState(Keys.Down, () => {
+            UserInput.RegisterControllerState(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
                     return;
                 }
-                Velocity.Y += MovementSpeed * elapsedTime;
+                if (thumbStickPosition.Y != 0)
+                {
+                    Velocity.Y += GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
+                } 
+                else
+                {
+                    Velocity.Y += MovementSpeed * elapsedTime;
+                }
                 //CurrentFaceDirection = GridDirection.DOWN;
             });
 
-            UserInput.RegisterControllerState(Keys.Up, () => {
+            UserInput.RegisterControllerState(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
                     return;
                 }
-                Velocity.Y -= MovementSpeed * elapsedTime;
+                if (thumbStickPosition.Y != 0)
+                {
+                    Velocity.Y += GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
+                }
+                else
+                {
+                    Velocity.Y -= MovementSpeed * elapsedTime;
+                }
                 //CurrentFaceDirection = GridDirection.UP;
             });
 
@@ -290,6 +337,15 @@ namespace ForestPlatformerExample.Source.Hero
                     Velocity += new Vector2(-2, -2);
                 }
             }
+        }
+
+        private float GetVelocity(float thumbStickPosition, float maxVelocity)
+        {
+            if (thumbStickPosition == 0)
+            {
+                return 0;
+            }
+            return thumbStickPosition / 1 * maxVelocity;
         }
 
         protected override void OnCollision(Entity otherCollider, Direction direction)
