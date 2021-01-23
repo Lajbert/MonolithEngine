@@ -5,11 +5,6 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameEngine2D", "2DGameEngine\GameEngine2D.csproj", "{2110518F-0A53-4857-AAF6-EE83E78BB6CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SideScrollerExample", "SideScrollerExample\SideScrollerExample.csproj", "{0FC153AF-3BE5-4DAF-B015-D136D0A4F535}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopDownExample", "TopDownExample\TopDownExample.csproj", "{E45AB5E5-3324-4557-BD33-C9725351B22F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
@@ -25,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForestPlatformerExample", "
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{9C5147AC-A7D5-4F33-B1E2-89F1431B47B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{9C5147AC-A7D5-4F33-B1E2-89F1431B47B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +32,6 @@ Global
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FC153AF-3BE5-4DAF-B015-D136D0A4F535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FC153AF-3BE5-4DAF-B015-D136D0A4F535}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FC153AF-3BE5-4DAF-B015-D136D0A4F535}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FC153AF-3BE5-4DAF-B015-D136D0A4F535}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E45AB5E5-3324-4557-BD33-C9725351B22F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E45AB5E5-3324-4557-BD33-C9725351B22F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E45AB5E5-3324-4557-BD33-C9725351B22F}.Release|Any CPU.ActiveCfg = Release|Any CPU
