@@ -285,7 +285,7 @@ namespace ForestPlatformerExample.Source.Hero
                 //CurrentFaceDirection = GridDirection.UP;
             });
 
-            UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.1f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.1f; /*Globals.Camera.Recenter(); */});
+            UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.5f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.5f; /*Globals.Camera.Recenter(); */});
         }
 
         public override void Update(GameTime gameTime)

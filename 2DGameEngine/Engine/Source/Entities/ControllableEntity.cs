@@ -221,11 +221,11 @@ namespace GameEngine2D
             {
 
                 if (InCellLocation.Y > CollisionOffsetBottom) {
-                    InCellLocation.Y -= 0.01f;
+                    InCellLocation.Y -= 0.9f * elapsedTime;
                 }
                 if (InCellLocation.Y < CollisionOffsetBottom)
                 {
-                    InCellLocation.Y += 0.01f;
+                    InCellLocation.Y += 0.9f * elapsedTime;
                 }
                 //InCellLocation.Y = CollisionOffsetBottom;
             }

@@ -50,6 +50,11 @@ namespace GameEngine2D.Source.Camera2D
 		private Vector3 viewportCenterTransform;
 		public Vector2 CurrentCenter;
 
+		public int BOUND_LEFT = 500;
+        public int BOUND_RIGHT = 2000;
+		public int BOUND_TOP = 350;
+		public int BOUND_BOTTOM = 450;
+
 		private LayerManager root;
 
 		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
@@ -112,21 +117,22 @@ namespace GameEngine2D.Source.Camera2D
 			}
 
 			position += direction * elapsedTime;
-			if (position.X < 500)
-            {
-				position.X = 500;
-            }
-			if (position.Y < 350)
-            {
-				position.Y = 350;
-            }
-			if (position.X > 2000)
+
+			if (position.X < BOUND_LEFT)
 			{
-				position.X = 2000;
+				position.X = BOUND_LEFT;
 			}
-			if (position.Y > 450)
+			if (position.Y < BOUND_TOP)
 			{
-				position.Y = 450;
+				position.Y = BOUND_TOP;
+			}
+			if (position.X > BOUND_RIGHT)
+			{
+				position.X = BOUND_RIGHT;
+			}
+			if (position.Y > BOUND_BOTTOM)
+			{
+				position.Y = BOUND_BOTTOM;
 			}
 			direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
 		}

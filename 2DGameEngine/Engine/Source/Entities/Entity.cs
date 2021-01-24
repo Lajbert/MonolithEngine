@@ -239,7 +239,7 @@ namespace GameEngine2D.Entities
                 }
                 if (font != null)
                 {
-                    spriteBatch.DrawString(font, "Veloctiy X: " + Velocity.X, DrawPosition, Color.Black);
+                    spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
                 }
                 spriteBatch.Draw(pivotMarker, Position, Color.White);
             }
