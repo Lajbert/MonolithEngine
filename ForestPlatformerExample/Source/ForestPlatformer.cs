@@ -38,10 +38,11 @@ namespace ForestPlatformerExample
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
-            Config.GRAVITY_FORCE = 16f;
+            Config.GRAVITY_FORCE = 12f;
             Config.ZOOM = 2f;
-            Config.CHARACTER_SPEED = 3f;
+            Config.CHARACTER_SPEED = 2f;
             Config.JUMP_FORCE = 7f;
+            Config.INCREASING_GRAVITY = true;
 
             //Config.RES_W = 3840;
             //Config.RES_W = 2160;

@@ -171,8 +171,15 @@ namespace GameEngine2D
                     canDoubleJump = true;
                 }
 
-                t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
-                Velocity.Y += GravityValue * t * elapsedTime;
+                if (Config.INCREASING_GRAVITY)
+                {
+                    t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
+                    Velocity.Y += GravityValue * t * elapsedTime;
+                } else
+                {
+                    Velocity.Y += GravityValue * elapsedTime;
+                }
+                
                 canJump = false;
             }
                 
@@ -221,11 +228,11 @@ namespace GameEngine2D
             {
 
                 if (InCellLocation.Y > CollisionOffsetBottom) {
-                    InCellLocation.Y -= 0.9f * elapsedTime;
+                    InCellLocation.Y -= 0.09f * elapsedTime * GravityValue;
                 }
                 if (InCellLocation.Y < CollisionOffsetBottom)
                 {
-                    InCellLocation.Y += 0.9f * elapsedTime;
+                    InCellLocation.Y += 0.09f * elapsedTime * GravityValue;
                 }
                 //InCellLocation.Y = CollisionOffsetBottom;
             }
@@ -244,7 +251,7 @@ namespace GameEngine2D
             base.PostUpdate(gameTime);
         }
 
-        private bool OnGround()
+        protected bool OnGround()
         {
             return CollisionChecker.HasBlockingColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
         }

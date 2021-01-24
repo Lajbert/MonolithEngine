@@ -167,11 +167,11 @@ namespace ForestPlatformerExample.Source.Hero
         {
             UserInput = new UserInputController();
 
-            UserInput.RegisterControllerState(Keys.R, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.R, (Vector2 thumbStickPosition) => {
                 ResetPosition(new Vector2(200, 200));
             }, true);
 
-            UserInput.RegisterControllerState(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X > 0)
                 {
                     Velocity.X += GetVelocity(thumbStickPosition.X, MovementSpeed) * elapsedTime;
@@ -187,7 +187,7 @@ namespace ForestPlatformerExample.Source.Hero
                 //CurrentFaceDirection = Direction.RIGHT;
             });
 
-            UserInput.RegisterControllerState(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X < -0)
                 {
                     Velocity.X += GetVelocity(thumbStickPosition.X, MovementSpeed) * elapsedTime;
@@ -203,7 +203,7 @@ namespace ForestPlatformerExample.Source.Hero
                 //CurrentFaceDirection = Direction.LEFT;
             });
 
-            UserInput.RegisterControllerState(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) => {
                 if (!HasGravity || (!canJump && !canDoubleJump))
                 {
                     return;
@@ -237,7 +237,7 @@ namespace ForestPlatformerExample.Source.Hero
                 FallStartedAt = (float)GameTime.TotalGameTime.TotalSeconds;
             }, true);
 
-            UserInput.RegisterControllerState(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
                     if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetBelowGrid(GridCoordinates), "Platform") && CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement) {
@@ -247,7 +247,7 @@ namespace ForestPlatformerExample.Source.Hero
                 //CurrentFaceDirection = GridDirection.DOWN;
             }, true);
 
-            UserInput.RegisterControllerState(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
                     return;
@@ -263,7 +263,7 @@ namespace ForestPlatformerExample.Source.Hero
                 //CurrentFaceDirection = GridDirection.DOWN;
             });
 
-            UserInput.RegisterControllerState(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
                 if (HasGravity && (GetSamePositionCollider() == null || !GetSamePositionCollider().HasTag("Ladder")))
                 {
                     return;
