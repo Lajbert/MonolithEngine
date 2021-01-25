@@ -258,6 +258,11 @@ namespace ForestPlatformerExample.Source.Hero
                 {
                     return;
                 }
+                if (OnGround())
+                {
+                    LeaveLadder();
+                    return;
+                }
                 if (thumbStickPosition.Y != 0)
                 {
                     Velocity.Y -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
@@ -273,11 +278,6 @@ namespace ForestPlatformerExample.Source.Hero
                 if (HasGravity && (GetSamePositionCollider() == null || !GetSamePositionCollider().HasTag("Ladder")))
                 {
                     return;
-                }
-
-                if (HasGravity)
-                {
-                    Velocity.Y -= Config.JUMP_FORCE;
                 }
 
                 if (thumbStickPosition.Y != 0)
@@ -428,16 +428,7 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if (otherCollider.HasTag("Ladder") && CollisionChecker.CollidesWithTag(GridCoordinates, "Ladder").Count == 0)
             {
-                if (!HasGravity)
-                {
-                    FallSpeed = 0;
-                    HasGravity = true;
-                    MovementSpeed = Config.CHARACTER_SPEED;
-                    if (Velocity.Y < -0.5)
-                    {
-                        Velocity.Y -= Config.JUMP_FORCE / 2;
-                    }
-                }
+                LeaveLadder();
             }
             else if (otherCollider.HasTag("Platform"))
             {
@@ -447,6 +438,20 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
+            }
+        }
+
+        private void LeaveLadder()
+        {
+            if (!HasGravity)
+            {
+                FallSpeed = 0;
+                HasGravity = true;
+                MovementSpeed = Config.CHARACTER_SPEED;
+                if (Velocity.Y < -0.5)
+                {
+                    Velocity.Y -= Config.JUMP_FORCE / 2;
+                }
             }
         }
     }
