@@ -16,6 +16,13 @@ namespace GameEngine2D.Source.Layer
         private List<Entity> lowPriorityObjects = new List<Entity>();
         private List<Entity> tmpList = new List<Entity>();
 
+        private ICollection<Direction> whereToCheck;
+
+        private List<(Entity, Direction)> allCollisionsResult = new List<(Entity, Direction)>();
+        List<Direction> tagCollisionResult = new List<Direction>();
+
+        private static readonly List<Direction> basicDirections = new List<Direction>() { Direction.CENTER, Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN };
+
         public OnePointCollider()
         {
         }
@@ -92,29 +99,42 @@ namespace GameEngine2D.Source.Layer
             }
         }*/
 
+        public List<Direction> CollidesWithTag(Vector2 gridCoord, string tag, ICollection<Direction> directionsToCheck = null)
+        {
+            TryRestoreLowPriorityObjects();
+
+            tagCollisionResult.Clear();
+
+            whereToCheck = directionsToCheck ?? basicDirections;
+
+            foreach (Direction direction in whereToCheck)
+            {
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag))
+                {
+                    tagCollisionResult.Add(direction);
+                }
+            }
+            
+
+            return tagCollisionResult;
+        }
+
         public List<(Entity, Direction)> HasCollisionAt(Vector2 gridCoord, ICollection<Direction> directionsToCheck = null)
         {
             TryRestoreLowPriorityObjects();
 
-            List<(Entity, Direction)> result = new List<(Entity, Direction)>();
-            if (directionsToCheck == null)
+            allCollisionsResult.Clear();
+
+            whereToCheck = directionsToCheck ?? basicDirections;
+
+            foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(gridCoord))
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
                 {
-                    result.Add((objects[gridCoord], Direction.CENTER));
-                }
-            } else
-            {
-                foreach (Direction direction in directionsToCheck)
-                {
-                    if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
-                    {
-                        result.Add((objects[GetGridCoord(gridCoord, direction)], direction));
-                    }
+                    allCollisionsResult.Add((objects[GetGridCoord(gridCoord, direction)], direction));
                 }
             }
-
-            return result;
+            return allCollisionsResult;
             
         }
 

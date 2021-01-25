@@ -349,6 +349,19 @@ namespace ForestPlatformerExample.Source.Hero
                     Velocity += new Vector2(-2, -2);
                 }
             }
+            else if (otherCollider.HasTag("Ladder") && !OnGround())
+            {
+                if (HasGravity)
+                {
+                    Velocity.Y = 0;
+                    MovementSpeed /= 2;
+                    HasGravity = false;
+                }
+            }
+            else if (otherCollider.HasTag("Platform") && Velocity.Y >= 0) //|| direction != Direction.TOPLEFT || direction != Direction.TOPRIGHT))
+            {
+                otherCollider.BlocksMovement = true;
+            }
         }
 
         private float GetVelocity(float thumbStickPosition, float maxVelocity)
@@ -364,23 +377,41 @@ namespace ForestPlatformerExample.Source.Hero
         {
             if (otherCollider.HasTag("MovingPlatform"))
             {
-                Velocity.X += otherCollider.Velocity.X * elapsedTime;
+                Velocity.X += (otherCollider as ControllableEntity).Velocity.X * elapsedTime;
             }
         }
 
         protected override void OnCollisionEnd(Entity otherCollider, Direction direction)
         {
-            if (otherCollider.HasTag("Platform") && !otherCollider.BlocksMovement)
+            /*if (otherCollider.HasTag("Platform") && !otherCollider.BlocksMovement)
             {
                 otherCollider.BlocksMovement = true;
             }
-            else if (otherCollider.HasTag("MovingPlatform"))
+            else */if (otherCollider.HasTag("MovingPlatform"))
             {
                 onMovingPlatform = false;
             }
             else if (otherCollider is Spring && direction == Direction.CENTER)
             {
                 FallStartedAt = 0;
+            }
+            else if (otherCollider.HasTag("Ladder") && CollisionChecker.CollidesWithTag(GridCoordinates, "Ladder").Count == 0)
+            {
+                if (!HasGravity)
+                {
+                    Logger.Log("GRAVITY ON");
+                    FallStartedAt = 0;
+                    HasGravity = true;
+                    MovementSpeed = Config.CHARACTER_SPEED;
+                    if (Velocity.Y < -0.5)
+                    {
+                        Velocity.Y -= Config.JUMP_FORCE / 2;
+                    }
+                }
+            }
+            else if (otherCollider.HasTag("Platform"))
+            {
+                otherCollider.BlocksMovement = false;
             }
         }
     }

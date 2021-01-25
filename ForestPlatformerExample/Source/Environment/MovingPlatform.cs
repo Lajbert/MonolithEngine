@@ -28,6 +28,7 @@ namespace ForestPlatformerExample.Source.Environment
         public MovingPlatform(int travelDistance) : base(LayerManager.Instance.EntityLayer, null, Vector2.Zero)
         {
             this.travelDistance = travelDistance;
+            HasGravity = false;
             SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
             Active = true;
             texture = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/forest-tileset");
@@ -72,7 +73,7 @@ namespace ForestPlatformerExample.Source.Environment
             base.Update(gameTime);
             foreach (Entity e in platformElements)
             {
-                e.Velocity = Velocity;
+                //e.Velocity = Velocity;
                 //e.HasCollision = true;
             }
         }

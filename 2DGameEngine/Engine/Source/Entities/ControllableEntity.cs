@@ -31,6 +31,8 @@ namespace GameEngine2D
         private float step2;
         private float t;
 
+        public Vector2 Velocity = Vector2.Zero;
+
         protected float Friction = Config.FRICTION;
         protected float BumpFriction = Config.BUMP_FRICTION;
 
@@ -56,9 +58,11 @@ namespace GameEngine2D
 
         override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-#if GRAPHICS_DEBUG
-            spriteBatch.DrawString(font, InCellLocation.X + " : " + InCellLocation.Y, new Vector2(10,10), Color.White);
-#endif
+            if (DEBUG_SHOW_PIVOT)
+            {
+                spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
+            }
+            
 
             base.Draw(spriteBatch, gameTime);
         }
@@ -79,53 +83,29 @@ namespace GameEngine2D
 
             this.GameTime = gameTime;
 
-            if (CollisionChecker.HasObjectAtWithTag(GridCoordinates, "Ladder") && !OnGround()) {
-                if (HasGravity)
-                {
-                    Velocity.Y = 0;
-                    MovementSpeed /= 2;
-                    HasGravity = false;
-                }
-                FallStartedAt = 0;
-            } else
-            {
-                if (!HasGravity)
-                {
-                    HasGravity = true;
-                    MovementSpeed = Config.CHARACTER_SPEED;
-                    if (Velocity.Y < -0.5) 
-                    {
-                        Velocity.Y -= Config.JUMP_FORCE / 2;
-                    }
-                    
-                }
-            }
-
             steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bdx) * elapsedTime));
             step = (float)(Velocity.X + bdx) * elapsedTime / steps;
             while (steps > 0)
             {
                 InCellLocation.X += step;
 
-                if (HasCollision && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+                if (CheckForCollisions && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 {
-                    //Direction.X = 0;
-                    //bdx = 0;
-                    if (!CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("Platform"))
+                    /*if (!CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("Platform"))
                     {
                         InCellLocation.X = CollisionOffsetLeft;
-                    }
-                        
+                    }*/
+                    InCellLocation.X = CollisionOffsetLeft;
+
                 }
 
-                if (HasCollision && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                if (CheckForCollisions && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 {
-                    //Direction.X = 0;
-                    //bdx = 0;
-                    if (!CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("Platform"))
+                    /*if (!CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("Platform"))
                     {
                         InCellLocation.X = CollisionOffsetRight;
-                    }
+                    }*/
+                    InCellLocation.X = CollisionOffsetRight;
                 }
 
                 while (InCellLocation.X > 1) { InCellLocation.X--; GridCoordinates.X++; }
@@ -140,7 +120,7 @@ namespace GameEngine2D
             if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
 
             // Y
-            if (HasCollision && HasGravity && !OnGround())
+            if (CheckForCollisions && HasGravity && !OnGround())
             {
 
                 GravityValue = Config.GRAVITY_FORCE;
@@ -164,23 +144,17 @@ namespace GameEngine2D
                 {
                     JumpModifier = Vector2.Zero;
                 }
+   
+            }
 
+            if (HasGravity && !OnGround())
+            {
                 if (FallStartedAt == 0)
                 {
                     FallStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
                     canDoubleJump = true;
                 }
-
-                if (Config.INCREASING_GRAVITY)
-                {
-                    t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
-                    Velocity.Y += GravityValue * t * elapsedTime;
-                } else
-                {
-                    Velocity.Y += GravityValue * elapsedTime;
-                }
-                
-                canJump = false;
+                ApplyGravity(gameTime);
             }
                 
             if (HasGravity && OnGround() /*|| direction.Y < 0*/)
@@ -197,7 +171,7 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (HasCollision && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Velocity.Y > 0)
+                if (CheckForCollisions && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Velocity.Y > 0)
                 {
                     if (HasGravity)
                     {
@@ -208,13 +182,15 @@ namespace GameEngine2D
                     InCellLocation.Y = CollisionOffsetBottom;
                 }
 
-                if (HasCollision && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (CheckForCollisions && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
-                    if (!CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates)).HasTag("Platform"))
+                    /*if (!CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates)).HasTag("Platform"))
                     {
                         Velocity.Y = 0;
                         InCellLocation.Y = CollisionOffsetTop;
-                    }
+                    }*/
+                    Velocity.Y = 0;
+                    InCellLocation.Y = CollisionOffsetTop;
                 }
                    
                 while (InCellLocation.Y > 1) { InCellLocation.Y--; GridCoordinates.Y++; }
@@ -243,6 +219,19 @@ namespace GameEngine2D
             if (Math.Abs(Velocity.Y) <= 0.0005 * elapsedTime) Velocity.Y = 0;
             if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
             base.Update(gameTime);
+        }
+
+        private void ApplyGravity(GameTime gameTime)
+        {
+            if (Config.INCREASING_GRAVITY)
+            {
+                t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
+                Velocity.Y += GravityValue * t * elapsedTime;
+            }
+            else
+            {
+                Velocity.Y += GravityValue * elapsedTime;
+            }
         }
 
         public override void PostUpdate(GameTime gameTime)
