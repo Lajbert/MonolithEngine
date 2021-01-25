@@ -536,6 +536,18 @@ namespace GameEngine2D.Entities
             return tags.Contains(tag);
         }
 
+        public bool HasAnyTag(ICollection<string> tags)
+        {
+            foreach (string tag in tags)
+            {
+                if (tags.Contains(tag))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void RemoveTag(string tag)
         {
             tags.Remove(tag);

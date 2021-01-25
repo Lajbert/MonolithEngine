@@ -16,6 +16,8 @@ namespace GameEngine2D.Source.Layer
         private List<Entity> lowPriorityObjects = new List<Entity>();
         private List<Entity> tmpList = new List<Entity>();
 
+        private Dictionary<string, HashSet<Direction>> directionsForTags = new Dictionary<string, HashSet<Direction>>();
+
         private ICollection<Direction> whereToCheck;
 
         private List<(Entity, Direction)> allCollisionsResult = new List<(Entity, Direction)>();
@@ -111,7 +113,9 @@ namespace GameEngine2D.Source.Layer
             {
                 if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag))
                 {
-                    tagCollisionResult.Add(direction);
+                    if  (!directionsForTags.ContainsKey(tag) || (directionsForTags.ContainsKey(tag) && directionsForTags[tag].Contains(direction))) {
+                        tagCollisionResult.Add(direction);
+                    }
                 }
             }
             
@@ -131,6 +135,16 @@ namespace GameEngine2D.Source.Layer
             {
                 if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
                 {
+                    if (directionsForTags.Count != 0)
+                    {
+                        foreach (string tag in directionsForTags.Keys)
+                        {
+                            if (objects[GetGridCoord(gridCoord, direction)].HasTag(tag) && !directionsForTags[tag].Contains(direction))
+                            {
+                                continue;
+                            }
+                        }
+                    }
                     allCollisionsResult.Add((objects[GetGridCoord(gridCoord, direction)], direction));
                 }
             }
@@ -181,6 +195,11 @@ namespace GameEngine2D.Source.Layer
                 }*/
             }
             //RemoveObject(gameObject.GridCoordinates);
+        }
+
+        public void RestrictDirectionsForTag(string tag, ICollection<Direction> directions)
+        {
+            directionsForTags.Add(tag, new HashSet<Direction>(directions));
         }
 
     }

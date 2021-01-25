@@ -41,6 +41,8 @@ namespace ForestPlatformerExample.Source.Hero
 
             SetupController();
 
+            CollisionChecker.RestrictDirectionsForTag("Ladder", new HashSet<Direction> { Direction.UP, Direction.CENTER });
+
             foreach (Direction direction in new List<Direction>() { Direction.CENTER, Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT })
             {
                 CollisionCheckDirections.Add(direction);
