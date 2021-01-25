@@ -21,7 +21,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, ICollider, IRayBlocker
+    public class Entity : GameObject, IRayBlocker
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -39,8 +39,8 @@ namespace GameEngine2D.Entities
         {
             "Collider",
             "SlideWall",
-            "MovingPlatform",
-            "Platform"
+            "MovingPlatform"
+            //"Platform"
         };
 
         private List<string> gridCoordUpdateTags = new List<string>()
@@ -50,7 +50,6 @@ namespace GameEngine2D.Entities
         };
 
         private bool updateGridPosition = false;
-
         protected static OnePointCollider CollisionChecker { get; } = new OnePointCollider();
 
         protected Vector2 StartPosition;
@@ -101,7 +100,7 @@ namespace GameEngine2D.Entities
 
         private bool hasCollisions = false;
 
-        public bool HasCollision {
+        public bool CheckForCollisions {
             get => hasCollisions;
             set {
                 hasCollisions = value;
@@ -148,8 +147,6 @@ namespace GameEngine2D.Entities
         //between 0 and 1: where the object is inside the grid cell
         protected Vector2 InCellLocation;
 
-        public Vector2 Velocity = Vector2.Zero;
-
         protected AnimationStateMachine Animations { get; set; }
 
         public Ray2DEmitter RayEmitter { private get; set; }
@@ -183,7 +180,7 @@ namespace GameEngine2D.Entities
                 GridCoordinates = CalculateGridCoord(StartPosition);
             }
 
-            this.HasCollision = collider;
+            this.CheckForCollisions = collider;
 
             SetDrawPosition();
         }
@@ -239,7 +236,7 @@ namespace GameEngine2D.Entities
                 }
                 if (font != null)
                 {
-                    spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
+                    //spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
                 }
                 spriteBatch.Draw(pivotMarker, Position, Color.White);
             }
@@ -439,7 +436,7 @@ namespace GameEngine2D.Entities
 
         private void RemoveCollisions()
         {
-            HasCollision = false;
+            CheckForCollisions = false;
         }
 
         public void SetDestroyAnimation(AbstractAnimation destroyAnimation)
@@ -537,6 +534,18 @@ namespace GameEngine2D.Entities
         public bool HasTag(string tag)
         {
             return tags.Contains(tag);
+        }
+
+        public bool HasAnyTag(ICollection<string> tags)
+        {
+            foreach (string tag in tags)
+            {
+                if (tags.Contains(tag))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void RemoveTag(string tag)

@@ -86,7 +86,7 @@ namespace ForestPlatformerExample
 
             LoadLevel();
 
-            hero = new Hero(new Vector2(300, 500), font);
+            hero = new Hero(new Vector2(18 * Config.GRID, 31 * Config.GRID), font);
             Camera.TrackTarget(hero, true);
             //TODO: use this.Content to load your game content here
 
@@ -110,6 +110,7 @@ namespace ForestPlatformerExample
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
+                    continue;
                     int group = -1;
                     int travelDistance = 0;
                     foreach (FieldInstance field in entity.FieldInstances)

@@ -16,6 +16,15 @@ namespace GameEngine2D.Source.Layer
         private List<Entity> lowPriorityObjects = new List<Entity>();
         private List<Entity> tmpList = new List<Entity>();
 
+        private Dictionary<string, HashSet<Direction>> directionsForTags = new Dictionary<string, HashSet<Direction>>();
+
+        private ICollection<Direction> whereToCheck;
+
+        private List<(Entity, Direction)> allCollisionsResult = new List<(Entity, Direction)>();
+        List<Direction> tagCollisionResult = new List<Direction>();
+
+        private static readonly List<Direction> basicDirections = new List<Direction>() { Direction.CENTER, Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN };
+
         public OnePointCollider()
         {
         }
@@ -92,33 +101,58 @@ namespace GameEngine2D.Source.Layer
             }
         }*/
 
+        public List<Direction> CollidesWithTag(Vector2 gridCoord, string tag, ICollection<Direction> directionsToCheck = null)
+        {
+            TryRestoreLowPriorityObjects();
+
+            tagCollisionResult.Clear();
+
+            whereToCheck = directionsToCheck ?? basicDirections;
+
+            foreach (Direction direction in whereToCheck)
+            {
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag))
+                {
+                    if  (!directionsForTags.ContainsKey(tag) || (directionsForTags.ContainsKey(tag) && directionsForTags[tag].Contains(direction))) {
+                        tagCollisionResult.Add(direction);
+                    }
+                }
+            }
+            
+
+            return tagCollisionResult;
+        }
+
         public List<(Entity, Direction)> HasCollisionAt(Vector2 gridCoord, ICollection<Direction> directionsToCheck = null)
         {
             TryRestoreLowPriorityObjects();
 
-            List<(Entity, Direction)> result = new List<(Entity, Direction)>();
-            if (directionsToCheck == null)
+            allCollisionsResult.Clear();
+
+            whereToCheck = directionsToCheck ?? basicDirections;
+
+            foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(gridCoord))
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
                 {
-                    result.Add((objects[gridCoord], Direction.CENTER));
-                }
-            } else
-            {
-                foreach (Direction direction in directionsToCheck)
-                {
-                    if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
+                    if (directionsForTags.Count != 0)
                     {
-                        result.Add((objects[GetGridCoord(gridCoord, direction)], direction));
+                        foreach (string tag in directionsForTags.Keys)
+                        {
+                            if (objects[GetGridCoord(gridCoord, direction)].HasTag(tag) && !directionsForTags[tag].Contains(direction))
+                            {
+                                continue;
+                            }
+                        }
                     }
+                    allCollisionsResult.Add((objects[GetGridCoord(gridCoord, direction)], direction));
                 }
             }
-
-            return result;
+            return allCollisionsResult;
             
         }
 
-        private Vector2 GetGridCoord(Vector2 gridCoord, Direction direction)
+        protected Vector2 GetGridCoord(Vector2 gridCoord, Direction direction)
         {
             if (direction == Direction.CENTER) return gridCoord;
             if (direction == Direction.LEFT) return GridUtil.GetLeftGrid(gridCoord);
@@ -127,6 +161,8 @@ namespace GameEngine2D.Source.Layer
             if (direction == Direction.DOWN) return GridUtil.GetBelowGrid(gridCoord);
             if (direction == Direction.BOTTOMRIGHT) return GridUtil.GetRightBelowGrid(gridCoord);
             if (direction == Direction.BOTTOMLEFT) return GridUtil.GetLeftBelowGrid(gridCoord);
+            if (direction == Direction.TOPLEFT) return GridUtil.GetUpperLeftGrid(gridCoord);
+            if (direction == Direction.TOPRIGHT) return GridUtil.GetUpperRightGrid(gridCoord);
 
             throw new Exception("Unknown direction!");
         }
@@ -159,6 +195,11 @@ namespace GameEngine2D.Source.Layer
                 }*/
             }
             //RemoveObject(gameObject.GridCoordinates);
+        }
+
+        public void RestrictDirectionsForTag(string tag, ICollection<Direction> directions)
+        {
+            directionsForTags.Add(tag, new HashSet<Direction>(directions));
         }
 
     }
