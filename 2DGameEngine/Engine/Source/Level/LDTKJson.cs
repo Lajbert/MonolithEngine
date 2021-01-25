@@ -7,8 +7,20 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Level
 {
-    partial class LDTKJson
+    public partial class LDTKJson
     {
+        // <summary>
+        /// Number of backup files to keep, if the `backupOnSave` is TRUE
+        /// </summary>
+        [JsonProperty("backupLimit")]
+        public long BackupLimit { get; set; }
+
+        /// <summary>
+        /// If TRUE, an extra copy of the project will be created in a sub folder, when saving.
+        /// </summary>
+        [JsonProperty("backupOnSave")]
+        public bool BackupOnSave { get; set; }
+
         /// <summary>
         /// Project background color
         /// </summary>
@@ -46,11 +58,25 @@ namespace GameEngine2D.Engine.Source.Level
         public Definitions Defs { get; set; }
 
         /// <summary>
+        /// If TRUE, all layers in all levels will also be exported as PNG along with the project
+        /// file (default is FALSE)
+        /// </summary>
+        [JsonProperty("exportPng")]
+        public bool ExportPng { get; set; }
+
+        /// <summary>
         /// If TRUE, a Tiled compatible file will also be generated along with the LDtk JSON file
         /// (default is FALSE)
         /// </summary>
         [JsonProperty("exportTiled")]
         public bool ExportTiled { get; set; }
+
+        /// <summary>
+        /// If TRUE, one file will be saved the project (incl. all its definitions) and one file
+        /// per-level in a sub-folder.
+        /// </summary>
+        [JsonProperty("externalLevels")]
+        public bool ExternalLevels { get; set; }
 
         /// <summary>
         /// File format version
@@ -96,6 +122,16 @@ namespace GameEngine2D.Engine.Source.Level
         public WorldLayout? WorldLayout { get; set; }
     }
 
+    /// <summary>
+    /// A structure containing all the definitions of this project
+    ///
+    /// If you're writing your own LDtk importer, you should probably just ignore *most* stuff in
+    /// the `defs` section, as it contains data that are mostly important to the editor. To keep
+    /// you away from the `defs` section and avoid some unnecessary JSON parsing, important data
+    /// from definitions is often duplicated in fields prefixed with a double underscore (eg.
+    /// `__identifier` or `__type`).  The 2 only definition types you might need here are
+    /// **Tilesets** and **Enums**.
+    /// </summary>
     public partial class Definitions
     {
         [JsonProperty("entities")]
@@ -211,6 +247,10 @@ namespace GameEngine2D.Engine.Source.Level
         public long Width { get; set; }
     }
 
+    /// <summary>
+    /// This section is mostly only intended for the LDtk editor app itself. You can safely
+    /// ignore it.
+    /// </summary>
     public partial class FieldDefinition
     {
         /// <summary>
@@ -345,7 +385,29 @@ namespace GameEngine2D.Engine.Source.Level
         /// All possible enum values, with their optional Tile infos.
         /// </summary>
         [JsonProperty("values")]
-        public Dictionary<string, dynamic>[] Values { get; set; }
+        public EnumValueDefinition[] Values { get; set; }
+    }
+
+    public partial class EnumValueDefinition
+    {
+        /// <summary>
+        /// An array of 4 Int values that refers to the tile in the tileset image: `[ x, y, width,
+        /// height ]`
+        /// </summary>
+        [JsonProperty("__tileSrcRect")]
+        public long[] TileSrcRect { get; set; }
+
+        /// <summary>
+        /// Enum value
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The optional ID of the tile
+        /// </summary>
+        [JsonProperty("tileId")]
+        public long? TileId { get; set; }
     }
 
     public partial class LayerDefinition
@@ -389,8 +451,12 @@ namespace GameEngine2D.Engine.Source.Level
         [JsonProperty("identifier")]
         public string Identifier { get; set; }
 
+        /// <summary>
+        /// An array (using IntGrid value as array index, starting from 0) that defines extra
+        /// optional info for each IntGrid value.
+        /// </summary>
         [JsonProperty("intGridValues")]
-        public Dictionary<string, dynamic>[] IntGridValues { get; set; }
+        public IntGridValueDefinition[] IntGridValues { get; set; }
 
         /// <summary>
         /// X offset of the layer, in pixels (IMPORTANT: this should be added to the `LayerInstance`
@@ -421,7 +487,7 @@ namespace GameEngine2D.Engine.Source.Level
         public double TilePivotY { get; set; }
 
         /// <summary>
-        /// Reference to the Tileset UID being used by this tile layer
+        /// Reference to the Tileset UID being used by this Tile layer
         /// </summary>
         [JsonProperty("tilesetDefUid")]
         public long? TilesetDefUid { get; set; }
@@ -440,6 +506,26 @@ namespace GameEngine2D.Engine.Source.Level
         public long Uid { get; set; }
     }
 
+    /// <summary>
+    /// IntGrid value definition
+    /// </summary>
+    public partial class IntGridValueDefinition
+    {
+        [JsonProperty("color")]
+        public string Color { get; set; }
+
+        /// <summary>
+        /// Unique String identifier
+        /// </summary>
+        [JsonProperty("identifier")]
+        public string Identifier { get; set; }
+    }
+
+    /// <summary>
+    /// The `Tileset` definition is the most important part among project definitions. It
+    /// contains some extra informations about each integrated tileset. If you only had to parse
+    /// one definition section, that would be the one.
+    /// </summary>
     public partial class TilesetDefinition
     {
         /// <summary>
@@ -501,6 +587,16 @@ namespace GameEngine2D.Engine.Source.Level
         public long Uid { get; set; }
     }
 
+    /// <summary>
+    /// This section contains all the level data. It can be found in 2 distinct forms, depending
+    /// on Project current settings:  - If "*Separate level files*" is **disabled** (default):
+    /// full level data is *embedded* inside the main Project JSON file, - If "*Separate level
+    /// files*" is **enabled**: level data is stored in *separate* standalone `.ldtkl` files (one
+    /// per level). In this case, the main Project JSON file will still contain most level data,
+    /// except heavy sections, like the `layerInstances` array (which will be null). The
+    /// `externalRelPath` string points to the `ldtkl` file.  A `ldtkl` file is just a JSON file
+    /// containing exactly what is described below.
+    /// </summary>
     public partial class Level
     {
         /// <summary>
@@ -511,13 +607,18 @@ namespace GameEngine2D.Engine.Source.Level
         public string BgColor { get; set; }
 
         /// <summary>
-        /// An array listing all other levels touching this one on the world map. The `dir` is a
-        /// single lowercase character tipping on the level location (`n`orth, `s`outh, `w`est,
-        /// `e`ast). In "linear" world layouts, this array is populated with previous/next levels in
-        /// array, and `dir` depends on the linear horizontal/vertical layout.
+        /// Position informations of the background image, if there is one.
+        /// </summary>
+        [JsonProperty("__bgPos", NullValueHandling = NullValueHandling.Ignore)]
+        public LevelBackgroundPosition BgPos { get; set; }
+
+        /// <summary>
+        /// An array listing all other levels touching this one on the world map. In "linear" world
+        /// layouts, this array is populated with previous/next levels in array, and `dir` depends on
+        /// the linear horizontal/vertical layout.
         /// </summary>
         [JsonProperty("__neighbours")]
-        public Dictionary<string, dynamic>[] Neighbours { get; set; }
+        public NeighbourLevel[] Neighbours { get; set; }
 
         /// <summary>
         /// Background color of the level. If `null`, the project `defaultLevelBgColor` should be
@@ -527,11 +628,49 @@ namespace GameEngine2D.Engine.Source.Level
         public string LevelBgColor { get; set; }
 
         /// <summary>
+        /// Background image X pivot (0-1)
+        /// </summary>
+        [JsonProperty("bgPivotX")]
+        public double BgPivotX { get; set; }
+
+        /// <summary>
+        /// Background image Y pivot (0-1)
+        /// </summary>
+        [JsonProperty("bgPivotY")]
+        public double BgPivotY { get; set; }
+
+        /// <summary>
+        /// An enum defining the way the background image (if any) is positioned on the level. See
+        /// `__bgPos` for resulting position info. Possible values: `Unscaled`, `Contain`, `Cover`,
+        /// `CoverDirty`
+        /// </summary>
+        [JsonProperty("bgPos", NullValueHandling = NullValueHandling.Ignore)]
+        public BgPos? LevelBgPos { get; set; }
+
+        /// <summary>
+        /// The *optional* relative path to the level background image.
+        /// </summary>
+        [JsonProperty("bgRelPath")]
+        public string BgRelPath { get; set; }
+
+        /// <summary>
+        /// This value is not null if the project option "*Save levels separately*" is enabled. In
+        /// this case, this **relative** path points to the level Json file.
+        /// </summary>
+        [JsonProperty("externalRelPath")]
+        public string ExternalRelPath { get; set; }
+
+        /// <summary>
         /// Unique String identifier
         /// </summary>
         [JsonProperty("identifier")]
         public string Identifier { get; set; }
 
+        /// <summary>
+        /// An array containing all Layer instances. **IMPORTANT**: if the project option "*Save
+        /// levels separately*" is enabled, this field will be `null`.<br/>  This array is **sorted
+        /// in display order**: the 1st layer is the top-most and the last is behind.
+        /// </summary>
         [JsonProperty("layerInstances")]
         public LayerInstance[] LayerInstances { get; set; }
 
@@ -566,6 +705,36 @@ namespace GameEngine2D.Engine.Source.Level
         public long WorldY { get; set; }
     }
 
+    /// <summary>
+    /// Position informations of the background image, if there is one.
+    ///
+    /// Level background image position info
+    /// </summary>
+    public partial class LevelBackgroundPosition
+    {
+        /// <summary>
+        /// An array of 4 float values describing the cropped sub-rectangle of the displayed
+        /// background image. This cropping happens when original is larger than the level bounds.
+        /// Array format: `[ cropX, cropY, cropWidth, cropHeight ]`
+        /// </summary>
+        [JsonProperty("cropRect")]
+        public double[] CropRect { get; set; }
+
+        /// <summary>
+        /// An array containing the `[scaleX,scaleY]` values of the **cropped** background image,
+        /// depending on `bgPos` option.
+        /// </summary>
+        [JsonProperty("scale")]
+        public double[] Scale { get; set; }
+
+        /// <summary>
+        /// An array containing the `[x,y]` pixel coordinates of the top-left corner of the
+        /// **cropped** background image, depending on `bgPos` option.
+        /// </summary>
+        [JsonProperty("topLeftPx")]
+        public long[] TopLeftPx { get; set; }
+    }
+
     public partial class LayerInstance
     {
         /// <summary>
@@ -587,7 +756,7 @@ namespace GameEngine2D.Engine.Source.Level
         public long GridSize { get; set; }
 
         /// <summary>
-        /// Unique String identifier
+        /// Layer definition identifier
         /// </summary>
         [JsonProperty("__identifier")]
         public string Identifier { get; set; }
@@ -644,7 +813,7 @@ namespace GameEngine2D.Engine.Source.Level
         public TileInstance[] GridTiles { get; set; }
 
         [JsonProperty("intGrid")]
-        public Dictionary<string, dynamic>[] IntGrid { get; set; }
+        public IntGridValueInstance[] IntGrid { get; set; }
 
         /// <summary>
         /// Reference the Layer definition UID
@@ -679,6 +848,9 @@ namespace GameEngine2D.Engine.Source.Level
         public long Seed { get; set; }
     }
 
+    /// <summary>
+    /// This structure represents a single tile from a given Tileset.
+    /// </summary>
     public partial class TileInstance
     {
         /// <summary>
@@ -725,17 +897,23 @@ namespace GameEngine2D.Engine.Source.Level
         public long[] Grid { get; set; }
 
         /// <summary>
-        /// Unique String identifier
+        /// Entity definition identifier
         /// </summary>
         [JsonProperty("__identifier")]
         public string Identifier { get; set; }
 
         /// <summary>
+        /// Pivot coordinates  (`[x,y]` format, values are from 0 to 1) of the Entity
+        /// </summary>
+        [JsonProperty("__pivot")]
+        public double[] Pivot { get; set; }
+
+        /// <summary>
         /// Optional Tile used to display this entity (it could either be the default Entity tile, or
         /// some tile provided by a field value, like an Enum).
         /// </summary>
-        [JsonProperty("__tile")]
-        public Dictionary<string, dynamic> Tile { get; set; }
+        [JsonProperty("__tile", NullValueHandling = NullValueHandling.Ignore)]
+        public EntityInstanceTile Tile { get; set; }
 
         /// <summary>
         /// Reference of the **Entity definition** UID
@@ -747,7 +925,8 @@ namespace GameEngine2D.Engine.Source.Level
         public FieldInstance[] FieldInstances { get; set; }
 
         /// <summary>
-        /// Pixel coordinates (`[x,y]` format). Don't forget optional layer offsets, if they exist!
+        /// Pixel coordinates (`[x,y]` format) in current level coordinate space. Don't forget
+        /// optional layer offsets, if they exist!
         /// </summary>
         [JsonProperty("px")]
         public long[] Px { get; set; }
@@ -756,13 +935,13 @@ namespace GameEngine2D.Engine.Source.Level
     public partial class FieldInstance
     {
         /// <summary>
-        /// Unique String identifier
+        /// Field definition identifier
         /// </summary>
         [JsonProperty("__identifier")]
         public string Identifier { get; set; }
 
         /// <summary>
-        /// Type of the field, such as Int, Float, Enum(enum_name), Bool, etc.
+        /// Type of the field, such as `Int`, `Float`, `Enum(my_enum_name)`, `Bool`, etc.
         /// </summary>
         [JsonProperty("__type")]
         public string Type { get; set; }
@@ -780,8 +959,67 @@ namespace GameEngine2D.Engine.Source.Level
         [JsonProperty("defUid")]
         public long DefUid { get; set; }
 
+        /// <summary>
+        /// Editor internal raw values
+        /// </summary>
         [JsonProperty("realEditorValues")]
         public dynamic[] RealEditorValues { get; set; }
+    }
+
+    /// <summary>
+    /// Optional Tile used to display this entity (it could either be the default Entity tile, or
+    /// some tile provided by a field value, like an Enum).
+    ///
+    /// Tile data in an Entity instance
+    /// </summary>
+    public partial class EntityInstanceTile
+    {
+        /// <summary>
+        /// An array of 4 Int values that refers to the tile in the tileset image: `[ x, y, width,
+        /// height ]`
+        /// </summary>
+        [JsonProperty("srcRect")]
+        public long[] SrcRect { get; set; }
+
+        /// <summary>
+        /// Tileset ID
+        /// </summary>
+        [JsonProperty("tilesetUid")]
+        public long TilesetUid { get; set; }
+    }
+
+    /// <summary>
+    /// IntGrid value instance
+    /// </summary>
+    public partial class IntGridValueInstance
+    {
+        /// <summary>
+        /// Coordinate ID in the layer grid
+        /// </summary>
+        [JsonProperty("coordId")]
+        public long CoordId { get; set; }
+
+        /// <summary>
+        /// IntGrid value
+        /// </summary>
+        [JsonProperty("v")]
+        public long V { get; set; }
+    }
+
+    /// <summary>
+    /// Nearby level info
+    /// </summary>
+    public partial class NeighbourLevel
+    {
+        /// <summary>
+        /// A single lowercase character tipping on the level location (`n`orth, `s`outh, `w`est,
+        /// `e`ast).
+        /// </summary>
+        [JsonProperty("dir")]
+        public string Dir { get; set; }
+
+        [JsonProperty("levelUid")]
+        public long LevelUid { get; set; }
     }
 
     /// <summary>
@@ -817,6 +1055,13 @@ namespace GameEngine2D.Engine.Source.Level
     public enum TypeEnum { AutoLayer, Entities, IntGrid, Tiles };
 
     /// <summary>
+    /// An enum defining the way the background image (if any) is positioned on the level. See
+    /// `__bgPos` for resulting position info. Possible values: `Unscaled`, `Contain`, `Cover`,
+    /// `CoverDirty`
+    /// </summary>
+    public enum BgPos { Contain, Cover, CoverDirty, Unscaled };
+
+    /// <summary>
     /// An enum that describes how levels are organized in this project (ie. linearly or in a 2D
     /// space). Possible values: `Free`, `GridVania`, `LinearHorizontal`, `LinearVertical`
     /// </summary>
@@ -846,6 +1091,7 @@ namespace GameEngine2D.Engine.Source.Level
                 RenderModeConverter.Singleton,
                 TileRenderModeConverter.Singleton,
                 TypeEnumConverter.Singleton,
+                BgPosConverter.Singleton,
                 WorldLayoutConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
@@ -1156,6 +1402,57 @@ namespace GameEngine2D.Engine.Source.Level
         }
 
         public static readonly TypeEnumConverter Singleton = new TypeEnumConverter();
+    }
+
+    internal class BgPosConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(BgPos) || t == typeof(BgPos?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "Contain":
+                    return BgPos.Contain;
+                case "Cover":
+                    return BgPos.Cover;
+                case "CoverDirty":
+                    return BgPos.CoverDirty;
+                case "Unscaled":
+                    return BgPos.Unscaled;
+            }
+            throw new Exception("Cannot unmarshal type BgPos");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (BgPos)untypedValue;
+            switch (value)
+            {
+                case BgPos.Contain:
+                    serializer.Serialize(writer, "Contain");
+                    return;
+                case BgPos.Cover:
+                    serializer.Serialize(writer, "Cover");
+                    return;
+                case BgPos.CoverDirty:
+                    serializer.Serialize(writer, "CoverDirty");
+                    return;
+                case BgPos.Unscaled:
+                    serializer.Serialize(writer, "Unscaled");
+                    return;
+            }
+            throw new Exception("Cannot marshal type BgPos");
+        }
+
+        public static readonly BgPosConverter Singleton = new BgPosConverter();
     }
 
     internal class WorldLayoutConverter : JsonConverter

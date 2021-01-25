@@ -94,24 +94,24 @@ namespace GameEngine2D.Source.Level
                     if (layerInstance.Identifier.StartsWith(COLLIDERS))
                     {
                         //public Dictionary<string, dynamic>[] IntGrid { get; set; }
-                        foreach (Dictionary<string, dynamic> dict in layerInstance.IntGrid )
+                        foreach (IntGridValueInstance grid in layerInstance.IntGrid )
                         {
-                            int y = (int)Math.Floor((decimal)dict["coordId"] / layerInstance.CWid);
-                            int x = (int)(dict["coordId"] - y * layerInstance.CWid);
+                            int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
+                            int x = (int)(grid.CoordId - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
-                            if (dict["v"] == 0)
+                            if (grid.V == 0)
                             {
                                 e.AddTag("Collider");
                             }
-                            else if (dict["v"] == 1)
+                            else if (grid.V == 1)
                             {
                                 e.AddTag("SlideWall");
                             }
-                            else if (dict["v"] == 2)
+                            else if (grid.V == 2)
                             {
                                 e.AddTag("Platform");
                             }
-                            else if (dict["v"] == 3)
+                            else if (grid.V == 3)
                             {
                                 e.AddTag("Ladder");
                             }
