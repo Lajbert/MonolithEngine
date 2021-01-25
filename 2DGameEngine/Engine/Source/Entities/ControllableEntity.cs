@@ -91,20 +91,11 @@ namespace GameEngine2D
 
                 if (CheckForCollisions && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 {
-                    /*if (!CollisionChecker.GetColliderAt(GridUtil.GetRightGrid(GridCoordinates)).HasTag("Platform"))
-                    {
-                        InCellLocation.X = CollisionOffsetLeft;
-                    }*/
                     InCellLocation.X = CollisionOffsetLeft;
-
                 }
 
                 if (CheckForCollisions && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 {
-                    /*if (!CollisionChecker.GetColliderAt(GridUtil.GetLeftGrid(GridCoordinates)).HasTag("Platform"))
-                    {
-                        InCellLocation.X = CollisionOffsetRight;
-                    }*/
                     InCellLocation.X = CollisionOffsetRight;
                 }
 
@@ -184,11 +175,6 @@ namespace GameEngine2D
 
                 if (CheckForCollisions && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
-                    /*if (!CollisionChecker.GetColliderAt(GridUtil.GetUpperGrid(GridCoordinates)).HasTag("Platform"))
-                    {
-                        Velocity.Y = 0;
-                        InCellLocation.Y = CollisionOffsetTop;
-                    }*/
                     Velocity.Y = 0;
                     InCellLocation.Y = CollisionOffsetTop;
                 }
