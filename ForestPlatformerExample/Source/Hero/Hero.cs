@@ -28,6 +28,10 @@ namespace ForestPlatformerExample.Source.Hero
 
         private bool onMovingPlatform = false;
 
+        private bool canJump = true;
+        private bool canDoubleJump = false;
+        private Vector2 jumpModifier = Vector2.Zero;
+
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
@@ -96,23 +100,23 @@ namespace ForestPlatformerExample.Source.Hero
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
             SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 11, 64, 64, 24);
             jumpRight.Looping = false;
-            Func<bool> isJumpingRight = () => FallStartedAt > 0f && CurrentFaceDirection == Direction.RIGHT;
+            Func<bool> isJumpingRight = () => FallSpeed > 0f && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("JumpingRight", jumpRight, isJumpingRight, 2);
 
             SpriteSheetAnimation jumpLeft = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 11, 64, 64, 24, SpriteEffects.FlipHorizontally);
             jumpLeft.Looping = false;
-            Func<bool> isJumpingLeft = () => FallStartedAt > 0f && CurrentFaceDirection == Direction.LEFT;
+            Func<bool> isJumpingLeft = () => FallSpeed > 0f && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("JumpingLeft", jumpLeft, isJumpingLeft, 2);
 
             Animations.AddFrameTransition("JumpingRight", "JumpingLeft");
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@wall-slide-sheet");
             SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, spriteSheet, 1, 6, 6, 64, 64, 12, SpriteEffects.FlipHorizontally);
-            Func<bool> isSlidingRight = () => JumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.RIGHT;
+            Func<bool> isSlidingRight = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isSlidingRight, 6);
 
             SpriteSheetAnimation wallSlideLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 6, 6, 64, 64, 12);
-            Func<bool> isSlidingLeft = () => JumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.LEFT;
+            Func<bool> isSlidingLeft = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isSlidingLeft, 6);
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@double-jump-sheet");
@@ -224,17 +228,17 @@ namespace ForestPlatformerExample.Source.Hero
                     doubleJumping = true;
                 }
 
-                Velocity.Y -= Config.JUMP_FORCE + JumpModifier.Y;
-                Velocity.X += JumpModifier.X;
-                if (JumpModifier.X < 0)
+                Velocity.Y -= Config.JUMP_FORCE + jumpModifier.Y;
+                Velocity.X += jumpModifier.X;
+                if (jumpModifier.X < 0)
                 {
                     CurrentFaceDirection = Direction.LEFT;
-                } else if (JumpModifier.X > 0)
+                } else if (jumpModifier.X > 0)
                 {
                     CurrentFaceDirection = Direction.RIGHT;
                 }
-                JumpModifier = Vector2.Zero;
-                FallStartedAt = (float)GameTime.TotalGameTime.TotalSeconds;
+                jumpModifier = Vector2.Zero;
+                FallSpeed = (float)GameTime.TotalGameTime.TotalSeconds;
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
@@ -290,7 +294,18 @@ namespace ForestPlatformerExample.Source.Hero
 
         public override void Update(GameTime gameTime)
         {
-            if (FallStartedAt > 0)
+            if (HasGravity && OnGround())
+            {
+                FallSpeed = 0;
+                if (Velocity.Y == 0)
+                {
+                    canJump = true;
+                    canDoubleJump = false;
+                }
+                doubleJumping = false;
+            }
+
+            if (FallSpeed > 0)
             {
                 lastJump += gameTime.ElapsedGameTime.TotalSeconds;
             } else
@@ -361,6 +376,20 @@ namespace ForestPlatformerExample.Source.Hero
             else if (otherCollider.HasTag("Platform") && Velocity.Y >= 0) //|| direction != Direction.TOPLEFT || direction != Direction.TOPRIGHT))
             {
                 otherCollider.BlocksMovement = true;
+            } else if (otherCollider.HasTag("SlideWall") && !OnGround())
+            {
+                if (GravityValue == Config.GRAVITY_FORCE)
+                {
+                    GravityValue /= 4;
+                }
+                canDoubleJump = true;
+                if (direction == Direction.LEFT)
+                {
+                    jumpModifier = new Vector2(5, 0);
+                } else if (direction == Direction.RIGHT)
+                {
+                    jumpModifier = new Vector2(-5, 0);
+                }
             }
         }
 
@@ -393,14 +422,13 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if (otherCollider is Spring && direction == Direction.CENTER)
             {
-                FallStartedAt = 0;
+                FallSpeed = 0;
             }
             else if (otherCollider.HasTag("Ladder") && CollisionChecker.CollidesWithTag(GridCoordinates, "Ladder").Count == 0)
             {
                 if (!HasGravity)
                 {
-                    Logger.Log("GRAVITY ON");
-                    FallStartedAt = 0;
+                    FallSpeed = 0;
                     HasGravity = true;
                     MovementSpeed = Config.CHARACTER_SPEED;
                     if (Velocity.Y < -0.5)
@@ -412,6 +440,11 @@ namespace ForestPlatformerExample.Source.Hero
             else if (otherCollider.HasTag("Platform"))
             {
                 otherCollider.BlocksMovement = false;
+            } 
+            else if (otherCollider.HasTag("SlideWall") && CollisionChecker.CollidesWithTag(GridCoordinates, "SlideWall").Count == 0)
+            {
+                GravityValue = Config.GRAVITY_FORCE;
+                jumpModifier = Vector2.Zero;
             }
         }
     }

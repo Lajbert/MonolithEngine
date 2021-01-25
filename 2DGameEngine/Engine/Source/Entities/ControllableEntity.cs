@@ -21,9 +21,6 @@ namespace GameEngine2D
         private float bdy = 0f;
 
         protected UserInputController UserInput;
-
-        protected bool canJump = true;
-        protected bool canDoubleJump = false;
         protected float elapsedTime;
         private float steps;
         private float step;
@@ -38,13 +35,13 @@ namespace GameEngine2D
 
         protected float MovementSpeed = Config.CHARACTER_SPEED;
 
-        protected Vector2 JumpModifier = Vector2.Zero;
-
         public float GravityValue = Config.GRAVITY_FORCE;
+
+        protected float FallSpeed { get; set; }
 
         public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
 
-        public float FallStartedAt { get; set; }
+        
 
         protected GameTime GameTime;
 
@@ -111,49 +108,13 @@ namespace GameEngine2D
             if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
 
             // Y
-            if (CheckForCollisions && HasGravity && !OnGround())
-            {
-
-                GravityValue = Config.GRAVITY_FORCE;
-                JumpModifier = Vector2.Zero;
-
-                if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetRightGrid(GridCoordinates), "SlideWall")
-                    && InCellLocation.X >= CollisionOffsetLeft /* && Direction.X > 0.5*/)
-                {
-                    GravityValue /= 4;
-                    canDoubleJump = true;
-                    JumpModifier = new Vector2(-5, 0);
-                }
-                else if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetLeftGrid(GridCoordinates), "SlideWall")
-                    && InCellLocation.X <= CollisionOffsetRight /* && Direction.X < -0.5*/)
-                {
-                    GravityValue /= 4;
-                    canDoubleJump = true;
-                    JumpModifier = new Vector2(5, 0);
-                }
-                else
-                {
-                    JumpModifier = Vector2.Zero;
-                }
-   
-            }
-
             if (HasGravity && !OnGround())
             {
-                if (FallStartedAt == 0)
+                if (FallSpeed == 0)
                 {
-                    FallStartedAt = (float)gameTime.TotalGameTime.TotalSeconds;
-                    canDoubleJump = true;
+                    FallSpeed = (float)gameTime.TotalGameTime.TotalSeconds;
                 }
                 ApplyGravity(gameTime);
-            }
-                
-            if (HasGravity && OnGround() /*|| direction.Y < 0*/)
-            {
-                canJump = true;
-                canDoubleJump = false;
-                FallStartedAt = 0;
-                JumpModifier = Vector2.Zero;
             }
 
             steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bdy) * elapsedTime));
@@ -211,7 +172,7 @@ namespace GameEngine2D
         {
             if (Config.INCREASING_GRAVITY)
             {
-                t = (float)(gameTime.TotalGameTime.TotalSeconds - FallStartedAt) * Config.GRAVITY_T_MULTIPLIER;
+                t = (float)(gameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
                 Velocity.Y += GravityValue * t * elapsedTime;
             }
             else
@@ -235,7 +196,7 @@ namespace GameEngine2D
         {
             InCellLocation = Vector2.Zero;
             this.Position = StartPosition = position;
-            this.FallStartedAt = 0;
+            this.FallSpeed = 0;
         }
     }
 }

@@ -138,7 +138,7 @@ namespace GameEngine2D.Source.Layer
             
         }
 
-        private Vector2 GetGridCoord(Vector2 gridCoord, Direction direction)
+        protected Vector2 GetGridCoord(Vector2 gridCoord, Direction direction)
         {
             if (direction == Direction.CENTER) return gridCoord;
             if (direction == Direction.LEFT) return GridUtil.GetLeftGrid(gridCoord);
@@ -147,6 +147,8 @@ namespace GameEngine2D.Source.Layer
             if (direction == Direction.DOWN) return GridUtil.GetBelowGrid(gridCoord);
             if (direction == Direction.BOTTOMRIGHT) return GridUtil.GetRightBelowGrid(gridCoord);
             if (direction == Direction.BOTTOMLEFT) return GridUtil.GetLeftBelowGrid(gridCoord);
+            if (direction == Direction.TOPLEFT) return GridUtil.GetUpperLeftGrid(gridCoord);
+            if (direction == Direction.TOPRIGHT) return GridUtil.GetUpperRightGrid(gridCoord);
 
             throw new Exception("Unknown direction!");
         }

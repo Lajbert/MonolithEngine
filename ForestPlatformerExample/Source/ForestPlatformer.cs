@@ -86,7 +86,7 @@ namespace ForestPlatformerExample
 
             LoadLevel();
 
-            hero = new Hero(new Vector2(300, 500), font);
+            hero = new Hero(new Vector2(18 * Config.GRID, 31 * Config.GRID), font);
             Camera.TrackTarget(hero, true);
             //TODO: use this.Content to load your game content here
 

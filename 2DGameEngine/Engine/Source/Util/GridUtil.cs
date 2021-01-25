@@ -27,6 +27,11 @@ namespace GameEngine2D.Util
             return new Vector2(coord.X + 1, coord.Y - 1);
         }
 
+        public static Vector2 GetUpperLeftGrid(Vector2 coord)
+        {
+            return new Vector2(coord.X - 1, coord.Y - 1);
+        }
+
         public static Vector2 GetBelowGrid(Vector2 coord)
         {
             return new Vector2(coord.X, coord.Y + 1);
