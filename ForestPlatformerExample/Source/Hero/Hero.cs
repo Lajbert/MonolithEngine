@@ -32,6 +32,8 @@ namespace ForestPlatformerExample.Source.Hero
         private bool canDoubleJump = false;
         private Vector2 jumpModifier = Vector2.Zero;
 
+        private bool invincible = false;
+
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
@@ -344,12 +346,13 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if(otherCollider is Carrot)
             {
-                if (Timer.IsCounting("Damage"))
+                if (invincible)
                 {
                     return;
                 }
 
-                Timer.StartTimer("Damage", (float)TimeSpan.FromSeconds(1).TotalMilliseconds);
+                invincible = true;
+                Timer.TriggerAfter((float)TimeSpan.FromSeconds(1).TotalMilliseconds, () => invincible = false);
 
                 if (CurrentFaceDirection == Direction.LEFT)
                 {

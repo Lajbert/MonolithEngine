@@ -9,11 +9,20 @@ namespace GameEngine2D.Engine.Source.Util
     public class Timer
     {
 
-        private static Dictionary<string, float> timer = new Dictionary<string, float>();
+        private static Dictionary<Action, float> timer = new Dictionary<Action, float>();
 
-        public static void StartTimer(string name, float time)
+        public static void TriggerAfter(float delayInMs, Action action, bool overrideExisting = true)
         {
-            timer[name] = time;
+            if (overrideExisting)
+            {
+                timer[action] = delayInMs;
+            } else
+            {
+                if (!timer.ContainsKey(action))
+                {
+                    timer[action] = delayInMs;
+                }
+            }
         }
 
         public static void Update(float elapsedTime)
@@ -24,10 +33,11 @@ namespace GameEngine2D.Engine.Source.Util
             }
 
             //TODO: check the performance improvement possibilities for this
-            foreach (string key in new List<string>(timer.Keys))
+            foreach (Action key in new List<Action>(timer.Keys))
             {
                 if (timer[key] - elapsedTime <= 0)
                 {
+                    key.Invoke();
                     timer.Remove(key);
                 }
                 else
@@ -35,11 +45,6 @@ namespace GameEngine2D.Engine.Source.Util
                     timer[key] = timer[key] - elapsedTime;
                 }
             }
-        }
-
-        public static bool IsCounting(string name)
-        {
-            return timer.ContainsKey(name);
         }
     }
 }
