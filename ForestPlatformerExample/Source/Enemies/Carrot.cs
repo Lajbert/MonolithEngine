@@ -14,7 +14,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
-    class Carrot : ControllableEntity
+    class Carrot : PhysicalEntity
     {
 
         private float speed = 0.01f;

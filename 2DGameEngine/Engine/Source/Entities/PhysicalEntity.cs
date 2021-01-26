@@ -14,7 +14,7 @@ using System;
 
 namespace GameEngine2D
 {
-    public class ControllableEntity : Entity
+    public class PhysicalEntity : Entity
     {
 
         private float bdx = 0f;
@@ -47,7 +47,7 @@ namespace GameEngine2D
 
         protected Direction CurrentFaceDirection { get; set; } = Engine.Source.Entities.Direction.RIGHT;
 
-        public ControllableEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
+        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
         {
             Active = true;
             ResetPosition(startPosition);

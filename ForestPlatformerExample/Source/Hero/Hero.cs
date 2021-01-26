@@ -19,7 +19,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Hero
 {
-    class Hero : ControllableEntity
+    class Hero : PhysicalEntity
     {
 
         private readonly float JUMP_RATE = 0.1f;
@@ -145,11 +145,11 @@ namespace ForestPlatformerExample.Source.Hero
             climb.AnimationPauseCondition = isHangingOnLadder;
             Animations.RegisterAnimation("ClimbingLadder", climb, isClimbing, 6);
 
-            SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 30);
-            Func<bool> isSlowClimbing = () => !HasGravity && ((Math.Abs(Velocity.X) > 0.1 && Math.Abs(Velocity.X) < 0.5) || (Math.Abs(Velocity.Y) > 0.1 && Math.Abs(Velocity.Y) < 0.5));
-            //Func<bool> isHangingOnLadder = () => (Math.Abs(Velocity.X) <= 0.1f && Math.Abs(Velocity.Y) <= 0.1f);
-            climb.AnimationPauseCondition = isHangingOnLadder;
+            SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 15);
+            Func<bool> isSlowClimbing = () => !HasGravity && ((Math.Abs(Velocity.X) > 0.01f && Math.Abs(Velocity.X) < 0.5) || (Math.Abs(Velocity.Y) > 0.01f && Math.Abs(Velocity.Y) < 0.5));
             Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
+
+            Animations.AddFrameTransition("ClimbingLadder", "SlowClimbingLadder");
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet");
             SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 13, 64, 64, 24);
@@ -346,6 +346,8 @@ namespace ForestPlatformerExample.Source.Hero
                 GravityValue = 0;
                 Timer.TriggerAfter(200, SetSpringGravity, true);
                 Velocity.Y -= ((Spring)otherCollider).Power;
+                canJump = false;
+                canDoubleJump = true;
             }
             else if(otherCollider is Carrot)
             {
@@ -374,6 +376,7 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if (otherCollider.HasTag("Ladder") && !OnGround())
             {
+
                 if (HasGravity)
                 {
                     Velocity.Y = 0;
@@ -420,17 +423,13 @@ namespace ForestPlatformerExample.Source.Hero
         {
             if (otherCollider.HasTag("MovingPlatform"))
             {
-                Velocity.X += (otherCollider as ControllableEntity).Velocity.X * elapsedTime;
+                Velocity.X += (otherCollider as PhysicalEntity).Velocity.X * elapsedTime;
             }
         }
 
         protected override void OnCollisionEnd(Entity otherCollider, Direction direction)
         {
-            /*if (otherCollider.HasTag("Platform") && !otherCollider.BlocksMovement)
-            {
-                otherCollider.BlocksMovement = true;
-            }
-            else */if (otherCollider.HasTag("MovingPlatform"))
+            if (otherCollider.HasTag("MovingPlatform"))
             {
                 onMovingPlatform = false;
             }

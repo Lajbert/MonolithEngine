@@ -12,7 +12,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Environment
 {
-    class MovingPlatform : ControllableEntity
+    class MovingPlatform : PhysicalEntity
     {
         private float speed = Config.CHARACTER_SPEED;
         private float currentPos = 0f;
