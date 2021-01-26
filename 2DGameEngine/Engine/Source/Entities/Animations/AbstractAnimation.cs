@@ -27,7 +27,8 @@ namespace GameEngine2D.Source.Entities.Animation
         public Action StartedCallback;
 
         public Func<bool> AnimationPauseCondition;
-        public Action<int> FrameAction;
+        public Action<int> EveryFrameAction;
+        private Dictionary<int, Action<int>> frameActions = new Dictionary<int, Action<int>>();
 
         public Vector2 Pivot;
 
@@ -70,6 +71,8 @@ namespace GameEngine2D.Source.Entities.Animation
             anim.totalFrames = totalFrames;
             anim.StartFrame = StartFrame;
             anim.EndFrame = EndFrame;
+            anim.EveryFrameAction = EveryFrameAction;
+            anim.frameActions = frameActions;
         }
 
         public virtual void Play(SpriteBatch spriteBatch)
@@ -109,9 +112,13 @@ namespace GameEngine2D.Source.Entities.Animation
                 if (currentDelay >= delay)
                 {
                     CurrentFrame++;
-                    if (FrameAction != null)
+                    if (EveryFrameAction != null)
                     {
-                        FrameAction.Invoke(CurrentFrame);
+                        EveryFrameAction.Invoke(CurrentFrame);
+                    }
+                    if (frameActions.ContainsKey(CurrentFrame))
+                    {
+                        frameActions[CurrentFrame].Invoke(CurrentFrame);
                     }
                     currentDelay = 0;
                 }
@@ -171,9 +178,9 @@ namespace GameEngine2D.Source.Entities.Animation
             }
         }
 
-        public void StartPlayingAt(int frame)
+        public void AddFrameAction(int frame, Action<int> action)
         {
-
+            frameActions.Add(frame, action);
         }
     }
 }

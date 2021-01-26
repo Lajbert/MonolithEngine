@@ -32,7 +32,8 @@ namespace ForestPlatformerExample.Source.Hero
         private bool canDoubleJump = false;
         private Vector2 jumpModifier = Vector2.Zero;
 
-        private int priority = 0;
+        private int animPriority = 0;
+        private float climbSpeed = Config.CHARACTER_SPEED / 2;
 
         private bool invincible = false;
 
@@ -149,7 +150,7 @@ namespace ForestPlatformerExample.Source.Hero
             SpriteSheetAnimation climb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 60);
 
             Action climbResetAction = () => {
-                MovementSpeed = Config.CHARACTER_SPEED / 2;
+                MovementSpeed = climbSpeed;
             };
 
             Action<int> setSpeed = frame =>
@@ -162,7 +163,8 @@ namespace ForestPlatformerExample.Source.Hero
                 }
             };
 
-            climb.FrameAction = setSpeed;
+            climb.AddFrameAction(1, setSpeed);
+            climb.AddFrameAction(7, setSpeed);
 
             Func<bool> isClimbing = () => !HasGravity;
             Func<bool> isHangingOnLadder = () => (Math.Abs(Velocity.X) <= 0.1f && Math.Abs(Velocity.Y) <= 0.1f);
@@ -171,7 +173,7 @@ namespace ForestPlatformerExample.Source.Hero
 
             SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 15);
             Func<bool> isSlowClimbing = () => !HasGravity && ((Math.Abs(Velocity.X) > 0.01f && Math.Abs(Velocity.X) < 0.5) || (Math.Abs(Velocity.Y) > 0.01f && Math.Abs(Velocity.Y) < 0.5));
-            slowClimb.FrameAction = setSpeed;
+            slowClimb.EveryFrameAction = setSpeed;
             Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
 
             Animations.AddFrameTransition("ClimbingLadder", "SlowClimbingLadder");
@@ -404,7 +406,7 @@ namespace ForestPlatformerExample.Source.Hero
                 if (HasGravity)
                 {
                     Velocity.Y = 0;
-                    MovementSpeed /= 2;
+                    MovementSpeed = climbSpeed;
                     HasGravity = false;
                 }
             }

@@ -51,11 +51,6 @@ namespace ForestPlatformerExample.Source.Enemies
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@move-sheet");
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.faceDirection == Direction.LEFT);
-
-            SpriteSheetAnimation moveRight = moveLeft.Copy();
-            moveRight.Flip();
-            Animations.RegisterAnimation("MoveRight", moveRight, () => this.faceDirection == Direction.RIGHT);
-
             Action<int> setSpeed = frame =>
             {
                 if (frame > 3 && frame < 8)
@@ -67,9 +62,11 @@ namespace ForestPlatformerExample.Source.Enemies
                     CurrentSpeed = 0;
                 }
             };
+            moveLeft.EveryFrameAction = setSpeed;
 
-            moveLeft.FrameAction = setSpeed;
-            moveRight.FrameAction = setSpeed;
+            SpriteSheetAnimation moveRight = moveLeft.Copy();
+            moveRight.Flip();
+            Animations.RegisterAnimation("MoveRight", moveRight, () => this.faceDirection == Direction.RIGHT);
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
