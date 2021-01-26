@@ -342,6 +342,9 @@ namespace ForestPlatformerExample.Source.Hero
                 }*/
 
                 Velocity.Y = 0;
+                Friction = 0.5f;
+                GravityValue = 0;
+                Timer.TriggerAfter(200, SetSpringGravity, true);
                 Velocity.Y -= ((Spring)otherCollider).Power;
             }
             else if(otherCollider is Carrot)
@@ -396,6 +399,12 @@ namespace ForestPlatformerExample.Source.Hero
                     jumpModifier = new Vector2(-5, 0);
                 }
             }
+        }
+
+        private void SetSpringGravity()
+        {
+            GravityValue = Config.GRAVITY_FORCE;
+            Friction = Config.FRICTION;
         }
 
         private float GetVelocity(float thumbStickPosition, float maxVelocity)

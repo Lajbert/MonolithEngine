@@ -2,12 +2,13 @@
 	"__header__": {
 		"fileType": "LDtk Project JSON",
 		"app": "LDtk",
-		"schema": "https://ldtk.io/json",
+		"doc": "https://ldtk.io/json",
+		"schema": "https://ldtk.io/files/JSON_SCHEMA.json",
 		"appAuthor": "Sebastien 'deepnight' Benard",
-		"appVersion": "0.6.2",
+		"appVersion": "0.7.1",
 		"url": "https://ldtk.io"
 	},
-	"jsonVersion": "0.6.2",
+	"jsonVersion": "0.7.1",
 	"defaultPivotX": 0,
 	"defaultPivotY": 0,
 	"defaultGridSize": 16,
@@ -15,7 +16,11 @@
 	"defaultLevelBgColor": "#7F8093",
 	"nextUid": 34,
 	"minifyJson": false,
+	"externalLevels": false,
 	"exportTiled": false,
+	"exportPng": false,
+	"backupOnSave": false,
+	"backupLimit": 10,
 	"worldLayout": "Free",
 	"worldGridWidth": 256,
 	"worldGridHeight": 256,
@@ -364,7 +369,7 @@
 						"max": null,
 						"regex": null,
 						"acceptFileTypes": null,
-						"defaultOverride": { "id": "V_Int", "params": [10] }
+						"defaultOverride": { "id": "V_Int", "params": [15] }
 					}
 				]
 			},
@@ -533,6 +538,12 @@
 			"pxHei": 768,
 			"__bgColor": "#7F8093",
 			"bgColor": null,
+			"bgRelPath": null,
+			"bgPos": null,
+			"bgPivotX": 0.5,
+			"bgPivotY": 0.5,
+			"__bgPos": null,
+			"externalRelPath": null,
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -554,26 +565,26 @@
 					"seed": 4813697,
 					"gridTiles": [],
 					"entityInstances": [
-						{ "__identifier": "Hero", "__grid": [3,40], "__tile": null, "defUid": 20, "px": [48,640], "fieldInstances": [] },
-						{ "__identifier": "Coin", "__grid": [8,36], "__tile": null, "defUid": 21, "px": [128,576], "fieldInstances": [] },
-						{ "__identifier": "Coin", "__grid": [8,32], "__tile": null, "defUid": 21, "px": [128,512], "fieldInstances": [] },
-						{ "__identifier": "Coin", "__grid": [15,32], "__tile": null, "defUid": 21, "px": [240,512], "fieldInstances": [] },
-						{ "__identifier": "Coin", "__grid": [15,36], "__tile": null, "defUid": 21, "px": [240,576], "fieldInstances": [] },
-						{ "__identifier": "Coin", "__grid": [10,41], "__tile": null, "defUid": 21, "px": [160,656], "fieldInstances": [] },
-						{ "__identifier": "Coin", "__grid": [14,41], "__tile": null, "defUid": 21, "px": [224,656], "fieldInstances": [] },
-						{ "__identifier": "MovingPlatform", "__grid": [17,18], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [272,288], "fieldInstances": [
+						{ "__identifier": "Hero", "__grid": [3,40], "__pivot": [0,0], "__tile": null, "defUid": 20, "px": [48,640], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [8,36], "__pivot": [0,0], "__tile": null, "defUid": 21, "px": [128,576], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [8,32], "__pivot": [0,0], "__tile": null, "defUid": 21, "px": [128,512], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [15,32], "__pivot": [0,0], "__tile": null, "defUid": 21, "px": [240,512], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [15,36], "__pivot": [0,0], "__tile": null, "defUid": 21, "px": [240,576], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [10,41], "__pivot": [0,0], "__tile": null, "defUid": 21, "px": [160,656], "fieldInstances": [] },
+						{ "__identifier": "Coin", "__grid": [14,41], "__pivot": [0,0], "__tile": null, "defUid": 21, "px": [224,656], "fieldInstances": [] },
+						{ "__identifier": "MovingPlatform", "__grid": [17,18], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [272,288], "fieldInstances": [
 							{ "__identifier": "group", "__value": 1, "__type": "Int", "defUid": 25, "realEditorValues": [] },
 							{ "__identifier": "travel_distance", "__value": 50, "__type": "Int", "defUid": 26, "realEditorValues": [] }
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [18,18], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [288,288], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [18,18], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [288,288], "fieldInstances": [
 							{ "__identifier": "group", "__value": 1, "__type": "Int", "defUid": 25, "realEditorValues": [] },
 							{ "__identifier": "travel_distance", "__value": 50, "__type": "Int", "defUid": 26, "realEditorValues": [] }
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [19,18], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [304,288], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [19,18], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [304,288], "fieldInstances": [
 							{ "__identifier": "group", "__value": 1, "__type": "Int", "defUid": 25, "realEditorValues": [] },
 							{ "__identifier": "travel_distance", "__value": 50, "__type": "Int", "defUid": 26, "realEditorValues": [] }
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [72,39], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1152,624], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [72,39], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1152,624], "fieldInstances": [
 							{
 								"__identifier": "group",
 								"__value": 2,
@@ -589,7 +600,7 @@
 								"realEditorValues": [{ "id": "V_Int", "params": [300] }]
 							}
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [73,39], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1168,624], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [73,39], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1168,624], "fieldInstances": [
 							{
 								"__identifier": "group",
 								"__value": 2,
@@ -605,7 +616,7 @@
 								"realEditorValues": [{ "id": "V_Int", "params": [300] }]
 							}
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [74,39], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1184,624], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [74,39], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1184,624], "fieldInstances": [
 							{
 								"__identifier": "group",
 								"__value": 2,
@@ -621,7 +632,7 @@
 								"realEditorValues": [{ "id": "V_Int", "params": [300] }]
 							}
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [75,39], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1200,624], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [75,39], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1200,624], "fieldInstances": [
 							{
 								"__identifier": "group",
 								"__value": 2,
@@ -637,7 +648,7 @@
 								"realEditorValues": [{ "id": "V_Int", "params": [300] }]
 							}
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [76,39], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1216,624], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [76,39], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1216,624], "fieldInstances": [
 							{
 								"__identifier": "group",
 								"__value": 2,
@@ -653,7 +664,7 @@
 								"realEditorValues": [{ "id": "V_Int", "params": [300] }]
 							}
 						] },
-						{ "__identifier": "MovingPlatform", "__grid": [77,39], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1232,624], "fieldInstances": [
+						{ "__identifier": "MovingPlatform", "__grid": [77,39], "__pivot": [0,0], "__tile": { "tilesetUid": 1, "srcRect": [304,288,16,16] }, "defUid": 22, "px": [1232,624], "fieldInstances": [
 							{
 								"__identifier": "group",
 								"__value": 2,
@@ -669,7 +680,7 @@
 								"realEditorValues": [{ "id": "V_Int", "params": [300] }]
 							}
 						] },
-						{ "__identifier": "EnemyCarrot", "__grid": [31,33], "__tile": null, "defUid": 30, "px": [496,528], "fieldInstances": [
+						{ "__identifier": "EnemyCarrot", "__grid": [31,33], "__pivot": [0,0], "__tile": null, "defUid": 30, "px": [496,528], "fieldInstances": [
 							{
 								"__identifier": "direction",
 								"__value": "LEFT",
@@ -682,12 +693,12 @@
 							},
 							{ "__identifier": "speed", "__value": 1, "__type": "Int", "defUid": 33, "realEditorValues": [] }
 						] },
-						{ "__identifier": "Spring", "__grid": [33,33], "__tile": null, "defUid": 23, "px": [528,528], "fieldInstances": [{
+						{ "__identifier": "Spring", "__grid": [33,33], "__pivot": [0,0], "__tile": null, "defUid": 23, "px": [528,528], "fieldInstances": [{
 							"__identifier": "power",
-							"__value": 30,
+							"__value": 15,
 							"__type": "Int",
 							"defUid": 28,
-							"realEditorValues": [{ "id": "V_Int", "params": [30] }]
+							"realEditorValues": [{ "id": "V_Int", "params": [15] }]
 						}] }
 					]
 				},
