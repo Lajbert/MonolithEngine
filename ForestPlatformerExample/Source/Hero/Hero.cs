@@ -147,6 +147,23 @@ namespace ForestPlatformerExample.Source.Hero
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@climb-sheet");
             SpriteSheetAnimation climb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 60);
+
+            Action climbResetAction = () => {
+                MovementSpeed = Config.CHARACTER_SPEED / 2;
+            };
+
+            Action<int> setSpeed = frame =>
+            {
+                if (frame == 1 || frame == 7)
+                {
+                    Velocity = Vector2.Zero;
+                    MovementSpeed = 0f;
+                    Timer.TriggerAfter(50, climbResetAction, true);
+                }
+            };
+
+            climb.FrameAction = setSpeed;
+
             Func<bool> isClimbing = () => !HasGravity;
             Func<bool> isHangingOnLadder = () => (Math.Abs(Velocity.X) <= 0.1f && Math.Abs(Velocity.Y) <= 0.1f);
             climb.AnimationPauseCondition = isHangingOnLadder;
@@ -154,6 +171,7 @@ namespace ForestPlatformerExample.Source.Hero
 
             SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 15);
             Func<bool> isSlowClimbing = () => !HasGravity && ((Math.Abs(Velocity.X) > 0.01f && Math.Abs(Velocity.X) < 0.5) || (Math.Abs(Velocity.Y) > 0.01f && Math.Abs(Velocity.Y) < 0.5));
+            slowClimb.FrameAction = setSpeed;
             Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
 
             Animations.AddFrameTransition("ClimbingLadder", "SlowClimbingLadder");
