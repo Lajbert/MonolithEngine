@@ -18,6 +18,13 @@ namespace GameEngine2D.Source.Entities.Animation
             this.Textures = textures;
         }
 
+        public SpriteGroupAnimation Copy()
+        {
+            SpriteGroupAnimation newAnim = new SpriteGroupAnimation(Parent, Textures, 0, SpriteEffect);
+            base.Copy(newAnim);
+            return newAnim;
+        }
+
         protected override Texture2D GetTexture()
         {
             Pivot = new Vector2((float)Math.Floor((decimal)Textures[CurrentFrame].Width / 2), (float)Math.Floor((decimal)Textures[CurrentFrame].Height / 2));

@@ -32,6 +32,8 @@ namespace ForestPlatformerExample.Source.Hero
         private bool canDoubleJump = false;
         private Vector2 jumpModifier = Vector2.Zero;
 
+        private int priority = 0;
+
         private bool invincible = false;
 
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
@@ -68,16 +70,19 @@ namespace ForestPlatformerExample.Source.Hero
             hurtRight.Looping = false;
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
-            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 24, SpriteEffects.FlipHorizontally);
-            hurtLeft.Looping = false;
+            SpriteSheetAnimation hurtLeft = hurtRight.Copy();
+            hurtLeft.Flip();
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
+
+
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet");
             SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 24, 64, 64, 24);
             Func<bool> isIdleRight = () => CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 24, 64, 64, 24, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation idleLeft = idleRight.Copy();
+            idleLeft.Flip();
             Func<bool> isIdleLeft = () => CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
 
@@ -86,17 +91,19 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isRunningRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
-            SpriteSheetAnimation runningLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 24, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation runningLeft = runningRight.Copy();
+            runningLeft.Flip();
             Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
-            SpriteSheetAnimation walingLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12, SpriteEffects.FlipHorizontally);
             Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
-            Animations.RegisterAnimation("WalkingLeft", walingLeft, isWalkingLeft, 1);
+            Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
-            SpriteSheetAnimation walingRight = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12);
+            SpriteSheetAnimation walkingRight = walkingLeft.Copy();
+            walkingRight.Flip();
             Func<bool> isWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
-            Animations.RegisterAnimation("WalkingRight", walingRight, isWalkingRight, 1);
+            Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
             Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
@@ -107,8 +114,8 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isJumpingRight = () => FallSpeed > 0f && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("JumpingRight", jumpRight, isJumpingRight, 2);
 
-            SpriteSheetAnimation jumpLeft = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 11, 64, 64, 24, SpriteEffects.FlipHorizontally);
-            jumpLeft.Looping = false;
+            SpriteSheetAnimation jumpLeft = jumpRight.Copy();
+            jumpLeft.Flip();
             Func<bool> isJumpingLeft = () => FallSpeed > 0f && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("JumpingLeft", jumpLeft, isJumpingLeft, 2);
 
@@ -119,7 +126,8 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isWallSlidingRight = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
 
-            SpriteSheetAnimation wallSlideLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 6, 6, 64, 64, 12);
+            SpriteSheetAnimation wallSlideLeft = wallSlideRight.Copy();
+            wallSlideLeft.Flip();
             Func<bool> isWallSlidingLeft = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isWallSlidingLeft, 6);
 
@@ -130,9 +138,8 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isDoubleJumpingRight = () => doubleJumping && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("DoubleJumpingRight", doubleJumpRight, isDoubleJumpingRight, 3);
 
-            SpriteSheetAnimation doubleJumpLeft = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 16, 64, 64, 12, SpriteEffects.FlipHorizontally);
-            doubleJumpLeft.StartFrame = 12;
-            doubleJumpLeft.EndFrame = 16;
+            SpriteSheetAnimation doubleJumpLeft = doubleJumpRight.Copy();
+            doubleJumpLeft.Flip();
             Func<bool> isDoubleJumpingLeft = () => doubleJumping && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("DoubleJumpingLeft", doubleJumpLeft, isDoubleJumpingLeft, 3);
 
@@ -158,9 +165,8 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isFallingRight = () => HasGravity && Velocity.Y > 0.1 && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("FallingRight", fallingRight, isFallingRight, 5);
 
-            SpriteSheetAnimation fallingLeft = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 13, 64, 64, 24, SpriteEffects.FlipHorizontally);
-            fallingLeft.StartFrame = 9;
-            fallingLeft.EndFrame = 11;
+            SpriteSheetAnimation fallingLeft = fallingRight.Copy();
+            fallingLeft.Flip();
             Func<bool> isFallingLeft = () => HasGravity && Velocity.Y > 0.1 && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("FallingLeft", fallingLeft, isFallingLeft, 5);
 

@@ -36,6 +36,13 @@ namespace GameEngine2D.Source.Entities
             }
         }
 
+        public SpriteSheetAnimation Copy()
+        {
+            SpriteSheetAnimation newAnim = new SpriteSheetAnimation(Parent, texture, rows, columns, 0, width, height, 0, SpriteEffect);
+            base.Copy(newAnim);
+            return newAnim;
+        }
+
         protected override Texture2D GetTexture()
         {
             currentRow = (int)((float)CurrentFrame / (float)columns);

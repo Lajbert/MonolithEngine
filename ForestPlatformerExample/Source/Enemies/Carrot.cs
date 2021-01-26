@@ -52,7 +52,8 @@ namespace ForestPlatformerExample.Source.Enemies
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.faceDirection == Direction.LEFT);
 
-            SpriteSheetAnimation moveRight = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation moveRight = moveLeft.Copy();
+            moveRight.Flip();
             Animations.RegisterAnimation("MoveRight", moveRight, () => this.faceDirection == Direction.RIGHT);
 
             Action<int> setSpeed = frame =>

@@ -60,6 +60,18 @@ namespace GameEngine2D.Source.Entities.Animation
             return !Started;
         }
 
+        protected void Copy(AbstractAnimation anim)
+        {
+            anim.Looping = Looping;
+            anim.Scale = Scale;
+            anim.Offset = Offset;
+            anim.delay = delay;
+            anim.SpriteEffect = SpriteEffect;
+            anim.totalFrames = totalFrames;
+            anim.StartFrame = StartFrame;
+            anim.EndFrame = EndFrame;
+        }
+
         public virtual void Play(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset), SourceRectangle, Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
@@ -146,6 +158,17 @@ namespace GameEngine2D.Source.Entities.Animation
         {
             CurrentFrame = totalFrames - 1;
             Started = false;
+        }
+
+        public void Flip()
+        {
+            if (this.SpriteEffect == SpriteEffects.None)
+            {
+                SpriteEffect = SpriteEffects.FlipHorizontally;
+            } else
+            {
+                SpriteEffect = SpriteEffects.None;
+            }
         }
 
         public void StartPlayingAt(int frame)
