@@ -202,7 +202,7 @@ namespace ForestPlatformerExample.Source.Hero
             UserInput = new UserInputController();
 
             UserInput.RegisterKeyPressAction(Keys.R, (Vector2 thumbStickPosition) => {
-                ResetPosition(new Vector2(200, 200));
+                ResetPosition(new Vector2(12 * Config.GRID, 12 * Config.GRID));
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
