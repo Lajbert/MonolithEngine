@@ -139,13 +139,12 @@ namespace GameEngine2D.Source.Layer
                     {
                         foreach (string tag in directionsForTags.Keys)
                         {
-                            if (objects[GetGridCoord(gridCoord, direction)].HasTag(tag) && !directionsForTags[tag].Contains(direction))
+                            if (!objects[GetGridCoord(gridCoord, direction)].HasTag(tag) || (objects[GetGridCoord(gridCoord, direction)].HasTag(tag) && directionsForTags[tag].Contains(direction)))
                             {
-                                continue;
+                                allCollisionsResult.Add((objects[GetGridCoord(gridCoord, direction)], direction));
                             }
                         }
                     }
-                    allCollisionsResult.Add((objects[GetGridCoord(gridCoord, direction)], direction));
                 }
             }
             return allCollisionsResult;

@@ -60,7 +60,6 @@ namespace GameEngine2D
                 spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
             }
             
-
             base.Draw(spriteBatch, gameTime);
         }
 

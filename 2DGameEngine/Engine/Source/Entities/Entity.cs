@@ -35,7 +35,7 @@ namespace GameEngine2D.Entities
 
         private HashSet<string> tags = new HashSet<string>();
 
-        private List<string> movementBlockerTags = new List<string>()
+        private static List<string> movementBlockerTags = new List<string>()
         {
             "Collider",
             "SlideWall",
@@ -43,7 +43,7 @@ namespace GameEngine2D.Entities
             //"Platform"
         };
 
-        private List<string> gridCoordUpdateTags = new List<string>()
+        private static List<string> gridCoordUpdateTags = new List<string>()
         {
             "MovingPlatform",
             "MovingEnemy",
