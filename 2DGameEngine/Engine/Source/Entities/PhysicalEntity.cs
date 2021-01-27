@@ -17,8 +17,7 @@ namespace GameEngine2D
     public class PhysicalEntity : Entity
     {
 
-        private float bdx = 0f;
-        private float bdy = 0f;
+        private Vector2 bump;
 
         protected UserInputController UserInput;
         protected float elapsedTime;
@@ -79,8 +78,8 @@ namespace GameEngine2D
 
             this.GameTime = gameTime;
 
-            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bdx) * elapsedTime));
-            step = (float)(Velocity.X + bdx) * elapsedTime / steps;
+            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * elapsedTime));
+            step = (float)(Velocity.X + bump.X) * elapsedTime / steps;
             while (steps > 0)
             {
                 InCellLocation.X += step;
@@ -100,11 +99,11 @@ namespace GameEngine2D
                 steps--;
             }
             Velocity.X *= (float)Math.Pow(Friction, elapsedTime);
-            bdx *= (float)Math.Pow(BumpFriction, elapsedTime);
+            bump.X *= (float)Math.Pow(BumpFriction, elapsedTime);
 
             //rounding stuff
             if (Math.Abs(Velocity.X) <= 0.0005 * elapsedTime) Velocity.X = 0;
-            if (Math.Abs(bdx) <= 0.0005 * elapsedTime) bdx = 0;
+            if (Math.Abs(bump.X) <= 0.0005 * elapsedTime) bump.X = 0;
 
             // Y
             if (HasGravity && !OnGround())
@@ -116,8 +115,8 @@ namespace GameEngine2D
                 ApplyGravity(gameTime);
             }
 
-            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bdy) * elapsedTime));
-            step2 = (float)(Velocity.Y + bdy) * elapsedTime / steps2;
+            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * elapsedTime));
+            step2 = (float)(Velocity.Y + bump.Y) * elapsedTime / steps2;
             while (steps2 > 0)
             {
                 InCellLocation.Y += step2;
@@ -127,7 +126,7 @@ namespace GameEngine2D
                     if (HasGravity)
                     {
                         Velocity.Y = 0;
-                        bdy = 0;
+                        bump.Y = 0;
                     }
 
                     InCellLocation.Y = CollisionOffsetBottom;
@@ -160,11 +159,16 @@ namespace GameEngine2D
             }
 
             Velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
-            bdy *= (float)Math.Pow(BumpFriction, elapsedTime);
+            bump.Y *= (float)Math.Pow(BumpFriction, elapsedTime);
             //rounding stuff
             if (Math.Abs(Velocity.Y) <= 0.0005 * elapsedTime) Velocity.Y = 0;
-            if (Math.Abs(bdy) <= 0.0005 * elapsedTime) bdy = 0;
+            if (Math.Abs(bump.Y) <= 0.0005 * elapsedTime) bump.Y = 0;
             base.Update(gameTime);
+        }
+
+        public void Bump(Vector2 direction)
+        {
+            bump = direction;
         }
 
         private void ApplyGravity(GameTime gameTime)

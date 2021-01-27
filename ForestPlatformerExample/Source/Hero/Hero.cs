@@ -346,7 +346,8 @@ namespace ForestPlatformerExample.Source.Hero
         }
 
         protected override void OnCollisionStart(Entity otherCollider, Direction direction)
-        {
+        {       
+
             if (otherCollider is Coin)
             {
                 otherCollider.Destroy();
