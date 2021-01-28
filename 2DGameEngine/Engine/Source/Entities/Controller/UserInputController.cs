@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GameEngine2D.Engine.Source.Entities.Controller
@@ -15,17 +16,19 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
         private Dictionary<Keys, Action> keyReleaseActions = new Dictionary<Keys, Action>();
         private Dictionary<Buttons, Action> buttonReleaseActions = new Dictionary<Buttons, Action>();
         private KeyboardState currentKeyboardState;
-        private KeyboardState prevKeyboardState;
-        private GamePadState prevGamepadState;
+        private KeyboardState? prevKeyboardState;
+        private GamePadState? prevGamepadState;
         private MouseState mouseState;
         private GamePadState currentGamepadState;
 
-        private int prevMouseScrollWheelValue = 0;
+        private int? prevMouseScrollWheelValue = 0;
         private Action mouseWheelUpAction;
         private Action mouseWheelDownAction;
 
         private Vector2 leftThumbstick = Vector2.Zero;
         private Vector2 rightThumbStick = Vector2.Zero;
+
+        public bool ControlsDisabled = false;
 
         public void RegisterKeyPressAction(Keys key, Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false)
         {
@@ -64,6 +67,23 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
 
         public void Update()
         {
+            if (ControlsDisabled)
+            {
+                foreach (Keys key in pressedKeys.Keys.ToList())
+                {
+                    pressedKeys[key] = false;
+                }
+
+                foreach (Buttons button in pressedButtons.Keys.ToList())
+                {
+                    pressedButtons[button] = false;
+                }
+
+                prevGamepadState = null;
+                prevKeyboardState = null;
+                return;
+            }
+
             currentKeyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState();
             currentGamepadState = GamePad.GetState(PlayerIndex.One);

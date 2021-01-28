@@ -9,42 +9,75 @@ namespace GameEngine2D.Engine.Source.Util
     public class Timer
     {
 
-        private static Dictionary<Action, float> timer = new Dictionary<Action, float>();
+        private static Dictionary<Action, float> triggeredAction = new Dictionary<Action, float>();
+        private static Dictionary<string, float> timers = new Dictionary<string, float>();
 
         public static void TriggerAfter(float delayInMs, Action action, bool overrideExisting = true)
         {
             if (overrideExisting)
             {
-                timer[action] = delayInMs;
+                triggeredAction[action] = delayInMs;
             } else
             {
-                if (!timer.ContainsKey(action))
+                if (!triggeredAction.ContainsKey(action))
                 {
-                    timer[action] = delayInMs;
+                    triggeredAction[action] = delayInMs;
+                }
+            }
+        }
+
+        public static void SetTimer(string name, float duration, bool overrideExisting = true)
+        {
+            if (overrideExisting)
+            {
+                timers[name] = duration;
+            }
+            else
+            {
+                if (!timers.ContainsKey(name))
+                {
+                    timers[name] = duration;
                 }
             }
         }
 
         public static void Update(float elapsedTime)
         {
-            if (timer.Count == 0)
+            if (triggeredAction.Count == 0 && timers.Count == 0)
             {
                 return;
             }
 
             //TODO: check the performance improvement possibilities for this
-            foreach (Action key in new List<Action>(timer.Keys))
+            foreach (Action key in new List<Action>(triggeredAction.Keys))
             {
-                if (timer[key] - elapsedTime <= 0)
+                if (triggeredAction[key] - elapsedTime <= 0)
                 {
                     key.Invoke();
-                    timer.Remove(key);
+                    triggeredAction.Remove(key);
                 }
                 else
                 {
-                    timer[key] = timer[key] - elapsedTime;
+                    triggeredAction[key] -= elapsedTime;
                 }
             }
+
+            foreach (string key in new List<string>(timers.Keys))
+            {
+                if (timers[key] - elapsedTime <= 0)
+                {
+                    timers.Remove(key);
+                }
+                else
+                {
+                    timers[key] -= elapsedTime;
+                }
+            }
+        }
+
+        public static bool IsSet(string timer)
+        {
+            return timers.ContainsKey(timer);
         }
     }
 }

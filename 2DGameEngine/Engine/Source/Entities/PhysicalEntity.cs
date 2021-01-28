@@ -191,9 +191,9 @@ namespace GameEngine2D
 
         public override void PostUpdate(GameTime gameTime)
         {
-            Position = (GridCoordinates + InCellLocation) * Config.GRID;
-            //X = (int)((GridCoordinates.X + InCellLocation.X) * Config.GRID);
-            //Y = (int)((GridCoordinates.Y + InCellLocation.Y) * Config.GRID);
+            //Position = (GridCoordinates + InCellLocation) * Config.GRID;
+            X = (int)((GridCoordinates.X + InCellLocation.X) * Config.GRID);
+            Y = (int)((GridCoordinates.Y + InCellLocation.Y) * Config.GRID);
             base.PostUpdate(gameTime);
         }
 
@@ -204,9 +204,11 @@ namespace GameEngine2D
 
         public void ResetPosition(Vector2 position)
         {
+            //InCellLocation = new Vector2(CollisionOffsetTop, CollisionOffsetBottom);
+            //InCellLocation = new Vector2(0.5f, 1);
             InCellLocation = Vector2.Zero;
-            this.Position = StartPosition = position;
-            this.FallSpeed = 0;
+            Position = StartPosition = position;
+            FallSpeed = 0;
         }
     }
 }

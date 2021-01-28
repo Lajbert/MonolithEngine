@@ -35,8 +35,6 @@ namespace ForestPlatformerExample.Source.Hero
         private int animPriority = 0;
         private float climbSpeed = Config.CHARACTER_SPEED / 2;
 
-        private bool invincible = false;
-
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
@@ -378,13 +376,13 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if(otherCollider is Carrot)
             {
-                if (invincible)
+                if (Timer.IsSet("Invincible"))
                 {
                     return;
                 }
-
-                invincible = true;
-                Timer.TriggerAfter((float)TimeSpan.FromSeconds(1).TotalMilliseconds, () => invincible = false);
+                UserInput.ControlsDisabled = true;
+                Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
+                Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
 
                 if (CurrentFaceDirection == Direction.LEFT)
                 {
