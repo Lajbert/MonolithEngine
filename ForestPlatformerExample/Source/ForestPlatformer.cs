@@ -44,20 +44,27 @@ namespace ForestPlatformerExample
             Config.JUMP_FORCE = 7f;
             Config.INCREASING_GRAVITY = true;
 
+
             //Config.RES_W = 3840;
             //Config.RES_W = 2160;
             //Config.FULLSCREEN = true;
 
             //Config.GRID = 64;
 
-            //Config.FPS = 2000;
-            this.IsFixedTimeStep = true;//false;
-            graphics.SynchronizeWithVerticalRetrace = false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
-
-            // uncapped framerate
-            //graphics.SynchronizeWithVerticalRetrace = false;
-            //this.IsFixedTimeStep = false;
+            //Config.FPS = 0;
+            if (Config.FPS == 0)
+            {
+                // uncapped framerate
+                graphics.SynchronizeWithVerticalRetrace = false;
+                IsFixedTimeStep = false;
+            }
+            else
+            {
+                //Config.FPS = 2000;
+                IsFixedTimeStep = true;//false;
+                graphics.SynchronizeWithVerticalRetrace = false;
+                TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+            }
         }
 
         protected override void Initialize()

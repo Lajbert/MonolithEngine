@@ -22,7 +22,7 @@ namespace GameEngine2D.Source.Entities.Animation
         public Vector2 Offset = Vector2.Zero;
         protected SpriteEffects SpriteEffect { get; set; }
         public bool Looping = true;
-        public bool Started = false;
+        public bool Running = false;
         public Action StoppedCallback;
         public Action StartedCallback;
 
@@ -58,7 +58,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public bool Finished()
         {
-            return !Started;
+            return !Running;
         }
 
         protected void Copy(AbstractAnimation anim)
@@ -84,7 +84,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public void Update(GameTime gameTime)
         {
-            if (!Started)
+            if (!Running)
             {
                 return;
             }
@@ -97,9 +97,9 @@ namespace GameEngine2D.Source.Entities.Animation
 
             if (CurrentFrame == StartFrame)
             {
-                if (StartedCallback != null && !Looping)
+                if (!Looping)
                 {
-                    StartedCallback.Invoke();
+                    StartedCallback?.Invoke();
                 }
             }
 
@@ -112,10 +112,7 @@ namespace GameEngine2D.Source.Entities.Animation
                 if (currentDelay >= delay)
                 {
                     CurrentFrame++;
-                    if (EveryFrameAction != null)
-                    {
-                        EveryFrameAction.Invoke(CurrentFrame);
-                    }
+                    EveryFrameAction?.Invoke(CurrentFrame);
                     if (frameActions.ContainsKey(CurrentFrame))
                     {
                         frameActions[CurrentFrame].Invoke(CurrentFrame);
@@ -132,10 +129,7 @@ namespace GameEngine2D.Source.Entities.Animation
                 if (!Looping)
                 {
                     Stop();
-                    if (StoppedCallback != null)
-                    {
-                        StoppedCallback.Invoke();
-                    }
+                    StoppedCallback?.Invoke();
                 }
                 else
                 {
@@ -158,13 +152,13 @@ namespace GameEngine2D.Source.Entities.Animation
             {
                 CurrentFrame = (int)startFrame;
             }
-            Started = true;
+            Running = true;
         }
 
         public void Stop()
         {
             CurrentFrame = totalFrames - 1;
-            Started = false;
+            Running = false;
         }
 
         public void Flip()

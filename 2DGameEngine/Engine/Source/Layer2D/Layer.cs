@@ -25,6 +25,9 @@ namespace GameEngine2D.Source.Layer
         private bool ySorting = false;
         private SpriteBatch spriteBatch;
 
+        public bool Visible = true;
+        public bool Active = true;
+
         public static GraphicsDeviceManager GraphicsDeviceManager;
 
         public int Priority = 0;
@@ -69,6 +72,11 @@ namespace GameEngine2D.Source.Layer
 
         public void DrawAll(GameTime gameTime)
         {
+
+            if (!Visible)
+            {
+                return;
+            }
 
             if (ySorting)
             {
@@ -119,6 +127,12 @@ namespace GameEngine2D.Source.Layer
 
         public void UpdateAll(GameTime gameTime)
         {
+            
+            if (!Active)
+            {
+                return;
+            }
+
             // in case of skipped frame, we should just recalculate everything
             if (TimeUtil.GetElapsedTime(gameTime) > 1)
             {

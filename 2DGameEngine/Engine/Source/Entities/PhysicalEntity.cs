@@ -128,7 +128,7 @@ namespace GameEngine2D
                         Velocity.Y = 0;
                         bump.Y = 0;
                     }
-
+                    OnLand();
                     InCellLocation.Y = CollisionOffsetBottom;
                 }
 
@@ -166,6 +166,11 @@ namespace GameEngine2D
             base.Update(gameTime);
         }
 
+        protected virtual void OnLand()
+        {
+
+        }
+
         public void Bump(Vector2 direction)
         {
             bump = direction;
@@ -187,6 +192,8 @@ namespace GameEngine2D
         public override void PostUpdate(GameTime gameTime)
         {
             Position = (GridCoordinates + InCellLocation) * Config.GRID;
+            //X = (int)((GridCoordinates.X + InCellLocation.X) * Config.GRID);
+            //Y = (int)((GridCoordinates.Y + InCellLocation.Y) * Config.GRID);
             base.PostUpdate(gameTime);
         }
 
