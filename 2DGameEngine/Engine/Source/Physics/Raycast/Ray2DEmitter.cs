@@ -18,12 +18,14 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
         public float closestDistance;
         private Vector2 intersection = Vector2.Zero;
 
+        public Dictionary<Entity, Vector2> ClosestIntersections = new Dictionary<Entity, Vector2>();
+
         public Ray2DEmitter(Entity owner)
         {
             this.owner = owner;
-            owner.RayEmitter = this;
+            //owner.RayEmitter = this;
             rays = new List<Ray2D>();
-            for (float i = 0; i <= 360; i+=1f)
+            for (float i = 0; i <= 5; i+=1f)
             {
                 rays.Add(new Ray2D(owner.Position, MathUtil.DegreesToRad(i)));
             }
@@ -61,6 +63,16 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
                             }
                         }
 #endif
+                    }
+                    if (closestDistance < float.MaxValue)
+                    {
+                        ClosestIntersections[e] = closestIntersection;
+                    } else
+                    {
+                        if (ClosestIntersections.ContainsKey(e))
+                        {
+                            ClosestIntersections.Remove(e);
+                        }
                     }
                 }
 #if RAYCAST_DEBUG

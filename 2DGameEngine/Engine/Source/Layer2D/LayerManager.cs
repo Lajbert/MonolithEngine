@@ -38,7 +38,7 @@ namespace GameEngine2D.Entities
 
         public void InitLayers()
         {
-            if (EntityLayer != null || RayBlockersLayer != null)
+            if (EntityLayer != null)
             {
                 throw new Exception("Root already initialized!");
             }

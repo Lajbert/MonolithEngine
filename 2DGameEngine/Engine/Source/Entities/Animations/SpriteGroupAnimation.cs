@@ -25,6 +25,13 @@ namespace GameEngine2D.Source.Entities.Animation
             return newAnim;
         }
 
+        public SpriteGroupAnimation CopyFlipped()
+        {
+            SpriteGroupAnimation newAnim = Copy();
+            newAnim.Flip();
+            return newAnim;
+        }
+
         protected override Texture2D GetTexture()
         {
             Pivot = new Vector2((float)Math.Floor((decimal)Textures[CurrentFrame].Width / 2), (float)Math.Floor((decimal)Textures[CurrentFrame].Height / 2));

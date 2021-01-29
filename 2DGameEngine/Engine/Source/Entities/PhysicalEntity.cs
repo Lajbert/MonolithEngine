@@ -56,7 +56,7 @@ namespace GameEngine2D
         {
             if (DEBUG_SHOW_PIVOT)
             {
-                spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
+                //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
             }
             
             base.Draw(spriteBatch, gameTime);
@@ -113,6 +113,11 @@ namespace GameEngine2D
                     FallSpeed = (float)gameTime.TotalGameTime.TotalSeconds;
                 }
                 ApplyGravity(gameTime);
+            }
+
+            if (OnGround())
+            {
+                FallSpeed = 0;
             }
 
             steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * elapsedTime));

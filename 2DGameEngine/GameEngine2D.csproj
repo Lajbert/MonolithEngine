@@ -11,7 +11,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;_GRAPHICS_DEBUG _RAYCAST_DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;_GRAPHICS_DEBUG RAYCAST_DEBUG</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Icon.ico" />

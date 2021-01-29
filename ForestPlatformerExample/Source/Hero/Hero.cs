@@ -4,6 +4,7 @@ using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -32,13 +33,18 @@ namespace ForestPlatformerExample.Source.Hero
         private bool canDoubleJump = false;
         private Vector2 jumpModifier = Vector2.Zero;
 
-        private int animPriority = 0;
+        private bool canAttack = true;
+
+        private bool isAttacking = false;
+
         private float climbSpeed = Config.CHARACTER_SPEED / 2;
 
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
         {
 
             DEBUG_SHOW_PIVOT = true;
+
+            RayEmitter = new Ray2DEmitter(this);
 
             SetupAnimations();
 
@@ -69,8 +75,7 @@ namespace ForestPlatformerExample.Source.Hero
             hurtRight.Looping = false;
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
-            SpriteSheetAnimation hurtLeft = hurtRight.Copy();
-            hurtLeft.Flip();
+            SpriteSheetAnimation hurtLeft = hurtRight.CopyFlipped();
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
 
@@ -80,8 +85,7 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isIdleRight = () => CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
-            SpriteSheetAnimation idleLeft = idleRight.Copy();
-            idleLeft.Flip();
+            SpriteSheetAnimation idleLeft = idleRight.CopyFlipped();
             Func<bool> isIdleLeft = () => CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
 
@@ -90,8 +94,7 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isRunningRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
-            SpriteSheetAnimation runningLeft = runningRight.Copy();
-            runningLeft.Flip();
+            SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
             Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
@@ -99,8 +102,7 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
-            SpriteSheetAnimation walkingRight = walkingLeft.Copy();
-            walkingRight.Flip();
+            SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
             Func<bool> isWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
@@ -113,8 +115,7 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isJumpingRight = () => FallSpeed > 0f && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("JumpingRight", jumpRight, isJumpingRight, 2);
 
-            SpriteSheetAnimation jumpLeft = jumpRight.Copy();
-            jumpLeft.Flip();
+            SpriteSheetAnimation jumpLeft = jumpRight.CopyFlipped();
             Func<bool> isJumpingLeft = () => FallSpeed > 0f && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("JumpingLeft", jumpLeft, isJumpingLeft, 2);
 
@@ -125,8 +126,7 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isWallSlidingRight = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
 
-            SpriteSheetAnimation wallSlideLeft = wallSlideRight.Copy();
-            wallSlideLeft.Flip();
+            SpriteSheetAnimation wallSlideLeft = wallSlideRight.CopyFlipped();
             Func<bool> isWallSlidingLeft = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isWallSlidingLeft, 6);
 
@@ -137,8 +137,7 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isDoubleJumpingRight = () => doubleJumping && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("DoubleJumpingRight", doubleJumpRight, isDoubleJumpingRight, 3);
 
-            SpriteSheetAnimation doubleJumpLeft = doubleJumpRight.Copy();
-            doubleJumpLeft.Flip();
+            SpriteSheetAnimation doubleJumpLeft = doubleJumpRight.CopyFlipped();
             Func<bool> isDoubleJumpingLeft = () => doubleJumping && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("DoubleJumpingLeft", doubleJumpLeft, isDoubleJumpingLeft, 3);
 
@@ -183,12 +182,24 @@ namespace ForestPlatformerExample.Source.Hero
             Func<bool> isFallingRight = () => HasGravity && Velocity.Y > 0.1 && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("FallingRight", fallingRight, isFallingRight, 5);
 
-            SpriteSheetAnimation fallingLeft = fallingRight.Copy();
-            fallingLeft.Flip();
+            SpriteSheetAnimation fallingLeft = fallingRight.CopyFlipped();
             Func<bool> isFallingLeft = () => HasGravity && Velocity.Y > 0.1 && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("FallingLeft", fallingLeft, isFallingLeft, 5);
 
             Animations.AddFrameTransition("FallingRight", "FallingLeft");
+
+            spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@attack-sheet");
+            SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 48);
+            //attackRight.StartedCallback = () => isAttacking = true;
+            attackRight.AddFrameAction(5, (frame) => canAttack = true);
+            attackRight.AddFrameAction(7, (frame) => isAttacking = false);
+            attackRight.EveryFrameAction = (frame) => HitEnemy();
+            //attackRight.StoppedCallback += () => isAttacking = false;
+            attackRight.Looping = false;
+            Animations.RegisterAnimation("AttackRight", attackRight, () => false, 8);
+
+            SpriteSheetAnimation attackLeft = attackRight.CopyFlipped();
+            Animations.RegisterAnimation("AttackLeft", attackLeft, () => false, 8);
 
             //SetSprite(spriteSheet);
             /*SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
@@ -269,6 +280,24 @@ namespace ForestPlatformerExample.Source.Hero
                 FallSpeed = (float)GameTime.TotalGameTime.TotalSeconds;
             }, true);
 
+            UserInput.RegisterKeyPressAction(Keys.Space, Buttons.X, (Vector2 thumbStickPosition) => {
+                if (!canAttack)
+                {
+                    return;
+                }
+                canAttack = false;
+                isAttacking = true;
+                if (CurrentFaceDirection == Direction.LEFT)
+                {
+                    Animations.PlayAnimation("AttackLeft");
+                } else if (CurrentFaceDirection == Direction.RIGHT)
+                {
+                    Animations.PlayAnimation("AttackRight");
+                }
+                
+
+            }, true);
+
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
@@ -318,6 +347,29 @@ namespace ForestPlatformerExample.Source.Hero
             });
 
             UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.5f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.5f; /*Globals.Camera.Recenter(); */});
+        }
+
+        private void HitEnemy()
+        {
+            if (RayEmitter.ClosestIntersections.Count == 0) {
+                return;
+            }
+
+            foreach (Entity e in RayEmitter.ClosestIntersections.Keys)
+            {
+                if (e is Carrot)
+                {
+                    if (Timer.IsSet("EnemyHit"))
+                    {
+                        return;
+                    }
+                    if (MathUtil.Distance(Position, RayEmitter.ClosestIntersections[e]) <= 37)
+                    {
+                        (e as Carrot).Hit(CurrentFaceDirection);
+                        Timer.SetTimer("EnemyHit", 1000);
+                    }
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -376,6 +428,11 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if(otherCollider is Carrot)
             {
+                if (isAttacking)
+                {
+                    //(otherCollider as Carrot).Hit(CurrentFaceDirection);
+                    return;
+                }
                 if (Timer.IsSet("Invincible"))
                 {
                     return;
@@ -383,6 +440,7 @@ namespace ForestPlatformerExample.Source.Hero
                 UserInput.ControlsDisabled = true;
                 Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
                 Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
+                Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
 
                 if (CurrentFaceDirection == Direction.LEFT)
                 {
@@ -449,6 +507,14 @@ namespace ForestPlatformerExample.Source.Hero
             if (otherCollider.HasTag("MovingPlatform"))
             {
                 Velocity.X += (otherCollider as PhysicalEntity).Velocity.X * elapsedTime;
+            }
+
+            else if (otherCollider is Carrot)
+            {
+                if (isAttacking)
+                {
+                    //(otherCollider as Carrot).Hit(CurrentFaceDirection);
+                }
             }
         }
 

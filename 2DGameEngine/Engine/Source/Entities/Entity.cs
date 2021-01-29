@@ -149,7 +149,7 @@ namespace GameEngine2D.Entities
 
         protected AnimationStateMachine Animations { get; set; }
 
-        public Ray2DEmitter RayEmitter { private get; set; }
+        protected Ray2DEmitter RayEmitter { get; set; }
 
         private Texture2D pivotMarker;
 
@@ -185,7 +185,7 @@ namespace GameEngine2D.Entities
             SetDrawPosition();
         }
 
-        private void SetDrawPosition()
+        protected void SetDrawPosition()
         {
             if (parent != null)
             {
@@ -193,7 +193,6 @@ namespace GameEngine2D.Entities
             }
             else
             {
-
                 DrawPosition = Position + drawOffset;
             }
         }
@@ -201,6 +200,7 @@ namespace GameEngine2D.Entities
 
         protected virtual void SetRayBlockers()
         {
+            RayBlockerLines.Clear();
             RayBlockerLines.Add((Position, new Vector2(Position.X, Position.Y + Config.GRID))); //0, 1
             RayBlockerLines.Add((Position, new Vector2(Position.X + Config.GRID, Position.Y))); //1, 0
             RayBlockerLines.Add((new Vector2(Position.X + Config.GRID, Position.Y), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID))); //1
@@ -513,8 +513,8 @@ namespace GameEngine2D.Entities
             if (RayBlockerLines == null)
             {
                 RayBlockerLines = new List<(Vector2 start, Vector2 end)>();
-                SetRayBlockers();
             }
+            SetRayBlockers();
             return RayBlockerLines;
         }
 

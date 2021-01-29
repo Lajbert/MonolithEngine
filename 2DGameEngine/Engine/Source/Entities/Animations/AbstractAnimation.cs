@@ -73,6 +73,8 @@ namespace GameEngine2D.Source.Entities.Animation
             anim.EndFrame = EndFrame;
             anim.EveryFrameAction = EveryFrameAction;
             anim.frameActions = frameActions;
+            anim.StoppedCallback = StoppedCallback;
+            anim.StartedCallback = StartedCallback;
         }
 
         public virtual void Play(SpriteBatch spriteBatch)
@@ -174,7 +176,13 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public void AddFrameAction(int frame, Action<int> action)
         {
-            frameActions.Add(frame, action);
+            if (frameActions.ContainsKey(frame))
+            {
+                frameActions[frame] += action;
+            } else
+            {
+                frameActions.Add(frame, action);
+            }
         }
     }
 }

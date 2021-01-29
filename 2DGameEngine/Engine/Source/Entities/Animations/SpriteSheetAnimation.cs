@@ -43,6 +43,13 @@ namespace GameEngine2D.Source.Entities
             return newAnim;
         }
 
+        public SpriteSheetAnimation CopyFlipped()
+        {
+            SpriteSheetAnimation newAnim = Copy();
+            newAnim.Flip();
+            return newAnim;
+        }
+
         protected override Texture2D GetTexture()
         {
             currentRow = (int)((float)CurrentFrame / (float)columns);
