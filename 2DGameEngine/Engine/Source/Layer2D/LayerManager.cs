@@ -44,6 +44,8 @@ namespace GameEngine2D.Entities
             }
             EntityLayer = new Layer(Camera, 10);
             RayBlockersLayer = new Layer(Camera);
+            RayBlockersLayer.Visible = false;
+            RayBlockersLayer.Active = false;
 
             allLayers.Add(parallaxLayers);
             allLayers.Add(backgroundLayers);

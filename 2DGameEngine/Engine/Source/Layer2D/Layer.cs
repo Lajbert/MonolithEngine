@@ -73,25 +73,29 @@ namespace GameEngine2D.Source.Layer
         public void DrawAll(GameTime gameTime)
         {
 
-            if (!Visible)
+            /*if (!Visible)
             {
                 return;
+            }*/
+
+            if (Visible)
+            {
+                if (ySorting)
+                {
+                    activeObjects.Sort((a, b) => a.Position.Y.CompareTo(b.Position.Y));
+                }
+
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix(scrollSpeedModifier, lockY));
+
+                foreach (Entity entity in visibleObjects)
+                {
+                    entity.PreDraw(spriteBatch, gameTime);
+                    entity.Draw(spriteBatch, gameTime);
+                    entity.PostDraw(spriteBatch, gameTime);
+                }
+                spriteBatch.End();
             }
 
-            if (ySorting)
-            {
-                activeObjects.Sort((a, b) => a.Position.Y.CompareTo(b.Position.Y));
-            }
-            
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix(scrollSpeedModifier, lockY));
-
-            foreach (Entity entity in visibleObjects)
-            {
-                entity.PreDraw(spriteBatch, gameTime);
-                entity.Draw(spriteBatch, gameTime);
-                entity.PostDraw(spriteBatch, gameTime);
-            }
-            spriteBatch.End();
             if (newObjects.Count > 0)
             {
                 foreach (Entity e in newObjects)
@@ -128,23 +132,26 @@ namespace GameEngine2D.Source.Layer
         public void UpdateAll(GameTime gameTime)
         {
             
-            if (!Active)
+            /*if (!Active)
             {
                 return;
-            }
+            }*/
 
             // in case of skipped frame, we should just recalculate everything
             if (TimeUtil.GetElapsedTime(gameTime) > 1)
             {
                 return;
             }
-
-            foreach (Entity entity in activeObjects)
+            if (Active)
             {
-                entity.PreUpdate(gameTime);
-                entity.Update(gameTime);
-                entity.PostUpdate(gameTime);
+                foreach (Entity entity in activeObjects)
+                {
+                    entity.PreUpdate(gameTime);
+                    entity.Update(gameTime);
+                    entity.PostUpdate(gameTime);
+                }
             }
+
             if (newObjects.Count > 0)
             {
                 foreach (Entity e in newObjects)

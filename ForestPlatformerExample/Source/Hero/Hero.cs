@@ -190,7 +190,7 @@ namespace ForestPlatformerExample.Source.Hero
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@attack-sheet");
             SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 48);
-            //attackRight.StartedCallback = () => isAttacking = true;
+            //attackRight.StartedCallback = () => Velocity.X = 0f;
             attackRight.AddFrameAction(5, (frame) => canAttack = true);
             attackRight.AddFrameAction(7, (frame) => isAttacking = false);
             attackRight.EveryFrameAction = (frame) => HitEnemy();

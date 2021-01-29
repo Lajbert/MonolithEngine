@@ -128,7 +128,7 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             base.Update(gameTime);
 
-            /*if (WillCollideOrFall())
+            if (WillCollideOrFall())
             {
                 if (CurrentFaceDirection == Direction.LEFT)
                 {
@@ -146,7 +146,7 @@ namespace ForestPlatformerExample.Source.Enemies
             //Logger.Log("Speed * direction * gameTime.ElapsedGameTime.Milliseconds: " + (Speed * direction * gameTime.ElapsedGameTime.Milliseconds));
 
             //X += Speed * direction * gameTime.ElapsedGameTime.Milliseconds;
-            Velocity.X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;*/
+            Velocity.X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
         private bool WillCollideOrFall()

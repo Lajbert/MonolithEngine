@@ -161,6 +161,8 @@ namespace GameEngine2D.Entities
 
         protected Vector2 DrawPosition;
 
+        public float CircleColliderRadius = 0;
+
         public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, bool collider = false, SpriteFont font = null)
         {
             this.Layer = layer;
