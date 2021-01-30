@@ -1,5 +1,6 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
 using ForestPlatformerExample.Source.Items;
+using ForestPlatformerExample.Source.Weapons;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
@@ -40,12 +41,15 @@ namespace ForestPlatformerExample.Source.Hero
 
         private float climbSpeed = Config.CHARACTER_SPEED / 2;
 
+        private Fist fist;
+
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, font)
         {
 
-            DEBUG_SHOW_PIVOT = true;
+            //DEBUG_SHOW_PIVOT = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
-            CircleCollider = new CircleCollider(this, 30);
+            CircleCollider = new CircleCollider(this, 10, new Vector2(0, -10));
 
             //ColliderOnGrid = true;
 
@@ -62,8 +66,12 @@ namespace ForestPlatformerExample.Source.Hero
                 GridCollisionCheckDirections.Add(direction);
             }
 
+            fist = new Fist(this, new Vector2(10, -3));
+
         }
 
+        private Texture2D red = SpriteUtil.CreateRectangle(Config.GRID, Color.Red);
+        private Texture2D blue = SpriteUtil.CreateRectangle(Config.GRID, Color.Blue);
         private void SetupAnimations()
         {
             Animations = new AnimationStateMachine();
@@ -197,7 +205,7 @@ namespace ForestPlatformerExample.Source.Hero
             SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 48);
             //attackRight.StartedCallback = () => Velocity.X = 0f;
             attackRight.AddFrameAction(5, (frame) => canAttack = true);
-            attackRight.AddFrameAction(7, (frame) => isAttacking = false);
+            attackRight.AddFrameAction(5, (frame) => fist.IsAttacking = false);
             attackRight.EveryFrameAction = (frame) => HitEnemy();
             //attackRight.StoppedCallback += () => isAttacking = false;
             attackRight.Looping = false;
@@ -207,8 +215,8 @@ namespace ForestPlatformerExample.Source.Hero
             Animations.RegisterAnimation("AttackLeft", attackLeft, () => false, 8);
 
             //SetSprite(spriteSheet);
-            /*SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
-            DrawOffset = new Vector2(15, 15);*/
+            //SetSprite(blue);
+            //DrawOffset = new Vector2(15, 15);
         }
 
         private void SetupController()
@@ -232,6 +240,7 @@ namespace ForestPlatformerExample.Source.Hero
                     Velocity.X += MovementSpeed * elapsedTime;
                     CurrentFaceDirection = Direction.RIGHT;
                 }
+                fist.ChangeDirection();
                 //CurrentFaceDirection = Direction.RIGHT;
             });
 
@@ -248,6 +257,7 @@ namespace ForestPlatformerExample.Source.Hero
                     Velocity.X -= MovementSpeed * elapsedTime;
                     CurrentFaceDirection = Direction.LEFT;
                 }
+                fist.ChangeDirection();
                 //CurrentFaceDirection = Direction.LEFT;
             });
 
@@ -291,7 +301,7 @@ namespace ForestPlatformerExample.Source.Hero
                     return;
                 }
                 canAttack = false;
-                isAttacking = true;
+                fist.IsAttacking = true;
                 if (CurrentFaceDirection == Direction.LEFT)
                 {
                     Animations.PlayAnimation("AttackLeft");
@@ -483,13 +493,13 @@ namespace ForestPlatformerExample.Source.Hero
                 Velocity.X += (otherCollider as PhysicalEntity).Velocity.X * elapsedTime;
             }
 
-            else if (otherCollider is Carrot)
+            /*else if (otherCollider is Carrot)
             {
                 if (isAttacking)
                 {
                     //(otherCollider as Carrot).Hit(CurrentFaceDirection);
                 }
-            }
+            }*/
         }
 
         protected override void OnGridCollisionEnd(Entity otherCollider, Direction direction)
@@ -517,9 +527,8 @@ namespace ForestPlatformerExample.Source.Hero
             }
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, Direction direction, float intersection)
+        protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
         {
-
             if (isAttacking)
             {
                 //(otherCollider as Carrot).Hit(CurrentFaceDirection);
@@ -542,17 +551,17 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 Animations.PlayAnimation("HurtRight");
             }
-            if (direction == Direction.LEFT)
+            /*if (direction == Direction.LEFT)
             {
                 Velocity += new Vector2(2, -2);
             }
             else if (direction == Direction.RIGHT)
             {
                 Velocity += new Vector2(-2, -2);
-            }
+            }*/
         }
 
-        protected override void OnCircleCollisionEnd(Entity otherCollider, Direction direction)
+        protected override void OnCircleCollisionEnd(Entity otherCollider)
         {
             //Logger.Log("HERO CIRCLE ENDED " + otherCollider);
         }

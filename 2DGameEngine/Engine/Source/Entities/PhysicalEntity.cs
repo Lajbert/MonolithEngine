@@ -44,7 +44,7 @@ namespace GameEngine2D
 
         protected GameTime GameTime;
 
-        protected Direction CurrentFaceDirection { get; set; } = Engine.Source.Entities.Direction.RIGHT;
+        public Direction CurrentFaceDirection { get; set; } = Engine.Source.Entities.Direction.RIGHT;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {

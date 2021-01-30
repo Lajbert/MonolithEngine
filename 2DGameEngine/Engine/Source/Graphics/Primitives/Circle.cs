@@ -29,7 +29,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            DrawPosition -= offset;
+            DrawOffset -= offset;
             base.Draw(spriteBatch, gameTime);
         }
     }

@@ -30,11 +30,12 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
-            DEBUG_SHOW_PIVOT = true;
-
             GridCollisionPriority = 1;
 
-            CircleCollider = new CircleCollider(this, 30);
+            CircleCollider = new CircleCollider(this, 10, new Vector2(3, -2));
+
+            //DEBUG_SHOW_PIVOT = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             ColliderOnGrid = true;
 
@@ -89,6 +90,8 @@ namespace ForestPlatformerExample.Source.Enemies
             Visible = true;
 
             BlocksRay = true;
+
+            //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
         }
 
         public void Hit(Direction direction)
@@ -111,6 +114,7 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 Velocity += attackForce;
             }
+            FallSpeed = 0;
         }
 
         private void SetLeftCollisionChecks()

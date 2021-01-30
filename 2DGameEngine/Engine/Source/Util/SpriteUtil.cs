@@ -18,27 +18,40 @@ namespace GameEngine2D.Engine.Source.Util
 
         private static Dictionary<RectangleKey, Texture2D> rectangleCache = new Dictionary<RectangleKey, Texture2D>();
 
-        public static Texture2D CreateCircle(int radius, Color color)
+        public static Texture2D CreateCircle(int diameter, Color color, bool filled = false)
         {
-            Texture2D texture = new Texture2D(GraphicsDeviceManager.GraphicsDevice, radius, radius);
-            Color[] colorData = new Color[radius * radius];
+            Texture2D texture = new Texture2D(GraphicsDeviceManager.GraphicsDevice, diameter, diameter);
+            Color[] colorData = new Color[diameter * diameter];
 
-            float diam = radius / 2f;
-            float diamsq = diam * diam;
+            float radius = diameter / 2f;
+            float radiusSquared = radius * radius;
 
-            for (int x = 0; x < radius; x++)
+            for (int x = 0; x < diameter; x++)
             {
-                for (int y = 0; y < radius; y++)
+                for (int y = 0; y < diameter; y++)
                 {
-                    int index = x * radius + y;
-                    Vector2 pos = new Vector2(x - diam, y - diam);
-                    if (pos.LengthSquared() <= diamsq)
+                    int index = x * diameter + y;
+                    Vector2 pos = new Vector2(x - radius, y - radius);
+                    if (filled)
                     {
-                        colorData[index] = color;
-                    }
-                    else
+                        if (pos.LengthSquared() <= radiusSquared)
+                        {
+                            colorData[index] = color;
+                        }
+                        else
+                        {
+                            colorData[index] = Color.Transparent;
+                        }
+                    } else
                     {
-                        colorData[index] = Color.Transparent;
+                        if (pos.LengthSquared() <= radiusSquared && pos.LengthSquared() > radiusSquared - 50)
+                        {
+                            colorData[index] = color;
+                        }
+                        else
+                        {
+                            colorData[index] = Color.Transparent;
+                        }
                     }
                 }
             }

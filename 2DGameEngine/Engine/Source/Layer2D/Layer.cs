@@ -62,7 +62,7 @@ namespace GameEngine2D.Source.Layer
 
         public IEnumerable<Entity> GetAll()
         {
-            return activeObjects;
+            return visibleObjects;
         }
 
         public void RemoveRoot(Entity gameObject)
