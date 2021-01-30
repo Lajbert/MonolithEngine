@@ -98,7 +98,8 @@ namespace GameEngine2D.Source.Level
                         {
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
-                            Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black), true);
+                            Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
+                            e.ColliderOnGrid = true;
                             if (grid.V == 0)
                             {
                                 e.AddTag("Collider");

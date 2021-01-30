@@ -14,12 +14,14 @@ namespace ForestPlatformerExample.Source.Items
     {
 
         public int Power;
-        public Spring(Vector2 position, int power) : base(LayerManager.Instance.EntityLayer, null, position, null, true)
+        public Spring(Vector2 position, int power) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
 
             Active = true;
 
             Power = power;
+
+            ColliderOnGrid = true;
 
             //DEBUG_SHOW_PIVOT = true;
 

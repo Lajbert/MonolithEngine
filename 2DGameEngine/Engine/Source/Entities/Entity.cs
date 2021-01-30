@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GameEngine2D.Entities.Interfaces;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using GameEngine2D.Global;
-using GameEngine2D.Util;
-using GameEngine2D.Source;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Source.Layer;
-using GameEngine2D.Source.Entities.Animation;
+﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Global;
+using GameEngine2D.Source.Entities.Animation;
+using GameEngine2D.Source.Layer;
+using GameEngine2D.Util;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, IRayBlocker
+    public class Entity : GameObject, IRayBlocker, ICircleCollider
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -29,7 +26,7 @@ namespace GameEngine2D.Entities
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        public int CollisionPriority = 0;
+        public int GridCollisionPriority = 0;
 
         private readonly string DESTROY_AMINATION = "Destroy";
 
@@ -100,7 +97,7 @@ namespace GameEngine2D.Entities
 
         private bool hasCollisions = false;
 
-        public bool CheckForCollisions {
+        public bool ColliderOnGrid {
             get => hasCollisions;
             set {
                 hasCollisions = value;
@@ -121,7 +118,7 @@ namespace GameEngine2D.Entities
 
         public SoundEffect DestroySound;
 
-        protected HashSet<Direction> CollisionCheckDirections = new HashSet<Direction>();
+        protected HashSet<Direction> GridCollisionCheckDirections = new HashSet<Direction>();
 
         public bool BlocksRay {
             get => blocksRay;
@@ -151,9 +148,13 @@ namespace GameEngine2D.Entities
 
         protected Ray2DEmitter RayEmitter { get; set; }
 
+        public CircleCollider CircleCollider { get; set; }
+
+        private Dictionary<(Entity, Direction), bool> circleCollisions = new Dictionary<(Entity, Direction), bool>();
+
         private Texture2D pivotMarker;
 
-        private Dictionary<(Entity, Direction), bool> collidesWith = new Dictionary<(Entity, Direction), bool>();
+        private Dictionary<(Entity, Direction), bool> collidesWithOnGrid = new Dictionary<(Entity, Direction), bool>();
 
         public float Depth = 0f;
 
@@ -161,9 +162,7 @@ namespace GameEngine2D.Entities
 
         protected Vector2 DrawPosition;
 
-        public float CircleColliderRadius = 0;
-
-        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, bool collider = false, SpriteFont font = null)
+        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
         {
             this.Layer = layer;
             children = new HashSet<Entity>();
@@ -181,8 +180,6 @@ namespace GameEngine2D.Entities
                 this.StartPosition = this.Position = startPosition;
                 GridCoordinates = CalculateGridCoord(StartPosition);
             }
-
-            this.CheckForCollisions = collider;
 
             SetDrawPosition();
         }
@@ -211,7 +208,6 @@ namespace GameEngine2D.Entities
 
         public virtual void PreDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-
             foreach (Entity child in children)
             {
                 child.PreDraw(spriteBatch, gameTime);
@@ -232,15 +228,16 @@ namespace GameEngine2D.Entities
 
             if (DEBUG_SHOW_PIVOT)
             {
+                float radius= CircleCollider == null ? 5 : CircleCollider.Radius;
                 if (pivotMarker == null)
                 {
-                    pivotMarker = SpriteUtil.CreateCircle(5, Color.Orange);
+                    pivotMarker = SpriteUtil.CreateCircle((int)radius, Color.Black);
                 }
                 if (font != null)
                 {
                     //spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
                 }
-                spriteBatch.Draw(pivotMarker, Position, Color.White);
+                spriteBatch.Draw(pivotMarker, Position - new Vector2(radius / 2, radius / 2), Color.White);
             }
             
             if (children.Count > 0)
@@ -262,17 +259,32 @@ namespace GameEngine2D.Entities
             }
         }
 
-        protected virtual void OnCollision(Entity otherCollider, Direction direction)
+        protected virtual void OnGridCollision(Entity otherCollider, Direction direction)
         {
 
         }
 
-        protected virtual void OnCollisionStart(Entity otherCollider, Direction direction)
+        protected virtual void OnGridCollisionStart(Entity otherCollider, Direction direction)
         {
 
         }
 
-        protected virtual void OnCollisionEnd(Entity otherCollider, Direction direction)
+        protected virtual void OnGridCollisionEnd(Entity otherCollider, Direction direction)
+        {
+
+        }
+
+        protected virtual void OnCircleCollision(Entity otherCollider, Direction direction, float intersection)
+        {
+
+        }
+
+        protected virtual void OnCircleCollisionStart(Entity otherCollider, Direction direction, float intersection)
+        {
+
+        }
+
+        protected virtual void OnCircleCollisionEnd(Entity otherCollider, Direction direction)
         {
 
         }
@@ -285,7 +297,7 @@ namespace GameEngine2D.Entities
         public virtual void PreUpdate(GameTime gameTime)
         {
 
-            CheckCollisions();
+            UpdateCollisions();
 
             foreach (Entity child in children)
             {
@@ -341,40 +353,77 @@ namespace GameEngine2D.Entities
             }
         }
 
-        private void CheckCollisions()
+        private void UpdateCollisions()
         {
 
-            if (CollisionCheckDirections.Count == 0)
+            if (GridCollisionCheckDirections.Count == 0)
             {
                 return;
             }
 
             GridCoordinates = CalculateGridCoord();
 
-            foreach ((Entity, Direction) e in new List<(Entity, Direction)>(collidesWith.Keys))
+            foreach ((Entity, Direction) e in circleCollisions.Keys.ToList())
             {
-                collidesWith[e] = false;
+                circleCollisions[e] = false;
             }
 
-            foreach ((Entity, Direction) collision in CollisionChecker.HasCollisionAt(GridCoordinates, CollisionCheckDirections))
+            foreach ((Entity, Direction) e in collidesWithOnGrid.Keys.ToList())
             {
-                if (!collidesWith.ContainsKey(collision))
+                collidesWithOnGrid[e] = false;
+            }
+
+            foreach ((Entity, Direction) collision in CollisionChecker.HasGridCollisionAt(GridCoordinates, GridCollisionCheckDirections))
+            {
+                if (collision.Item1.HasTag("Hero"))
                 {
-                    collidesWith.Add(collision, true);
-                    OnCollisionStart(collision.Item1, collision.Item2);
+                    Logger.Log("NOW");
+                }
+                if (!collidesWithOnGrid.ContainsKey(collision))
+                {
+                    OnGridCollisionStart(collision.Item1, collision.Item2);
                 }
                 else
                 {
-                    collidesWith[collision] = true;
-                    OnCollision(collision.Item1, collision.Item2);
+                    OnGridCollision(collision.Item1, collision.Item2);
+                }
+                collidesWithOnGrid[collision] = true;
+                if (collision.Item1.CircleCollider != null)
+                {
+                    (bool, float) collResult = CircleCollider.CollidesWith(collision.Item1);
+                    if (collResult.Item1)
+                    {
+                        if (!circleCollisions.ContainsKey((collision.Item1, collision.Item2)))
+                        {
+                            OnCircleCollisionStart(collision.Item1, collision.Item2, collResult.Item2);
+                        } else
+                        {
+                            OnCircleCollision(collision.Item1, collision.Item2, collResult.Item2);
+                        }
+                        circleCollisions[(collision.Item1, collision.Item2)] = true;
+                    }
                 }
             }
 
-            foreach (KeyValuePair<(Entity, Direction), bool> e in collidesWith.Where(e => !e.Value))
+            foreach (KeyValuePair<(Entity, Direction), bool> e in collidesWithOnGrid.Where(e => !e.Value))
             {
-                collidesWith.Remove(e.Key);
-                OnCollisionEnd(e.Key.Item1, e.Key.Item2);
+                collidesWithOnGrid.Remove(e.Key);
+                OnGridCollisionEnd(e.Key.Item1, e.Key.Item2);
             }
+
+            foreach ((Entity, Direction) e in circleCollisions.Keys.ToList())
+            {
+                if(!circleCollisions[e])
+                {
+                    circleCollisions.Remove(e);
+                    OnCircleCollisionEnd(e.Item1, e.Item2);
+                }
+            }
+        }
+
+        protected bool HasGridCollision()
+        {
+            return GridCollisionCheckDirections.Count > 0;
         }
 
         public HashSet<Entity> GetAllChildren()
@@ -438,7 +487,7 @@ namespace GameEngine2D.Entities
 
         private void RemoveCollisions()
         {
-            CheckForCollisions = false;
+            ColliderOnGrid = false;
         }
 
         public void SetDestroyAnimation(AbstractAnimation destroyAnimation)

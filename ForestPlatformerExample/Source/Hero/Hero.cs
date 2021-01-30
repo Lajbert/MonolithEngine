@@ -4,6 +4,7 @@ using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -39,12 +40,16 @@ namespace ForestPlatformerExample.Source.Hero
 
         private float climbSpeed = Config.CHARACTER_SPEED / 2;
 
-        public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, true, font)
+        public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, font)
         {
 
             DEBUG_SHOW_PIVOT = true;
 
-            RayEmitter = new Ray2DEmitter(this);
+            CircleCollider = new CircleCollider(this, 30);
+
+            //ColliderOnGrid = true;
+
+            //RayEmitter = new Ray2DEmitter(this);
 
             SetupAnimations();
 
@@ -54,7 +59,7 @@ namespace ForestPlatformerExample.Source.Hero
 
             foreach (Direction direction in new List<Direction>() { Direction.CENTER, Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT })
             {
-                CollisionCheckDirections.Add(direction);
+                GridCollisionCheckDirections.Add(direction);
             }
 
         }
@@ -351,7 +356,7 @@ namespace ForestPlatformerExample.Source.Hero
 
         private void HitEnemy()
         {
-            if (RayEmitter.ClosestIntersections.Count == 0) {
+            /*if (RayEmitter.ClosestIntersections.Count == 0) {
                 return;
             }
 
@@ -363,13 +368,13 @@ namespace ForestPlatformerExample.Source.Hero
                     {
                         return;
                     }
-                    if (MathUtil.Distance(Position, RayEmitter.ClosestIntersections[e]) <= 37)
+                    if (Vector2.Distance(Position, RayEmitter.ClosestIntersections[e]) <= 37)
                     {
                         (e as Carrot).Hit(CurrentFaceDirection);
                         Timer.SetTimer("EnemyHit", 1000);
                     }
                 }
-            }
+            }*/
         }
 
         public override void Update(GameTime gameTime)
@@ -395,7 +400,7 @@ namespace ForestPlatformerExample.Source.Hero
             base.Update(gameTime);
         }
 
-        protected override void OnCollisionStart(Entity otherCollider, Direction direction)
+        protected override void OnGridCollisionStart(Entity otherCollider, Direction direction)
         {       
 
             if (otherCollider is Coin)
@@ -425,37 +430,6 @@ namespace ForestPlatformerExample.Source.Hero
                 Velocity.Y -= ((Spring)otherCollider).Power;
                 canJump = false;
                 canDoubleJump = true;
-            }
-            else if(otherCollider is Carrot)
-            {
-                if (isAttacking)
-                {
-                    //(otherCollider as Carrot).Hit(CurrentFaceDirection);
-                    return;
-                }
-                if (Timer.IsSet("Invincible"))
-                {
-                    return;
-                }
-                UserInput.ControlsDisabled = true;
-                Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
-                Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
-                Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
-
-                if (CurrentFaceDirection == Direction.LEFT)
-                {
-                    Animations.PlayAnimation("HurtLeft");
-                } else if (CurrentFaceDirection == Direction.RIGHT)
-                {
-                    Animations.PlayAnimation("HurtRight");
-                }
-                if (direction == Direction.LEFT)
-                {
-                    Velocity += new Vector2(2, -2);
-                } else if (direction == Direction.RIGHT)
-                {
-                    Velocity += new Vector2(-2, -2);
-                }
             }
             else if (otherCollider.HasTag("Ladder") && !OnGround())
             {
@@ -502,7 +476,7 @@ namespace ForestPlatformerExample.Source.Hero
             return thumbStickPosition / 1 * maxVelocity;
         }
 
-        protected override void OnCollision(Entity otherCollider, Direction direction)
+        protected override void OnGridCollision(Entity otherCollider, Direction direction)
         {
             if (otherCollider.HasTag("MovingPlatform"))
             {
@@ -518,7 +492,7 @@ namespace ForestPlatformerExample.Source.Hero
             }
         }
 
-        protected override void OnCollisionEnd(Entity otherCollider, Direction direction)
+        protected override void OnGridCollisionEnd(Entity otherCollider, Direction direction)
         {
             if (otherCollider.HasTag("MovingPlatform"))
             {
@@ -541,6 +515,46 @@ namespace ForestPlatformerExample.Source.Hero
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
             }
+        }
+
+        protected override void OnCircleCollisionStart(Entity otherCollider, Direction direction, float intersection)
+        {
+
+            if (isAttacking)
+            {
+                //(otherCollider as Carrot).Hit(CurrentFaceDirection);
+                return;
+            }
+            if (Timer.IsSet("Invincible"))
+            {
+                return;
+            }
+            UserInput.ControlsDisabled = true;
+            Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
+            Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
+            Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
+
+            if (CurrentFaceDirection == Direction.LEFT)
+            {
+                Animations.PlayAnimation("HurtLeft");
+            }
+            else if (CurrentFaceDirection == Direction.RIGHT)
+            {
+                Animations.PlayAnimation("HurtRight");
+            }
+            if (direction == Direction.LEFT)
+            {
+                Velocity += new Vector2(2, -2);
+            }
+            else if (direction == Direction.RIGHT)
+            {
+                Velocity += new Vector2(-2, -2);
+            }
+        }
+
+        protected override void OnCircleCollisionEnd(Entity otherCollider, Direction direction)
+        {
+            //Logger.Log("HERO CIRCLE ENDED " + otherCollider);
         }
 
         private void LeaveLadder()

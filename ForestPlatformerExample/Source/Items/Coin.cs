@@ -12,10 +12,12 @@ namespace ForestPlatformerExample.Source.Items
 {
     class Coin : Entity
     {
-        public Coin(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, null, true)
+        public Coin(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
 
             Active = true;
+
+            ColliderOnGrid = true;
 
             //DEBUG_SHOW_PIVOT = true;
 

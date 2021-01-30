@@ -107,7 +107,7 @@ namespace GameEngine2D.Source.Camera2D
 			{
 				targetPosition = target.Position + targetTracingOffset;
 
-				targetCameraDistance = MathUtil.Distance(position, targetPosition);
+				targetCameraDistance = Vector2.Distance(position, targetPosition);
 				if (targetCameraDistance >= Config.CAMERA_DEADZONE)
 				{
 					angle = MathUtil.AngleFromVectors(position, targetPosition);

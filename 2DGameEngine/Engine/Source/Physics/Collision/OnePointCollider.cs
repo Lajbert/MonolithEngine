@@ -42,7 +42,7 @@ namespace GameEngine2D.Source.Layer
             }
             if (objects.ContainsKey(gameObject.GridCoordinates))
             {
-                if (objects[gameObject.GridCoordinates] != gameObject && objects[gameObject.GridCoordinates].CollisionPriority <= gameObject.CollisionPriority)
+                if (objects[gameObject.GridCoordinates] != gameObject && objects[gameObject.GridCoordinates].GridCollisionPriority <= gameObject.GridCollisionPriority)
                 {
                     lowPriorityObjects.Add(objects[gameObject.GridCoordinates]);
                     objects.Remove(gameObject.GridCoordinates);
@@ -66,7 +66,7 @@ namespace GameEngine2D.Source.Layer
             {
                 if (objects.ContainsKey(e.GridCoordinates))
                 {
-                    if (objects[e.GridCoordinates].CollisionPriority <= e.CollisionPriority)
+                    if (objects[e.GridCoordinates].GridCollisionPriority <= e.GridCollisionPriority)
                     {
                         lowPriorityObjects.Add(objects[e.GridCoordinates]);
                         objects[e.GridCoordinates] = e;
@@ -123,7 +123,7 @@ namespace GameEngine2D.Source.Layer
             return tagCollisionResult;
         }
 
-        public List<(Entity, Direction)> HasCollisionAt(Vector2 gridCoord, ICollection<Direction> directionsToCheck = null)
+        public List<(Entity, Direction)> HasGridCollisionAt(Vector2 gridCoord, ICollection<Direction> directionsToCheck = null)
         {
             TryRestoreLowPriorityObjects();
 

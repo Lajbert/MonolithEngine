@@ -46,7 +46,7 @@ namespace GameEngine2D
 
         protected Direction CurrentFaceDirection { get; set; } = Engine.Source.Entities.Direction.RIGHT;
 
-        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, bool collider = false, SpriteFont font = null) : base(layer, parent, startPosition, texture, collider, font)
+        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
             Active = true;
             ResetPosition(startPosition);
@@ -84,12 +84,12 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (CheckForCollisions && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+                if (HasGridCollision() && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
                 {
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (CheckForCollisions && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                if (HasGridCollision() && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
                 {
                     InCellLocation.X = CollisionOffsetRight;
                 }
@@ -126,7 +126,7 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (CheckForCollisions && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Velocity.Y > 0)
+                if (HasGridCollision() && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Velocity.Y > 0)
                 {
                     if (HasGravity)
                     {
@@ -137,7 +137,7 @@ namespace GameEngine2D
                     InCellLocation.Y = CollisionOffsetBottom;
                 }
 
-                if (CheckForCollisions && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (HasGridCollision() && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
                 {
                     Velocity.Y = 0;
                     InCellLocation.Y = CollisionOffsetTop;

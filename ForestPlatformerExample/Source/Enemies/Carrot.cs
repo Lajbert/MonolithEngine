@@ -1,6 +1,7 @@
 ﻿using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
+using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -31,9 +32,11 @@ namespace ForestPlatformerExample.Source.Enemies
 
             DEBUG_SHOW_PIVOT = true;
 
-            CollisionPriority = 1;
+            GridCollisionPriority = 1;
 
-            CheckForCollisions = true;
+            CircleCollider = new CircleCollider(this, 30);
+
+            ColliderOnGrid = true;
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
@@ -112,16 +115,16 @@ namespace ForestPlatformerExample.Source.Enemies
 
         private void SetLeftCollisionChecks()
         {
-            CollisionCheckDirections.Clear();
-            CollisionCheckDirections.Add(Direction.LEFT);
-            CollisionCheckDirections.Add(Direction.BOTTOMLEFT);
+            GridCollisionCheckDirections.Clear();
+            GridCollisionCheckDirections.Add(Direction.LEFT);
+            GridCollisionCheckDirections.Add(Direction.BOTTOMLEFT);
         }
 
         private void SetRightCollisionChecks()
         {
-            CollisionCheckDirections.Clear();
-            CollisionCheckDirections.Add(Direction.RIGHT);
-            CollisionCheckDirections.Add(Direction.BOTTOMRIGHT);
+            GridCollisionCheckDirections.Clear();
+            GridCollisionCheckDirections.Add(Direction.RIGHT);
+            GridCollisionCheckDirections.Add(Direction.BOTTOMRIGHT);
         }
 
         public override void Update(GameTime gameTime)
