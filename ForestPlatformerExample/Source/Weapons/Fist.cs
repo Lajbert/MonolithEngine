@@ -46,6 +46,13 @@ namespace ForestPlatformerExample.Source.Weapons
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            if (!IsAttacking && EnableCircleCollisions)
+            {
+                EnableCircleCollisions = false;
+            } else if (IsAttacking && !EnableCircleCollisions)
+            {
+                EnableCircleCollisions = true;
+            }
             if (hero.CurrentFaceDirection == Direction.LEFT)
             {
                 X = -3 * StartPosition.X; 

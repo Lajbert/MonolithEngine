@@ -436,6 +436,7 @@ namespace ForestPlatformerExample.Source.Hero
                 if (GravityValue == Config.GRAVITY_FORCE)
                 {
                     GravityValue /= 4;
+                    canAttack = false;
                 }
                 canDoubleJump = true;
                 if (direction == Direction.LEFT)
@@ -469,14 +470,6 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 Velocity.X += (otherCollider as PhysicalEntity).Velocity.X * elapsedTime;
             }
-
-            /*else if (otherCollider is Carrot)
-            {
-                if (isAttacking)
-                {
-                    //(otherCollider as Carrot).Hit(CurrentFaceDirection);
-                }
-            }*/
         }
 
         protected override void OnGridCollisionEnd(Entity otherCollider, Direction direction)
@@ -501,6 +494,7 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
+                canAttack = true;
             }
         }
 

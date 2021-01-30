@@ -150,6 +150,8 @@ namespace GameEngine2D.Entities
 
         public CircleCollider CircleCollider { get; set; }
 
+        protected bool EnableCircleCollisions = true;
+
         private Dictionary<Entity, bool> circleCollisions = new Dictionary<Entity, bool>();
 
         private Texture2D pivotMarker;
@@ -370,102 +372,76 @@ namespace GameEngine2D.Entities
         private void UpdateCollisions()
         {
 
-            if (GridCollisionCheckDirections.Count == 0)
+            if (GridCollisionCheckDirections.Count > 0)
             {
-                return;
-            }
+                GridCoordinates = CalculateGridCoord();
 
-            GridCoordinates = CalculateGridCoord();
-
-            /*foreach ((Entity, Direction) e in circleCollisions.Keys.ToList())
-            {
-                circleCollisions[e] = false;
-            }*/
-
-            foreach ((Entity, Direction) e in collidesWithOnGrid.Keys.ToList())
-            {
-                collidesWithOnGrid[e] = false;
-            }
-
-            foreach ((Entity, Direction) collision in CollisionChecker.HasGridCollisionAt(GridCoordinates, GridCollisionCheckDirections))
-            {
-                if (!collidesWithOnGrid.ContainsKey(collision))
+                foreach ((Entity, Direction) e in collidesWithOnGrid.Keys.ToList())
                 {
-                    OnGridCollisionStart(collision.Item1, collision.Item2);
+                    collidesWithOnGrid[e] = false;
                 }
-                else
+
+                foreach ((Entity, Direction) collision in CollisionChecker.HasGridCollisionAt(GridCoordinates, GridCollisionCheckDirections))
                 {
-                    OnGridCollision(collision.Item1, collision.Item2);
-                }
-                collidesWithOnGrid[collision] = true;
-                /*if (collision.Item1.CircleCollider != null)
-                {
-                    (bool, float) collResult = CircleCollider.Overlaps(collision.Item1);
-                    if (collResult.Item1)
+                    if (!collidesWithOnGrid.ContainsKey(collision))
                     {
-                        if (!circleCollisions.ContainsKey((collision.Item1, collision.Item2)))
-                        {
-                            OnCircleCollisionStart(collision.Item1, collision.Item2, collResult.Item2);
-                        } else
-                        {
-                            OnCircleCollision(collision.Item1, collision.Item2, collResult.Item2);
-                        }
-                        circleCollisions[(collision.Item1, collision.Item2)] = true;
+                        OnGridCollisionStart(collision.Item1, collision.Item2);
                     }
-                }*/
-            }
-
-            foreach (KeyValuePair<(Entity, Direction), bool> e in collidesWithOnGrid.Where(e => !e.Value))
-            {
-                collidesWithOnGrid.Remove(e.Key);
-                OnGridCollisionEnd(e.Key.Item1, e.Key.Item2);
-            }
-
-            /*foreach ((Entity, Direction) e in circleCollisions.Keys.ToList())
-            {
-                if(!circleCollisions[e])
-                {
-                    circleCollisions.Remove(e);
-                    OnCircleCollisionEnd(e.Item1, e.Item2);
-                }
-            }*/
-
-            foreach (Entity e in circleCollisions.Keys.ToList())
-            {
-                circleCollisions[e] = false;
-            }
-
-            foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll())
-            {
-                if (e == this || (Math.Abs(GridCoordinates.X - e.GridCoordinates.X) > 2 && Math.Abs(GridCoordinates.Y - e.GridCoordinates.Y) > 2))
-                {
-                    continue;
-                }
-                if (e.CircleCollider != null)
-                {
-                    (bool, float) collResult = CircleCollider.Overlaps(e);
-                    if (collResult.Item1)
+                    else
                     {
-                        if (circleCollisions.ContainsKey(e))
+                        OnGridCollision(collision.Item1, collision.Item2);
+                    }
+                    collidesWithOnGrid[collision] = true;
+                }
+
+                foreach (KeyValuePair<(Entity, Direction), bool> e in collidesWithOnGrid.Where(e => !e.Value))
+                {
+                    collidesWithOnGrid.Remove(e.Key);
+                    OnGridCollisionEnd(e.Key.Item1, e.Key.Item2);
+                }
+            }
+
+
+            if (CircleCollider != null && EnableCircleCollisions)
+            {
+                foreach (Entity e in circleCollisions.Keys.ToList())
+                {
+                    circleCollisions[e] = false;
+                }
+
+                foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll())
+                {
+                    if (e == this || (Math.Abs(GridCoordinates.X - e.GridCoordinates.X) > 2 && Math.Abs(GridCoordinates.Y - e.GridCoordinates.Y) > 2))
+                    {
+                        continue;
+                    }
+                    if (e.CircleCollider != null)
+                    {
+                        (bool, float) collResult = CircleCollider.Overlaps(e);
+                        if (collResult.Item1)
                         {
-                            OnCircleCollision(e, collResult.Item2);
-                        } else
-                        {
-                            OnCircleCollisionStart(e, collResult.Item2);
+                            if (circleCollisions.ContainsKey(e))
+                            {
+                                OnCircleCollision(e, collResult.Item2);
+                            }
+                            else
+                            {
+                                OnCircleCollisionStart(e, collResult.Item2);
+                            }
+                            circleCollisions[e] = true;
                         }
-                        circleCollisions[e] = true;
                     }
                 }
-            }
 
-            foreach (Entity e in circleCollisions.Keys.ToList())
-            {
-                if (!circleCollisions[e])
+                foreach (Entity e in circleCollisions.Keys.ToList())
                 {
-                    OnCircleCollisionEnd(e);
-                    circleCollisions.Remove(e);
+                    if (!circleCollisions[e])
+                    {
+                        OnCircleCollisionEnd(e);
+                        circleCollisions.Remove(e);
+                    }
                 }
-            }
+            }   
         }
 
         protected bool HasGridCollision()
