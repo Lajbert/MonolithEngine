@@ -404,6 +404,8 @@ namespace GameEngine2D.Entities
 
             if (CircleCollider != null && EnableCircleCollisions)
             {
+                GridCoordinates = CalculateGridCoord();
+
                 foreach (Entity e in circleCollisions.Keys.ToList())
                 {
                     circleCollisions[e] = false;
