@@ -206,7 +206,7 @@ namespace ForestPlatformerExample.Source.Hero
             //attackRight.StartedCallback = () => Velocity.X = 0f;
             attackRight.AddFrameAction(5, (frame) => canAttack = true);
             attackRight.AddFrameAction(5, (frame) => fist.IsAttacking = false);
-            attackRight.EveryFrameAction = (frame) => HitEnemy();
+            //attackRight.EveryFrameAction = (frame) => HitEnemy();
             //attackRight.StoppedCallback += () => isAttacking = false;
             attackRight.Looping = false;
             Animations.RegisterAnimation("AttackRight", attackRight, () => false, 8);
@@ -362,29 +362,6 @@ namespace ForestPlatformerExample.Source.Hero
             });
 
             UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.5f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.5f; /*Globals.Camera.Recenter(); */});
-        }
-
-        private void HitEnemy()
-        {
-            /*if (RayEmitter.ClosestIntersections.Count == 0) {
-                return;
-            }
-
-            foreach (Entity e in RayEmitter.ClosestIntersections.Keys)
-            {
-                if (e is Carrot)
-                {
-                    if (Timer.IsSet("EnemyHit"))
-                    {
-                        return;
-                    }
-                    if (Vector2.Distance(Position, RayEmitter.ClosestIntersections[e]) <= 37)
-                    {
-                        (e as Carrot).Hit(CurrentFaceDirection);
-                        Timer.SetTimer("EnemyHit", 1000);
-                    }
-                }
-            }*/
         }
 
         public override void Update(GameTime gameTime)
@@ -551,14 +528,14 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 Animations.PlayAnimation("HurtRight");
             }
-            /*if (direction == Direction.LEFT)
+            if (otherCollider.X < X)
             {
                 Velocity += new Vector2(2, -2);
             }
-            else if (direction == Direction.RIGHT)
+            else if (otherCollider.X > X)
             {
                 Velocity += new Vector2(-2, -2);
-            }*/
+            }
         }
 
         protected override void OnCircleCollisionEnd(Entity otherCollider)

@@ -1,4 +1,5 @@
-﻿using GameEngine2D;
+﻿using ForestPlatformerExample.Source.Entities.Interfaces;
+using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics.Collision;
@@ -15,7 +16,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
-    class Carrot : PhysicalEntity
+    class Carrot : PhysicalEntity, IPunchable
     {
 
         private float speed = 0.01f;
@@ -94,29 +95,6 @@ namespace ForestPlatformerExample.Source.Enemies
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
         }
 
-        public void Hit(Direction direction)
-        {
-            if (CurrentFaceDirection == Direction.LEFT)
-            {
-                Animations.PlayAnimation("HurtLeft");
-            } else
-            {
-                Animations.PlayAnimation("HurtRight");
-            }
-            Velocity = Vector2.Zero;
-            Vector2 attackForce = new Vector2(5, -5);
-            if (direction == Direction.LEFT)
-            {
-                attackForce.X *= -1;
-                Velocity += attackForce;
-            }
-            else if (direction == Direction.RIGHT)
-            {
-                Velocity += attackForce;
-            }
-            FallSpeed = 0;
-        }
-
         private void SetLeftCollisionChecks()
         {
             GridCollisionCheckDirections.Clear();
@@ -167,6 +145,30 @@ namespace ForestPlatformerExample.Source.Enemies
                 return CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || !CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates));
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
+        }
+
+        public void Punch(Direction impactDirection)
+        {
+            if (CurrentFaceDirection == Direction.LEFT)
+            {
+                Animations.PlayAnimation("HurtLeft");
+            }
+            else
+            {
+                Animations.PlayAnimation("HurtRight");
+            }
+            Velocity = Vector2.Zero;
+            Vector2 attackForce = new Vector2(5, -5);
+            if (impactDirection == Direction.LEFT)
+            {
+                attackForce.X *= -1;
+                Velocity += attackForce;
+            }
+            else if (impactDirection == Direction.RIGHT)
+            {
+                Velocity += attackForce;
+            }
+            FallSpeed = 0;
         }
     }
 }
