@@ -431,7 +431,8 @@ namespace ForestPlatformerExample.Source.Hero
             else if (otherCollider.HasTag("Platform") && Velocity.Y >= 0) //|| direction != Direction.TOPLEFT || direction != Direction.TOPRIGHT))
             {
                 otherCollider.BlocksMovement = true;
-            } else if (otherCollider.HasTag("SlideWall") && !OnGround())
+            } 
+            else if (otherCollider.HasTag("SlideWall") && !OnGround())
             {
                 if (GravityValue == Config.GRAVITY_FORCE)
                 {
@@ -500,35 +501,57 @@ namespace ForestPlatformerExample.Source.Hero
 
         protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
         {
-            if (isAttacking)
+            if (otherCollider is Carrot)
             {
-                //(otherCollider as Carrot).Hit(CurrentFaceDirection);
-                return;
-            }
-            if (Timer.IsSet("Invincible"))
-            {
-                return;
-            }
-            UserInput.ControlsDisabled = true;
-            Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
-            Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
-            Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
+                if (isAttacking)
+                {
+                    //(otherCollider as Carrot).Hit(CurrentFaceDirection);
+                    return;
+                }
+                float angle = MathUtil.DegreeFromVectors(Position, otherCollider.Position);
+                if (angle <= 135 && angle >= 45)
+                {
+                    Velocity.Y -= Config.JUMP_FORCE * 1.5f;
+                    if (otherCollider.X < X)
+                    {
+                        Velocity.X -= 1;
+                    } else
+                    {
+                        Velocity.X += 1;
+                    }
+                    FallSpeed = 0;
+                    (otherCollider as Carrot).Hit(Direction.UP);
+                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
+                } 
+                else
+                {
+                    if (Timer.IsSet("Invincible"))
+                    {
+                        return;
+                    }
+                    UserInput.ControlsDisabled = true;
+                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
+                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
+                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
 
-            if (CurrentFaceDirection == Direction.LEFT)
-            {
-                Animations.PlayAnimation("HurtLeft");
-            }
-            else if (CurrentFaceDirection == Direction.RIGHT)
-            {
-                Animations.PlayAnimation("HurtRight");
-            }
-            if (otherCollider.X < X)
-            {
-                Velocity += new Vector2(2, -2);
-            }
-            else if (otherCollider.X > X)
-            {
-                Velocity += new Vector2(-2, -2);
+                    if (CurrentFaceDirection == Direction.LEFT)
+                    {
+                        Animations.PlayAnimation("HurtLeft");
+                    }
+                    else if (CurrentFaceDirection == Direction.RIGHT)
+                    {
+                        Animations.PlayAnimation("HurtRight");
+                    }
+                    if (otherCollider.X < X)
+                    {
+                        Velocity += new Vector2(2, -2);
+                    }
+                    else if (otherCollider.X > X)
+                    {
+                        Velocity += new Vector2(-2, -2);
+                    }
+                }
+                
             }
         }
 

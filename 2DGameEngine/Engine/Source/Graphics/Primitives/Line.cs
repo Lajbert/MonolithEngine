@@ -37,7 +37,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
             this.color = color;
             Sprite = SpriteUtil.CreateRectangle(1, Color.White);
             length = Vector2.Distance(from, to);
-            angleRad = MathUtil.AngleFromVectors(from, to);
+            angleRad = MathUtil.RadFromVectors(from, to);
             Origin = new Vector2(0f, 0f);
             Scale = new Vector2(length, thickness);
         }
@@ -59,7 +59,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
         {
             To = end;
             length = Vector2.Distance(From, To);
-            angleRad = MathUtil.AngleFromVectors(From, To);
+            angleRad = MathUtil.RadFromVectors(From, To);
             Scale = new Vector2(length, thickness);
         }
 
@@ -68,7 +68,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
             From = fromSaved;
             To = toSaved;
             length = Vector2.Distance(From, To);
-            angleRad = MathUtil.AngleFromVectors(From, To);
+            angleRad = MathUtil.RadFromVectors(From, To);
             Scale = new Vector2(length, thickness);
         }
 

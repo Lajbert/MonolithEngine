@@ -23,9 +23,14 @@ namespace GameEngine2D.Source.Util
 			return (float)(Math.PI / 180) * angle;
 		}
 
-		public static float AngleFromVectors(Vector2 v1, Vector2 v2)
+		public static float RadFromVectors(Vector2 v1, Vector2 v2)
         {
 			return (float)Math.Atan2(v2.Y - v1.Y, v2.X - v1.X);
+		}
+
+		public static float DegreeFromVectors(Vector2 v1, Vector2 v2)
+        {
+			return (float)(RadFromVectors(v1, v2) * 180 / Math.PI); 
 		}
 
 		public static Vector2 Abs(Vector2 v)

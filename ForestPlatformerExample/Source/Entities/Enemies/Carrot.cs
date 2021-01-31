@@ -16,7 +16,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
-    class Carrot : PhysicalEntity, IPunchable
+    class Carrot : PhysicalEntity, IAttackable
     {
 
         private float speed = 0.01f;
@@ -33,7 +33,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             GridCollisionPriority = 1;
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(3, -2));
+            CircleCollider = new CircleCollider(this, 12, new Vector2(3, -3));
 
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
@@ -147,16 +147,17 @@ namespace ForestPlatformerExample.Source.Enemies
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }
 
-        public void Punch(Direction impactDirection)
+        public void Hit(Direction impactDirection)
         {
-            if (CurrentFaceDirection == Direction.LEFT)
+            PlayHurtAnimation();
+            if (impactDirection == Direction.UP)
             {
-                Animations.PlayAnimation("HurtLeft");
+                CurrentSpeed = 0;
+                Timer.TriggerAfter(300, () => CurrentSpeed = speed);
+                return;
             }
-            else
-            {
-                Animations.PlayAnimation("HurtRight");
-            }
+
+            
             Velocity = Vector2.Zero;
             Vector2 attackForce = new Vector2(5, -5);
             if (impactDirection == Direction.LEFT)
@@ -169,6 +170,18 @@ namespace ForestPlatformerExample.Source.Enemies
                 Velocity += attackForce;
             }
             FallSpeed = 0;
+        }
+
+        private void PlayHurtAnimation()
+        {
+            if (CurrentFaceDirection == Direction.LEFT)
+            {
+                Animations.PlayAnimation("HurtLeft");
+            }
+            else
+            {
+                Animations.PlayAnimation("HurtRight");
+            }
         }
     }
 }

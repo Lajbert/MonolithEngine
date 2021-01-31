@@ -19,6 +19,7 @@ using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.Enemies;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using System.Linq;
+using GameEngine2D.Source.Util;
 
 namespace TestExample
 {
@@ -95,7 +96,7 @@ namespace TestExample
 
             LoadLevel();
 
-            hero = new HeroTest();
+            hero = new HeroTest(font);
             hero.SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
 
             EntityTest e = new EntityTest();
@@ -112,7 +113,7 @@ namespace TestExample
 
             private Texture2D red = SpriteUtil.CreateRectangle(16, Color.Red);
             private Texture2D blue = SpriteUtil.CreateRectangle(16, Color.Blue);
-            public HeroTest() : base(new Vector2(18 * Config.GRID, 31 * Config.GRID), null)
+            public HeroTest(SpriteFont font) : base(new Vector2(18 * Config.GRID, 31 * Config.GRID), font)
             {
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_CIRCLE_COLLIDER = true;
@@ -121,14 +122,23 @@ namespace TestExample
                 //DrawOffset = new Vector2(-8, -8);
             }
 
+            float angle;
+            bool colliding = false;
             protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
             {
+                colliding = true;
                 SetSprite(red);
+                angle = (float)(MathUtil.RadFromVectors(Position, otherCollider.Position) * 180 / Math.PI);
+                if (angle <= 135 && angle >= 45)
+                {
+                    //Logger.Log("Angle: " + angle);
+                }
             }
 
             protected override void OnCircleCollisionEnd(Entity otherCollider)
             {
                 SetSprite(blue);
+                colliding = false;
             }
 
             Texture2D collPivot = SpriteUtil.CreateCircle(5, Color.Black);
@@ -136,14 +146,14 @@ namespace TestExample
             {
                 base.Draw(spriteBatch, gameTime);
                 spriteBatch.Draw(collPivot, CircleCollider.Position, Color.White);
+                if (colliding)
+                    spriteBatch.DrawString(font, "Angle: " + angle, Position, Color.Black);
 
             }
 
             public override void Update(GameTime gameTime)
             {
                 base.Update(gameTime);
-                Logger.Log("CHAR POS: " + Position);
-                Logger.Log("COLL POS: " + CircleCollider.Position);
             }
         }
 

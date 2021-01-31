@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Entities.Interfaces
 {
-    interface IPunchable
+    interface IAttackable
     {
-        public void Punch(Direction impactDireciton);
+        public void Hit(Direction impactDireciton);
     }
 }

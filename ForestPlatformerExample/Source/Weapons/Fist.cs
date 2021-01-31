@@ -36,7 +36,7 @@ namespace ForestPlatformerExample.Source.Weapons
                         return;
                     }
                     Direction direction = otherCollider.Position.X < parent.Position.X ? Direction.LEFT : Direction.RIGHT;
-                    (otherCollider as Carrot).Punch(direction);
+                    (otherCollider as Carrot).Hit(direction);
                     //Timer.SetTimer("EnemyHit", 1000);
                 }
             }

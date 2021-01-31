@@ -110,7 +110,7 @@ namespace GameEngine2D.Source.Camera2D
 				targetCameraDistance = Vector2.Distance(position, targetPosition);
 				if (targetCameraDistance >= Config.CAMERA_DEADZONE)
 				{
-					angle = MathUtil.AngleFromVectors(position, targetPosition);
+					angle = MathUtil.RadFromVectors(position, targetPosition);
 					direction.X += (float)Math.Cos(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 					direction.Y += (float)Math.Sin(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
 				}
