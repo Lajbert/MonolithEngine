@@ -511,14 +511,7 @@ namespace ForestPlatformerExample.Source.Hero
                 float angle = MathUtil.DegreeFromVectors(Position, otherCollider.Position);
                 if (angle <= 135 && angle >= 45)
                 {
-                    Velocity.Y -= Config.JUMP_FORCE * 1.5f;
-                    if (otherCollider.X < X)
-                    {
-                        Velocity.X -= 1;
-                    } else
-                    {
-                        Velocity.X += 1;
-                    }
+                    Bump(new Vector2(0, -5));
                     FallSpeed = 0;
                     (otherCollider as Carrot).Hit(Direction.UP);
                     Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
