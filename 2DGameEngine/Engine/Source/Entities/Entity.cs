@@ -483,7 +483,6 @@ namespace GameEngine2D.Entities
 
         public override void Destroy()
         {
-
             if (DestroySound != null)
             {
                 DestroySound.Play();
@@ -492,10 +491,13 @@ namespace GameEngine2D.Entities
             {
                 Sprite = null;
                 Animations.PlayAnimation(DESTROY_AMINATION);
-                return;
+                Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => RemoveCollisions();
+                Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => Cleanup();
+            } else
+            {
+                RemoveCollisions();
+                Cleanup();
             }
-            RemoveCollisions();
-            Cleanup();
         }
 
         protected void Cleanup()
@@ -527,6 +529,7 @@ namespace GameEngine2D.Entities
 
         private void RemoveCollisions()
         {
+            CircleCollider = null;
             ColliderOnGrid = false;
         }
 

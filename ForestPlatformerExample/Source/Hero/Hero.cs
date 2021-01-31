@@ -388,10 +388,7 @@ namespace ForestPlatformerExample.Source.Hero
         protected override void OnGridCollisionStart(Entity otherCollider, Direction direction)
         {       
 
-            if (otherCollider is Coin)
-            {
-                otherCollider.Destroy();
-            } else if (otherCollider.HasTag("MovingPlatform"))
+            if (otherCollider.HasTag("MovingPlatform"))
             {
                 onMovingPlatform = true;
             }
@@ -541,6 +538,10 @@ namespace ForestPlatformerExample.Source.Hero
                     }
                 }
                 
+            } 
+            else if (otherCollider is Coin)
+            {
+                otherCollider.Destroy();
             }
         }
 

@@ -108,6 +108,18 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
             return false;
         }
 
+        public AbstractAnimation GetAnimation(string state)
+        {
+            foreach (StateAnimation anim in animations)
+            {
+                if (anim.state.Equals(state))
+                {
+                    return anim.animation;
+                }
+            }
+            return null;
+        }
+
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (animations.Count == 0)
