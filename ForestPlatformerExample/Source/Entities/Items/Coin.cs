@@ -1,4 +1,6 @@
-﻿using GameEngine2D.Engine.Source.Entities.Animations;
+﻿using GameEngine2D;
+using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -11,7 +13,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Items
 {
-    class Coin : Entity
+    class Coin : PhysicalEntity
     {
         public Coin(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
@@ -21,6 +23,8 @@ namespace ForestPlatformerExample.Source.Items
             DrawPriority = 1;
 
             CircleCollider = new CircleCollider(this, 10);
+
+            HasGravity = false;
 
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
