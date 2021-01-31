@@ -48,7 +48,7 @@ namespace ForestPlatformerExample
 
             //Config.RES_W = 3840;
             //Config.RES_W = 2160;
-            Config.FULLSCREEN = true;
+            //Config.FULLSCREEN = true;
 
             //Config.GRID = 64;
 

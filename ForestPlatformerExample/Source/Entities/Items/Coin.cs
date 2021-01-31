@@ -15,8 +15,11 @@ namespace ForestPlatformerExample.Source.Items
 {
     class Coin : PhysicalEntity
     {
-        public Coin(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, null)
+        private int bounceCount;
+        public Coin(Vector2 position, int bounceCount = 0) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
+
+            this.bounceCount = bounceCount * -1;
 
             Active = true;
 
@@ -25,6 +28,8 @@ namespace ForestPlatformerExample.Source.Items
             CircleCollider = new CircleCollider(this, 10);
 
             HasGravity = false;
+
+            Friction = 0.5f;
 
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
@@ -44,6 +49,16 @@ namespace ForestPlatformerExample.Source.Items
 
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));
             //Pivot = new Vector2(5, 5);
+        }
+
+        protected override void OnLand()
+        {
+            base.OnLand();
+            if (bounceCount <= 0)
+            {
+                Bump(new Vector2(0, bounceCount++));
+            }
+            
         }
     }
 }
