@@ -37,8 +37,6 @@ namespace ForestPlatformerExample.Source.Hero
 
         private bool canAttack = true;
 
-        private bool isAttacking = false;
-
         private float climbSpeed = Config.CHARACTER_SPEED / 2;
 
         private Fist fist;
@@ -504,11 +502,6 @@ namespace ForestPlatformerExample.Source.Hero
         {
             if (otherCollider is Carrot)
             {
-                if (isAttacking)
-                {
-                    //(otherCollider as Carrot).Hit(CurrentFaceDirection);
-                    return;
-                }
                 float angle = MathUtil.DegreeFromVectors(Position, otherCollider.Position);
                 if (angle <= 135 && angle >= 45)
                 {
