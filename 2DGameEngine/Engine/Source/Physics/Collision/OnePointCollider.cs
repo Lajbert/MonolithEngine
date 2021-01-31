@@ -88,19 +88,6 @@ namespace GameEngine2D.Source.Layer
             return objects[position];
         }
 
-        /*private void RemoveObject(Vector2 position)
-        {
-            if (!objects.ContainsKey(position))
-            {
-                return;
-            }
-            Entity e = objects[position];
-            objects.Remove(position);
-            foreach (Entity child in e.GetAllChildren()) {
-                RemoveObject(child.GridCoordinates);
-            }
-        }*/
-
         public List<Direction> CollidesWithTag(Vector2 gridCoord, string tag, ICollection<Direction> directionsToCheck = null)
         {
             TryRestoreLowPriorityObjects();
@@ -111,7 +98,8 @@ namespace GameEngine2D.Source.Layer
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag))
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag) 
+                    && objects[GetGridCoord(gridCoord, direction)].IsTraversableFrom(direction))
                 {
                     if  (!directionsForTags.ContainsKey(tag) || (directionsForTags.ContainsKey(tag) && directionsForTags[tag].Contains(direction))) {
                         tagCollisionResult.Add(direction);
@@ -133,7 +121,7 @@ namespace GameEngine2D.Source.Layer
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].IsTraversableFrom(direction))
                 {
                     if (directionsForTags.Count != 0)
                     {
@@ -172,10 +160,11 @@ namespace GameEngine2D.Source.Layer
             return objects.ContainsKey(gridCoord) && objects[gridCoord].HasTag(tag);
         }
 
-        public bool HasBlockingColliderAt(Vector2 gridCoord)
+        public bool HasBlockingColliderAt(Vector2 gridCoord, Direction direction)
         {
             TryRestoreLowPriorityObjects();
-            return objects.ContainsKey(gridCoord) && objects[gridCoord].BlocksMovement;
+            Vector2 coord = GetGridCoord(gridCoord, direction);
+            return objects.ContainsKey(coord) && objects[coord].IsTraversableFrom(direction) && objects[coord].BlocksMovement;
         }
 
         public void Remove(Entity gameObject)

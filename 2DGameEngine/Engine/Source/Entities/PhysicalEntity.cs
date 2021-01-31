@@ -82,12 +82,12 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (HasGridCollision() && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)))
+                if (HasGridCollision() && InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT))
                 {
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasGridCollision() && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)))
+                if (HasGridCollision() && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT))
                 {
                     InCellLocation.X = CollisionOffsetRight;
                 }
@@ -135,7 +135,7 @@ namespace GameEngine2D
                     InCellLocation.Y = CollisionOffsetBottom;
                 }
 
-                if (HasGridCollision() && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridUtil.GetUpperGrid(GridCoordinates)))
+                if (HasGridCollision() && InCellLocation.Y < CollisionOffsetTop && CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.UP))
                 {
                     Velocity.Y = 0;
                     InCellLocation.Y = CollisionOffsetTop;
@@ -202,7 +202,7 @@ namespace GameEngine2D
 
         protected bool OnGround()
         {
-            return CollisionChecker.HasBlockingColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
+            return CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.DOWN);
         }
 
         public void ResetPosition(Vector2 position)

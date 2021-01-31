@@ -103,19 +103,19 @@ namespace ForestPlatformerExample.Source.Hero
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-sheet");
             SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 24);
-            Func<bool> isRunningRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
+            Func<bool> isRunningRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
-            Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
+            Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12, SpriteEffects.FlipHorizontally);
-            Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
+            Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Left));
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            Func<bool> isWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
+            Func<bool> isWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && (!onMovingPlatform || onMovingPlatform && UserInput.IsKeyPressed(Keys.Right));
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
@@ -315,8 +315,9 @@ namespace ForestPlatformerExample.Source.Hero
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
-                    if (CollisionChecker.HasObjectAtWithTag(GridUtil.GetBelowGrid(GridCoordinates), "Platform") && CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement) {
-                        CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)).BlocksMovement = false;
+                    Entity collider = CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
+                    if (collider.HasTag("Platform") && collider.BlocksMovement) {
+                        collider.BlocksMovement = false;
                     }
                 }
                 //CurrentFaceDirection = GridDirection.DOWN;
@@ -424,10 +425,6 @@ namespace ForestPlatformerExample.Source.Hero
                     HasGravity = false;
                 }
             }
-            else if (otherCollider.HasTag("Platform") && Velocity.Y >= 0) //|| direction != Direction.TOPLEFT || direction != Direction.TOPRIGHT))
-            {
-                otherCollider.BlocksMovement = true;
-            } 
             else if (otherCollider.HasTag("SlideWall") && !OnGround())
             {
                 if (fist.IsAttacking)
@@ -479,6 +476,10 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 onMovingPlatform = false;
             }
+            else if (otherCollider.HasTag("Platform") && !otherCollider.BlocksMovement)
+            {
+                otherCollider.BlocksMovement = true;
+            }
             else if (otherCollider is Spring && direction == Direction.CENTER)
             {
                 FallSpeed = 0;
@@ -487,10 +488,6 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 LeaveLadder();
             }
-            else if (otherCollider.HasTag("Platform"))
-            {
-                otherCollider.BlocksMovement = false;
-            } 
             else if (otherCollider.HasTag("SlideWall") && CollisionChecker.CollidesWithTag(GridCoordinates, "SlideWall").Count == 0)
             {
                 GravityValue = Config.GRAVITY_FORCE;

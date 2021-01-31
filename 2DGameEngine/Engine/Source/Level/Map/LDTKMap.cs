@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Graphics;
+﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -100,21 +101,41 @@ namespace GameEngine2D.Source.Level
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
                             e.ColliderOnGrid = true;
-                            if (grid.V == 0)
+                            
+                            switch (grid.V)
                             {
-                                e.AddTag("Collider");
-                            }
-                            else if (grid.V == 1)
-                            {
-                                e.AddTag("SlideWall");
-                            }
-                            else if (grid.V == 2)
-                            {
-                                e.AddTag("Platform");
-                            }
-                            else if (grid.V == 3)
-                            {
-                                e.AddTag("Ladder");
+                                case 0:
+                                    e.AddTag("Collider");
+                                    break;
+                                case 1:
+                                    e.AddTag("SlideWall");
+                                    break;
+                                case 2:
+                                    //e.AddTag("Platform");
+                                    break;
+                                case 3:
+                                    e.AddTag("Ladder");
+                                    break;
+                                case 4:
+                                    e.AddTag("Platform");
+                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.RIGHT, Direction.UP, Direction.DOWN });
+                                    e.AddTraversalDirection(Direction.LEFT);
+                                    break;
+                                case 5:
+                                    e.AddTag("Platform");
+                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.LEFT, Direction.UP, Direction.DOWN });
+                                    e.AddTraversalDirection(Direction.RIGHT);
+                                    break;
+                                case 6:
+                                    e.AddTag("Platform");
+                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.RIGHT, Direction.LEFT, Direction.DOWN });
+                                    e.AddTraversalDirection(Direction.UP);
+                                    break;
+                                case 7:
+                                    e.AddTag("Platform");
+                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.RIGHT, Direction.LEFT, Direction.UP});
+                                    e.AddTraversalDirection(Direction.DOWN);
+                                    break;
                             }
                             e.Pivot = pivot;
                             e.Visible = false;

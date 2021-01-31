@@ -151,11 +151,11 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             if (CurrentFaceDirection == Direction.LEFT)
             {
-                return CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftGrid(GridCoordinates)) || !CollisionChecker.HasBlockingColliderAt(GridUtil.GetLeftBelowGrid(GridCoordinates));
+                return CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) || !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMLEFT);
             }
             else if (CurrentFaceDirection == Direction.RIGHT)
             {
-                return CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightGrid(GridCoordinates)) || !CollisionChecker.HasBlockingColliderAt(GridUtil.GetRightBelowGrid(GridCoordinates));
+                return CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) || !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMRIGHT);
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }

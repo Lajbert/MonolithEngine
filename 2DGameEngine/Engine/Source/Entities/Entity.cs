@@ -33,14 +33,16 @@ namespace GameEngine2D.Entities
 
         private HashSet<string> tags = new HashSet<string>();
 
+        private HashSet<Direction> traversableFrom = new HashSet<Direction>();
+
         public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
 
         private static List<string> movementBlockerTags = new List<string>()
         {
             "Collider",
             "SlideWall",
-            "MovingPlatform"
-            //"Platform"
+            "MovingPlatform",
+            "Platform"
         };
 
         private static List<string> gridCoordUpdateTags = new List<string>()
@@ -675,6 +677,21 @@ namespace GameEngine2D.Entities
                 }
             }
             BlocksMovement = false;
+        }
+
+        public void AddTraversalDirection(Direction direction)
+        {
+            traversableFrom.Add(direction);
+        }
+
+        public void RemoveTraversalDirection(Direction direction)
+        {
+            traversableFrom.Remove(direction);
+        }
+
+        public bool IsTraversableFrom(Direction direction)
+        {
+            return traversableFrom.Count == 0 || traversableFrom.Contains(direction);
         }
     }
 }
