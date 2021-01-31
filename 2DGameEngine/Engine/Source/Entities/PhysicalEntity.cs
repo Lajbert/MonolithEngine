@@ -213,5 +213,11 @@ namespace GameEngine2D
             Position = StartPosition = position;
             FallSpeed = 0;
         }
+
+        public override void Destroy()
+        {
+            Velocity = Vector2.Zero;
+            base.Destroy();
+        }
     }
 }
