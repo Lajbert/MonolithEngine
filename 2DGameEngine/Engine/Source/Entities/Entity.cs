@@ -135,7 +135,7 @@ namespace GameEngine2D.Entities
 
         public SoundEffect DestroySound;
 
-        protected HashSet<Direction> GridCollisionCheckDirections = new HashSet<Direction>();
+        public HashSet<Direction> GridCollisionCheckDirections = new HashSet<Direction>();
 
         public bool BlocksRay {
             get => blocksRay;
@@ -447,7 +447,7 @@ namespace GameEngine2D.Entities
                     circleCollisions[e] = false;
                 }
 
-                foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll())
+                foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll().ToList())
                 {
                     if (e == this || (Math.Abs(GridCoordinates.X - e.GridCoordinates.X) > 2 && Math.Abs(GridCoordinates.Y - e.GridCoordinates.Y) > 2))
                     {
@@ -563,12 +563,12 @@ namespace GameEngine2D.Entities
             }
             if (destroyAnimation.StartedCallback == null)
             {
-                destroyAnimation.StartedCallback = () => RemoveCollisions();
+                destroyAnimation.StartedCallback += () => RemoveCollisions();
                 //destroyAnimation.StoppedAction = () => { };
             }
             if (destroyAnimation.StoppedCallback == null)
             {
-                destroyAnimation.StoppedCallback = () => Cleanup();
+                destroyAnimation.StoppedCallback += () => Cleanup();
                 //destroyAnimation.StoppedAction = () => { };
             }
             destroyAnimation.Looping = false;

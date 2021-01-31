@@ -102,6 +102,7 @@ namespace GameEngine2D.Source.Entities.Animation
                 if (!Looping)
                 {
                     StartedCallback?.Invoke();
+                    StartedCallback = null;
                 }
             }
 
@@ -132,6 +133,7 @@ namespace GameEngine2D.Source.Entities.Animation
                 {
                     Stop();
                     StoppedCallback?.Invoke();
+                    StoppedCallback = null;
                 }
                 else
                 {

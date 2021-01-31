@@ -1,10 +1,13 @@
 ﻿using ForestPlatformerExample.Source.Entities.Interfaces;
+using ForestPlatformerExample.Source.Items;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities;
+using GameEngine2D.Source.Util;
+using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,9 +21,13 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         int life = 2;
 
+        private Random random;
+
         public Box(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position)
         {
             //ColliderOnGrid = true;
+
+            random = new Random();
 
             CircleCollider = new GameEngine2D.Engine.Source.Physics.Collision.CircleCollider(this, 10, new Vector2(0, 3));
 
@@ -43,6 +50,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-destroy");
             SpriteSheetAnimation boxDestroy = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 32, 32, 24);
+            boxDestroy.StartedCallback += () => Pop();
             boxDestroy.Looping = false;
             SetDestroyAnimation(boxDestroy);
         }
@@ -57,6 +65,19 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             life--;
             Animations.PlayAnimation("BoxHit");
+        }
+
+        private void Pop()
+        {
+            int numOfCoins = random.Next(3, 6);
+            for (int i = 0; i < numOfCoins; i++)
+            {
+                Coin c = new Coin(Position);
+                c.ColliderOnGrid = true;
+                c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.DOWN };
+                c.Velocity += new Vector2(random.Next(-10, 10), random.Next(-15, -5));
+                c.HasGravity = true;
+            }
         }
     }
 }
