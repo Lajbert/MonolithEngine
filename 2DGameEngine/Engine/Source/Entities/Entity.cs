@@ -491,17 +491,17 @@ namespace GameEngine2D.Entities
             {
                 Sprite = null;
                 Animations.PlayAnimation(DESTROY_AMINATION);
-                Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => RemoveCollisions();
                 Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => Cleanup();
             } else
             {
-                RemoveCollisions();
                 Cleanup();
             }
         }
 
         protected void Cleanup()
         {
+            RemoveCollisions();
+
             if (Sprite != null)
             {
                 Sprite.Dispose();
