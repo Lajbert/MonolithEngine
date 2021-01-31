@@ -27,6 +27,8 @@ namespace ForestPlatformerExample.Source.Enemies
 
         private int direction = 1;
 
+        private int health = 2;
+
         public Carrot(Vector2 position, Direction CurrentFaceDirection) : base(LayerManager.Instance.EntityLayer, null, position)
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
@@ -86,6 +88,17 @@ namespace ForestPlatformerExample.Source.Enemies
 
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
+
+            spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@death-sheet");
+            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 24);
+            deathLeft.Looping = false;
+            Animations.RegisterAnimation("DeathLeft", deathLeft, () => false);
+
+            SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
+            Animations.RegisterAnimation("DeathRight", deathRight, () => false);
+
+            SetDestroyAnimation(deathRight, Direction.RIGHT);
+            SetDestroyAnimation(deathLeft, Direction.LEFT);
 
             Active = true;
             Visible = true;
@@ -149,6 +162,15 @@ namespace ForestPlatformerExample.Source.Enemies
 
         public void Hit(Direction impactDirection)
         {
+            if (health == 0)
+            {
+                CurrentSpeed = 0;
+                RemoveCollisions();
+                Destroy();
+                return;
+            }
+
+            health--;
             PlayHurtAnimation();
             if (impactDirection == Direction.UP)
             {

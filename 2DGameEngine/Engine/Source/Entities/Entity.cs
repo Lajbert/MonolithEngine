@@ -33,6 +33,8 @@ namespace GameEngine2D.Entities
 
         private HashSet<string> tags = new HashSet<string>();
 
+        public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
+
         private static List<string> movementBlockerTags = new List<string>()
         {
             "Collider",
@@ -487,21 +489,21 @@ namespace GameEngine2D.Entities
             {
                 DestroySound.Play();
             }
-            if (Animations != null && Animations.HasAnimation(DESTROY_AMINATION))
+            if (Animations != null && Animations.HasAnimation(DESTROY_AMINATION + CurrentFaceDirection))
             {
-                Sprite = null;
-                Animations.PlayAnimation(DESTROY_AMINATION);
-                Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => Cleanup();
-            } else
+                //RemoveCollisions();
+                Animations.PlayAnimation(DESTROY_AMINATION + CurrentFaceDirection);
+                //Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => Cleanup();
+            } 
+            else
             {
+                RemoveCollisions();
                 Cleanup();
             }
         }
 
         protected void Cleanup()
         {
-            RemoveCollisions();
-
             if (Sprite != null)
             {
                 Sprite.Dispose();
@@ -527,13 +529,14 @@ namespace GameEngine2D.Entities
             }
         }
 
-        private void RemoveCollisions()
+        protected void RemoveCollisions()
         {
             CircleCollider = null;
             ColliderOnGrid = false;
+            CollisionChecker.Remove(this);
         }
 
-        public void SetDestroyAnimation(AbstractAnimation destroyAnimation)
+        public void SetDestroyAnimation(AbstractAnimation destroyAnimation, Direction direction = Direction.CENTER)
         {
             if (Animations == null)
             {
@@ -550,7 +553,7 @@ namespace GameEngine2D.Entities
                 //destroyAnimation.StoppedAction = () => { };
             }
             destroyAnimation.Looping = false;
-            Animations.RegisterAnimation(DESTROY_AMINATION, destroyAnimation, () => false);
+            Animations.RegisterAnimation(DESTROY_AMINATION + direction.ToString(), destroyAnimation, () => false);
         }
 
         public void SetSprite(Texture2D sprite)
