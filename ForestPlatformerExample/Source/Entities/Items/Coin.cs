@@ -17,6 +17,8 @@ namespace ForestPlatformerExample.Source.Items
 
             Active = true;
 
+            DrawPriority = 1;
+
             ColliderOnGrid = true;
 
             //DEBUG_SHOW_PIVOT = true;

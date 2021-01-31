@@ -410,11 +410,12 @@ namespace ForestPlatformerExample.Source.Hero
                     Velocity.Y -= ((Spring)otherCollider).Power;
                 }*/
 
-                Velocity.Y = 0;
+                /*Velocity.Y = 0;
                 Friction = 0.5f;
                 GravityValue = 0;
                 Timer.TriggerAfter(200, SetSpringGravity, true);
-                Velocity.Y -= ((Spring)otherCollider).Power;
+                Velocity.Y -= ((Spring)otherCollider).Power;*/
+                Bump(new Vector2(0, -15));
                 canJump = false;
                 canDoubleJump = true;
             }
@@ -515,6 +516,8 @@ namespace ForestPlatformerExample.Source.Hero
                     FallSpeed = 0;
                     (otherCollider as Carrot).Hit(Direction.UP);
                     Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
+                    canJump = false;
+                    canDoubleJump = true;
                 } 
                 else
                 {

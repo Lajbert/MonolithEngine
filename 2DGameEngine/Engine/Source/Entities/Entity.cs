@@ -55,6 +55,21 @@ namespace GameEngine2D.Entities
         public bool Visible = true;
         public bool Active = false;
 
+        private float drawPriority = 0;
+
+        public float DrawPriority {
+            get => drawPriority;
+
+            set
+            {
+                if (value != drawPriority)
+                {
+                    drawPriority = value;
+                    Layer.SortByPriority();
+                }
+            }
+        }
+
         protected Vector2 DrawOffset;
 
         public Vector2 Pivot = Vector2.Zero;

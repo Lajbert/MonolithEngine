@@ -65,6 +65,15 @@ namespace GameEngine2D.Source.Layer
             return visibleObjects;
         }
 
+        public void SortByPriority()
+        {
+            if (visibleObjects.Count == 0)
+            {
+                return;
+            }
+            visibleObjects.Sort((a, b) => a.DrawPriority.CompareTo(b.DrawPriority));
+        }
+
         public void RemoveRoot(Entity gameObject)
         {
             RemoveObject(gameObject);
@@ -82,7 +91,11 @@ namespace GameEngine2D.Source.Layer
             {
                 if (ySorting)
                 {
-                    activeObjects.Sort((a, b) => a.Position.Y.CompareTo(b.Position.Y));
+                    visibleObjects.Sort((a, b) => {
+                        int res = a.DrawPriority.CompareTo(b.DrawPriority);
+                        if (res != 0) return res;
+                        return a.Position.Y.CompareTo(b.Position.Y);
+                    });
                 }
 
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix(scrollSpeedModifier, lockY));
@@ -110,6 +123,7 @@ namespace GameEngine2D.Source.Layer
                     }
                 }
                 newObjects.Clear();
+                SortByPriority();
             }
             if (removedObjects.Count > 0)
             {
@@ -126,6 +140,7 @@ namespace GameEngine2D.Source.Layer
                     }
                 }
                 removedObjects.Clear();
+                SortByPriority();
             }
         }
 
@@ -166,6 +181,7 @@ namespace GameEngine2D.Source.Layer
                     }
                 }
                 newObjects.Clear();
+                SortByPriority();
             }
             if (removedObjects.Count > 0)
             {
@@ -182,6 +198,7 @@ namespace GameEngine2D.Source.Layer
                     }
                 }
                 removedObjects.Clear();
+                SortByPriority();
             }
         }
 
