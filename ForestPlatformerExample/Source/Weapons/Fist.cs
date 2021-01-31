@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Interfaces;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Physics.Collision;
@@ -25,19 +26,14 @@ namespace ForestPlatformerExample.Source.Weapons
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
         }
 
-        protected override void OnCircleCollision(Entity otherCollider, float intersection)
+        protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
         {
             if (IsAttacking)
             {
-                if (otherCollider is Carrot)
+                Direction direction = otherCollider.Position.X < parent.Position.X ? Direction.LEFT : Direction.RIGHT;
+                if (otherCollider is IAttackable)
                 {
-                    if (Timer.IsSet("EnemyHit"))
-                    {
-                        return;
-                    }
-                    Direction direction = otherCollider.Position.X < parent.Position.X ? Direction.LEFT : Direction.RIGHT;
-                    (otherCollider as Carrot).Hit(direction);
-                    //Timer.SetTimer("EnemyHit", 1000);
+                    (otherCollider as IAttackable).Hit(direction);
                 }
             }
         }

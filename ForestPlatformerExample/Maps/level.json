@@ -5,20 +5,21 @@
 		"doc": "https://ldtk.io/json",
 		"schema": "https://ldtk.io/files/JSON_SCHEMA.json",
 		"appAuthor": "Sebastien 'deepnight' Benard",
-		"appVersion": "0.7.1",
+		"appVersion": "0.7.2",
 		"url": "https://ldtk.io"
 	},
-	"jsonVersion": "0.7.1",
+	"jsonVersion": "0.7.2",
 	"defaultPivotX": 0,
 	"defaultPivotY": 0,
 	"defaultGridSize": 16,
 	"bgColor": "#7F8093",
 	"defaultLevelBgColor": "#7F8093",
-	"nextUid": 34,
+	"nextUid": 35,
 	"minifyJson": false,
 	"externalLevels": false,
 	"exportTiled": false,
 	"exportPng": false,
+	"pngFilePattern": null,
 	"backupOnSave": false,
 	"backupLimit": 10,
 	"worldLayout": "Free",
@@ -426,6 +427,23 @@
 						"defaultOverride": { "id": "V_Int", "params": [1] }
 					}
 				]
+			},
+			{
+				"identifier": "Box",
+				"uid": 34,
+				"width": 16,
+				"height": 16,
+				"color": "#4B290D",
+				"renderMode": "Rectangle",
+				"showName": true,
+				"tilesetId": null,
+				"tileId": null,
+				"tileRenderMode": "Stretch",
+				"maxPerLevel": 0,
+				"limitBehavior": "DiscardOldOnes",
+				"pivotX": 0,
+				"pivotY": 0,
+				"fieldDefs": []
 			}
 		],
 		"tilesets": [
@@ -699,7 +717,8 @@
 							"__type": "Int",
 							"defUid": 28,
 							"realEditorValues": [{ "id": "V_Int", "params": [15] }]
-						}] }
+						}] },
+						{ "__identifier": "Box", "__grid": [12,41], "__pivot": [0,0], "__tile": null, "defUid": 34, "px": [192,656], "fieldInstances": [] }
 					]
 				},
 				{

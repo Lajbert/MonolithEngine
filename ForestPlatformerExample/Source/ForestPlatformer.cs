@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Hero;
 using ForestPlatformerExample.Source.Items;
@@ -168,6 +169,9 @@ namespace ForestPlatformerExample
                         }
                     }
                     Carrot carrot = new Carrot(position, Direction.RIGHT);
+                } else if (entity.Identifier.Equals("Box"))
+                {
+                    Box box = new Box(position);
                 }
             }
         }

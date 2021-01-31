@@ -167,7 +167,20 @@ namespace GameEngine2D.Entities
 
         public CircleCollider CircleCollider { get; set; }
 
-        protected bool EnableCircleCollisions = true;
+
+        private bool enableCircleCollisions = true;
+        protected bool EnableCircleCollisions
+        {
+            get => enableCircleCollisions;
+            set
+            {
+                enableCircleCollisions = value;
+                if (!value)
+                {
+                    circleCollisions.Clear();
+                }
+            }
+        }
 
         private Dictionary<Entity, bool> circleCollisions = new Dictionary<Entity, bool>();
 
@@ -270,7 +283,13 @@ namespace GameEngine2D.Entities
                 {
                     //spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
                 }
-                spriteBatch.Draw(circleColliderMarker, CircleCollider.Position - new Vector2(CircleCollider.Radius, CircleCollider.Radius), Color.White);
+                if (CircleCollider != null)
+                {
+                    spriteBatch.Draw(circleColliderMarker, CircleCollider.Position - new Vector2(CircleCollider.Radius, CircleCollider.Radius), Color.White);
+                } else
+                {
+                    Logger.Log("Tried to print circle collider, but it's null!");
+                }
             }
 
             if (children.Count > 0)

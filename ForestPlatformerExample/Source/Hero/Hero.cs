@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.Weapons;
 using GameEngine2D;
@@ -416,7 +417,6 @@ namespace ForestPlatformerExample.Source.Hero
             }
             else if (otherCollider.HasTag("Ladder") && !OnGround())
             {
-
                 if (HasGravity)
                 {
                     Velocity.Y = 0;
@@ -430,6 +430,10 @@ namespace ForestPlatformerExample.Source.Hero
             } 
             else if (otherCollider.HasTag("SlideWall") && !OnGround())
             {
+                if (fist.IsAttacking)
+                {
+                    return;
+                }
                 if (GravityValue == Config.GRAVITY_FORCE)
                 {
                     GravityValue /= 4;
@@ -542,6 +546,12 @@ namespace ForestPlatformerExample.Source.Hero
             else if (otherCollider is Coin)
             {
                 otherCollider.Destroy();
+            }
+            else if (otherCollider is Box && Velocity.Y > 0)
+            {
+                Bump(new Vector2(0, -5));
+                FallSpeed = 0;
+                (otherCollider as Box).Hit(Direction.CENTER);
             }
         }
 
