@@ -316,7 +316,7 @@ namespace ForestPlatformerExample.Source.Hero
                 if (HasGravity)
                 {
                     Entity collider = CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
-                    if (collider.HasTag("Platform") && collider.BlocksMovement) {
+                    if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement) {
                         collider.BlocksMovement = false;
                     }
                 }

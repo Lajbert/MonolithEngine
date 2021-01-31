@@ -171,7 +171,8 @@ namespace GameEngine2D.Entities
 
 
         private bool enableCircleCollisions = true;
-        protected bool EnableCircleCollisions
+
+        public bool EnableCircleCollisions
         {
             get => enableCircleCollisions;
             set

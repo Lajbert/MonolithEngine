@@ -73,10 +73,12 @@ namespace ForestPlatformerExample.Source.Entities.Items
             for (int i = 0; i < numOfCoins; i++)
             {
                 Coin c = new Coin(Position, 3);
+                c.CircleCollider = null;
                 c.ColliderOnGrid = true;
                 c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.DOWN };
                 c.Velocity += new Vector2(random.Next(-5, 5), random.Next(-10, 0));
                 c.HasGravity = true;
+                Timer.TriggerAfter(200, () => c.SetCircleCollider());
             }
         }
     }

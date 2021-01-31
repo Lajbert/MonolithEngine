@@ -25,7 +25,7 @@ namespace ForestPlatformerExample.Source.Items
 
             DrawPriority = 1;
 
-            CircleCollider = new CircleCollider(this, 10);
+            SetCircleCollider();
 
             HasGravity = false;
 
@@ -59,6 +59,11 @@ namespace ForestPlatformerExample.Source.Items
                 Bump(new Vector2(0, bounceCount++));
             }
             
+        }
+
+        public void SetCircleCollider()
+        {
+            CircleCollider = new CircleCollider(this, 10);
         }
     }
 }
