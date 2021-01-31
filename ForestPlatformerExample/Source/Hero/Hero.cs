@@ -500,7 +500,7 @@ namespace ForestPlatformerExample.Source.Hero
             if (otherCollider is Carrot)
             {
                 float angle = MathUtil.DegreeFromVectors(Position, otherCollider.Position);
-                if (angle <= 135 && angle >= 45)
+                if (angle <= 155 && angle >= 25)
                 {
                     Bump(new Vector2(0, -5));
                     FallSpeed = 0;
