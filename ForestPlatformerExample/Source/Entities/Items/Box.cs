@@ -31,6 +31,9 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             CircleCollider = new GameEngine2D.Engine.Source.Physics.Collision.CircleCollider(this, 10, new Vector2(0, 3));
 
+            BlocksMovement = true;
+            ColliderOnGrid = true;
+
             Active = true;
 
             //DEBUG_SHOW_PIVOT = true;
