@@ -92,7 +92,7 @@ namespace GameEngine2D.Entities
                 }
                 return parent.Position + position;
             }
-            set { 
+            set {
                 position = value;
             }
         }
@@ -169,7 +169,6 @@ namespace GameEngine2D.Entities
 
         protected SpriteFont font;
 
-        //grid coordinates
         public Vector2 GridCoordinates = Vector2.Zero;
 
         //between 0 and 1: where the object is inside the grid cell
@@ -230,9 +229,9 @@ namespace GameEngine2D.Entities
 
         public void SetParent(Entity newParent, Vector2 position)
         {
-            this.Position = position;
             if (newParent != null)
             {
+                Position = position;
                 Layer.RemoveRoot(this);
                 if (parent != null)
                 {
@@ -245,13 +244,16 @@ namespace GameEngine2D.Entities
             {
                 if (parent != null)
                 {
-                    this.position = Position;
+                    this.position += parent.Position;
                     parent.RemoveChild(this);
+                } else
+                {
+                    Position = position;
                 }
                 parent = null;
                 Layer.AddRootObject(this);
             }
-            //Position = position;
+            UpdateInCellCoord();
             GridCoordinates = CalculateGridCoord();
         }
 
@@ -393,8 +395,6 @@ namespace GameEngine2D.Entities
 
         public virtual void Update(GameTime gameTime)
         {
-
-            DrawPosition = Position + DrawOffset;
 
             if (UpdateGridPosition)
             {

@@ -148,7 +148,7 @@ namespace GameEngine2D
 
             // workaround for bug when character ends up standing inside a collider or slightly above it
             // when the movement started from below or the fall started from height less than sprite graphics offset
-            if (OnGround() && HasGravity && Math.Abs(Velocity.Y) < 0.05)
+            /*if (OnGround() && HasGravity && Math.Abs(Velocity.Y) < 0.05)
             {
 
                 if (InCellLocation.Y > CollisionOffsetBottom) {
@@ -159,7 +159,7 @@ namespace GameEngine2D
                     InCellLocation.Y += 0.09f * elapsedTime * GravityValue;
                 }
                 //InCellLocation.Y = CollisionOffsetBottom;
-            }
+            }*/
 
             Velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
             bump.Y *= (float)Math.Pow(BumpFriction, elapsedTime);
@@ -171,7 +171,7 @@ namespace GameEngine2D
 
         protected virtual void OnLand()
         {
-
+            //bump = Vector2.Zero;
         }
 
         public void Bump(Vector2 direction)
@@ -210,7 +210,8 @@ namespace GameEngine2D
 
         public void ResetPosition(Vector2 position)
         {
-            InCellLocation = Vector2.Zero;
+            //InCellLocation = Vector2.Zero;
+            UpdateInCellCoord();
             Position = position;
             FallSpeed = 0;
         }

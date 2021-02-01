@@ -26,6 +26,9 @@ namespace GameEngine2D.Source.Entities.Animation
         public Action StoppedCallback;
         public Action StartedCallback;
 
+        private bool stopActionCalled = false;
+        private bool startActionCalled = false;
+
         public Func<bool> AnimationPauseCondition;
         public Action<int> EveryFrameAction;
         private Dictionary<int, Action<int>> frameActions = new Dictionary<int, Action<int>>();
@@ -99,10 +102,10 @@ namespace GameEngine2D.Source.Entities.Animation
 
             if (CurrentFrame == StartFrame)
             {
-                if (!Looping)
+                if (!Looping && !startActionCalled)
                 {
                     StartedCallback?.Invoke();
-                    StartedCallback = null;
+                    startActionCalled = true;
                 }
             }
 
@@ -132,8 +135,11 @@ namespace GameEngine2D.Source.Entities.Animation
                 if (!Looping)
                 {
                     Stop();
-                    StoppedCallback?.Invoke();
-                    StoppedCallback = null;
+                    if (!stopActionCalled)
+                    {
+                        StoppedCallback?.Invoke();
+                        stopActionCalled = true;
+                    }
                 }
                 else
                 {
@@ -157,6 +163,8 @@ namespace GameEngine2D.Source.Entities.Animation
                 CurrentFrame = (int)startFrame;
             }
             Running = true;
+            startActionCalled = false;
+            stopActionCalled = false;
         }
 
         public void Stop()

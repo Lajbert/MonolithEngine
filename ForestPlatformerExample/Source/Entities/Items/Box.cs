@@ -34,14 +34,16 @@ namespace ForestPlatformerExample.Source.Entities.Items
         {
             //ColliderOnGrid = true;
 
+            BumpFriction = 0.2f;
+
             random = new Random();
 
             CircleCollider = new CircleCollider(this, 10, new Vector2(4, -8));
             EnableCircleCollisions = false;
 
             CollisionOffsetBottom = 0.6f;
-            CollisionOffsetLeft = 0.9f;
-            CollisionOffsetRight = 0.9f;
+            //CollisionOffsetLeft = 0.9f;
+            //CollisionOffsetRight = 0.9f;
 
             GravityValue /= 2;
             Friction = 0.4f;
@@ -121,25 +123,24 @@ namespace ForestPlatformerExample.Source.Entities.Items
             RemoveParent();
             EnablePhysics();
             FallSpeed = 0;
+            bumping = false;
+            Velocity = Vector2.Zero;
             if (entity.CurrentFaceDirection == Direction.LEFT)
             {
-                Velocity += new Vector2(-5, 0.1f);
+                Velocity += new Vector2(-5, -0.5f);
             } else
             {
-                Velocity += new Vector2(5, 0.1f);
+                Velocity += new Vector2(5, -0.5f);
             }
         }
 
         private void EnablePhysics()
         {
             GridCoordinates = CalculateGridCoord();
-            //UpdateInCellCoord();
-            InCellLocation = Vector2.Zero;
+            UpdateInCellCoord();
             GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
-            //UpdateGridPosition = true;
             HasGravity = true;
             Active = true;
-            //ColliderOnGrid = true;
             EnableCircleCollisions = true;
         }
 
@@ -150,7 +151,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
             GridCollisionCheckDirections = new HashSet<Direction>();
             ColliderOnGrid = false;
             HasGravity = false;
-            //Active = false;
         }
 
         private void Pop()
@@ -179,21 +179,28 @@ namespace ForestPlatformerExample.Source.Entities.Items
             }
         }
 
+        bool bumping = false;
         protected override void OnGridCollision(Entity otherCollider, Direction direction)
         {
-
+            return;
             if (otherCollider is Hero)
             {
                 return;
             }
-            //return;
             if (direction == Direction.DOWN && InCellLocation.Y >= CollisionOffsetBottom && bounceX > 0 && Velocity.Y >= 0)
             //if (direction == Direction.DOWN)
             {
                 Logger.Log("BUMP!");
                 bounceX--;
-                Bump(new Vector2(0, Velocity.Y * -100));
+                if (!bumping)
+                {
+                    Bump(new Vector2(0, -10));
+                    bumping = true;
+                }
+                
             }
+
+            return;
 
             //InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT))
             //if (HasGridCollision() && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT))
@@ -217,6 +224,17 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 Explode();
             }*/
 
+        }
+
+        protected override void OnLand()
+        {
+            /*base.OnLand();
+
+            if (FallSpeed >= 0.5)
+            {
+                Velocity.X *= 0.5f;
+                Velocity.Y = -1.5f;
+            }*/
         }
 
         private void Explode()

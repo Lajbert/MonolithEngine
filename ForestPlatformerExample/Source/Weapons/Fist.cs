@@ -23,7 +23,7 @@ namespace ForestPlatformerExample.Source.Weapons
         {
             CircleCollider = new CircleCollider(this, 10);
             hero = parent as PhysicalEntity;
-            DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             CurrentFaceDirection = parent.CurrentFaceDirection;
         }
 
