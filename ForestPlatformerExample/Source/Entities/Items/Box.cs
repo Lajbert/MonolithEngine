@@ -191,13 +191,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
             }
             Bump(new Vector2(0, -currentBump * 2));
             currentBump--;
-            /*base.OnLand();
-
-            if (FallSpeed >= 0.5)
-            {
-                Velocity.X *= 0.5f;
-                Velocity.Y = -1.5f;
-            }*/
         }
 
         private void Explode()
