@@ -1,8 +1,8 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
 using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Environment;
-using ForestPlatformerExample.Source.Hero;
 using ForestPlatformerExample.Source.Items;
+using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;

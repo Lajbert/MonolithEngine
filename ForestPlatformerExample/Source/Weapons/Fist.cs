@@ -21,9 +21,10 @@ namespace ForestPlatformerExample.Source.Weapons
 
         public Fist(Entity parent, Vector2 positionOffset) : base(LayerManager.Instance.EntityLayer, parent, positionOffset)
         {
-            CircleCollider = new CircleCollider(this, 10, positionOffset);
+            CircleCollider = new CircleCollider(this, 10);
             hero = parent as PhysicalEntity;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            CurrentFaceDirection = parent.CurrentFaceDirection;
         }
 
         protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
@@ -48,18 +49,15 @@ namespace ForestPlatformerExample.Source.Weapons
             {
                 EnableCircleCollisions = true;
             }
-            if (hero.CurrentFaceDirection == Direction.LEFT)
-            {
-                X = -3 * StartPosition.X; 
-            } else
-            {
-                X = StartPosition.X;
-            }
         }
 
         public void ChangeDirection()
         {
-            X *= -1;
+            if (CurrentFaceDirection != parent.CurrentFaceDirection)
+            {
+                X = (X - parent.Position.X) * -1;
+                CurrentFaceDirection = parent.CurrentFaceDirection;
+            }
         }
     }
 }

@@ -102,8 +102,8 @@ namespace GameEngine2D.Source.Layer
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag) 
-                    && !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag))
+                    //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
                     if  (!directionsForTags.ContainsKey(tag) || (directionsForTags.ContainsKey(tag) && directionsForTags[tag].Contains(direction))) {
                         tagCollisionResult.Add(direction);
@@ -125,7 +125,8 @@ namespace GameEngine2D.Source.Layer
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)))
+                    //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
                     if (directionsForTags.Count != 0)
                     {

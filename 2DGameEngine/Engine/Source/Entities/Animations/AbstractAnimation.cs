@@ -79,7 +79,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public virtual void Play(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GetTexture(), (Parent.GetPositionWithParent() + Offset), SourceRectangle, Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
+            spriteBatch.Draw(GetTexture(), (Parent.Position + Offset), SourceRectangle, Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
         }
 
         protected abstract Texture2D GetTexture();
