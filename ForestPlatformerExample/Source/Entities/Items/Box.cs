@@ -26,15 +26,16 @@ namespace ForestPlatformerExample.Source.Entities.Items
         int life = 2;
 
         private Random random;
+        private int bumps;
+        private int currentBump = 1;
 
-        private int bounceX = 2;
-        private int bounceY = 1;
-
-        public Box(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position)
+        public Box(Vector2 position, int bumps = 1) : base(LayerManager.Instance.EntityLayer, null, position)
         {
             //ColliderOnGrid = true;
 
             BumpFriction = 0.2f;
+
+            this.bumps = currentBump = bumps;
 
             random = new Random();
 
@@ -46,7 +47,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             //CollisionOffsetRight = 0.9f;
 
             GravityValue /= 2;
-            Friction = 0.4f;
+            Friction = 0.6f;
 
             //BlocksMovement = true;
             //ColliderOnGrid = true;
@@ -107,8 +108,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         public void Lift(Entity entity, Vector2 newPosition)
         {
-            bounceX = 2;
-            bounceY = 1;
+            currentBump = bumps;
             DisablePysics();
             SetParent(entity, newPosition);
         }
@@ -123,7 +123,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
             RemoveParent();
             EnablePhysics();
             FallSpeed = 0;
-            bumping = false;
             Velocity = Vector2.Zero;
             if (entity.CurrentFaceDirection == Direction.LEFT)
             {
@@ -179,55 +178,19 @@ namespace ForestPlatformerExample.Source.Entities.Items
             }
         }
 
-        bool bumping = false;
         protected override void OnGridCollision(Entity otherCollider, Direction direction)
         {
-            return;
-            if (otherCollider is Hero)
+            
+
+        }
+        protected override void OnLand()
+        {
+            if (currentBump < 1)
             {
                 return;
             }
-            if (direction == Direction.DOWN && InCellLocation.Y >= CollisionOffsetBottom && bounceX > 0 && Velocity.Y >= 0)
-            //if (direction == Direction.DOWN)
-            {
-                Logger.Log("BUMP!");
-                bounceX--;
-                if (!bumping)
-                {
-                    Bump(new Vector2(0, -10));
-                    bumping = true;
-                }
-                
-            }
-
-            return;
-
-            //InCellLocation.X >= CollisionOffsetLeft && CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT))
-            //if (HasGridCollision() && InCellLocation.X <= CollisionOffsetRight && CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT))
-            if (direction == Direction.LEFT && /*InCellLocation.X <= CollisionOffsetRight &&*/ bounceY > 0)
-            {
-                Bump(new Vector2(bounceY-- * 2, 0));
-            }
-            if (direction == Direction.RIGHT && /*InCellLocation.X >= CollisionOffsetLeft &&*/ bounceY > 0)
-            {
-                Bump(new Vector2(-bounceY-- * 2, 0));
-            }
-            //Vector2 bounce = -Velocity;
-
-            //Bump(bounce);
-
-            /*
-            if (InCellLocation.Y >= CollisionOffsetBottom)
-            {
-                Logger.Log("Other collider: " + otherCollider);
-                Logger.Log("Direction: " + direction);
-                Explode();
-            }*/
-
-        }
-
-        protected override void OnLand()
-        {
+            Bump(new Vector2(0, -currentBump * 2));
+            currentBump--;
             /*base.OnLand();
 
             if (FallSpeed >= 0.5)
