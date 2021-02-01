@@ -118,23 +118,19 @@ namespace GameEngine2D.Source.Level
                                     break;
                                 case 4:
                                     e.AddTag("Platform");
-                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.RIGHT, Direction.UP, Direction.DOWN });
-                                    e.AddTraversalDirection(Direction.LEFT);
+                                    e.AddBlockedDirection(Direction.LEFT);
                                     break;
                                 case 5:
                                     e.AddTag("Platform");
-                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.LEFT, Direction.UP, Direction.DOWN });
-                                    e.AddTraversalDirection(Direction.RIGHT);
+                                    e.AddBlockedDirection(Direction.RIGHT);
                                     break;
                                 case 6:
                                     e.AddTag("Platform");
-                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.RIGHT, Direction.LEFT, Direction.DOWN });
-                                    e.AddTraversalDirection(Direction.UP);
+                                    e.AddBlockedDirection(Direction.UP);
                                     break;
                                 case 7:
                                     e.AddTag("Platform");
-                                    //e.TraversableFrom.UnionWith(new List<Direction>() { Direction.CENTER, Direction.RIGHT, Direction.LEFT, Direction.UP});
-                                    e.AddTraversalDirection(Direction.DOWN);
+                                    e.AddBlockedDirection(Direction.DOWN);
                                     break;
                             }
                             e.Pivot = pivot;

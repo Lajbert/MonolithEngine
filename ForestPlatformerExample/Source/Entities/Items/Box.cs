@@ -1,5 +1,6 @@
 ﻿using ForestPlatformerExample.Source.Entities.Interfaces;
 using ForestPlatformerExample.Source.Items;
+using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Util;
@@ -16,7 +17,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Entities.Items
 {
-    class Box : Entity, IAttackable
+    class Box : PhysicalEntity, IAttackable, IMovableItem
     {
 
         int life = 2;
@@ -29,18 +30,22 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             random = new Random();
 
-            CircleCollider = new GameEngine2D.Engine.Source.Physics.Collision.CircleCollider(this, 10, new Vector2(0, 3));
+            CircleCollider = new GameEngine2D.Engine.Source.Physics.Collision.CircleCollider(this, 10, new Vector2(4, 3));
 
             BlocksMovement = true;
             ColliderOnGrid = true;
 
             Active = true;
 
+            AddBlockedDirection(Direction.UP);
+            AddBlockedDirection(Direction.LEFT);
+            AddBlockedDirection(Direction.RIGHT);
+
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(0, -4);
+            Animations.Offset = new Vector2(4, -4);
 
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-idle");
             SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, spriteSheet, 2, 7, 13, 32, 32, 24);
@@ -56,6 +61,8 @@ namespace ForestPlatformerExample.Source.Entities.Items
             boxDestroy.StartedCallback += () => Pop();
             boxDestroy.Looping = false;
             SetDestroyAnimation(boxDestroy);
+
+            //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Brown));
         }
 
         public void Hit(Direction impactDireciton)
@@ -68,6 +75,24 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             life--;
             Animations.PlayAnimation("BoxHit");
+        }
+
+        public void Lift(Entity entity)
+        {
+            BlocksMovement = true;
+            ColliderOnGrid = true;
+            HasGravity = false;
+            AddParent(entity);
+        }
+
+        public void PutDown(Entity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Throw(Entity entity)
+        {
+            throw new NotImplementedException();
         }
 
         private void Pop()

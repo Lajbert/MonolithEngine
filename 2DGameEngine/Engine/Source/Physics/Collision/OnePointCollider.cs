@@ -99,7 +99,7 @@ namespace GameEngine2D.Source.Layer
             foreach (Direction direction in whereToCheck)
             {
                 if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].HasTag(tag) 
-                    && objects[GetGridCoord(gridCoord, direction)].IsTraversableFrom(direction))
+                    && !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
                     if  (!directionsForTags.ContainsKey(tag) || (directionsForTags.ContainsKey(tag) && directionsForTags[tag].Contains(direction))) {
                         tagCollisionResult.Add(direction);
@@ -121,7 +121,7 @@ namespace GameEngine2D.Source.Layer
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && objects[GetGridCoord(gridCoord, direction)].IsTraversableFrom(direction))
+                if (objects.ContainsKey(GetGridCoord(gridCoord, direction)) && !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
                     if (directionsForTags.Count != 0)
                     {
@@ -154,17 +154,11 @@ namespace GameEngine2D.Source.Layer
             throw new Exception("Unknown direction!");
         }
 
-        public bool HasObjectAtWithTag(Vector2 gridCoord, string tag)
-        {
-            TryRestoreLowPriorityObjects();
-            return objects.ContainsKey(gridCoord) && objects[gridCoord].HasTag(tag);
-        }
-
         public bool HasBlockingColliderAt(Vector2 gridCoord, Direction direction)
         {
             TryRestoreLowPriorityObjects();
             Vector2 coord = GetGridCoord(gridCoord, direction);
-            return objects.ContainsKey(coord) && objects[coord].IsTraversableFrom(direction) && objects[coord].BlocksMovement;
+            return objects.ContainsKey(coord) && objects[coord].IsBlockedFrom(direction) && objects[coord].BlocksMovement;
         }
 
         public void Remove(Entity gameObject)

@@ -33,7 +33,7 @@ namespace GameEngine2D.Entities
 
         private HashSet<string> tags = new HashSet<string>();
 
-        private HashSet<Direction> traversableFrom = new HashSet<Direction>();
+        private HashSet<Direction> blockedFrom = new HashSet<Direction>();
 
         public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
 
@@ -219,17 +219,28 @@ namespace GameEngine2D.Entities
             this.Layer = layer;
             children = new HashSet<Entity>();
             this.font = font;
-
+            this.StartPosition = this.Position = startPosition;
+            SetParent(parent);
             SetSprite(sprite);
-            if (parent != null) {
+            
+        }
+
+        public void SetParent(Entity parent)
+        {
+            if (parent != null)
+            {
                 this.parent = parent;
                 this.parent.AddChild(this);
-                this.StartPosition = this.Position = startPosition;
                 GridCoordinates = CalculateGridCoord(StartPosition + parent.GetPositionWithParent());
-            } else
+            }
+            else
             {
-                layer.AddRootObject(this);
-                this.StartPosition = this.Position = startPosition;
+                if (this.parent != null)
+                {
+                    this.parent.RemoveChild(this);
+                    this.parent = null;
+                }
+                Layer.AddRootObject(this);
                 GridCoordinates = CalculateGridCoord(StartPosition);
             }
         }
@@ -555,6 +566,7 @@ namespace GameEngine2D.Entities
         {
             CircleCollider = null;
             ColliderOnGrid = false;
+            BlocksMovement = false;
             CollisionChecker.Remove(this);
         }
 
@@ -680,19 +692,19 @@ namespace GameEngine2D.Entities
             BlocksMovement = false;
         }
 
-        public void AddTraversalDirection(Direction direction)
+        public void AddBlockedDirection(Direction direction)
         {
-            traversableFrom.Add(direction);
+            blockedFrom.Add(direction);
         }
 
-        public void RemoveTraversalDirection(Direction direction)
+        public void RemoveBlockedDirection(Direction direction)
         {
-            traversableFrom.Remove(direction);
+            blockedFrom.Remove(direction);
         }
 
-        public bool IsTraversableFrom(Direction direction)
+        public bool IsBlockedFrom(Direction direction)
         {
-            return traversableFrom.Count == 0 || traversableFrom.Contains(direction);
+            return blockedFrom.Count == 0 || blockedFrom.Contains(direction);
         }
     }
 }

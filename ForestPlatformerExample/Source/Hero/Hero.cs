@@ -213,6 +213,16 @@ namespace ForestPlatformerExample.Source.Hero
             SpriteSheetAnimation attackLeft = attackRight.CopyFlipped();
             Animations.RegisterAnimation("AttackLeft", attackLeft, () => false, 8);
 
+            spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@pick-up-sheet");
+            SpriteSheetAnimation pickupRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 21, 64, 64, 24);
+            pickupRight.Looping = false;
+            pickupRight.StartedCallback = () => UserInput.ControlsDisabled = true;
+            pickupRight.StoppedCallback = () => UserInput.ControlsDisabled = false;
+            Animations.RegisterAnimation("PickupRight", pickupRight, () => false);
+
+            SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
+            Animations.RegisterAnimation("PickupLeft", pickupLeft, () => false);
+
             //SetSprite(spriteSheet);
             //SetSprite(blue);
             //DrawOffset = new Vector2(15, 15);
@@ -361,7 +371,27 @@ namespace ForestPlatformerExample.Source.Hero
                 //CurrentFaceDirection = GridDirection.UP;
             });
 
+            UserInput.RegisterKeyPressAction(Keys.LeftShift, Buttons.Y, (Vector2 thumbStickPosition) => {
+                PickupItem();
+            }, true);
+
+            UserInput.RegisterKeyPressAction(Keys.RightShift, (Vector2 thumbStickPosition) => {
+                PickupItem();
+            }, true);
+
             UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.5f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.5f; /*Globals.Camera.Recenter(); */});
+        }
+
+        private void PickupItem()
+        {
+            if (CurrentFaceDirection == Direction.LEFT)
+            {
+                Animations.PlayAnimation("PickupLeft");
+            }
+            else
+            {
+                Animations.PlayAnimation("PickupRight");
+            }
         }
 
         public override void Update(GameTime gameTime)
