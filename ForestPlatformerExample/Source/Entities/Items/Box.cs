@@ -79,10 +79,10 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         public void Lift(Entity entity)
         {
-            BlocksMovement = true;
-            ColliderOnGrid = true;
+            BlocksMovement = false;
+            ColliderOnGrid = false;
             HasGravity = false;
-            AddParent(entity);
+            SetParent(entity, Vector2.Zero);
         }
 
         public void PutDown(Entity entity)
@@ -108,6 +108,17 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 c.HasGravity = true;
                 Timer.TriggerAfter(200, () => c.SetCircleCollider());
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            base.Draw(spriteBatch, gameTime);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            Logger.Log("POSITION: " + Position);
+            base.Update(gameTime);
         }
     }
 }

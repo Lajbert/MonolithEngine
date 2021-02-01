@@ -29,9 +29,13 @@ namespace GameEngine2D.Source.Layer
         {
         }
 
-        public Entity GetObjectAt(Vector2 position)
+        public Entity GetObjectAt(Vector2 position, Direction direction)
         {
-            return objects[position];
+            if (!objects.ContainsKey(GetGridCoord(position, direction)))
+            {
+                return null;
+            } 
+            return objects[GetGridCoord(position, direction)];
         }
 
         public void AddOrUpdate(Entity gameObject)

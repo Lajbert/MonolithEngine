@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Interfaces;
 using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.Weapons;
@@ -384,6 +385,10 @@ namespace ForestPlatformerExample.Source.Hero
 
         private void PickupItem()
         {
+            if (GetMovable() == null)
+            {
+                return;
+            }
             if (CurrentFaceDirection == Direction.LEFT)
             {
                 Animations.PlayAnimation("PickupLeft");
@@ -392,6 +397,8 @@ namespace ForestPlatformerExample.Source.Hero
             {
                 Animations.PlayAnimation("PickupRight");
             }
+            IMovableItem item = GetMovable();
+            item.Lift(this);
         }
 
         public override void Update(GameTime gameTime)
@@ -599,6 +606,17 @@ namespace ForestPlatformerExample.Source.Hero
                     Velocity.Y -= Config.JUMP_FORCE / 2;
                 }
             }
+        }
+
+        public IMovableItem GetMovable()
+        {
+            Entity e = CollisionChecker.GetObjectAt(GridCoordinates, CurrentFaceDirection);
+            if (e == null || !(e is IMovableItem))
+            {
+                return null;
+            }
+
+            return e as IMovableItem;
         }
     }
 }

@@ -219,30 +219,45 @@ namespace GameEngine2D.Entities
             this.Layer = layer;
             children = new HashSet<Entity>();
             this.font = font;
-            this.StartPosition = this.Position = startPosition;
-            SetParent(parent);
+            SetParent(parent, startPosition);
             SetSprite(sprite);
             
         }
 
-        public void SetParent(Entity parent)
+        public void SetParent(Entity newParent, Vector2 offset)
         {
-            if (parent != null)
+            if (newParent != null)
             {
-                this.parent = parent;
-                this.parent.AddChild(this);
-                GridCoordinates = CalculateGridCoord(StartPosition + parent.GetPositionWithParent());
+                this.StartPosition = offset;
+                Layer.RemoveRoot(this);
+                if (parent != null)
+                {
+                    parent.RemoveChild(this);
+                }
+                parent = newParent;
+                newParent.AddChild(this);
             }
             else
             {
-                if (this.parent != null)
+                this.StartPosition = Position = offset;
+                if (parent != null)
                 {
-                    this.parent.RemoveChild(this);
-                    this.parent = null;
+                    parent.RemoveChild(this);
                 }
+                parent = null;
                 Layer.AddRootObject(this);
-                GridCoordinates = CalculateGridCoord(StartPosition);
             }
+            GridCoordinates = CalculateGridCoord();
+        }
+
+        public void SetParent(Entity newParent)
+        {
+            SetParent(newParent, Vector2.Zero);
+        }
+
+        public void RemoveParent()
+        {
+            SetParent(null, Vector2.Zero);
         }
 
         protected virtual void SetRayBlockers()
@@ -621,22 +636,6 @@ namespace GameEngine2D.Entities
         protected Vector2 CalculateGridCoord(Vector2 position)
         {
             return new Vector2((int)Math.Floor(position.X / Config.GRID), (int)Math.Floor(position.Y / Config.GRID));
-        }
-
-        public void AddParent(Entity newParent)
-        {
-            if (parent != null)
-            {
-                parent.RemoveChild(this);
-                parent.AddChild(newParent);
-                newParent.AddChild(this);
-                parent = newParent;
-            } else
-            {
-                Layer.RemoveRoot(this);
-                newParent.AddChild(this);
-                parent = newParent;
-            }
         }
 
         public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()
