@@ -221,7 +221,6 @@ namespace GameEngine2D.Entities
             this.font = font;
             SetParent(parent, startPosition);
             SetSprite(sprite);
-            
         }
 
         public void SetParent(Entity newParent, Vector2 offset)
@@ -591,16 +590,8 @@ namespace GameEngine2D.Entities
             {
                 Animations = new AnimationStateMachine();
             }
-            if (destroyAnimation.StartedCallback == null)
-            {
-                destroyAnimation.StartedCallback += () => RemoveCollisions();
-                //destroyAnimation.StoppedAction = () => { };
-            }
-            if (destroyAnimation.StoppedCallback == null)
-            {
-                destroyAnimation.StoppedCallback += () => Cleanup();
-                //destroyAnimation.StoppedAction = () => { };
-            }
+            destroyAnimation.StartedCallback += () => RemoveCollisions();
+            destroyAnimation.StoppedCallback += () => Cleanup();
             destroyAnimation.Looping = false;
             Animations.RegisterAnimation(DESTROY_AMINATION + direction.ToString(), destroyAnimation, () => false);
         }

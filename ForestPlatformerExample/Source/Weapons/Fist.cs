@@ -23,7 +23,7 @@ namespace ForestPlatformerExample.Source.Weapons
         {
             CircleCollider = new CircleCollider(this, 10, positionOffset);
             hero = parent as PhysicalEntity;
-            DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
         }
 
         protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
