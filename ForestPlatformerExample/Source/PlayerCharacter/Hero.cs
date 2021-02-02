@@ -176,6 +176,50 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-with-item-sheet");
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 24);
             Func<bool> isRunningCarryRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && isCarryingItem;
+            runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).Animations.Offset = originalAnimOffset; };
+            runningCarryRight.EveryFrameAction = (frame) => {
+                if (carriedItem == null) return;
+                Entity e = carriedItem as Entity;
+                Vector2 offset = e.Animations.Offset;
+                float unit = 2;
+                if (frame == 2)
+                {
+                    offset.Y -= 1 * unit;
+                }
+                else if (frame == 3)
+                {
+                    offset.Y += 1 * unit;
+                }
+                else if (frame == 4)
+                {
+                    offset.Y += 2 * unit;
+                }
+                else if (frame == 5)
+                {
+                    offset.Y -= 1 * unit;
+                }
+                else if (frame == 6)
+                {
+                    offset.Y -= 1 * unit;
+                }
+                else if (frame == 7)
+                {
+                    offset.Y -= 1 * unit;
+                }
+                else if (frame == 8)
+                {
+                    offset.Y += 1 * unit;
+                }
+                else if (frame == 9)
+                {
+                    offset.Y += 2 * unit;
+                }
+                else if (frame == 10)
+                {
+                    offset.Y -= 2 * unit;
+                }
+                e.Animations.Offset = offset;
+            };
             Animations.RegisterAnimation("RunningCarryRight", runningCarryRight, isRunningCarryRight, 1);
 
             SpriteSheetAnimation runningCarryLeft = runningCarryRight.CopyFlipped();

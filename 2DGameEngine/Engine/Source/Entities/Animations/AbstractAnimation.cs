@@ -79,6 +79,7 @@ namespace GameEngine2D.Source.Entities.Animation
             anim.frameActions = frameActions;
             anim.StoppedCallback = StoppedCallback;
             anim.StartedCallback = StartedCallback;
+            anim.AnimationSwitchCallback = AnimationSwitchCallback;
         }
 
         public virtual void Play(SpriteBatch spriteBatch)
