@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@death-sheet.png
+#begin ForestAssets/Characters/Carrot/carrot@death-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +23,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@death-sheet.png
+/build:ForestAssets/Characters/Carrot/carrot@death-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@hurt-sheet.png
+#begin ForestAssets/Characters/Carrot/carrot@hurt-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,9 +35,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@hurt-sheet.png
+/build:ForestAssets/Characters/Carrot/carrot@hurt-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@idle-sheet.png
+#begin ForestAssets/Characters/Carrot/carrot@idle-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,9 +47,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@idle-sheet.png
+/build:ForestAssets/Characters/Carrot/carrot@idle-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@move-sheet.png
+#begin ForestAssets/Characters/Carrot/carrot@move-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,9 +59,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Enemy-Carrot/carrot@move-sheet.png
+/build:ForestAssets/Characters/Carrot/carrot@move-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@attack-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@attack-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,9 +71,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@attack-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@attack-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@climb-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@climb-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,9 +83,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@climb-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@climb-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@death-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@death-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,9 +95,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@death-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@death-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@double-jump-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@double-jump-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,9 +107,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@double-jump-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@double-jump-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@hurt-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@hurt-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -119,9 +119,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@hurt-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@hurt-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@idle-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,9 +131,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@idle-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-with-item-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@idle-with-item-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,9 +143,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-with-item-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@idle-with-item-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@jump-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -155,9 +155,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@jump-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-with-item-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@jump-with-item-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,9 +167,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@jump-with-item-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@jump-with-item-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@pick-up-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@pick-up-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -179,9 +179,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@pick-up-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@pick-up-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@run-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,9 +191,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@run-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-with-item-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@run-with-item-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -203,9 +203,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@run-with-item-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@run-with-item-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@slide-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@slide-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -215,9 +215,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@slide-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@slide-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@throw-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@throw-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -227,9 +227,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@throw-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@throw-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@wall-slide-sheet.png
+#begin ForestAssets/Characters/Hero/main-character@wall-slide-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -239,9 +239,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@wall-slide-sheet.png
+/build:ForestAssets/Characters/Hero/main-character@wall-slide-sheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-destroy.png
+#begin ForestAssets/Items/box-destroy.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,9 +251,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-destroy.png
+/build:ForestAssets/Items/box-destroy.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-hit.png
+#begin ForestAssets/Items/box-hit.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -263,9 +263,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-hit.png
+/build:ForestAssets/Items/box-hit.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-idle.png
+#begin ForestAssets/Items/box-idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -275,9 +275,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-idle.png
+/build:ForestAssets/Items/box-idle.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/coin-pickup.png
+#begin ForestAssets/Items/coin-pickup.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -287,9 +287,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/coin-pickup.png
+/build:ForestAssets/Items/coin-pickup.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/pickup-effect.png
+#begin ForestAssets/Items/pickup-effect.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -299,9 +299,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/pickup-effect.png
+/build:ForestAssets/Items/pickup-effect.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/spring_spritesheet.png
+#begin ForestAssets/Items/spring_spritesheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -311,9 +311,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/spring_spritesheet.png
+/build:ForestAssets/Items/spring_spritesheet.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills1.png
+#begin ForestAssets/Tiles/background-hills1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -323,9 +323,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills1.png
+/build:ForestAssets/Tiles/background-hills1.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills2.png
+#begin ForestAssets/Tiles/background-hills2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -335,9 +335,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-hills2.png
+/build:ForestAssets/Tiles/background-hills2.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-sky.png
+#begin ForestAssets/Tiles/background-sky.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -347,9 +347,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-sky.png
+/build:ForestAssets/Tiles/background-sky.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-trees.png
+#begin ForestAssets/Tiles/background-trees.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -359,9 +359,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/background-trees.png
+/build:ForestAssets/Tiles/background-trees.png
 
-#begin Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/forest-tileset.png
+#begin ForestAssets/Tiles/forest-tileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -371,5 +371,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/forest-tileset.png
+/build:ForestAssets/Tiles/forest-tileset.png
 

@@ -58,16 +58,16 @@ namespace ForestPlatformerExample.Source.Entities.Items
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(0, -7);
 
-            Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-idle");
+            Texture2D spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Items/box-idle");
             SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, spriteSheet, 2, 7, 13, 32, 32, 24);
             Animations.RegisterAnimation("BoxIdle", boxIdle);
 
-            spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-hit");
+            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Items/box-hit");
             SpriteSheetAnimation boxHit = new SpriteSheetAnimation(this, spriteSheet, 1, 5, 5, 32, 32, 24);
             boxHit.Looping = false;
             Animations.RegisterAnimation("BoxHit", boxHit);
 
-            spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-destroy");
+            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Items/box-destroy");
             SpriteSheetAnimation boxDestroy = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 32, 32, 24);
             boxDestroy.StartedCallback += () => Pop();
             boxDestroy.Looping = false;

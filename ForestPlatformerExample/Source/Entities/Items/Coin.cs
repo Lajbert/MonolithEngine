@@ -39,11 +39,11 @@ namespace ForestPlatformerExample.Source.Items
 
             Animations = new AnimationStateMachine();
 
-            Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/coin-pickup");
+            Texture2D spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Items/coin-pickup");
             SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, spriteSheet, 5, 5, 24, 32, 32, 24);
             Animations.RegisterAnimation("Idle", coinAnim);
 
-            spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/pickup-effect");
+            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Items/pickup-effect");
             SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, spriteSheet, 2, 2, 6, 32, 32, 24);
             SetDestroyAnimation(pickupAnim);
 

@@ -31,7 +31,7 @@ namespace ForestPlatformerExample.Source.Environment
             HasGravity = false;
             SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
             Active = true;
-            texture = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Tiles+BG/forest-tileset");
+            texture = SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset");
         }
 
         public void AddPlatformElement(Vector2 position)
