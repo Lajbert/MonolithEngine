@@ -34,7 +34,7 @@ namespace GameEngine2D.Source.Layer
 
         public float Depth { get; set; } = 0;
 
-        private Camera camera;
+        public Camera Camera;
 
         internal Layer(Camera camera, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
         {
@@ -43,7 +43,7 @@ namespace GameEngine2D.Source.Layer
                 throw new Exception("Camera not provided for layer!");
             }
             this.scrollSpeedModifier = scrollSpeedModifier;
-            this.camera = camera;
+            this.Camera = camera;
             Priority = priority;
             this.lockY = lockY;
             this.ySorting = ySorting;
@@ -98,7 +98,7 @@ namespace GameEngine2D.Source.Layer
                     });
                 }
 
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetTransformMatrix(scrollSpeedModifier, lockY));
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.GetTransformMatrix(scrollSpeedModifier, lockY));
 
                 foreach (Entity entity in visibleObjects)
                 {

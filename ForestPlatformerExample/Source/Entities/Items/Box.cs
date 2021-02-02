@@ -147,6 +147,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 c.HasGravity = true;
                 Timer.TriggerAfter(1000, () => c.SetCircleCollider());
             }
+            Layer.Camera.Shake(2f, 0.5f);
             Destroy();
         }
 

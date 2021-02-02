@@ -139,54 +139,19 @@ namespace GameEngine2D.Source.Camera2D
 
 		public void postUpdate(GameTime gameTime)
 		{
-			/*elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-			if (SCROLL)
+			// Shakes
+			if (shake)
 			{
-				root = RootContainer.Instance;
+				shakeStarted += (float)gameTime.ElapsedGameTime.TotalSeconds;
+				position.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
+				position.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
 
-				// Update scroller
-				if (resolutionWidth < LevelGridCountW * Config.GRID)
-					root.X = (float)(-position.X + resolutionWidth * 0.5);
-				else
-					root.X = (float)(resolutionWidth * 0.5  - LevelGridCountW * 0.5 * Config.GRID);
-
-				if (resolutionHeight < LevelGridCountH * Config.GRID)
-					root.Y = (float)(-position.Y + resolutionHeight * 0.5);
-				else
-					root.Y = (float)(resolutionHeight * 0.5 - LevelGridCountH * 0.5 * Config.GRID);
-
-				// Clamp
-				float pad = Config.GRID * 2;
-				if (resolutionWidth < LevelGridCountW * Config.GRID)
-					root.X = MathUtil.Clamp(root.X, resolutionWidth - LevelGridCountW * Config.GRID + pad, -pad);
-				if (resolutionHeight < LevelGridCountH * Config.GRID)
-					root.Y = MathUtil.Clamp(root.Y, resolutionHeight - LevelGridCountH * Config.GRID + pad, -pad);
-
-				// Bumps friction
-				bumpOffset *= new Vector2((float)Math.Pow(0.75, elapsedTime), (float)Math.Pow(0.75, elapsedTime));
-
-				// Bump
-				root.Position += bumpOffset;
-			
-				// Shakes
-				if (shake)
+				if (shakeStarted > shakeDuration)
 				{
-					shakeStarted += (float)gameTime.ElapsedGameTime.TotalSeconds;
-					position.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
-					position.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
-
-					if (shakeStarted > shakeDuration)
-					{
-						shake = false;
-						shakeStarted = 0f;
-						//Recenter();
-
-					}
+					shake = false;
+					shakeStarted = 0f;
 				}
-
-				// Rounding
-				root.Position = MathUtil.Round(root.Position);
-			}*/
+			}
 		}
 
 		public Matrix GetTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)
