@@ -99,19 +99,13 @@ namespace ForestPlatformerExample.Source.Entities.Items
             throw new NotImplementedException();
         }
 
-        public void Throw(Entity entity)
+        public void Throw(Entity entity, Vector2 force)
         {
+            Velocity = Vector2.Zero;
+            Velocity += force;
             RemoveParent();
             EnablePhysics();
             FallSpeed = 0;
-            Velocity = Vector2.Zero;
-            if (entity.CurrentFaceDirection == Direction.LEFT)
-            {
-                Velocity += new Vector2(-5, -0.5f);
-            } else
-            {
-                Velocity += new Vector2(5, -0.5f);
-            }
         }
 
         private void EnablePhysics()

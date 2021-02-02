@@ -119,30 +119,18 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 if (carriedItem == null) return;
                 Entity e = carriedItem as Entity;
                 Vector2 offset = e.Animations.Offset;
-                float unit = 1;
-                if (frame >= 1 && frame <= 4)
+                float unit = 0.3f;
+                if (frame == 3 || frame == 4 || frame == 9 || frame == 15 || frame == 16 || frame == 21)
                 {
-                    offset.Y += 1 * unit;
+                    offset.Y += unit;
                 }
-                else if (frame == 7 || frame == 8)
+                else if (frame == 7 || frame == 19)
                 {
-                    offset.Y -= 3 * unit;
+                    offset.Y -= unit;
                 }
-                else if (frame == 9)
-                {
-                    offset.Y += 1 * unit;
-                }
-                else if (frame == 15 || frame == 16)
-                {
-                    offset.Y += 2 * unit;
-                }
-                else if (frame == 19 || frame == 20)
+                else if (frame == 8 || frame == 20)
                 {
                     offset.Y -= 2 * unit;
-                }
-                else if (frame == 21)
-                {
-                    offset.Y += 1 * unit;
                 }
                 e.Animations.Offset = offset;
             };
@@ -182,41 +170,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Entity e = carriedItem as Entity;
                 Vector2 offset = e.Animations.Offset;
                 float unit = 2;
-                if (frame == 2)
+                if (frame == 4 || frame == 9)
                 {
-                    offset.Y -= 1 * unit;
+                    offset.Y += unit;
                 }
-                else if (frame == 3)
+                else if (frame == 5 || frame == 10)
                 {
-                    offset.Y += 1 * unit;
-                }
-                else if (frame == 4)
-                {
-                    offset.Y += 2 * unit;
-                }
-                else if (frame == 5)
-                {
-                    offset.Y -= 1 * unit;
-                }
-                else if (frame == 6)
-                {
-                    offset.Y -= 1 * unit;
-                }
-                else if (frame == 7)
-                {
-                    offset.Y -= 1 * unit;
-                }
-                else if (frame == 8)
-                {
-                    offset.Y += 1 * unit;
-                }
-                else if (frame == 9)
-                {
-                    offset.Y += 2 * unit;
-                }
-                else if (frame == 10)
-                {
-                    offset.Y -= 2 * unit;
+                    offset.Y -= unit;
                 }
                 e.Animations.Offset = offset;
             };
@@ -453,9 +413,16 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 if (isCarryingItem)
                 {
                     (carriedItem as Entity).Animations.Offset = originalAnimOffset;
-                    carriedItem.Throw(this);
-                    carriedItem = null;
-                    isCarryingItem = false;
+                    Vector2 force;
+                    if (CurrentFaceDirection == Direction.LEFT)
+                    {
+                        force = new Vector2(-5, -0.5f);
+                    }
+                    else
+                    {
+                        force = new Vector2(5, -0.5f);
+                    }
+                    ThrowCurrentItem(force);
                     return;
                 }
                 if (!canAttack)
@@ -525,11 +492,25 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.LeftShift, Buttons.Y, (Vector2 thumbStickPosition) => {
-                PickupItem();
+                if (isCarryingItem  && carriedItem != null)
+                {
+                    DropCurrentItem();
+                } else
+                {
+                    PickupItem();
+                }
+                
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.RightShift, (Vector2 thumbStickPosition) => {
-                PickupItem();
+                if (isCarryingItem && carriedItem != null)
+                {
+                    DropCurrentItem();
+                }
+                else
+                {
+                    PickupItem();
+                }
             }, true);
 
             UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.5f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.5f; /*Globals.Camera.Recenter(); */});
@@ -562,6 +543,21 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             carriedItem = overlappingItem;
             originalAnimOffset = e.Animations.Offset;
             isCarryingItem = true;
+        }
+
+        private void ThrowCurrentItem(Vector2 force)
+        {
+            if (isCarryingItem && carriedItem != null)
+            {
+                carriedItem.Throw(this, force);
+                isCarryingItem = false;
+                carriedItem = null;
+            }
+        }
+
+        private void DropCurrentItem()
+        {
+            ThrowCurrentItem(Vector2.Zero);
         }
 
         public override void Update(GameTime gameTime)
@@ -717,6 +713,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     {
                         return;
                     }
+                    DropCurrentItem();
                     UserInput.ControlsDisabled = true;
                     Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
                     Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);

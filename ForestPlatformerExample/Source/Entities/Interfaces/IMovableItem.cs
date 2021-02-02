@@ -12,6 +12,6 @@ namespace ForestPlatformerExample.Source.Entities.Interfaces
 
         public void PutDown(Entity entity, Vector2 newPosition);
 
-        public void Throw(Entity entity);
+        public void Throw(Entity entity, Vector2 force);
     }
 }
