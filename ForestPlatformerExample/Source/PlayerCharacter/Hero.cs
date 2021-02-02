@@ -537,7 +537,17 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private void PickupItem()
         {
+            
             if (overlappingItem == null || carriedItem != null)
+            {
+                return;
+            }
+            Entity e = (overlappingItem as Entity);
+            if (e.X < X && CurrentFaceDirection != Direction.LEFT)
+            {
+                return;
+            }
+            if (e.X > X && CurrentFaceDirection != Direction.RIGHT)
             {
                 return;
             }
@@ -550,7 +560,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Animations.PlayAnimation("PickupRight");
             }
             carriedItem = overlappingItem;
-            originalAnimOffset = (carriedItem as Entity).Animations.Offset;
+            originalAnimOffset = e.Animations.Offset;
             isCarryingItem = true;
         }
 

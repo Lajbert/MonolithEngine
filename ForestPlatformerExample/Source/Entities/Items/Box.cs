@@ -41,7 +41,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             random = new Random();
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(4, 0));
+            CircleCollider = new CircleCollider(this, 10, new Vector2(0, 0));
             EnableCircleCollisions = false;
 
             CollisionOffsetBottom = 0.3f;
@@ -55,7 +55,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(4, -7);
+            Animations.Offset = new Vector2(0, -7);
 
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-idle");
             SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, spriteSheet, 2, 7, 13, 32, 32, 24);
