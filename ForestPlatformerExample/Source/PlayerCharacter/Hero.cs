@@ -445,7 +445,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
-                    Entity collider = CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates));
+                    Entity collider = CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) as Entity;
                     if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement) {
                         collider.BlocksMovement = false;
                     }
@@ -594,21 +594,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             else if (otherCollider is Spring && direction == Direction.CENTER)
             {
                 ((Spring)otherCollider).PlayBounceAnimation();
-                /*if (Velocity.Y > 0)
-                {
-                    Velocity.Y = 0;
-                    Velocity.Y -= ((Spring)otherCollider).Power + Velocity.Y;
-                } else
-                {
-                    Velocity.Y = 0;
-                    Velocity.Y -= ((Spring)otherCollider).Power;
-                }*/
 
-                /*Velocity.Y = 0;
-                Friction = 0.5f;
-                GravityValue = 0;
-                Timer.TriggerAfter(200, SetSpringGravity, true);
-                Velocity.Y -= ((Spring)otherCollider).Power;*/
                 Bump(new Vector2(0, -15));
                 canJump = false;
                 canDoubleJump = true;
@@ -681,11 +667,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 FallSpeed = 0;
             }
-            else if (otherCollider.HasTag("Ladder") && CollisionChecker.CollidesWithTag(GridCoordinates, "Ladder").Count == 0)
+            else if (otherCollider.HasTag("Ladder") && CollisionChecker.CollidesWithTag(this, "Ladder").Count == 0)
             {
                 LeaveLadder();
             }
-            else if (otherCollider.HasTag("SlideWall") && CollisionChecker.CollidesWithTag(GridCoordinates, "SlideWall").Count == 0)
+            else if (otherCollider.HasTag("SlideWall") && CollisionChecker.CollidesWithTag(this, "SlideWall").Count == 0)
             {
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;

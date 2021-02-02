@@ -19,7 +19,7 @@ using System.Linq;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, IRayBlocker, ICircleCollider
+    public class Entity : GameObject, IRayBlocker, ICircleCollider, IGridCollider
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -27,7 +27,7 @@ namespace GameEngine2D.Entities
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        public int GridCollisionPriority = 0;
+        public int GridCollisionPriority { get; set; }
 
         private readonly string DESTROY_AMINATION = "Destroy";
 
@@ -379,7 +379,7 @@ namespace GameEngine2D.Entities
 
         public Entity GetSamePositionCollider()
         {
-            return CollisionChecker.GetColliderAt(GridCoordinates);
+            return CollisionChecker.GetColliderAt(GridCoordinates) as Entity;
         }
 
         public virtual void PreUpdate(GameTime gameTime)
@@ -442,7 +442,7 @@ namespace GameEngine2D.Entities
                     collidesWithOnGrid[e] = false;
                 }
 
-                foreach ((Entity, Direction) collision in CollisionChecker.HasGridCollisionAt(GridCoordinates, GridCollisionCheckDirections))
+                foreach ((Entity, Direction) collision in CollisionChecker.HasGridCollisionAt(this, GridCollisionCheckDirections))
                 {
                     if (!collidesWithOnGrid.ContainsKey(collision))
                     {
@@ -706,6 +706,46 @@ namespace GameEngine2D.Entities
         public bool IsBlockedFrom(Direction direction)
         {
             return blockedFrom.Count == 0 || blockedFrom.Contains(direction);
+        }
+
+        public Vector2 GetInCellLocation()
+        {
+            return InCellLocation;
+        }
+
+        public Vector2 GetGridCoord()
+        {
+            return GridCoordinates;
+        }
+
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
+
+        public float GetCollisionOffset(Direction direction)
+        {
+            if (direction == Direction.RIGHT)
+            {
+                return CollisionOffsetLeft;
+            } else if (direction == Direction.LEFT)
+            {
+                return CollisionOffsetRight;
+            }
+            else if (direction == Direction.UP)
+            {
+                return CollisionOffsetTop;
+            }
+            else if (direction == Direction.DOWN)
+            {
+                return CollisionOffsetBottom;
+            }
+            throw new Exception("Unsupported direction");
+        }
+
+        public bool BlocksMovementFrom(Direction direction)
+        {
+            return BlocksMovement && IsBlockedFrom(direction);
         }
     }
 }

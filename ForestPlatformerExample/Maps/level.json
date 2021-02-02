@@ -727,7 +727,8 @@
 							"defUid": 28,
 							"realEditorValues": [{ "id": "V_Int", "params": [15] }]
 						}] },
-						{ "__identifier": "Box", "__grid": [12,41], "__pivot": [0,0], "__tile": null, "defUid": 34, "px": [192,656], "fieldInstances": [] }
+						{ "__identifier": "Box", "__grid": [12,41], "__pivot": [0,0], "__tile": null, "defUid": 34, "px": [192,656], "fieldInstances": [] },
+						{ "__identifier": "Box", "__grid": [41,41], "__pivot": [0,0], "__tile": null, "defUid": 34, "px": [656,656], "fieldInstances": [] }
 					]
 				},
 				{
