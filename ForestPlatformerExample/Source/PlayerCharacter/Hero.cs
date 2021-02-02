@@ -698,7 +698,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             if (otherCollider is Carrot)
             {
                 float angle = MathUtil.DegreeFromVectors(Position, otherCollider.Position);
-                if (angle <= 155 && angle >= 25)
+                if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                 {
                     Bump(new Vector2(0, -5));
                     FallSpeed = 0;
