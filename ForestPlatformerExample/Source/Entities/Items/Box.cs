@@ -45,6 +45,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             EnableCircleCollisions = false;
 
             CollisionOffsetBottom = 0.3f;
+            CollisionOffsetRight = 0.5f;
 
             GravityValue /= 2;
             Friction = 0.6f;

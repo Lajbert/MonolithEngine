@@ -319,7 +319,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             pickupRight.Looping = false;
             pickupRight.StartedCallback = () => UserInput.ControlsDisabled = true;
             pickupRight.StoppedCallback = () => UserInput.ControlsDisabled = false;
-            pickupRight.AddFrameAction(15, (frame) => carriedItem.Lift(this, new Vector2(-3, -25)));
+            pickupRight.AddFrameAction(15, (frame) => carriedItem.Lift(this, new Vector2(0, -25)));
             Animations.RegisterAnimation("PickupRight", pickupRight, () => false);
 
             SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
@@ -628,12 +628,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     jumpModifier = new Vector2(-5, 0);
                 }
             }
-        }
-
-        private void SetSpringGravity()
-        {
-            GravityValue = Config.GRAVITY_FORCE;
-            Friction = Config.FRICTION;
         }
 
         private float GetVelocity(float thumbStickPosition, float maxVelocity)
