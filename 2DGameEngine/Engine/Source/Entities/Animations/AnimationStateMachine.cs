@@ -151,6 +151,7 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
                     }
                     currentAnimation.animation.Stop();
                 }
+                currentAnimation?.animation.AnimationSwitchCallback?.Invoke();
                 currentAnimation = nextAnimation;
                 currentAnimation.animation.Init(transitionFrame);
             }

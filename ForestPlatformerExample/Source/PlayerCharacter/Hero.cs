@@ -49,6 +49,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private IMovableItem overlappingItem;
         private IMovableItem carriedItem;
 
+        Vector2 originalAnimOffset = Vector2.Zero;
+
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, font)
         {
 
@@ -112,6 +114,38 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Character-Animations/Main-Character/Sprite-Sheets/main-character@idle-with-item-sheet");
             SpriteSheetAnimation idleCarryRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 24, 64, 64, 24);
+            idleCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).Animations.Offset = originalAnimOffset; };
+            idleCarryRight.EveryFrameAction = (frame) => {
+                if (carriedItem == null) return;
+                Entity e = carriedItem as Entity;
+                Vector2 offset = e.Animations.Offset;
+                float unit = 1;
+                if (frame >= 1 && frame <= 4)
+                {
+                    offset.Y += 1 * unit;
+                }
+                else if (frame == 7 || frame == 8)
+                {
+                    offset.Y -= 3 * unit;
+                }
+                else if (frame == 9)
+                {
+                    offset.Y += 1 * unit;
+                }
+                else if (frame == 15 || frame == 16)
+                {
+                    offset.Y += 2 * unit;
+                }
+                else if (frame == 19 || frame == 20)
+                {
+                    offset.Y -= 2 * unit;
+                }
+                else if (frame == 21)
+                {
+                    offset.Y += 1 * unit;
+                }
+                e.Animations.Offset = offset;
+            };
             Func<bool> isIdleCarryRight = () => CurrentFaceDirection == Direction.RIGHT && isCarryingItem;
             Animations.RegisterAnimation("IdleCarryRight", idleCarryRight, isIdleCarryRight);
 
@@ -281,6 +315,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             pickupRight.Looping = false;
             pickupRight.StartedCallback = () => UserInput.ControlsDisabled = true;
             pickupRight.StoppedCallback = () => UserInput.ControlsDisabled = false;
+            pickupRight.AddFrameAction(15, (frame) => carriedItem.Lift(this, new Vector2(-3, -25)));
             Animations.RegisterAnimation("PickupRight", pickupRight, () => false);
 
             SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
@@ -373,6 +408,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Space, Buttons.X, (Vector2 thumbStickPosition) => {
                 if (isCarryingItem)
                 {
+                    (carriedItem as Entity).Animations.Offset = originalAnimOffset;
                     carriedItem.Throw(this);
                     carriedItem = null;
                     isCarryingItem = false;
@@ -470,7 +506,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Animations.PlayAnimation("PickupRight");
             }
             carriedItem = overlappingItem;
-            carriedItem.Lift(this, new Vector2(-3, -30));
+            originalAnimOffset = (carriedItem as Entity).Animations.Offset;
             isCarryingItem = true;
         }
 

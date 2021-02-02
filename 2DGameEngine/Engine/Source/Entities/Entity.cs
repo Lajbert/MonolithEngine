@@ -174,7 +174,7 @@ namespace GameEngine2D.Entities
         //between 0 and 1: where the object is inside the grid cell
         protected Vector2 InCellLocation;
 
-        protected AnimationStateMachine Animations { get; set; }
+        public AnimationStateMachine Animations { get; set; }
 
         protected Ray2DEmitter RayEmitter { get; set; }
 

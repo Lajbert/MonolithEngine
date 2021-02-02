@@ -25,6 +25,7 @@ namespace GameEngine2D.Source.Entities.Animation
         public bool Running = false;
         public Action StoppedCallback;
         public Action StartedCallback;
+        public Action AnimationSwitchCallback;
 
         private bool stopActionCalled = false;
         private bool startActionCalled = false;

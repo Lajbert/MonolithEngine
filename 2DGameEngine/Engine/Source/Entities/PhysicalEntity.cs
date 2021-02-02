@@ -221,5 +221,10 @@ namespace GameEngine2D
             Velocity = Vector2.Zero;
             base.Destroy();
         }
+
+        public bool IsMovingAtLeast(float speed)
+        {
+            return Math.Abs(Velocity.X) >= speed || Math.Abs(Velocity.Y) >= speed;
+        }
     }
 }

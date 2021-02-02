@@ -35,34 +35,27 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             BumpFriction = 0.2f;
 
+            DrawPriority = 1;
+
             this.bumps = currentBump = bumps;
 
             random = new Random();
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(4, -8));
+            CircleCollider = new CircleCollider(this, 10, new Vector2(4, 0));
             EnableCircleCollisions = false;
 
-            CollisionOffsetBottom = 0.6f;
-            //CollisionOffsetLeft = 0.9f;
-            //CollisionOffsetRight = 0.9f;
+            CollisionOffsetBottom = 0.3f;
 
             GravityValue /= 2;
             Friction = 0.6f;
 
-            //BlocksMovement = true;
-            //ColliderOnGrid = true;
-
             Active = true;
-
-            //AddBlockedDirection(Direction.UP);
-            //AddBlockedDirection(Direction.LEFT);
-            //AddBlockedDirection(Direction.RIGHT);
 
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(4, -15);
+            Animations.Offset = new Vector2(4, -7);
 
             Texture2D spriteSheet = SpriteUtil.LoadTexture("Green_Greens_Forest_Pixel_Art_Platformer_Pack/Items-and-Objects/Sprite-Sheets/box-idle");
             SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, spriteSheet, 2, 7, 13, 32, 32, 24);
@@ -80,18 +73,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
             SetDestroyAnimation(boxDestroy);
 
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Brown));
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            /*if (!OnGround())
-            {
-                Friction = 0.8f;
-            } else
-            {
-                Friction = 0.3f;
-            }*/
-            base.Update(gameTime);
         }
 
         public void Hit(Direction impactDireciton)
@@ -171,7 +152,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
         {
-            if (otherCollider is Carrot && Velocity != Vector2.Zero)
+            if (otherCollider is Carrot && IsMovingAtLeast(0.5f))
             {
                 otherCollider.Destroy();
                 Explode();
