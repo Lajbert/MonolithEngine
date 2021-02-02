@@ -610,7 +610,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider.HasTag("SlideWall") && !OnGround())
             {
-                if (fist.IsAttacking)
+                if (fist.IsAttacking || isCarryingItem)
                 {
                     return;
                 }
