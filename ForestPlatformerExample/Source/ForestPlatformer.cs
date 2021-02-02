@@ -195,7 +195,7 @@ namespace ForestPlatformerExample
         protected override void Draw(GameTime gameTime)
         {
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
             LayerManager.Instance.DrawAll(gameTime);
