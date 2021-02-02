@@ -119,7 +119,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 if (carriedItem == null) return;
                 Entity e = carriedItem as Entity;
                 Vector2 offset = e.Animations.Offset;
-                float unit = 0.3f;
+                float unit = 0.5f;
                 if (frame == 3 || frame == 4 || frame == 9 || frame == 15 || frame == 16 || frame == 21)
                 {
                     offset.Y += unit;
@@ -169,7 +169,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 if (carriedItem == null) return;
                 Entity e = carriedItem as Entity;
                 Vector2 offset = e.Animations.Offset;
-                float unit = 2;
+                float unit = 3;
                 if (frame == 4 || frame == 9)
                 {
                     offset.Y += unit;
