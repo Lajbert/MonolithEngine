@@ -362,12 +362,12 @@ namespace GameEngine2D.Entities
 
         }
 
-        protected virtual void OnCircleCollision(Entity otherCollider, float intersection)
+        protected virtual void OnCircleCollision(Entity otherCollider, CollisionResult collisionResult)
         {
 
         }
 
-        protected virtual void OnCircleCollisionStart(Entity otherCollider, float intersection)
+        protected virtual void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
         {
 
         }
@@ -463,7 +463,7 @@ namespace GameEngine2D.Entities
             }
 
 
-            if (CircleCollider != null && EnableCircleCollisions)
+            if (EnableCircleCollisions && CircleCollider != null)
             {
                 GridCoordinates = CalculateGridCoord();
 
@@ -484,16 +484,16 @@ namespace GameEngine2D.Entities
                     }
                     if (e.CircleCollider != null)
                     {
-                        (bool, float) collResult = CircleCollider.Overlaps(e);
-                        if (collResult.Item1)
+                        CollisionResult collResult = CircleCollider.Overlaps(e);
+                        if (collResult != CollisionResult.NO_COLLISION)
                         {
                             if (circleCollisions.ContainsKey(e))
                             {
-                                OnCircleCollision(e, collResult.Item2);
+                                OnCircleCollision(e, collResult);
                             }
                             else
                             {
-                                OnCircleCollisionStart(e, collResult.Item2);
+                                OnCircleCollisionStart(e, collResult);
                             }
                             circleCollisions[e] = true;
                         }

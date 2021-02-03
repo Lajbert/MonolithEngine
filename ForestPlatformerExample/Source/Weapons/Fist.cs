@@ -27,7 +27,7 @@ namespace ForestPlatformerExample.Source.Weapons
             CurrentFaceDirection = parent.CurrentFaceDirection;
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
+        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
         {
             if (IsAttacking)
             {

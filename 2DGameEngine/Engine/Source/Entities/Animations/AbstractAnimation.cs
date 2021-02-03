@@ -46,18 +46,19 @@ namespace GameEngine2D.Source.Entities.Animation
 
         protected Rectangle SourceRectangle;
 
-        public AbstractAnimation(Entity parent, int totalFrames, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
+        public AbstractAnimation(Entity parent, int totalFrames, int framerate, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
         {
+            if (framerate < 1)
+            {
+                throw new Exception("Invalid framerate!");
+            }
             this.Parent = parent;
             CurrentFrame = StartFrame;
             this.TotalFrames = totalFrames;
             this.SpriteEffect = spriteEffect;
             this.StartedCallback = startCallback;
             this.StoppedCallback = stopCallback;
-            if (framerate != 0)
-            {
-                delay = TimeSpan.FromSeconds(1).TotalMilliseconds / framerate;
-            }
+            delay = TimeSpan.FromSeconds(1).TotalMilliseconds / framerate;
         }
 
         public bool Finished()
@@ -111,26 +112,19 @@ namespace GameEngine2D.Source.Entities.Animation
                 }
             }
 
-            if (delay == 0)
+            if (currentDelay >= delay)
             {
                 CurrentFrame++;
+                EveryFrameAction?.Invoke(CurrentFrame);
+                if (frameActions.ContainsKey(CurrentFrame))
+                {
+                    frameActions[CurrentFrame].Invoke(CurrentFrame);
+                }
+                currentDelay = 0;
             }
             else
             {
-                if (currentDelay >= delay)
-                {
-                    CurrentFrame++;
-                    EveryFrameAction?.Invoke(CurrentFrame);
-                    if (frameActions.ContainsKey(CurrentFrame))
-                    {
-                        frameActions[CurrentFrame].Invoke(CurrentFrame);
-                    }
-                    currentDelay = 0;
-                }
-                else
-                {
-                    currentDelay += gameTime.ElapsedGameTime.TotalMilliseconds;
-                }
+                currentDelay += gameTime.ElapsedGameTime.TotalMilliseconds;
             }
 
             if (CurrentFrame == TotalFrames) {

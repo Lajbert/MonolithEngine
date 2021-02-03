@@ -10,13 +10,17 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static GameEngine2D.Engine.Source.Physics.Collision.CollisionResult;
 
 namespace ForestPlatformerExample.Source.Items
 {
     class Coin : PhysicalEntity
     {
         private int bounceCount;
-        public Coin(Vector2 position, int bounceCount = 0) : base(LayerManager.Instance.EntityLayer, null, position, null)
+
+        private bool repelled = false;
+
+        public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
 
             this.bounceCount = bounceCount * -1;
@@ -25,9 +29,12 @@ namespace ForestPlatformerExample.Source.Items
 
             DrawPriority = 1;
 
-            SetCircleCollider();
+            if (!startInactive)
+            {
+                SetCircleCollider();
+            }
 
-            HasGravity = false;
+            HasGravity = true;
 
             Friction = 0.5f;
 
@@ -54,9 +61,30 @@ namespace ForestPlatformerExample.Source.Items
             base.OnLand();
             if (bounceCount <= 0)
             {
+                if (CircleCollider == null)
+                {
+                    SetCircleCollider();
+                }
                 Bump(new Vector2(0, bounceCount++));
             }
             
+        }
+
+        protected override void OnCircleCollision(Entity otherCollider, CollisionResult collisionResult)
+        {
+            if (otherCollider is Coin && !repelled)
+            {
+                collisionResult.ApplyRepel(2, RepelMode.ONLY_THIS);
+                repelled = true;
+            }
+        }
+
+        protected override void OnCircleCollisionEnd(Entity otherCollider)
+        {
+            if (otherCollider is Coin)
+            {
+                repelled = false;
+            }
         }
 
         public void SetCircleCollider()

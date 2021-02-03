@@ -130,20 +130,16 @@ namespace ForestPlatformerExample.Source.Entities.Items
             int numOfCoins = random.Next(3, 6);
             for (int i = 0; i < numOfCoins; i++)
             {
-                Coin c = new Coin(Position, 3);
-                c.CircleCollider = null;
-                c.EnableCircleCollisions = false;
+                Coin c = new Coin(Position, 3, true);
                 c.ColliderOnGrid = true;
                 c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
-                c.Velocity += new Vector2(random.Next(-5, 5), random.Next(-10, 0));
-                c.HasGravity = true;
-                Timer.TriggerAfter(1000, () => c.SetCircleCollider());
+                c.Velocity += new Vector2(random.Next(-5, 5), random.Next(-10, 0));;
             }
             Layer.Camera.Shake(2f, 0.5f);
             Destroy();
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
+        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
         {
             if (otherCollider is Carrot && IsMovingAtLeast(0.5f))
             {

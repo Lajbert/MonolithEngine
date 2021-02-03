@@ -657,7 +657,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
+        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
         {
             if (otherCollider is Carrot)
             {

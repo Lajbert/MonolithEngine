@@ -10,5 +10,7 @@ namespace GameEngine2D.Engine.Source.Physics.Interface
     {
         public CircleCollider CircleCollider { get; set; }
 
+        public Vector2 GetPosition();
+
     }
 }

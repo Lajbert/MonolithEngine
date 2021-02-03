@@ -21,6 +21,7 @@ using GameEngine2D.Engine.Source.Physics.Collision;
 using System.Linq;
 using GameEngine2D.Source.Util;
 using ForestPlatformerExample.Source.Weapons;
+using GameEngine2D;
 
 namespace TestExample
 {
@@ -119,7 +120,7 @@ namespace TestExample
 
             }
 
-            protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
+            protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
             {
                 Logger.Log("COLLISION");
                 SetSprite(red);
@@ -146,7 +147,7 @@ namespace TestExample
             {
                 DEBUG_SHOW_PIVOT = true;
                 Animations = null;
-                //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+                DEBUG_SHOW_CIRCLE_COLLIDER = true;
                 GridCollisionCheckDirections = new HashSet<Direction>(Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList());
                 //CircleCollider = new CircleCollider(this, 30);
                 //fist = new FistTest(this, new Vector2(20, 20));
@@ -160,15 +161,9 @@ namespace TestExample
 
             float angle;
             bool colliding = false;
-            protected override void OnCircleCollisionStart(Entity otherCollider, float intersection)
+            protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
             {
-                colliding = true;
-                //SetSprite(red);
-                angle = (float)(MathUtil.RadFromVectors(Position, otherCollider.Position) * 180 / Math.PI);
-                if (angle <= 135 && angle >= 45)
-                {
-                    //Logger.Log("Angle: " + angle);
-                }
+                collisionResult.ApplyRepel(5);
             }
 
             protected override void OnCircleCollisionEnd(Entity otherCollider)
@@ -193,7 +188,7 @@ namespace TestExample
             }
         }
 
-        class EntityTest: Entity
+        class EntityTest: PhysicalEntity
         {
             public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
             {

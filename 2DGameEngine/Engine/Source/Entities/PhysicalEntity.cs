@@ -1,5 +1,6 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
@@ -14,7 +15,7 @@ using System;
 
 namespace GameEngine2D
 {
-    public class PhysicalEntity : Entity
+    public class PhysicalEntity : Entity, IHasCircleCollisionPhysics
     {
 
         private Vector2 bump;
@@ -66,6 +67,7 @@ namespace GameEngine2D
             {
                 UserInput.Update();
             }
+
             base.PreUpdate(gameTime);
         }
 
@@ -225,6 +227,16 @@ namespace GameEngine2D
         public bool IsMovingAtLeast(float speed)
         {
             return Math.Abs(Velocity.X) >= speed || Math.Abs(Velocity.Y) >= speed;
+        }
+
+        public Vector2 GetVelocity()
+        {
+            return Velocity;
+        }
+
+        public void AddForce(Vector2 force)
+        {
+            Velocity += force;
         }
     }
 }

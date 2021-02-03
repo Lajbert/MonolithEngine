@@ -11,14 +11,14 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
     {
         private Vector2 positionOffset;
         public Vector2 Position {
-            get => positionOffset + owner.Position ;
+            get => positionOffset + owner.GetPosition();
             private set { }
         }
         public float Radius;
 
-        private Entity owner;
+        private ICircleCollider owner;
 
-        public CircleCollider(Entity owner, float radius, Vector2? positionOffset = null)
+        public CircleCollider(ICircleCollider owner, float radius, Vector2? positionOffset = null)
         {
             this.owner = owner;
             Radius = radius;
@@ -28,19 +28,17 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         private float maxDistance;
         private float distance;
         private float intersection;
-        public (bool, float) Overlaps(ICircleCollider otherCollider)
+        public CollisionResult Overlaps(ICircleCollider otherCollider)
         {
             maxDistance = Radius + otherCollider.CircleCollider.Radius;
             distance = Vector2.Distance(Position, otherCollider.CircleCollider.Position);
-            /*distSqrt = (otherCollider.CircleCollider.Position.X - Position.X) * (otherCollider.CircleCollider.Position.X - Position.X) 
-                + (otherCollider.CircleCollider.Position.Y - Position.Y) * (otherCollider.CircleCollider.Position.Y - Position.Y);*/
             intersection = (Radius + otherCollider.CircleCollider.Radius - distance) / (Radius + otherCollider.CircleCollider.Radius);
             bool overlaps = distance <= maxDistance;
             if (overlaps)
             {
                 overlaps = true;
             }
-            return (distance <= maxDistance, intersection);
+            return distance <= maxDistance ? new CollisionResult(owner, otherCollider, distance) : CollisionResult.NO_COLLISION;
         }
     }
 }
