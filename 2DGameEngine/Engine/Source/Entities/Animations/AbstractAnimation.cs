@@ -14,7 +14,7 @@ namespace GameEngine2D.Source.Entities.Animation
     {
 
         protected int CurrentFrame;
-        private int totalFrames;
+        protected int TotalFrames;
         private double delay = 0;
         private double currentDelay = 0;
         protected Entity Parent { get; set; }
@@ -39,9 +39,9 @@ namespace GameEngine2D.Source.Entities.Animation
         public int StartFrame = 0;
         public int EndFrame
         {
-            get => totalFrames;
+            get => TotalFrames;
 
-            set => totalFrames = value;
+            set => TotalFrames = value;
         }
 
         protected Rectangle SourceRectangle;
@@ -50,7 +50,7 @@ namespace GameEngine2D.Source.Entities.Animation
         {
             this.Parent = parent;
             CurrentFrame = StartFrame;
-            this.totalFrames = totalFrames;
+            this.TotalFrames = totalFrames;
             this.SpriteEffect = spriteEffect;
             this.StartedCallback = startCallback;
             this.StoppedCallback = stopCallback;
@@ -72,7 +72,7 @@ namespace GameEngine2D.Source.Entities.Animation
             anim.Offset = Offset;
             anim.delay = delay;
             anim.SpriteEffect = SpriteEffect;
-            anim.totalFrames = totalFrames;
+            anim.TotalFrames = TotalFrames;
             anim.StartFrame = StartFrame;
             anim.EndFrame = EndFrame;
             anim.EveryFrameAction = EveryFrameAction;
@@ -133,7 +133,7 @@ namespace GameEngine2D.Source.Entities.Animation
                 }
             }
 
-            if (CurrentFrame == totalFrames) {
+            if (CurrentFrame == TotalFrames) {
                 if (!Looping)
                 {
                     Stop();
@@ -171,7 +171,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public void Stop()
         {
-            CurrentFrame = totalFrames - 1;
+            CurrentFrame = TotalFrames - 1;
             Running = false;
         }
 

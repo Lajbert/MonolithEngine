@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Util;
+using GameEngine2D.Entities;
 using GameEngine2D.Source.Entities.Animation;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -20,7 +21,27 @@ namespace GameEngine2D.Source.Entities
         private int currentRow;
         private int currentColumn;
 
-        public SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width = 0, int height = 0, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
+        private int frameSize;
+
+        public SpriteSheetAnimation(Entity parent, string texturePath, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
+        {
+            
+            this.texture = SpriteUtil.LoadTexture(texturePath);
+            if (frameSizeOverride == 0)
+            {
+                frameSize = GetFrameSize();
+            } else
+            {
+                frameSize = frameSizeOverride;
+            }
+            rows = texture.Height / frameSize;
+            columns = texture.Width / frameSize;
+            this.width = frameSize;
+            this.height = frameSize;
+            TotalFrames = GetFrameCount();
+        }
+
+        protected SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width = 0, int height = 0, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
         {
             this.texture = texture;
             this.rows = rows;
@@ -57,6 +78,55 @@ namespace GameEngine2D.Source.Entities
             SourceRectangle = new Rectangle(width * currentColumn, height * currentRow, width, height);
             Pivot = new Vector2(width / 2, height / 2);
             return texture;
+        }
+
+        private int GetFrameSize()
+        {
+            int longerSide = Math.Max(texture.Width, texture.Height);
+
+            int biggestFrame = 0;
+
+            for (int i = 1; i <= Math.Log(longerSide); i++)
+            {
+                int pow = (int)Math.Pow(2, i);
+                if (texture.Width % pow == 0 && texture.Height % pow == 0)
+                {
+                    biggestFrame = pow;
+                }
+            }
+            if (biggestFrame == 0)
+            {
+                throw new Exception("Can't determine frame size, the image dimensions are not the multiples of power of 2");
+            }
+            return biggestFrame;
+        }
+
+        private int GetFrameCount()
+        {
+            int frameCount = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    Color[] data = new Color[frameSize * frameSize];
+                    texture.GetData<Color>(0, new Rectangle(j * frameSize, i * frameSize, frameSize, frameSize), data, 0, data.Length);
+                    bool emptyFrameFound = true;
+                    for (int c = 0; c < frameSize * frameSize; c++)
+                    {
+                        if (data[c].ToVector4() != Vector4.Zero)
+                        {
+                            emptyFrameFound = false;
+                            break;
+                        }
+                    }
+                    if (emptyFrameFound)
+                    {
+                        return frameCount;
+                    }
+                    frameCount++;
+                }
+            }
+            return frameCount;
         }
 
     }

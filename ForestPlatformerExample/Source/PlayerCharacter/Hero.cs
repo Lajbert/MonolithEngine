@@ -93,18 +93,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             CollisionOffsetBottom = 0.4f;
             CollisionOffsetTop = 0.5f;
 
-            Texture2D spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@hurt-sheet");
-            SpriteSheetAnimation hurtRight = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 24);
+            SpriteSheetAnimation hurtRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@hurt-sheet", 24);
             hurtRight.Looping = false;
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
             SpriteSheetAnimation hurtLeft = hurtRight.CopyFlipped();
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
-
-
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@idle-sheet");
-            SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 24, 64, 64, 24);
+            SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@idle-sheet", 24);
             Func<bool> isIdleRight = () => CurrentFaceDirection == Direction.RIGHT && !isCarryingItem;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
@@ -112,8 +108,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Func<bool> isIdleLeft = () => CurrentFaceDirection == Direction.LEFT && !isCarryingItem;
             Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@idle-with-item-sheet");
-            SpriteSheetAnimation idleCarryRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 24, 64, 64, 24);
+            SpriteSheetAnimation idleCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@idle-with-item-sheet", 24);
             idleCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).Animations.Offset = originalAnimOffset; };
             idleCarryRight.EveryFrameAction = (frame) => {
                 if (carriedItem == null) return;
@@ -141,8 +136,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Func<bool> isIdleCarryLeft = () => CurrentFaceDirection == Direction.LEFT && isCarryingItem;
             Animations.RegisterAnimation("IdleCarryLeft", idleCarryLeft, isIdleCarryLeft);
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@run-sheet");
-            SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 24);
+            SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-sheet", 24);
             Func<bool> isRunningRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
@@ -150,7 +144,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
-            SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-sheet", 12, SpriteEffects.FlipHorizontally);
             Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT);
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
@@ -161,8 +155,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
             Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@run-with-item-sheet");
-            SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 24);
+            SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-with-item-sheet", 24);
             Func<bool> isRunningCarryRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && isCarryingItem;
             runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).Animations.Offset = originalAnimOffset; };
             runningCarryRight.EveryFrameAction = (frame) => {
@@ -186,7 +179,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Func<bool> isRunningCarryLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryLeft", runningCarryLeft, isRunningCarryLeft, 1);
 
-            SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-with-item-sheet", 12, SpriteEffects.FlipHorizontally);
             Func<bool> isCarryWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
 
@@ -197,8 +190,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("RunningCarryRight", "WalkingCarryRight");
             Animations.AddFrameTransition("RunningCarryLeft", "WalkingCarryLeft");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@jump-sheet");
-            SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 11, 64, 64, 24);
+            SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@jump-sheet", 24);
             jumpRight.Looping = false;
             Func<bool> isJumpingRight = () => FallSpeed > 0f && CurrentFaceDirection == Direction.RIGHT && !isCarryingItem;
             Animations.RegisterAnimation("JumpingRight", jumpRight, isJumpingRight, 2);
@@ -209,8 +201,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("JumpingRight", "JumpingLeft");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@jump-with-item-sheet");
-            SpriteSheetAnimation jumpCarryRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 11, 64, 64, 24);
+            SpriteSheetAnimation jumpCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@jump-with-item-sheet", 24);
             jumpCarryRight.Looping = false;
             Func<bool> isCarryJumpingRight = () => FallSpeed > 0f && CurrentFaceDirection == Direction.RIGHT && isCarryingItem;
             Animations.RegisterAnimation("CarryJumpingRight", jumpCarryRight, isCarryJumpingRight, 2);
@@ -221,8 +212,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("CarryJumpingRight", "JumpingCarryLeft");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@wall-slide-sheet");
-            SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, spriteSheet, 1, 6, 6, 64, 64, 12, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@wall-slide-sheet", 12,SpriteEffects.FlipHorizontally, 64);
             Func<bool> isWallSlidingRight = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.RIGHT;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
 
@@ -230,8 +220,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Func<bool> isWallSlidingLeft = () => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.LEFT;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isWallSlidingLeft, 6);
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@double-jump-sheet");
-            SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 16, 64, 64, 12);
+            SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@double-jump-sheet", 12);
             doubleJumpRight.StartFrame = 12;
             doubleJumpRight.EndFrame = 16;
             Func<bool> isDoubleJumpingRight = () => doubleJumping && CurrentFaceDirection == Direction.RIGHT;
@@ -243,8 +232,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("DoubleJumpingRight", "DoubleJumpingLeft");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@climb-sheet");
-            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 60);
+            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@climb-sheet", 60);
 
             Action climbResetAction = () => {
                 MovementSpeed = climbSpeed;
@@ -268,15 +256,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             climb.AnimationPauseCondition = isHangingOnLadder;
             Animations.RegisterAnimation("ClimbingLadder", climb, isClimbing, 6);
 
-            SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 12, 64, 64, 15);
+            SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@climb-sheet", 15);
             Func<bool> isSlowClimbing = () => !HasGravity && ((Math.Abs(Velocity.X) > 0.01f && Math.Abs(Velocity.X) < 0.5) || (Math.Abs(Velocity.Y) > 0.01f && Math.Abs(Velocity.Y) < 0.5));
             slowClimb.EveryFrameAction = setSpeed;
             Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
 
             Animations.AddFrameTransition("ClimbingLadder", "SlowClimbingLadder");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@jump-sheet");
-            SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 13, 64, 64, 24);
+            SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@jump-sheet", 24);
             fallingRight.StartFrame = 9;
             fallingRight.EndFrame = 11;
             Func<bool> isFallingRight = () => HasGravity && Velocity.Y > 0.1 && CurrentFaceDirection == Direction.RIGHT && !isCarryingItem;
@@ -288,8 +275,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("FallingRight", "FallingLeft");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@jump-with-item-sheet");
-            SpriteSheetAnimation fallingCarryRight = new SpriteSheetAnimation(this, spriteSheet, 2, 10, 13, 64, 64, 24);
+            SpriteSheetAnimation fallingCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@jump-with-item-sheet", 24);
             fallingCarryRight.StartFrame = 9;
             fallingCarryRight.EndFrame = 11;
             Func<bool> isCarryFallingRight = () => HasGravity && Velocity.Y > 0.1 && CurrentFaceDirection == Direction.RIGHT && isCarryingItem;
@@ -301,8 +287,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("CarryFallingRight", "CarryFallingLeft");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@attack-sheet");
-            SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 48);
+            SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@attack-sheet", 48);
             //attackRight.StartedCallback = () => Velocity.X = 0f;
             attackRight.AddFrameAction(5, (frame) => canAttack = true);
             attackRight.AddFrameAction(5, (frame) => fist.IsAttacking = false);
@@ -314,8 +299,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation attackLeft = attackRight.CopyFlipped();
             Animations.RegisterAnimation("AttackLeft", attackLeft, () => false, 8);
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Hero/main-character@pick-up-sheet");
-            SpriteSheetAnimation pickupRight = new SpriteSheetAnimation(this, spriteSheet, 3, 10, 21, 64, 64, 24);
+            SpriteSheetAnimation pickupRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@pick-up-sheet", 24);
             pickupRight.Looping = false;
             pickupRight.StartedCallback = () => UserInput.ControlsDisabled = true;
             pickupRight.StoppedCallback = () => UserInput.ControlsDisabled = false;

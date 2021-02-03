@@ -59,8 +59,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(3, -20);
-            Texture2D spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Carrot/carrot@move-sheet");
-            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 12);
+            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.CurrentFaceDirection == Direction.LEFT);
 
             Action<int> setSpeed = frame =>
@@ -81,16 +80,14 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Carrot/carrot@hurt-sheet");
-            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 8, 8, 64, 64, 24);
+            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@hurt-sheet", 24);
             hurtLeft.Looping = false;
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
-            spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Characters/Carrot/carrot@death-sheet");
-            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, spriteSheet, 1, 10, 10, 64, 64, 24);
+            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@death-sheet", 24);
             deathLeft.Looping = false;
             Animations.RegisterAnimation("DeathLeft", deathLeft, () => false);
 

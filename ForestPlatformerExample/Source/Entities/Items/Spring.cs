@@ -28,8 +28,7 @@ namespace ForestPlatformerExample.Source.Items
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(4, 3);
 
-            Texture2D spriteSheet = SpriteUtil.LoadTexture("ForestAssets/Items/spring_spritesheet");
-            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, spriteSheet, 1, 7, 7, 16, 16, 24);
+            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/spring_spritesheet", 24);
             springAnim.Looping = false;
             Animations.RegisterAnimation("Bounce", springAnim);
 
