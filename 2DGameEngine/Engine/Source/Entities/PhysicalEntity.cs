@@ -221,6 +221,7 @@ namespace GameEngine2D
         public override void Destroy()
         {
             Velocity = Vector2.Zero;
+            bump = Vector2.Zero;
             base.Destroy();
         }
 
