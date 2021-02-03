@@ -72,9 +72,10 @@ namespace ForestPlatformerExample.Source.Items
             
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void PostUpdate(GameTime gameTime)
         {
-            base.PostDraw(spriteBatch, gameTime);
+            base.PostUpdate(gameTime);
+            // just a failsafe: in case a coin never bounces, the player should still be able to pick it up at some point
             if (CircleCollider == null && Velocity == Vector2.Zero)
             {
                 SetCircleCollider();

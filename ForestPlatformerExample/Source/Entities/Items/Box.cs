@@ -118,7 +118,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private void DisablePysics()
         {
-            BlocksMovement = false;
             EnableCircleCollisions = false;
             GridCollisionCheckDirections = new HashSet<Direction>();
             HasGravity = false;
