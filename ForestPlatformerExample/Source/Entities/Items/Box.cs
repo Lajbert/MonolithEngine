@@ -126,7 +126,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
         private void Pop()
         {
             int numOfCoins = random.Next(3, 6);
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < numOfCoins; i++)
             {
                 Coin c = new Coin(Position, 3, true);
                 c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
