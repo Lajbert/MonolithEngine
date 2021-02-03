@@ -45,12 +45,27 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is CollisionResult result &&
+                   distance == result.distance &&
+                   EqualityComparer<ICircleCollider>.Default.Equals(thisCollider, result.thisCollider) &&
+                   EqualityComparer<ICircleCollider>.Default.Equals(otherCollider, result.otherCollider);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(thisCollider, otherCollider, distance);
+        }
+
         public static bool operator ==(CollisionResult a, CollisionResult b)
         {
             return a.distance == b.distance &&
                    EqualityComparer<ICircleCollider>.Default.Equals(a.thisCollider, b.thisCollider) &&
                    EqualityComparer<ICircleCollider>.Default.Equals(a.otherCollider, b.otherCollider);
         }
+
+
 
         public static bool operator !=(CollisionResult a, CollisionResult b)
         {
