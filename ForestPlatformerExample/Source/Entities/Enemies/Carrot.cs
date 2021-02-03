@@ -40,8 +40,6 @@ namespace ForestPlatformerExample.Source.Enemies
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
-            ColliderOnGrid = true;
-
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
             AddTag("MovingEnemy");
@@ -148,11 +146,11 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             if (CurrentFaceDirection == Direction.LEFT)
             {
-                return CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) || !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMLEFT);
+                return GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) || !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMLEFT);
             }
             else if (CurrentFaceDirection == Direction.RIGHT)
             {
-                return CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) || !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMRIGHT);
+                return GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) || !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMRIGHT);
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }

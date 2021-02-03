@@ -100,8 +100,7 @@ namespace GameEngine2D.Source.Level
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
-                            e.ColliderOnGrid = true;
-                            
+                            e.BlocksMovement = true;
                             switch (grid.V)
                             {
                                 case 0:
@@ -115,6 +114,7 @@ namespace GameEngine2D.Source.Level
                                     break;
                                 case 3:
                                     e.AddTag("Ladder");
+                                    e.BlocksMovement = false;
                                     break;
                                 case 4:
                                     e.AddTag("Platform");

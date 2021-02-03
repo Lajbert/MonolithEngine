@@ -121,17 +121,15 @@ namespace ForestPlatformerExample.Source.Entities.Items
             BlocksMovement = false;
             EnableCircleCollisions = false;
             GridCollisionCheckDirections = new HashSet<Direction>();
-            ColliderOnGrid = false;
             HasGravity = false;
         }
 
         private void Pop()
         {
             int numOfCoins = random.Next(3, 6);
-            for (int i = 0; i < numOfCoins; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Coin c = new Coin(Position, 3, true);
-                c.ColliderOnGrid = true;
                 c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
                 c.Velocity += new Vector2(random.Next(-5, 5), random.Next(-10, 0));;
             }
@@ -166,7 +164,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
         private void Explode()
         {
             Velocity = Vector2.Zero;
-            UpdateGridPosition = false;
             GravityValue = 0;
             Destroy();
         }

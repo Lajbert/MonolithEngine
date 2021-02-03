@@ -37,7 +37,7 @@ namespace ForestPlatformerExample.Source.Environment
         public void AddPlatformElement(Vector2 position)
         {
             Entity e = new Entity(LayerManager.Instance.EntityLayer, this, position, texture);
-            e.ColliderOnGrid = true;
+            e.BlocksMovement = true;
             //e.Active = false;
             e.AddTag("MovingPlatform");
             platformElements.Add(e);

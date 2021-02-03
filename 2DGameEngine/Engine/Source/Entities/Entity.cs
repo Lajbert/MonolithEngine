@@ -37,22 +37,7 @@ namespace GameEngine2D.Entities
 
         public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
 
-        private static List<string> movementBlockerTags = new List<string>()
-        {
-            "Collider",
-            "SlideWall",
-            "MovingPlatform",
-            "Platform"
-        };
-
-        private static List<string> gridCoordUpdateTags = new List<string>()
-        {
-            "MovingPlatform",
-            "MovingEnemy",
-        };
-
-        protected bool UpdateGridPosition = false;
-        protected static OnePointCollider CollisionChecker { get; } = new OnePointCollider();
+        protected static OnePointCollider GridCollisionChecker { get; } = new OnePointCollider();
 
         public bool Visible = true;
         public bool Active = false;
@@ -77,8 +62,6 @@ namespace GameEngine2D.Entities
         public Vector2 Pivot = Vector2.Zero;
 
         public Rectangle SourceRectangle;
-
-        public bool BlocksMovement = false;
 
         private Vector2 position;
 
@@ -126,18 +109,17 @@ namespace GameEngine2D.Entities
 
         protected Entity parent;
 
-        private bool hasCollisions = false;
+        private bool blocksMovement = false;
+        private bool onGrid = false;
 
-        public bool ColliderOnGrid {
-            get => hasCollisions;
+        public bool BlocksMovement {
+            get => blocksMovement;
             set {
-                hasCollisions = value;
-                if (value)
+                blocksMovement = value;
+                if (value && !onGrid)
                 {
-                    CollisionChecker.AddOrUpdate(this);
-                } else
-                {
-                    CollisionChecker.Remove(this);
+                    GridCollisionChecker.Add(this);
+                    onGrid = true;
                 }
             }
         }
@@ -379,7 +361,7 @@ namespace GameEngine2D.Entities
 
         public Entity GetSamePositionCollider()
         {
-            return CollisionChecker.GetColliderAt(GridCoordinates) as Entity;
+            return GridCollisionChecker.GetColliderAt(GridCoordinates) as Entity;
         }
 
         public virtual void PreUpdate(GameTime gameTime)
@@ -395,15 +377,6 @@ namespace GameEngine2D.Entities
 
         public virtual void Update(GameTime gameTime)
         {
-
-            if (UpdateGridPosition)
-            {
-
-                if (CalculateGridCoord() != GridCoordinates)
-                {
-                    CollisionChecker.AddOrUpdate(this);
-                }
-            }
 
             if (Animations != null)
             {
@@ -442,7 +415,7 @@ namespace GameEngine2D.Entities
                     collidesWithOnGrid[e] = false;
                 }
 
-                foreach ((Entity, Direction) collision in CollisionChecker.HasGridCollisionAt(this, GridCollisionCheckDirections))
+                foreach ((Entity, Direction) collision in GridCollisionChecker.HasGridCollisionAt(this, GridCollisionCheckDirections))
                 {
                     if (!collidesWithOnGrid.ContainsKey(collision))
                     {
@@ -583,10 +556,9 @@ namespace GameEngine2D.Entities
         {
             EnableCircleCollisions = false;
             CircleCollider = null;
-            ColliderOnGrid = false;
             BlocksMovement = false;
             GridCollisionCheckDirections = new HashSet<Direction>();
-            CollisionChecker.Remove(this);
+            GridCollisionChecker.Remove(this);
         }
 
         public void SetDestroyAnimation(AbstractAnimation destroyAnimation, Direction direction = Direction.CENTER)
@@ -653,14 +625,6 @@ namespace GameEngine2D.Entities
         public void AddTag(string tag)
         {
             tags.Add(tag);
-            if (movementBlockerTags.Contains(tag))
-            {
-                BlocksMovement = true;
-            }
-            if (gridCoordUpdateTags.Contains(tag))
-            {
-                UpdateGridPosition = true;
-            }
         }
 
         public bool HasTag(string tag)
@@ -683,14 +647,11 @@ namespace GameEngine2D.Entities
         public void RemoveTag(string tag)
         {
             tags.Remove(tag);
-            foreach (string t in tags)
-            {
-                if (movementBlockerTags.Contains(t))
-                {
-                    return;
-                }
-            }
-            BlocksMovement = false;
+        }
+
+        public List<string> Tags()
+        {
+            return tags.ToList();
         }
 
         public void AddBlockedDirection(Direction direction)

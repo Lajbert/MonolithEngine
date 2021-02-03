@@ -69,7 +69,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             CurrentFaceDirection = Direction.RIGHT;
 
-            CollisionChecker.RestrictDirectionsForTag("Ladder", new HashSet<Direction> { Direction.UP, Direction.CENTER });
+            GridCollisionChecker.RestrictDirectionsForTag("Ladder", new HashSet<Direction> { Direction.UP, Direction.CENTER });
 
             foreach (Direction direction in new List<Direction>() { Direction.CENTER, Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT })
             {
@@ -137,26 +137,26 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("IdleCarryLeft", idleCarryLeft, isIdleCarryLeft);
 
             SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-sheet", 24);
-            Func<bool> isRunningRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && !isCarryingItem;
+            Func<bool> isRunningRight = () => Velocity.X > 0.5f && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
-            Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && !isCarryingItem;
+            Func<bool> isRunningLeft = () => Velocity.X < -0.5f && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-sheet", 12, SpriteEffects.FlipHorizontally);
-            Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT);
+            Func<bool> isWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT);
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            Func<bool> isWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT);
+            Func<bool> isWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT);
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
             Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
 
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-with-item-sheet", 24);
-            Func<bool> isRunningCarryRight = () => Velocity.X > 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && isCarryingItem;
+            Func<bool> isRunningCarryRight = () => Velocity.X > 0.5f && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && isCarryingItem;
             runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).Animations.Offset = originalAnimOffset; };
             runningCarryRight.EveryFrameAction = (frame) => {
                 if (carriedItem == null) return;
@@ -176,15 +176,15 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("RunningCarryRight", runningCarryRight, isRunningCarryRight, 1);
 
             SpriteSheetAnimation runningCarryLeft = runningCarryRight.CopyFlipped();
-            Func<bool> isRunningCarryLeft = () => Velocity.X < -0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && isCarryingItem;
+            Func<bool> isRunningCarryLeft = () => Velocity.X < -0.5f && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryLeft", runningCarryLeft, isRunningCarryLeft, 1);
 
             SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-with-item-sheet", 12, SpriteEffects.FlipHorizontally);
-            Func<bool> isCarryWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && isCarryingItem;
+            Func<bool> isCarryWalkingLeft = () => Velocity.X > -0.5f && Velocity.X < -0.1 && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
 
             SpriteSheetAnimation walkingCarryRight = walkingCarryLeft.CopyFlipped();
-            Func<bool> isCarryWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !CollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && isCarryingItem;
+            Func<bool> isCarryWalkingRight = () => Velocity.X > 0.1 && Velocity.X < 0.5f && !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryRight", walkingCarryRight, isCarryWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningCarryRight", "WalkingCarryRight");
@@ -429,7 +429,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
-                    Entity collider = CollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) as Entity;
+                    Entity collider = GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(GridCoordinates)) as Entity;
                     if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement) {
                         collider.BlocksMovement = false;
                     }
@@ -569,19 +569,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         }
 
         protected override void OnGridCollisionStart(Entity otherCollider, Direction direction)
-        {       
-
+        {
             if (otherCollider.HasTag("MovingPlatform"))
             {
                 onMovingPlatform = true;
-            }
-            else if (otherCollider is Spring && direction == Direction.CENTER)
-            {
-                ((Spring)otherCollider).PlayBounceAnimation();
-
-                Bump(new Vector2(0, -15));
-                canJump = false;
-                canDoubleJump = true;
             }
             else if (otherCollider.HasTag("Ladder") && !OnGround())
             {
@@ -645,11 +636,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 FallSpeed = 0;
             }
-            else if (otherCollider.HasTag("Ladder") && CollisionChecker.CollidesWithTag(this, "Ladder").Count == 0)
+            else if (otherCollider.HasTag("Ladder") && GridCollisionChecker.CollidesWithTag(this, "Ladder").Count == 0)
             {
                 LeaveLadder();
             }
-            else if (otherCollider.HasTag("SlideWall") && CollisionChecker.CollidesWithTag(this, "SlideWall").Count == 0)
+            else if (otherCollider.HasTag("SlideWall") && GridCollisionChecker.CollidesWithTag(this, "SlideWall").Count == 0)
             {
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
@@ -714,6 +705,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             } else if (otherCollider is IMovableItem)
             {
                 overlappingItem = otherCollider as IMovableItem;
+            }
+            else if (otherCollider is Spring)
+            {
+                ((Spring)otherCollider).PlayBounceAnimation();
+
+                Bump(new Vector2(0, -15));
+                canJump = false;
+                canDoubleJump = true;
             }
         }
 

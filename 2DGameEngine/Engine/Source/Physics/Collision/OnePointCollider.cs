@@ -14,8 +14,6 @@ namespace GameEngine2D.Source.Layer
     {
         private Dictionary<Vector2, IGridCollider> objects = new Dictionary<Vector2, IGridCollider>();
         private Dictionary<IGridCollider, Vector2> objectPositions = new Dictionary<IGridCollider, Vector2>();
-        private List<IGridCollider> lowPriorityObjects = new List<IGridCollider>();
-        private List<IGridCollider> tmpList = new List<IGridCollider>();
 
         private Dictionary<string, HashSet<Direction>> directionsForTags = new Dictionary<string, HashSet<Direction>>();
 
@@ -39,49 +37,10 @@ namespace GameEngine2D.Source.Layer
             return objects[GetGridCoord(position, direction)];
         }
 
-        public void AddOrUpdate(IGridCollider gameObject)
+        public void Add(IGridCollider gameObject)
         {
-            if (objectPositions.ContainsKey(gameObject))
-            {
-                objects.Remove(objectPositions[gameObject]);
-            }
-            if (objects.ContainsKey(gameObject.GetGridCoord()))
-            {
-                if (objects[gameObject.GetGridCoord()] != gameObject && objects[gameObject.GetGridCoord()].GridCollisionPriority <= gameObject.GridCollisionPriority)
-                {
-                    lowPriorityObjects.Add(objects[gameObject.GetGridCoord()]);
-                    objects.Remove(gameObject.GetGridCoord());
-                }
-            }
             objectPositions[gameObject] = gameObject.GetGridCoord();
             objects.Add(gameObject.GetGridCoord(), gameObject);
-        }
-
-        private void TryRestoreLowPriorityObjects()
-        {
-            if (lowPriorityObjects.Count == 0)
-            {
-                return;
-            }
-
-            // TODO: review this list copy stuff!
-            tmpList.Clear();
-            tmpList.AddRange(lowPriorityObjects);
-            foreach (IGridCollider e in tmpList)
-            {
-                if (objects.ContainsKey(e.GetGridCoord()))
-                {
-                    if (objects[e.GetGridCoord()].GridCollisionPriority <= e.GridCollisionPriority)
-                    {
-                        lowPriorityObjects.Add(objects[e.GetGridCoord()]);
-                        objects[e.GetGridCoord()] = e;
-                        lowPriorityObjects.Remove(e);
-                    }
-                } else
-                {
-                    objects[e.GetGridCoord()] = e;
-                }
-            }
         }
 
         public IGridCollider GetColliderAt(Vector2 position)
@@ -95,7 +54,6 @@ namespace GameEngine2D.Source.Layer
 
         public List<Direction> CollidesWithTag(IGridCollider entity, string tag, ICollection<Direction> directionsToCheck = null)
         {
-            TryRestoreLowPriorityObjects();
 
             tagCollisionResult.Clear();
 
@@ -119,7 +77,6 @@ namespace GameEngine2D.Source.Layer
 
         public List<(IGridCollider, Direction)> HasGridCollisionAt(IGridCollider entity, ICollection<Direction> directionsToCheck = null)
         {
-            TryRestoreLowPriorityObjects();
 
             allCollisionsResult.Clear();
 
@@ -204,7 +161,6 @@ namespace GameEngine2D.Source.Layer
 
         public bool HasBlockingColliderAt(Vector2 gridCoord, Direction direction)
         {
-            TryRestoreLowPriorityObjects();
             Vector2 coord = GetGridCoord(gridCoord, direction);
             return objects.ContainsKey(coord) && objects[coord].BlocksMovementFrom(direction);
         }

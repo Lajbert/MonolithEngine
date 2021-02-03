@@ -193,7 +193,6 @@ namespace TestExample
             public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
             {
                 CircleCollider = new CircleCollider(this, 16);
-                ColliderOnGrid = true;
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_CIRCLE_COLLIDER = true;
                 //DrawOffset = new Vector2(-8, -8);
