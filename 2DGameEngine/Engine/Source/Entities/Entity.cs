@@ -451,7 +451,7 @@ namespace GameEngine2D.Entities
                     {
                         break;
                     }
-                    if (e.Equals(this) || (Math.Abs(GridCoordinates.X - e.GridCoordinates.X) > 2 && Math.Abs(GridCoordinates.Y - e.GridCoordinates.Y) > 2))
+                    if (e.Equals(this) || (Math.Abs(Position.X - e.Position.X) > Config.GRID * 2 && Math.Abs(Position.Y - e.Position.Y) > Config.GRID * 2))
                     {
                         continue;
                     }
