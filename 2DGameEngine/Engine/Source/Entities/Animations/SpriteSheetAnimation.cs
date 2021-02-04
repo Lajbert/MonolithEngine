@@ -27,7 +27,7 @@ namespace GameEngine2D.Source.Entities
         public SpriteSheetAnimation(Entity parent, string texturePath, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
         {
             
-            this.texture = SpriteUtil.LoadTexture(texturePath);
+            this.texture = TextureCache.GetTexture(texturePath);
             if (frameSizeOverride == 0)
             {
                 frameSize = GetFrameSize();
@@ -46,7 +46,7 @@ namespace GameEngine2D.Source.Entities
         {
             if (texturePath != null)
             {
-                this.texture = SpriteUtil.LoadTexture(texturePath);
+                this.texture = TextureCache.GetTexture(texturePath);
             }
             this.rows = rows;
             this.columns = columns;
