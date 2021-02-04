@@ -130,7 +130,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             {
                 Coin c = new Coin(Position, 3, true);
                 c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
-                c.Velocity += new Vector2(random.Next(-5, 5), random.Next(-10, 0));;
+                c.Velocity += new Vector2(random.Next(-2, 2), random.Next(-5, 0));;
             }
             Layer.Camera.Shake(2f, 0.5f);
             Destroy();

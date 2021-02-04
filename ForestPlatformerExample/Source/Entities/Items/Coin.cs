@@ -38,7 +38,7 @@ namespace ForestPlatformerExample.Source.Items
 
             HasGravity = true;
 
-            Friction = 0.5f;
+            Friction = 0.9f;
 
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
