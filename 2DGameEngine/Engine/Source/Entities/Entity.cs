@@ -245,14 +245,6 @@ namespace GameEngine2D.Entities
             RayBlockerLines.Add((new Vector2(Position.X, Position.Y + Config.GRID), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID)));
         }
 
-        public virtual void PreDraw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-            foreach (Entity child in children)
-            {
-                child.PreDraw(spriteBatch, gameTime);
-            }
-        }
-
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
@@ -307,31 +299,12 @@ namespace GameEngine2D.Entities
             
         }
 
-        public virtual void PostDraw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-
-            foreach (Entity child in children)
-            {
-                child.PostDraw(spriteBatch, gameTime);
-            }
-        }
-
-        protected virtual void OnGridCollision(Entity otherCollider, Direction direction)
-        {
-
-        }
-
         protected virtual void OnGridCollisionStart(Entity otherCollider, Direction direction)
         {
 
         }
 
         protected virtual void OnGridCollisionEnd(Entity otherCollider, Direction direction)
-        {
-
-        }
-
-        protected virtual void OnCircleCollision(Entity otherCollider, CollisionResult collisionResult)
         {
 
         }
@@ -408,10 +381,6 @@ namespace GameEngine2D.Entities
                     {
                         OnGridCollisionStart(collision.Item1, collision.Item2);
                     }
-                    else
-                    {
-                        OnGridCollision(collision.Item1, collision.Item2);
-                    }
                     collidesWithOnGrid[collision] = true;
                 }
 
@@ -447,11 +416,7 @@ namespace GameEngine2D.Entities
                         CollisionResult collResult = CircleCollider.Overlaps(e);
                         if (collResult != CollisionResult.NO_COLLISION)
                         {
-                            if (circleCollisions.ContainsKey(e))
-                            {
-                                OnCircleCollision(e, collResult);
-                            }
-                            else
+                            if (!circleCollisions.ContainsKey(e))
                             {
                                 OnCircleCollisionStart(e, collResult);
                             }
@@ -516,6 +481,11 @@ namespace GameEngine2D.Entities
             {
                 Sprite.Dispose();
             }
+            if (Animations != null)
+            {
+                Animations.Destroy();
+                Animations = null;
+            }
             if (DestroySound != null)
             {
                 DestroySound.Dispose();
@@ -547,7 +517,10 @@ namespace GameEngine2D.Entities
             RayEmitter = null;
             BlocksRay = false;
             GridCollisionCheckDirections = new HashSet<Direction>();
-            GridCollisionChecker.Remove(this);
+            if (BlocksMovement)
+            {
+                GridCollisionChecker.Remove(this);
+            }
         }
 
         public void SetDestroyAnimation(AbstractAnimation destroyAnimation, Direction direction = Direction.CENTER)

@@ -190,5 +190,7 @@ namespace GameEngine2D.Source.Entities.Animation
                 frameActions.Add(frame, action);
             }
         }
+
+        public abstract void Destroy();
     }
 }

@@ -144,12 +144,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 Explode();
             }
         }
-
-        protected override void OnGridCollision(Entity otherCollider, Direction direction)
-        {
-            
-
-        }
         protected override void OnLand()
         {
             if (currentBump < 1)

@@ -167,20 +167,8 @@ namespace GameEngine2D.Source.Layer
 
         public void Remove(IGridCollider gameObject)
         {
-            if (gameObject == null)
-            {
-                return;
-            }
-            if (objectPositions.ContainsKey(gameObject))
-            {
-                Vector2 position = objectPositions[gameObject];
-                objects.Remove(position);
-                /*foreach (IGridCollider child in gameObject.GetAllChildren())
-                {
-                    Remove(child);
-                }*/
-            }
-            //RemoveObject(gameObject.GetGridCoord());
+            Vector2 position = objectPositions[gameObject];
+            objects.Remove(position);
         }
 
         public void RestrictDirectionsForTag(string tag, ICollection<Direction> directions)

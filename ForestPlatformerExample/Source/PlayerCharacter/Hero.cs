@@ -632,14 +632,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             return thumbStickPosition / 1 * maxVelocity;
         }
 
-        protected override void OnGridCollision(Entity otherCollider, Direction direction)
-        {
-            if (otherCollider.HasTag("MovingPlatform"))
-            {
-                Velocity.X += (otherCollider as PhysicalEntity).Velocity.X * elapsedTime;
-            }
-        }
-
         protected override void OnGridCollisionEnd(Entity otherCollider, Direction direction)
         {
             if (otherCollider.HasTag("MovingPlatform"))

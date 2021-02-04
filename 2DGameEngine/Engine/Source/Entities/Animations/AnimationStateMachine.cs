@@ -189,5 +189,13 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
             }
             return null;
         }
+
+        public void Destroy()
+        {
+            foreach (StateAnimation anim in animations)
+            {
+                anim.animation.Destroy();
+            }
+        }
     }
 }
