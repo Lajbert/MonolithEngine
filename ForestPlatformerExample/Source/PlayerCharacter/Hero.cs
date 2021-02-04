@@ -7,6 +7,7 @@ using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
@@ -56,6 +57,9 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            DEBUG_SHOW_RAYCAST = true;
+
+            BlocksRay = true;
 
             CircleCollider = new CircleCollider(this, 10, new Vector2(0, -10));
 
@@ -77,6 +81,20 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
 
             fist = new Fist(this, new Vector2(15, -7));
+
+            if (DEBUG_SHOW_RAYCAST)
+            {
+                /*if (RayBlockerLines == null)
+                {
+                    RayBlockerLines = new List<(Vector2 start, Vector2 end)>();
+                }
+                SetRayBlockers();
+
+                Line l = new Line(null, GetRayBlockerLines()[0].Item1, GetRayBlockerLines()[0].Item2, Color.Blue);
+                l.SetParent(this, new Vector2(-Config.GRID / 2, 0));
+                l = new Line(null, GetRayBlockerLines()[1].Item1, GetRayBlockerLines()[1].Item2, Color.Blue);
+                l.SetParent(this, new Vector2(0, -Config.GRID / 2 - 15));*/
+            }
 
         }
 
@@ -722,6 +740,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = null;
             }
+        }
+
+        protected override void SetRayBlockers()
+        {
+            RayBlockerLines.Clear();
+            RayBlockerLines.Add((new Vector2(Position.X - Config.GRID / 2, Position.Y - 10), new Vector2(Position.X + Config.GRID / 2, Position.Y - 10)));
+            RayBlockerLines.Add((new Vector2(Position.X, Position.Y - Config.GRID / 2 - 10), new Vector2(Position.X, Position.Y + Config.GRID / 2 - 10)));
         }
 
         private void LeaveLadder()

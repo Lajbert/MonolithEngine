@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Util;
+using GameEngine2D.Entities;
 using GameEngine2D.Source;
 using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
@@ -17,23 +18,30 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
         private Vector2 closestIntersection;
         public float closestDistance;
         private Vector2 intersection = Vector2.Zero;
+        private float delay;
 
         public Dictionary<Entity, Vector2> ClosestIntersections = new Dictionary<Entity, Vector2>();
 
-        public Ray2DEmitter(Entity owner)
+        public Ray2DEmitter(Entity owner, float startDegree, float endDegree, int step, int delayMs = 0)
         {
             this.owner = owner;
+            float start = Math.Min(startDegree, endDegree);
+            float end = Math.Max(startDegree, endDegree);
             //owner.RayEmitter = this;
             rays = new List<Ray2D>();
-            for (float i = 0; i <= 5; i+=1f)
+            for (float i = start; i <= end; i+= step)
             {
                 rays.Add(new Ray2D(owner.Position, MathUtil.DegreesToRad(i)));
             }
+            this.delay = delayMs;
         }
         public void UpdateRays()
         {
             foreach (Ray2D ray in rays)
-            {
+            {   
+                if (delay != 0 && Timer.IsSet("RayCastDelay")) {
+                    return;
+                }
                 ray.Position = owner.Position;
                 closestIntersection.X = closestIntersection.Y = int.MaxValue;
                 closestDistance = float.MaxValue;
@@ -43,9 +51,9 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
                 ray.debugLine.Position = owner.Position;
                 ray.debugLine.From = owner.Position;
 #endif
-                foreach (Entity e in LayerManager.Instance.RayBlockersLayer.GetAll())
+                foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll())
                 {
-                    if (!e.BlocksRay)
+                    if (!e.BlocksRay || e.Equals(owner))
                     {
                         continue;
                     }
@@ -84,6 +92,10 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
                 }
 #endif
             }
+            if (delay != 0)
+            {
+                Timer.SetTimer("RayCastDelay", delay);
+            }   
         }
     }
 }

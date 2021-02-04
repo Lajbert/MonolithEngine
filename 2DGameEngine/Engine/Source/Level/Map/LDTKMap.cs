@@ -100,6 +100,7 @@ namespace GameEngine2D.Source.Level
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
                             Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
+                            e.BlocksRay = true;
                             e.BlocksMovement = true;
                             switch (grid.V)
                             {

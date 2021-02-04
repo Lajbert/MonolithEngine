@@ -18,8 +18,6 @@ namespace GameEngine2D.Entities
 
         public Layer EntityLayer;
 
-        public Layer RayBlockersLayer;
-
         private List<Layer> foregroundLayers = new List<Layer>();
 
         private List<Layer> backgroundLayers = new List<Layer>();
@@ -43,9 +41,6 @@ namespace GameEngine2D.Entities
                 throw new Exception("Root already initialized!");
             }
             EntityLayer = new Layer(Camera, 10);
-            RayBlockersLayer = new Layer(Camera);
-            RayBlockersLayer.Visible = false;
-            RayBlockersLayer.Active = false;
 
             allLayers.Add(parallaxLayers);
             allLayers.Add(backgroundLayers);
@@ -53,7 +48,6 @@ namespace GameEngine2D.Entities
                 new List<Layer>()
                     {
                         EntityLayer,
-                        RayBlockersLayer
                     }
                 );
             allLayers.Add(foregroundLayers);

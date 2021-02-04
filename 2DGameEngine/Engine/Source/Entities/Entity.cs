@@ -1,6 +1,7 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Raycast;
@@ -127,27 +128,11 @@ namespace GameEngine2D.Entities
         protected Layer Layer { get; set; }
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
 
-        private bool blocksRay = false;
+        public bool BlocksRay { get; set; }
 
         public SoundEffect DestroySound;
 
         public HashSet<Direction> GridCollisionCheckDirections = new HashSet<Direction>();
-
-        public bool BlocksRay {
-            get => blocksRay;
-            set
-            {
-                if (!value)
-                {
-                    LayerManager.Instance.RayBlockersLayer.RemoveRoot(this);
-                }
-                else
-                {
-                    LayerManager.Instance.RayBlockersLayer.AddRootObject(this);
-                }
-                blocksRay = value;
-            }
-        }
 
         protected SpriteFont font;
 
@@ -190,6 +175,8 @@ namespace GameEngine2D.Entities
         public bool DEBUG_SHOW_PIVOT = false;
 
         public bool DEBUG_SHOW_CIRCLE_COLLIDER = false;
+
+        public bool DEBUG_SHOW_RAYCAST = false;
 
         public Vector2 DrawPosition
         {
@@ -557,6 +544,8 @@ namespace GameEngine2D.Entities
             EnableCircleCollisions = false;
             CircleCollider = null;
             BlocksMovement = false;
+            RayEmitter = null;
+            BlocksRay = false;
             GridCollisionCheckDirections = new HashSet<Direction>();
             GridCollisionChecker.Remove(this);
         }

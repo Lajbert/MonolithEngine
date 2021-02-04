@@ -3,6 +3,7 @@ using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -39,6 +40,8 @@ namespace ForestPlatformerExample.Source.Enemies
 
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+
+            //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
