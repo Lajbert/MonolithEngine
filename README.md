@@ -17,6 +17,7 @@ Already working features:
 * 2D Animations with state machines, automatic spritehseet importer and texture caching
 * TileGroups: automatically merges different textures (like static environmental textures, background, etc)  into 1 texture in the memory
 * Layers (for parallax scrolling, background, foreground, etc) with sorting and Y-sorting!
+* 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
 * Grid based box collision physics
 * Circle collision physics (AABB box collision physics is coming)
