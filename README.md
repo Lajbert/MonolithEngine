@@ -22,6 +22,7 @@ Already working features:
 * Circle collision physics (AABB box collision physics is coming)
 * Raycasting!
 * Keyboard and controller input handling
+* Utilities like Timer, primitives, etc.
 
 Many more features are coming including audio support, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), AABB box collisions, more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
 
