@@ -118,7 +118,6 @@ namespace ForestPlatformerExample
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
-                    continue;
                     int group = -1;
                     int travelDistance = 0;
                     foreach (FieldInstance field in entity.FieldInstances)
@@ -139,7 +138,7 @@ namespace ForestPlatformerExample
                     }
                     if (!platformGroups.ContainsKey(group))
                     {
-                        platformGroups.Add(group, new MovingPlatform(travelDistance));
+                        platformGroups.Add(group, new MovingPlatform(travelDistance, position));
                     }
                     MovingPlatform currentPlatform = platformGroups[group];
                     currentPlatform.AddPlatformElement(position);

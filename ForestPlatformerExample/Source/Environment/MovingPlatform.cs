@@ -25,9 +25,12 @@ namespace ForestPlatformerExample.Source.Environment
 
         private Texture2D texture = null;
 
-        public MovingPlatform(int travelDistance) : base(LayerManager.Instance.EntityLayer, null, Vector2.Zero)
+        private Vector2 startPosition;
+
+        public MovingPlatform(int travelDistance, Vector2 startPosition) : base(LayerManager.Instance.EntityLayer, null, startPosition)
         {
             this.travelDistance = travelDistance;
+            this.startPosition = startPosition;
             HasGravity = false;
             SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
             Active = true;
@@ -36,27 +39,27 @@ namespace ForestPlatformerExample.Source.Environment
 
         public void AddPlatformElement(Vector2 position)
         {
-            Entity e = new Entity(LayerManager.Instance.EntityLayer, this, position, texture);
-            e.BlocksMovement = true;
+            Entity e = new Entity(LayerManager.Instance.EntityLayer, this, startPosition - position, texture);
+            e.BlocksMovement = false;
             //e.Active = false;
             e.AddTag("MovingPlatform");
             platformElements.Add(e);
             //e.SetSprite(texture);
             e.SourceRectangle = new Rectangle(304, 288, Config.GRID, Config.GRID);
-            e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
+            //e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
         }
 
         public override void Update(GameTime gameTime)
         {
 
-            /*if (Math.Abs(StartPosition.X - Position.X) > travelDistance)
+            if (Math.Abs(startPosition.X - Position.X) > travelDistance)
             {
                 direction *= -1;
             }
-            if (Position.X < StartPosition.X)
+            if (Position.X < startPosition.X)
             {
                 direction *= -1;
-            }*/
+            }
 
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             currentPos += speed;
