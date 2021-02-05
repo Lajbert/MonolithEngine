@@ -3,6 +3,7 @@ using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -40,6 +41,8 @@ namespace ForestPlatformerExample.Source.Enemies
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
+            //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
+
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
             AddTag("MovingEnemy");
@@ -55,8 +58,10 @@ namespace ForestPlatformerExample.Source.Enemies
                 SetRightCollisionChecks();
             }
 
+            CollisionOffsetBottom = 1;
+
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(3, -20);
+            Animations.Offset = new Vector2(3, -33);
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.CurrentFaceDirection == Direction.LEFT);
 

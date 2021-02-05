@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Util;
+using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
@@ -102,9 +103,7 @@ namespace GameEngine2D.Source.Layer
 
                 foreach (Entity entity in visibleObjects)
                 {
-                    entity.PreDraw(spriteBatch, gameTime);
                     entity.Draw(spriteBatch, gameTime);
-                    entity.PostDraw(spriteBatch, gameTime);
                 }
                 spriteBatch.End();
             }
@@ -146,7 +145,7 @@ namespace GameEngine2D.Source.Layer
 
         public void UpdateAll(GameTime gameTime)
         {
-            
+
             /*if (!Active)
             {
                 return;

@@ -44,7 +44,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             CircleCollider = new CircleCollider(this, 10, new Vector2(0, 0));
             EnableCircleCollisions = false;
 
-            CollisionOffsetBottom = 0.3f;
+            CollisionOffsetBottom = 1f;
             CollisionOffsetRight = 0.5f;
 
             GravityValue /= 2;
@@ -56,7 +56,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(0, -7);
+            Animations.Offset = new Vector2(0, -16);
 
             SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, "ForestAssets/Items/box-idle", 24);
             Animations.RegisterAnimation("BoxIdle", boxIdle);
@@ -143,12 +143,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 otherCollider.Destroy();
                 Explode();
             }
-        }
-
-        protected override void OnGridCollision(Entity otherCollider, Direction direction)
-        {
-            
-
         }
         protected override void OnLand()
         {

@@ -18,8 +18,6 @@ namespace ForestPlatformerExample.Source.Items
     {
         private int bounceCount;
 
-        private bool repelled = false;
-
         private float repelForce = 2;
 
         public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(LayerManager.Instance.EntityLayer, null, position, null)
@@ -82,21 +80,12 @@ namespace ForestPlatformerExample.Source.Items
             }
         }
 
-        protected override void OnCircleCollision(Entity otherCollider, CollisionResult collisionResult)
+        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
         {
-            if (otherCollider is Coin && !repelled && repelForce > 0)
+            if (otherCollider is Coin && repelForce > 0)
             {
                 collisionResult.ApplyRepel(repelForce, RepelMode.ONLY_THIS);
                 repelForce -= 0.5f;
-                repelled = true;
-            }
-        }
-
-        protected override void OnCircleCollisionEnd(Entity otherCollider)
-        {
-            if (otherCollider is Coin)
-            {
-                repelled = false;
             }
         }
 
