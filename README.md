@@ -1,7 +1,7 @@
 # 2DGameEngine
 # Oh no, not another game engine!
 There are so many game engines out there already, why making another one?
-First of all, it exists because I love coding! I have a couple of 2D game ideas in my head and the possible choices of engines was narrowed down to Unity only.
+First of all, it exists because I love coding and video games! I have a couple of 2D game ideas in my head and the possible choices of engines was narrowed down to Unity only.
 The rest were either "too much" (like UE4) or not entirely cross-platform. When I was playing around with Unity, I quickly realized that
 since I'm the type of person who rather goes to the source code than the documentation, this will not be my preferred choice, so I decided to code my own engine
 with the feature set that I will actually use. During the first hours of the development, I already realized that for me, working on the engine is at least as fun as 
