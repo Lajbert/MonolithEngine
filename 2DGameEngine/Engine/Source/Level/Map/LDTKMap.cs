@@ -38,7 +38,8 @@ namespace GameEngine2D.Source.Level
 
         private float scrollSpeedModifier = 0f;
 
-        private Vector2 pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
+        //private Vector2 pivot = new Vector2(-Config.GRID / 2, 0);
+        private Vector2 pivot = Vector2.Zero;
 
         public LDTKMap(LDTKJson json)
         {
@@ -99,9 +100,10 @@ namespace GameEngine2D.Source.Level
                         {
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
-                            Entity e = new Entity(currentLayer, null, new Vector2(x, y) * Config.GRID, SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
+                            Entity e = new Entity(currentLayer, null, (new Vector2(x, y) * Config.GRID), SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
                             e.BlocksRay = true;
                             e.BlocksMovement = true;
+                            e.DEBUG_SHOW_PIVOT = true;
                             switch (grid.V)
                             {
                                 case 0:
@@ -134,7 +136,8 @@ namespace GameEngine2D.Source.Level
                                     e.AddBlockedDirection(Direction.DOWN);
                                     break;
                             }
-                            e.Pivot = pivot;
+                            e.DrawOffset = pivot;
+                            //e.Pivot = pivot;
                             e.Visible = false;
                         }
 
@@ -196,7 +199,9 @@ namespace GameEngine2D.Source.Level
                         }
                         if (currentLayer != null)
                         {
-                            new Entity(currentLayer, null, new Vector2(0, 0) - pivot, tileGroup.GetTexture());
+                            Entity tile = new Entity(currentLayer, null, new Vector2(0, 0), tileGroup.GetTexture());
+                            tile.DrawOffset = pivot;
+                            //tile.Pivot = pivot;
                         }
                     }
                 }

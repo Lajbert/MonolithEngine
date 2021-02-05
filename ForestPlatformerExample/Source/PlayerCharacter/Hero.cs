@@ -110,8 +110,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //Animations.Offset = new Vector2(3, -20);
             Animations.Offset = new Vector2(0, -32);
 
-            CollisionOffsetRight = 0.5f;
-            CollisionOffsetLeft = 0f;
+            CollisionOffsetRight = 0.7f;
+            CollisionOffsetLeft = 0.2f;
             CollisionOffsetBottom = 1f;
             CollisionOffsetTop = 0.5f;
 

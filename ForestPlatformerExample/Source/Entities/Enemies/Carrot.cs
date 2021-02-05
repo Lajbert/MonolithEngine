@@ -58,8 +58,10 @@ namespace ForestPlatformerExample.Source.Enemies
                 SetRightCollisionChecks();
             }
 
+            CollisionOffsetBottom = 1;
+
             Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(3, -20);
+            Animations.Offset = new Vector2(3, -33);
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.CurrentFaceDirection == Direction.LEFT);
 
