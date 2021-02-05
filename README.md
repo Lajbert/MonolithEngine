@@ -33,6 +33,10 @@ Although I'm striving for simplicity, this engine is not made for beginners, esp
 # What do I need to get started?
 The more coding experience you have, the better. It doesn't matter if it's Java, C++ or any other OO language as C# will be easy to pick up if you have programming knowledge. Some MonoGame knowledge helps too, but not required. What could be really helpful is understanding code performance, algorithms and data structures.
 
+# How can I use the engine?
+Right now there is one platformer game example included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
+Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed.
+
 # I have a little experience with Unity (or any other game engine), is that going to help me?
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel"  is universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool here).
 
