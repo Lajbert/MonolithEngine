@@ -52,8 +52,8 @@ Yes, feel free to take parts or the entire source code to your engine and create
 It will be possible in the future, the details are currently being figured out. Stay tuned!
 
 # Can I request features?
-I am planning to make it possible to request features
+I am planning to make it possible to request features, but my main focus right now is to implement the features that I wll need for my game.
 
 # Any chances of 3D support?
-While 2.5D support is planned later this year (3D characters on 2D side scroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would such a big work that I'd rather write a new engine from scratch :) 
+While 2.5D support is planned later this year (3D characters on 2D side scroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch :) 
 I am aware 2D and 3D development are similar in many ways, but also different enough that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use.
