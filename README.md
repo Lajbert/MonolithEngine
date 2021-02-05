@@ -19,11 +19,12 @@ This is a simple 2D game engine that can handle basic tasks that most 2D games n
 * Grid based box collision physics
 * Circle collision physics (AABB box collision physics is coming)
 * Raycasting!
+* Many more features are coming including ease functions, autoamtic raycast collision optimization (merging smaller lines into 1 big line), AABB box collisions, more advanced map editor support and other juicy stuff, stay tuned!
 
 # Who should use this engine?
 Although I'm striving for simplicity, this engine is not made for beginners, especially not for people who relies on user interfaces like the one Unity has. It's for people who don't mind adjusting pivots and offsets from the code and prefers checking out the source to reading endless documentations.
 
-# What do you need to get started?
+# What do I need to get started?
 The more coding experience you have, the better. It doens't matter if it's Java or C++ as C# will be easy to pick up if you have any OO programming language knowledge. Some MonoGame knowledge helps too, but not required.
 
 # What are the supported platforms?
@@ -32,5 +33,18 @@ Whatever MonoGame supports, the rest depends on you :)
 # What games have been released with it?
 None yet, hopefully the first will be released in Q3-Q4 2021.
 
-# Am I free to use the engine?
-Yes, any way you want, including commercially. The only thing you cannot do is selling the engine itself as it is, but you're free to use it (partially or entirely) to make your own game or game engine, including commercial use. Free means free: no royalties, fees, or any other hidden costs for you. I'm grateful if you give credits in your preferred way, but it's also not mandatory. Please keep in mind that by using the engine, you accept that you are using it "as it is" and the creator of the engine is not responsible any damages, losses or any other kind of harm (financial or other) that is coming from using the engine. The user this engines takes all the responsibilities with it.
+# Am I free to use the engine to make games?
+Yes, any way you want, including commercially. The only thing you cannot do is selling the engine itself as it is, but you're free to use it (partially or entirely) to make your own game or game engine, including commercial use. Free means free: no royalties, fees, or any other hidden costs. I'm grateful if you give me credits in your preferred way, but it's also not mandatory. Please keep in mind that by using the engine, you accept that you are using it "as it is" and the creator of the engine is not responsible any damages, losses or any other harm (financial or other) that is coming from using the engine. The user this engines takes all the responsibilities.
+
+# I want to write my own engine, can I use your code?
+Yes, feel free to take parts or the entire source code to your engine and create with it.
+
+# Can I contribute to the engine?
+It will be possible in the future, the details are currently being figured out. Stay tuned!
+
+# Can I request features?
+I am planning to make it possible to request features
+
+# Any chances of 3D support?
+While 2.5D support is planned later this year (3D characters on 2D sidescroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would such a big work that I'd rather write a new engine from scratch :) 
+I am aware 2D and 3D development are similar in many ways, but also different enought that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use.
