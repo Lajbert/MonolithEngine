@@ -122,13 +122,11 @@ namespace TestExample
 
             protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
             {
-                Logger.Log("COLLISION");
                 SetSprite(red);
             }
 
             protected override void OnCircleCollisionEnd(Entity otherCollider)
             {
-                Logger.Log("COLLISION END");
                 SetSprite(blue);
             }
 

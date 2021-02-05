@@ -57,7 +57,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
-            DEBUG_SHOW_RAYCAST = true;
+            //DEBUG_SHOW_RAYCAST = true;
 
             BlocksRay = true;
 
@@ -96,6 +96,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 l.SetParent(this, new Vector2(0, -Config.GRID / 2 - 15));*/
             }
 
+            /*SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
+            DrawOffset = new Vector2(-8, -16);
+            CollisionOffsetBottom = 1f;*/
+
         }
 
         private Texture2D red = SpriteUtil.CreateRectangle(Config.GRID, Color.Red);
@@ -104,11 +108,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
             Animations = new AnimationStateMachine();
             //Animations.Offset = new Vector2(3, -20);
-            Animations.Offset = new Vector2(0, -27);
+            Animations.Offset = new Vector2(0, -32);
 
             CollisionOffsetRight = 0.5f;
             CollisionOffsetLeft = 0f;
-            CollisionOffsetBottom = 0.4f;
+            CollisionOffsetBottom = 1f;
             CollisionOffsetTop = 0.5f;
 
             SpriteSheetAnimation hurtRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@hurt-sheet", 24);
@@ -327,9 +331,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
             Animations.RegisterAnimation("PickupLeft", pickupLeft, () => false);
 
-            //SetSprite(spriteSheet);
-            //SetSprite(blue);
-            //DrawOffset = new Vector2(15, 15);
         }
 
         private void SetupController()

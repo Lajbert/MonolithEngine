@@ -39,7 +39,7 @@ namespace GameEngine2D
 
         protected float FallSpeed { get; set; }
 
-        public bool HasGravity { get; set; }  = Config.GRAVITY_ON;
+        public bool HasGravity = Config.GRAVITY_ON;
 
         
 
@@ -84,18 +84,24 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (HasGridCollision() && InCellLocation.X >= CollisionOffsetLeft && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT))
+                if (HasGridCollision() && InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT))
                 {
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasGridCollision() && InCellLocation.X <= CollisionOffsetRight && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT))
+                if (HasGridCollision() && InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT))
                 {
                     InCellLocation.X = CollisionOffsetRight;
                 }
 
-                while (InCellLocation.X > 1) { InCellLocation.X--; GridCoordinates.X++; }
-                while (InCellLocation.X < 0) { InCellLocation.X++; GridCoordinates.X--; }
+                while (InCellLocation.X > 1) {
+                    InCellLocation.X--; 
+                    GridCoordinates.X++; 
+                }
+                while (InCellLocation.X < 0) {
+                    InCellLocation.X++; 
+                    GridCoordinates.X--; 
+                }
                 steps--;
             }
             Velocity.X *= (float)Math.Pow(Friction, elapsedTime);
@@ -126,15 +132,16 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (HasGridCollision() && InCellLocation.Y > CollisionOffsetBottom && OnGround() && Velocity.Y > 0)
+                if (HasGridCollision() && InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.DOWN)/* && Velocity.Y > 0*/)
                 {
                     if (HasGravity)
                     {
                         Velocity.Y = 0;
                         bump.Y = 0;
+                        InCellLocation.Y = CollisionOffsetBottom;
                     }
                     OnLand();
-                    InCellLocation.Y = CollisionOffsetBottom;
+
                 }
 
                 if (HasGridCollision() && InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.UP))
@@ -143,8 +150,14 @@ namespace GameEngine2D
                     InCellLocation.Y = CollisionOffsetTop;
                 }
                    
-                while (InCellLocation.Y > 1) { InCellLocation.Y--; GridCoordinates.Y++; }
-                while (InCellLocation.Y < 0) { InCellLocation.Y++; GridCoordinates.Y--; }
+                while (InCellLocation.Y > 1) {
+                    InCellLocation.Y--; 
+                    GridCoordinates.Y++; 
+                }
+                while (InCellLocation.Y < 0) {
+                    InCellLocation.Y++; 
+                    GridCoordinates.Y--; 
+                }
                 steps2--;
             }
 
@@ -207,13 +220,18 @@ namespace GameEngine2D
 
         protected bool OnGround()
         {
-            return GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.DOWN);
+            return GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.DOWN) && InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }
 
         public void ResetPosition(Vector2 position)
         {
+            InCellLocation = new Vector2(0.5f, 1f);
+            if (position.X % Config.GRID != 0 || position.Y % Config.GRID != 0)
+            {
+                throw new Exception("The coordinates given are not multiples of grid size!");
+            }
             //InCellLocation = Vector2.Zero;
-            UpdateInCellCoord();
+            //UpdateInCellCoord();
             Position = position;
             FallSpeed = 0;
         }

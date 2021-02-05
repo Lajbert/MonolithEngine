@@ -58,7 +58,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-        protected Vector2 DrawOffset;
+        public Vector2 DrawOffset;
 
         public Vector2 Pivot = Vector2.Zero;
 
@@ -139,7 +139,7 @@ namespace GameEngine2D.Entities
         public Vector2 GridCoordinates = Vector2.Zero;
 
         //between 0 and 1: where the object is inside the grid cell
-        protected Vector2 InCellLocation;
+        protected Vector2 InCellLocation = new Vector2(0.5f, 1f);
 
         public AnimationStateMachine Animations { get; set; }
 
@@ -222,7 +222,7 @@ namespace GameEngine2D.Entities
                 parent = null;
                 Layer.AddRootObject(this);
             }
-            UpdateInCellCoord();
+            //UpdateInCellCoord();
             GridCoordinates = CalculateGridCoord();
         }
 
@@ -261,7 +261,7 @@ namespace GameEngine2D.Entities
             {
                 if (pivotMarker == null)
                 {
-                    pivotMarker = SpriteUtil.CreateCircle(5, Color.Black, true);
+                    pivotMarker = SpriteUtil.CreateCircle(5, Color.Red, true);
                 }
                 if (font != null)
                 {
@@ -276,10 +276,6 @@ namespace GameEngine2D.Entities
                 {
                     circleColliderMarker = SpriteUtil.CreateCircle((int)CircleCollider.Radius * 2, Color.Black);
                 }
-                if (font != null)
-                {
-                    //spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
-                }
                 if (CircleCollider != null)
                 {
                     spriteBatch.Draw(circleColliderMarker, CircleCollider.Position - new Vector2(CircleCollider.Radius, CircleCollider.Radius), Color.White);
@@ -288,6 +284,11 @@ namespace GameEngine2D.Entities
                     Logger.Log("Tried to print circle collider, but it's null!");
                 }
             }
+
+            /*if (font != null)
+            {
+                spriteBatch.DrawString(font, "InCell : " + InCellLocation, DrawPosition, Color.Red);
+            }*/
 
             if (children.Count > 0)
             {
@@ -368,7 +369,6 @@ namespace GameEngine2D.Entities
 
             if (GridCollisionCheckDirections.Count > 0)
             {
-                GridCoordinates = CalculateGridCoord();
 
                 foreach ((Entity, Direction) e in collidesWithOnGrid.Keys.ToList())
                 {
@@ -394,7 +394,6 @@ namespace GameEngine2D.Entities
 
             if (EnableCircleCollisions && CircleCollider != null)
             {
-                GridCoordinates = CalculateGridCoord();
 
                 foreach (Entity e in circleCollisions.Keys.ToList())
                 {
@@ -436,9 +435,18 @@ namespace GameEngine2D.Entities
             }   
         }
 
+        static bool printed = false;
         protected bool HasGridCollision()
         {
-            return GridCollisionCheckDirections.Count > 0;
+            if (!printed)
+            {
+                Logger.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Logger.Log("!!!!!!!!!!!!!!!!!!TODO: HARDCODED VALUE, FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Logger.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                printed = true;
+            }
+            
+            return true;
         }
 
         public HashSet<Entity> GetAllChildren()
