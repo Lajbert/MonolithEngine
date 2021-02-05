@@ -45,6 +45,8 @@ namespace GameEngine2D
 
         protected GameTime GameTime;
 
+        public bool CheckGridCollisions = true;
+
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
             Active = true;
@@ -84,12 +86,12 @@ namespace GameEngine2D
             {
                 InCellLocation.X += step;
 
-                if (HasGridCollision() && InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT))
+                if (CheckGridCollisions && InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT))
                 {
                     InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (HasGridCollision() && InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT))
+                if (CheckGridCollisions && InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT))
                 {
                     InCellLocation.X = CollisionOffsetRight;
                 }
@@ -132,7 +134,7 @@ namespace GameEngine2D
             {
                 InCellLocation.Y += step2;
 
-                if (HasGridCollision() && InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.DOWN)/* && Velocity.Y > 0*/)
+                if (CheckGridCollisions && InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.DOWN)/* && Velocity.Y > 0*/)
                 {
                     if (HasGravity)
                     {
@@ -144,7 +146,7 @@ namespace GameEngine2D
 
                 }
 
-                if (HasGridCollision() && InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.UP))
+                if (CheckGridCollisions && InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.UP))
                 {
                     Velocity.Y = 0;
                     InCellLocation.Y = CollisionOffsetTop;
@@ -234,6 +236,7 @@ namespace GameEngine2D
 
         public override void Destroy()
         {
+            CheckGridCollisions = false;
             Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             base.Destroy();

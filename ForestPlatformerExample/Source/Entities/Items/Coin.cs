@@ -5,6 +5,7 @@ using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Source.Entities;
+using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -92,6 +93,26 @@ namespace ForestPlatformerExample.Source.Items
         public void SetCircleCollider()
         {
             CircleCollider = new CircleCollider(this, 10);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (Destroyed)
+            {
+                return;
+            }
+            if (Position.Y > 5000)
+            {
+                Destroy();
+            }
+            if (IsMovingAtLeast(0.5f))
+            {
+                EnableCircleCollisions = true;
+            } else
+            {
+                EnableCircleCollisions = false;
+            }
         }
     }
 }

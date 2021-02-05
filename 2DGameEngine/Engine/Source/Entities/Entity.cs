@@ -187,6 +187,8 @@ namespace GameEngine2D.Entities
             private set {}
         }
 
+        protected bool Destroyed = false;
+
         public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
         {
             this.Layer = layer;
@@ -436,7 +438,7 @@ namespace GameEngine2D.Entities
         }
 
         static bool printed = false;
-        protected bool HasGridCollision()
+        /*protected bool CheckGridCollisions()
         {
             if (!printed)
             {
@@ -447,7 +449,7 @@ namespace GameEngine2D.Entities
             }
             
             return true;
-        }
+        }*/
 
         public HashSet<Entity> GetAllChildren()
         {
@@ -515,6 +517,7 @@ namespace GameEngine2D.Entities
             }
             //Active = false;
             //Visible = false;
+            Destroyed = true;
         }
 
         protected void RemoveCollisions()
