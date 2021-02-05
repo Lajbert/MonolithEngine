@@ -14,9 +14,9 @@ This means features will come according to my needs (or interests :) ) and chang
 This is a simple 2D game engine that can handle basic tasks that most 2D games need. Is it as comprehensive as other major engines out there? Definitely not. Is it small, fast, lightweight, free and easy to understand? Yes! 
 
 Already working features:
-* 2D Animations with state machine with automatic spritehseet importer and texture caching
+* 2D Animations with state machines, automatic spritehseet importer and texture caching
 * TileGroups: automatically merges different textures (like static environmental textures, background, etc)  into 1 texture in the memory
-* Layers (for parallax scrolling, background, foreground, etc)
+* Layers (for parallax scrolling, background, foreground, etc) with sorting and Y-sorting!
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
 * Grid based box collision physics
 * Circle collision physics (AABB box collision physics is coming)
