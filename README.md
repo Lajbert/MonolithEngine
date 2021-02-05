@@ -12,6 +12,8 @@ This means features will come according to my needs (or interests :) ) and chang
 
 # What is this exactly?
 This is a simple 2D game engine that can handle basic tasks that most 2D games need. Is it as comprehensive as other major engines out there? Definitely not. Is it small, fast, lightweight, free and easy to understand? Yes! 
+
+Already working features:
 * 2D Animations with state machine with automatic spritehseet importer and texture caching
 * TileGroups: automatically merges different textures (like static envionmental textures, background, etc)  into 1 texture in the memory
 * Layers (for parallax scrolling, background, foreground, etc)
@@ -20,6 +22,9 @@ This is a simple 2D game engine that can handle basic tasks that most 2D games n
 * Circle collision physics (AABB box collision physics is coming)
 * Raycasting!
 * Many more features are coming including ease functions, autoamtic raycast collision optimization (merging smaller lines into 1 big line), AABB box collisions, more advanced map editor support and other juicy stuff, stay tuned!
+
+# How stable is the engine?
+It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, unit tests, etc. I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everyting is still subjected to changes and improvements as the engine evolves and bugs uncovered.
 
 # Who should use this engine?
 Although I'm striving for simplicity, this engine is not made for beginners, especially not for people who relies on user interfaces like the one Unity has. It's for people who don't mind adjusting pivots and offsets from the code and prefers checking out the source to reading endless documentations.
