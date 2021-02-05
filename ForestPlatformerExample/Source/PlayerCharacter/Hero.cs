@@ -643,10 +643,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 otherCollider.BlocksMovement = true;
             }
-            else if (otherCollider is Spring && direction == Direction.CENTER)
-            {
-                FallSpeed = 0;
-            }
             else if (otherCollider.HasTag("Ladder") && GridCollisionChecker.CollidesWithTag(this, "Ladder").Count == 0)
             {
                 LeaveLadder();
@@ -724,6 +720,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Bump(new Vector2(0, -15));
                 canJump = false;
                 canDoubleJump = true;
+                FallSpeed = 0;
             }
         }
 
