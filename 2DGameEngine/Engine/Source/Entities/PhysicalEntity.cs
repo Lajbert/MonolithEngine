@@ -226,10 +226,6 @@ namespace GameEngine2D
         public void ResetPosition(Vector2 position)
         {
             InCellLocation = new Vector2(0.5f, 1f);
-            if (position.X % Config.GRID != 0 || position.Y % Config.GRID != 0)
-            {
-                throw new Exception("The coordinates given are not multiples of grid size!");
-            }
             //InCellLocation = Vector2.Zero;
             //UpdateInCellCoord();
             Position = position;
