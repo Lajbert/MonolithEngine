@@ -25,7 +25,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         int life = 2;
 
-        private Random random;
         private int bumps;
         private int currentBump = 1;
 
@@ -38,8 +37,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
             DrawPriority = 1;
 
             this.bumps = currentBump = bumps;
-
-            random = new Random();
 
             CircleCollider = new CircleCollider(this, 10, new Vector2(0, 0));
             EnableCircleCollisions = false;
@@ -125,12 +122,12 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private void Pop()
         {
-            int numOfCoins = random.Next(3, 6);
+            int numOfCoins = MyRandom.Between(3, 6);
             for (int i = 0; i < numOfCoins; i++)
             {
                 Coin c = new Coin(Position, 3, true);
                 c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
-                c.Velocity += new Vector2(random.Next(-2, 2), random.Next(-5, 0));;
+                c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1));
             }
             Layer.Camera.Shake(2f, 0.5f);
             Destroy();

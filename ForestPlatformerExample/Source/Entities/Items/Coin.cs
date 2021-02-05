@@ -73,7 +73,7 @@ namespace ForestPlatformerExample.Source.Items
         public override void PostUpdate(GameTime gameTime)
         {
             base.PostUpdate(gameTime);
-            // just a failsafe: in case a coin never bounces, the player should still be able to pick it up at some point
+            // just a failsafe: in case a coin never bounces for any kind of bug, the player should still be able to pick it up at some point
             if (CircleCollider == null && Velocity == Vector2.Zero)
             {
                 SetCircleCollider();

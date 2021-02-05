@@ -159,8 +159,7 @@ namespace GameEngine2D.Engine.Source.Util
 
         public static  Color GetRandomColor()
         {
-            Random random = new Random();
-            return Color.FromNonPremultiplied(random.Next(256), random.Next(256), random.Next(256), 256);
+            return Color.FromNonPremultiplied(MyRandom.Between(0, 256), MyRandom.Between(0, 256), MyRandom.Between(0, 256), 256);
         }
 
         private class RectangleKey
