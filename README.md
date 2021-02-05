@@ -21,6 +21,7 @@ Already working features:
 * Grid based box collision physics
 * Circle collision physics (AABB box collision physics is coming)
 * Raycasting!
+
 Many more features are coming including ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), AABB box collisions, more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
 
 # How stable is the engine?
