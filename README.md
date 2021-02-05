@@ -33,7 +33,7 @@ Although I'm striving for simplicity, this engine is not made for beginners, esp
 The more coding experience you have, the better. It doens't matter if it's Java, C++ or any other OO language as C# will be easy to pick up if you have programming knowledge. Some MonoGame knowledge helps too, but not required. What could be really helpful is understanding code peformance, algorithms and data structures.
 
 # I have a little experience with Unity (or any other game engine), is that going to help me?
-It depends. There is definitely some transferrable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel"  is universal, but user interface knowledge of different engines will not be helpful, as you have to relie on the code here (expect for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool here).
+It depends. There is definitely a huge amount of transferrable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel"  is universal, but user interface knowledge of different engines will not be helpful, as you have to relie on the code here (expect for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool here).
 
 # What are the supported platforms?
 Whatever MonoGame supports, the rest depends on you :)
