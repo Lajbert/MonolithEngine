@@ -38,6 +38,10 @@ The more coding experience you have, the better. It doesn't matter if it's Java,
 Right now there is one platformer game example included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
 Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed.
 
+# Why should I chose this engine over other major commercial engines out there?
+I can't really come up with any catchy selling poin apart from the things I already listed above, so good thing I'm not a salesman selling this engine :) It's there if you'd like to try something new and simple, maybe you'll like it, maybe not, maybe you'll just see one or two tricks you liked and add it to your toolbox.
+It's really up to you!
+
 # I have a little experience with Unity (or any other game engine), is that going to help me?
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel"  is universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
