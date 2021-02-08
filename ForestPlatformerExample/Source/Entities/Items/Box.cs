@@ -36,6 +36,8 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             DrawPriority = 1;
 
+            AddTag("Box");
+
             this.bumps = currentBump = bumps;
 
             CircleCollider = new CircleCollisionComponent(this, 10, new Vector2(0, 0));

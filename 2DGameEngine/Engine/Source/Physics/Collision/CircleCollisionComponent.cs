@@ -1,5 +1,6 @@
 ﻿using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Entities;
+using GameEngine2D.Global;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         private float maxDistance;
         private float distance;
-        private float intersection;
+        //private float intersection;
         /*public CollisionResult Overlaps(ICircleCollider otherCollider)
         {
             maxDistance = Radius + otherCollider.CircleCollider.Radius;
@@ -45,14 +46,14 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         public bool Overlaps(ICircleCollider otherCollider)
         {
+            //TODO: review if this fast check is needed
+            if ((Math.Abs(Position.X - otherCollider.CircleCollider.Position.X) > Config.GRID * 2 && Math.Abs(Position.Y - otherCollider.CircleCollider.Position.Y) > Config.GRID * 2))
+            {
+                return false;
+            }
             maxDistance = Radius + otherCollider.CircleCollider.Radius;
             distance = Vector2.Distance(Position, otherCollider.CircleCollider.Position);
-            intersection = (Radius + otherCollider.CircleCollider.Radius - distance) / (Radius + otherCollider.CircleCollider.Radius);
-            bool overlaps = distance <= maxDistance;
-            if (overlaps)
-            {
-                overlaps = true;
-            }
+            //repelForce = (Radius + otherCollider.CircleCollider.Radius - distance) / (Radius + otherCollider.CircleCollider.Radius);
             return distance <= maxDistance;
         }
     }

@@ -63,6 +63,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddTag("Hero");
 
             CollidesAgainst.Add("Coin");
+            CollidesAgainst.Add("Box");
 
             BlocksRay = true;
 
@@ -705,12 +706,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 
             }
-            else if (otherCollider is Box && Velocity.Y > 0 && (otherCollider as Box).Velocity == Vector2.Zero)
-            {
-                Bump(new Vector2(0, -5));
-                FallSpeed = 0;
-                (otherCollider as Box).Hit(Direction.CENTER);
-            } else if (otherCollider is IMovableItem)
+            else if (otherCollider is IMovableItem)
             {
                 overlappingItem = otherCollider as IMovableItem;
             }
@@ -759,6 +755,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             if (otherCollider is Coin)
             {
                 (otherCollider as Coin).Destroy();
+            }
+            else if (otherCollider is Box && Velocity.Y > 0 && (otherCollider as Box).Velocity == Vector2.Zero)
+            {
+                Bump(new Vector2(0, -5));
+                FallSpeed = 0;
+                (otherCollider as Box).Hit(Direction.CENTER);
             }
             Logger.Log("HERO COLLIDE STARTED WITH: " + otherCollider);
             base.OnCollisionStart(otherCollider);

@@ -163,7 +163,6 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private void UpdateCircleCollisions(IPhysicsEntity thisEntity, IPhysicsEntity otherObject)
         {
-            throw new Exception("Implement fast check to see if circle collision should even be checked!");
             if (thisEntity.GetCircleCollisionComponent().Overlaps(otherObject))
             {
                 if (!collisions.ContainsKey(thisEntity) || !collisions[thisEntity].ContainsKey(CollisionType.CIRCLE) 
