@@ -6,11 +6,12 @@ using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
+using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Level;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -182,6 +183,7 @@ namespace ForestPlatformerExample
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic here
             Timer.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            CollisionEngine.Instance.Update(gameTime);
             LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);

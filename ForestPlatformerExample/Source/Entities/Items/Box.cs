@@ -38,7 +38,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             this.bumps = currentBump = bumps;
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(0, 0));
+            CircleCollider = new CircleCollisionComponent(this, 10, new Vector2(0, 0));
             EnableCircleCollisions = false;
 
             CollisionOffsetBottom = 1f;

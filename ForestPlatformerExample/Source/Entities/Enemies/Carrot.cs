@@ -36,7 +36,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             GridCollisionPriority = 1;
 
-            CircleCollider = new CircleCollider(this, 12, new Vector2(3, -3));
+            CircleCollider = new CircleCollisionComponent(this, 12, new Vector2(3, -3));
 
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;

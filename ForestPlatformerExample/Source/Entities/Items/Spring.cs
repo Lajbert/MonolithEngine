@@ -22,7 +22,7 @@ namespace ForestPlatformerExample.Source.Items
 
             Power = power;
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(2, 10));
+            CircleCollider = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_PIVOT = true;
 

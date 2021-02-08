@@ -8,7 +8,7 @@ using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities.Animation;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -32,13 +32,13 @@ namespace GameEngine2D.Entities
 
         private readonly string DESTROY_AMINATION = "Destroy";
 
-        private HashSet<string> tags = new HashSet<string>();
+        protected HashSet<string> Tags = new HashSet<string>();
 
         private HashSet<Direction> blockedFrom = new HashSet<Direction>();
 
         public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
 
-        protected static OnePointCollider GridCollisionChecker { get; } = new OnePointCollider();
+        protected static GridCollisionChecker GridCollisionChecker { get; } = new GridCollisionChecker();
 
         public bool Visible = true;
         public bool Active = false;
@@ -145,7 +145,7 @@ namespace GameEngine2D.Entities
 
         protected Ray2DEmitter RayEmitter { get; set; }
 
-        public CircleCollider CircleCollider { get; set; }
+        public CircleCollisionComponent CircleCollider { get; set; }
 
 
         private bool enableCircleCollisions = true;
@@ -394,7 +394,7 @@ namespace GameEngine2D.Entities
             }
 
 
-            if (EnableCircleCollisions && CircleCollider != null)
+            /*if (EnableCircleCollisions && CircleCollider != null)
             {
 
                 foreach (Entity e in circleCollisions.Keys.ToList())
@@ -434,22 +434,8 @@ namespace GameEngine2D.Entities
                         circleCollisions.Remove(e);
                     }
                 }
-            }   
+            }   */
         }
-
-        static bool printed = false;
-        /*protected bool CheckGridCollisions()
-        {
-            if (!printed)
-            {
-                Logger.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Logger.Log("!!!!!!!!!!!!!!!!!!TODO: HARDCODED VALUE, FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Logger.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                printed = true;
-            }
-            
-            return true;
-        }*/
 
         public HashSet<Entity> GetAllChildren()
         {
@@ -597,12 +583,12 @@ namespace GameEngine2D.Entities
 
         public void AddTag(string tag)
         {
-            tags.Add(tag);
+            Tags.Add(tag);
         }
 
         public bool HasTag(string tag)
         {
-            return tags.Contains(tag);
+            return Tags.Contains(tag);
         }
 
         public bool HasAnyTag(ICollection<string> tags)
@@ -619,12 +605,7 @@ namespace GameEngine2D.Entities
 
         public void RemoveTag(string tag)
         {
-            tags.Remove(tag);
-        }
-
-        public List<string> Tags()
-        {
-            return tags.ToList();
+            Tags.Remove(tag);
         }
 
         public void AddBlockedDirection(Direction direction)

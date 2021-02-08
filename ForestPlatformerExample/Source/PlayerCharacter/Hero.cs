@@ -9,6 +9,7 @@ using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -59,9 +60,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_RAYCAST = true;
 
+            AddTag("Hero");
+
+            CollidesAgainst.Add("Coin");
+
             BlocksRay = true;
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(0, -10));
+            CircleCollider = new CircleCollisionComponent(this, 10, new Vector2(0, -10));
 
             //ColliderOnGrid = true;
 
@@ -699,10 +704,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     }
                 }
                 
-            } 
-            else if (otherCollider is Coin)
-            {
-                otherCollider.Destroy();
             }
             else if (otherCollider is Box && Velocity.Y > 0 && (otherCollider as Box).Velocity == Vector2.Zero)
             {
@@ -751,6 +752,22 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     Velocity.Y -= Config.JUMP_FORCE / 2;
                 }
             }
+        }
+
+        public override void OnCollisionStart(IPhysicsEntity otherCollider)
+        {
+            if (otherCollider is Coin)
+            {
+                (otherCollider as Coin).Destroy();
+            }
+            Logger.Log("HERO COLLIDE STARTED WITH: " + otherCollider);
+            base.OnCollisionStart(otherCollider);
+        }
+
+        public override void OnCollisionEnd(IPhysicsEntity otherCollider)
+        {
+            Logger.Log("HERO COLLIDE ENDED WITH: " + otherCollider);
+            base.OnCollisionStart(otherCollider);
         }
     }
 }

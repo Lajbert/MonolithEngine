@@ -5,7 +5,7 @@ using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Level;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -190,7 +190,7 @@ namespace TestExample
         {
             public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
             {
-                CircleCollider = new CircleCollider(this, 16);
+                CircleCollider = new CircleCollisionComponent(this, 16);
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_CIRCLE_COLLIDER = true;
                 //DrawOffset = new Vector2(-8, -8);

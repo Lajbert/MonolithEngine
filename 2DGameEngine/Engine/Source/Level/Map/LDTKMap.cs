@@ -4,7 +4,7 @@ using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -63,7 +63,7 @@ namespace GameEngine2D.Source.Level
                     }
 
                     string layerName = layerInstance.Identifier;
-                    Layer.Layer currentLayer = null;
+                    GridCollision.Layer currentLayer = null;
                     Texture2D tileSet = null;
                     if (layerName.StartsWith(COLLIDERS))
                     {

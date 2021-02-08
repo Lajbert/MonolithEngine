@@ -24,6 +24,8 @@ namespace ForestPlatformerExample.Source.Items
         public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
 
+            AddTag("Coin");
+
             this.bounceCount = bounceCount * -1;
 
             Active = true;
@@ -92,7 +94,7 @@ namespace ForestPlatformerExample.Source.Items
 
         public void SetCircleCollider()
         {
-            CircleCollider = new CircleCollider(this, 10);
+            CircleCollider = new CircleCollisionComponent(this, 10);
         }
 
         public override void Update(GameTime gameTime)

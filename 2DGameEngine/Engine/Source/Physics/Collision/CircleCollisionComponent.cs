@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Physics.Collision
 {
-    public class CircleCollider
+    public class CircleCollisionComponent
     {
         private Vector2 positionOffset;
         public Vector2 Position {
@@ -18,7 +18,9 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         private ICircleCollider owner;
 
-        public CircleCollider(ICircleCollider owner, float radius, Vector2? positionOffset = null)
+        public bool IsCircleCollider = true;
+
+        public CircleCollisionComponent(ICircleCollider owner, float radius, Vector2? positionOffset = null)
         {
             this.owner = owner;
             Radius = radius;
@@ -28,7 +30,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         private float maxDistance;
         private float distance;
         private float intersection;
-        public CollisionResult Overlaps(ICircleCollider otherCollider)
+        /*public CollisionResult Overlaps(ICircleCollider otherCollider)
         {
             maxDistance = Radius + otherCollider.CircleCollider.Radius;
             distance = Vector2.Distance(Position, otherCollider.CircleCollider.Position);
@@ -39,6 +41,19 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
                 overlaps = true;
             }
             return distance <= maxDistance ? new CollisionResult(owner, otherCollider, distance) : CollisionResult.NO_COLLISION;
+        }*/
+
+        public bool Overlaps(ICircleCollider otherCollider)
+        {
+            maxDistance = Radius + otherCollider.CircleCollider.Radius;
+            distance = Vector2.Distance(Position, otherCollider.CircleCollider.Position);
+            intersection = (Radius + otherCollider.CircleCollider.Radius - distance) / (Radius + otherCollider.CircleCollider.Radius);
+            bool overlaps = distance <= maxDistance;
+            if (overlaps)
+            {
+                overlaps = true;
+            }
+            return distance <= maxDistance;
         }
     }
 }

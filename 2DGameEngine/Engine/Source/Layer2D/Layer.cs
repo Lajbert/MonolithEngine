@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Layer
+namespace GameEngine2D.Source.GridCollision
 {
     public class Layer
     {

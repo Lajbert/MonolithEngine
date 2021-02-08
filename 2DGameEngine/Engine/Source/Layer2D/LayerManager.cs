@@ -5,7 +5,7 @@ using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using Microsoft.Xna.Framework;
 
 namespace GameEngine2D.Entities
