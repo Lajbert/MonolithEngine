@@ -20,7 +20,7 @@ using System.Linq;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, IRayBlocker, IColliderEntity, IGridCollider
+    public class Entity : GameObject, IRayBlocker, IGridCollider
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -671,31 +671,6 @@ namespace GameEngine2D.Entities
         public ICollection<string> GetTags()
         {
             return Tags;
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            this.Position = position;
-        }
-
-        public CircleCollisionComponent GetCircleCollisionComponent()
-        {
-            return CircleCollider;
-        }
-
-        public virtual void OnCollisionStart(IColliderEntity otherCollider)
-        {
-
-        }
-
-        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
-        {
-
-        }
-
-        public HashSet<string> GetCollidesAgainst()
-        {
-            return CollidesAgainst;
         }
     }
 }

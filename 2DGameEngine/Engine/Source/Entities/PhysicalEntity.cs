@@ -25,6 +25,7 @@ namespace GameEngine2D
         private Vector2 bump;
 
         protected HashSet<string> CollidesAgainst = new HashSet<string>();
+        protected HashSet<CollisionType> CollisionProfile = new HashSet<CollisionType>() { CollisionType.CIRCLE };
 
         protected UserInputController UserInput;
         protected float elapsedTime;
@@ -236,6 +237,9 @@ namespace GameEngine2D
             Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             base.Destroy();
+            CollisionProfile.Clear();
+            CollidesAgainst.Clear();
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         public bool IsMovingAtLeast(float speed)
@@ -255,7 +259,7 @@ namespace GameEngine2D
 
         public HashSet<CollisionType> GetCollisionProfile()
         {
-            return new HashSet<CollisionType>() { CollisionType.CIRCLE };
+            return CollisionProfile;
         }
 
         public ICollection<string> GetTags()
