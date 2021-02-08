@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace GameEngine2D
 {
-    public class PhysicalEntity : Entity, IPhysicsEntity
+    public class PhysicalEntity : Entity, IColliderEntity
     {
 
         private Vector2 bump;
@@ -283,12 +283,12 @@ namespace GameEngine2D
             return CircleCollider;
         }
 
-        public virtual void OnCollisionStart(IPhysicsEntity otherCollider)
+        public virtual void OnCollisionStart(IColliderEntity otherCollider)
         {
             
         }
 
-        public virtual void OnCollisionEnd(IPhysicsEntity otherCollider)
+        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
         {
             
         }

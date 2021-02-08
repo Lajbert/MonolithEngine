@@ -34,18 +34,17 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
-            GridCollisionPriority = 1;
+            CircleCollider = new CircleCollisionComponent(this, 12, new Vector2(3, -15));
 
-            CircleCollider = new CircleCollisionComponent(this, 12, new Vector2(3, -3));
+            AddTag("Enemy");
+            AddTag("MovingEnemy");
 
             //DEBUG_SHOW_PIVOT = true;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
-
-            AddTag("MovingEnemy");
 
             this.CurrentFaceDirection = CurrentFaceDirection;
 

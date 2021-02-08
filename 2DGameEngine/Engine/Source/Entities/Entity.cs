@@ -20,7 +20,7 @@ using System.Linq;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, IRayBlocker, ICircleCollider, IGridCollider
+    public class Entity : GameObject, IRayBlocker, IColliderEntity, IGridCollider
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -28,7 +28,7 @@ namespace GameEngine2D.Entities
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        public int GridCollisionPriority { get; set; }
+        protected HashSet<string> CollidesAgainst = new HashSet<string>();
 
         private readonly string DESTROY_AMINATION = "Destroy";
 
@@ -661,6 +661,41 @@ namespace GameEngine2D.Entities
         public bool BlocksMovementFrom(Direction direction)
         {
             return BlocksMovement && IsBlockedFrom(direction);
+        }
+
+        public HashSet<CollisionType> GetCollisionProfile()
+        {
+            return new HashSet<CollisionType>() { CollisionType.CIRCLE };
+        }
+
+        public ICollection<string> GetTags()
+        {
+            return Tags;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            this.Position = position;
+        }
+
+        public CircleCollisionComponent GetCircleCollisionComponent()
+        {
+            return CircleCollider;
+        }
+
+        public virtual void OnCollisionStart(IColliderEntity otherCollider)
+        {
+
+        }
+
+        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
+        {
+
+        }
+
+        public HashSet<string> GetCollidesAgainst()
+        {
+            return CollidesAgainst;
         }
     }
 }

@@ -14,12 +14,12 @@ namespace GameEngine2D.Engine.Source.Physics
     public class CollisionEngine
     {
 
-        private HashSet<IPhysicsEntity> toCheckAgainst = new HashSet<IPhysicsEntity>();
-        private HashSet<IPhysicsEntity> entities = new HashSet<IPhysicsEntity>();
+        private HashSet<IColliderEntity> toCheckAgainst = new HashSet<IColliderEntity>();
+        private HashSet<IColliderEntity> entities = new HashSet<IColliderEntity>();
 
-        private Dictionary<IPhysicsEntity, Dictionary<CollisionType, Dictionary<IPhysicsEntity, bool>>> collisions = new Dictionary<IPhysicsEntity, Dictionary<CollisionType, Dictionary<IPhysicsEntity, bool>>>();
+        private Dictionary<IColliderEntity, Dictionary<CollisionType, Dictionary<IColliderEntity, bool>>> collisions = new Dictionary<IColliderEntity, Dictionary<CollisionType, Dictionary<IColliderEntity, bool>>>();
 
-        private HashSet<IPhysicsEntity> changedObjects = new HashSet<IPhysicsEntity>();
+        private HashSet<IColliderEntity> changedObjects = new HashSet<IColliderEntity>();
 
         private static readonly CollisionEngine instance = new CollisionEngine();
 
@@ -39,7 +39,7 @@ namespace GameEngine2D.Engine.Source.Physics
             }
         }
 
-        public void OnCollisionProfileChanged(IPhysicsEntity entity)
+        public void OnCollisionProfileChanged(IColliderEntity entity)
         {
             if (!changedObjects.Contains(entity))
             {
@@ -56,9 +56,9 @@ namespace GameEngine2D.Engine.Source.Physics
 
             PrepareCollisions();
 
-            foreach (IPhysicsEntity thisEntity in entities)
+            foreach (IColliderEntity thisEntity in entities)
             {
-                foreach (IPhysicsEntity otherObject in toCheckAgainst)
+                foreach (IColliderEntity otherObject in toCheckAgainst)
                 {
                     if (otherObject.GetTags().Count == 0)
                     {
@@ -101,7 +101,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
             if (changedObjects.Count > 0)
             {
-                foreach (IPhysicsEntity changed in changedObjects)
+                foreach (IColliderEntity changed in changedObjects)
                 {
                     if (changed.GetCollisionProfile().Count == 0)
                     {
@@ -113,11 +113,11 @@ namespace GameEngine2D.Engine.Source.Physics
                         {
                             if (!collisions.ContainsKey(changed))
                             {
-                                collisions[changed] = new Dictionary<CollisionType, Dictionary<IPhysicsEntity, bool>>();
+                                collisions[changed] = new Dictionary<CollisionType, Dictionary<IColliderEntity, bool>>();
                             }
                             if (!collisions[changed].ContainsKey(collType))
                             {
-                                collisions[changed][collType] = new Dictionary<IPhysicsEntity, bool>();
+                                collisions[changed][collType] = new Dictionary<IColliderEntity, bool>();
                             }
                         }
                         foreach (CollisionType collType in collisions[changed].Keys.ToList())
@@ -156,47 +156,61 @@ namespace GameEngine2D.Engine.Source.Physics
             changedObjects.Clear();
         }
 
-        private void UpdateGridCollisions(IPhysicsEntity thisEntity, IPhysicsEntity otherObject)
+        private void UpdateGridCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
 
         }
 
-        private void UpdateCircleCollisions(IPhysicsEntity thisEntity, IPhysicsEntity otherObject)
+        private void UpdateCircleCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
             if (thisEntity.GetCircleCollisionComponent().Overlaps(otherObject))
             {
                 if (!collisions.ContainsKey(thisEntity) || !collisions[thisEntity].ContainsKey(CollisionType.CIRCLE) 
                     || !collisions[thisEntity][CollisionType.CIRCLE].ContainsKey(otherObject))
                 {
-                    collisions[thisEntity][CollisionType.CIRCLE] = new Dictionary<IPhysicsEntity, bool>();
                     thisEntity.OnCollisionStart(otherObject);
                 }
                 collisions[thisEntity][CollisionType.CIRCLE][otherObject] = true;
             }
         }
 
-        private void UpdateBoxCollisions(IPhysicsEntity thisEntity, IPhysicsEntity otherObject)
+        public List<IColliderEntity> GetCollidesWith(IColliderEntity collider)
+        {
+            List<IColliderEntity> colliders = new List<IColliderEntity>();
+
+            if (collisions.ContainsKey(collider))
+            {
+                foreach (CollisionType collType in collisions[collider].Keys)
+                {
+                    colliders.AddRange(collisions[collider][collType].Keys);
+                }
+            }
+
+            return colliders;
+        }
+
+        private void UpdateBoxCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
 
         }
 
-        private void UpdatePointCollisions(IPhysicsEntity thisEntity, IPhysicsEntity otherObject)
+        private void UpdatePointCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
 
         }
 
-        private void UpdateRaycast(IPhysicsEntity thisEntity, IPhysicsEntity otherObject)
+        private void UpdateRaycast(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
 
         }
 
         private void PrepareCollisions()
         {
-            foreach (IPhysicsEntity thisEntity in collisions.Keys)
+            foreach (IColliderEntity thisEntity in collisions.Keys)
             {
                 foreach (CollisionType type in collisions[thisEntity].Keys)
                 {
-                    foreach (IPhysicsEntity otherObject in collisions[thisEntity][type].Keys.ToList())
+                    foreach (IColliderEntity otherObject in collisions[thisEntity][type].Keys.ToList())
                     {
                         collisions[thisEntity][type][otherObject] = false;
                     }
@@ -206,13 +220,13 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private void InactivateCollisions()
         {
-            List<(IPhysicsEntity, CollisionType, IPhysicsEntity)> toRemove = new List<(IPhysicsEntity, CollisionType, IPhysicsEntity)>();
+            List<(IColliderEntity, CollisionType, IColliderEntity)> toRemove = new List<(IColliderEntity, CollisionType, IColliderEntity)>();
 
-            foreach (IPhysicsEntity thisEntity in collisions.Keys)
+            foreach (IColliderEntity thisEntity in collisions.Keys)
             {
                 foreach (CollisionType type in collisions[thisEntity].Keys)
                 {
-                    foreach (IPhysicsEntity otherObject in collisions[thisEntity][type].Keys.ToList())
+                    foreach (IColliderEntity otherObject in collisions[thisEntity][type].Keys.ToList())
                     {
                         if (thisEntity.Equals(otherObject))
                         {
@@ -226,7 +240,7 @@ namespace GameEngine2D.Engine.Source.Physics
                     }
                 }
             }
-            foreach ((IPhysicsEntity, CollisionType, IPhysicsEntity) t in toRemove)
+            foreach ((IColliderEntity, CollisionType, IColliderEntity) t in toRemove)
             {
                 collisions[t.Item1][t.Item2].Remove(t.Item3);
                 /*if (collisions[t.Item1][t.Item2].Count() == 0)

@@ -24,7 +24,7 @@ namespace ForestPlatformerExample.Source.Items
         public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
 
-            AddTag("Coin");
+            AddTag("Pickup");
 
             this.bounceCount = bounceCount * -1;
 

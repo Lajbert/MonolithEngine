@@ -57,13 +57,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
 
             //DEBUG_SHOW_PIVOT = true;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_RAYCAST = true;
 
             AddTag("Hero");
 
-            CollidesAgainst.Add("Coin");
-            CollidesAgainst.Add("Box");
+            CollidesAgainst.Add("Pickup");
+            CollidesAgainst.Add("Enemy");
 
             BlocksRay = true;
 
@@ -86,7 +86,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 GridCollisionCheckDirections.Add(direction);
             }
 
-            fist = new Fist(this, new Vector2(15, -7));
+            fist = new Fist(this, new Vector2(20, -10));
 
             if (DEBUG_SHOW_RAYCAST)
             {
@@ -316,9 +316,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("CarryFallingRight", "CarryFallingLeft");
 
             SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@attack-sheet", 48);
+            attackRight.StartedCallback = () => Attack();
             //attackRight.StartedCallback = () => Velocity.X = 0f;
-            attackRight.AddFrameAction(5, (frame) => canAttack = true);
-            attackRight.AddFrameAction(5, (frame) => fist.IsAttacking = false);
+
+            //attackRight.AddFrameAction(5, (frame) => canAttack = true);
+            //attackRight.AddFrameAction(5, (frame) => fist.IsAttacking = false);
+
             //attackRight.EveryFrameAction = (frame) => HitEnemy();
             //attackRight.StoppedCallback += () => isAttacking = false;
             attackRight.Looping = false;
@@ -434,12 +437,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     ThrowCurrentItem(force);
                     return;
                 }
-                if (!canAttack)
+                if (Timer.IsSet("IsAttacking"))
                 {
                     return;
                 }
-                canAttack = false;
-                fist.IsAttacking = true;
+                //canAttack = false;
                 if (CurrentFaceDirection == Direction.LEFT)
                 {
                     Animations.PlayAnimation("AttackLeft");
@@ -569,6 +571,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             ThrowCurrentItem(Vector2.Zero);
         }
 
+        private void Attack()
+        {
+            if (canAttack && !Timer.IsSet("IsAttacking"))
+            {
+                fist.Attack();
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
 
@@ -610,7 +620,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider.HasTag("SlideWall") && !OnGround())
             {
-                if (fist.IsAttacking || isCarryingItem)
+                if (Timer.IsSet("IsAttacking") || isCarryingItem)
                 {
                     return;
                 }
@@ -661,74 +671,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
-        {
-            if (otherCollider is Carrot)
-            {
-                float angle = MathUtil.DegreeFromVectors(Position, otherCollider.Position);
-                if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
-                {
-                    Bump(new Vector2(0, -5));
-                    FallSpeed = 0;
-                    (otherCollider as Carrot).Hit(Direction.UP);
-                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
-                    canJump = false;
-                    canDoubleJump = true;
-                } 
-                else
-                {
-                    if (Timer.IsSet("Invincible"))
-                    {
-                        return;
-                    }
-                    DropCurrentItem();
-                    UserInput.ControlsDisabled = true;
-                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
-                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
-                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
-
-                    if (CurrentFaceDirection == Direction.LEFT)
-                    {
-                        Animations.PlayAnimation("HurtLeft");
-                    }
-                    else if (CurrentFaceDirection == Direction.RIGHT)
-                    {
-                        Animations.PlayAnimation("HurtRight");
-                    }
-                    if (otherCollider.X < X)
-                    {
-                        Velocity += new Vector2(2, -2);
-                    }
-                    else if (otherCollider.X > X)
-                    {
-                        Velocity += new Vector2(-2, -2);
-                    }
-                }
-                
-            }
-            else if (otherCollider is IMovableItem)
-            {
-                overlappingItem = otherCollider as IMovableItem;
-            }
-            else if (otherCollider is Spring)
-            {
-                ((Spring)otherCollider).PlayBounceAnimation();
-
-                Bump(new Vector2(0, -15));
-                canJump = false;
-                canDoubleJump = true;
-                FallSpeed = 0;
-            }
-        }
-
-        protected override void OnCircleCollisionEnd(Entity otherCollider)
-        {
-            if (otherCollider is IMovableItem)
-            {
-                overlappingItem = null;
-            }
-        }
-
         protected override void SetRayBlockers()
         {
             RayBlockerLines.Clear();
@@ -750,24 +692,83 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        public override void OnCollisionStart(IPhysicsEntity otherCollider)
+        public override void OnCollisionStart(IColliderEntity otherCollider)
         {
-            if (otherCollider is Coin)
+            if (otherCollider is Carrot)
+            {
+                float angle = MathUtil.DegreeFromVectors(Position, otherCollider.GetPosition());
+                if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
+                {
+                    Bump(new Vector2(0, -5));
+                    FallSpeed = 0;
+                    (otherCollider as Carrot).Hit(Direction.UP);
+                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
+                    canJump = false;
+                    canDoubleJump = true;
+                }
+                else
+                {
+                    if (Timer.IsSet("Invincible"))
+                    {
+                        return;
+                    }
+                    DropCurrentItem();
+                    UserInput.ControlsDisabled = true;
+                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
+                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
+                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
+
+                    if (CurrentFaceDirection == Direction.LEFT)
+                    {
+                        Animations.PlayAnimation("HurtLeft");
+                    }
+                    else if (CurrentFaceDirection == Direction.RIGHT)
+                    {
+                        Animations.PlayAnimation("HurtRight");
+                    }
+                    if (otherCollider.GetPosition().X < X)
+                    {
+                        Velocity += new Vector2(2, -2);
+                    }
+                    else if (otherCollider.GetPosition().X > X)
+                    {
+                        Velocity += new Vector2(-2, -2);
+                    }
+                } 
+            }
+            else if (otherCollider is Coin)
             {
                 (otherCollider as Coin).Destroy();
             }
-            else if (otherCollider is Box && Velocity.Y > 0 && (otherCollider as Box).Velocity == Vector2.Zero)
+            else if (otherCollider is Box && Velocity.Y > 0 && (otherCollider as Box).Velocity == Vector2.Zero && Position.Y < otherCollider.GetPosition().Y)
             {
                 Bump(new Vector2(0, -5));
                 FallSpeed = 0;
                 (otherCollider as Box).Hit(Direction.CENTER);
             }
+            else if (otherCollider is Spring)
+            {
+                ((Spring)otherCollider).PlayBounceAnimation();
+
+                Bump(new Vector2(0, -15));
+                canJump = false;
+                canDoubleJump = true;
+                FallSpeed = 0;
+            }
+            else if (otherCollider is IMovableItem)
+            {
+                overlappingItem = otherCollider as IMovableItem;
+            }
             Logger.Log("HERO COLLIDE STARTED WITH: " + otherCollider);
             base.OnCollisionStart(otherCollider);
         }
 
-        public override void OnCollisionEnd(IPhysicsEntity otherCollider)
+        public override void OnCollisionEnd(IColliderEntity otherCollider)
         {
+            if (otherCollider is IMovableItem)
+            {
+                overlappingItem = null;
+            }
             Logger.Log("HERO COLLIDE ENDED WITH: " + otherCollider);
             base.OnCollisionStart(otherCollider);
         }
