@@ -316,14 +316,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("CarryFallingRight", "CarryFallingLeft");
 
             SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@attack-sheet", 48);
-            attackRight.StartedCallback = () => Attack();
-            //attackRight.StartedCallback = () => Velocity.X = 0f;
-
-            //attackRight.AddFrameAction(5, (frame) => canAttack = true);
-            //attackRight.AddFrameAction(5, (frame) => fist.IsAttacking = false);
-
-            //attackRight.EveryFrameAction = (frame) => HitEnemy();
-            //attackRight.StoppedCallback += () => isAttacking = false;
             attackRight.Looping = false;
             Animations.RegisterAnimation("AttackRight", attackRight, () => false, 8);
 
@@ -437,20 +429,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     ThrowCurrentItem(force);
                     return;
                 }
-                if (Timer.IsSet("IsAttacking"))
-                {
-                    return;
-                }
-                //canAttack = false;
-                if (CurrentFaceDirection == Direction.LEFT)
-                {
-                    Animations.PlayAnimation("AttackLeft");
-                } else if (CurrentFaceDirection == Direction.RIGHT)
-                {
-                    Animations.PlayAnimation("AttackRight");
-                }
-                
-
+                Attack();
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
@@ -573,7 +552,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private void Attack()
         {
-            if (canAttack && !Timer.IsSet("IsAttacking"))
+            if (canAttack)
             {
                 fist.Attack();
             }

@@ -62,7 +62,20 @@ namespace ForestPlatformerExample.Source.Weapons
             {
                 return;
             }
-            Timer.SetTimer("IsAttacking", 600);
+            //canAttack = false;
+            if (CurrentFaceDirection == Direction.LEFT)
+            {
+                hero.Animations.PlayAnimation("AttackLeft");
+            }
+            else if (CurrentFaceDirection == Direction.RIGHT)
+            {
+                hero.Animations.PlayAnimation("AttackRight");
+            }
+            if (Timer.IsSet("IsAttacking"))
+            {
+                return;
+            }
+            Timer.SetTimer("IsAttacking", 300);
             foreach (IColliderEntity entity in CollisionEngine.Instance.GetCollidesWith(this))
             {
                 if (entity is IAttackable)
