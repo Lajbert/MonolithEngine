@@ -109,34 +109,37 @@ namespace GameEngine2D.Engine.Source.Physics
                         toCheckAgainst.Remove(changed);
                     } else
                     {
-                        if (!collisions.ContainsKey(changed))
+                        if (changed.GetCollidesAgainst().Count > 0)
                         {
-                            collisions[changed] = new Dictionary<IColliderEntity, bool>();
+                            if (!collisions.ContainsKey(changed))
+                            {
+                                collisions[changed] = new Dictionary<IColliderEntity, bool>();
+                            }
+                            if (!entities.Contains(changed))
+                            {
+                                entities.Add(changed);
+                            }
+                        } 
+                        else
+                        {
+                            collisions.Remove(changed);
+                            entities.Remove(changed);
                         }
-                        if (!entities.Contains(changed) && changed.GetCollidesAgainst().Count > 0)
+
+                        if (changed.GetTags().Count > 0)
                         {
-                            entities.Add(changed);
+                            if (!toCheckAgainst.Contains(changed))
+                            {
+                                Logger.Log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                Logger.Log("ONLY ADD THIS IF THERE IS ANYTHING COLLIDING WITH IT, USE CENTRAL COLLISION REGISTRATION");
+                                Logger.Log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                toCheckAgainst.Add(changed);
+                            }
+                        } else
+                        {
+                            toCheckAgainst.Remove(changed);
                         }
-                        if (!toCheckAgainst.Contains(changed))
-                        {
-                            Logger.Log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                            Logger.Log("ONLY ADD THIS IF THERE IS ANYTHING COLLIDING WITH IT, USE CENTRAL COLLISION REGISTRATION");
-                            Logger.Log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                            toCheckAgainst.Add(changed);
-                        }
-                        /*if (!entities.Contains(changed))
-                        {
-                            entities.Add(changed);
-                        }
-                        if (!toCheckAgainst.Contains(changed))
-                        {
-                            toCheckAgainst.Add(changed);
-                        }*/
                     }
-                    /*if (changed.GetCollisionProfile().Contains(CollisionType.CIRCLE))
-                    {
-                        toCheckAgainst.Add(changed);
-                    }*/
                 }
             }
             changedObjects.Clear();

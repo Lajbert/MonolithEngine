@@ -40,7 +40,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             AddTag("Pickup");
             AddTag("Box");
 
-            CollidesAgainst.Add("Enemy");
+            AddCollisionAgainst("Enemy");
 
             this.bumps = currentBump = bumps;
 

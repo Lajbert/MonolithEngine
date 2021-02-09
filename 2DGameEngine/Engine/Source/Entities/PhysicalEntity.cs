@@ -24,7 +24,7 @@ namespace GameEngine2D
 
         private Vector2 bump;
 
-        protected HashSet<string> CollidesAgainst = new HashSet<string>();
+        private HashSet<string> CollidesAgainst = new HashSet<string>();
 
         protected UserInputController UserInput;
         protected float elapsedTime;
@@ -292,6 +292,30 @@ namespace GameEngine2D
         public HashSet<string> GetCollidesAgainst()
         {
             return CollidesAgainst;
+        }
+
+        public void AddCollisionAgainst(string tag)
+        {
+            CollidesAgainst.Add(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public void RemoveCollisionAgainst(string tag)
+        {
+            CollidesAgainst.Remove(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public override void AddTag(string tag)
+        {
+            base.AddTag(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public override void RemoveTag(string tag)
+        {
+            base.RemoveTag(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
     }
 }

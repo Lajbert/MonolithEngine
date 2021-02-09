@@ -62,8 +62,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             AddTag("Hero");
 
-            CollidesAgainst.Add("Pickup");
-            CollidesAgainst.Add("Enemy");
+            AddCollisionAgainst("Pickup");
+            AddCollisionAgainst("Enemy");
 
             BlocksRay = true;
 

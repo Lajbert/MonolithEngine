@@ -27,7 +27,7 @@ namespace ForestPlatformerExample.Source.Items
 
             AddTag("Pickup");
             AddTag("Coin");
-            CollidesAgainst.Add("Coin");
+            AddCollisionAgainst("Coin");
 
             this.bounceCount = bounceCount * -1;
 

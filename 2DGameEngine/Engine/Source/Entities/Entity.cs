@@ -580,7 +580,7 @@ namespace GameEngine2D.Entities
             return RayBlockerLines;
         }
 
-        public void AddTag(string tag)
+        public virtual void AddTag(string tag)
         {
             Tags.Add(tag);
         }
@@ -602,7 +602,7 @@ namespace GameEngine2D.Entities
             return false;
         }
 
-        public void RemoveTag(string tag)
+        public virtual void RemoveTag(string tag)
         {
             Tags.Remove(tag);
         }

@@ -27,8 +27,8 @@ namespace ForestPlatformerExample.Source.Weapons
             DEBUG_SHOW_CIRCLE_COLLIDER = true;
             CurrentFaceDirection = parent.CurrentFaceDirection;
 
-            CollidesAgainst.Add("Enemy");
-            CollidesAgainst.Add("Box");
+            AddCollisionAgainst("Enemy");
+            AddCollisionAgainst("Box");
         }
 
         /*public override void OnCollisionStart(IPhysicsEntity otherCollider)

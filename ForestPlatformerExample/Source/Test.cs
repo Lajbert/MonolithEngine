@@ -157,7 +157,7 @@ namespace TestExample
                 fist.EnableCircleCollisions = true;
                 fist.Active = true;*/
 
-                CollidesAgainst.Add("Test");
+                AddCollisionAgainst("Test");
                 CollisionComponent = new CircleCollisionComponent(this, 30);
                 //DrawOffset = new Vector2(-8, -8);
             }
