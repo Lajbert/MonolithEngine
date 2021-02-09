@@ -41,19 +41,20 @@ namespace ForestPlatformerExample
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
             Config.GRAVITY_FORCE = 12f;
-            Config.ZOOM = 2f;
+            //Config.ZOOM = 2f;
             Config.CHARACTER_SPEED = 2f;
             Config.JUMP_FORCE = 7f;
             Config.INCREASING_GRAVITY = true;
 
 
             Config.RES_W = 3840;
-            Config.RES_W = 2160;
+            Config.RES_H = 2160;
             //Config.FULLSCREEN = true;
+            Config.ZOOM = (Config.RES_W / 1920) * 2;
 
             //Config.GRID = 64;
 
-            Config.FPS = 1000;
+            //Config.FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
