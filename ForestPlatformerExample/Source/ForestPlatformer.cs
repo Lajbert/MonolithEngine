@@ -108,7 +108,7 @@ namespace ForestPlatformerExample
 
             frameCounter = new FrameCounter();
 
-            Logger.Log("Object count: " + GameObject.GetObjectCount());
+            Logger.Info("Object count: " + GameObject.GetObjectCount());
         }
 
         private void LoadLevel()

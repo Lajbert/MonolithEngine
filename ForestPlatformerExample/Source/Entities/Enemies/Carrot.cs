@@ -40,7 +40,7 @@ namespace ForestPlatformerExample.Source.Enemies
             AddTag("MovingEnemy");
 
             //DEBUG_SHOW_PIVOT = true;
-            DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 

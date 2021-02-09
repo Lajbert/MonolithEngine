@@ -114,7 +114,7 @@ namespace TestExample
 
             frameCounter = new FrameCounter();
 
-            Logger.Log("Object count: " + GameObject.GetObjectCount());
+            Logger.Debug("Object count: " + GameObject.GetObjectCount());
         }
 
         class FistTest : Fist

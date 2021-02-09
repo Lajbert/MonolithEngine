@@ -27,7 +27,7 @@ namespace ForestPlatformerExample.Source.Items
 
             AddTag("Pickup");
 
-            DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_PIVOT = true;
 
             //DEBUG_SHOW_PIVOT = true;

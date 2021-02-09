@@ -57,10 +57,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
 
             //DEBUG_SHOW_PIVOT = true;
-            DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_RAYCAST = true;
-
-            AddTag("Hero");
 
             AddCollisionAgainst("Pickup");
             AddCollisionAgainst("Enemy");
@@ -738,7 +736,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = otherCollider as IMovableItem;
             }
-            Logger.Log("HERO COLLIDE STARTED WITH: " + otherCollider);
+            Logger.Debug("HERO COLLIDE STARTED WITH: " + otherCollider);
             base.OnCollisionStart(otherCollider);
         }
 
@@ -748,7 +746,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = null;
             }
-            Logger.Log("HERO COLLIDE ENDED WITH: " + otherCollider);
+            Logger.Debug("HERO COLLIDE ENDED WITH: " + otherCollider);
             base.OnCollisionStart(otherCollider);
         }
     }

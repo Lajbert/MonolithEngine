@@ -26,8 +26,6 @@ namespace ForestPlatformerExample.Source.Items
         {
 
             AddTag("Pickup");
-            AddTag("Coin");
-            AddCollisionAgainst("Coin");
 
             this.bounceCount = bounceCount * -1;
 
@@ -35,7 +33,13 @@ namespace ForestPlatformerExample.Source.Items
 
             DrawPriority = 1;
 
-            if (!startInactive)
+            if (startInactive)
+            {
+                if (CollisionComponent == null)
+                {
+                    Timer.TriggerAfter(500, () => SetCircleCollider());
+                }
+            } else
             {
                 SetCircleCollider();
             }
@@ -65,10 +69,6 @@ namespace ForestPlatformerExample.Source.Items
         protected override void OnLand()
         {
             base.OnLand();
-            if (CollisionComponent == null)
-            {
-                SetCircleCollider();
-            }
             if (bounceCount <= 0)
             {
                 Bump(new Vector2(0, bounceCount++));
@@ -90,27 +90,17 @@ namespace ForestPlatformerExample.Source.Items
             }
         }
 
-        public override void OnCollisionStart(IColliderEntity otherCollider)
+        /*public override void OnCollisionStart(IColliderEntity otherCollider)
         {
             if (otherCollider is Coin && repelForce > 0)
             {
                 PhysicsUtil.ApplyRepel(this, otherCollider, repelForce, RepelMode.ONLY_THIS);
                 repelForce -= 0.5f;
             }
-        }
-
-        /*protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
-        {
-            if (otherCollider is Coin && repelForce > 0)
-            {
-                collisionResult.ApplyRepel(repelForce, RepelMode.ONLY_THIS);
-                repelForce -= 0.5f;
-            }
         }*/
 
         public void SetCircleCollider()
         {
-            Logger.Log("------------------------ FIX THIS TO USE TIMER ---------------------");
             CollisionComponent = new CircleCollisionComponent(this, 10);
         }
 
@@ -125,15 +115,6 @@ namespace ForestPlatformerExample.Source.Items
             {
                 Destroy();
             }
-            /*if (IsMovingAtLeast(0.5f))
-            {
-                SetCircleCollider();
-                CollisionEngine.Instance.OnCollisionProfileChanged(this);
-            } else
-            {
-                CollisionComponent = null;
-                CollisionEngine.Instance.OnCollisionProfileChanged(this);
-            }*/
         }
     }
 }

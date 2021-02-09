@@ -55,7 +55,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             Active = true;
 
             //DEBUG_SHOW_PIVOT = true;
-            DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(0, -16);
