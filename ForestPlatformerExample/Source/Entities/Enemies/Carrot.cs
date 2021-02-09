@@ -34,7 +34,7 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
-            CircleCollider = new CircleCollisionComponent(this, 12, new Vector2(3, -15));
+            CollisionComponent = new CircleCollisionComponent(this, 12, new Vector2(3, -15));
 
             AddTag("Enemy");
             AddTag("MovingEnemy");

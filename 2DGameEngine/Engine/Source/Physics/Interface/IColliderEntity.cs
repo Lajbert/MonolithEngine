@@ -7,17 +7,15 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Physics.Interface
 {
-    public interface IColliderEntity : ICircleCollider
+    public interface IColliderEntity
     {
-        public HashSet<CollisionType> GetCollisionProfile();
-
         public ICollection<string> GetTags();
 
         public Vector2 GetPosition();
 
         public void SetPosition(Vector2 position);
 
-        public CircleCollisionComponent GetCircleCollisionComponent();
+        public ICollisionComponent GetCollisionComponent();
 
         public void OnCollisionStart(IColliderEntity otherCollider);
 

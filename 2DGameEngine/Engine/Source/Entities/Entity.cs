@@ -28,8 +28,6 @@ namespace GameEngine2D.Entities
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        protected HashSet<string> CollidesAgainst = new HashSet<string>();
-
         private readonly string DESTROY_AMINATION = "Destroy";
 
         protected HashSet<string> Tags = new HashSet<string>();
@@ -145,23 +143,7 @@ namespace GameEngine2D.Entities
 
         protected Ray2DEmitter RayEmitter { get; set; }
 
-        public CircleCollisionComponent CircleCollider { get; set; }
-
-
-        private bool enableCircleCollisions = true;
-
-        public bool EnableCircleCollisions
-        {
-            get => enableCircleCollisions;
-            set
-            {
-                enableCircleCollisions = value;
-                if (!value)
-                {
-                    circleCollisions.Clear();
-                }
-            }
-        }
+        public ICollisionComponent CollisionComponent { get; set; }
 
         private Dictionary<Entity, bool> circleCollisions = new Dictionary<Entity, bool>();
 
@@ -188,6 +170,7 @@ namespace GameEngine2D.Entities
         }
 
         protected bool Destroyed = false;
+        protected bool BeingDestroyed = false;
 
         public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
         {
@@ -276,11 +259,11 @@ namespace GameEngine2D.Entities
             {
                 if (circleColliderMarker == null)
                 {
-                    circleColliderMarker = SpriteUtil.CreateCircle((int)CircleCollider.Radius * 2, Color.Black);
+                    circleColliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
                 }
-                if (CircleCollider != null)
+                if (CollisionComponent != null)
                 {
-                    spriteBatch.Draw(circleColliderMarker, CircleCollider.Position - new Vector2(CircleCollider.Radius, CircleCollider.Radius), Color.White);
+                    spriteBatch.Draw(circleColliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
                 } else
                 {
                     Logger.Log("Tried to print circle collider, but it's null!");
@@ -308,16 +291,6 @@ namespace GameEngine2D.Entities
         }
 
         protected virtual void OnGridCollisionEnd(Entity otherCollider, Direction direction)
-        {
-
-        }
-
-        protected virtual void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
-        {
-
-        }
-
-        protected virtual void OnCircleCollisionEnd(Entity otherCollider)
         {
 
         }
@@ -454,6 +427,11 @@ namespace GameEngine2D.Entities
 
         public override void Destroy()
         {
+            if (BeingDestroyed)
+            {
+                return;
+            }
+            BeingDestroyed = true;
             RemoveCollisions();
             if (DestroySound != null)
             {
@@ -506,10 +484,9 @@ namespace GameEngine2D.Entities
             Destroyed = true;
         }
 
-        protected void RemoveCollisions()
+        protected virtual void RemoveCollisions()
         {
-            EnableCircleCollisions = false;
-            CircleCollider = null;
+            CollisionComponent = null;
             BlocksMovement = false;
             RayEmitter = null;
             BlocksRay = false;

@@ -8,53 +8,35 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Physics.Collision
 {
-    public class CircleCollisionComponent
+    public class CircleCollisionComponent : AbstractCollisionComponent
     {
-        private Vector2 positionOffset;
-        public Vector2 Position {
-            get => positionOffset + owner.GetPosition();
-            private set { }
-        }
         public float Radius;
-
-        private ICircleCollider owner;
 
         public bool IsCircleCollider = true;
 
-        public CircleCollisionComponent(ICircleCollider owner, float radius, Vector2? positionOffset = null)
+        public CircleCollisionComponent(IColliderEntity owner, float radius, Vector2? positionOffset = null) : base (owner, positionOffset)
         {
-            this.owner = owner;
             Radius = radius;
-            this.positionOffset = positionOffset.HasValue ? positionOffset.Value : Vector2.Zero;
         }
 
         private float maxDistance;
         private float distance;
-        //private float intersection;
-        /*public CollisionResult Overlaps(ICircleCollider otherCollider)
-        {
-            maxDistance = Radius + otherCollider.CircleCollider.Radius;
-            distance = Vector2.Distance(Position, otherCollider.CircleCollider.Position);
-            intersection = (Radius + otherCollider.CircleCollider.Radius - distance) / (Radius + otherCollider.CircleCollider.Radius);
-            bool overlaps = distance <= maxDistance;
-            if (overlaps)
-            {
-                overlaps = true;
-            }
-            return distance <= maxDistance ? new CollisionResult(owner, otherCollider, distance) : CollisionResult.NO_COLLISION;
-        }*/
 
-        public bool Overlaps(ICircleCollider otherCollider)
+        public override bool Overlaps(IColliderEntity otherCollider)
         {
-            //TODO: review if this fast check is needed
-            if ((Math.Abs(Position.X - otherCollider.CircleCollider.Position.X) > Config.GRID * 2 && Math.Abs(Position.Y - otherCollider.CircleCollider.Position.Y) > Config.GRID * 2))
+            if (otherCollider.GetCollisionComponent() is CircleCollisionComponent)
             {
-                return false;
+                //TODO: review if this fast check is needed
+                CircleCollisionComponent other = otherCollider.GetCollisionComponent() as CircleCollisionComponent;
+                if ((Math.Abs(Position.X - otherCollider.GetCollisionComponent().Position.X) > Config.GRID * 2 && Math.Abs(Position.Y - other.Position.Y) > Config.GRID * 2))
+                {
+                    return false;
+                }
+                maxDistance = Radius + other.Radius;
+                distance = Vector2.Distance(Position, other.Position);
+                return distance <= maxDistance;
             }
-            maxDistance = Radius + otherCollider.CircleCollider.Radius;
-            distance = Vector2.Distance(Position, otherCollider.CircleCollider.Position);
-            //repelForce = (Radius + otherCollider.CircleCollider.Radius - distance) / (Radius + otherCollider.CircleCollider.Radius);
-            return distance <= maxDistance;
+            return false;
         }
     }
 }

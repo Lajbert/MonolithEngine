@@ -17,7 +17,7 @@ namespace GameEngine2D.Engine.Source.Physics
         private HashSet<IColliderEntity> toCheckAgainst = new HashSet<IColliderEntity>();
         private HashSet<IColliderEntity> entities = new HashSet<IColliderEntity>();
 
-        private Dictionary<IColliderEntity, Dictionary<CollisionType, Dictionary<IColliderEntity, bool>>> collisions = new Dictionary<IColliderEntity, Dictionary<CollisionType, Dictionary<IColliderEntity, bool>>>();
+        private Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>> collisions = new Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>>();
 
         private HashSet<IColliderEntity> changedObjects = new HashSet<IColliderEntity>();
 
@@ -86,8 +86,8 @@ namespace GameEngine2D.Engine.Source.Physics
 
                     //UpdateRaycast(thisEntity, otherObject);
                     //UpdateGridCollisions(thisEntity, otherObject);
-                    if (thisEntity.GetCircleCollisionComponent() != null && otherObject.GetCircleCollisionComponent() != null 
-                        && otherObject.GetCircleCollisionComponent().IsCircleCollider)
+                    if (thisEntity.GetCollisionComponent() != null && otherObject.GetCollisionComponent() != null 
+                        && otherObject.GetCollisionComponent() is CircleCollisionComponent)
                     {
                         UpdateCircleCollisions(thisEntity, otherObject);
                     }
@@ -103,29 +103,15 @@ namespace GameEngine2D.Engine.Source.Physics
             {
                 foreach (IColliderEntity changed in changedObjects)
                 {
-                    if (changed.GetCollisionProfile().Count == 0)
+                    if (changed.GetCollisionComponent() == null)
                     {
                         entities.Remove(changed);
                         toCheckAgainst.Remove(changed);
                     } else
                     {
-                        foreach (CollisionType collType in changed.GetCollisionProfile())
+                        if (!collisions.ContainsKey(changed))
                         {
-                            if (!collisions.ContainsKey(changed))
-                            {
-                                collisions[changed] = new Dictionary<CollisionType, Dictionary<IColliderEntity, bool>>();
-                            }
-                            if (!collisions[changed].ContainsKey(collType))
-                            {
-                                collisions[changed][collType] = new Dictionary<IColliderEntity, bool>();
-                            }
-                        }
-                        foreach (CollisionType collType in collisions[changed].Keys.ToList())
-                        {
-                            if (!changed.GetCollisionProfile().Contains(collType))
-                            {
-                                collisions[changed].Remove(collType);
-                            }
+                            collisions[changed] = new Dictionary<IColliderEntity, bool>();
                         }
                         if (!entities.Contains(changed))
                         {
@@ -163,30 +149,32 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private void UpdateCircleCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
-            if (thisEntity.GetCircleCollisionComponent().Overlaps(otherObject))
+            if (thisEntity.GetCollisionComponent().Overlaps(otherObject))
             {
-                if (!collisions.ContainsKey(thisEntity) || !collisions[thisEntity].ContainsKey(CollisionType.CIRCLE) 
-                    || !collisions[thisEntity][CollisionType.CIRCLE].ContainsKey(otherObject))
+                if (!collisions.ContainsKey(thisEntity) || !collisions[thisEntity].ContainsKey(otherObject))
                 {
                     thisEntity.OnCollisionStart(otherObject);
                 }
-                collisions[thisEntity][CollisionType.CIRCLE][otherObject] = true;
+                collisions[thisEntity][otherObject] = true;
             }
         }
 
         public List<IColliderEntity> GetCollidesWith(IColliderEntity collider)
         {
-            List<IColliderEntity> colliders = new List<IColliderEntity>();
+            List<IColliderEntity> result = new List<IColliderEntity>();
 
             if (collisions.ContainsKey(collider))
             {
-                foreach (CollisionType collType in collisions[collider].Keys)
+                foreach (IColliderEntity e in collisions[collider].Keys)
                 {
-                    colliders.AddRange(collisions[collider][collType].Keys);
+                    if (collisions[collider][e])
+                    {
+                        result.Add(e);
+                    }
                 }
             }
 
-            return colliders;
+            return result;
         }
 
         private void UpdateBoxCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
@@ -208,41 +196,35 @@ namespace GameEngine2D.Engine.Source.Physics
         {
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
-                foreach (CollisionType type in collisions[thisEntity].Keys)
+                foreach (IColliderEntity otherObject in collisions[thisEntity].Keys.ToList())
                 {
-                    foreach (IColliderEntity otherObject in collisions[thisEntity][type].Keys.ToList())
-                    {
-                        collisions[thisEntity][type][otherObject] = false;
-                    }
+                    collisions[thisEntity][otherObject] = false;
                 }
             }
         }
 
         private void InactivateCollisions()
         {
-            List<(IColliderEntity, CollisionType, IColliderEntity)> toRemove = new List<(IColliderEntity, CollisionType, IColliderEntity)>();
+            List<(IColliderEntity, IColliderEntity)> toRemove = new List<(IColliderEntity, IColliderEntity)>();
 
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
-                foreach (CollisionType type in collisions[thisEntity].Keys)
+                foreach (IColliderEntity otherObject in collisions[thisEntity].Keys.ToList())
                 {
-                    foreach (IColliderEntity otherObject in collisions[thisEntity][type].Keys.ToList())
+                    if (thisEntity.Equals(otherObject))
                     {
-                        if (thisEntity.Equals(otherObject))
-                        {
-                            continue;
-                        }
-                        if(!collisions[thisEntity][type][otherObject])
-                        {
-                            thisEntity.OnCollisionEnd(otherObject);
-                            toRemove.Add((thisEntity, type, otherObject));
-                        }
+                        continue;
+                    }
+                    if(!collisions[thisEntity][otherObject])
+                    {
+                        thisEntity.OnCollisionEnd(otherObject);
+                        toRemove.Add((thisEntity, otherObject));
                     }
                 }
             }
-            foreach ((IColliderEntity, CollisionType, IColliderEntity) t in toRemove)
+            foreach ((IColliderEntity, IColliderEntity) t in toRemove)
             {
-                collisions[t.Item1][t.Item2].Remove(t.Item3);
+                collisions[t.Item1].Remove(t.Item2);
                 /*if (collisions[t.Item1][t.Item2].Count() == 0)
                 {
                     collisions[t.Item1].Remove(t.Item2);

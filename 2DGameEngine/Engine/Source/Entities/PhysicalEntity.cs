@@ -25,7 +25,6 @@ namespace GameEngine2D
         private Vector2 bump;
 
         protected HashSet<string> CollidesAgainst = new HashSet<string>();
-        protected HashSet<CollisionType> CollisionProfile = new HashSet<CollisionType>() { CollisionType.CIRCLE };
 
         protected UserInputController UserInput;
         protected float elapsedTime;
@@ -237,9 +236,13 @@ namespace GameEngine2D
             Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             base.Destroy();
-            CollisionProfile.Clear();
-            CollidesAgainst.Clear();
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        protected override void RemoveCollisions()
+        {
+            base.RemoveCollisions();
+            CollidesAgainst.Clear();
         }
 
         public bool IsMovingAtLeast(float speed)
@@ -256,12 +259,7 @@ namespace GameEngine2D
         {
             Velocity += force;
         }
-
-        public HashSet<CollisionType> GetCollisionProfile()
-        {
-            return CollisionProfile;
-        }
-
+        
         public ICollection<string> GetTags()
         {
             return Tags;
@@ -282,9 +280,9 @@ namespace GameEngine2D
             Velocity += velocity;
         }
 
-        public CircleCollisionComponent GetCircleCollisionComponent()
+        public ICollisionComponent GetCollisionComponent()
         {
-            return CircleCollider;
+            return CollisionComponent;
         }
 
         public virtual void OnCollisionStart(IColliderEntity otherCollider)

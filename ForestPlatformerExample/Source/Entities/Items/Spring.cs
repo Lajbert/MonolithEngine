@@ -23,7 +23,7 @@ namespace ForestPlatformerExample.Source.Items
 
             Power = power;
 
-            CircleCollider = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
+            CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
 
             AddTag("Pickup");
 

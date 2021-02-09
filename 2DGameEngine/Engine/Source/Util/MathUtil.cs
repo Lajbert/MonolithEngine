@@ -7,7 +7,6 @@ namespace GameEngine2D.Source.Util
 {
     public class MathUtil
     {
-
 		public static Vector2 RadToVector(float angleRad)
         {
 			return new Vector2((float)Math.Cos(angleRad), (float)Math.Sin(angleRad));
