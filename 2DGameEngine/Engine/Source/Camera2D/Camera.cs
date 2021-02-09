@@ -50,12 +50,10 @@ namespace GameEngine2D.Source.Camera2D
 		private Vector3 viewportCenterTransform;
 		public Vector2 CurrentCenter;
 
-		public int BOUND_LEFT = 500;
-        public int BOUND_RIGHT = 2000;
-		public int BOUND_TOP = 350;
-		public int BOUND_BOTTOM = 450;
-
-		private LayerManager root;
+		public int BOUND_LEFT = 0;
+        public int BOUND_RIGHT = 0;
+		public int BOUND_TOP = 0;
+		public int BOUND_BOTTOM = 0;
 
 		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
 			position = Vector2.Zero;
@@ -118,19 +116,19 @@ namespace GameEngine2D.Source.Camera2D
 
 			position += direction * elapsedTime;
 
-			if (position.X < BOUND_LEFT)
+			if (BOUND_LEFT != 0 && position.X < BOUND_LEFT)
 			{
 				position.X = BOUND_LEFT;
 			}
-			if (position.Y < BOUND_TOP)
+			if (BOUND_TOP != 0 && position.Y < BOUND_TOP)
 			{
 				position.Y = BOUND_TOP;
 			}
-			if (position.X > BOUND_RIGHT)
+			if (BOUND_RIGHT != 0 && position.X > BOUND_RIGHT)
 			{
 				position.X = BOUND_RIGHT;
 			}
-			if (position.Y > BOUND_BOTTOM)
+			if (BOUND_BOTTOM != 0 && position.Y > BOUND_BOTTOM)
 			{
 				position.Y = BOUND_BOTTOM;
 			}

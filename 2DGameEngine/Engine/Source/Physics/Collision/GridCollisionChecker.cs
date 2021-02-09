@@ -8,9 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Layer
+namespace GameEngine2D.Engine.Source.Physics.Collision
 {
-    public class OnePointCollider
+    public class GridCollisionChecker
     {
         private Dictionary<Vector2, IGridCollider> objects = new Dictionary<Vector2, IGridCollider>();
         private Dictionary<IGridCollider, Vector2> objectPositions = new Dictionary<IGridCollider, Vector2>();
@@ -24,7 +24,7 @@ namespace GameEngine2D.Source.Layer
 
         private static readonly List<Direction> basicDirections = new List<Direction>() { Direction.CENTER, Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN };
 
-        public OnePointCollider()
+        public GridCollisionChecker()
         {
         }
 

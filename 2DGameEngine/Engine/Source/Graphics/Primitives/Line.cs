@@ -1,7 +1,7 @@
 ﻿using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Source;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;

@@ -1,7 +1,9 @@
 ﻿using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
+using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Source.Entities;
@@ -11,7 +13,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static GameEngine2D.Engine.Source.Physics.Collision.CollisionResult;
 
 namespace ForestPlatformerExample.Source.Items
 {
@@ -23,6 +24,10 @@ namespace ForestPlatformerExample.Source.Items
 
         public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(LayerManager.Instance.EntityLayer, null, position, null)
         {
+
+            AddTag("Pickup");
+            AddTag("Coin");
+            AddCollisionAgainst("Coin");
 
             this.bounceCount = bounceCount * -1;
 
@@ -60,7 +65,7 @@ namespace ForestPlatformerExample.Source.Items
         protected override void OnLand()
         {
             base.OnLand();
-            if (CircleCollider == null)
+            if (CollisionComponent == null)
             {
                 SetCircleCollider();
             }
@@ -73,26 +78,40 @@ namespace ForestPlatformerExample.Source.Items
 
         public override void PostUpdate(GameTime gameTime)
         {
+            if (Destroyed)
+            {
+                return;
+            }
             base.PostUpdate(gameTime);
             // just a failsafe: in case a coin never bounces for any kind of bug, the player should still be able to pick it up at some point
-            if (CircleCollider == null && Velocity == Vector2.Zero)
+            if (CollisionComponent == null && Velocity == Vector2.Zero && !BeingDestroyed)
             {
                 SetCircleCollider();
             }
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
+        public override void OnCollisionStart(IColliderEntity otherCollider)
+        {
+            if (otherCollider is Coin && repelForce > 0)
+            {
+                PhysicsUtil.ApplyRepel(this, otherCollider, repelForce, RepelMode.ONLY_THIS);
+                repelForce -= 0.5f;
+            }
+        }
+
+        /*protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
         {
             if (otherCollider is Coin && repelForce > 0)
             {
                 collisionResult.ApplyRepel(repelForce, RepelMode.ONLY_THIS);
                 repelForce -= 0.5f;
             }
-        }
+        }*/
 
         public void SetCircleCollider()
         {
-            CircleCollider = new CircleCollider(this, 10);
+            Logger.Log("------------------------ FIX THIS TO USE TIMER ---------------------");
+            CollisionComponent = new CircleCollisionComponent(this, 10);
         }
 
         public override void Update(GameTime gameTime)
@@ -106,13 +125,15 @@ namespace ForestPlatformerExample.Source.Items
             {
                 Destroy();
             }
-            if (IsMovingAtLeast(0.5f))
+            /*if (IsMovingAtLeast(0.5f))
             {
-                EnableCircleCollisions = true;
+                SetCircleCollider();
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
             } else
             {
-                EnableCircleCollisions = false;
-            }
+                CollisionComponent = null;
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            }*/
         }
     }
 }

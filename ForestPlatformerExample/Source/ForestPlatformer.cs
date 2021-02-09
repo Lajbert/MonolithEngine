@@ -6,11 +6,12 @@ using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
+using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Level;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -40,15 +41,16 @@ namespace ForestPlatformerExample
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
             Config.GRAVITY_FORCE = 12f;
-            Config.ZOOM = 2f;
+            //Config.ZOOM = 2f;
             Config.CHARACTER_SPEED = 2f;
             Config.JUMP_FORCE = 7f;
             Config.INCREASING_GRAVITY = true;
 
 
-            //Config.RES_W = 3840;
-            //Config.RES_W = 2160;
+            Config.RES_W = 3840;
+            Config.RES_H = 2160;
             //Config.FULLSCREEN = true;
+            Config.ZOOM = (Config.RES_W / 1920) * 2;
 
             //Config.GRID = 64;
 
@@ -87,6 +89,12 @@ namespace ForestPlatformerExample
             graphics.IsFullScreen = Config.FULLSCREEN;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
+
+            Camera.BOUND_LEFT = 500;
+            Camera.BOUND_RIGHT = 2000;
+            Camera.BOUND_TOP = 350;
+            Camera.BOUND_BOTTOM = 450;
+
             LayerManager.Instance.Camera = Camera;
             LayerManager.Instance.InitLayers();
 
@@ -182,6 +190,7 @@ namespace ForestPlatformerExample
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic here
             Timer.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            CollisionEngine.Instance.Update(gameTime);
             LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);

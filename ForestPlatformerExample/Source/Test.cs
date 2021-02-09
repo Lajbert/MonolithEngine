@@ -5,7 +5,7 @@ using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Level;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -22,6 +22,8 @@ using System.Linq;
 using GameEngine2D.Source.Util;
 using ForestPlatformerExample.Source.Weapons;
 using GameEngine2D;
+using GameEngine2D.Engine.Source.Physics.Interface;
+using GameEngine2D.Engine.Source.Physics;
 
 namespace TestExample
 {
@@ -50,13 +52,14 @@ namespace TestExample
             Config.INCREASING_GRAVITY = true;
 
 
-            //Config.RES_W = 3840;
-            //Config.RES_W = 2160;
+            Config.RES_W = 3840;
+            Config.RES_H = 2160;
             //Config.FULLSCREEN = true;
+            Config.ZOOM = (Config.RES_W / 1920) * 2;
 
             //Config.GRID = 64;
 
-            Config.FPS = 0;
+            //Config.FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
@@ -91,6 +94,10 @@ namespace TestExample
             graphics.IsFullScreen = Config.FULLSCREEN;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
+            Camera.BOUND_LEFT = 500;
+            Camera.BOUND_RIGHT = 2000;
+            Camera.BOUND_TOP = 350;
+            Camera.BOUND_BOTTOM = 450;
             LayerManager.Instance.Camera = Camera;
             LayerManager.Instance.InitLayers();
 
@@ -120,15 +127,15 @@ namespace TestExample
 
             }
 
-            protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
+            /*protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
             {
                 SetSprite(red);
-            }
+            }*/
 
-            protected override void OnCircleCollisionEnd(Entity otherCollider)
+            /*protected override void OnCircleCollisionEnd(Entity otherCollider)
             {
                 SetSprite(blue);
-            }
+            }*/
 
             public override void Update(GameTime gameTime)
             {
@@ -149,25 +156,34 @@ namespace TestExample
                 GridCollisionCheckDirections = new HashSet<Direction>(Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList());
                 //CircleCollider = new CircleCollider(this, 30);
                 //fist = new FistTest(this, new Vector2(20, 20));
-                fist.Destroy();
+                /*fist.Destroy();
                 fist = new FistTest(this, Vector2.Zero);
                 fist.SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
                 fist.EnableCircleCollisions = true;
-                fist.Active = true;
+                fist.Active = true;*/
+
+                AddCollisionAgainst("Test");
+                CollisionComponent = new CircleCollisionComponent(this, 30);
                 //DrawOffset = new Vector2(-8, -8);
             }
 
             float angle;
             bool colliding = false;
-            protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
+            /*protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
             {
                 collisionResult.ApplyRepel(5);
-            }
+            }*/
 
-            protected override void OnCircleCollisionEnd(Entity otherCollider)
+            /*protected override void OnCircleCollisionEnd(Entity otherCollider)
             {
                 //SetSprite(blue);
                 colliding = false;
+            }*/
+
+            public override void OnCollisionStart(IColliderEntity otherCollider)
+            {
+                PhysicsUtil.ApplyRepel(this, otherCollider, 5);
+                base.OnCollisionStart(otherCollider);
             }
 
             Texture2D collPivot = SpriteUtil.CreateCircle(5, Color.Black);
@@ -190,17 +206,18 @@ namespace TestExample
         {
             public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
             {
-                CircleCollider = new CircleCollider(this, 16);
+                CollisionComponent = new CircleCollisionComponent(this, 16);
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_CIRCLE_COLLIDER = true;
                 //DrawOffset = new Vector2(-8, -8);
+                AddTag("Test");
             }
 
             Texture2D collPivot = SpriteUtil.CreateCircle(5, Color.Black);
             public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
             {
                 base.Draw(spriteBatch, gameTime);
-                spriteBatch.Draw(collPivot, CircleCollider.Position, Color.White);
+                spriteBatch.Draw(collPivot, CollisionComponent.Position, Color.White);
             }
         }
 
@@ -214,8 +231,9 @@ namespace TestExample
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
-            // TODO: Add your update logic here
+            // TODO: Add your update logic 
             Timer.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            CollisionEngine.Instance.Update(gameTime);
             LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);

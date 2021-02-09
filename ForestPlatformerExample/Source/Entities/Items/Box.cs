@@ -6,6 +6,7 @@ using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -36,10 +37,14 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             DrawPriority = 1;
 
+            AddTag("Pickup");
+            AddTag("Box");
+
+            AddCollisionAgainst("Enemy");
+
             this.bumps = currentBump = bumps;
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(0, 0));
-            EnableCircleCollisions = false;
+            CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(0, -8));
 
             CollisionOffsetBottom = 1f;
             CollisionOffsetRight = 0.5f;
@@ -50,7 +55,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             Active = true;
 
             //DEBUG_SHOW_PIVOT = true;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(0, -16);
@@ -110,12 +115,10 @@ namespace ForestPlatformerExample.Source.Entities.Items
             GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
             HasGravity = true;
             Active = true;
-            EnableCircleCollisions = true;
         }
 
         private void DisablePysics()
         {
-            EnableCircleCollisions = false;
             GridCollisionCheckDirections = new HashSet<Direction>();
             HasGravity = false;
         }
@@ -125,7 +128,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             int numOfCoins = MyRandom.Between(3, 6);
             for (int i = 0; i < numOfCoins; i++)
             {
-                Coin c = new Coin(Position, 3, true);
+                Coin c = new Coin(Position, 3);
                 c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
                 c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1));
             }
@@ -133,14 +136,25 @@ namespace ForestPlatformerExample.Source.Entities.Items
             Destroy();
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
+        /*protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
         {
             if (otherCollider is Carrot && IsMovingAtLeast(0.5f))
             {
                 otherCollider.Destroy();
                 Explode();
             }
+        }*/
+
+        public override void OnCollisionStart(IColliderEntity otherCollider)
+        {
+            if (otherCollider is Carrot && IsMovingAtLeast(0.5f))
+            {
+                (otherCollider as Carrot).Destroy();
+                Explode();
+            }
+            base.OnCollisionStart(otherCollider);
         }
+
         protected override void OnLand()
         {
             if (currentBump < 1)

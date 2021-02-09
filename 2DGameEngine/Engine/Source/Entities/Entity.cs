@@ -8,7 +8,7 @@ using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities.Animation;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -20,7 +20,7 @@ using System.Linq;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, IRayBlocker, ICircleCollider, IGridCollider
+    public class Entity : GameObject, IRayBlocker, IGridCollider
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -28,20 +28,42 @@ namespace GameEngine2D.Entities
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        public int GridCollisionPriority { get; set; }
-
         private readonly string DESTROY_AMINATION = "Destroy";
 
-        private HashSet<string> tags = new HashSet<string>();
+        protected HashSet<string> Tags = new HashSet<string>();
 
         private HashSet<Direction> blockedFrom = new HashSet<Direction>();
 
         public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
 
-        protected static OnePointCollider GridCollisionChecker { get; } = new OnePointCollider();
+        protected static GridCollisionChecker GridCollisionChecker { get; } = new GridCollisionChecker();
 
-        public bool Visible = true;
-        public bool Active = false;
+        private bool visible = true;
+        private bool active = false;
+
+        public bool Visible {
+            get => visible;
+            set
+            {
+                if (value != visible)
+                {
+                    Layer.OnObjectChanged(this);
+                }
+                visible = value;
+            }
+        }
+        public bool Active
+        {
+            get => active;
+            set
+            {
+                if (value != active)
+                {
+                    Layer.OnObjectChanged(this);
+                }
+                active = value;
+            }
+        }
 
         private float drawPriority = 0;
 
@@ -145,25 +167,7 @@ namespace GameEngine2D.Entities
 
         protected Ray2DEmitter RayEmitter { get; set; }
 
-        public CircleCollider CircleCollider { get; set; }
-
-
-        private bool enableCircleCollisions = true;
-
-        public bool EnableCircleCollisions
-        {
-            get => enableCircleCollisions;
-            set
-            {
-                enableCircleCollisions = value;
-                if (!value)
-                {
-                    circleCollisions.Clear();
-                }
-            }
-        }
-
-        private Dictionary<Entity, bool> circleCollisions = new Dictionary<Entity, bool>();
+        public ICollisionComponent CollisionComponent { get; set; }
 
         private Texture2D pivotMarker;
         private Texture2D circleColliderMarker;
@@ -188,6 +192,7 @@ namespace GameEngine2D.Entities
         }
 
         protected bool Destroyed = false;
+        protected bool BeingDestroyed = false;
 
         public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
         {
@@ -196,6 +201,8 @@ namespace GameEngine2D.Entities
             this.font = font;
             SetParent(parent, startPosition);
             SetSprite(sprite);
+
+            layer.OnObjectChanged(this);
         }
 
         public void SetParent(Entity newParent, Vector2 position)
@@ -203,7 +210,6 @@ namespace GameEngine2D.Entities
             if (newParent != null)
             {
                 Position = position;
-                Layer.RemoveRoot(this);
                 if (parent != null)
                 {
                     parent.RemoveChild(this);
@@ -222,7 +228,7 @@ namespace GameEngine2D.Entities
                     Position = position;
                 }
                 parent = null;
-                Layer.AddRootObject(this);
+
             }
             //UpdateInCellCoord();
             GridCoordinates = CalculateGridCoord();
@@ -276,11 +282,11 @@ namespace GameEngine2D.Entities
             {
                 if (circleColliderMarker == null)
                 {
-                    circleColliderMarker = SpriteUtil.CreateCircle((int)CircleCollider.Radius * 2, Color.Black);
+                    circleColliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
                 }
-                if (CircleCollider != null)
+                if (CollisionComponent != null)
                 {
-                    spriteBatch.Draw(circleColliderMarker, CircleCollider.Position - new Vector2(CircleCollider.Radius, CircleCollider.Radius), Color.White);
+                    spriteBatch.Draw(circleColliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
                 } else
                 {
                     Logger.Log("Tried to print circle collider, but it's null!");
@@ -308,16 +314,6 @@ namespace GameEngine2D.Entities
         }
 
         protected virtual void OnGridCollisionEnd(Entity otherCollider, Direction direction)
-        {
-
-        }
-
-        protected virtual void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
-        {
-
-        }
-
-        protected virtual void OnCircleCollisionEnd(Entity otherCollider)
         {
 
         }
@@ -394,7 +390,7 @@ namespace GameEngine2D.Entities
             }
 
 
-            if (EnableCircleCollisions && CircleCollider != null)
+            /*if (EnableCircleCollisions && CircleCollider != null)
             {
 
                 foreach (Entity e in circleCollisions.Keys.ToList())
@@ -434,22 +430,8 @@ namespace GameEngine2D.Entities
                         circleCollisions.Remove(e);
                     }
                 }
-            }   
+            }   */
         }
-
-        static bool printed = false;
-        /*protected bool CheckGridCollisions()
-        {
-            if (!printed)
-            {
-                Logger.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Logger.Log("!!!!!!!!!!!!!!!!!!TODO: HARDCODED VALUE, FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Logger.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                printed = true;
-            }
-            
-            return true;
-        }*/
 
         public HashSet<Entity> GetAllChildren()
         {
@@ -468,6 +450,11 @@ namespace GameEngine2D.Entities
 
         public override void Destroy()
         {
+            if (BeingDestroyed)
+            {
+                return;
+            }
+            BeingDestroyed = true;
             RemoveCollisions();
             if (DestroySound != null)
             {
@@ -500,7 +487,6 @@ namespace GameEngine2D.Entities
             {
                 DestroySound.Dispose();
             }
-            Layer.RemoveRoot(this);
             if (parent != null)
             {
                 parent.RemoveChild(this);
@@ -515,15 +501,14 @@ namespace GameEngine2D.Entities
                     }
                 }
             }
-            //Active = false;
-            //Visible = false;
+            Active = false;
+            Visible = false;
             Destroyed = true;
         }
 
-        protected void RemoveCollisions()
+        protected virtual void RemoveCollisions()
         {
-            EnableCircleCollisions = false;
-            CircleCollider = null;
+            CollisionComponent = null;
             BlocksMovement = false;
             RayEmitter = null;
             BlocksRay = false;
@@ -595,14 +580,14 @@ namespace GameEngine2D.Entities
             return RayBlockerLines;
         }
 
-        public void AddTag(string tag)
+        public virtual void AddTag(string tag)
         {
-            tags.Add(tag);
+            Tags.Add(tag);
         }
 
         public bool HasTag(string tag)
         {
-            return tags.Contains(tag);
+            return Tags.Contains(tag);
         }
 
         public bool HasAnyTag(ICollection<string> tags)
@@ -617,14 +602,9 @@ namespace GameEngine2D.Entities
             return false;
         }
 
-        public void RemoveTag(string tag)
+        public virtual void RemoveTag(string tag)
         {
-            tags.Remove(tag);
-        }
-
-        public List<string> Tags()
-        {
-            return tags.ToList();
+            Tags.Remove(tag);
         }
 
         public void AddBlockedDirection(Direction direction)
@@ -680,6 +660,16 @@ namespace GameEngine2D.Entities
         public bool BlocksMovementFrom(Direction direction)
         {
             return BlocksMovement && IsBlockedFrom(direction);
+        }
+
+        public HashSet<CollisionType> GetCollisionProfile()
+        {
+            return new HashSet<CollisionType>() { CollisionType.CIRCLE };
+        }
+
+        public ICollection<string> GetTags()
+        {
+            return Tags;
         }
     }
 }

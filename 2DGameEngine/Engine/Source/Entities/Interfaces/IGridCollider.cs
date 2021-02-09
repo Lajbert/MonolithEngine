@@ -10,7 +10,6 @@ namespace GameEngine2D.Engine.Source.Entities.Interfaces
         Vector2 GetInCellLocation();
         Vector2 GetGridCoord();
         Vector2 GetPosition();
-        public int GridCollisionPriority { get; set; }
 
         public bool HasTag(string tag);
 

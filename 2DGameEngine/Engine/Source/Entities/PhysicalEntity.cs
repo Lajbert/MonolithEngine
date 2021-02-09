@@ -1,24 +1,30 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Physics;
+using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
 using GameEngine2D.Source;
-using GameEngine2D.Source.Layer;
+using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace GameEngine2D
 {
-    public class PhysicalEntity : Entity, IHasCircleCollisionPhysics
+    public class PhysicalEntity : Entity, IColliderEntity
     {
 
         private Vector2 bump;
+
+        private HashSet<string> CollidesAgainst = new HashSet<string>();
 
         protected UserInputController UserInput;
         protected float elapsedTime;
@@ -41,8 +47,6 @@ namespace GameEngine2D
 
         public bool HasGravity = Config.GRAVITY_ON;
 
-        
-
         protected GameTime GameTime;
 
         public bool CheckGridCollisions = true;
@@ -51,6 +55,7 @@ namespace GameEngine2D
         {
             Active = true;
             ResetPosition(startPosition);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -163,21 +168,6 @@ namespace GameEngine2D
                 steps2--;
             }
 
-            // workaround for bug when character ends up standing inside a collider or slightly above it
-            // when the movement started from below or the fall started from height less than sprite graphics offset
-            /*if (OnGround() && HasGravity && Math.Abs(Velocity.Y) < 0.05)
-            {
-
-                if (InCellLocation.Y > CollisionOffsetBottom) {
-                    InCellLocation.Y -= 0.09f * elapsedTime * GravityValue;
-                }
-                if (InCellLocation.Y < CollisionOffsetBottom)
-                {
-                    InCellLocation.Y += 0.09f * elapsedTime * GravityValue;
-                }
-                //InCellLocation.Y = CollisionOffsetBottom;
-            }*/
-
             Velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
             bump.Y *= (float)Math.Pow(BumpFriction, elapsedTime);
             //rounding stuff
@@ -240,6 +230,13 @@ namespace GameEngine2D
             Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             base.Destroy();
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        protected override void RemoveCollisions()
+        {
+            base.RemoveCollisions();
+            CollidesAgainst.Clear();
         }
 
         public bool IsMovingAtLeast(float speed)
@@ -255,6 +252,70 @@ namespace GameEngine2D
         public void AddForce(Vector2 force)
         {
             Velocity += force;
+        }
+        
+        public ICollection<string> GetTags()
+        {
+            return Tags;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            this.Position = position;
+        }
+
+        public void SetVelocity(Vector2 velocity)
+        {
+            Velocity = velocity;
+        }
+
+        public void AddVelocity(Vector2 velocity)
+        {
+            Velocity += velocity;
+        }
+
+        public ICollisionComponent GetCollisionComponent()
+        {
+            return CollisionComponent;
+        }
+
+        public virtual void OnCollisionStart(IColliderEntity otherCollider)
+        {
+            
+        }
+
+        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
+        {
+            
+        }
+
+        public HashSet<string> GetCollidesAgainst()
+        {
+            return CollidesAgainst;
+        }
+
+        public void AddCollisionAgainst(string tag)
+        {
+            CollidesAgainst.Add(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public void RemoveCollisionAgainst(string tag)
+        {
+            CollidesAgainst.Remove(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public override void AddTag(string tag)
+        {
+            base.AddTag(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public override void RemoveTag(string tag)
+        {
+            base.RemoveTag(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
     }
 }

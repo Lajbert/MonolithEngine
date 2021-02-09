@@ -9,6 +9,7 @@ using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Raycast;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
@@ -56,12 +57,17 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
 
             //DEBUG_SHOW_PIVOT = true;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
+            DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_RAYCAST = true;
+
+            AddTag("Hero");
+
+            AddCollisionAgainst("Pickup");
+            AddCollisionAgainst("Enemy");
 
             BlocksRay = true;
 
-            CircleCollider = new CircleCollider(this, 10, new Vector2(0, -10));
+            CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(0, -10));
 
             //ColliderOnGrid = true;
 
@@ -80,7 +86,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 GridCollisionCheckDirections.Add(direction);
             }
 
-            fist = new Fist(this, new Vector2(15, -7));
+            fist = new Fist(this, new Vector2(20, -10));
 
             if (DEBUG_SHOW_RAYCAST)
             {
@@ -310,11 +316,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("CarryFallingRight", "CarryFallingLeft");
 
             SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@attack-sheet", 48);
-            //attackRight.StartedCallback = () => Velocity.X = 0f;
-            attackRight.AddFrameAction(5, (frame) => canAttack = true);
-            attackRight.AddFrameAction(5, (frame) => fist.IsAttacking = false);
-            //attackRight.EveryFrameAction = (frame) => HitEnemy();
-            //attackRight.StoppedCallback += () => isAttacking = false;
             attackRight.Looping = false;
             Animations.RegisterAnimation("AttackRight", attackRight, () => false, 8);
 
@@ -428,21 +429,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     ThrowCurrentItem(force);
                     return;
                 }
-                if (!canAttack)
-                {
-                    return;
-                }
-                canAttack = false;
-                fist.IsAttacking = true;
-                if (CurrentFaceDirection == Direction.LEFT)
-                {
-                    Animations.PlayAnimation("AttackLeft");
-                } else if (CurrentFaceDirection == Direction.RIGHT)
-                {
-                    Animations.PlayAnimation("AttackRight");
-                }
-                
-
+                Attack();
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
@@ -563,6 +550,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             ThrowCurrentItem(Vector2.Zero);
         }
 
+        private void Attack()
+        {
+            if (canAttack)
+            {
+                fist.Attack();
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
 
@@ -604,7 +599,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider.HasTag("SlideWall") && !OnGround())
             {
-                if (fist.IsAttacking || isCarryingItem)
+                if (Timer.IsSet("IsAttacking") || isCarryingItem)
                 {
                     return;
                 }
@@ -655,11 +650,32 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
+        protected override void SetRayBlockers()
+        {
+            RayBlockerLines.Clear();
+            RayBlockerLines.Add((new Vector2(Position.X - Config.GRID / 2, Position.Y - 10), new Vector2(Position.X + Config.GRID / 2, Position.Y - 10)));
+            RayBlockerLines.Add((new Vector2(Position.X, Position.Y - Config.GRID / 2 - 10), new Vector2(Position.X, Position.Y + Config.GRID / 2 - 10)));
+        }
+
+        private void LeaveLadder()
+        {
+            if (!HasGravity)
+            {
+                FallSpeed = 0;
+                HasGravity = true;
+                MovementSpeed = Config.CHARACTER_SPEED;
+                if (Velocity.Y < -0.5)
+                {
+                    Velocity.Y -= Config.JUMP_FORCE / 2;
+                }
+            }
+        }
+
+        public override void OnCollisionStart(IColliderEntity otherCollider)
         {
             if (otherCollider is Carrot)
             {
-                float angle = MathUtil.DegreeFromVectors(Position, otherCollider.Position);
+                float angle = MathUtil.DegreeFromVectors(Position, otherCollider.GetPosition());
                 if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                 {
                     Bump(new Vector2(0, -5));
@@ -668,7 +684,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
                     canJump = false;
                     canDoubleJump = true;
-                } 
+                }
                 else
                 {
                     if (Timer.IsSet("Invincible"))
@@ -689,29 +705,25 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     {
                         Animations.PlayAnimation("HurtRight");
                     }
-                    if (otherCollider.X < X)
+                    if (otherCollider.GetPosition().X < X)
                     {
                         Velocity += new Vector2(2, -2);
                     }
-                    else if (otherCollider.X > X)
+                    else if (otherCollider.GetPosition().X > X)
                     {
                         Velocity += new Vector2(-2, -2);
                     }
-                }
-                
-            } 
+                } 
+            }
             else if (otherCollider is Coin)
             {
-                otherCollider.Destroy();
+                (otherCollider as Coin).Destroy();
             }
-            else if (otherCollider is Box && Velocity.Y > 0 && (otherCollider as Box).Velocity == Vector2.Zero)
+            else if (otherCollider is Box && Velocity.Y > 0 && (otherCollider as Box).Velocity == Vector2.Zero && Position.Y < otherCollider.GetPosition().Y)
             {
                 Bump(new Vector2(0, -5));
                 FallSpeed = 0;
                 (otherCollider as Box).Hit(Direction.CENTER);
-            } else if (otherCollider is IMovableItem)
-            {
-                overlappingItem = otherCollider as IMovableItem;
             }
             else if (otherCollider is Spring)
             {
@@ -722,35 +734,22 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 canDoubleJump = true;
                 FallSpeed = 0;
             }
+            else if (otherCollider is IMovableItem)
+            {
+                overlappingItem = otherCollider as IMovableItem;
+            }
+            Logger.Log("HERO COLLIDE STARTED WITH: " + otherCollider);
+            base.OnCollisionStart(otherCollider);
         }
 
-        protected override void OnCircleCollisionEnd(Entity otherCollider)
+        public override void OnCollisionEnd(IColliderEntity otherCollider)
         {
             if (otherCollider is IMovableItem)
             {
                 overlappingItem = null;
             }
-        }
-
-        protected override void SetRayBlockers()
-        {
-            RayBlockerLines.Clear();
-            RayBlockerLines.Add((new Vector2(Position.X - Config.GRID / 2, Position.Y - 10), new Vector2(Position.X + Config.GRID / 2, Position.Y - 10)));
-            RayBlockerLines.Add((new Vector2(Position.X, Position.Y - Config.GRID / 2 - 10), new Vector2(Position.X, Position.Y + Config.GRID / 2 - 10)));
-        }
-
-        private void LeaveLadder()
-        {
-            if (!HasGravity)
-            {
-                FallSpeed = 0;
-                HasGravity = true;
-                MovementSpeed = Config.CHARACTER_SPEED;
-                if (Velocity.Y < -0.5)
-                {
-                    Velocity.Y -= Config.JUMP_FORCE / 2;
-                }
-            }
+            Logger.Log("HERO COLLIDE ENDED WITH: " + otherCollider);
+            base.OnCollisionStart(otherCollider);
         }
     }
 }
