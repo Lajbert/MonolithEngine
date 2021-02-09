@@ -18,8 +18,7 @@ namespace GameEngine2D.Source.GridCollision
         private List<Entity> activeObjects = new List<Entity>();
         private List<Entity> visibleObjects = new List<Entity>();
 
-        private List<Entity> newObjects = new List<Entity>();
-        private List<Entity> removedObjects = new List<Entity>();
+        private List<Entity> changedObjects = new List<Entity>();
 
         private float scrollSpeedModifier;
         private bool lockY;
@@ -51,14 +50,9 @@ namespace GameEngine2D.Source.GridCollision
             spriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
         }
 
-        public void AddRootObject(Entity gameObject)
+        public void OnObjectChanged(Entity gameObject)
         {
-            newObjects.Add(gameObject);
-        }
-
-        private void RemoveObject(Entity gameObject)
-        {
-            removedObjects.Add(gameObject);
+            changedObjects.Add(gameObject);
         }
 
         public IEnumerable<Entity> GetAll()
@@ -73,11 +67,6 @@ namespace GameEngine2D.Source.GridCollision
                 return;
             }
             visibleObjects.Sort((a, b) => a.DrawPriority.CompareTo(b.DrawPriority));
-        }
-
-        public void RemoveRoot(Entity gameObject)
-        {
-            RemoveObject(gameObject);
         }
 
         public void DrawAll(GameTime gameTime)
@@ -108,37 +97,34 @@ namespace GameEngine2D.Source.GridCollision
                 spriteBatch.End();
             }
 
-            if (newObjects.Count > 0)
+            if (changedObjects.Count > 0)
             {
-                foreach (Entity e in newObjects)
+                foreach (Entity e in changedObjects)
                 {
                     if (e.Visible)
                     {
-                        visibleObjects.Add(e);
+                        if (!visibleObjects.Contains(e))
+                        {
+                            visibleObjects.Add(e);
+                        }
+                    }
+                    else
+                    {
+                        visibleObjects.Remove(e);
                     }
                     if (e.Active)
                     {
-                        activeObjects.Add(e);
+                        if (!activeObjects.Contains(e))
+                        {
+                            activeObjects.Add(e);
+                        }
+                    }
+                    else
+                    {
+                        activeObjects.Remove(e);
                     }
                 }
-                newObjects.Clear();
-                SortByPriority();
-            }
-            if (removedObjects.Count > 0)
-            {
-                foreach (Entity toRemove in removedObjects)
-                {
-                    if (toRemove.Active)
-                    {
-                        activeObjects.Remove(toRemove);
-                    }
-
-                    if (toRemove.Visible)
-                    {
-                        visibleObjects.Remove(toRemove);
-                    }
-                }
-                removedObjects.Clear();
+                changedObjects.Clear();
                 SortByPriority();
             }
         }
@@ -166,37 +152,34 @@ namespace GameEngine2D.Source.GridCollision
                 }
             }
 
-            if (newObjects.Count > 0)
+            if (changedObjects.Count > 0)
             {
-                foreach (Entity e in newObjects)
+                foreach (Entity e in changedObjects)
                 {
                     if (e.Visible)
                     {
-                        visibleObjects.Add(e);
+                        if (!visibleObjects.Contains(e))
+                        {
+                            visibleObjects.Add(e);
+                        }
+                    }
+                    else
+                    {
+                        visibleObjects.Remove(e);
                     }
                     if (e.Active)
                     {
-                        activeObjects.Add(e);
+                        if (!activeObjects.Contains(e))
+                        {
+                            activeObjects.Add(e);
+                        }
+                    }
+                    else
+                    {
+                        activeObjects.Remove(e);
                     }
                 }
-                newObjects.Clear();
-                SortByPriority();
-            }
-            if (removedObjects.Count > 0)
-            {
-                foreach (Entity toRemove in removedObjects)
-                {
-                    if (toRemove.Active)
-                    {
-                        activeObjects.Remove(toRemove);
-                    }
-
-                    if (toRemove.Visible)
-                    {
-                        visibleObjects.Remove(toRemove);
-                    }
-                }
-                removedObjects.Clear();
+                changedObjects.Clear();
                 SortByPriority();
             }
         }

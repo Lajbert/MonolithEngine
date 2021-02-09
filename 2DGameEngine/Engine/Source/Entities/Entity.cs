@@ -38,8 +38,32 @@ namespace GameEngine2D.Entities
 
         protected static GridCollisionChecker GridCollisionChecker { get; } = new GridCollisionChecker();
 
-        public bool Visible = true;
-        public bool Active = false;
+        private bool visible = true;
+        private bool active = false;
+
+        public bool Visible {
+            get => visible;
+            set
+            {
+                if (value != visible)
+                {
+                    Layer.OnObjectChanged(this);
+                }
+                visible = value;
+            }
+        }
+        public bool Active
+        {
+            get => active;
+            set
+            {
+                if (value != active)
+                {
+                    Layer.OnObjectChanged(this);
+                }
+                active = value;
+            }
+        }
 
         private float drawPriority = 0;
 
@@ -145,8 +169,6 @@ namespace GameEngine2D.Entities
 
         public ICollisionComponent CollisionComponent { get; set; }
 
-        private Dictionary<Entity, bool> circleCollisions = new Dictionary<Entity, bool>();
-
         private Texture2D pivotMarker;
         private Texture2D circleColliderMarker;
 
@@ -179,6 +201,8 @@ namespace GameEngine2D.Entities
             this.font = font;
             SetParent(parent, startPosition);
             SetSprite(sprite);
+
+            layer.OnObjectChanged(this);
         }
 
         public void SetParent(Entity newParent, Vector2 position)
@@ -186,7 +210,6 @@ namespace GameEngine2D.Entities
             if (newParent != null)
             {
                 Position = position;
-                Layer.RemoveRoot(this);
                 if (parent != null)
                 {
                     parent.RemoveChild(this);
@@ -205,7 +228,7 @@ namespace GameEngine2D.Entities
                     Position = position;
                 }
                 parent = null;
-                Layer.AddRootObject(this);
+
             }
             //UpdateInCellCoord();
             GridCoordinates = CalculateGridCoord();
@@ -464,7 +487,6 @@ namespace GameEngine2D.Entities
             {
                 DestroySound.Dispose();
             }
-            Layer.RemoveRoot(this);
             if (parent != null)
             {
                 parent.RemoveChild(this);
@@ -479,8 +501,8 @@ namespace GameEngine2D.Entities
                     }
                 }
             }
-            //Active = false;
-            //Visible = false;
+            Active = false;
+            Visible = false;
             Destroyed = true;
         }
 

@@ -51,12 +51,6 @@ namespace GameEngine2D
 
         public bool CheckGridCollisions = true;
 
-        public bool RaycastParticipant = false;
-        public bool GridCollisionsParticipant = false;
-        public bool CircleCollisionsParticipant = false;
-        public bool BoxCollisionsEnabled = false;
-        public bool PointCollisionsEnabled = false;
-
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
             Active = true;
