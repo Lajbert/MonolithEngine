@@ -113,7 +113,7 @@ namespace GameEngine2D.Engine.Source.Physics
                         {
                             collisions[changed] = new Dictionary<IColliderEntity, bool>();
                         }
-                        if (!entities.Contains(changed))
+                        if (!entities.Contains(changed) && changed.GetCollidesAgainst().Count > 0)
                         {
                             entities.Add(changed);
                         }
