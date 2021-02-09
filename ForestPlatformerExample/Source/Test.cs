@@ -52,13 +52,14 @@ namespace TestExample
             Config.INCREASING_GRAVITY = true;
 
 
-            //Config.RES_W = 3840;
-            //Config.RES_W = 2160;
+            Config.RES_W = 3840;
+            Config.RES_H = 2160;
             //Config.FULLSCREEN = true;
+            Config.ZOOM = (Config.RES_W / 1920) * 2;
 
             //Config.GRID = 64;
 
-            Config.FPS = 0;
+            //Config.FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
@@ -93,6 +94,10 @@ namespace TestExample
             graphics.IsFullScreen = Config.FULLSCREEN;
             graphics.ApplyChanges();
             Camera = new Camera(graphics);
+            Camera.BOUND_LEFT = 500;
+            Camera.BOUND_RIGHT = 2000;
+            Camera.BOUND_TOP = 350;
+            Camera.BOUND_BOTTOM = 450;
             LayerManager.Instance.Camera = Camera;
             LayerManager.Instance.InitLayers();
 
