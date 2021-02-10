@@ -45,7 +45,7 @@ I can't really come up with any catchy selling point apart from the things I alr
 It's really up to you!
 
 # I have a little experience with Unity (or any other game engine), is that going to help me?
-It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel"  is universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
+It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
 # What are the supported platforms?
 Whatever MonoGame supports, the rest depends on you :)
