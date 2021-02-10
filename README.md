@@ -5,7 +5,7 @@ First of all, it exists because I love coding and video games! I have a couple o
 The rest were either "too much" (like UE4) or not entirely cross-platform. When I was playing around with Unity, I quickly realized that
 since I'm the type of person who rather goes to the source code than the documentation, this will not be my preferred choice, so I decided to code my own engine
 with the feature set that I will actually use. During the first hours of the development, I already realized that for me, working on the engine is at least as fun as 
-working on a specific game. I've chosen [MonoGame](https://www.monogame.net/) framework to ensure that the engine is cross-platform and low level enough for my needs.
+working on a specific game. I've chosen to utilize [MonoGame](https://www.monogame.net/) framework to ensure that the engine is cross-platform and low level enough for my needs.
 
 Let me get this out of the way: I shared this engine with the public because I'd be happy to see other people use it, learn from it or maybe even help me to improve it, but this engine is not designed specifically for the public, but rather for myself to release my games with it. 
 This means features will come according to my needs (or interests :) ) and changes might (and probably will) happen as the engine evolves. 
@@ -15,7 +15,7 @@ This is a simple 2D game engine that encapsulates the common functionalities tha
 
 Already working features:
 * 2D Animations with state machines, automatic spritehseet importer and texture caching
-* TileGroups with automatic texture packing
+* TileGroups with automatic texture merging
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
@@ -45,7 +45,7 @@ I can't really come up with any catchy selling point apart from the things I alr
 It's really up to you!
 
 # I have a little experience with Unity (or any other game engine), is that going to help me?
-It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel"  is universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
+It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
 # What are the supported platforms?
 Whatever MonoGame supports, the rest depends on you :)
