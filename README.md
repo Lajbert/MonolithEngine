@@ -15,7 +15,7 @@ This is a simple 2D game engine that encapsulates the common functionalities tha
 
 Already working features:
 * 2D Animations with state machines, automatic spritehseet importer and texture caching
-* TileGroups with automatic texture packing
+* TileGroups with automatic texture merging
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
