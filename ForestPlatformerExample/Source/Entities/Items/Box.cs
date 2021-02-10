@@ -21,7 +21,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Entities.Items
 {
-    class Box : PhysicalEntity, IAttackable, IMovableItem
+    class Box : AbstractInteractive, IAttackable, IMovableItem
     {
 
         int life = 2;
@@ -29,7 +29,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
         private int bumps;
         private int currentBump = 1;
 
-        public Box(Vector2 position, int bumps = 1) : base(LayerManager.Instance.EntityLayer, null, position)
+        public Box(Vector2 position, int bumps = 1) : base(position)
         {
             //ColliderOnGrid = true;
 
@@ -37,10 +37,8 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             DrawPriority = 1;
 
-            AddTag("Pickup");
-            AddTag("Box");
-
             AddCollisionAgainst("Enemy");
+            AddTag("Box");
 
             this.bumps = currentBump = bumps;
 

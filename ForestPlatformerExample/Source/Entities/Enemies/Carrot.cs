@@ -1,4 +1,5 @@
-﻿using ForestPlatformerExample.Source.Entities.Interfaces;
+﻿using ForestPlatformerExample.Source.Entities.Enemies;
+using ForestPlatformerExample.Source.Entities.Interfaces;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
@@ -17,7 +18,7 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
-    class Carrot : PhysicalEntity, IAttackable
+    class Carrot : AbstractEnemy
     {
 
         private float speed = 0.01f;
@@ -30,14 +31,11 @@ namespace ForestPlatformerExample.Source.Enemies
 
         private int health = 2;
 
-        public Carrot(Vector2 position, Direction CurrentFaceDirection) : base(LayerManager.Instance.EntityLayer, null, position)
+        public Carrot(Vector2 position, Direction CurrentFaceDirection) : base(position)
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
             CollisionComponent = new CircleCollisionComponent(this, 12, new Vector2(3, -15));
-
-            AddTag("Enemy");
-            AddTag("MovingEnemy");
 
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
@@ -159,7 +157,7 @@ namespace ForestPlatformerExample.Source.Enemies
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }
 
-        public void Hit(Direction impactDirection)
+        public override void Hit(Direction impactDirection)
         {
             if (health == 0)
             {

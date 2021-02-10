@@ -1,4 +1,5 @@
-﻿using GameEngine2D;
+﻿using ForestPlatformerExample.Source.Entities.Items;
+using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics;
@@ -16,16 +17,14 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Items
 {
-    class Coin : PhysicalEntity
+    class Coin : AbstractInteractive
     {
         private int bounceCount;
 
-        private float repelForce = 2;
+        //private float repelForce = 2;
 
-        public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(LayerManager.Instance.EntityLayer, null, position, null)
+        public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(position)
         {
-
-            AddTag("Pickup");
 
             this.bounceCount = bounceCount * -1;
 

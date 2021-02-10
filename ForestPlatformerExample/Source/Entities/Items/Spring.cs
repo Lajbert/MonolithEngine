@@ -1,4 +1,5 @@
-﻿using GameEngine2D;
+﻿using ForestPlatformerExample.Source.Entities.Items;
+using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Util;
@@ -12,11 +13,11 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Items
 {
-    class Spring : PhysicalEntity
+    class Spring : AbstractInteractive
     {
 
         public int Power;
-        public Spring(Vector2 position, int power) : base(LayerManager.Instance.EntityLayer, null, position, null)
+        public Spring(Vector2 position, int power) : base(position)
         {
 
             Active = true;
@@ -24,8 +25,6 @@ namespace ForestPlatformerExample.Source.Items
             Power = power;
 
             CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
-
-            AddTag("Pickup");
 
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_PIVOT = true;

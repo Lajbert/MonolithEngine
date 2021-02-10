@@ -60,7 +60,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_RAYCAST = true;
 
-            AddCollisionAgainst("Pickup");
+            AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
 
             BlocksRay = true;
