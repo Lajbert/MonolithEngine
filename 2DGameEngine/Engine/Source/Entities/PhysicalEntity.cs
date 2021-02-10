@@ -4,6 +4,7 @@ using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
+using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
@@ -51,6 +52,23 @@ namespace GameEngine2D
 
         public bool CheckGridCollisions = true;
 
+        private ICollisionComponent collisionComponent;
+        public ICollisionComponent CollisionComponent
+        {
+            get => collisionComponent;
+
+            set
+            {
+
+                collisionComponent = value;
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            }
+        }
+
+        private Texture2D circleColliderMarker;
+
+        public bool CollisionsEnabled { get; set; } = true;
+
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
             Active = true;
@@ -64,7 +82,23 @@ namespace GameEngine2D
             {
                 //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
             }
-            
+
+            if (DEBUG_SHOW_CIRCLE_COLLIDER)
+            {
+                if (circleColliderMarker == null)
+                {
+                    circleColliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
+                }
+                if (CollisionComponent != null)
+                {
+                    spriteBatch.Draw(circleColliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
+                }
+                else
+                {
+                    Logger.Debug("Tried to print circle collider, but it's null!");
+                }
+            }
+
             base.Draw(spriteBatch, gameTime);
         }
 
@@ -236,6 +270,7 @@ namespace GameEngine2D
         protected override void RemoveCollisions()
         {
             base.RemoveCollisions();
+            CollisionComponent = null;
             CollidesAgainst.Clear();
         }
 

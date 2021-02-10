@@ -29,6 +29,8 @@ namespace ForestPlatformerExample.Source.Entities.Items
         private int bumps;
         private int currentBump = 1;
 
+        private List<Coin> coins = new List<Coin>();
+
         public Box(Vector2 position, int bumps = 1) : base(position)
         {
             //ColliderOnGrid = true;
@@ -69,6 +71,17 @@ namespace ForestPlatformerExample.Source.Entities.Items
             boxDestroy.StartedCallback += () => Pop();
             boxDestroy.Looping = false;
             SetDestroyAnimation(boxDestroy);
+
+            int numOfCoins = MyRandom.Between(3, 6);
+            for (int i = 0; i < numOfCoins; i++)
+            {
+                Coin c = new Coin(Position, 3);
+                c.SetParent(this);
+                c.Visible = false;
+                c.CollisionsEnabled = false;
+                c.Active = false;
+                coins.Add(c);
+            }
 
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Brown));
         }
@@ -123,12 +136,13 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private void Pop()
         {
-            int numOfCoins = MyRandom.Between(3, 6);
-            for (int i = 0; i < numOfCoins; i++)
+            foreach (Coin c in coins)
             {
-                Coin c = new Coin(Position, 3);
-                c.GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
+                c.RemoveParent();
+                c.Active = true;
+                c.Visible = true;
                 c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1));
+                Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
             Layer.Camera.Shake(2f, 0.5f);
             Destroy();

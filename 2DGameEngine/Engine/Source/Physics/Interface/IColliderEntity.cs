@@ -13,6 +13,8 @@ namespace GameEngine2D.Engine.Source.Physics.Interface
 
         public Vector2 GetPosition();
 
+        public bool CollisionsEnabled { get; set; }
+
         public void SetPosition(Vector2 position);
 
         public ICollisionComponent GetCollisionComponent();

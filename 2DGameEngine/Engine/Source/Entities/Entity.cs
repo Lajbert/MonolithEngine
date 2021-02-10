@@ -167,10 +167,7 @@ namespace GameEngine2D.Entities
 
         protected Ray2DEmitter RayEmitter { get; set; }
 
-        public ICollisionComponent CollisionComponent { get; set; }
-
         private Texture2D pivotMarker;
-        private Texture2D circleColliderMarker;
 
         private Dictionary<(Entity, Direction), bool> collidesWithOnGrid = new Dictionary<(Entity, Direction), bool>();
 
@@ -255,6 +252,10 @@ namespace GameEngine2D.Entities
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            if (!Visible)
+            {
+                return;
+            }
 
             if (Sprite != null)
             {
@@ -276,21 +277,6 @@ namespace GameEngine2D.Entities
                     //spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
                 }
                 spriteBatch.Draw(pivotMarker, Position - new Vector2(2.5f, 2.5f), Color.White);
-            }
-            
-            if (DEBUG_SHOW_CIRCLE_COLLIDER)
-            {
-                if (circleColliderMarker == null)
-                {
-                    circleColliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
-                }
-                if (CollisionComponent != null)
-                {
-                    spriteBatch.Draw(circleColliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
-                } else
-                {
-                    Logger.Debug("Tried to print circle collider, but it's null!");
-                }
             }
 
             /*if (font != null)
@@ -325,6 +311,10 @@ namespace GameEngine2D.Entities
 
         public virtual void PreUpdate(GameTime gameTime)
         {
+            if (!Active)
+            {
+                return;
+            }
 
             UpdateCollisions();
 
@@ -336,6 +326,10 @@ namespace GameEngine2D.Entities
 
         public virtual void Update(GameTime gameTime)
         {
+            if (!Active)
+            {
+                return;
+            }
 
             if (Animations != null)
             {
@@ -350,6 +344,10 @@ namespace GameEngine2D.Entities
 
         public virtual void PostUpdate(GameTime gameTime)
         {
+            if (!Active)
+            {
+                return;
+            }
 
             if (RayEmitter != null)
             {
@@ -388,49 +386,6 @@ namespace GameEngine2D.Entities
                     OnGridCollisionEnd(e.Key.Item1, e.Key.Item2);
                 }
             }
-
-
-            /*if (EnableCircleCollisions && CircleCollider != null)
-            {
-
-                foreach (Entity e in circleCollisions.Keys.ToList())
-                {
-                    circleCollisions[e] = false;
-                }
-
-                foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll().ToList())
-                {
-                    if (CircleCollider == null && !EnableCircleCollisions)
-                    {
-                        break;
-                    }
-                    if (e.Equals(this) || (Math.Abs(Position.X - e.Position.X) > Config.GRID * 2 && Math.Abs(Position.Y - e.Position.Y) > Config.GRID * 2))
-                    {
-                        continue;
-                    }
-                    if (e.CircleCollider != null)
-                    {
-                        CollisionResult collResult = CircleCollider.Overlaps(e);
-                        if (collResult != CollisionResult.NO_COLLISION)
-                        {
-                            if (!circleCollisions.ContainsKey(e))
-                            {
-                                OnCircleCollisionStart(e, collResult);
-                            }
-                            circleCollisions[e] = true;
-                        }
-                    }
-                }
-
-                foreach (Entity e in circleCollisions.Keys.ToList())
-                {
-                    if (!circleCollisions[e])
-                    {
-                        OnCircleCollisionEnd(e);
-                        circleCollisions.Remove(e);
-                    }
-                }
-            }   */
         }
 
         public HashSet<Entity> GetAllChildren()
@@ -508,7 +463,6 @@ namespace GameEngine2D.Entities
 
         protected virtual void RemoveCollisions()
         {
-            CollisionComponent = null;
             BlocksMovement = false;
             RayEmitter = null;
             BlocksRay = false;

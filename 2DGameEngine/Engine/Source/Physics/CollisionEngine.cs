@@ -58,9 +58,13 @@ namespace GameEngine2D.Engine.Source.Physics
 
             foreach (IColliderEntity thisEntity in entities)
             {
+                if (!thisEntity.CollisionsEnabled)
+                {
+                    continue;
+                }
                 foreach (IColliderEntity otherObject in toCheckAgainst)
                 {
-                    if (otherObject.GetTags().Count == 0)
+                    if (otherObject.GetTags().Count == 0 || !otherObject.CollisionsEnabled)
                     {
                         continue;
                     }

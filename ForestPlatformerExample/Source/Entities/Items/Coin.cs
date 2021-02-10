@@ -32,13 +32,7 @@ namespace ForestPlatformerExample.Source.Items
 
             DrawPriority = 1;
 
-            if (startInactive)
-            {
-                if (CollisionComponent == null)
-                {
-                    Timer.TriggerAfter(500, () => SetCircleCollider());
-                }
-            } else
+            if (!startInactive)
             {
                 SetCircleCollider();
             }
