@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if DEBUG
+using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Util;
+using GameEngine2D.Entities;
+using GameEngine2D.Global;
+#endif
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -167,4 +175,47 @@ namespace GameEngine2D.Engine.Source.Physics.Bresenham
         }
     }
 
+#if DEBUG
+	public class BresenhamLine : Entity
+	{
+		List<Vector2> line = new List<Vector2>();
+		Entity other;
+		public BresenhamLine(Entity owner, Entity other) : base(LayerManager.Instance.EntityLayer, owner, Vector2.Zero)
+		{
+			this.other = other;
+			Active = true;
+		}
+
+		bool canRayPass;
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+			line.Clear();
+			Bresenham.GetLine(parent.Position + new Vector2(0, -16), other.Position + new Vector2(0, -16), line);
+			canRayPass = Bresenham.CanLinePass(parent.Position + new Vector2(0, -16), other.Position + new Vector2(0, -16), (x, y) => {
+				return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+			});
+		}
+
+		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+		{
+			base.Draw(spriteBatch, gameTime);
+			if (canRayPass)
+			{
+				foreach (Vector2 point in line)
+				{
+					spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
+				}
+			}
+			else
+			{
+				foreach (Vector2 point in line)
+				{
+					spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Red), point, Color.White);
+				}
+			}
+
+		}
+	}
+#endif
 }
