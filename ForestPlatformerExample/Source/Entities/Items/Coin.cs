@@ -23,9 +23,8 @@ namespace ForestPlatformerExample.Source.Items
 
         //private float repelForce = 2;
 
-        public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false) : base(position)
+        public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false, float friction = 0.9f) : base(position)
         {
-
             this.bounceCount = bounceCount * -1;
 
             Active = true;
@@ -39,7 +38,7 @@ namespace ForestPlatformerExample.Source.Items
 
             HasGravity = true;
 
-            Friction = 0.9f;
+            Friction = friction;
 
             //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 

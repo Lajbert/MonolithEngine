@@ -75,7 +75,8 @@ namespace ForestPlatformerExample.Source.Entities.Items
             int numOfCoins = MyRandom.Between(3, 6);
             for (int i = 0; i < numOfCoins; i++)
             {
-                Coin c = new Coin(Position, 3);
+
+                Coin c = new Coin(Position, 3, friction: (float)MyRandom.Between(87, 93) / (float)100);
                 c.SetParent(this);
                 c.Visible = false;
                 c.CollisionsEnabled = false;
