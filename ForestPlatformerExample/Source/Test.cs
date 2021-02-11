@@ -24,6 +24,7 @@ using ForestPlatformerExample.Source.Weapons;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics;
+using GameEngine2D.Engine.Source.Physics.Bresenham;
 
 namespace TestExample
 {
@@ -38,6 +39,10 @@ namespace TestExample
         private FrameCounter frameCounter;
 
         private HeroTest hero;
+        private EntityTest e;
+        private LineEntity line;
+
+        private List<Vector2> lineToDraw = new List<Vector2>();
 
         public Test()
         {
@@ -108,7 +113,12 @@ namespace TestExample
             hero = new HeroTest(font);
             //hero.SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
 
-            EntityTest e = new EntityTest();
+            e = new EntityTest();
+
+            line = new LineEntity(hero, e);
+
+            BlockerEntity blocker = new BlockerEntity(new Vector2(15 * Config.GRID, 15 * Config.GRID));
+
             Camera.TrackTarget(hero, true);
             //TODO: use this.Content to load your game content here
 
@@ -139,6 +149,14 @@ namespace TestExample
 
             public override void Update(GameTime gameTime)
             {
+            }
+        }
+
+        class BlockerEntity : Entity
+        {
+            public BlockerEntity(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, SpriteUtil.CreateRectangle(16, Color.Blue))
+            {
+                BlocksMovement = true;
             }
         }
 
@@ -221,6 +239,47 @@ namespace TestExample
             }
         }
 
+        class LineEntity : Entity
+        {
+            List<Vector2> line = new List<Vector2>();
+            Entity other;
+            public LineEntity(Entity owner, Entity other) : base(LayerManager.Instance.EntityLayer, owner, Vector2.Zero)
+            {
+                this.other = other;
+                Active = true;
+            }
+
+            bool canRayPass;
+            public override void Update(GameTime gameTime)
+            {
+                base.Update(gameTime);
+                line.Clear();
+                Bresenham.GetLine(parent.Position, other.Position, line);
+                canRayPass = Bresenham.CanLinePass(parent.Position, other.Position, (x, y) => {
+                    return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+                });
+            }
+
+            public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+            {
+                base.Draw(spriteBatch, gameTime);
+                if (canRayPass)
+                {
+                    foreach (Vector2 point in line)
+                    {
+                        spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
+                    }
+                } else
+                {
+                    foreach (Vector2 point in line)
+                    {
+                        spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Red), point, Color.White);
+                    }
+                }
+                
+            }
+        }
+
         private void LoadLevel()
         {
             
@@ -237,7 +296,8 @@ namespace TestExample
             LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
-
+            lineToDraw.Clear();
+            Bresenham.GetLine(hero.Position, e.Position, lineToDraw);
             base.Update(gameTime);
         }
 
@@ -262,6 +322,10 @@ namespace TestExample
 
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
+            foreach (Vector2 point in lineToDraw)
+            {
+                spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
+            }
             spriteBatch.End();
 
 

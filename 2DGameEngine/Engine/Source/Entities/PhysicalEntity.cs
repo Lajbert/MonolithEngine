@@ -28,6 +28,7 @@ namespace GameEngine2D
         private HashSet<string> CollidesAgainst = new HashSet<string>();
 
         protected UserInputController UserInput;
+
         protected float elapsedTime;
         private float steps;
         private float step;
@@ -289,10 +290,6 @@ namespace GameEngine2D
             Velocity += force;
         }
         
-        public ICollection<string> GetTags()
-        {
-            return Tags;
-        }
 
         public void SetPosition(Vector2 position)
         {

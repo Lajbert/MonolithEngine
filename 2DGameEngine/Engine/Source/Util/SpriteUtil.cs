@@ -61,15 +61,15 @@ namespace GameEngine2D.Engine.Source.Util
         }
         public static Texture2D CreateRectangle(int size, Color color)
         {
-            //if (rectangleCache.ContainsKey(new RectangleKey(size, color))) {
-            //    return rectangleCache[new RectangleKey(size, color)];
-            //}
+            if (rectangleCache.ContainsKey(new RectangleKey(size, color))) {
+                return rectangleCache[new RectangleKey(size, color)];
+            }
             Texture2D rect = new Texture2D(GraphicsDeviceManager.GraphicsDevice, size, size);
             Color[] data = new Color[size * size];
             for (int i = 0; i < data.Length; ++i) data[i] = color;
             rect.SetData(data);
 
-            //rectangleCache.Add(new RectangleKey(size, color), rect);
+            rectangleCache.Add(new RectangleKey(size, color), rect);
             return rect;
         }
 
