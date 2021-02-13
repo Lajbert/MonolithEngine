@@ -16,10 +16,10 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         protected IColliderEntity owner;
 
-        public AbstractCollisionComponent(IColliderEntity owner, Vector2? positionOffset)
+        public AbstractCollisionComponent(IColliderEntity owner, Vector2 positionOffset = default(Vector2))
         {
             this.owner = owner;
-            this.positionOffset = positionOffset != null ? positionOffset.Value : Vector2.Zero;
+            this.positionOffset = positionOffset;
         }
 
         public abstract bool Overlaps(IColliderEntity otherCollider);

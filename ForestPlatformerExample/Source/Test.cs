@@ -25,6 +25,7 @@ using GameEngine2D;
 using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Bresenham;
+using GameEngine2D.Engine.Source.Physics.Trigger;
 
 namespace TestExample
 {
@@ -41,6 +42,7 @@ namespace TestExample
         private HeroTest hero;
         private EntityTest e;
         private LineEntity line;
+        private BoxTrigger bt;
 
         private List<Vector2> lineToDraw = new List<Vector2>();
 
@@ -114,6 +116,7 @@ namespace TestExample
             //hero.SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
 
             e = new EntityTest();
+            bt = new BoxTrigger(hero, new Rectangle(0, 0, 100, 100), new Vector2(-50, -50), displayTrigger:true);
 
             line = new LineEntity(hero, e);
 
@@ -322,6 +325,7 @@ namespace TestExample
 
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
+            spriteBatch.DrawString(font, "Triggering: " + bt.IsInsideTrigger(e.Position), new Vector2(1, 30), Color.Red);
             foreach (Vector2 point in lineToDraw)
             {
                 spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
