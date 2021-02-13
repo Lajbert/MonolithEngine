@@ -2,6 +2,7 @@
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
+using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Raycast;
@@ -20,7 +21,7 @@ using System.Linq;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, IRayBlocker, IGridCollider
+    public class Entity : GameObject, IColliderEntity, IRayBlocker, IGridCollider
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -31,6 +32,8 @@ namespace GameEngine2D.Entities
         private readonly string DESTROY_AMINATION = "Destroy";
 
         protected HashSet<string> Tags = new HashSet<string>();
+
+        private HashSet<string> CollidesAgainst = new HashSet<string>();
 
         private HashSet<Direction> blockedFrom = new HashSet<Direction>();
 
@@ -192,6 +195,21 @@ namespace GameEngine2D.Entities
 
         protected bool Destroyed = false;
         protected bool BeingDestroyed = false;
+
+        private ICollisionComponent collisionComponent;
+        public ICollisionComponent CollisionComponent
+        {
+            get => collisionComponent;
+
+            set
+            {
+
+                collisionComponent = value;
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            }
+        }
+
+        public bool CollisionsEnabled { get; set; } = true;
 
         public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
         {
@@ -465,6 +483,8 @@ namespace GameEngine2D.Entities
 
         protected virtual void RemoveCollisions()
         {
+            CollisionComponent = null;
+            CollidesAgainst.Clear();
             BlocksMovement = false;
             RayEmitter = null;
             BlocksRay = false;
@@ -539,6 +559,7 @@ namespace GameEngine2D.Entities
         public virtual void AddTag(string tag)
         {
             Tags.Add(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         public bool HasTag(string tag)
@@ -561,6 +582,7 @@ namespace GameEngine2D.Entities
         public virtual void RemoveTag(string tag)
         {
             Tags.Remove(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         public void AddBlockedDirection(Direction direction)
@@ -626,6 +648,43 @@ namespace GameEngine2D.Entities
         public ICollection<string> GetTags()
         {
             return Tags;
+        }
+
+        public ICollisionComponent GetCollisionComponent()
+        {
+            return CollisionComponent;
+        }
+
+        public virtual void OnCollisionStart(IColliderEntity otherCollider)
+        {
+
+        }
+
+        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
+        {
+
+        }
+
+        public HashSet<string> GetCollidesAgainst()
+        {
+            return CollidesAgainst;
+        }
+
+        public void AddCollisionAgainst(string tag)
+        {
+            CollidesAgainst.Add(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public void RemoveCollisionAgainst(string tag)
+        {
+            CollidesAgainst.Remove(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            Position = position;
         }
     }
 }

@@ -20,12 +20,10 @@ using System.Collections.Generic;
 
 namespace GameEngine2D
 {
-    public class PhysicalEntity : Entity, IColliderEntity
+    public class PhysicalEntity : Entity
     {
 
         private Vector2 bump;
-
-        private HashSet<string> CollidesAgainst = new HashSet<string>();
 
         protected UserInputController UserInput;
 
@@ -53,22 +51,7 @@ namespace GameEngine2D
 
         public bool CheckGridCollisions = true;
 
-        private ICollisionComponent collisionComponent;
-        public ICollisionComponent CollisionComponent
-        {
-            get => collisionComponent;
-
-            set
-            {
-
-                collisionComponent = value;
-                CollisionEngine.Instance.OnCollisionProfileChanged(this);
-            }
-        }
-
         private Texture2D circleColliderMarker;
-
-        public bool CollisionsEnabled { get; set; } = true;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
@@ -269,13 +252,6 @@ namespace GameEngine2D
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
-        protected override void RemoveCollisions()
-        {
-            base.RemoveCollisions();
-            CollisionComponent = null;
-            CollidesAgainst.Clear();
-        }
-
         public bool IsMovingAtLeast(float speed)
         {
             return Math.Abs(Velocity.X) >= speed || Math.Abs(Velocity.Y) >= speed;
@@ -292,11 +268,6 @@ namespace GameEngine2D
         }
         
 
-        public void SetPosition(Vector2 position)
-        {
-            this.Position = position;
-        }
-
         public void SetVelocity(Vector2 velocity)
         {
             Velocity = velocity;
@@ -305,50 +276,6 @@ namespace GameEngine2D
         public void AddVelocity(Vector2 velocity)
         {
             Velocity += velocity;
-        }
-
-        public ICollisionComponent GetCollisionComponent()
-        {
-            return CollisionComponent;
-        }
-
-        public virtual void OnCollisionStart(IColliderEntity otherCollider)
-        {
-            
-        }
-
-        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
-        {
-            
-        }
-
-        public HashSet<string> GetCollidesAgainst()
-        {
-            return CollidesAgainst;
-        }
-
-        public void AddCollisionAgainst(string tag)
-        {
-            CollidesAgainst.Add(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
-        }
-
-        public void RemoveCollisionAgainst(string tag)
-        {
-            CollidesAgainst.Remove(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
-        }
-
-        public override void AddTag(string tag)
-        {
-            base.AddTag(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
-        }
-
-        public override void RemoveTag(string tag)
-        {
-            base.RemoveTag(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
     }
 }
