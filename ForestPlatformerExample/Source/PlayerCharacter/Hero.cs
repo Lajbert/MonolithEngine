@@ -736,7 +736,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = otherCollider as IMovableItem;
             }
-            Logger.Debug("HERO COLLIDE STARTED WITH: " + otherCollider);
             base.OnCollisionStart(otherCollider);
         }
 
@@ -746,7 +745,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = null;
             }
-            Logger.Debug("HERO COLLIDE ENDED WITH: " + otherCollider);
             base.OnCollisionStart(otherCollider);
         }
     }
