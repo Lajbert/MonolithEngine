@@ -173,11 +173,13 @@ namespace GameEngine2D.Entities
 
         public float Depth = 0f;
 
+#if DEBUG
         public bool DEBUG_SHOW_PIVOT = false;
 
         public bool DEBUG_SHOW_CIRCLE_COLLIDER = false;
 
         public bool DEBUG_SHOW_RAYCAST = false;
+#endif
 
         public Vector2 DrawPosition
         {
@@ -265,7 +267,7 @@ namespace GameEngine2D.Entities
             {
                 Animations.Draw(spriteBatch, gameTime);
             }
-
+#if DEBUG
             if (DEBUG_SHOW_PIVOT)
             {
                 if (pivotMarker == null)
@@ -278,7 +280,7 @@ namespace GameEngine2D.Entities
                 }
                 spriteBatch.Draw(pivotMarker, Position - new Vector2(2.5f, 2.5f), Color.White);
             }
-
+#endif
             /*if (font != null)
             {
                 spriteBatch.DrawString(font, "InCell : " + InCellLocation, DrawPosition, Color.Red);

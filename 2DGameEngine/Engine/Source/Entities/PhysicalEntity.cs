@@ -79,6 +79,7 @@ namespace GameEngine2D
 
         override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+#if DEBUG
             if (DEBUG_SHOW_PIVOT)
             {
                 //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
@@ -99,7 +100,7 @@ namespace GameEngine2D
                     Logger.Debug("Tried to print circle collider, but it's null!");
                 }
             }
-
+#endif
             base.Draw(spriteBatch, gameTime);
         }
 

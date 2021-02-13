@@ -116,7 +116,7 @@ namespace TestExample
             //hero.SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
 
             e = new EntityTest();
-            bt = new BoxTrigger(hero, new Rectangle(0, 0, 100, 100), new Vector2(-50, -50), displayTrigger:true);
+            bt = new BoxTrigger(hero, 100, 100, new Vector2(-50, -50), displayTrigger:true);
 
             line = new LineEntity(hero, e);
 

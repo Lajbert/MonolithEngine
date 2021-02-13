@@ -22,17 +22,17 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         private Line lineY2;
 #endif
 
-        public BoxTrigger(Entity owner, Rectangle bound, Vector2 positionOffset = default(Vector2), string tag = null) : base(owner, positionOffset, tag)
+        public BoxTrigger(Entity owner, int width, int height, Vector2 positionOffset = default(Vector2), string tag = null) : base(owner, positionOffset, tag)
         {
-            x1 = bound.X;
-            y1 = bound.Y;
-            x2 = bound.X + bound.Width;
-            y2 = bound.Y + bound.Height;
+            x1 = 0;
+            y1 = 0;
+            x2 = width;
+            y2 = height;
 
         }
 
 #if DEBUG
-        public BoxTrigger(Entity owner, Rectangle bound, Vector2 positionOffset = default(Vector2), string tag = null, bool displayTrigger = false) : this(owner, bound, positionOffset, tag)
+        public BoxTrigger(Entity owner, int width, int height, Vector2 positionOffset = default(Vector2), string tag = null, bool displayTrigger = false) : this(owner, width, height, positionOffset, tag)
         {
             if (displayTrigger)
             {
