@@ -141,15 +141,15 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Entity e = carriedItem as Entity;
                 Vector2 offset = e.Animations.Offset;
                 float unit = 0.5f;
-                if (frame == 3 || frame == 4 || frame == 9 || frame == 15 || frame == 16 || frame == 21)
+                if (frame == 2 || frame == 3 || frame == 8 || frame == 14 || frame == 15 || frame == 20)
                 {
                     offset.Y += unit;
                 }
-                else if (frame == 7 || frame == 19)
+                else if (frame == 6 || frame == 18)
                 {
                     offset.Y -= unit;
                 }
-                else if (frame == 8 || frame == 20)
+                else if (frame == 7 || frame == 19)
                 {
                     offset.Y -= 2 * unit;
                 }
@@ -189,11 +189,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Entity e = carriedItem as Entity;
                 Vector2 offset = e.Animations.Offset;
                 float unit = 3;
-                if (frame == 4 || frame == 9)
+                if (frame == 3 || frame == 8)
                 {
                     offset.Y += unit;
                 }
-                else if (frame == 5 || frame == 10)
+                else if (frame == 4 || frame == 9)
                 {
                     offset.Y -= unit;
                 }
@@ -324,7 +324,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             pickupRight.Looping = false;
             pickupRight.StartedCallback = () => UserInput.ControlsDisabled = true;
             pickupRight.StoppedCallback = () => UserInput.ControlsDisabled = false;
-            pickupRight.AddFrameAction(15, (frame) => carriedItem.Lift(this, new Vector2(0, -25)));
+            pickupRight.AddFrameAction(15, (frame) => carriedItem.Lift(this, new Vector2(0, -20)));
             Animations.RegisterAnimation("PickupRight", pickupRight, () => false);
 
             SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
