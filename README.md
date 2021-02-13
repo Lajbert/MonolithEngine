@@ -11,7 +11,7 @@ Let me get this out of the way: I shared this engine with the public because I'd
 This means features will come according to my needs (or interests :) ) and changes might (and probably will) happen as the engine evolves. 
 
 # What is this exactly?
-This is a simple 2D game engine that encapsulates the common functionalities that most 2D games need. Is it as comprehensive as other major engines out there? Definitely not. Is it small, fast, lightweight, free and easy to understand? Yes! 
+This is a simple, [axis aligned](https://en.wikipedia.org/wiki/Axis-aligned_object) 2D game engine that encapsulates the common functionalities that most 2D games need. Is it as comprehensive as other major engines out there? Definitely not. Is it small, fast, lightweight, free and easy to understand? Yes! 
 
 Already working features:
 * 2D Animations with state machines, automatic spritehseet importer and texture caching
