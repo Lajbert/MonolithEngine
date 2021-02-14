@@ -77,6 +77,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             {
 
                 Coin c = new Coin(Position, 3, friction: (float)MyRandom.Between(87, 93) / (float)100);
+                c.BounceCount = 3;
                 c.SetParent(this);
                 c.Visible = false;
                 c.CollisionsEnabled = false;

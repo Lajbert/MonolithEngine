@@ -19,22 +19,18 @@ namespace ForestPlatformerExample.Source.Items
 {
     class Coin : AbstractInteractive
     {
-        private int bounceCount;
+        public int BounceCount;
 
         //private float repelForce = 2;
 
-        public Coin(Vector2 position, int bounceCount = 0, bool startInactive = false, float friction = 0.9f) : base(position)
+        public Coin(Vector2 position, int bounceCount = 0, float friction = 0.9f) : base(position)
         {
-            this.bounceCount = bounceCount * -1;
 
             Active = true;
 
             DrawPriority = 1;
 
-            if (!startInactive)
-            {
-                SetCircleCollider();
-            }
+            SetCircleCollider();
 
             HasGravity = true;
 
@@ -61,11 +57,11 @@ namespace ForestPlatformerExample.Source.Items
         protected override void OnLand()
         {
             base.OnLand();
-            if (bounceCount <= 0)
+            if (BounceCount >= 0)
             {
-                Bump(new Vector2(0, bounceCount++));
+                Bump(new Vector2(0, -BounceCount));
+                BounceCount--;
             }
-            
         }
 
         public override void PostUpdate(GameTime gameTime)
