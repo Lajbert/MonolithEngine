@@ -1,11 +1,13 @@
-﻿using GameEngine2D.Util;
+﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Util;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GameEngine2D.Entities
 {
-    public abstract class GameObject
+    public abstract class GameObject : IGameObject
     {
         private static int GLOBAL_ID = 0;
         private int ID { get; set; } = 0 ;
@@ -36,5 +38,7 @@ namespace GameEngine2D.Entities
             return GLOBAL_ID;
         }
 
+        public abstract Vector2 GetPosition();
+        public abstract ICollection<string> GetTags();
     }
 }

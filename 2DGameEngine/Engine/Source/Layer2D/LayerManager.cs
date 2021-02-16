@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine2D.Entities
 {
-    public class LayerManager : GameObject
+    public class LayerManager
     {
         private List<Layer> parallaxLayers = new List<Layer>();
 
@@ -61,7 +61,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public override void Destroy()
+        public void Destroy()
         {
             foreach (List<Layer> layers in allLayers)
             {

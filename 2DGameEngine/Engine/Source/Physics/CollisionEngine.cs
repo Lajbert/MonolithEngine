@@ -1,5 +1,8 @@
-﻿using GameEngine2D.Engine.Source.Physics.Collision;
+﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
+using GameEngine2D.Engine.Source.Physics.Trigger;
 using GameEngine2D.Global;
 using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Util;
@@ -19,14 +22,20 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>> collisions = new Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>>();
 
+        private Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>> triggers = new Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>>();
+
         private HashSet<IColliderEntity> changedObjects = new HashSet<IColliderEntity>();
 
         private static readonly CollisionEngine instance = new CollisionEngine();
+
+        private List<(IColliderEntity, IColliderEntity)> collisionsToRemove = new List<(IColliderEntity, IColliderEntity)>();
+        private List<(IHasTrigger, string, IHasTrigger)> triggersToRemove = new List<(IHasTrigger, string, IHasTrigger)>();
 
         private CollisionEngine()
         {
 
         }
+
         static CollisionEngine()
         {
         }
@@ -41,6 +50,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
         public void OnCollisionProfileChanged(IColliderEntity entity)
         {
+            Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CHANGE THIS TO IGAMEOBJECT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             if (!changedObjects.Contains(entity))
             {
                 changedObjects.Add(entity);
@@ -54,28 +64,35 @@ namespace GameEngine2D.Engine.Source.Physics
                 return;
             }
 
-            PrepareCollisions();
+            PrepareCollisionsAndTriggers();
 
             foreach (IColliderEntity thisEntity in entities)
             {
-                if (!thisEntity.CollisionsEnabled)
+
+                if (!thisEntity.CollisionsEnabled && thisEntity.GetTriggers().Count == 0)
                 {
                     continue;
                 }
-                foreach (IColliderEntity otherObject in toCheckAgainst)
+
+                foreach (IColliderEntity otherEntity in toCheckAgainst)
                 {
-                    if (thisEntity.Equals(otherObject))
+                    if (thisEntity.Equals(otherEntity))
                     {
                         continue;
                     }
 
-                    if (otherObject.GetTags().Count == 0 || !otherObject.CollisionsEnabled)
+                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.TriggerInteractive)
+                    {
+                        CheckTriggers(thisEntity, otherEntity);
+                    }
+
+                    if (otherEntity.GetTags().Count == 0 || !otherEntity.CollisionsEnabled)
                     {
                         continue;
                     }
 
                     bool collidesWith = false;
-                    foreach(string tag in otherObject.GetTags()) {
+                    foreach(string tag in otherEntity.GetTags()) {
                         if (thisEntity.GetCollidesAgainst().Contains(tag)) {
                             collidesWith = true;
                             break;
@@ -87,56 +104,79 @@ namespace GameEngine2D.Engine.Source.Physics
                         continue;
                     }
 
-                    if (thisEntity.GetCollisionComponent() != null && otherObject.GetCollisionComponent() != null)
+                    if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
                     {
-                        CheckCollision(thisEntity, otherObject);
+                        CheckCollision(thisEntity, otherEntity);
                     }
                     
                 }
             }
 
-            InactivateCollisions();
+            InactivateCollisionsAndTriggers();
 
             if (changedObjects.Count > 0)
             {
                 foreach (IColliderEntity changed in changedObjects)
                 {
-                    if (changed.GetCollisionComponent() == null)
+                    if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0)
                     {
                         entities.Remove(changed);
-                        toCheckAgainst.Remove(changed);
-                    } else
-                    {
-                        if (changed.GetCollidesAgainst().Count > 0)
-                        {
-                            if (!collisions.ContainsKey(changed))
-                            {
-                                collisions[changed] = new Dictionary<IColliderEntity, bool>();
-                            }
-                            if (!entities.Contains(changed))
-                            {
-                                entities.Add(changed);
-                            }
-                        } 
-                        else
-                        {
-                            collisions.Remove(changed);
-                            entities.Remove(changed);
-                        }
-
-                        if (changed.GetTags().Count > 0)
-                        {
-                            if (!toCheckAgainst.Contains(changed))
-                            {
-                                Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                Logger.Warn("ONLY ADD THIS IF THERE IS ANYTHING COLLIDING WITH IT, USE CENTRAL COLLISION REGISTRATION");
-                                Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                toCheckAgainst.Add(changed);
-                            }
-                        } else
+                        if (!changed.TriggerInteractive)
                         {
                             toCheckAgainst.Remove(changed);
                         }
+                    } else
+                    {
+                        if (changed.GetCollisionComponent() != null)
+                        {
+                            if (changed.GetCollidesAgainst().Count > 0)
+                            {
+                                if (!collisions.ContainsKey(changed))
+                                {
+                                    collisions[changed] = new Dictionary<IColliderEntity, bool>();
+                                }
+                                if (!entities.Contains(changed))
+                                {
+                                    entities.Add(changed);
+                                }
+                            }
+                            else
+                            {
+                                collisions.Remove(changed);
+                                entities.Remove(changed);
+                            }
+
+                            if (changed.GetTags().Count > 0)
+                            {
+                                if (!toCheckAgainst.Contains(changed))
+                                {
+                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                    Logger.Warn("ONLY ADD THIS IF THERE IS ANYTHING COLLIDING WITH IT, USE CENTRAL COLLISION REGISTRATION");
+                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                    toCheckAgainst.Add(changed);
+                                }
+                            }
+                            else
+                            {
+                                toCheckAgainst.Remove(changed);
+                            }
+                        }
+
+                        if (changed.GetTriggers().Count > 0 && !entities.Contains(changed))
+                        {
+                            entities.Add(changed);
+                            triggers[changed] = new Dictionary<string, Dictionary<IGameObject, bool>>();
+                            foreach (ITrigger trigger in changed.GetTriggers())
+                            {
+                                triggers[changed][trigger.GetTag()] = new Dictionary<IGameObject, bool>();
+                            }                            
+                        }
+
+                        if (changed.TriggerInteractive && !toCheckAgainst.Contains(changed))
+                        {
+                            toCheckAgainst.Add(changed);
+                        }
+                        
                     }
                 }
             }
@@ -152,6 +192,21 @@ namespace GameEngine2D.Engine.Source.Physics
                     thisEntity.OnCollisionStart(otherObject);
                 }
                 collisions[thisEntity][otherObject] = true;
+            }
+        }
+
+        private void CheckTriggers(IColliderEntity thisEntity, IGameObject otherObject)
+        {
+            foreach (ITrigger trigger in thisEntity.GetTriggers())
+            {
+                if (trigger.IsInsideTrigger(otherObject))
+                {
+                    if (!triggers[thisEntity][trigger.GetTag()].ContainsKey(otherObject))
+                    {
+                        thisEntity.OnEnterTrigger(trigger.GetTag(), otherObject);
+                    }
+                    triggers[thisEntity][trigger.GetTag()][otherObject] = true;
+                }
             }
         }
 
@@ -173,7 +228,7 @@ namespace GameEngine2D.Engine.Source.Physics
             return result;
         }
 
-        private void PrepareCollisions()
+        private void PrepareCollisionsAndTriggers()
         {
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
@@ -182,11 +237,23 @@ namespace GameEngine2D.Engine.Source.Physics
                     collisions[thisEntity][otherObject] = false;
                 }
             }
+
+            foreach (IHasTrigger thisEntity in triggers.Keys)
+            {
+                foreach (string tag in triggers[thisEntity].Keys)
+                {
+                    foreach(IHasTrigger otherEntity in triggers[thisEntity][tag].Keys.ToList())
+                    {
+                        triggers[thisEntity][tag][otherEntity] = false;
+                    }
+                }
+            }
         }
 
-        private void InactivateCollisions()
+        private void InactivateCollisionsAndTriggers()
         {
-            List<(IColliderEntity, IColliderEntity)> toRemove = new List<(IColliderEntity, IColliderEntity)>();
+            collisionsToRemove.Clear();
+            triggersToRemove.Clear();
 
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
@@ -199,13 +266,32 @@ namespace GameEngine2D.Engine.Source.Physics
                     if(!collisions[thisEntity][otherObject])
                     {
                         thisEntity.OnCollisionEnd(otherObject);
-                        toRemove.Add((thisEntity, otherObject));
+                        collisionsToRemove.Add((thisEntity, otherObject));
                     }
                 }
             }
-            foreach ((IColliderEntity, IColliderEntity) t in toRemove)
+            foreach ((IColliderEntity, IColliderEntity) t in collisionsToRemove)
             {
                 collisions[t.Item1].Remove(t.Item2);
+            }
+
+            foreach (IHasTrigger thisEntity in triggers.Keys)
+            {
+                foreach (string tag in triggers[thisEntity].Keys)
+                {
+                    foreach (IHasTrigger otherEntity in triggers[thisEntity][tag].Keys.ToList())
+                    {
+                        if(!triggers[thisEntity][tag][otherEntity]) {
+                            thisEntity.OnLeaveTrigger(tag, otherEntity);
+                            triggersToRemove.Add((thisEntity, tag, otherEntity));
+                        }
+                    }
+                }
+            }
+
+            foreach ((IHasTrigger, string, IHasTrigger) toRemove in triggersToRemove)
+            {
+                triggers[toRemove.Item1][toRemove.Item2].Remove(toRemove.Item3);
             }
         }
     }

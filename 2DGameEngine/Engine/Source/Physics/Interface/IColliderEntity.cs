@@ -1,4 +1,6 @@
-﻿using GameEngine2D.Engine.Source.Physics.Collision;
+﻿using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Trigger;
 using GameEngine2D.Entities;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,11 +9,8 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Physics.Interface
 {
-    public interface IColliderEntity
+    public interface IColliderEntity : IHasTrigger
     {
-        public ICollection<string> GetTags();
-
-        public Vector2 GetPosition();
 
         public bool CollisionsEnabled { get; set; }
 
@@ -22,6 +21,7 @@ namespace GameEngine2D.Engine.Source.Physics.Interface
         public void OnCollisionStart(IColliderEntity otherCollider);
 
         public void OnCollisionEnd(IColliderEntity otherCollider);
+
         public HashSet<string> GetCollidesAgainst();
     }
 }

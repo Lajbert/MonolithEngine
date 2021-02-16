@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Entities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
     public abstract class AbstractTrigger : ITrigger
     {
         protected Entity Owner;
-        private string tag;
+        private string tag = "";
         protected Vector2 PositionOffset;
 
 #if DEBUG
@@ -33,14 +34,18 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
             get => Owner.Position + PositionOffset;
         }
 
-        public AbstractTrigger(Entity owner, Vector2 positionOffset = default(Vector2), string tag = null)
+        public AbstractTrigger(Vector2 positionOffset = default(Vector2), string tag = "")
         {
-            Owner = owner;
             PositionOffset = positionOffset;
             this.tag = tag;
         }
 
-        public abstract bool IsInsideTrigger(Vector2 point);
+        public void SetOwner(Entity owner)
+        {
+            Owner = owner;
+        }
+
+        public abstract bool IsInsideTrigger(IGameObject otherObject);
 
         public string GetTag()
         {

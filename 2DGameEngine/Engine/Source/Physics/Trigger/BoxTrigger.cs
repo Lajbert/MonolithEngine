@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Graphics.Primitives;
+﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         private Line lineY2;
 #endif
 
-        public BoxTrigger(Entity owner, int width, int height, Vector2 positionOffset = default(Vector2), string tag = null) : base(owner, positionOffset, tag)
+        public BoxTrigger(int width, int height, Vector2 positionOffset = default(Vector2), string tag = "") : base(positionOffset, tag)
         {
             x1 = 0;
             y1 = 0;
@@ -30,9 +31,9 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
             y2 = height;
         }
 
-        public override bool IsInsideTrigger(Vector2 point)
+        public override bool IsInsideTrigger(IGameObject otherObject)
         {
-            return point.X >= Position.X + x1 && point.X <= Position.X + x2 && point.Y >= Position.Y + y1 && point.Y <= Position.Y + y2;
+            return otherObject.GetPosition().X >= Position.X + x1 && otherObject.GetPosition().X <= Position.X + x2 && otherObject.GetPosition().Y >= Position.Y + y1 && otherObject.GetPosition().Y <= Position.Y + y2;
         }
 
 #if DEBUG

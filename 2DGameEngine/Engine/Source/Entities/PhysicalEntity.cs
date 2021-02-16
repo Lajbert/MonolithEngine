@@ -84,10 +84,6 @@ namespace GameEngine2D
                 {
                     spriteBatch.Draw(colliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
                 }
-                else
-                {
-                    Logger.Debug("Tried to print circle collider, but it's null!");
-                }
             }
 #endif
             base.Draw(spriteBatch, gameTime);

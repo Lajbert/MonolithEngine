@@ -1,4 +1,5 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
@@ -6,6 +7,7 @@ using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Raycast;
+using GameEngine2D.Engine.Source.Physics.Trigger;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities.Animation;
@@ -34,6 +36,23 @@ namespace GameEngine2D.Entities
         protected HashSet<string> Tags = new HashSet<string>();
 
         private HashSet<string> CollidesAgainst = new HashSet<string>();
+
+        private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
+
+        private bool triggerInteractive = false;
+        public bool TriggerInteractive
+        {
+            get => triggerInteractive;
+
+            set
+            {
+                if (value != triggerInteractive)
+                {
+                    CollisionEngine.Instance.OnCollisionProfileChanged(this);
+                }
+                triggerInteractive = value;
+            }
+        }
 
         private HashSet<Direction> blockedFrom = new HashSet<Direction>();
 
@@ -518,18 +537,6 @@ namespace GameEngine2D.Entities
             SourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
         }
 
-        public Vector2 GetPositionWithParent()
-        {
-            if (parent != null)
-            {
-                return Position + parent.GetPositionWithParent();
-            }
-            else
-            {
-                return Position;
-            }
-        }
-
         protected Vector2 CalculateGridCoord()
         {
             return CalculateGridCoord(Position);
@@ -610,7 +617,7 @@ namespace GameEngine2D.Entities
             return GridCoordinates;
         }
 
-        public Vector2 GetPosition()
+        public override Vector2 GetPosition()
         {
             return Position;
         }
@@ -640,7 +647,7 @@ namespace GameEngine2D.Entities
             return BlocksMovement && IsBlockedFrom(direction);
         }
 
-        public ICollection<string> GetTags()
+        public override ICollection<string> GetTags()
         {
             return Tags;
         }
@@ -680,6 +687,44 @@ namespace GameEngine2D.Entities
         public void SetPosition(Vector2 position)
         {
             Position = position;
+        }
+
+        public ICollection<ITrigger> GetTriggers()
+        {
+            return triggers.Values;
+        }
+
+        public void AddTrigger(AbstractTrigger trigger)
+        {
+            trigger.SetOwner(this);
+            triggers.Add(trigger.GetTag(), trigger);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public void RemoveTrigger(AbstractTrigger trigger)
+        {
+            foreach (ITrigger t in triggers.Values.ToList())
+            {
+                if (t.Equals(trigger))
+                {
+                    RemoveTrigger(t.GetTag());
+                    return;
+                }
+            }
+        }
+
+        public void RemoveTrigger(string tag)
+        {
+            triggers.Remove(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public virtual void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
+        {
+        }
+
+        public virtual void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
+        {
         }
     }
 }

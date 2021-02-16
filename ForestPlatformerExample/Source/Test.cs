@@ -26,6 +26,7 @@ using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Bresenham;
 using GameEngine2D.Engine.Source.Physics.Trigger;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 
 namespace TestExample
 {
@@ -116,7 +117,8 @@ namespace TestExample
             //hero.SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
 
             e = new EntityTest();
-            bt = new BoxTrigger(hero, 100, 100, new Vector2(-50, -50));
+            bt = new BoxTrigger(100, 100, new Vector2(-50, -50));
+            e.AddTrigger(bt);
             bt.DEBUG_DISPLAY_TRIGGER = true;
 
             line = new LineEntity(hero, e);
@@ -189,6 +191,8 @@ namespace TestExample
                 CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 //DrawOffset = new Vector2(-8, -8);
+
+                TriggerInteractive = true;
             }
 
             float angle;
@@ -245,6 +249,18 @@ namespace TestExample
             {
                 base.Draw(spriteBatch, gameTime);
                 spriteBatch.Draw(collPivot, CollisionComponent.Position, Color.White);
+            }
+
+            public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
+            {
+                Logger.Info("TRIGGER ENTERED: " + triggerTag);
+                base.OnEnterTrigger(triggerTag, otherEntity);
+            }
+
+            public override void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
+            {
+                Logger.Info("TRIGGER ENDED: " + triggerTag);
+                base.OnLeaveTrigger(triggerTag, otherEntity);
             }
         }
 
@@ -331,7 +347,7 @@ namespace TestExample
 
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
-            spriteBatch.DrawString(font, "Triggering: " + bt.IsInsideTrigger(e.Position), new Vector2(1, 30), Color.Red);
+            spriteBatch.DrawString(font, "Triggering: " + bt.IsInsideTrigger(hero), new Vector2(1, 30), Color.Red);
             foreach (Vector2 point in lineToDraw)
             {
                 spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
