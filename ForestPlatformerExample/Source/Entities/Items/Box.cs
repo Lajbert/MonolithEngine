@@ -44,7 +44,9 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             this.bumps = currentBump = bumps;
 
-            CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(0, -8));
+            //CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(0, -8));
+            CollisionComponent = new BoxCollisionComponent(this, 20, 15, new Vector2(-10, -15));
+            //(CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 
             CollisionOffsetBottom = 1f;
             CollisionOffsetRight = 0.5f;
@@ -55,7 +57,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
             Active = true;
 
             //DEBUG_SHOW_PIVOT = true;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(0, -16);

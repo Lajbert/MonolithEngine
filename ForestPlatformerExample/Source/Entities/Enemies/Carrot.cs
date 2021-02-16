@@ -38,7 +38,6 @@ namespace ForestPlatformerExample.Source.Enemies
             CollisionComponent = new CircleCollisionComponent(this, 12, new Vector2(3, -15));
 
             //DEBUG_SHOW_PIVOT = true;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
 
             //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 

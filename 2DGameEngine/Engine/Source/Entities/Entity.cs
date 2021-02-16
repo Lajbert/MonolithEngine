@@ -182,12 +182,6 @@ namespace GameEngine2D.Entities
         public bool DEBUG_SHOW_COLLIDER = false;
 
         public bool DEBUG_SHOW_RAYCAST = false;
-
-
-        protected Line boxCollision1;
-        protected Line boxCollision2;
-        protected Line boxCollision3;
-        protected Line boxCollision4;
 #endif
 
         public Vector2 DrawPosition
@@ -474,7 +468,7 @@ namespace GameEngine2D.Entities
             }
             if (children.Any())
             {
-                foreach (Entity o in children)
+                foreach (Entity o in children.ToList())
                 {
                     if (o != null)
                     {

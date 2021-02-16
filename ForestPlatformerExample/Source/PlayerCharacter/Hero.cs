@@ -57,7 +57,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
 
             //DEBUG_SHOW_PIVOT = true;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_RAYCAST = true;
 
             AddCollisionAgainst("Interactive");

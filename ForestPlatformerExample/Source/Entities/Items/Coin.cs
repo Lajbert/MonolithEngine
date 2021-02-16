@@ -36,8 +36,6 @@ namespace ForestPlatformerExample.Source.Items
 
             Friction = friction;
 
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
-
             //ColliderOnGrid = true;
 
             //DEBUG_SHOW_PIVOT = true;

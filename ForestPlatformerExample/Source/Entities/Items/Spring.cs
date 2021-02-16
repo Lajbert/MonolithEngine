@@ -24,9 +24,10 @@ namespace ForestPlatformerExample.Source.Items
 
             Power = power;
 
-            CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
+            //CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
+            CollisionComponent = new BoxCollisionComponent(this, 20, 5, new Vector2(-5, 7));
+            //(CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             //DEBUG_SHOW_PIVOT = true;
 
             //DEBUG_SHOW_PIVOT = true;

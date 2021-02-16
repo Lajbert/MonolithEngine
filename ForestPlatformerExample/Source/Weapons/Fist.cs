@@ -24,7 +24,6 @@ namespace ForestPlatformerExample.Source.Weapons
         {
             CollisionComponent = new CircleCollisionComponent(this, 10);
             hero = parent as PhysicalEntity;
-            //DEBUG_SHOW_CIRCLE_COLLIDER = true;
             CurrentFaceDirection = parent.CurrentFaceDirection;
 
             AddCollisionAgainst("Enemy");
