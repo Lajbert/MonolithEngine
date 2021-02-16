@@ -64,26 +64,25 @@ namespace GameEngine2D.Engine.Source.Physics
                 }
                 foreach (IColliderEntity otherObject in toCheckAgainst)
                 {
+                    if (thisEntity.Equals(otherObject))
+                    {
+                        continue;
+                    }
+
                     if (otherObject.GetTags().Count == 0 || !otherObject.CollisionsEnabled)
                     {
                         continue;
                     }
 
                     bool collidesWith = false;
-                    if (otherObject.GetTags().Count > 0)
-                    {
-                        foreach(string tag in otherObject.GetTags()) {
-                            if (thisEntity.GetCollidesAgainst().Contains(tag)) {
-                                collidesWith = true;
-                                break;
-                            }
-                        }
-                        if (!collidesWith)
-                        {
-                            continue;
+                    foreach(string tag in otherObject.GetTags()) {
+                        if (thisEntity.GetCollidesAgainst().Contains(tag)) {
+                            collidesWith = true;
+                            break;
                         }
                     }
-                    if (thisEntity.Equals(otherObject))
+
+                    if (!collidesWith)
                     {
                         continue;
                     }
@@ -191,7 +190,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
-                foreach (IColliderEntity otherObject in collisions[thisEntity].Keys.ToList())
+                foreach (IColliderEntity otherObject in collisions[thisEntity].Keys)
                 {
                     if (thisEntity.Equals(otherObject))
                     {
