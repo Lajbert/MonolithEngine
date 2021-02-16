@@ -49,7 +49,7 @@ It's really up to you!
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
 # What are the supported platforms?
-Whatever MonoGame supports, the rest depends on you :)
+Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware.
 
 # What games have been released with it?
 None yet, hopefully the first will be released in Q3-Q4 2021.
