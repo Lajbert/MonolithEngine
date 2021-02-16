@@ -38,11 +38,18 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             }
             else if (otherCollider.GetCollisionComponent().GetType() == ColliderType.BOX)
             {
-                BoxCollisionComponent box = otherCollider as BoxCollisionComponent;
+                BoxCollisionComponent box = otherCollider.GetCollisionComponent() as BoxCollisionComponent;
                 Vector2 closestPoint = new Vector2(Math.Clamp(Position.X, box.Position.X, box.Position.X + box.Width), Math.Clamp(Position.Y, box.Position.Y, box.Position.Y + box.Height));
                 return Vector2.DistanceSquared(Position, closestPoint) < Radius * Radius;
             }
             throw new Exception("Unknown collider type");
         }
+
+#if DEBUG
+        protected override void CreateDebugVisual()
+        {
+            
+        }
+#endif
     }
 }

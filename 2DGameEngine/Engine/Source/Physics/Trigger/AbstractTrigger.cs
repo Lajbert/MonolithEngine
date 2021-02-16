@@ -8,18 +8,34 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
 {
     public abstract class AbstractTrigger : ITrigger
     {
-        private Entity owner;
+        protected Entity Owner;
         private string tag;
         protected Vector2 PositionOffset;
 
+#if DEBUG
+        private bool showDebug = false;
+        public bool DEBUG_DISPLAY_TRIGGER
+        {
+            get => showDebug;
+            set
+            {
+                if (value != showDebug)
+                {
+                    CreateDebugVisual();
+                }
+                showDebug = value;
+            }
+        }
+#endif
+
         public Vector2 Position
         {
-            get => owner.Position + PositionOffset;
+            get => Owner.Position + PositionOffset;
         }
 
         public AbstractTrigger(Entity owner, Vector2 positionOffset = default(Vector2), string tag = null)
         {
-            this.owner = owner;
+            Owner = owner;
             PositionOffset = positionOffset;
             this.tag = tag;
         }
@@ -35,5 +51,9 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         {
             this.tag = tag;
         }
+
+#if DEBUG
+        protected abstract void CreateDebugVisual();
+#endif
     }
 }

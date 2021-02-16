@@ -116,7 +116,8 @@ namespace TestExample
             //hero.SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
 
             e = new EntityTest();
-            bt = new BoxTrigger(hero, 100, 100, new Vector2(-50, -50), displayTrigger:true);
+            bt = new BoxTrigger(hero, 100, 100, new Vector2(-50, -50));
+            bt.DEBUG_DISPLAY_TRIGGER = true;
 
             line = new LineEntity(hero, e);
 
@@ -173,7 +174,7 @@ namespace TestExample
             {
                 DEBUG_SHOW_PIVOT = true;
                 Animations = null;
-                DEBUG_SHOW_CIRCLE_COLLIDER = true;
+                DEBUG_SHOW_COLLIDER = true;
                 GridCollisionCheckDirections = new HashSet<Direction>(Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList());
                 //CircleCollider = new CircleCollider(this, 30);
                 //fist = new FistTest(this, new Vector2(20, 20));
@@ -184,7 +185,9 @@ namespace TestExample
                 fist.Active = true;*/
 
                 AddCollisionAgainst("Test");
-                CollisionComponent = new CircleCollisionComponent(this, 30);
+                //CollisionComponent = new CircleCollisionComponent(this, 30);
+                CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
+                (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 //DrawOffset = new Vector2(-8, -8);
             }
 
@@ -227,9 +230,12 @@ namespace TestExample
         {
             public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
             {
-                CollisionComponent = new CircleCollisionComponent(this, 16);
+                //CollisionComponent = new CircleCollisionComponent(this, 30);
+                CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
+                (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                //(CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 DEBUG_SHOW_PIVOT = true;
-                DEBUG_SHOW_CIRCLE_COLLIDER = true;
+                DEBUG_SHOW_COLLIDER = true;
                 //DrawOffset = new Vector2(-8, -8);
                 AddTag("Test");
             }

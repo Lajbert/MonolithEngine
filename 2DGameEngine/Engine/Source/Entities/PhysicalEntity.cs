@@ -51,7 +51,7 @@ namespace GameEngine2D
 
         public bool CheckGridCollisions = true;
 
-        private Texture2D circleColliderMarker;
+        private Texture2D colliderMarker;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
@@ -68,15 +68,21 @@ namespace GameEngine2D
                 //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
             }
 
-            if (DEBUG_SHOW_CIRCLE_COLLIDER)
+            if (DEBUG_SHOW_COLLIDER)
             {
-                if (circleColliderMarker == null)
+                (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                if (colliderMarker == null)
                 {
-                    circleColliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
+                    if (CollisionComponent is CircleCollisionComponent)
+                    {
+                        (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                        colliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
+                    }
+                    
                 }
-                if (CollisionComponent != null)
+                if (CollisionComponent != null && CollisionComponent is CircleCollisionComponent)
                 {
-                    spriteBatch.Draw(circleColliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
+                    spriteBatch.Draw(colliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
                 }
                 else
                 {

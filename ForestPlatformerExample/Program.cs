@@ -8,7 +8,7 @@ namespace ForestPlatformerExample
         [STAThread]
         static void Main()
         {
-            using (var game = new ForestPlatformer())
+            using (var game = new Test())
                 game.Run();
         }
     }

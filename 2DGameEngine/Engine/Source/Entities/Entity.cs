@@ -179,9 +179,15 @@ namespace GameEngine2D.Entities
 #if DEBUG
         public bool DEBUG_SHOW_PIVOT = false;
 
-        public bool DEBUG_SHOW_CIRCLE_COLLIDER = false;
+        public bool DEBUG_SHOW_COLLIDER = false;
 
         public bool DEBUG_SHOW_RAYCAST = false;
+
+
+        protected Line boxCollision1;
+        protected Line boxCollision2;
+        protected Line boxCollision3;
+        protected Line boxCollision4;
 #endif
 
         public Vector2 DrawPosition

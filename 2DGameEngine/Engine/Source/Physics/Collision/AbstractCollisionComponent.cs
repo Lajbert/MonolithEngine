@@ -8,13 +8,29 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 {
     public abstract class AbstractCollisionComponent : ICollisionComponent
     {
-        private Vector2 positionOffset;
+        protected Vector2 PositionOffset;
 
         protected ColliderType type;
 
+#if DEBUG
+        private bool showDebug = false;
+        public bool DEBUG_DISPLAY_COLLISION
+        {
+            get => showDebug;
+            set
+            {
+                if (value != showDebug)
+                {
+                    CreateDebugVisual();
+                }
+                showDebug = value;
+            }
+        }
+#endif
+
         public Vector2 Position
         {
-            get => positionOffset + owner.GetPosition();
+            get => PositionOffset + owner.GetPosition();
         }
 
         protected IColliderEntity owner;
@@ -22,7 +38,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         protected AbstractCollisionComponent(ColliderType type, IColliderEntity owner, Vector2 positionOffset = default(Vector2))
         {
             this.owner = owner;
-            this.positionOffset = positionOffset;
+            PositionOffset = positionOffset;
             this.type = type;
         }
 
@@ -32,5 +48,9 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         {
             return type;
         }
+
+#if DEBUG
+        protected abstract void CreateDebugVisual();
+#endif
     }
 }
