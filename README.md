@@ -35,7 +35,7 @@ It's very young and there are lots of things still to be done, including importa
 Although I'm striving for simplicity, this engine is not made for beginners, especially not for people who rely on user interfaces like the one Unity has. It's for people who don't mind adjusting pivots and offsets from the code and prefers checking out the source to reading endless documentations.
 
 # What do I need to get started?
-The more coding experience you have, the better. It doesn't matter if it's Java, C++ or any other OO language as C# will be easy to pick up if you have programming knowledge. Some MonoGame knowledge helps too, but not required. What could be really helpful is understanding code performance, algorithms and data structures.
+The more coding experience you have, the better. It doesn't matter if it's Java, C++ or any other OO language as C# will be easy to pick up if you have programming knowledge. Some MonoGame knowledge helps too, but not required. Many of MonoGame's functionalities are already encapsulated in the engine, so unless you plan to make changes in the engine itself, you're covered. What could be really helpful is understanding code performance, algorithms and data structures.
 
 # How can I use the engine?
 Right now there is one platformer game example included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
