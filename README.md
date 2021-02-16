@@ -20,7 +20,8 @@ Already working features:
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
 * Grid based box collision physics
-* Circle collision physics (AABB box collision physics is coming)
+* Circle and Box collisions
+* Triggers (Box trigger supported, Circle trigger coming soon)
 * Raycasting!
 * Keyboard and controller input handling
 * Utilities like Timer, primitives, etc.
