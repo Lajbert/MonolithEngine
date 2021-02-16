@@ -144,11 +144,6 @@ namespace GameEngine2D.Engine.Source.Physics
             changedObjects.Clear();
         }
 
-        private void UpdateGridCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
-        {
-
-        }
-
         private void UpdateCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
             if (thisEntity.GetCollisionComponent().Overlaps(otherObject))
@@ -212,14 +207,6 @@ namespace GameEngine2D.Engine.Source.Physics
             foreach ((IColliderEntity, IColliderEntity) t in toRemove)
             {
                 collisions[t.Item1].Remove(t.Item2);
-                /*if (collisions[t.Item1][t.Item2].Count() == 0)
-                {
-                    collisions[t.Item1].Remove(t.Item2);
-                }
-                if (collisions[t.Item1].Count() == 0)
-                {
-                    collisions.Remove(t.Item1);
-                }*/
             }
         }
     }
