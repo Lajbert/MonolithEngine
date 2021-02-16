@@ -9,6 +9,9 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
     public abstract class AbstractCollisionComponent : ICollisionComponent
     {
         private Vector2 positionOffset;
+
+        protected ColliderType type;
+
         public Vector2 Position
         {
             get => positionOffset + owner.GetPosition();
@@ -16,12 +19,18 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         protected IColliderEntity owner;
 
-        public AbstractCollisionComponent(IColliderEntity owner, Vector2 positionOffset = default(Vector2))
+        protected AbstractCollisionComponent(ColliderType type, IColliderEntity owner, Vector2 positionOffset = default(Vector2))
         {
             this.owner = owner;
             this.positionOffset = positionOffset;
+            this.type = type;
         }
 
         public abstract bool Overlaps(IColliderEntity otherCollider);
+
+        ColliderType ICollisionComponent.GetType()
+        {
+            return type;
+        }
     }
 }

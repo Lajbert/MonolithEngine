@@ -88,16 +88,11 @@ namespace GameEngine2D.Engine.Source.Physics
                         continue;
                     }
 
-                    //UpdateRaycast(thisEntity, otherObject);
-                    //UpdateGridCollisions(thisEntity, otherObject);
-                    if (thisEntity.GetCollisionComponent() != null && otherObject.GetCollisionComponent() != null 
-                        && otherObject.GetCollisionComponent() is CircleCollisionComponent)
+                    if (thisEntity.GetCollisionComponent() != null && otherObject.GetCollisionComponent() != null)
                     {
-                        UpdateCircleCollisions(thisEntity, otherObject);
+                        UpdateCollisions(thisEntity, otherObject);
                     }
                     
-                    //UpdateBoxCollisions(thisEntity, otherObject);
-                    //UpdatePointCollisions(thisEntity, otherObject);
                 }
             }
 
@@ -154,7 +149,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
         }
 
-        private void UpdateCircleCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
+        private void UpdateCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
         {
             if (thisEntity.GetCollisionComponent().Overlaps(otherObject))
             {
@@ -182,21 +177,6 @@ namespace GameEngine2D.Engine.Source.Physics
             }
 
             return result;
-        }
-
-        private void UpdateBoxCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
-        {
-
-        }
-
-        private void UpdatePointCollisions(IColliderEntity thisEntity, IColliderEntity otherObject)
-        {
-
-        }
-
-        private void UpdateRaycast(IColliderEntity thisEntity, IColliderEntity otherObject)
-        {
-
         }
 
         private void PrepareCollisions()

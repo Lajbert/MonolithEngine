@@ -10,6 +10,8 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
     {
         public bool Overlaps(IColliderEntity otherCollider);
 
+        public ColliderType GetType();
+
         public Vector2 Position { get; }
     }
 }

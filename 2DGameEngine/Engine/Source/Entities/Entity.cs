@@ -640,11 +640,6 @@ namespace GameEngine2D.Entities
             return BlocksMovement && IsBlockedFrom(direction);
         }
 
-        public HashSet<CollisionType> GetCollisionProfile()
-        {
-            return new HashSet<CollisionType>() { CollisionType.CIRCLE };
-        }
-
         public ICollection<string> GetTags()
         {
             return Tags;
