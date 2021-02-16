@@ -19,13 +19,14 @@ Already working features:
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
-* Grid based box collision physics
-* Circle collision physics (AABB box collision physics is coming)
+* 2D grid based static environmental collisions (for dynamic objects colliding with static objects like ground, walls and other static environment colliders)
+* dynamic circle and box collisions (for dynamic objects colliding with each other, like the hero character colliding with enemies, pickups, traps, etc.)
+* Triggers (Box trigger supported, Circle trigger coming soon) for detecting that an object inside an area, like the hero character entering a certain part of the map that opens a door, etc.
 * Raycasting!
 * Keyboard and controller input handling
 * Utilities like Timer, primitives, etc.
 
-Many more features are coming including audio support, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), AABB box collisions, more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
+Many more features are coming including fixed timestep for physics updates (regardless of the FPS), audio support, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
 
 # How stable is the engine?
 It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, unit tests, etc. I'd say it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
@@ -33,8 +34,11 @@ It's very young and there are lots of things still to be done, including importa
 # Who should use this engine?
 Although I'm striving for simplicity, this engine is not made for beginners, especially not for people who rely on user interfaces like the one Unity has. It's for people who don't mind adjusting pivots and offsets from the code and prefers checking out the source to reading endless documentations.
 
+# Can I make a game like [...] with this engine?
+Being an axis-aligned engine in itself has some limitations. There is no complex, accurate physics engine (like Box2D) implemented, but unless you're making a physics-heavy game, believe me, you won't need it. 95% of the games don't need accurate physics (in fact, it can easily make them completely unenjoyable), even a complex game like [Dead Cells](https://dead-cells.com/) is [built](https://deepnight.net/tutorial/a-simple-platformer-engine-part-1-basics/) using the feature set that you can find in this engine. Long story short: do you want make a game like [Dead Cells](https://dead-cells.com/), [Super Mario](https://en.wikipedia.org/wiki/Super_Mario), [Factorio](https://factorio.com/), [Faster Than Light](https://subsetgames.com/ftl.html), [Candy Crush](https://en.wikipedia.org/wiki/Candy_Crush_Saga) or [Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game))? Go for it, this engine is specifically designed for games like these. Do you want to make a physics-heavy game like [Angry Birds](https://www.angrybirds.com/games/)? Even though it's not impossible, it would require a lot of work to adapt the engine, and you'll have to implement or integrate a complex physics engine yourself, so you might want to consider alternatives that are a better fit for your goal.
+
 # What do I need to get started?
-The more coding experience you have, the better. It doesn't matter if it's Java, C++ or any other OO language as C# will be easy to pick up if you have programming knowledge. Some MonoGame knowledge helps too, but not required. What could be really helpful is understanding code performance, algorithms and data structures.
+The more coding experience you have, the better. It doesn't matter if it's Java, C++ or any other OO language as C# will be easy to pick up if you have programming knowledge. Some MonoGame knowledge helps too, but not required. Many of MonoGame's functionalities are already encapsulated in the engine, so unless you're planning to make changes in the engine itself, you're covered. What could be really helpful is understanding code performance, algorithms and data structures.
 
 # How can I use the engine?
 Right now there is one platformer game example included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
@@ -48,7 +52,7 @@ It's really up to you!
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
 # What are the supported platforms?
-Whatever MonoGame supports, the rest depends on you :)
+Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware.
 
 # What games have been released with it?
 None yet, hopefully the first will be released in Q3-Q4 2021.
