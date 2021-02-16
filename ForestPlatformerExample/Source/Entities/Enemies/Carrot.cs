@@ -244,7 +244,6 @@ namespace ForestPlatformerExample.Source.Enemies
 
         public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
         {
-            Logger.Info("TRIGGER " + triggerTag + " started: " + otherEntity);
             if (otherEntity is Hero)
             {
                 hero = otherEntity as Hero;
@@ -255,7 +254,6 @@ namespace ForestPlatformerExample.Source.Enemies
 
         public override void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
         {
-            Logger.Info("TRIGGER " + triggerTag + " ended: " + otherEntity);
             if (otherEntity is Hero)
             {
                 hero = null;
