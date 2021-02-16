@@ -117,7 +117,7 @@ namespace TestExample
             //hero.SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
 
             e = new EntityTest();
-            bt = new BoxTrigger(100, 100, new Vector2(-50, -50));
+            bt = new BoxTrigger(100, 100, new Vector2(-50, -50), showTrigger: false);
             e.AddTrigger(bt);
             bt.DEBUG_DISPLAY_TRIGGER = true;
 

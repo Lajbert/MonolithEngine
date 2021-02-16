@@ -43,6 +43,9 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         public void SetOwner(Entity owner)
         {
             Owner = owner;
+#if DEBUG
+            CreateDebugVisual();
+#endif
         }
 
         public abstract bool IsInsideTrigger(IGameObject otherObject);

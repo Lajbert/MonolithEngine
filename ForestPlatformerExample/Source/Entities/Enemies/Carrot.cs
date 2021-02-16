@@ -1,10 +1,14 @@
 ﻿using ForestPlatformerExample.Source.Entities.Enemies;
 using ForestPlatformerExample.Source.Entities.Interfaces;
+using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
+using GameEngine2D.Engine.Source.Physics.Bresenham;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Raycast;
+using GameEngine2D.Engine.Source.Physics.Trigger;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -31,6 +35,8 @@ namespace ForestPlatformerExample.Source.Enemies
 
         private int health = 2;
 
+        private Hero hero = null;
+
         public Carrot(Vector2 position, Direction CurrentFaceDirection) : base(position)
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
@@ -42,6 +48,8 @@ namespace ForestPlatformerExample.Source.Enemies
             //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
+
+            AddTrigger(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
 
             this.CurrentFaceDirection = CurrentFaceDirection;
 
@@ -118,6 +126,8 @@ namespace ForestPlatformerExample.Source.Enemies
             GridCollisionCheckDirections.Add(Direction.BOTTOMRIGHT);
         }
 
+        private List<Vector2> line = new List<Vector2>();
+        private bool canRayPass = false;
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -137,10 +147,40 @@ namespace ForestPlatformerExample.Source.Enemies
                 direction *= -1;
             }
 
+            if (hero != null)
+            {
+                line.Clear();
+                Bresenham.GetLine(Position + new Vector2(0, -15), hero.Position + new Vector2(0, -10), line);
+                canRayPass = Bresenham.CanLinePass(Position + new Vector2(0, -15), hero.Position + new Vector2(0, -10), (x, y) => {
+                    return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+                });
+            }
+
             //Logger.Log("Speed * direction * gameTime.ElapsedGameTime.Milliseconds: " + (Speed * direction * gameTime.ElapsedGameTime.Milliseconds));
 
             //X += Speed * direction * gameTime.ElapsedGameTime.Milliseconds;
             Velocity.X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            base.Draw(spriteBatch, gameTime);
+
+            if (canRayPass)
+            {
+                foreach (Vector2 point in line)
+                {
+                    spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Red), point, Color.White);
+                }
+            }
+            else
+            {
+                foreach (Vector2 point in line)
+                {
+                    spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Blue), point, Color.White);
+                }
+            }
+            line.Clear();
         }
 
         private bool WillCollideOrFall()
@@ -200,6 +240,27 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 Animations.PlayAnimation("HurtRight");
             }
+        }
+
+        public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
+        {
+            Logger.Info("TRIGGER " + triggerTag + " started: " + otherEntity);
+            if (otherEntity is Hero)
+            {
+                hero = otherEntity as Hero;
+            }
+            
+            base.OnEnterTrigger(triggerTag, otherEntity);
+        }
+
+        public override void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
+        {
+            Logger.Info("TRIGGER " + triggerTag + " ended: " + otherEntity);
+            if (otherEntity is Hero)
+            {
+                hero = null;
+            }
+            base.OnLeaveTrigger(triggerTag, otherEntity);
         }
     }
 }

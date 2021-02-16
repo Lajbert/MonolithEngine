@@ -61,6 +61,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
+            TriggerInteractive = true;
 
             BlocksRay = true;
 

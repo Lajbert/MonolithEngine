@@ -24,7 +24,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>> triggers = new Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>>();
 
-        private HashSet<IColliderEntity> changedObjects = new HashSet<IColliderEntity>();
+        private HashSet<IGameObject> changedObjects = new HashSet<IGameObject>();
 
         private static readonly CollisionEngine instance = new CollisionEngine();
 
@@ -48,12 +48,17 @@ namespace GameEngine2D.Engine.Source.Physics
             }
         }
 
-        public void OnCollisionProfileChanged(IColliderEntity entity)
+        public void OnCollisionProfileChanged(IGameObject entity)
         {
-            Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CHANGE THIS TO IGAMEOBJECT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            if (!changedObjects.Contains(entity))
+            if (entity is IHasTrigger || entity is IColliderEntity)
             {
-                changedObjects.Add(entity);
+                if (!changedObjects.Contains(entity))
+                {
+                    changedObjects.Add(entity);
+                }
+            } else
+            {
+                throw new Exception("Objects added to the CollisionEngine must implement IHasTrigger or IColliderEntity!");
             }
         }
 
