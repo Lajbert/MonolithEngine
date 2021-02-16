@@ -21,7 +21,7 @@ Already working features:
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
 * 2D grid based static environmental collisions (for dynamic objects colliding with static objects like ground, walls and other static environment colliders)
 * dynamic circle and box collisions (for dynamic objects colliding with each other, like the hero character colliding with enemies, pickups, traps, etc.)
-* Triggers (Box trigger supported, Circle trigger coming soon)
+* Triggers (Box trigger supported, Circle trigger coming soon) for detecting that an object inside an area, like the hero character entering a certain part of the map that opens a door, etc.
 * Raycasting!
 * Keyboard and controller input handling
 * Utilities like Timer, primitives, etc.
