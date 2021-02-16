@@ -19,8 +19,8 @@ Already working features:
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
-* Grid based box collision physics
-* Circle and Box collisions
+* 2D grid based static environmental collisions (for dynamic objects colliding with static objects)
+* dynamig circle and box collisions (for dynamic objects colliding with each other)
 * Triggers (Box trigger supported, Circle trigger coming soon)
 * Raycasting!
 * Keyboard and controller input handling
