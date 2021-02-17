@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngine2D.Engine.Source.Util;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,9 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
 
         public bool ControlsDisabled = false;
 
-        public void RegisterKeyPressAction(Keys key, Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false)
+        public void RegisterKeyPressAction(Keys key, Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false, int pressCooldown = 0)
         {
-            keyPressActions.Add(new KeyMapping(key, controllerButton, singlePressOnly), action);
+            keyPressActions.Add(new KeyMapping(key, controllerButton, singlePressOnly, pressCooldown), action);
             pressedKeys[key] = false;
             pressedButtons[controllerButton] = false;
         }
@@ -43,13 +44,13 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
             buttonReleaseActions.Add(controllerButton, action);
         }
 
-        public void RegisterKeyPressAction(Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false)
+        public void RegisterKeyPressAction(Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false, int pressCooldown = 0)
         {
-            keyPressActions.Add(new KeyMapping(null, controllerButton, singlePressOnly), action);
+            keyPressActions.Add(new KeyMapping(null, controllerButton, singlePressOnly, pressCooldown), action);
             pressedButtons[controllerButton] = false;
         }
 
-        public void RegisterKeyPressAction(Keys key, Action<Vector2> action, bool singlePressOnly = false) {
+        public void RegisterKeyPressAction(Keys key, Action<Vector2> action, bool singlePressOnly = false, int pressCooldown = 0) {
             keyPressActions.Add(new KeyMapping(key, null, singlePressOnly), action);
             pressedKeys[key] = false;
         }
@@ -95,6 +96,13 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
                 {
                     if (currentKeyboardState.IsKeyDown(key.Value))
                     {
+                        if (Timer.IsSet("INPUTPRESSED_" + key.Value.ToString())) {
+                            continue;
+                        }
+                        if (mapping.Key.PressCooldown != 0)
+                        {
+                            Timer.SetTimer("INPUTPRESSED_" + key.Value.ToString(), mapping.Key.PressCooldown);
+                        }
                         if (mapping.Key.SinglePressOnly && (prevKeyboardState != null && (prevKeyboardState == currentKeyboardState || pressedKeys[key.Value])))
                         {
                             continue;
@@ -120,6 +128,14 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
                         if (mapping.Key.SinglePressOnly && (prevGamepadState != null && (prevGamepadState == currentGamepadState || pressedButtons[button.Value])))
                         {
                             continue;
+                        }
+                        if (Timer.IsSet("INPUTPRESSED_" + button.Value.ToString()))
+                        {
+                            continue;
+                        }
+                        if (mapping.Key.PressCooldown != 0)
+                        {
+                            Timer.SetTimer("INPUTPRESSED_" + button.Value.ToString(), mapping.Key.PressCooldown);
                         }
                         pressedButtons[button.Value] = true;
                         if (button.Value == Buttons.LeftThumbstickLeft || button.Value == Buttons.LeftThumbstickRight)
@@ -185,24 +201,28 @@ namespace GameEngine2D.Engine.Source.Entities.Controller
             public Keys? Key;
             public Buttons? Button;
             public bool SinglePressOnly;
+            public int PressCooldown;
 
-            public KeyMapping(Keys? key, Buttons? button, bool singlePressOnly = false)
+            public KeyMapping(Keys? key, Buttons? button, bool singlePressOnly = false, int pressCooldown = 0)
             {
                 Key = key;
                 this.Button = button;
                 SinglePressOnly = singlePressOnly;
+                PressCooldown = pressCooldown;
             }
+
             public override bool Equals(object obj)
             {
                 return obj is KeyMapping mapping &&
                        Key == mapping.Key &&
                        Button == mapping.Button &&
-                       SinglePressOnly == mapping.SinglePressOnly;
+                       SinglePressOnly == mapping.SinglePressOnly &&
+                       PressCooldown == mapping.PressCooldown;
             }
 
             public override int GetHashCode()
             {
-                return HashCode.Combine(Key, Button, SinglePressOnly);
+                return HashCode.Combine(Key, Button, SinglePressOnly, PressCooldown);
             }
         }
     }

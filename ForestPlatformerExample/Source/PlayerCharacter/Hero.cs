@@ -409,7 +409,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 jumpModifier = Vector2.Zero;
                 FallSpeed = (float)GameTime.TotalGameTime.TotalSeconds;
-            }, true);
+
+            }, true, pressCooldown: 100);
 
             UserInput.RegisterKeyPressAction(Keys.Space, Buttons.X, (Vector2 thumbStickPosition) => {
                 if (isCarryingItem)
