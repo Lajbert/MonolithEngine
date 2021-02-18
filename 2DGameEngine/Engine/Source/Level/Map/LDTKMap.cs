@@ -1,6 +1,7 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
+using GameEngine2D.Engine.Source.Level.Collision;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -100,10 +101,7 @@ namespace GameEngine2D.Source.Level
                         {
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
-                            Entity e = new Entity(currentLayer, null, (new Vector2(x, y) * Config.GRID), SpriteUtil.CreateRectangle(Config.GRID, Color.Black));
-                            e.BlocksRay = true;
-                            e.BlocksMovement = true;
-                            e.DEBUG_SHOW_PIVOT = true;
+                            EnvironmentalCollider e = new EnvironmentalCollider((new Vector2(x, y)));
                             switch (grid.V)
                             {
                                 case 0:
@@ -136,9 +134,6 @@ namespace GameEngine2D.Source.Level
                                     e.AddBlockedDirection(Direction.SOUTH);
                                     break;
                             }
-                            e.DrawOffset = pivot;
-                            //e.Pivot = pivot;
-                            e.Visible = false;
                         }
 
                     } else

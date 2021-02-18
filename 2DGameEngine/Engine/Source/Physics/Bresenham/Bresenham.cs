@@ -1,5 +1,6 @@
 ﻿#if DEBUG
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -193,7 +194,7 @@ namespace GameEngine2D.Engine.Source.Physics.Bresenham
 			line.Clear();
 			Bresenham.GetLine(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), line);
 			canRayPass = Bresenham.CanLinePass(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), (x, y) => {
-				return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+				return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
 			});
 		}
 

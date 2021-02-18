@@ -50,15 +50,13 @@ namespace GameEngine2D.Engine.Source.Physics
 
         public void OnCollisionProfileChanged(IGameObject entity)
         {
-            if (entity is IHasTrigger || entity is IColliderEntity)
+            if (!(entity is IHasTrigger) && !(entity is IColliderEntity))
             {
-                if (!changedObjects.Contains(entity))
-                {
-                    changedObjects.Add(entity);
-                }
-            } else
+                return;
+            }
+            if (!changedObjects.Contains(entity))
             {
-                throw new Exception("Objects added to the CollisionEngine must implement IHasTrigger or IColliderEntity!");
+                changedObjects.Add(entity);
             }
         }
 

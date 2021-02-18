@@ -123,8 +123,6 @@ namespace TestExample
 
             line = new LineEntity(hero, e);
 
-            BlockerEntity blocker = new BlockerEntity(new Vector2(15 * Config.GRID, 15 * Config.GRID));
-
             Camera.TrackTarget(hero, true);
             //TODO: use this.Content to load your game content here
 
@@ -155,14 +153,6 @@ namespace TestExample
 
             public override void Update(GameTime gameTime)
             {
-            }
-        }
-
-        class BlockerEntity : Entity
-        {
-            public BlockerEntity(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, SpriteUtil.CreateRectangle(16, Color.Blue))
-            {
-                BlocksMovement = true;
             }
         }
 
@@ -281,7 +271,7 @@ namespace TestExample
                 line.Clear();
                 Bresenham.GetLine(Parent.Transform.Position, other.Transform.Position, line);
                 canRayPass = Bresenham.CanLinePass(Parent.Transform.Position, other.Transform.Position, (x, y) => {
-                    return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+                    return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
             }
 
