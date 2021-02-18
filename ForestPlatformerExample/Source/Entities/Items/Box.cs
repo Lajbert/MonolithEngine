@@ -126,7 +126,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
         private void EnablePhysics()
         {
             Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(Transform.Position);
-            GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
+            GridCollisionCheckDirections = new HashSet<Direction>() { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST };
             HasGravity = true;
             Active = true;
         }

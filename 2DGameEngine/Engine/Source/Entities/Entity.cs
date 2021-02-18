@@ -47,11 +47,8 @@ namespace GameEngine2D.Entities
 
             set
             {
-                if (value != canFireTriggers)
-                {
-                    CollisionEngine.Instance.OnCollisionProfileChanged(this);
-                }
                 canFireTriggers = value;
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
             }
         }
 
@@ -494,18 +491,18 @@ namespace GameEngine2D.Entities
 
         public float GetCollisionOffset(Direction direction)
         {
-            if (direction == Direction.RIGHT)
+            if (direction == Direction.EAST)
             {
                 return CollisionOffsetLeft;
-            } else if (direction == Direction.LEFT)
+            } else if (direction == Direction.WEST)
             {
                 return CollisionOffsetRight;
             }
-            else if (direction == Direction.UP)
+            else if (direction == Direction.NORTH)
             {
                 return CollisionOffsetTop;
             }
-            else if (direction == Direction.DOWN)
+            else if (direction == Direction.SOUTH)
             {
                 return CollisionOffsetBottom;
             }

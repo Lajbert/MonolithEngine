@@ -114,12 +114,12 @@ namespace GameEngine2D
             {
                 Transform.InCellLocation.X += step;
 
-                if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.RIGHT))
+                if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
                 {
                     Transform.InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.LEFT))
+                if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
                 {
                     Transform.InCellLocation.X = CollisionOffsetRight;
                 }
@@ -162,7 +162,7 @@ namespace GameEngine2D
             {
                 Transform.InCellLocation.Y += step2;
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.DOWN)/* && Velocity.Y > 0*/)
+                if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
                 {
                     if (HasGravity)
                     {
@@ -174,7 +174,7 @@ namespace GameEngine2D
 
                 }
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.UP))
+                if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
                 {
                     Velocity.Y = 0;
                     Transform.InCellLocation.Y = CollisionOffsetTop;
@@ -235,7 +235,7 @@ namespace GameEngine2D
 
         protected bool OnGround()
         {
-            return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.DOWN) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }
 
         public void ResetPosition(Vector2 position)

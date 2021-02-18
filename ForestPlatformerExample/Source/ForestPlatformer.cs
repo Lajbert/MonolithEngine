@@ -175,7 +175,7 @@ namespace ForestPlatformerExample
                             speed = (int)field.Value;
                         }
                     }
-                    Carrot carrot = new Carrot(position, Direction.RIGHT);
+                    Carrot carrot = new Carrot(position, Direction.EAST);
                 } else if (entity.Identifier.Equals("Box"))
                 {
                     Box box = new Box(position);

@@ -121,19 +121,19 @@ namespace GameEngine2D.Source.Level
                                     break;
                                 case 4:
                                     e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.LEFT);
+                                    e.AddBlockedDirection(Direction.WEST);
                                     break;
                                 case 5:
                                     e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.RIGHT);
+                                    e.AddBlockedDirection(Direction.EAST);
                                     break;
                                 case 6:
                                     e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.UP);
+                                    e.AddBlockedDirection(Direction.NORTH);
                                     break;
                                 case 7:
                                     e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.DOWN);
+                                    e.AddBlockedDirection(Direction.SOUTH);
                                     break;
                             }
                             e.DrawOffset = pivot;

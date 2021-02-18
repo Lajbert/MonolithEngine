@@ -22,7 +22,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         private List<(IGridCollider, Direction)> allCollisionsResult = new List<(IGridCollider, Direction)>();
         List<Direction> tagCollisionResult = new List<Direction>();
 
-        private static readonly List<Direction> basicDirections = new List<Direction>() { Direction.CENTER, Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN };
+        private static readonly List<Direction> basicDirections = new List<Direction>() { Direction.CENTER, Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH };
 
         public GridCollisionChecker()
         {
@@ -106,37 +106,37 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         private bool IsExactCollision(IGridCollider entity, Direction direction)
         {
-            if (direction == Direction.LEFT)
+            if (direction == Direction.WEST)
             {
                 return entity.Transform.InCellLocation.X <= entity.GetCollisionOffset(direction);
             }
-            else if (direction == Direction.RIGHT)
+            else if (direction == Direction.EAST)
             {
                 return entity.Transform.InCellLocation.X >= entity.GetCollisionOffset(direction);
             }
-            else if (direction == Direction.UP)
+            else if (direction == Direction.NORTH)
             {
                 return entity.Transform.InCellLocation.Y <= entity.GetCollisionOffset(direction);
             }
-            else if (direction == Direction.DOWN)
+            else if (direction == Direction.SOUTH)
             {
                 return entity.Transform.InCellLocation.Y >= entity.GetCollisionOffset(direction);
             }
-            else if (direction == Direction.TOPLEFT)
+            else if (direction == Direction.NORTHWEST)
             {
-                return IsExactCollision(entity, Direction.UP) && IsExactCollision(entity, Direction.LEFT);
+                return IsExactCollision(entity, Direction.NORTH) && IsExactCollision(entity, Direction.WEST);
             }
-            else if (direction == Direction.TOPRIGHT)
+            else if (direction == Direction.NORTHEAST)
             {
-                return IsExactCollision(entity, Direction.UP) && IsExactCollision(entity, Direction.RIGHT);
+                return IsExactCollision(entity, Direction.NORTH) && IsExactCollision(entity, Direction.EAST);
             }
-            else if (direction == Direction.BOTTOMLEFT)
+            else if (direction == Direction.SOUTHWEST)
             {
-                return IsExactCollision(entity, Direction.DOWN) && IsExactCollision(entity, Direction.LEFT);
+                return IsExactCollision(entity, Direction.SOUTH) && IsExactCollision(entity, Direction.WEST);
             }
-            else if (direction == Direction.BOTTOMRIGHT)
+            else if (direction == Direction.SOUTHEAST)
             {
-                return IsExactCollision(entity, Direction.DOWN) && IsExactCollision(entity, Direction.RIGHT);
+                return IsExactCollision(entity, Direction.SOUTH) && IsExactCollision(entity, Direction.EAST);
             } else if (direction == Direction.CENTER)
             {
                 return true;
@@ -147,14 +147,14 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         protected Vector2 GetGridCoord(Vector2 gridCoord, Direction direction)
         {
             if (direction == Direction.CENTER) return gridCoord;
-            if (direction == Direction.LEFT) return GridUtil.GetLeftGrid(gridCoord);
-            if (direction == Direction.RIGHT) return GridUtil.GetRightGrid(gridCoord);
-            if (direction == Direction.UP) return GridUtil.GetUpperGrid(gridCoord);
-            if (direction == Direction.DOWN) return GridUtil.GetBelowGrid(gridCoord);
-            if (direction == Direction.BOTTOMRIGHT) return GridUtil.GetRightBelowGrid(gridCoord);
-            if (direction == Direction.BOTTOMLEFT) return GridUtil.GetLeftBelowGrid(gridCoord);
-            if (direction == Direction.TOPLEFT) return GridUtil.GetUpperLeftGrid(gridCoord);
-            if (direction == Direction.TOPRIGHT) return GridUtil.GetUpperRightGrid(gridCoord);
+            if (direction == Direction.WEST) return GridUtil.GetLeftGrid(gridCoord);
+            if (direction == Direction.EAST) return GridUtil.GetRightGrid(gridCoord);
+            if (direction == Direction.NORTH) return GridUtil.GetUpperGrid(gridCoord);
+            if (direction == Direction.SOUTH) return GridUtil.GetBelowGrid(gridCoord);
+            if (direction == Direction.SOUTHEAST) return GridUtil.GetRightBelowGrid(gridCoord);
+            if (direction == Direction.SOUTHWEST) return GridUtil.GetLeftBelowGrid(gridCoord);
+            if (direction == Direction.NORTHWEST) return GridUtil.GetUpperLeftGrid(gridCoord);
+            if (direction == Direction.NORTHEAST) return GridUtil.GetUpperRightGrid(gridCoord);
 
             throw new Exception("Unknown direction!");
         }

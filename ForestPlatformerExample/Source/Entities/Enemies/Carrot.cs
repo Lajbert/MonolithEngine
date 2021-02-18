@@ -53,11 +53,11 @@ namespace ForestPlatformerExample.Source.Enemies
 
             this.CurrentFaceDirection = CurrentFaceDirection;
 
-            if (CurrentFaceDirection == Direction.LEFT)
+            if (CurrentFaceDirection == Direction.WEST)
             {
                 SetLeftCollisionChecks();
             } 
-            else if (CurrentFaceDirection == Direction.RIGHT)
+            else if (CurrentFaceDirection == Direction.EAST)
             {
                 SetRightCollisionChecks();
             }
@@ -67,7 +67,7 @@ namespace ForestPlatformerExample.Source.Enemies
             Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(3, -33);
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
-            Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.CurrentFaceDirection == Direction.LEFT);
+            Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.CurrentFaceDirection == Direction.WEST);
 
             Action<int> setSpeed = frame =>
             {
@@ -83,7 +83,7 @@ namespace ForestPlatformerExample.Source.Enemies
             moveLeft.EveryFrameAction = setSpeed;
 
             SpriteSheetAnimation moveRight = moveLeft.CopyFlipped();
-            Animations.RegisterAnimation("MoveRight", moveRight, () => this.CurrentFaceDirection == Direction.RIGHT);
+            Animations.RegisterAnimation("MoveRight", moveRight, () => this.CurrentFaceDirection == Direction.EAST);
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
@@ -101,8 +101,8 @@ namespace ForestPlatformerExample.Source.Enemies
             SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
             Animations.RegisterAnimation("DeathRight", deathRight, () => false);
 
-            SetDestroyAnimation(deathRight, Direction.RIGHT);
-            SetDestroyAnimation(deathLeft, Direction.LEFT);
+            SetDestroyAnimation(deathRight, Direction.EAST);
+            SetDestroyAnimation(deathLeft, Direction.WEST);
 
             Active = true;
             Visible = true;
@@ -115,15 +115,15 @@ namespace ForestPlatformerExample.Source.Enemies
         private void SetLeftCollisionChecks()
         {
             GridCollisionCheckDirections.Clear();
-            GridCollisionCheckDirections.Add(Direction.LEFT);
-            GridCollisionCheckDirections.Add(Direction.BOTTOMLEFT);
+            GridCollisionCheckDirections.Add(Direction.WEST);
+            GridCollisionCheckDirections.Add(Direction.SOUTHWEST);
         }
 
         private void SetRightCollisionChecks()
         {
             GridCollisionCheckDirections.Clear();
-            GridCollisionCheckDirections.Add(Direction.RIGHT);
-            GridCollisionCheckDirections.Add(Direction.BOTTOMRIGHT);
+            GridCollisionCheckDirections.Add(Direction.EAST);
+            GridCollisionCheckDirections.Add(Direction.SOUTHEAST);
         }
 
         private List<Vector2> line = new List<Vector2>();
@@ -134,15 +134,15 @@ namespace ForestPlatformerExample.Source.Enemies
 
             if (WillCollideOrFall())
             {
-                if (CurrentFaceDirection == Direction.LEFT)
+                if (CurrentFaceDirection == Direction.WEST)
                 {
                     SetLeftCollisionChecks();
-                    CurrentFaceDirection = Direction.RIGHT;
+                    CurrentFaceDirection = Direction.EAST;
                 } 
-                else if (CurrentFaceDirection == Direction.RIGHT)
+                else if (CurrentFaceDirection == Direction.EAST)
                 {
                     SetRightCollisionChecks();
-                    CurrentFaceDirection = Direction.LEFT;
+                    CurrentFaceDirection = Direction.WEST;
                 }
                 direction *= -1;
             }
@@ -185,13 +185,13 @@ namespace ForestPlatformerExample.Source.Enemies
 
         private bool WillCollideOrFall()
         {
-            if (CurrentFaceDirection == Direction.LEFT)
+            if (CurrentFaceDirection == Direction.WEST)
             {
-                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.LEFT) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.BOTTOMLEFT);
+                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHWEST);
             }
-            else if (CurrentFaceDirection == Direction.RIGHT)
+            else if (CurrentFaceDirection == Direction.EAST)
             {
-                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.RIGHT) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.BOTTOMRIGHT);
+                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHEAST);
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }
@@ -208,7 +208,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             health--;
             PlayHurtAnimation();
-            if (impactDirection == Direction.UP)
+            if (impactDirection == Direction.NORTH)
             {
                 CurrentSpeed = 0;
                 Timer.TriggerAfter(300, () => CurrentSpeed = speed);
@@ -218,12 +218,12 @@ namespace ForestPlatformerExample.Source.Enemies
             
             Velocity = Vector2.Zero;
             Vector2 attackForce = new Vector2(5, -5);
-            if (impactDirection == Direction.LEFT)
+            if (impactDirection == Direction.WEST)
             {
                 attackForce.X *= -1;
                 Velocity += attackForce;
             }
-            else if (impactDirection == Direction.RIGHT)
+            else if (impactDirection == Direction.EAST)
             {
                 Velocity += attackForce;
             }
@@ -232,7 +232,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
         private void PlayHurtAnimation()
         {
-            if (CurrentFaceDirection == Direction.LEFT)
+            if (CurrentFaceDirection == Direction.WEST)
             {
                 Animations.PlayAnimation("HurtLeft");
             }

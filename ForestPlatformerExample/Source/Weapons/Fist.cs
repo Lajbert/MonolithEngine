@@ -64,11 +64,11 @@ namespace ForestPlatformerExample.Source.Weapons
                 return;
             }
             //canAttack = false;
-            if (CurrentFaceDirection == Direction.LEFT)
+            if (CurrentFaceDirection == Direction.WEST)
             {
                 hero.Animations.PlayAnimation("AttackLeft");
             }
-            else if (CurrentFaceDirection == Direction.RIGHT)
+            else if (CurrentFaceDirection == Direction.EAST)
             {
                 hero.Animations.PlayAnimation("AttackRight");
             }
@@ -81,7 +81,7 @@ namespace ForestPlatformerExample.Source.Weapons
             {
                 if (entity is IAttackable)
                 {
-                    Direction direction = entity.Transform.X < Parent.Transform.X ? Direction.LEFT : Direction.RIGHT;
+                    Direction direction = entity.Transform.X < Parent.Transform.X ? Direction.WEST : Direction.EAST;
                     (entity as IAttackable).Hit(direction);
                 }
             }

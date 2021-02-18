@@ -7,13 +7,13 @@ namespace GameEngine2D.Engine.Source.Entities
     public enum Direction
     {
         CENTER,
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        TOPLEFT,
-        TOPRIGHT,
-        BOTTOMLEFT,
-        BOTTOMRIGHT
+        NORTH,
+        SOUTH,
+        WEST,
+        EAST,
+        NORTHWEST,
+        NORTHEAST,
+        SOUTHWEST,
+        SOUTHEAST
     }
 }
