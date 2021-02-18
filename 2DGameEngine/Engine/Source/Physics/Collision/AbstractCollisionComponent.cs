@@ -30,7 +30,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         public Vector2 Position
         {
-            get => PositionOffset + owner.GetPosition();
+            get => PositionOffset + owner.Transform.Position;
         }
 
         protected IColliderEntity owner;

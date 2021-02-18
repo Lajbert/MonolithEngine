@@ -2,6 +2,7 @@
 using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Entities.Transform;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
@@ -108,51 +109,7 @@ namespace GameEngine2D.Entities
 
         public Rectangle SourceRectangle;
 
-        private Vector2 position;
-
-        public Vector2 Position
-        {
-            get
-            {
-                if (parent == null)
-                {
-                    return position;
-                }
-                return parent.Position + position;
-            }
-            set {
-                position = value;
-            }
-        }
-
-        public float X
-        {
-            get
-            {
-                return Position.X;
-            }
-            set
-            {
-                position.X = value;
-            }
-        }
-
-        public float Y
-        {
-            get
-            {
-                return Position.Y;
-            }
-            set
-            {
-                position.Y = value;
-            }
-        }
-
         protected Texture2D Sprite { get; set; }
-        private HashSet<Entity> children;
-
-        protected Entity parent;
 
         private bool blocksMovement = false;
         private bool onGrid = false;
@@ -180,11 +137,6 @@ namespace GameEngine2D.Entities
 
         protected SpriteFont font;
 
-        public Vector2 GridCoordinates = Vector2.Zero;
-
-        //between 0 and 1: where the object is inside the grid cell
-        protected Vector2 InCellLocation = new Vector2(0.5f, 1f);
-
         public AnimationStateMachine Animations { get; set; }
 
         protected Ray2DEmitter RayEmitter { get; set; }
@@ -206,7 +158,7 @@ namespace GameEngine2D.Entities
         public Vector2 DrawPosition
         {
             get {
-                return Position + DrawOffset;
+                return Transform.Position + DrawOffset;
             }
 
             private set {}
@@ -230,63 +182,22 @@ namespace GameEngine2D.Entities
 
         public bool CollisionsEnabled { get; set; } = true;
 
-        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null)
+        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null) : base (parent)
         {
-            this.Layer = layer;
-            children = new HashSet<Entity>();
+            Transform = new StaticTransform(this, startPosition);
+            Layer = layer;
             this.font = font;
-            SetParent(parent, startPosition);
             SetSprite(sprite);
-
             layer.OnObjectChanged(this);
-        }
-
-        public void SetParent(Entity newParent, Vector2 position)
-        {
-            if (newParent != null)
-            {
-                Position = position;
-                if (parent != null)
-                {
-                    parent.RemoveChild(this);
-                }
-                parent = newParent;
-                newParent.AddChild(this);
-            }
-            else
-            {
-                if (parent != null)
-                {
-                    this.position += parent.Position;
-                    parent.RemoveChild(this);
-                } else
-                {
-                    Position = position;
-                }
-                parent = null;
-
-            }
-            //UpdateInCellCoord();
-            GridCoordinates = CalculateGridCoord();
-        }
-
-        public void SetParent(Entity newParent)
-        {
-            SetParent(newParent, Vector2.Zero);
-        }
-
-        public void RemoveParent()
-        {
-            SetParent(null, Vector2.Zero);
         }
 
         protected virtual void SetRayBlockers()
         {
             RayBlockerLines.Clear();
-            RayBlockerLines.Add((Position, new Vector2(Position.X, Position.Y + Config.GRID))); //0, 1
-            RayBlockerLines.Add((Position, new Vector2(Position.X + Config.GRID, Position.Y))); //1, 0
-            RayBlockerLines.Add((new Vector2(Position.X + Config.GRID, Position.Y), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID))); //1
-            RayBlockerLines.Add((new Vector2(Position.X, Position.Y + Config.GRID), new Vector2(Position.X + Config.GRID, Position.Y + Config.GRID)));
+            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.Position.X, Transform.Position.Y + Config.GRID))); //0, 1
+            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y))); //1, 0
+            RayBlockerLines.Add((new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y), new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y + Config.GRID))); //1
+            RayBlockerLines.Add((new Vector2(Transform.Position.X, Transform.Position.Y + Config.GRID), new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y + Config.GRID)));
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -315,17 +226,17 @@ namespace GameEngine2D.Entities
                 {
                     //spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
                 }
-                spriteBatch.Draw(pivotMarker, Position - new Vector2(2.5f, 2.5f), Color.White);
+                spriteBatch.Draw(pivotMarker, Transform.Position - new Vector2(2.5f, 2.5f), Color.White);
             }
 #endif
             /*if (font != null)
             {
-                spriteBatch.DrawString(font, "InCell : " + InCellLocation, DrawPosition, Color.Red);
+                spriteBatch.DrawString(font, "InCell : " + Transform.InCellLocation, DrawPosition, Color.Red);
             }*/
 
-            if (children.Count > 0)
+            if (Children.Count > 0)
             {
-                foreach (Entity child in children)
+                foreach (Entity child in Children)
                 {
                     child.Draw(spriteBatch, gameTime);
                 }
@@ -345,7 +256,7 @@ namespace GameEngine2D.Entities
 
         public Entity GetSamePositionCollider()
         {
-            return GridCollisionChecker.GetColliderAt(GridCoordinates) as Entity;
+            return GridCollisionChecker.GetColliderAt(Transform.GridCoordinates) as Entity;
         }
 
         public virtual void PreUpdate(GameTime gameTime)
@@ -357,7 +268,7 @@ namespace GameEngine2D.Entities
 
             UpdateCollisions();
 
-            foreach (Entity child in children)
+            foreach (Entity child in Children)
             {
                 child.PreUpdate(gameTime);
             }
@@ -375,7 +286,7 @@ namespace GameEngine2D.Entities
                 Animations.Update(gameTime);
             }
 
-            foreach (Entity child in children.ToList())
+            foreach (Entity child in Children.ToList())
             {
                 child.Update(gameTime);
             }
@@ -393,7 +304,7 @@ namespace GameEngine2D.Entities
                 RayEmitter.UpdateRays();
             }
 
-            foreach (Entity child in children)
+            foreach (Entity child in Children)
             {
                 child.PostUpdate(gameTime);
             }
@@ -425,21 +336,6 @@ namespace GameEngine2D.Entities
                     OnGridCollisionEnd(e.Key.Item1, e.Key.Item2);
                 }
             }
-        }
-
-        public HashSet<Entity> GetAllChildren()
-        {
-            return children;
-        }
-
-        public void AddChild(Entity gameObject)
-        {
-            children.Add(gameObject);
-        }
-
-        public void RemoveChild(Entity gameObject)
-        {
-            children.Remove(gameObject);
         }
 
         public override void Destroy()
@@ -481,13 +377,13 @@ namespace GameEngine2D.Entities
             {
                 DestroySound.Dispose();
             }
-            if (parent != null)
+            if (Parent != null)
             {
-                parent.RemoveChild(this);
+                Parent.RemoveChild(this);
             }
-            if (children.Any())
+            if (Children.Any())
             {
-                foreach (Entity o in children.ToList())
+                foreach (Entity o in Children.ToList())
                 {
                     if (o != null)
                     {
@@ -535,22 +431,6 @@ namespace GameEngine2D.Entities
 
             this.Sprite = sprite;
             SourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
-        }
-
-        protected Vector2 CalculateGridCoord()
-        {
-            return CalculateGridCoord(Position);
-        }
-
-        protected void UpdateInCellCoord()
-        {
-            InCellLocation.X = (Position.X / GridCoordinates.X) % 1;
-            InCellLocation.Y = (Position.Y / GridCoordinates.Y) % 1;
-        }
-
-        protected Vector2 CalculateGridCoord(Vector2 position)
-        {
-            return new Vector2((int)Math.Floor(Position.X / Config.GRID), (int)Math.Floor(Position.Y / Config.GRID));
         }
 
         public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()
@@ -607,19 +487,9 @@ namespace GameEngine2D.Entities
             return blockedFrom.Count == 0 || blockedFrom.Contains(direction);
         }
 
-        public Vector2 GetInCellLocation()
-        {
-            return InCellLocation;
-        }
-
         public Vector2 GetGridCoord()
         {
-            return GridCoordinates;
-        }
-
-        public override Vector2 GetPosition()
-        {
-            return Position;
+            return Transform.GridCoordinates;
         }
 
         public float GetCollisionOffset(Direction direction)
@@ -682,11 +552,6 @@ namespace GameEngine2D.Entities
         {
             CollidesAgainst.Remove(tag);
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            Position = position;
         }
 
         public ICollection<ITrigger> GetTriggers()

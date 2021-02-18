@@ -31,7 +31,7 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
             rays = new List<Ray2D>();
             for (float i = start; i <= end; i+= step)
             {
-                rays.Add(new Ray2D(owner.Position, MathUtil.DegreesToRad(i)));
+                rays.Add(new Ray2D(owner.Transform.Position, MathUtil.DegreesToRad(i)));
             }
             this.delay = delayMs;
         }
@@ -42,14 +42,14 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
                 if (delay != 0 && Timer.IsSet("RayCastDelay")) {
                     return;
                 }
-                ray.Position = owner.Position;
+                ray.Position = owner.Transform.Position;
                 closestIntersection.X = closestIntersection.Y = int.MaxValue;
                 closestDistance = float.MaxValue;
 #if RAYCAST_DEBUG
                 ray.debugLine.Reset();
                 ray.intersectionMarker.Visible = false;
-                ray.debugLine.Position = owner.Position;
-                ray.debugLine.From = owner.Position;
+                ray.debugLine.Transform.Position = owner.Transform.Position;
+                ray.debugLine.From = owner.Transform.Position;
 #endif
                 foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll())
                 {
@@ -86,7 +86,7 @@ namespace GameEngine2D.Engine.Source.Physics.Raycast
 #if RAYCAST_DEBUG
                 if (closestDistance < float.MaxValue)
                 {
-                    ray.intersectionMarker.Position = closestIntersection;
+                    ray.intersectionMarker.Transform.Position = closestIntersection;
                     ray.intersectionMarker.Visible = true;
                     ray.debugLine.SetEnd(closestIntersection);
                 }

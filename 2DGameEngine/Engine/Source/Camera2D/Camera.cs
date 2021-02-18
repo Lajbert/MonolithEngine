@@ -82,7 +82,7 @@ namespace GameEngine2D.Source.Camera2D
 		public void Recenter()
 		{
 			if (target != null) {
-				position = target.Position + targetTracingOffset;
+				position = target.Transform.Position + targetTracingOffset;
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace GameEngine2D.Source.Camera2D
 			// Follow target entity
 			if (target != null)
 			{
-				targetPosition = target.Position + targetTracingOffset;
+				targetPosition = target.Transform.Position + targetTracingOffset;
 
 				targetCameraDistance = Vector2.Distance(position, targetPosition);
 				if (targetCameraDistance >= Config.CAMERA_DEADZONE)

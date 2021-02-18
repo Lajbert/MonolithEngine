@@ -84,7 +84,7 @@ namespace GameEngine2D.Source.GridCollision
                     visibleObjects.Sort((a, b) => {
                         int res = a.DrawPriority.CompareTo(b.DrawPriority);
                         if (res != 0) return res;
-                        return a.Position.Y.CompareTo(b.Position.Y);
+                        return a.Transform.Y.CompareTo(b.Transform.Y);
                     });
                 }
 

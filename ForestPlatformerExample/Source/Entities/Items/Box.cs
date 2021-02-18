@@ -77,9 +77,9 @@ namespace ForestPlatformerExample.Source.Entities.Items
             for (int i = 0; i < numOfCoins; i++)
             {
 
-                Coin c = new Coin(Position, 3, friction: (float)MyRandom.Between(87, 93) / (float)100);
+                Coin c = new Coin(Vector2.Zero, 3, friction: (float)MyRandom.Between(87, 93) / (float)100);
                 c.BounceCount = 3;
-                c.SetParent(this);
+                c.Parent = this;
                 c.Visible = false;
                 c.CollisionsEnabled = false;
                 c.Active = false;
@@ -105,7 +105,8 @@ namespace ForestPlatformerExample.Source.Entities.Items
         {
             currentBump = bumps;
             DisablePysics();
-            SetParent(entity, newPosition);
+            Parent = entity;
+            Transform.Position = newPosition;
         }
 
         public void PutDown(Entity entity, Vector2 newPosition)
@@ -117,15 +118,14 @@ namespace ForestPlatformerExample.Source.Entities.Items
         {
             Velocity = Vector2.Zero;
             Velocity += force;
-            RemoveParent();
+            Parent = null;
             EnablePhysics();
             FallSpeed = 0;
         }
 
         private void EnablePhysics()
         {
-            GridCoordinates = CalculateGridCoord();
-            UpdateInCellCoord();
+            Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(Transform.Position);
             GridCollisionCheckDirections = new HashSet<Direction>() { Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT };
             HasGravity = true;
             Active = true;
@@ -141,7 +141,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
         {
             foreach (Coin c in coins)
             {
-                c.RemoveParent();
+                c.Parent = null;
                 c.Active = true;
                 c.Visible = true;
                 c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1));

@@ -31,7 +31,7 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
 
         public Vector2 Position
         {
-            get => Owner.Position + PositionOffset;
+            get => Owner.Transform.Position + PositionOffset;
         }
 
         public AbstractTrigger(Vector2 positionOffset = default(Vector2), string tag = "")

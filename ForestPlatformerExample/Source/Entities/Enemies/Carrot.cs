@@ -150,8 +150,8 @@ namespace ForestPlatformerExample.Source.Enemies
             if (hero != null)
             {
                 line.Clear();
-                Bresenham.GetLine(Position + new Vector2(0, -15), hero.Position + new Vector2(0, -10), line);
-                canRayPass = Bresenham.CanLinePass(Position + new Vector2(0, -15), hero.Position + new Vector2(0, -10), (x, y) => {
+                Bresenham.GetLine(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), line);
+                canRayPass = Bresenham.CanLinePass(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), (x, y) => {
                     return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
             }
@@ -187,11 +187,11 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             if (CurrentFaceDirection == Direction.LEFT)
             {
-                return GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.LEFT) || !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMLEFT);
+                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.LEFT) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.BOTTOMLEFT);
             }
             else if (CurrentFaceDirection == Direction.RIGHT)
             {
-                return GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.RIGHT) || !GridCollisionChecker.HasBlockingColliderAt(GridCoordinates, Direction.BOTTOMRIGHT);
+                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.RIGHT) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.BOTTOMRIGHT);
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }

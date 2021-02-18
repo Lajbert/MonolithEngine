@@ -97,7 +97,7 @@ namespace ForestPlatformerExample.Source.Items
             {
                 return;
             }
-            if (Position.Y > 5000)
+            if (Transform.Y > 5000)
             {
                 Destroy();
             }

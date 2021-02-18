@@ -191,8 +191,8 @@ namespace GameEngine2D.Engine.Source.Physics.Bresenham
 		{
 			base.Update(gameTime);
 			line.Clear();
-			Bresenham.GetLine(parent.Position + new Vector2(0, -16), other.Position + new Vector2(0, -16), line);
-			canRayPass = Bresenham.CanLinePass(parent.Position + new Vector2(0, -16), other.Position + new Vector2(0, -16), (x, y) => {
+			Bresenham.GetLine(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), line);
+			canRayPass = Bresenham.CanLinePass(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), (x, y) => {
 				return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
 			});
 		}

@@ -1,4 +1,7 @@
 ﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Engine.Source.Entities.Transform;
+using GameEngine2D.Global;
+using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using System;
@@ -12,9 +15,50 @@ namespace GameEngine2D.Entities
         private static int GLOBAL_ID = 0;
         private int ID { get; set; } = 0 ;
 
-        public GameObject()
+        protected HashSet<IGameObject> Children;
+
+        public AbstractTransform Transform { get; set; }
+
+        private IGameObject parent;
+        public IGameObject Parent
         {
+            get => parent;
+
+            set {
+                if (value != null)
+                {
+                    //Transform.Position = position;
+                    if (parent != null)
+                    {
+                        parent.RemoveChild(this);
+                    }
+                    parent = value;
+                    value.AddChild(this);
+                }
+                else
+                {
+                    if (parent != null)
+                    {
+                        Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(Transform.Position);
+                        Transform.DetachFromParent();
+                        //Transform.GridCoordinates = CalculateGridCoord();
+                        parent.RemoveChild(this);
+                    }
+                    else
+                    {
+                        //Transform.Position = position;
+                    }
+                    parent = null;
+                }
+                //Transform.GridCoordinates = CalculateGridCoord();
+            }
+        }
+
+        public GameObject(IGameObject parent)
+        {
+            Parent = parent;
             ID = GLOBAL_ID++;
+            Children = new HashSet<IGameObject>();
         }
 
         public abstract void Destroy();
@@ -38,7 +82,16 @@ namespace GameEngine2D.Entities
             return GLOBAL_ID;
         }
 
-        public abstract Vector2 GetPosition();
+        public void AddChild(IGameObject gameObject)
+        {
+            Children.Add(gameObject);
+        }
+
+        public void RemoveChild(IGameObject gameObject)
+        {
+            Children.Remove(gameObject);
+        }
+
         public abstract ICollection<string> GetTags();
     }
 }

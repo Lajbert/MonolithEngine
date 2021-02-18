@@ -1,4 +1,5 @@
 ﻿using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Entities.Transform;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Trigger;
 using GameEngine2D.Entities;
@@ -13,8 +14,6 @@ namespace GameEngine2D.Engine.Source.Physics.Interface
     {
 
         public bool CollisionsEnabled { get; set; }
-
-        public void SetPosition(Vector2 position);
 
         public ICollisionComponent GetCollisionComponent();
 

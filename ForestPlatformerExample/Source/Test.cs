@@ -279,8 +279,8 @@ namespace TestExample
             {
                 base.Update(gameTime);
                 line.Clear();
-                Bresenham.GetLine(parent.Position, other.Position, line);
-                canRayPass = Bresenham.CanLinePass(parent.Position, other.Position, (x, y) => {
+                Bresenham.GetLine(Parent.Transform.Position, other.Transform.Position, line);
+                canRayPass = Bresenham.CanLinePass(Parent.Transform.Position, other.Transform.Position, (x, y) => {
                     return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
             }
@@ -322,7 +322,7 @@ namespace TestExample
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
             lineToDraw.Clear();
-            Bresenham.GetLine(hero.Position, e.Position, lineToDraw);
+            Bresenham.GetLine(hero.Transform.Position, e.Transform.Position, lineToDraw);
             base.Update(gameTime);
         }
 

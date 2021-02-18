@@ -38,7 +38,7 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
 
         public override bool IsInsideTrigger(IGameObject otherObject)
         {
-            return otherObject.GetPosition().X >= Position.X + x1 && otherObject.GetPosition().X <= Position.X + x2 && otherObject.GetPosition().Y >= Position.Y + y1 && otherObject.GetPosition().Y <= Position.Y + y2;
+            return otherObject.Transform.X >= Position.X + x1 && otherObject.Transform.X <= Position.X + x2 && otherObject.Transform.Y >= Position.Y + y1 && otherObject.Transform.Y <= Position.Y + y2;
         }
 
 #if DEBUG

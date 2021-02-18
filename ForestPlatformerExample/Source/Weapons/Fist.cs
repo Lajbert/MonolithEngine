@@ -28,6 +28,8 @@ namespace ForestPlatformerExample.Source.Weapons
 
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Box");
+
+            DEBUG_SHOW_COLLIDER = true;
         }
 
         /*public override void OnCollisionStart(IPhysicsEntity otherCollider)
@@ -79,7 +81,7 @@ namespace ForestPlatformerExample.Source.Weapons
             {
                 if (entity is IAttackable)
                 {
-                    Direction direction = entity.GetPosition().X < parent.Position.X ? Direction.LEFT : Direction.RIGHT;
+                    Direction direction = entity.Transform.X < Parent.Transform.X ? Direction.LEFT : Direction.RIGHT;
                     (entity as IAttackable).Hit(direction);
                 }
             }
@@ -87,10 +89,10 @@ namespace ForestPlatformerExample.Source.Weapons
 
         public void ChangeDirection()
         {
-            if (CurrentFaceDirection != parent.CurrentFaceDirection)
+            if (CurrentFaceDirection != (Parent as Entity).CurrentFaceDirection)
             {
-                X = (X - parent.Position.X) * -1;
-                CurrentFaceDirection = parent.CurrentFaceDirection;
+                Transform.X = (Transform.X - Parent.Transform.X) * -1;
+                CurrentFaceDirection = (Parent as Entity).CurrentFaceDirection;
             }
         }
     }

@@ -52,11 +52,11 @@ namespace ForestPlatformerExample.Source.Environment
         public override void Update(GameTime gameTime)
         {
 
-            if (Math.Abs(startPosition.X - Position.X) > travelDistance)
+            if (Math.Abs(startPosition.X - Transform.X) > travelDistance)
             {
                 direction *= -1;
             }
-            if (Position.X < startPosition.X)
+            if (Transform.X < startPosition.X)
             {
                 direction *= -1;
             }

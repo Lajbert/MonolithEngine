@@ -39,8 +39,8 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         public void Add(IGridCollider gameObject)
         {
-            objectPositions[gameObject] = gameObject.GetGridCoord();
-            objects.Add(gameObject.GetGridCoord(), gameObject);
+            objectPositions[gameObject] = gameObject.Transform.GridCoordinates;
+            objects.Add(gameObject.Transform.GridCoordinates, gameObject);
         }
 
         public IGridCollider GetColliderAt(Vector2 position)
@@ -61,7 +61,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(entity.GetGridCoord(), direction)) && objects[GetGridCoord(entity.GetGridCoord(), direction)].HasTag(tag)
+                if (objects.ContainsKey(GetGridCoord(entity.Transform.GridCoordinates, direction)) && objects[GetGridCoord(entity.Transform.GridCoordinates, direction)].HasTag(tag)
                     && IsExactCollision(entity, direction))
                     //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
@@ -84,7 +84,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(entity.GetGridCoord(), direction))
+                if (objects.ContainsKey(GetGridCoord(entity.Transform.GridCoordinates, direction))
                     && IsExactCollision(entity, direction))
                     //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
@@ -92,9 +92,9 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
                     {
                         foreach (string tag in directionsForTags.Keys)
                         {
-                            if (!objects[GetGridCoord(entity.GetGridCoord(), direction)].HasTag(tag) || (objects[GetGridCoord(entity.GetGridCoord(), direction)].HasTag(tag) && directionsForTags[tag].Contains(direction)))
+                            if (!objects[GetGridCoord(entity.Transform.GridCoordinates, direction)].HasTag(tag) || (objects[GetGridCoord(entity.Transform.GridCoordinates, direction)].HasTag(tag) && directionsForTags[tag].Contains(direction)))
                             {
-                                allCollisionsResult.Add((objects[GetGridCoord(entity.GetGridCoord(), direction)], direction));
+                                allCollisionsResult.Add((objects[GetGridCoord(entity.Transform.GridCoordinates, direction)], direction));
                             }
                         }
                     }
@@ -108,19 +108,19 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         {
             if (direction == Direction.LEFT)
             {
-                return entity.GetInCellLocation().X <= entity.GetCollisionOffset(direction);
+                return entity.Transform.InCellLocation.X <= entity.GetCollisionOffset(direction);
             }
             else if (direction == Direction.RIGHT)
             {
-                return entity.GetInCellLocation().X >= entity.GetCollisionOffset(direction);
+                return entity.Transform.InCellLocation.X >= entity.GetCollisionOffset(direction);
             }
             else if (direction == Direction.UP)
             {
-                return entity.GetInCellLocation().Y <= entity.GetCollisionOffset(direction);
+                return entity.Transform.InCellLocation.Y <= entity.GetCollisionOffset(direction);
             }
             else if (direction == Direction.DOWN)
             {
-                return entity.GetInCellLocation().Y >= entity.GetCollisionOffset(direction);
+                return entity.Transform.InCellLocation.Y >= entity.GetCollisionOffset(direction);
             }
             else if (direction == Direction.TOPLEFT)
             {

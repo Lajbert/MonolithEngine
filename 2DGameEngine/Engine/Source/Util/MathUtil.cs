@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngine2D.Global;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,6 +53,11 @@ namespace GameEngine2D.Source.Util
 		public static float Clamp(float x, float min, float max)
 		{
 			return (x < min) ? min : (x > max) ? max : x;
+		}
+
+		public static Vector2 CalculateGridCoordintes(Vector2 position)
+        {
+			return new Vector2((int)Math.Floor(position.X / Config.GRID), (int)Math.Floor(position.Y / Config.GRID));
 		}
 	}
 }
