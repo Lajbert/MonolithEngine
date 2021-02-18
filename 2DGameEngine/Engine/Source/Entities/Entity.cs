@@ -119,8 +119,6 @@ namespace GameEngine2D.Entities
 
         private Texture2D pivotMarker;
 
-        private Dictionary<(Entity, Direction), bool> collidesWithOnGrid = new Dictionary<(Entity, Direction), bool>();
-
         public float Depth = 0f;
 
 #if DEBUG
