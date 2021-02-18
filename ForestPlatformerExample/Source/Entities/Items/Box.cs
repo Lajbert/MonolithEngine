@@ -4,6 +4,7 @@ using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
@@ -160,7 +161,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             }
         }*/
 
-        public override void OnCollisionStart(IColliderEntity otherCollider)
+        public override void OnCollisionStart(IGameObject otherCollider)
         {
             if (otherCollider is Carrot && IsMovingAtLeast(0.5f))
             {

@@ -79,7 +79,6 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
                 }
             }
             
-
             return tagCollisionResult;
         }
 
@@ -114,9 +113,9 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         private bool IsExactCollision(IGameObject entity, Direction direction)
         {
-            Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            /*Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             Logger.Error("!!!!!!!!!!!!!!!!!!!!! FIX THIS, REMOVE THE CASTING AND CREATE A GRID COLLISION COMPONENT FOR WHATEVER IS COLLIDER ON THE GRID!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");*/
             if (direction == Direction.WEST)
             {
                 return entity.Transform.InCellLocation.X <= (entity as Entity).GetCollisionOffset(direction);

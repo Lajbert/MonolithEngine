@@ -50,8 +50,6 @@ namespace GameEngine2D
 
         protected GameTime GameTime;
 
-        public bool CheckGridCollisions = true;
-
         private Texture2D colliderMarker;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)

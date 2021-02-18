@@ -5,6 +5,7 @@ using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.Weapons;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
@@ -67,6 +68,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             BlocksRay = true;
 
             CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(0, -10));
+
+            CheckGridCollisions = true;
 
             //ColliderOnGrid = true;
 
@@ -465,12 +468,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
-                /*if (HasGravity && (GetSamePositionCollider() == null || !GetSamePositionCollider().HasTag("Ladder")))
-                {
-                    return;
-                }*/
-
-                /*if (HasGravity && !OnGround())
+                if (HasGravity)
                 {
                     return;
                 }
@@ -482,7 +480,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 else
                 {
                     Velocity.Y -= MovementSpeed * elapsedTime;
-                }*/
+                }
                 //CurrentFaceDirection = GridDirection.UP;
             });
 
@@ -617,7 +615,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        public override void OnCollisionStart(IColliderEntity otherCollider)
+        public override void OnCollisionStart(IGameObject otherCollider)
         {
             if (otherCollider is Carrot)
             {
@@ -684,14 +682,54 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = otherCollider as IMovableItem;
             }
+            else if (otherCollider.HasTag("SlideWall") && !OnGround())
+            {
+                if (Timer.IsSet("IsAttacking") || isCarryingItem)
+                {
+                    return;
+                }
+                if (GravityValue == Config.GRAVITY_FORCE)
+                {
+                    GravityValue /= 4;
+                    canAttack = false;
+                }
+                canDoubleJump = true;
+                if (otherCollider.Transform.X > Transform.X)
+                {
+                    jumpModifier = new Vector2(5, 0);
+                }
+                else if (otherCollider.Transform.X < Transform.X)
+                {
+                    jumpModifier = new Vector2(-5, 0);
+                }
+            }
+            else if (otherCollider.HasTag("Ladder") && !OnGround())
+            {
+                if (HasGravity)
+                {
+                    Velocity.Y = 0;
+                    MovementSpeed = climbSpeed;
+                    HasGravity = false;
+                }
+            }
             base.OnCollisionStart(otherCollider);
         }
 
-        public override void OnCollisionEnd(IColliderEntity otherCollider)
+        public override void OnCollisionEnd(IGameObject otherCollider)
         {
             if (otherCollider is IMovableItem)
             {
                 overlappingItem = null;
+            }
+            else if (otherCollider.HasTag("SlideWall"))// && GridCollisionChecker.Instance.CollidesWithTag(this, "SlideWall").Count == 0)
+            {
+                GravityValue = Config.GRAVITY_FORCE;
+                jumpModifier = Vector2.Zero;
+                canAttack = true;
+            }
+            else if (otherCollider.HasTag("Ladder"))// && GridCollisionChecker.Instance.CollidesWithTag(this, "Ladder").Count == 0)
+            {
+                LeaveLadder();
             }
             base.OnCollisionStart(otherCollider);
         }

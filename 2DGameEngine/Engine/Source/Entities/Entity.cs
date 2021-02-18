@@ -36,6 +36,20 @@ namespace GameEngine2D.Entities
 
         private HashSet<string> CollidesAgainst = new HashSet<string>();
 
+        private bool checkGridCollisions = false;
+        public bool CheckGridCollisions
+        {
+            get => checkGridCollisions;
+            set { 
+                if ( value != checkGridCollisions )
+                {
+                    checkGridCollisions = value;
+                    CollisionEngine.Instance.OnCollisionProfileChanged(this);
+                }
+            }
+        }
+        
+
         private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
 
         private bool canFireTriggers = false;
@@ -397,12 +411,12 @@ namespace GameEngine2D.Entities
             return CollisionComponent;
         }
 
-        public virtual void OnCollisionStart(IColliderEntity otherCollider)
+        public virtual void OnCollisionStart(IGameObject otherCollider)
         {
 
         }
 
-        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
+        public virtual void OnCollisionEnd(IGameObject otherCollider)
         {
 
         }

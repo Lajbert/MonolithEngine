@@ -198,9 +198,9 @@ namespace TestExample
                 colliding = false;
             }*/
 
-            public override void OnCollisionStart(IColliderEntity otherCollider)
+            public override void OnCollisionStart(IGameObject otherCollider)
             {
-                PhysicsUtil.ApplyRepel(this, otherCollider, 5);
+                PhysicsUtil.ApplyRepel(this, otherCollider as IColliderEntity, 5);
                 base.OnCollisionStart(otherCollider);
             }
 
