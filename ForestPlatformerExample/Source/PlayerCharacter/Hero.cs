@@ -470,6 +470,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     return;
                 }*/
 
+                /*if (HasGravity && !OnGround())
+                {
+                    return;
+                }
+
                 if (thumbStickPosition.Y != 0)
                 {
                     Velocity.Y -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
@@ -477,7 +482,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 else
                 {
                     Velocity.Y -= MovementSpeed * elapsedTime;
-                }
+                }*/
                 //CurrentFaceDirection = GridDirection.UP;
             });
 

@@ -170,10 +170,10 @@ namespace GameEngine2D.Entities
         protected virtual void SetRayBlockers()
         {
             RayBlockerLines.Clear();
-            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.Position.X, Transform.Position.Y + Config.GRID))); //0, 1
-            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y))); //1, 0
-            RayBlockerLines.Add((new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y), new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y + Config.GRID))); //1
-            RayBlockerLines.Add((new Vector2(Transform.Position.X, Transform.Position.Y + Config.GRID), new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y + Config.GRID)));
+            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.X, Transform.Y + Config.GRID))); //0, 1
+            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.X + Config.GRID, Transform.Y))); //1, 0
+            RayBlockerLines.Add((new Vector2(Transform.X + Config.GRID, Transform.Y), new Vector2(Transform.X + Config.GRID, Transform.Y + Config.GRID))); //1
+            RayBlockerLines.Add((new Vector2(Transform.X, Transform.Y + Config.GRID), new Vector2(Transform.X + Config.GRID, Transform.Y + Config.GRID)));
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
