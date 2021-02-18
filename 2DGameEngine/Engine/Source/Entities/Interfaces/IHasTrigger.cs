@@ -10,7 +10,7 @@ namespace GameEngine2D.Engine.Source.Entities.Interfaces
     {
         public ICollection<ITrigger> GetTriggers();
 
-        public bool TriggerInteractive { get; set; }
+        public bool CanFireTriggers { get; set; }
 
         public void OnEnterTrigger(string triggerTag, IGameObject otherEntity);
 

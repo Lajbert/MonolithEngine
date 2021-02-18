@@ -192,7 +192,7 @@ namespace TestExample
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 //DrawOffset = new Vector2(-8, -8);
 
-                TriggerInteractive = true;
+                CanFireTriggers = true;
             }
 
             float angle;

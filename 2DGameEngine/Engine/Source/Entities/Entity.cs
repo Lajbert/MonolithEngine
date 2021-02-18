@@ -40,18 +40,18 @@ namespace GameEngine2D.Entities
 
         private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
 
-        private bool triggerInteractive = false;
-        public bool TriggerInteractive
+        private bool canFireTriggers = false;
+        public bool CanFireTriggers
         {
-            get => triggerInteractive;
+            get => canFireTriggers;
 
             set
             {
-                if (value != triggerInteractive)
+                if (value != canFireTriggers)
                 {
                     CollisionEngine.Instance.OnCollisionProfileChanged(this);
                 }
-                triggerInteractive = value;
+                canFireTriggers = value;
             }
         }
 

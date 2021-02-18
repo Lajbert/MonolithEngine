@@ -86,7 +86,7 @@ namespace GameEngine2D.Engine.Source.Physics
                         continue;
                     }
 
-                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.TriggerInteractive)
+                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
                     {
                         CheckTriggers(thisEntity, otherEntity);
                     }
@@ -126,7 +126,7 @@ namespace GameEngine2D.Engine.Source.Physics
                     if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0)
                     {
                         entities.Remove(changed);
-                        if (!changed.TriggerInteractive)
+                        if (!changed.CanFireTriggers)
                         {
                             toCheckAgainst.Remove(changed);
                         }
@@ -177,7 +177,7 @@ namespace GameEngine2D.Engine.Source.Physics
                             }                            
                         }
 
-                        if (changed.TriggerInteractive && !toCheckAgainst.Contains(changed))
+                        if (changed.CanFireTriggers && !toCheckAgainst.Contains(changed))
                         {
                             toCheckAgainst.Add(changed);
                         }
