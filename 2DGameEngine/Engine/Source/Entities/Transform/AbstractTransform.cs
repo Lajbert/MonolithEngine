@@ -78,6 +78,7 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
 
         public void DetachFromParent()
         {
+            GridCoordinates = MathUtil.CalculateGridCoordintes(Position);
             position += owner.Transform.Position;
         }
     }

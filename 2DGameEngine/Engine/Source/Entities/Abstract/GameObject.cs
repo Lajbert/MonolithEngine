@@ -39,7 +39,6 @@ namespace GameEngine2D.Entities
                 {
                     if (parent != null)
                     {
-                        Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(Transform.Position);
                         Transform.DetachFromParent();
                         //Transform.GridCoordinates = CalculateGridCoord();
                         parent.RemoveChild(this);
