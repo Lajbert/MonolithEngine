@@ -27,6 +27,7 @@ using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Bresenham;
 using GameEngine2D.Engine.Source.Physics.Trigger;
 using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Engine.Source.Entities.Animations;
 
 namespace TestExample
 {
@@ -165,7 +166,7 @@ namespace TestExample
             public HeroTest(SpriteFont font) : base(new Vector2(18 * Config.GRID, 31 * Config.GRID), font)
             {
                 DEBUG_SHOW_PIVOT = true;
-                Animations = null;
+                RemoveComponent<AnimationStateMachine>();
                 DEBUG_SHOW_COLLIDER = true;
                 GridCollisionCheckDirections = new HashSet<Direction>(Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList());
                 //CircleCollider = new CircleCollider(this, 30);
@@ -223,12 +224,13 @@ namespace TestExample
 
         class EntityTest: PhysicalEntity
         {
-            public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
+            public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID))
             {
                 //CollisionComponent = new CircleCollisionComponent(this, 30);
                 ICollisionComponent CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 AddComponent(CollisionComponent);
+                SetSprite(SpriteUtil.CreateRectangle(16, Color.Green));
                 //(CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_COLLIDER = true;

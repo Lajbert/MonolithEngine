@@ -2,6 +2,7 @@
 using ForestPlatformerExample.Source.Entities.Interfaces;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
@@ -66,11 +67,11 @@ namespace ForestPlatformerExample.Source.Weapons
             //canAttack = false;
             if (CurrentFaceDirection == Direction.WEST)
             {
-                hero.Animations.PlayAnimation("AttackLeft");
+                hero.GetComponent<AnimationStateMachine>().PlayAnimation("AttackLeft");
             }
             else if (CurrentFaceDirection == Direction.EAST)
             {
-                hero.Animations.PlayAnimation("AttackRight");
+                hero.GetComponent<AnimationStateMachine>().PlayAnimation("AttackRight");
             }
             if (Timer.IsSet("IsAttacking"))
             {

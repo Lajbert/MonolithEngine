@@ -194,8 +194,9 @@ namespace GameEngine2D.Source.Level
                         }
                         if (currentLayer != null)
                         {
-                            Entity tile = new Entity(currentLayer, null, new Vector2(0, 0), tileGroup.GetTexture());
-                            tile.DrawOffset = pivot;
+                            Entity tile = new Entity(currentLayer, null, new Vector2(0, 0));
+                            tile.SetSprite(tileGroup.GetTexture());
+                            tile.GetComponent<Sprite>().DrawOffset = pivot;
                             //tile.Pivot = pivot;
                         }
                     }

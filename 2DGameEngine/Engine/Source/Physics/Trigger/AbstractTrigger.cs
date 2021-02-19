@@ -34,13 +34,13 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         {
             get => Owner.Transform.Position + PositionOffset;
         }
-        public bool IsCollection { get; set; }
+        public bool UniquePerEntity { get; set; }
 
         public AbstractTrigger(Vector2 positionOffset = default(Vector2), string tag = "")
         {
             PositionOffset = positionOffset;
             this.tag = tag;
-            IsCollection = true;
+            UniquePerEntity = false;
         }
 
         public void SetOwner(Entity owner)

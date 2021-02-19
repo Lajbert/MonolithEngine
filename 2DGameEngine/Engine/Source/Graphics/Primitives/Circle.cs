@@ -20,7 +20,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
 
         public Circle(Entity parent, Vector2 center, int radius, Color color) : base(LayerManager.Instance.EntityLayer, parent, center, null)
         {
-            Sprite = SpriteUtil.CreateCircle(radius, color);
+            SetSprite(SpriteUtil.CreateCircle(radius, color));
             this.color = color;
             this.center = center;
             this.radius = radius;
@@ -29,7 +29,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            DrawOffset -= offset;
+            GetComponent<Sprite>().DrawOffset -= offset;
             base.Draw(spriteBatch, gameTime);
         }
     }

@@ -4,6 +4,7 @@ using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Entities.Transform;
+using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
@@ -51,9 +52,6 @@ namespace GameEngine2D.Entities
                 }
             }
         }
-        
-
-        //private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
 
         private bool canFireTriggers = false;
         public bool CanFireTriggers
@@ -111,13 +109,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public Vector2 DrawOffset;
-
         public Vector2 Pivot = Vector2.Zero;
-
-        public Rectangle SourceRectangle;
-
-        protected Texture2D Sprite { get; set; }
 
         protected Layer Layer { get; set; }
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
@@ -129,8 +121,6 @@ namespace GameEngine2D.Entities
         public HashSet<Direction> GridCollisionCheckDirections = new HashSet<Direction>();
 
         protected SpriteFont font;
-
-        public AnimationStateMachine Animations { get; set; }
 
         protected Ray2DEmitter RayEmitter { get; set; }
 
@@ -146,39 +136,16 @@ namespace GameEngine2D.Entities
         public bool DEBUG_SHOW_RAYCAST = false;
 #endif
 
-        public Vector2 DrawPosition
-        {
-            get {
-                return Transform.Position + DrawOffset;
-            }
-
-            private set {}
-        }
-
         protected bool Destroyed = false;
         protected bool BeingDestroyed = false;
 
-        //private ICollisionComponent collisionComponent;
-        /*public ICollisionComponent CollisionComponent
-        {
-            get => collisionComponent;
-
-            set
-            {
-
-                collisionComponent = value;
-                CollisionEngine.Instance.OnCollisionProfileChanged(this);
-            }
-        }*/
-
         public bool CollisionsEnabled { get; set; } = true;
 
-        public Entity(Layer layer, Entity parent, Vector2 startPosition, Texture2D sprite = null, SpriteFont font = null) : base (parent)
+        public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base (parent)
         {
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
             this.font = font;
-            SetSprite(sprite);
             layer.OnObjectChanged(this);
         }
 
@@ -215,6 +182,11 @@ namespace GameEngine2D.Entities
             componentList.RemoveComponent<T>(component);
         }
 
+        public void RemoveComponent<T>() where T : IComponent
+        {
+            componentList.RemoveComponent<T>();
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (!Visible)
@@ -222,13 +194,13 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            if (Sprite != null)
+            if (GetComponent<Sprite>() != null)
             {
-                spriteBatch.Draw(Sprite, DrawPosition, SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
+                spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position + GetComponent<Sprite>().DrawOffset, GetComponent<Sprite>().SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
             }
-            else if (Animations != null)
+            else if (GetComponent<AnimationStateMachine>() != null)
             {
-                Animations.Draw(spriteBatch, gameTime);
+                GetComponent<AnimationStateMachine>().Draw(spriteBatch, gameTime);
             }
 #if DEBUG
             if (DEBUG_SHOW_PIVOT)
@@ -279,9 +251,9 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            if (Animations != null)
+            if (GetComponent<AnimationStateMachine>() != null)
             {
-                Animations.Update(gameTime);
+                GetComponent<AnimationStateMachine>().Update(gameTime);
             }
 
             foreach (Entity child in Children.ToList())
@@ -320,10 +292,10 @@ namespace GameEngine2D.Entities
             {
                 DestroySound.Play();
             }
-            if (Animations != null && Animations.HasAnimation(DESTROY_AMINATION + CurrentFaceDirection))
+            if (GetComponent<AnimationStateMachine>() != null && GetComponent<AnimationStateMachine>().HasAnimation(DESTROY_AMINATION + CurrentFaceDirection))
             {
                 //RemoveCollisions();
-                Animations.PlayAnimation(DESTROY_AMINATION + CurrentFaceDirection);
+                GetComponent<AnimationStateMachine>().PlayAnimation(DESTROY_AMINATION + CurrentFaceDirection);
                 //Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => Cleanup();
             } 
             else
@@ -334,15 +306,7 @@ namespace GameEngine2D.Entities
 
         protected void Cleanup()
         {
-            if (Sprite != null)
-            {
-                Sprite.Dispose();
-            }
-            if (Animations != null)
-            {
-                Animations.Destroy();
-                Animations = null;
-            }
+            componentList.ClearAll();
             if (DestroySound != null)
             {
                 DestroySound.Dispose();
@@ -368,7 +332,8 @@ namespace GameEngine2D.Entities
 
         protected virtual void RemoveCollisions()
         {
-            componentList.Clear();
+            componentList.Clear<ICollisionComponent>();
+            componentList.Clear<ITrigger>();
             CollidesAgainst.Clear();
             RayEmitter = null;
             BlocksRay = false;
@@ -377,14 +342,14 @@ namespace GameEngine2D.Entities
 
         public void SetDestroyAnimation(AbstractAnimation destroyAnimation, Direction direction = Direction.CENTER)
         {
-            if (Animations == null)
+            if (GetComponent<AnimationStateMachine>() == null)
             {
-                Animations = new AnimationStateMachine();
+                AddComponent(new AnimationStateMachine());
             }
             //destroyAnimation.StartedCallback += () => RemoveCollisions();
             destroyAnimation.StoppedCallback += () => Cleanup();
             destroyAnimation.Looping = false;
-            Animations.RegisterAnimation(DESTROY_AMINATION + direction.ToString(), destroyAnimation, () => false);
+            GetComponent<AnimationStateMachine>().RegisterAnimation(DESTROY_AMINATION + direction.ToString(), destroyAnimation, () => false);
         }
 
         public void SetSprite(Texture2D sprite)
@@ -394,8 +359,7 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            this.Sprite = sprite;
-            SourceRectangle = new Rectangle(0, 0, sprite.Width, sprite.Height);
+            AddComponent(new Sprite(sprite, new Rectangle(0, 0, sprite.Width, sprite.Height)));
         }
 
         public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()

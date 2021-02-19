@@ -33,7 +33,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         {
             get => PositionOffset + owner.Transform.Position;
         }
-        public bool IsCollection { get; set; }
+        public bool UniquePerEntity { get; set; }
 
         protected IColliderEntity owner;
 
@@ -42,7 +42,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             this.owner = owner;
             PositionOffset = positionOffset;
             this.type = type;
-            IsCollection = false;
+            UniquePerEntity = true;
         }
 
         public abstract bool Overlaps(IColliderEntity otherCollider);

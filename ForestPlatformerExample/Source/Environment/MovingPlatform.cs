@@ -1,4 +1,5 @@
 ﻿using GameEngine2D;
+using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -39,12 +40,12 @@ namespace ForestPlatformerExample.Source.Environment
 
         public void AddPlatformElement(Vector2 position)
         {
-            Entity e = new Entity(LayerManager.Instance.EntityLayer, this, startPosition - position, texture);
+            Entity e = new Entity(LayerManager.Instance.EntityLayer, this, startPosition - position);
+            e.AddComponent(new Sprite(texture, new Rectangle(304, 288, Config.GRID, Config.GRID)));
             //e.Active = false;
             e.AddTag("MovingPlatform");
             platformElements.Add(e);
             //e.SetSprite(texture);
-            e.SourceRectangle = new Rectangle(304, 288, Config.GRID, Config.GRID);
             //e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
         }
 

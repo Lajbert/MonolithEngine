@@ -32,7 +32,8 @@ namespace ForestPlatformerExample.Source.Items
 
             //DEBUG_SHOW_PIVOT = true;
 
-            Animations = new AnimationStateMachine();
+            AnimationStateMachine Animations = new AnimationStateMachine();
+            AddComponent(Animations);
             Animations.Offset = new Vector2(4, 3);
 
             SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/spring_spritesheet", 24);
@@ -45,7 +46,7 @@ namespace ForestPlatformerExample.Source.Items
 
         public void PlayBounceAnimation()
         {
-            Animations.PlayAnimation("Bounce");
+            GetComponent<AnimationStateMachine>().PlayAnimation("Bounce");
         }
     }
 }

@@ -64,7 +64,8 @@ namespace ForestPlatformerExample.Source.Enemies
 
             CollisionOffsetBottom = 1;
 
-            Animations = new AnimationStateMachine();
+            AnimationStateMachine Animations = new AnimationStateMachine();
+            AddComponent(Animations);
             Animations.Offset = new Vector2(3, -33);
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.CurrentFaceDirection == Direction.WEST);
@@ -234,11 +235,11 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             if (CurrentFaceDirection == Direction.WEST)
             {
-                Animations.PlayAnimation("HurtLeft");
+                GetComponent<AnimationStateMachine>().PlayAnimation("HurtLeft");
             }
             else
             {
-                Animations.PlayAnimation("HurtRight");
+                GetComponent<AnimationStateMachine>().PlayAnimation("HurtRight");
             }
         }
 

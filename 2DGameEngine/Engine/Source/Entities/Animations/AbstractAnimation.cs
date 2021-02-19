@@ -43,6 +43,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
             set => TotalFrames = value;
         }
+        public float DrawPriority { get; set; }
 
         protected Rectangle SourceRectangle;
 

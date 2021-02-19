@@ -52,7 +52,7 @@ namespace GameEngine2D
 
         private Texture2D colliderMarker;
 
-        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
+        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
             Transform = new DynamicTransform(this, startPosition);
             CheckGridCollisions = true;

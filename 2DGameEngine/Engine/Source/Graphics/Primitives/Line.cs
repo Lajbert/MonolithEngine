@@ -35,7 +35,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
             this.To = toSaved = to;
             this.thickness = thickness;
             this.color = color;
-            Sprite = SpriteUtil.CreateRectangle(1, Color.White);
+            SetSprite(SpriteUtil.CreateRectangle(1, Color.White));
             length = Vector2.Distance(from, to);
             angleRad = MathUtil.RadFromVectors(from, to);
             Origin = new Vector2(0f, 0f);
@@ -47,7 +47,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
             this.From = fromSaved = from;
             this.thickness = thickness;
             this.color = color;
-            Sprite = SpriteUtil.CreateRectangle(1, Color.White);
+            SetSprite(SpriteUtil.CreateRectangle(1, Color.White));
             this.length = length;
             this.angleRad = angleRad;
             To = toSaved = MathUtil.EndPointOfLine(from, length, this.angleRad);
@@ -74,7 +74,7 @@ namespace GameEngine2D.Engine.Source.Graphics.Primitives
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(Sprite, Transform.Position, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
         }
 
         protected override void SetRayBlockers()

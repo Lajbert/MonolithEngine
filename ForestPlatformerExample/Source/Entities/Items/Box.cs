@@ -59,7 +59,8 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             //DEBUG_SHOW_PIVOT = true;
 
-            Animations = new AnimationStateMachine();
+            AnimationStateMachine Animations = new AnimationStateMachine();
+            AddComponent(Animations);
             Animations.Offset = new Vector2(0, -16);
 
             SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, "ForestAssets/Items/box-idle", 24);
@@ -99,7 +100,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             }
 
             life--;
-            Animations.PlayAnimation("BoxHit");
+            GetComponent<AnimationStateMachine>().PlayAnimation("BoxHit");
         }
 
         public void Lift(Entity entity, Vector2 newPosition)

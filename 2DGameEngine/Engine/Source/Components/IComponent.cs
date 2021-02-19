@@ -6,7 +6,7 @@ namespace GameEngine2D.Engine.Source.Components
 {
     public interface IComponent
     {
-        public bool IsCollection { get; set; }
+        public bool UniquePerEntity { get; set; }
 
         public Type GetComponentType()
         {

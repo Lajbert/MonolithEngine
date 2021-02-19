@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Source.Entities.Animation;
+﻿using GameEngine2D.Engine.Source.Components;
+using GameEngine2D.Source.Entities.Animation;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Entities.Animations
 {
-    public class AnimationStateMachine
+    public class AnimationStateMachine : IComponent
     {
         private List<StateAnimation> animations;
 
@@ -32,9 +33,12 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
                 }
             } }
 
+        public bool UniquePerEntity { get; set; }
+
         public AnimationStateMachine()
         {
             animations = new List<StateAnimation>();
+            UniquePerEntity = true;
         }
 
         public void RegisterAnimation(string state, AbstractAnimation animation, Func<bool> function = null, int priority = 0)

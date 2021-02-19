@@ -40,7 +40,8 @@ namespace ForestPlatformerExample.Source.Items
 
             //DEBUG_SHOW_PIVOT = true;
 
-            Animations = new AnimationStateMachine();
+            AnimationStateMachine Animations = new AnimationStateMachine();
+            AddComponent(Animations);
 
             SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/coin-pickup", 24);
             Animations.RegisterAnimation("Idle", coinAnim);

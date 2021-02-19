@@ -55,7 +55,9 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         Vector2 originalAnimOffset = Vector2.Zero;
 
-        public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, null, font)
+        private AnimationStateMachine Animations;
+
+        public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, font)
         {
 
             //DEBUG_SHOW_PIVOT = true;
@@ -113,6 +115,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private void SetupAnimations()
         {
             Animations = new AnimationStateMachine();
+            AddComponent(Animations);
             //Animations.Offset = new Vector2(3, -20);
             Animations.Offset = new Vector2(0, -32);
 
@@ -137,11 +140,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
 
             SpriteSheetAnimation idleCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@idle-with-item-sheet", 24);
-            idleCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).Animations.Offset = originalAnimOffset; };
+            idleCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; };
             idleCarryRight.EveryFrameAction = (frame) => {
                 if (carriedItem == null) return;
                 Entity e = carriedItem as Entity;
-                Vector2 offset = e.Animations.Offset;
+                Vector2 offset = e.GetComponent<AnimationStateMachine>().Offset;
                 float unit = 0.5f;
                 if (frame == 2 || frame == 3 || frame == 8 || frame == 14 || frame == 15 || frame == 20)
                 {
@@ -155,7 +158,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     offset.Y -= 2 * unit;
                 }
-                e.Animations.Offset = offset;
+                e.GetComponent<AnimationStateMachine>().Offset = offset;
             };
             Func<bool> isIdleCarryRight = () => CurrentFaceDirection == Direction.EAST && isCarryingItem;
             Animations.RegisterAnimation("IdleCarryRight", idleCarryRight, isIdleCarryRight);
@@ -185,11 +188,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-with-item-sheet", 24);
             Func<bool> isRunningCarryRight = () => Velocity.X > 0.5f && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
-            runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).Animations.Offset = originalAnimOffset; };
+            runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; };
             runningCarryRight.EveryFrameAction = (frame) => {
                 if (carriedItem == null) return;
                 Entity e = carriedItem as Entity;
-                Vector2 offset = e.Animations.Offset;
+                Vector2 offset = e.GetComponent<AnimationStateMachine>().Offset;
                 float unit = 3;
                 if (frame == 3 || frame == 8)
                 {
@@ -199,7 +202,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     offset.Y -= unit;
                 }
-                e.Animations.Offset = offset;
+                e.GetComponent<AnimationStateMachine>().Offset = offset;
             };
             Animations.RegisterAnimation("RunningCarryRight", runningCarryRight, isRunningCarryRight, 1);
 
@@ -417,7 +420,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Space, Buttons.X, (Vector2 thumbStickPosition) => {
                 if (isCarryingItem)
                 {
-                    (carriedItem as Entity).Animations.Offset = originalAnimOffset;
+                    (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset;
                     Vector2 force;
                     if (CurrentFaceDirection == Direction.WEST)
                     {
@@ -532,7 +535,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Animations.PlayAnimation("PickupRight");
             }
             carriedItem = overlappingItem;
-            originalAnimOffset = e.Animations.Offset;
+            originalAnimOffset = e.GetComponent<AnimationStateMachine>().Offset;
             isCarryingItem = true;
         }
 

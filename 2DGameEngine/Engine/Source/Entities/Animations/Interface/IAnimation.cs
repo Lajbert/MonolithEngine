@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities.Interfaces;
+﻿using GameEngine2D.Engine.Source.Graphics;
+using GameEngine2D.Entities.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
