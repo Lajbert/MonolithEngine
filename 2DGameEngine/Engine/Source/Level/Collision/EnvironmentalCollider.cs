@@ -20,20 +20,7 @@ namespace GameEngine2D.Engine.Source.Level.Collision
 
         private HashSet<Direction> blockedFrom = new HashSet<Direction>();
 
-        private bool blocksMovement = true;
-
-        public bool BlocksMovement
-        {
-            get => blocksMovement;
-            set
-            {
-                blocksMovement = value;
-                if (value)
-                {
-                    GridCollisionChecker.Instance.Add(this);
-                }
-            }
-        }
+        public bool BlocksMovement = true;
 
         public override void Destroy()
         {

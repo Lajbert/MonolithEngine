@@ -729,6 +729,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 LeaveLadder();
             }
+            else if (otherCollider.HasTag("Platform") && !(otherCollider as EnvironmentalCollider).BlocksMovement)
+            {
+                (otherCollider as EnvironmentalCollider).BlocksMovement = true;
+            }
             base.OnCollisionStart(otherCollider);
         }
     }
