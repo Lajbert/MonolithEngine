@@ -64,6 +64,7 @@ namespace GameEngine2D
         override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 #if DEBUG
+            ICollisionComponent collisionComponent = GetComponent<ICollisionComponent>();
             if (DEBUG_SHOW_PIVOT)
             {
                 //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
@@ -71,19 +72,19 @@ namespace GameEngine2D
 
             if (DEBUG_SHOW_COLLIDER)
             {
-                (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 if (colliderMarker == null)
                 {
-                    if (CollisionComponent is CircleCollisionComponent)
+                    if (collisionComponent is CircleCollisionComponent)
                     {
-                        (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-                        colliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
+                        (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                        colliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)collisionComponent).Radius * 2, Color.Black);
                     }
                     
                 }
-                if (CollisionComponent != null && CollisionComponent is CircleCollisionComponent)
+                if (collisionComponent != null && collisionComponent is CircleCollisionComponent)
                 {
-                    spriteBatch.Draw(colliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
+                    spriteBatch.Draw(colliderMarker, ((CircleCollisionComponent)collisionComponent).Position - new Vector2(((CircleCollisionComponent)collisionComponent).Radius, ((CircleCollisionComponent)collisionComponent).Radius), Color.White);
                 }
             }
 #endif

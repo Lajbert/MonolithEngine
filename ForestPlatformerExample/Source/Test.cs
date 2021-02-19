@@ -178,8 +178,9 @@ namespace TestExample
 
                 AddCollisionAgainst("Test");
                 //CollisionComponent = new CircleCollisionComponent(this, 30);
-                CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
+                ICollisionComponent CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                AddComponent(CollisionComponent);
                 //DrawOffset = new Vector2(-8, -8);
 
                 CanFireTriggers = true;
@@ -225,8 +226,9 @@ namespace TestExample
             public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
             {
                 //CollisionComponent = new CircleCollisionComponent(this, 30);
-                CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
+                ICollisionComponent CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                AddComponent(CollisionComponent);
                 //(CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_COLLIDER = true;
@@ -238,7 +240,7 @@ namespace TestExample
             public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
             {
                 base.Draw(spriteBatch, gameTime);
-                spriteBatch.Draw(collPivot, CollisionComponent.Position, Color.White);
+                spriteBatch.Draw(collPivot, GetComponent<ICollisionComponent>().Position, Color.White);
             }
 
             public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)

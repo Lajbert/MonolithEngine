@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Physics.Interface;
+﻿using GameEngine2D.Engine.Source.Components;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Physics.Collision
 {
-    public interface ICollisionComponent
+    public interface ICollisionComponent : IComponent
     {
         public bool Overlaps(IColliderEntity otherCollider);
 

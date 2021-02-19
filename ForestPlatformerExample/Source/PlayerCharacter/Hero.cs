@@ -67,7 +67,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             BlocksRay = true;
 
-            CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(0, -10));
+            AddComponent(new CircleCollisionComponent(this, 10, new Vector2(0, -10)));
 
             //ColliderOnGrid = true;
 

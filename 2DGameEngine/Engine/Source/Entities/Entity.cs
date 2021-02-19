@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Entities;
+﻿using GameEngine2D.Engine.Source.Components;
+using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
@@ -34,6 +35,8 @@ namespace GameEngine2D.Entities
 
         private readonly string DESTROY_AMINATION = "Destroy";
 
+        private ComponentList componentList = new ComponentList();
+
         private HashSet<string> CollidesAgainst = new HashSet<string>();
 
         private bool checkGridCollisions = false;
@@ -50,7 +53,7 @@ namespace GameEngine2D.Entities
         }
         
 
-        private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
+        //private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
 
         private bool canFireTriggers = false;
         public bool CanFireTriggers
@@ -155,8 +158,8 @@ namespace GameEngine2D.Entities
         protected bool Destroyed = false;
         protected bool BeingDestroyed = false;
 
-        private ICollisionComponent collisionComponent;
-        public ICollisionComponent CollisionComponent
+        //private ICollisionComponent collisionComponent;
+        /*public ICollisionComponent CollisionComponent
         {
             get => collisionComponent;
 
@@ -166,7 +169,7 @@ namespace GameEngine2D.Entities
                 collisionComponent = value;
                 CollisionEngine.Instance.OnCollisionProfileChanged(this);
             }
-        }
+        }*/
 
         public bool CollisionsEnabled { get; set; } = true;
 
@@ -186,6 +189,30 @@ namespace GameEngine2D.Entities
             RayBlockerLines.Add((Transform.Position, new Vector2(Transform.X + Config.GRID, Transform.Y))); //1, 0
             RayBlockerLines.Add((new Vector2(Transform.X + Config.GRID, Transform.Y), new Vector2(Transform.X + Config.GRID, Transform.Y + Config.GRID))); //1
             RayBlockerLines.Add((new Vector2(Transform.X, Transform.Y + Config.GRID), new Vector2(Transform.X + Config.GRID, Transform.Y + Config.GRID)));
+        }
+
+        public T GetComponent<T>() where T : IComponent
+        {
+            return componentList.GetComponent<T>();
+        }
+
+        public List<T> GetComponents<T>() where T : IComponent
+        {
+            return componentList.GetComponents<T>();
+        }
+
+        public void AddComponent<T>(T newComponent) where T : IComponent
+        {
+            componentList.AddComponent<T>(newComponent);
+            if (typeof(T) is ICollisionComponent)
+            {
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            }
+        }
+
+        public void RemoveComponent<T>(T component) where T : IComponent
+        {
+            componentList.RemoveComponent<T>(component);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -341,7 +368,7 @@ namespace GameEngine2D.Entities
 
         protected virtual void RemoveCollisions()
         {
-            CollisionComponent = null;
+            componentList.Clear();
             CollidesAgainst.Clear();
             RayEmitter = null;
             BlocksRay = false;
@@ -408,7 +435,7 @@ namespace GameEngine2D.Entities
 
         public ICollisionComponent GetCollisionComponent()
         {
-            return CollisionComponent;
+            return componentList.GetComponent<ICollisionComponent>();
         }
 
         public virtual void OnCollisionStart(IGameObject otherCollider)
@@ -440,31 +467,31 @@ namespace GameEngine2D.Entities
 
         public ICollection<ITrigger> GetTriggers()
         {
-            return triggers.Values;
+            return componentList.GetComponents<ITrigger>();
         }
 
         public void AddTrigger(AbstractTrigger trigger)
         {
             trigger.SetOwner(this);
-            triggers.Add(trigger.GetTag(), trigger);
+            componentList.AddComponent(trigger);
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         public void RemoveTrigger(AbstractTrigger trigger)
         {
-            foreach (ITrigger t in triggers.Values.ToList())
+            foreach (ITrigger t in componentList.GetComponents<ITrigger>())
             {
                 if (t.Equals(trigger))
                 {
-                    RemoveTrigger(t.GetTag());
+                    RemoveTrigger(t);
                     return;
                 }
             }
         }
 
-        public void RemoveTrigger(string tag)
+        public void RemoveTrigger(ITrigger trigger)
         {
-            triggers.Remove(tag);
+            componentList.RemoveComponent(trigger);
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
