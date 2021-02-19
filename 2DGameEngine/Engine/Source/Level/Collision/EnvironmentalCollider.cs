@@ -24,7 +24,7 @@ namespace GameEngine2D.Engine.Source.Level.Collision
 
         public override void Destroy()
         {
-            throw new NotImplementedException();
+            GridCollisionChecker.Instance.Remove(this);
         }
 
         public void AddBlockedDirection(Direction direction)
