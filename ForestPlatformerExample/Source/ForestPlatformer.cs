@@ -55,7 +55,7 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-            //Config.FPS = 0;
+            Config.FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
@@ -184,6 +184,8 @@ namespace ForestPlatformerExample
             }
         }
 
+        double elapsedTime = 0;
+        GameTime gt = new GameTime();
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -191,12 +193,27 @@ namespace ForestPlatformerExample
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic here
             Timer.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
-            CollisionEngine.Instance.Update(gameTime);
+            //CollisionEngine.Instance.Update(gameTime);
             LayerManager.Instance.UpdateAll(gameTime);
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
 
+            if (elapsedTime >= 33)
+            {
+                gt.ElapsedGameTime = TimeSpan.FromMilliseconds(elapsedTime);
+                FixedUpdate(gt);
+                elapsedTime = 0;
+            } else
+            {
+                elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+            }
+
             base.Update(gameTime);
+        }
+
+        private void FixedUpdate(GameTime gameTime)
+        {
+            CollisionEngine.Instance.Update(gameTime);
         }
 
         private float lastPrint = 0;
