@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Entities;
+﻿using GameEngine2D.Engine.Source.Components;
+using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
@@ -24,7 +25,7 @@ using System.Linq;
 
 namespace GameEngine2D.Entities
 {
-    public class Entity : GameObject, IColliderEntity, IRayBlocker, IGridCollider
+    public class Entity : GameObject, IColliderEntity, IRayBlocker
     {
 
         protected float CollisionOffsetLeft = 0f;
@@ -34,11 +35,25 @@ namespace GameEngine2D.Entities
 
         private readonly string DESTROY_AMINATION = "Destroy";
 
-        protected HashSet<string> Tags = new HashSet<string>();
+        private ComponentList componentList = new ComponentList();
 
         private HashSet<string> CollidesAgainst = new HashSet<string>();
 
-        private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
+        private bool checkGridCollisions = false;
+        public bool CheckGridCollisions
+        {
+            get => checkGridCollisions;
+            set { 
+                if ( value != checkGridCollisions )
+                {
+                    checkGridCollisions = value;
+                    CollisionEngine.Instance.OnCollisionProfileChanged(this);
+                }
+            }
+        }
+        
+
+        //private Dictionary<string, ITrigger> triggers = new Dictionary<string, ITrigger>();
 
         private bool canFireTriggers = false;
         public bool CanFireTriggers
@@ -52,11 +67,7 @@ namespace GameEngine2D.Entities
             }
         }
 
-        private HashSet<Direction> blockedFrom = new HashSet<Direction>();
-
         public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
-
-        protected static GridCollisionChecker GridCollisionChecker { get; } = new GridCollisionChecker();
 
         private bool visible = true;
         private bool active = false;
@@ -108,21 +119,6 @@ namespace GameEngine2D.Entities
 
         protected Texture2D Sprite { get; set; }
 
-        private bool blocksMovement = false;
-        private bool onGrid = false;
-
-        public bool BlocksMovement {
-            get => blocksMovement;
-            set {
-                blocksMovement = value;
-                if (value && !onGrid)
-                {
-                    GridCollisionChecker.Add(this);
-                    onGrid = true;
-                }
-            }
-        }
-
         protected Layer Layer { get; set; }
         protected List<(Vector2 start, Vector2 end)> RayBlockerLines;
 
@@ -139,8 +135,6 @@ namespace GameEngine2D.Entities
         protected Ray2DEmitter RayEmitter { get; set; }
 
         private Texture2D pivotMarker;
-
-        private Dictionary<(Entity, Direction), bool> collidesWithOnGrid = new Dictionary<(Entity, Direction), bool>();
 
         public float Depth = 0f;
 
@@ -164,8 +158,8 @@ namespace GameEngine2D.Entities
         protected bool Destroyed = false;
         protected bool BeingDestroyed = false;
 
-        private ICollisionComponent collisionComponent;
-        public ICollisionComponent CollisionComponent
+        //private ICollisionComponent collisionComponent;
+        /*public ICollisionComponent CollisionComponent
         {
             get => collisionComponent;
 
@@ -175,7 +169,7 @@ namespace GameEngine2D.Entities
                 collisionComponent = value;
                 CollisionEngine.Instance.OnCollisionProfileChanged(this);
             }
-        }
+        }*/
 
         public bool CollisionsEnabled { get; set; } = true;
 
@@ -191,10 +185,34 @@ namespace GameEngine2D.Entities
         protected virtual void SetRayBlockers()
         {
             RayBlockerLines.Clear();
-            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.Position.X, Transform.Position.Y + Config.GRID))); //0, 1
-            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y))); //1, 0
-            RayBlockerLines.Add((new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y), new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y + Config.GRID))); //1
-            RayBlockerLines.Add((new Vector2(Transform.Position.X, Transform.Position.Y + Config.GRID), new Vector2(Transform.Position.X + Config.GRID, Transform.Position.Y + Config.GRID)));
+            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.X, Transform.Y + Config.GRID))); //0, 1
+            RayBlockerLines.Add((Transform.Position, new Vector2(Transform.X + Config.GRID, Transform.Y))); //1, 0
+            RayBlockerLines.Add((new Vector2(Transform.X + Config.GRID, Transform.Y), new Vector2(Transform.X + Config.GRID, Transform.Y + Config.GRID))); //1
+            RayBlockerLines.Add((new Vector2(Transform.X, Transform.Y + Config.GRID), new Vector2(Transform.X + Config.GRID, Transform.Y + Config.GRID)));
+        }
+
+        public T GetComponent<T>() where T : IComponent
+        {
+            return componentList.GetComponent<T>();
+        }
+
+        public List<T> GetComponents<T>() where T : IComponent
+        {
+            return componentList.GetComponents<T>();
+        }
+
+        public void AddComponent<T>(T newComponent) where T : IComponent
+        {
+            componentList.AddComponent<T>(newComponent);
+            if (typeof(T) is ICollisionComponent)
+            {
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            }
+        }
+
+        public void RemoveComponent<T>(T component) where T : IComponent
+        {
+            componentList.RemoveComponent<T>(component);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -241,29 +259,12 @@ namespace GameEngine2D.Entities
             
         }
 
-        protected virtual void OnGridCollisionStart(Entity otherCollider, Direction direction)
-        {
-
-        }
-
-        protected virtual void OnGridCollisionEnd(Entity otherCollider, Direction direction)
-        {
-
-        }
-
-        public Entity GetSamePositionCollider()
-        {
-            return GridCollisionChecker.GetColliderAt(Transform.GridCoordinates) as Entity;
-        }
-
         public virtual void PreUpdate(GameTime gameTime)
         {
             if (!Active)
             {
                 return;
             }
-
-            UpdateCollisions();
 
             foreach (Entity child in Children)
             {
@@ -304,34 +305,6 @@ namespace GameEngine2D.Entities
             foreach (Entity child in Children)
             {
                 child.PostUpdate(gameTime);
-            }
-        }
-
-        private void UpdateCollisions()
-        {
-
-            if (GridCollisionCheckDirections.Count > 0)
-            {
-
-                foreach ((Entity, Direction) e in collidesWithOnGrid.Keys.ToList())
-                {
-                    collidesWithOnGrid[e] = false;
-                }
-
-                foreach ((Entity, Direction) collision in GridCollisionChecker.HasGridCollisionAt(this, GridCollisionCheckDirections))
-                {
-                    if (!collidesWithOnGrid.ContainsKey(collision))
-                    {
-                        OnGridCollisionStart(collision.Item1, collision.Item2);
-                    }
-                    collidesWithOnGrid[collision] = true;
-                }
-
-                foreach (KeyValuePair<(Entity, Direction), bool> e in collidesWithOnGrid.Where(e => !e.Value))
-                {
-                    collidesWithOnGrid.Remove(e.Key);
-                    OnGridCollisionEnd(e.Key.Item1, e.Key.Item2);
-                }
             }
         }
 
@@ -395,16 +368,11 @@ namespace GameEngine2D.Entities
 
         protected virtual void RemoveCollisions()
         {
-            CollisionComponent = null;
+            componentList.Clear();
             CollidesAgainst.Clear();
-            BlocksMovement = false;
             RayEmitter = null;
             BlocksRay = false;
             GridCollisionCheckDirections = new HashSet<Direction>();
-            if (BlocksMovement)
-            {
-                GridCollisionChecker.Remove(this);
-            }
         }
 
         public void SetDestroyAnimation(AbstractAnimation destroyAnimation, Direction direction = Direction.CENTER)
@@ -440,50 +408,6 @@ namespace GameEngine2D.Entities
             return RayBlockerLines;
         }
 
-        public virtual void AddTag(string tag)
-        {
-            Tags.Add(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
-        }
-
-        public bool HasTag(string tag)
-        {
-            return Tags.Contains(tag);
-        }
-
-        public bool HasAnyTag(ICollection<string> tags)
-        {
-            foreach (string tag in tags)
-            {
-                if (tags.Contains(tag))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public virtual void RemoveTag(string tag)
-        {
-            Tags.Remove(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
-        }
-
-        public void AddBlockedDirection(Direction direction)
-        {
-            blockedFrom.Add(direction);
-        }
-
-        public void RemoveBlockedDirection(Direction direction)
-        {
-            blockedFrom.Remove(direction);
-        }
-
-        public bool IsBlockedFrom(Direction direction)
-        {
-            return blockedFrom.Count == 0 || blockedFrom.Contains(direction);
-        }
-
         public Vector2 GetGridCoord()
         {
             return Transform.GridCoordinates;
@@ -509,27 +433,17 @@ namespace GameEngine2D.Entities
             throw new Exception("Unsupported direction");
         }
 
-        public bool BlocksMovementFrom(Direction direction)
-        {
-            return BlocksMovement && IsBlockedFrom(direction);
-        }
-
-        public override ICollection<string> GetTags()
-        {
-            return Tags;
-        }
-
         public ICollisionComponent GetCollisionComponent()
         {
-            return CollisionComponent;
+            return componentList.GetComponent<ICollisionComponent>();
         }
 
-        public virtual void OnCollisionStart(IColliderEntity otherCollider)
+        public virtual void OnCollisionStart(IGameObject otherCollider)
         {
 
         }
 
-        public virtual void OnCollisionEnd(IColliderEntity otherCollider)
+        public virtual void OnCollisionEnd(IGameObject otherCollider)
         {
 
         }
@@ -553,31 +467,31 @@ namespace GameEngine2D.Entities
 
         public ICollection<ITrigger> GetTriggers()
         {
-            return triggers.Values;
+            return componentList.GetComponents<ITrigger>();
         }
 
         public void AddTrigger(AbstractTrigger trigger)
         {
             trigger.SetOwner(this);
-            triggers.Add(trigger.GetTag(), trigger);
+            componentList.AddComponent(trigger);
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         public void RemoveTrigger(AbstractTrigger trigger)
         {
-            foreach (ITrigger t in triggers.Values.ToList())
+            foreach (ITrigger t in componentList.GetComponents<ITrigger>())
             {
                 if (t.Equals(trigger))
                 {
-                    RemoveTrigger(t.GetTag());
+                    RemoveTrigger(t);
                     return;
                 }
             }
         }
 
-        public void RemoveTrigger(string tag)
+        public void RemoveTrigger(ITrigger trigger)
         {
-            triggers.Remove(tag);
+            componentList.RemoveComponent(trigger);
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 

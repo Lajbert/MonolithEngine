@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Entities.Interfaces;
+﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Entities.Transform;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Trigger;
@@ -17,10 +18,12 @@ namespace GameEngine2D.Engine.Source.Physics.Interface
 
         public ICollisionComponent GetCollisionComponent();
 
-        public void OnCollisionStart(IColliderEntity otherCollider);
+        public void OnCollisionStart(IGameObject otherCollider);
 
-        public void OnCollisionEnd(IColliderEntity otherCollider);
+        public void OnCollisionEnd(IGameObject otherCollider);
 
         public HashSet<string> GetCollidesAgainst();
+
+        public bool CheckGridCollisions { get; set; }
     }
 }

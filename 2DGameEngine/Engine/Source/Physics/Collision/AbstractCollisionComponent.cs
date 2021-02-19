@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Physics.Interface;
+﻿using GameEngine2D.Engine.Source.Components;
+using GameEngine2D.Engine.Source.Physics.Interface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         {
             get => PositionOffset + owner.Transform.Position;
         }
+        public bool IsCollection { get; set; }
 
         protected IColliderEntity owner;
 
@@ -40,6 +42,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             this.owner = owner;
             PositionOffset = positionOffset;
             this.type = type;
+            IsCollection = false;
         }
 
         public abstract bool Overlaps(IColliderEntity otherCollider);
@@ -47,6 +50,11 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         ColliderType ICollisionComponent.GetType()
         {
             return type;
+        }
+
+        Type IComponent.GetComponentType()
+        {
+            return typeof(ICollisionComponent);
         }
 
 #if DEBUG

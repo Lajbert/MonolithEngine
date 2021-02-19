@@ -22,7 +22,7 @@ namespace ForestPlatformerExample.Source.Weapons
 
         public Fist(Entity parent, Vector2 positionOffset) : base(LayerManager.Instance.EntityLayer, parent, positionOffset)
         {
-            CollisionComponent = new CircleCollisionComponent(this, 10);
+            AddComponent(new CircleCollisionComponent(this, 10));
             hero = parent as PhysicalEntity;
             CurrentFaceDirection = parent.CurrentFaceDirection;
 

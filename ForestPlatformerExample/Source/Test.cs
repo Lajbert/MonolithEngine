@@ -123,8 +123,6 @@ namespace TestExample
 
             line = new LineEntity(hero, e);
 
-            BlockerEntity blocker = new BlockerEntity(new Vector2(15 * Config.GRID, 15 * Config.GRID));
-
             Camera.TrackTarget(hero, true);
             //TODO: use this.Content to load your game content here
 
@@ -158,14 +156,6 @@ namespace TestExample
             }
         }
 
-        class BlockerEntity : Entity
-        {
-            public BlockerEntity(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position, SpriteUtil.CreateRectangle(16, Color.Blue))
-            {
-                BlocksMovement = true;
-            }
-        }
-
         class HeroTest : Hero
         {
 
@@ -188,8 +178,9 @@ namespace TestExample
 
                 AddCollisionAgainst("Test");
                 //CollisionComponent = new CircleCollisionComponent(this, 30);
-                CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
+                ICollisionComponent CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                AddComponent(CollisionComponent);
                 //DrawOffset = new Vector2(-8, -8);
 
                 CanFireTriggers = true;
@@ -208,9 +199,9 @@ namespace TestExample
                 colliding = false;
             }*/
 
-            public override void OnCollisionStart(IColliderEntity otherCollider)
+            public override void OnCollisionStart(IGameObject otherCollider)
             {
-                PhysicsUtil.ApplyRepel(this, otherCollider, 5);
+                PhysicsUtil.ApplyRepel(this, otherCollider as IColliderEntity, 5);
                 base.OnCollisionStart(otherCollider);
             }
 
@@ -235,8 +226,9 @@ namespace TestExample
             public EntityTest() : base(LayerManager.Instance.EntityLayer, null, new Vector2(22 * Config.GRID, 33 * Config.GRID), SpriteUtil.CreateRectangle(16, Color.Green))
             {
                 //CollisionComponent = new CircleCollisionComponent(this, 30);
-                CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
+                ICollisionComponent CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                AddComponent(CollisionComponent);
                 //(CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_COLLIDER = true;
@@ -248,7 +240,7 @@ namespace TestExample
             public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
             {
                 base.Draw(spriteBatch, gameTime);
-                spriteBatch.Draw(collPivot, CollisionComponent.Position, Color.White);
+                spriteBatch.Draw(collPivot, GetComponent<ICollisionComponent>().Position, Color.White);
             }
 
             public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
@@ -281,7 +273,7 @@ namespace TestExample
                 line.Clear();
                 Bresenham.GetLine(Parent.Transform.Position, other.Transform.Position, line);
                 canRayPass = Bresenham.CanLinePass(Parent.Transform.Position, other.Transform.Position, (x, y) => {
-                    return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+                    return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
             }
 

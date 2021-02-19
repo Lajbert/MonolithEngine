@@ -14,6 +14,8 @@ namespace GameEngine2D.Engine.Source.Entities.Abstract
 
         public ICollection<string> GetTags();
 
+        public bool HasTag(string tag);
+
         public void AddChild(IGameObject gameObject);
 
         public void RemoveChild(IGameObject gameObject);

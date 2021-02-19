@@ -41,7 +41,7 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
-            CollisionComponent = new CircleCollisionComponent(this, 12, new Vector2(3, -15));
+            AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -15)));
 
             //DEBUG_SHOW_PIVOT = true;
 
@@ -152,7 +152,7 @@ namespace ForestPlatformerExample.Source.Enemies
                 line.Clear();
                 Bresenham.GetLine(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), line);
                 canRayPass = Bresenham.CanLinePass(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), (x, y) => {
-                    return GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+                    return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
             }
 
@@ -187,11 +187,11 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             if (CurrentFaceDirection == Direction.WEST)
             {
-                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHWEST);
+                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHWEST);
             }
             else if (CurrentFaceDirection == Direction.EAST)
             {
-                return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) || !GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHEAST);
+                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHEAST);
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }

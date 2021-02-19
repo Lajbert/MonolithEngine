@@ -1,5 +1,6 @@
 ﻿using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Transform;
+using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
@@ -16,6 +17,8 @@ namespace GameEngine2D.Entities
         private int ID { get; set; } = 0 ;
 
         protected HashSet<IGameObject> Children;
+
+        protected HashSet<string> Tags = new HashSet<string>();
 
         public AbstractTransform Transform { get; set; }
 
@@ -91,6 +94,38 @@ namespace GameEngine2D.Entities
             Children.Remove(gameObject);
         }
 
-        public abstract ICollection<string> GetTags();
+        public ICollection<string> GetTags()
+        {
+            return Tags;
+        }
+
+        public virtual void AddTag(string tag)
+        {
+            Tags.Add(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
+
+        public bool HasTag(string tag)
+        {
+            return Tags.Contains(tag);
+        }
+
+        public bool HasAnyTag(ICollection<string> tags)
+        {
+            foreach (string tag in tags)
+            {
+                if (tags.Contains(tag))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public virtual void RemoveTag(string tag)
+        {
+            Tags.Remove(tag);
+            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+        }
     }
 }

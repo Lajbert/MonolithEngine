@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+﻿using GameEngine2D.Engine.Source.Components;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Entities;
 using Microsoft.Xna.Framework;
 using System;
@@ -33,11 +34,13 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         {
             get => Owner.Transform.Position + PositionOffset;
         }
+        public bool IsCollection { get; set; }
 
         public AbstractTrigger(Vector2 positionOffset = default(Vector2), string tag = "")
         {
             PositionOffset = positionOffset;
             this.tag = tag;
+            IsCollection = true;
         }
 
         public void SetOwner(Entity owner)
@@ -58,6 +61,11 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         public void SetTag(string tag)
         {
             this.tag = tag;
+        }
+
+        Type IComponent.GetComponentType()
+        {
+            return typeof(ITrigger);
         }
 
 #if DEBUG

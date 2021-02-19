@@ -50,13 +50,12 @@ namespace GameEngine2D
 
         protected GameTime GameTime;
 
-        public bool CheckGridCollisions = true;
-
         private Texture2D colliderMarker;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
             Transform = new DynamicTransform(this, startPosition);
+            CheckGridCollisions = true;
             Active = true;
             ResetPosition(startPosition);
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
@@ -65,6 +64,7 @@ namespace GameEngine2D
         override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 #if DEBUG
+            ICollisionComponent collisionComponent = GetComponent<ICollisionComponent>();
             if (DEBUG_SHOW_PIVOT)
             {
                 //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
@@ -72,19 +72,19 @@ namespace GameEngine2D
 
             if (DEBUG_SHOW_COLLIDER)
             {
-                (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 if (colliderMarker == null)
                 {
-                    if (CollisionComponent is CircleCollisionComponent)
+                    if (collisionComponent is CircleCollisionComponent)
                     {
-                        (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-                        colliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)CollisionComponent).Radius * 2, Color.Black);
+                        (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+                        colliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)collisionComponent).Radius * 2, Color.Black);
                     }
                     
                 }
-                if (CollisionComponent != null && CollisionComponent is CircleCollisionComponent)
+                if (collisionComponent != null && collisionComponent is CircleCollisionComponent)
                 {
-                    spriteBatch.Draw(colliderMarker, ((CircleCollisionComponent)CollisionComponent).Position - new Vector2(((CircleCollisionComponent)CollisionComponent).Radius, ((CircleCollisionComponent)CollisionComponent).Radius), Color.White);
+                    spriteBatch.Draw(colliderMarker, ((CircleCollisionComponent)collisionComponent).Position - new Vector2(((CircleCollisionComponent)collisionComponent).Radius, ((CircleCollisionComponent)collisionComponent).Radius), Color.White);
                 }
             }
 #endif
@@ -114,12 +114,12 @@ namespace GameEngine2D
             {
                 Transform.InCellLocation.X += step;
 
-                if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
+                if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
                 {
                     Transform.InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
+                if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
                 {
                     Transform.InCellLocation.X = CollisionOffsetRight;
                 }
@@ -162,7 +162,7 @@ namespace GameEngine2D
             {
                 Transform.InCellLocation.Y += step2;
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
+                if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
                 {
                     if (HasGravity)
                     {
@@ -174,7 +174,7 @@ namespace GameEngine2D
 
                 }
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
+                if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
                 {
                     Velocity.Y = 0;
                     Transform.InCellLocation.Y = CollisionOffsetTop;
@@ -235,7 +235,7 @@ namespace GameEngine2D
 
         protected bool OnGround()
         {
-            return GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }
 
         public void ResetPosition(Vector2 position)

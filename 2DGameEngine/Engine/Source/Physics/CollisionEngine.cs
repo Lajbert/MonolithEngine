@@ -1,5 +1,7 @@
-﻿using GameEngine2D.Engine.Source.Entities.Abstract;
+﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
+using GameEngine2D.Engine.Source.Level.Collision;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Trigger;
@@ -24,16 +26,21 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>> triggers = new Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>>();
 
+        private Dictionary<IColliderEntity, Dictionary<EnvironmentalCollider, bool>> gridCollisions = new Dictionary<IColliderEntity, Dictionary<EnvironmentalCollider, bool>>();
+
         private HashSet<IGameObject> changedObjects = new HashSet<IGameObject>();
 
         private static readonly CollisionEngine instance = new CollisionEngine();
 
         private List<(IColliderEntity, IColliderEntity)> collisionsToRemove = new List<(IColliderEntity, IColliderEntity)>();
         private List<(IHasTrigger, string, IHasTrigger)> triggersToRemove = new List<(IHasTrigger, string, IHasTrigger)>();
+        private List<(IGameObject, EnvironmentalCollider)> gridCollisionsToRemove = new List<(IGameObject, EnvironmentalCollider)>();
+
+        private List<Direction> gridCollisionDirections = new List<Direction>() { Direction.SOUTH, Direction.NORTH, Direction.EAST, Direction.WEST };
 
         private CollisionEngine()
         {
-
+            //gridCollisionDirections.AddRange(Enum.GetValues(typeof(Direction)).Cast<Direction>());
         }
 
         static CollisionEngine()
@@ -50,15 +57,13 @@ namespace GameEngine2D.Engine.Source.Physics
 
         public void OnCollisionProfileChanged(IGameObject entity)
         {
-            if (entity is IHasTrigger || entity is IColliderEntity)
+            if (!(entity is IHasTrigger) && !(entity is IColliderEntity))
             {
-                if (!changedObjects.Contains(entity))
-                {
-                    changedObjects.Add(entity);
-                }
-            } else
+                return;
+            }
+            if (!changedObjects.Contains(entity))
             {
-                throw new Exception("Objects added to the CollisionEngine must implement IHasTrigger or IColliderEntity!");
+                changedObjects.Add(entity);
             }
         }
 
@@ -114,6 +119,10 @@ namespace GameEngine2D.Engine.Source.Physics
                         CheckCollision(thisEntity, otherEntity);
                     }
                     
+                    if (thisEntity.CheckGridCollisions)
+                    {
+                        CheckGridCollisions(thisEntity);
+                    }
                 }
             }
 
@@ -123,7 +132,7 @@ namespace GameEngine2D.Engine.Source.Physics
             {
                 foreach (IColliderEntity changed in changedObjects)
                 {
-                    if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0)
+                    if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0 && !changed.CheckGridCollisions)
                     {
                         entities.Remove(changed);
                         if (!changed.CanFireTriggers)
@@ -167,9 +176,21 @@ namespace GameEngine2D.Engine.Source.Physics
                             }
                         }
 
-                        if (changed.GetTriggers().Count > 0 && !entities.Contains(changed))
+                        if (changed.CheckGridCollisions)
                         {
-                            entities.Add(changed);
+                            gridCollisions[changed] = new Dictionary<EnvironmentalCollider, bool>();
+                            if (!entities.Contains(changed)) {
+                                entities.Add(changed);
+                            }
+                        }
+
+                        if (changed.GetTriggers().Count > 0)
+                        {
+                            if (!entities.Contains(changed))
+                            {
+                                entities.Add(changed);
+                            }
+
                             triggers[changed] = new Dictionary<string, Dictionary<IGameObject, bool>>();
                             foreach (ITrigger trigger in changed.GetTriggers())
                             {
@@ -181,11 +202,22 @@ namespace GameEngine2D.Engine.Source.Physics
                         {
                             toCheckAgainst.Add(changed);
                         }
-                        
                     }
                 }
             }
             changedObjects.Clear();
+        }
+
+        private void CheckGridCollisions(IColliderEntity thisEntity)
+        {
+            foreach ((EnvironmentalCollider, Direction) collision in GridCollisionChecker.Instance.HasGridCollisionAt(thisEntity, gridCollisionDirections))
+            {
+                if (!gridCollisions[thisEntity].ContainsKey(collision.Item1))
+                {
+                    thisEntity.OnCollisionStart(collision.Item1);
+                }
+                gridCollisions[thisEntity][collision.Item1] = true;
+            }
         }
 
         private void CheckCollision(IColliderEntity thisEntity, IColliderEntity otherObject)
@@ -253,12 +285,21 @@ namespace GameEngine2D.Engine.Source.Physics
                     }
                 }
             }
+
+            foreach (IColliderEntity thisEntity in gridCollisions.Keys)
+            {
+                foreach (EnvironmentalCollider collider in gridCollisions[thisEntity].Keys.ToList())
+                {
+                    gridCollisions[thisEntity][collider] = false;
+                }
+            }
         }
 
         private void InactivateCollisionsAndTriggers()
         {
             collisionsToRemove.Clear();
             triggersToRemove.Clear();
+            gridCollisionsToRemove.Clear();
 
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
@@ -297,6 +338,23 @@ namespace GameEngine2D.Engine.Source.Physics
             foreach ((IHasTrigger, string, IHasTrigger) toRemove in triggersToRemove)
             {
                 triggers[toRemove.Item1][toRemove.Item2].Remove(toRemove.Item3);
+            }
+
+            foreach (IColliderEntity thisEntity in gridCollisions.Keys)
+            {
+                foreach (EnvironmentalCollider collider in gridCollisions[thisEntity].Keys.ToList())
+                {
+                    if(!gridCollisions[thisEntity][collider])
+                    {
+                        gridCollisionsToRemove.Add((thisEntity, collider));
+                        thisEntity.OnCollisionEnd(collider);
+                    }
+                }
+            }
+
+            foreach ((IColliderEntity, EnvironmentalCollider) toRemove in gridCollisionsToRemove)
+            {
+                gridCollisions[toRemove.Item1].Remove(toRemove.Item2);
             }
         }
     }
