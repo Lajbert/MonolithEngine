@@ -51,10 +51,11 @@ namespace ForestPlatformerExample
             Config.RES_H = 2160;
             //Config.FULLSCREEN = true;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
+            Config.FPS = 144;
 
             //Config.GRID = 64;
 
-            Config.FPS = 0;
+            //Config.FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
