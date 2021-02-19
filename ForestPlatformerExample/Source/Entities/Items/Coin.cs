@@ -28,8 +28,6 @@ namespace ForestPlatformerExample.Source.Items
 
             Active = true;
 
-            CheckGridCollisions = true;
-
             DrawPriority = 1;
 
             SetCircleCollider();

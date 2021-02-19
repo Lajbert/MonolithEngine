@@ -55,6 +55,7 @@ namespace GameEngine2D
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, Texture2D texture = null, SpriteFont font = null) : base(layer, parent, startPosition, texture, font)
         {
             Transform = new DynamicTransform(this, startPosition);
+            CheckGridCollisions = true;
             Active = true;
             ResetPosition(startPosition);
             CollisionEngine.Instance.OnCollisionProfileChanged(this);

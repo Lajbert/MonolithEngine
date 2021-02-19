@@ -184,9 +184,13 @@ namespace GameEngine2D.Engine.Source.Physics
                             }
                         }
 
-                        if (changed.GetTriggers().Count > 0 && !entities.Contains(changed))
+                        if (changed.GetTriggers().Count > 0)
                         {
-                            entities.Add(changed);
+                            if (!entities.Contains(changed))
+                            {
+                                entities.Add(changed);
+                            }
+
                             triggers[changed] = new Dictionary<string, Dictionary<IGameObject, bool>>();
                             foreach (ITrigger trigger in changed.GetTriggers())
                             {
