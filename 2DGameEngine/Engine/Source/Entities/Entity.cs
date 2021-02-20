@@ -171,7 +171,7 @@ namespace GameEngine2D.Entities
         public void AddComponent<T>(T newComponent) where T : IComponent
         {
             componentList.AddComponent<T>(newComponent);
-            if (typeof(T) is ICollisionComponent)
+            if (typeof(T) is ICollisionComponent || typeof(T) is ITrigger)
             {
                 CollisionEngine.Instance.OnCollisionProfileChanged(this);
             }
@@ -179,7 +179,10 @@ namespace GameEngine2D.Entities
 
         public void RemoveComponent<T>(T component) where T : IComponent
         {
-            componentList.RemoveComponent<T>(component);
+            if (typeof(T) is ICollisionComponent || typeof(T) is ITrigger)
+            {
+                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            }
         }
 
         public void RemoveComponent<T>() where T : IComponent
