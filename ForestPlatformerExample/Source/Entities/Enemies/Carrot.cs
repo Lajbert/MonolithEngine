@@ -148,6 +148,25 @@ namespace ForestPlatformerExample.Source.Enemies
                 direction *= -1;
             }
 
+            //Logger.Log("Speed * direction * gameTime.ElapsedGameTime.Milliseconds: " + (Speed * direction * gameTime.ElapsedGameTime.Milliseconds));
+
+            /*if (hero != null)
+            {
+                line.Clear();
+                Bresenham.GetLine(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), line);
+                canRayPass = Bresenham.CanLinePass(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), (x, y) => {
+                    return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+                });
+            }*/
+
+            //X += Speed * direction * gameTime.ElapsedGameTime.Milliseconds;
+            Velocity.X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+        }
+
+        public override void FixedUpdate(GameTime gameTime)
+        {
+            base.FixedUpdate(gameTime);
+
             if (hero != null)
             {
                 line.Clear();
@@ -156,11 +175,6 @@ namespace ForestPlatformerExample.Source.Enemies
                     return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
             }
-
-            //Logger.Log("Speed * direction * gameTime.ElapsedGameTime.Milliseconds: " + (Speed * direction * gameTime.ElapsedGameTime.Milliseconds));
-
-            //X += Speed * direction * gameTime.ElapsedGameTime.Milliseconds;
-            Velocity.X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -181,7 +195,7 @@ namespace ForestPlatformerExample.Source.Enemies
                     spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Blue), point, Color.White);
                 }
             }
-            line.Clear();
+            //line.Clear();
         }
 
         private bool WillCollideOrFall()
@@ -255,6 +269,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
         public override void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
         {
+            line.Clear();
             if (otherEntity is Hero)
             {
                 hero = null;

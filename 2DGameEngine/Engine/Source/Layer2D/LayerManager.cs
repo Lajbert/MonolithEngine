@@ -94,6 +94,17 @@ namespace GameEngine2D.Entities
             }
         }
 
+        public void FixedUpdateAll(GameTime gameTime)
+        {
+            foreach (List<Layer> layers in allLayers)
+            {
+                foreach (Layer l in layers)
+                {
+                    l.FixedUpdateAll(gameTime);
+                }
+            }
+        }
+
         public Layer CreateForegroundLayer(int priority = 0)
         {
             Layer l = new Layer(Camera, priority, false);

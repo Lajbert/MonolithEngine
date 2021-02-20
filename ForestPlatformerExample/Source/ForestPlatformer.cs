@@ -214,6 +214,7 @@ namespace ForestPlatformerExample
         private void FixedUpdate(GameTime gameTime)
         {
             CollisionEngine.Instance.Update(gameTime);
+            LayerManager.Instance.FixedUpdateAll(gameTime);
         }
 
         private float lastPrint = 0;

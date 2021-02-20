@@ -184,6 +184,59 @@ namespace GameEngine2D.Source.GridCollision
             }
         }
 
+        public void FixedUpdateAll(GameTime gameTime)
+        {
+
+            /*if (!Active)
+            {
+                return;
+            }*/
+
+            // in case of skipped frame, we should just recalculate everything
+            if (TimeUtil.GetElapsedTime(gameTime) > 1)
+            {
+                return;
+            }
+            if (Active)
+            {
+                foreach (Entity entity in activeObjects)
+                {
+                    entity.FixedUpdate(gameTime);
+                }
+            }
+
+            if (changedObjects.Count > 0)
+            {
+                foreach (Entity e in changedObjects)
+                {
+                    if (e.Visible)
+                    {
+                        if (!visibleObjects.Contains(e))
+                        {
+                            visibleObjects.Add(e);
+                        }
+                    }
+                    else
+                    {
+                        visibleObjects.Remove(e);
+                    }
+                    if (e.Active)
+                    {
+                        if (!activeObjects.Contains(e))
+                        {
+                            activeObjects.Add(e);
+                        }
+                    }
+                    else
+                    {
+                        activeObjects.Remove(e);
+                    }
+                }
+                changedObjects.Clear();
+                SortByPriority();
+            }
+        }
+
         public void Destroy()
         {
             foreach (Entity entity in activeObjects)

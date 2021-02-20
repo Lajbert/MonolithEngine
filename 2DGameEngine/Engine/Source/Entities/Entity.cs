@@ -244,6 +244,19 @@ namespace GameEngine2D.Entities
             }
         }
 
+        public virtual void FixedUpdate(GameTime gameTime)
+        {
+            if (!Active)
+            {
+                return;
+            }
+
+            foreach (Entity child in Children.ToList())
+            {
+                child.FixedUpdate(gameTime);
+            }
+        }
+
         public virtual void Update(GameTime gameTime)
         {
             if (!Active)
