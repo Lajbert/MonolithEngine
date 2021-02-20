@@ -55,7 +55,7 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-            Config.FPS = 0;
+            //Config.FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
@@ -186,6 +186,7 @@ namespace ForestPlatformerExample
 
         double elapsedTime = 0;
         GameTime gt = new GameTime();
+        float fixedUpdateRate = (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -198,7 +199,7 @@ namespace ForestPlatformerExample
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
 
-            if (elapsedTime >= 33)
+            if (elapsedTime >= fixedUpdateRate)
             {
                 gt.ElapsedGameTime = TimeSpan.FromMilliseconds(elapsedTime);
                 FixedUpdate(gt);
