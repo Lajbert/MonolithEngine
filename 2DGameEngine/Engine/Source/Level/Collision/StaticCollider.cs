@@ -8,10 +8,10 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Level.Collision
 {
-    public class EnvironmentalCollider : GameObject
+    public class StaticCollider : GameObject
     {
 
-        public EnvironmentalCollider(Vector2 gridPosition) : base(null)
+        public StaticCollider(Vector2 gridPosition) : base(null)
         {
             Transform = new StaticTransform(this);
             Transform.GridCoordinates = gridPosition;

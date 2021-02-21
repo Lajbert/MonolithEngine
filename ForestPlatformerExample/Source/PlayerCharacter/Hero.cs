@@ -439,7 +439,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
-                    EnvironmentalCollider collider = GridCollisionChecker.Instance.GetColliderAt(GridUtil.GetBelowGrid(Transform.GridCoordinates));
+                    StaticCollider collider = GridCollisionChecker.Instance.GetColliderAt(GridUtil.GetBelowGrid(Transform.GridCoordinates));
                     if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement) {
                         collider.BlocksMovement = false;
                     }
@@ -732,9 +732,9 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 LeaveLadder();
             }
-            else if (otherCollider.HasTag("Platform") && !(otherCollider as EnvironmentalCollider).BlocksMovement)
+            else if (otherCollider.HasTag("Platform") && !(otherCollider as StaticCollider).BlocksMovement)
             {
-                (otherCollider as EnvironmentalCollider).BlocksMovement = true;
+                (otherCollider as StaticCollider).BlocksMovement = true;
             }
             base.OnCollisionStart(otherCollider);
         }

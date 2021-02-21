@@ -14,14 +14,14 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 {
     public class GridCollisionChecker
     {
-        private Dictionary<Vector2, EnvironmentalCollider> objects = new Dictionary<Vector2, EnvironmentalCollider>();
-        private Dictionary<EnvironmentalCollider, Vector2> objectPositions = new Dictionary<EnvironmentalCollider, Vector2>();
+        private Dictionary<Vector2, StaticCollider> objects = new Dictionary<Vector2, StaticCollider>();
+        private Dictionary<StaticCollider, Vector2> objectPositions = new Dictionary<StaticCollider, Vector2>();
 
         private Dictionary<string, HashSet<Direction>> directionsForTags = new Dictionary<string, HashSet<Direction>>();
 
         private ICollection<Direction> whereToCheck;
 
-        private List<(EnvironmentalCollider, Direction)> allCollisionsResult = new List<(EnvironmentalCollider, Direction)>();
+        private List<(StaticCollider, Direction)> allCollisionsResult = new List<(StaticCollider, Direction)>();
         List<Direction> tagCollisionResult = new List<Direction>();
 
         private static readonly List<Direction> basicDirections = new List<Direction>() { Direction.CENTER, Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH };
@@ -45,13 +45,13 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             }
         }
 
-        public void Add(EnvironmentalCollider gameObject)
+        public void Add(StaticCollider gameObject)
         {
             objectPositions[gameObject] = gameObject.Transform.GridCoordinates;
             objects.Add(gameObject.Transform.GridCoordinates, gameObject);
         }
 
-        public EnvironmentalCollider GetColliderAt(Vector2 position)
+        public StaticCollider GetColliderAt(Vector2 position)
         {
             if (!objects.ContainsKey(position))
             {
@@ -82,7 +82,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             return tagCollisionResult;
         }
 
-        public List<(EnvironmentalCollider, Direction)> HasGridCollisionAt(IGameObject entity, ICollection<Direction> directionsToCheck = null)
+        public List<(StaticCollider, Direction)> HasGridCollisionAt(IGameObject entity, ICollection<Direction> directionsToCheck = null)
         {
 
             allCollisionsResult.Clear();
@@ -175,7 +175,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             return objects.ContainsKey(coord) && objects[coord].BlocksMovementFrom(direction);
         }
 
-        public void Remove(EnvironmentalCollider gameObject)
+        public void Remove(StaticCollider gameObject)
         {
             Vector2 position = objectPositions[gameObject];
             objects.Remove(position);

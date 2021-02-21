@@ -26,7 +26,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>> triggers = new Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>>();
 
-        private Dictionary<IColliderEntity, Dictionary<EnvironmentalCollider, bool>> gridCollisions = new Dictionary<IColliderEntity, Dictionary<EnvironmentalCollider, bool>>();
+        private Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>> gridCollisions = new Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>>();
 
         private HashSet<IGameObject> changedObjects = new HashSet<IGameObject>();
 
@@ -34,7 +34,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private List<(IColliderEntity, IColliderEntity)> collisionsToRemove = new List<(IColliderEntity, IColliderEntity)>();
         private List<(IHasTrigger, string, IHasTrigger)> triggersToRemove = new List<(IHasTrigger, string, IHasTrigger)>();
-        private List<(IGameObject, EnvironmentalCollider)> gridCollisionsToRemove = new List<(IGameObject, EnvironmentalCollider)>();
+        private List<(IGameObject, StaticCollider)> gridCollisionsToRemove = new List<(IGameObject, StaticCollider)>();
 
         private List<Direction> gridCollisionDirections = new List<Direction>() { Direction.SOUTH, Direction.NORTH, Direction.EAST, Direction.WEST };
 
@@ -178,7 +178,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
                         if (changed.CheckGridCollisions)
                         {
-                            gridCollisions[changed] = new Dictionary<EnvironmentalCollider, bool>();
+                            gridCollisions[changed] = new Dictionary<StaticCollider, bool>();
                             if (!entities.Contains(changed)) {
                                 entities.Add(changed);
                             }
@@ -210,7 +210,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private void CheckGridCollisions(IColliderEntity thisEntity)
         {
-            foreach ((EnvironmentalCollider, Direction) collision in GridCollisionChecker.Instance.HasGridCollisionAt(thisEntity, gridCollisionDirections))
+            foreach ((StaticCollider, Direction) collision in GridCollisionChecker.Instance.HasGridCollisionAt(thisEntity, gridCollisionDirections))
             {
                 if (!gridCollisions[thisEntity].ContainsKey(collision.Item1))
                 {
@@ -288,7 +288,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
             foreach (IColliderEntity thisEntity in gridCollisions.Keys)
             {
-                foreach (EnvironmentalCollider collider in gridCollisions[thisEntity].Keys.ToList())
+                foreach (StaticCollider collider in gridCollisions[thisEntity].Keys.ToList())
                 {
                     gridCollisions[thisEntity][collider] = false;
                 }
@@ -342,7 +342,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
             foreach (IColliderEntity thisEntity in gridCollisions.Keys)
             {
-                foreach (EnvironmentalCollider collider in gridCollisions[thisEntity].Keys.ToList())
+                foreach (StaticCollider collider in gridCollisions[thisEntity].Keys.ToList())
                 {
                     if(!gridCollisions[thisEntity][collider])
                     {
@@ -352,7 +352,7 @@ namespace GameEngine2D.Engine.Source.Physics
                 }
             }
 
-            foreach ((IColliderEntity, EnvironmentalCollider) toRemove in gridCollisionsToRemove)
+            foreach ((IColliderEntity, StaticCollider) toRemove in gridCollisionsToRemove)
             {
                 gridCollisions[toRemove.Item1].Remove(toRemove.Item2);
             }
