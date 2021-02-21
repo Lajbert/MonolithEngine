@@ -34,6 +34,10 @@ namespace ForestPlatformerExample
 
         private Hero hero;
 
+        private double elapsedTime = 0;
+        private GameTime gt = new GameTime();
+        private float fixedUpdateRate = (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
+
         public ForestPlatformer()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -184,9 +188,6 @@ namespace ForestPlatformerExample
             }
         }
 
-        double elapsedTime = 0;
-        GameTime gt = new GameTime();
-        float fixedUpdateRate = (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
