@@ -201,7 +201,7 @@ namespace GameEngine2D.Entities
             {
                 spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position + GetComponent<Sprite>().DrawOffset, GetComponent<Sprite>().SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
             }
-            else if (GetComponent<AnimationStateMachine>() != null)
+            if (GetComponent<AnimationStateMachine>() != null)
             {
                 GetComponent<AnimationStateMachine>().Draw(spriteBatch, gameTime);
             }
