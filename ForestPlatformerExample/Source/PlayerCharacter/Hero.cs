@@ -108,8 +108,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         }
 
-        private Texture2D red = SpriteUtil.CreateRectangle(Config.GRID, Color.Red);
-        private Texture2D blue = SpriteUtil.CreateRectangle(Config.GRID, Color.Blue);
         private void SetupAnimations()
         {
             Animations = new AnimationStateMachine();
