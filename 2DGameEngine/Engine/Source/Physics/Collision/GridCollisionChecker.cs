@@ -17,8 +17,6 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         private Dictionary<Vector2, StaticCollider> objects = new Dictionary<Vector2, StaticCollider>();
         private Dictionary<StaticCollider, Vector2> objectPositions = new Dictionary<StaticCollider, Vector2>();
 
-        private Dictionary<string, HashSet<Direction>> directionsForTags = new Dictionary<string, HashSet<Direction>>();
-
         private ICollection<Direction> whereToCheck;
 
         private List<(StaticCollider, Direction)> allCollisionsResult = new List<(StaticCollider, Direction)>();
@@ -73,9 +71,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
                     && IsExactCollision(entity, direction))
                     //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
-                    if  (!directionsForTags.ContainsKey(tag) || (directionsForTags.ContainsKey(tag) && directionsForTags[tag].Contains(direction))) {
-                        tagCollisionResult.Add(direction);
-                    }
+                     tagCollisionResult.Add(direction);
                 }
             }
             
@@ -95,16 +91,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
                     && IsExactCollision(entity, direction))
                     //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
-                    if (directionsForTags.Count != 0)
-                    {
-                        foreach (string tag in directionsForTags.Keys)
-                        {
-                            if (!objects[GetGridCoord(entity.Transform.GridCoordinates, direction)].HasTag(tag) || (objects[GetGridCoord(entity.Transform.GridCoordinates, direction)].HasTag(tag) && directionsForTags[tag].Contains(direction)))
-                            {
-                                allCollisionsResult.Add((objects[GetGridCoord(entity.Transform.GridCoordinates, direction)], direction));
-                            }
-                        }
-                    }
+                    allCollisionsResult.Add((objects[GetGridCoord(entity.Transform.GridCoordinates, direction)], direction));
                 }
             }
             return allCollisionsResult;
@@ -113,6 +100,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         private bool IsExactCollision(IGameObject entity, Direction direction)
         {
+            //TODO
             /*Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             Logger.Error("!!!!!!!!!!!!!!!!!!!!! FIX THIS, REMOVE THE CASTING AND CREATE A GRID COLLISION COMPONENT FOR WHATEVER IS COLLIDER ON THE GRID!!!!!!!!!!!!!!!!!!!!!!!!!");
             Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");*/
@@ -179,11 +167,6 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         {
             Vector2 position = objectPositions[gameObject];
             objects.Remove(position);
-        }
-
-        public void RestrictDirectionsForTag(string tag, ICollection<Direction> directions)
-        {
-            directionsForTags.Add(tag, new HashSet<Direction>(directions));
         }
 
     }

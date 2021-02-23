@@ -81,8 +81,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             CurrentFaceDirection = Direction.EAST;
 
-            GridCollisionChecker.Instance.RestrictDirectionsForTag("Ladder", new HashSet<Direction> { Direction.NORTH, Direction.CENTER });
-
             foreach (Direction direction in new List<Direction>() { Direction.CENTER, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST })
             {
                 GridCollisionCheckDirections.Add(direction);
