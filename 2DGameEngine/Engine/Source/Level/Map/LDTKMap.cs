@@ -115,8 +115,8 @@ namespace GameEngine2D.Source.Level
                                     //e.AddTag("Platform");
                                     break;
                                 case 3:
-                                    e.AddTag("Ladder");
-                                    e.BlocksMovement = false;
+                                    //e.AddTag("Ladder");
+                                    //e.BlocksMovement = false;
                                     break;
                                 case 4:
                                     e.AddTag("Platform");

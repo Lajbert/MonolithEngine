@@ -185,6 +185,10 @@ namespace ForestPlatformerExample
                 {
                     Box box = new Box(position);
                 }
+                else if (entity.Identifier.Equals("Ladder"))
+                {
+                    new Ladder(position, (int)entity.Width, (int)entity.Height);
+                }
             }
         }
 

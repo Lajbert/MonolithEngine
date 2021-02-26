@@ -49,7 +49,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
-            AddTrigger(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
+            AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
 
             this.CurrentFaceDirection = CurrentFaceDirection;
 

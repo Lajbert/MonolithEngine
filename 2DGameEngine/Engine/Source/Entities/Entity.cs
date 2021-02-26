@@ -170,7 +170,14 @@ namespace GameEngine2D.Entities
 
         public void AddComponent<T>(T newComponent) where T : IComponent
         {
+
             componentList.AddComponent<T>(newComponent);
+
+            if (newComponent is ITrigger)
+            {
+                (newComponent as AbstractTrigger).SetOwner(this);
+            }
+
             if (typeof(T) is ICollisionComponent || typeof(T) is ITrigger)
             {
                 CollisionEngine.Instance.OnCollisionProfileChanged(this);
@@ -448,13 +455,6 @@ namespace GameEngine2D.Entities
         public ICollection<ITrigger> GetTriggers()
         {
             return componentList.GetComponents<ITrigger>();
-        }
-
-        public void AddTrigger(AbstractTrigger trigger)
-        {
-            trigger.SetOwner(this);
-            componentList.AddComponent(trigger);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         public void RemoveTrigger(AbstractTrigger trigger)

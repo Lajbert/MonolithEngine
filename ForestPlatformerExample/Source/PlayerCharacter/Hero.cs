@@ -1,6 +1,7 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
 using ForestPlatformerExample.Source.Entities.Interfaces;
 using ForestPlatformerExample.Source.Entities.Items;
+using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.Weapons;
 using GameEngine2D;
@@ -57,6 +58,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private AnimationStateMachine Animations;
 
+        public bool OnLadder = false;
+
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, font)
         {
 
@@ -65,6 +68,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
+
             CanFireTriggers = true;
 
             BlocksRay = true;
@@ -561,24 +565,39 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         public override void Update(GameTime gameTime)
         {
 
-            if (HasGravity && OnGround())
+            if (OnLadder)
             {
-                FallSpeed = 0;
-                if (Velocity.Y == 0)
+                if (!OnGround() && HasGravity)
                 {
-                    canJump = true;
-                    canDoubleJump = false;
+                    Velocity.Y = 0;
+                    MovementSpeed = climbSpeed;
+                    HasGravity = false;
                 }
-                doubleJumping = false;
+            } 
+            else
+            {
+                if (HasGravity && OnGround())
+                {
+                    FallSpeed = 0;
+                    if (Velocity.Y == 0)
+                    {
+                        canJump = true;
+                        canDoubleJump = false;
+                    }
+                    doubleJumping = false;
+                }
+
+                if (FallSpeed > 0)
+                {
+                    lastJump += gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                else
+                {
+                    doubleJumping = false;
+                }
             }
 
-            if (FallSpeed > 0)
-            {
-                lastJump += gameTime.ElapsedGameTime.TotalSeconds;
-            } else
-            {
-                doubleJumping = false;
-            }
+            
             base.Update(gameTime);
         }
 
@@ -598,17 +617,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             RayBlockerLines.Add((new Vector2(Transform.X, Transform.Y - Config.GRID / 2 - 10), new Vector2(Transform.X, Transform.Y + Config.GRID / 2 - 10)));
         }
 
-        private void LeaveLadder()
+        public void LeaveLadder()
         {
-            if (!HasGravity)
+            FallSpeed = 0;
+            HasGravity = true;
+            MovementSpeed = Config.CHARACTER_SPEED;
+            if (Velocity.Y < -0.5)
             {
-                FallSpeed = 0;
-                HasGravity = true;
-                MovementSpeed = Config.CHARACTER_SPEED;
-                if (Velocity.Y < -0.5)
-                {
-                    Velocity.Y -= Config.JUMP_FORCE / 2;
-                }
+                Velocity.Y -= Config.JUMP_FORCE / 2;
             }
         }
 
@@ -700,15 +716,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     jumpModifier = new Vector2(-5, 0);
                 }
             }
-            else if (otherCollider.HasTag("Ladder") && !OnGround())
-            {
-                if (HasGravity)
-                {
-                    Velocity.Y = 0;
-                    MovementSpeed = climbSpeed;
-                    HasGravity = false;
-                }
-            }
             base.OnCollisionStart(otherCollider);
         }
 
@@ -723,10 +730,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
                 canAttack = true;
-            }
-            else if (otherCollider.HasTag("Ladder"))// && GridCollisionChecker.Instance.CollidesWithTag(this, "Ladder").Count == 0)
-            {
-                LeaveLadder();
             }
             else if (otherCollider.HasTag("Platform") && !(otherCollider as StaticCollider).BlocksMovement)
             {
