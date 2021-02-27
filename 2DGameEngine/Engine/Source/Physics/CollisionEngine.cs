@@ -5,14 +5,10 @@ using GameEngine2D.Engine.Source.Level.Collision;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
 using GameEngine2D.Engine.Source.Physics.Trigger;
-using GameEngine2D.Global;
-using GameEngine2D.Source.GridCollision;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GameEngine2D.Engine.Source.Physics
 {
@@ -32,15 +28,11 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private static readonly CollisionEngine instance = new CollisionEngine();
 
-        private List<(IColliderEntity, IColliderEntity)> collisionsToRemove = new List<(IColliderEntity, IColliderEntity)>();
-        private List<(IHasTrigger, string, IHasTrigger)> triggersToRemove = new List<(IHasTrigger, string, IHasTrigger)>();
-        private List<(IGameObject, StaticCollider)> gridCollisionsToRemove = new List<(IGameObject, StaticCollider)>();
-
         private List<Direction> gridCollisionDirections = new List<Direction>() { Direction.SOUTH, Direction.NORTH, Direction.EAST, Direction.WEST };
 
         private CollisionEngine()
         {
-            //gridCollisionDirections.AddRange(Enum.GetValues(typeof(Direction)).Cast<Direction>());
+
         }
 
         static CollisionEngine()
@@ -73,8 +65,6 @@ namespace GameEngine2D.Engine.Source.Physics
             {
                 return;
             }
-
-            PrepareCollisionsAndTriggers();
 
             foreach (IColliderEntity thisEntity in entities)
             {
@@ -265,45 +255,12 @@ namespace GameEngine2D.Engine.Source.Physics
             return result;
         }
 
-        private void PrepareCollisionsAndTriggers()
+        private void InactivateCollisionsAndTriggers()
         {
+
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
                 foreach (IColliderEntity otherObject in collisions[thisEntity].Keys.ToList())
-                {
-                    collisions[thisEntity][otherObject] = false;
-                }
-            }
-
-            foreach (IHasTrigger thisEntity in triggers.Keys)
-            {
-                foreach (string tag in triggers[thisEntity].Keys)
-                {
-                    foreach(IHasTrigger otherEntity in triggers[thisEntity][tag].Keys.ToList())
-                    {
-                        triggers[thisEntity][tag][otherEntity] = false;
-                    }
-                }
-            }
-
-            foreach (IColliderEntity thisEntity in gridCollisions.Keys)
-            {
-                foreach (StaticCollider collider in gridCollisions[thisEntity].Keys.ToList())
-                {
-                    gridCollisions[thisEntity][collider] = false;
-                }
-            }
-        }
-
-        private void InactivateCollisionsAndTriggers()
-        {
-            collisionsToRemove.Clear();
-            triggersToRemove.Clear();
-            gridCollisionsToRemove.Clear();
-
-            foreach (IColliderEntity thisEntity in collisions.Keys)
-            {
-                foreach (IColliderEntity otherObject in collisions[thisEntity].Keys)
                 {
                     if (thisEntity.Equals(otherObject))
                     {
@@ -312,13 +269,13 @@ namespace GameEngine2D.Engine.Source.Physics
                     if(!collisions[thisEntity][otherObject])
                     {
                         thisEntity.OnCollisionEnd(otherObject);
-                        collisionsToRemove.Add((thisEntity, otherObject));
+                        //collisionsToRemove.Add((thisEntity, otherObject));
+                        collisions[thisEntity].Remove(otherObject);
+                    } else
+                    {
+                        collisions[thisEntity][otherObject] = false;
                     }
                 }
-            }
-            foreach ((IColliderEntity, IColliderEntity) t in collisionsToRemove)
-            {
-                collisions[t.Item1].Remove(t.Item2);
             }
 
             foreach (IHasTrigger thisEntity in triggers.Keys)
@@ -327,35 +284,35 @@ namespace GameEngine2D.Engine.Source.Physics
                 {
                     foreach (IHasTrigger otherEntity in triggers[thisEntity][tag].Keys.ToList())
                     {
-                        if(!triggers[thisEntity][tag][otherEntity]) {
+                        if (!triggers[thisEntity][tag][otherEntity])
+                        {
                             thisEntity.OnLeaveTrigger(tag, otherEntity);
-                            triggersToRemove.Add((thisEntity, tag, otherEntity));
+                            //triggersToRemove.Add((thisEntity, tag, otherEntity));
+                            triggers[thisEntity][tag].Remove(otherEntity);
+                        } else
+                        {
+                            triggers[thisEntity][tag][otherEntity] = false;
                         }
                     }
                 }
             }
 
-            foreach ((IHasTrigger, string, IHasTrigger) toRemove in triggersToRemove)
-            {
-                triggers[toRemove.Item1][toRemove.Item2].Remove(toRemove.Item3);
-            }
-
             foreach (IColliderEntity thisEntity in gridCollisions.Keys)
             {
-                foreach (StaticCollider collider in gridCollisions[thisEntity].Keys.ToList())
+                foreach (StaticCollider otherCollider in gridCollisions[thisEntity].Keys.ToList())
                 {
-                    if(!gridCollisions[thisEntity][collider])
+                    if(!gridCollisions[thisEntity][otherCollider])
                     {
-                        gridCollisionsToRemove.Add((thisEntity, collider));
-                        thisEntity.OnCollisionEnd(collider);
+                        //gridCollisionsToRemove.Add((thisEntity, collider));
+                        thisEntity.OnCollisionEnd(otherCollider);
+                        gridCollisions[thisEntity].Remove(otherCollider);
+                    } else
+                    {
+                        gridCollisions[thisEntity][otherCollider] = false;
                     }
                 }
             }
 
-            foreach ((IColliderEntity, StaticCollider) toRemove in gridCollisionsToRemove)
-            {
-                gridCollisions[toRemove.Item1].Remove(toRemove.Item2);
-            }
         }
     }
 }

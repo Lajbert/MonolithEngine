@@ -9,12 +9,14 @@ namespace GameEngine2D.Engine.Source.Entities
 {
     public class StaticTransform : AbstractTransform
     {
-        public StaticTransform(IGameObject owner, Vector2 position = default(Vector2)) : base (owner, position)
+        public StaticTransform(IGameObject owner, Vector2 position = default(Vector2)) : base(owner, position)
         {
 
         }
 
-        public override Vector2 Velocity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override float Rotation { get; set; }
+        public override Vector2 Velocity
+        {
+            get => throw new NotImplementedException(); set => throw new NotImplementedException();
+        }
     }
 }

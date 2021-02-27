@@ -19,7 +19,7 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
 
         public abstract Vector2 Velocity { get; set; }
 
-        public abstract float Rotation { get; set; }
+        public float Rotation { get; set; }
 
         private Vector2 position;
 
@@ -43,7 +43,11 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
         {
             get
             {
-                return Position.X;
+                if (owner.Parent == null)
+                {
+                    return position.X;
+                }
+                return owner.Parent.Transform.Position.X + position.X;
             }
             set
             {
@@ -55,7 +59,11 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
         {
             get
             {
-                return Position.Y;
+                if (owner.Parent == null)
+                {
+                    return position.Y;
+                }
+                return owner.Parent.Transform.Position.Y + position.Y;
             }
             set
             {

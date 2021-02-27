@@ -118,7 +118,6 @@ namespace ForestPlatformerExample
 
         private void LoadLevel()
         {
-            Dictionary<int, MovingPlatform> platformGroups = new Dictionary<int, MovingPlatform>();
 
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
             LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
@@ -131,37 +130,13 @@ namespace ForestPlatformerExample
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
-                    int group = -1;
-                    int travelDistance = 0;
-                    foreach (FieldInstance field in entity.FieldInstances)
-                    {
-
-                        if (field.Identifier == "group")
-                        {
-                            group = (int)field.Value;
-                        }
-                        else if (field.Identifier == "travel_distance")
-                        {
-                            travelDistance = (int)field.Value;
-                        }
-                    }
-                    if (group == -1 || travelDistance == 0)
-                    {
-                        throw new Exception("Can't initialize platform group");
-                    }
-                    if (!platformGroups.ContainsKey(group))
-                    {
-                        platformGroups.Add(group, new MovingPlatform(travelDistance, position));
-                    }
-                    MovingPlatform currentPlatform = platformGroups[group];
-                    currentPlatform.AddPlatformElement(position);
+                    new MovingPlatform(position, (int)entity.Width, (int)entity.Height);
                 }
                 else if (entity.Identifier.Equals("Spring"))
                 {
                     int power = -1;
                     foreach (FieldInstance field in entity.FieldInstances)
                     {
-
                         if (field.Identifier == "power")
                         {
                             power = (int)field.Value;
@@ -188,6 +163,18 @@ namespace ForestPlatformerExample
                 else if (entity.Identifier.Equals("Ladder"))
                 {
                     new Ladder(position, (int)entity.Width, (int)entity.Height);
+                }
+                else if (entity.Identifier.Equals("MovingPlatformTurn"))
+                {
+                    Direction dir = default(Direction);
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+                        if (field.Identifier == "Direction")
+                        {
+                            dir = Enum.Parse(typeof(Direction), field.Value);
+                        }
+                    }
+                    new MovingPlatformTurn(position, dir);
                 }
             }
         }

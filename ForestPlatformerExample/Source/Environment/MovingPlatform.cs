@@ -1,5 +1,8 @@
 ﻿using GameEngine2D;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Graphics;
+using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.Physics.Trigger;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -15,71 +18,38 @@ namespace ForestPlatformerExample.Source.Environment
 {
     class MovingPlatform : PhysicalEntity
     {
-        private float speed = Config.CHARACTER_SPEED;
-        private float currentPos = 0f;
+        private float speedX = 0.1f;
+        //private float speedX = 0;
+        private float speedY = 0;
 
-        private int direction = -1;
-        
-        private int travelDistance = 0;
+        public int DirectionX = -1;
+        public int DirectionY = -1;
 
-        List<Entity> platformElements = new List<Entity>();
-
-        private Texture2D texture = null;
-
-        private Vector2 startPosition;
-
-        public MovingPlatform(int travelDistance, Vector2 startPosition) : base(LayerManager.Instance.EntityLayer, null, startPosition)
+        public MovingPlatform(Vector2 startPosition, int width, int height) : base(LayerManager.Instance.EntityLayer, null, startPosition)
         {
-            this.travelDistance = travelDistance;
-            this.startPosition = startPosition;
             HasGravity = false;
-            SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
             Active = true;
-            texture = SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset");
+            //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
+            AddComponent(new BoxCollisionComponent(this, width, height));
+            (GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            AddCollisionAgainst("PlatformTurner");
+            AddTag("MovingPlatform");
         }
 
-        public void AddPlatformElement(Vector2 position)
+        public override void OnCollisionStart(IGameObject otherCollider)
         {
-            Entity e = new Entity(LayerManager.Instance.EntityLayer, this, startPosition - position);
-            e.AddComponent(new Sprite(texture, new Rectangle(304, 288, Config.GRID, Config.GRID)));
-            //e.Active = false;
-            e.AddTag("MovingPlatform");
-            platformElements.Add(e);
-            //e.SetSprite(texture);
-            //e.Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
+            DirectionX *= -1;
+            base.OnCollisionStart(otherCollider);
         }
 
         public override void Update(GameTime gameTime)
         {
-
-            if (Math.Abs(startPosition.X - Transform.X) > travelDistance)
-            {
-                direction *= -1;
-            }
-            if (Transform.X < startPosition.X)
-            {
-                direction *= -1;
-            }
-
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            currentPos += speed;
-            //Logger.Log("X: " + Position.X);
-            float sin = (float)Math.Sin(currentPos) * elapsedTime;
-            //Logger.Log("SIN: " + sin);
-            foreach (Entity e in platformElements)
-            {
-                //e.HasCollision = false;
-            }
-            //Direction.X += sin * elapsedTime;
-            Velocity.X += speed * elapsedTime * direction;
-            if (Velocity.X > 0.5f) Velocity.X = 0.5f;
-            if (Velocity.X < -0.5f) Velocity.X = -0.5f;
+            Velocity.X = speedX * elapsedTime * DirectionX;
+            Velocity.Y = speedY * elapsedTime * DirectionY;
+            //if (Velocity.X > 0.5f) Velocity.X = 0.5f;
+            //if (Velocity.X < -0.5f) Velocity.X = -0.5f;
             base.Update(gameTime);
-            foreach (Entity e in platformElements)
-            {
-                //e.Velocity = Velocity;
-                //e.HasCollision = true;
-            }
         }
     }
 }

@@ -68,6 +68,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
+            AddCollisionAgainst("MovingPlatform");
 
             CanFireTriggers = true;
 
@@ -725,7 +726,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = null;
             }
-            else if (otherCollider.HasTag("SlideWall"))// && GridCollisionChecker.Instance.CollidesWithTag(this, "SlideWall").Count == 0)
+            else if (otherCollider.HasTag("SlideWall"))
             {
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
