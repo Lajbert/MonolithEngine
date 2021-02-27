@@ -35,7 +35,49 @@ namespace GameEngine2D
         private float step2;
         private float t;
 
-        public Vector2 Velocity = Vector2.Zero;
+        private Vector2 velocity = Vector2.Zero;
+
+        public Vector2 Velocity
+        {
+            get {
+                if (MountedOn == null)
+                {
+                    return velocity;
+                }
+                return (MountedOn.Velocity + velocity) * (float)(1 / Math.Pow(Friction, elapsedTime));
+            }
+
+            set => velocity = value;
+        }
+
+        public float VelocityX {
+            get
+            {
+                /*if (MountedOn == null)
+                {
+                    return velocity.X;
+                }
+                return MountedOn.Velocity.X + velocity.X;*/
+                return velocity.X;
+            }
+
+            set => velocity.X = value;
+        }
+
+        public float VelocityY
+        {
+            get
+            {
+                /*if (MountedOn == null)
+                {
+                    return velocity.Y;
+                }
+                return MountedOn.Velocity.Y + velocity.Y;*/
+                return velocity.Y;
+            }
+
+            set => velocity.Y = value;
+        }
 
         protected float Friction = Config.FRICTION;
         protected float BumpFriction = Config.BUMP_FRICTION;
@@ -51,6 +93,8 @@ namespace GameEngine2D
         protected GameTime GameTime;
 
         private Texture2D colliderMarker;
+
+        protected PhysicalEntity MountedOn = null;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
@@ -134,11 +178,11 @@ namespace GameEngine2D
                 }
                 steps--;
             }
-            Velocity.X *= (float)Math.Pow(Friction, elapsedTime);
+            velocity.X *= (float)Math.Pow(Friction, elapsedTime);
             bump.X *= (float)Math.Pow(BumpFriction, elapsedTime);
 
             //rounding stuff
-            if (Math.Abs(Velocity.X) <= 0.0005 * elapsedTime) Velocity.X = 0;
+            if (Math.Abs(Velocity.X) <= 0.0005 * elapsedTime) velocity.X = 0;
             if (Math.Abs(bump.X) <= 0.0005 * elapsedTime) bump.X = 0;
 
             // Y
@@ -166,7 +210,7 @@ namespace GameEngine2D
                 {
                     if (HasGravity)
                     {
-                        Velocity.Y = 0;
+                        velocity.Y = 0;
                         bump.Y = 0;
                         Transform.InCellLocation.Y = CollisionOffsetBottom;
                     }
@@ -176,7 +220,7 @@ namespace GameEngine2D
 
                 if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
                 {
-                    Velocity.Y = 0;
+                    velocity.Y = 0;
                     Transform.InCellLocation.Y = CollisionOffsetTop;
                 }
                    
@@ -191,10 +235,10 @@ namespace GameEngine2D
                 steps2--;
             }
 
-            Velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
+            velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
             bump.Y *= (float)Math.Pow(BumpFriction, elapsedTime);
             //rounding stuff
-            if (Math.Abs(Velocity.Y) <= 0.0005 * elapsedTime) Velocity.Y = 0;
+            if (Math.Abs(Velocity.Y) <= 0.0005 * elapsedTime) velocity.Y = 0;
             if (Math.Abs(bump.Y) <= 0.0005 * elapsedTime) bump.Y = 0;
             base.Update(gameTime);
         }
@@ -214,11 +258,11 @@ namespace GameEngine2D
             if (Config.INCREASING_GRAVITY)
             {
                 t = (float)(gameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
-                Velocity.Y += GravityValue * t * elapsedTime;
+                velocity.Y += GravityValue * t * elapsedTime;
             }
             else
             {
-                Velocity.Y += GravityValue * elapsedTime;
+                velocity.Y += GravityValue * elapsedTime;
             }
         }
 
@@ -233,7 +277,7 @@ namespace GameEngine2D
             base.PostUpdate(gameTime);
         }
 
-        protected bool OnGround()
+        protected virtual bool OnGround()
         {
             return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }

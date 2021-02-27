@@ -848,26 +848,6 @@
 						},
 						{
 							"__identifier": "MovingPlatformTurn",
-							"__grid": [9,18],
-							"__pivot": [0,0],
-							"__tile": null,
-							"width": 16,
-							"height": 16,
-							"defUid": 36,
-							"px": [144,288],
-							"fieldInstances": [{
-								"__identifier": "Direction",
-								"__value": "EAST",
-								"__type": "LocalEnum.Direction",
-								"defUid": 37,
-								"realEditorValues": [{
-									"id": "V_String",
-									"params": ["EAST"]
-								}]
-							}]
-						},
-						{
-							"__identifier": "MovingPlatformTurn",
 							"__grid": [30,18],
 							"__pivot": [0,0],
 							"__tile": null,
@@ -919,6 +899,26 @@
 							"px": [144,304],
 							"fieldInstances": [{
 								"__identifier": "Direction",
+								"__value": "SOUTH",
+								"__type": "LocalEnum.Direction",
+								"defUid": 37,
+								"realEditorValues": [{
+									"id": "V_String",
+									"params": ["SOUTH"]
+								}]
+							}]
+						},
+						{
+							"__identifier": "MovingPlatformTurn",
+							"__grid": [10,28],
+							"__pivot": [0,0],
+							"__tile": null,
+							"width": 16,
+							"height": 16,
+							"defUid": 36,
+							"px": [160,448],
+							"fieldInstances": [{
+								"__identifier": "Direction",
 								"__value": "EAST",
 								"__type": "LocalEnum.Direction",
 								"defUid": 37,
@@ -930,21 +930,41 @@
 						},
 						{
 							"__identifier": "MovingPlatformTurn",
-							"__grid": [30,19],
+							"__grid": [31,27],
 							"__pivot": [0,0],
 							"__tile": null,
 							"width": 16,
 							"height": 16,
 							"defUid": 36,
-							"px": [480,304],
+							"px": [496,432],
 							"fieldInstances": [{
 								"__identifier": "Direction",
-								"__value": "WEST",
+								"__value": "NORTH",
 								"__type": "LocalEnum.Direction",
 								"defUid": 37,
 								"realEditorValues": [{
 									"id": "V_String",
-									"params": ["WEST"]
+									"params": ["NORTH"]
+								}]
+							}]
+						},
+						{
+							"__identifier": "MovingPlatformTurn",
+							"__grid": [31,28],
+							"__pivot": [0,0],
+							"__tile": null,
+							"width": 16,
+							"height": 16,
+							"defUid": 36,
+							"px": [496,448],
+							"fieldInstances": [{
+								"__identifier": "Direction",
+								"__value": "NORTH",
+								"__type": "LocalEnum.Direction",
+								"defUid": 37,
+								"realEditorValues": [{
+									"id": "V_String",
+									"params": ["NORTH"]
 								}]
 							}]
 						}

@@ -160,7 +160,7 @@ namespace ForestPlatformerExample.Source.Enemies
             }*/
 
             //X += Speed * direction * gameTime.ElapsedGameTime.Milliseconds;
-            Velocity.X += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            VelocityX += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
         public override void FixedUpdate(GameTime gameTime)
