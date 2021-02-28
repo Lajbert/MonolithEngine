@@ -339,11 +339,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         }
 
-        protected override bool OnGround()
-        {
-            return base.OnGround() || MountedOn != null;
-        }
-
         private void SetupController()
         {
             UserInput = new UserInputController();
@@ -476,7 +471,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
-                if (MountedOn == null && !HasGravity)
+                if (!HasGravity)
                 {
                     return;
                 }
@@ -588,7 +583,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             } 
             else
             {
-                if (MountedOn != null || (HasGravity && OnGround()))
+                if (HasGravity && OnGround())
                 {
                     FallSpeed = 0;
                     if (VelocityY == 0)

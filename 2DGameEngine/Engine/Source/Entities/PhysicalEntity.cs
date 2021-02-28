@@ -41,11 +41,11 @@ namespace GameEngine2D
         public Vector2 Velocity
         {
             get {
-                if (MountedOn == null)
+                if (mountedOn == null)
                 {
                     return velocity;
                 }
-                return (MountedOn.Velocity + velocity) * (float)(1 / Math.Pow(Friction, elapsedTime));
+                return (mountedOn.Velocity + velocity) * (float)(1 / Math.Pow(Friction, elapsedTime));
             }
 
             set => velocity = value;
@@ -95,7 +95,7 @@ namespace GameEngine2D
 
         private Texture2D colliderMarker;
 
-        protected PhysicalEntity MountedOn = null;
+        private PhysicalEntity mountedOn = null;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
@@ -279,7 +279,7 @@ namespace GameEngine2D
 
         protected virtual bool OnGround()
         {
-            return MountedOn != null || GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            return mountedOn != null || GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }
 
         public sealed override void CollisionStarted(IGameObject otherCollider, bool allowOverlap)
@@ -309,7 +309,7 @@ namespace GameEngine2D
                         if (Math.Abs(distanceY) < (box1.Height - 1) && !OnGround())
                         {
                             //HasGravity = false;
-                            MountedOn = otherCollider as PhysicalEntity;
+                            mountedOn = otherCollider as PhysicalEntity;
                             FallSpeed = 0;
                             while (-distanceY < box1.Height - 1)
                             {
@@ -425,9 +425,9 @@ namespace GameEngine2D
 
         public sealed override void CollisionEnded(IGameObject otherCollider)
         {
-            if (otherCollider.Equals(MountedOn))
+            if (otherCollider.Equals(mountedOn))
             {
-                MountedOn = null;
+                mountedOn = null;
                 //HasGravity = true;
             }
             if (!(otherCollider is Entity))
