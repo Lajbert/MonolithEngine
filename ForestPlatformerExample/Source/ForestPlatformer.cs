@@ -3,10 +3,12 @@ using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
+using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Physics;
+using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -36,7 +38,7 @@ namespace ForestPlatformerExample
 
         private double elapsedTime = 0;
         private GameTime gt = new GameTime();
-        private float fixedUpdateRate = (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
+        private float fixedUpdateRate;
 
         public ForestPlatformer()
         {
@@ -56,6 +58,7 @@ namespace ForestPlatformerExample
             //Config.FULLSCREEN = true;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
             Config.FPS = 144;
+            Config.FIXED_UPDATE_FPS = 60;
 
             //Config.GRID = 64;
 
@@ -73,6 +76,8 @@ namespace ForestPlatformerExample
                 graphics.SynchronizeWithVerticalRetrace = false;
                 TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
+
+            fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
         }
 
         protected override void Initialize()
@@ -107,8 +112,6 @@ namespace ForestPlatformerExample
 
             LoadLevel();
 
-            hero = new Hero(new Vector2(18 * Config.GRID, 31 * Config.GRID), font);
-            Camera.TrackTarget(hero, true);
             //TODO: use this.Content to load your game content here
 
             frameCounter = new FrameCounter();
@@ -124,7 +127,13 @@ namespace ForestPlatformerExample
             foreach (EntityInstance entity in map.entities)
             {
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
-                if (entity.Identifier.Equals("Coin"))
+                if (entity.Identifier.Equals("Hero"))
+                {
+
+                    hero = new Hero(position, font);
+                    Camera.TrackTarget(hero, true);
+                }
+                else if (entity.Identifier.Equals("Coin"))
                 {
                     new Coin(position);
                 }
@@ -174,9 +183,17 @@ namespace ForestPlatformerExample
                             dir = Enum.Parse(typeof(Direction), field.Value);
                         }
                     }
-                    new MovingPlatformTurn(position, dir);
+                    new MovingPlatformTurner(position, dir);
                 }
             }
+
+            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 37) * Config.GRID);
+            collisionTest.HasGravity = false;
+            collisionTest.AddTag("Mountable");
+            //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));
+            collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 64, Vector2.Zero));
+            (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -191,15 +208,24 @@ namespace ForestPlatformerExample
             Camera.update(gameTime);
             Camera.postUpdate(gameTime);
 
-            if (elapsedTime >= fixedUpdateRate)
+            if (fixedUpdateRate == 0)
             {
-                gt.ElapsedGameTime = TimeSpan.FromMilliseconds(elapsedTime);
-                FixedUpdate(gt);
-                elapsedTime = 0;
+                FixedUpdate(gameTime);
             } else
             {
-                elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (elapsedTime >= fixedUpdateRate)
+                {
+                    gt.ElapsedGameTime = TimeSpan.FromMilliseconds(elapsedTime);
+                    FixedUpdate(gt);
+                    elapsedTime = 0;
+                }
+                else
+                {
+                    elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
             }
+
+            
 
             base.Update(gameTime);
         }

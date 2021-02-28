@@ -91,28 +91,30 @@ namespace GameEngine2D.Engine.Source.Physics
                         continue;
                     }
 
-                    bool collidesWith = false;
+                    bool possibleCollision = false;
+                    bool allowOverlap = false;
                     foreach(string tag in otherEntity.GetTags()) {
-                        if (thisEntity.GetCollidesAgainst().Contains(tag)) {
-                            collidesWith = true;
+                        if (thisEntity.GetCollidesAgainst().ContainsKey(tag)) {
+                            possibleCollision = true;
+                            allowOverlap = thisEntity.GetCollidesAgainst()[tag];
                             break;
                         }
                     }
 
-                    if (!collidesWith)
+                    if (!possibleCollision)
                     {
                         continue;
                     }
 
                     if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
                     {
-                        CheckCollision(thisEntity, otherEntity);
+                        CheckCollision(thisEntity, otherEntity, allowOverlap);
                     }
                     
-                    if (thisEntity.CheckGridCollisions)
+                    /*if (thisEntity.CheckGridCollisions)
                     {
                         CheckGridCollisions(thisEntity);
-                    }
+                    }*/
                 }
             }
 
@@ -198,25 +200,25 @@ namespace GameEngine2D.Engine.Source.Physics
             changedObjects.Clear();
         }
 
-        private void CheckGridCollisions(IColliderEntity thisEntity)
+        /*private void CheckGridCollisions(IColliderEntity thisEntity)
         {
             foreach ((StaticCollider, Direction) collision in GridCollisionChecker.Instance.HasGridCollisionAt(thisEntity, gridCollisionDirections))
             {
                 if (!gridCollisions[thisEntity].ContainsKey(collision.Item1))
                 {
-                    thisEntity.OnCollisionStart(collision.Item1);
+                    thisEntity.CollisionStarted(collision.Item1, false);
                 }
                 gridCollisions[thisEntity][collision.Item1] = true;
             }
-        }
+        }*/
 
-        private void CheckCollision(IColliderEntity thisEntity, IColliderEntity otherObject)
+        private void CheckCollision(IColliderEntity thisEntity, IColliderEntity otherObject, bool allowOverlap)
         {
             if (thisEntity.GetCollisionComponent().Overlaps(otherObject))
             {
                 if (!collisions.ContainsKey(thisEntity) || !collisions[thisEntity].ContainsKey(otherObject))
                 {
-                    thisEntity.OnCollisionStart(otherObject);
+                    thisEntity.CollisionStarted(otherObject, allowOverlap);
                 }
                 collisions[thisEntity][otherObject] = true;
             }
@@ -268,7 +270,7 @@ namespace GameEngine2D.Engine.Source.Physics
                     }
                     if(!collisions[thisEntity][otherObject])
                     {
-                        thisEntity.OnCollisionEnd(otherObject);
+                        thisEntity.CollisionEnded(otherObject);
                         //collisionsToRemove.Add((thisEntity, otherObject));
                         collisions[thisEntity].Remove(otherObject);
                     } else
@@ -304,7 +306,7 @@ namespace GameEngine2D.Engine.Source.Physics
                     if(!gridCollisions[thisEntity][otherCollider])
                     {
                         //gridCollisionsToRemove.Add((thisEntity, collider));
-                        thisEntity.OnCollisionEnd(otherCollider);
+                        thisEntity.CollisionEnded(otherCollider);
                         gridCollisions[thisEntity].Remove(otherCollider);
                     } else
                     {

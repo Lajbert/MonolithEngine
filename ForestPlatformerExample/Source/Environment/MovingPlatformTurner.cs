@@ -10,17 +10,17 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Environment
 {
-    class MovingPlatformTurn : Entity
+    class MovingPlatformTurner : Entity
     {
         public Direction TurnDirection;
 
-        public MovingPlatformTurn(Vector2 position, Direction turnDirection) : base(LayerManager.Instance.EntityLayer, null, position)
+        public MovingPlatformTurner(Vector2 position, Direction turnDirection) : base(LayerManager.Instance.EntityLayer, null, position)
         {
             TurnDirection = turnDirection;
             //Active = false;
             //Visible = false;
             AddComponent(new BoxCollisionComponent(this, Config.GRID, Config.GRID));
-            (GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             AddTag("PlatformTurner");
         }
     }
