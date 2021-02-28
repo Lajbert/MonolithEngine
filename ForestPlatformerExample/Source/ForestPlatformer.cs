@@ -187,11 +187,11 @@ namespace ForestPlatformerExample
                 }
             }
 
-            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 39) * Config.GRID);
+            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 37) * Config.GRID);
             collisionTest.HasGravity = false;
             collisionTest.AddTag("Mountable");
             //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));
-            collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, Vector2.Zero));
+            collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 64, Vector2.Zero));
             (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 
         }
