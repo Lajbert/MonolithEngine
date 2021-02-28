@@ -112,8 +112,6 @@ namespace ForestPlatformerExample
 
             LoadLevel();
 
-            hero = new Hero(new Vector2(18 * Config.GRID, 31 * Config.GRID), font);
-            Camera.TrackTarget(hero, true);
             //TODO: use this.Content to load your game content here
 
             frameCounter = new FrameCounter();
@@ -129,7 +127,13 @@ namespace ForestPlatformerExample
             foreach (EntityInstance entity in map.entities)
             {
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
-                if (entity.Identifier.Equals("Coin"))
+                if (entity.Identifier.Equals("Hero"))
+                {
+
+                    hero = new Hero(position, font);
+                    Camera.TrackTarget(hero, true);
+                }
+                else if (entity.Identifier.Equals("Coin"))
                 {
                     new Coin(position);
                 }
@@ -183,7 +187,7 @@ namespace ForestPlatformerExample
                 }
             }
 
-            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(20, 38) * Config.GRID);
+            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 39) * Config.GRID);
             collisionTest.HasGravity = false;
             collisionTest.AddTag("Mountable");
             //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));
