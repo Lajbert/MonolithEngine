@@ -291,6 +291,8 @@ namespace GameEngine2D
                     return;
                 }
 
+                MountedOn = otherCollider as PhysicalEntity;
+
                 ICollisionComponent thisCollisionComp = GetCollisionComponent();
                 ICollisionComponent otherCollisionComp = (otherCollider as Entity).GetCollisionComponent();
 
@@ -376,18 +378,23 @@ namespace GameEngine2D
 
         public sealed override void CollisionEnded(IGameObject otherCollider)
         {
+            if (otherCollider.Equals(MountedOn))
+            {
+                MountedOn = null;
+                //HasGravity = true;
+            }
             if (!(otherCollider is Entity))
             {
                 return;
             }
-            foreach (string tag in (otherCollider as Entity).GetTags())
+            /*foreach (string tag in (otherCollider as Entity).GetTags())
             {
                 if (GetCollidesAgainst().ContainsKey(tag) && !GetCollidesAgainst()[tag])
                 {
                     HasGravity = true;
                     break;
                 }
-            }
+            }*/
             base.CollisionEnded(otherCollider);
         }
 

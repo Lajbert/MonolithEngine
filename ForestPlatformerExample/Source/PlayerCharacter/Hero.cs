@@ -36,8 +36,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private static double lastJump = 0f;
         private bool doubleJumping = false;
 
-        private bool isMounted = false;
-
         private bool canJump = true;
         private bool canDoubleJump = false;
 
@@ -343,7 +341,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         protected override bool OnGround()
         {
-            return base.OnGround() || isMounted;
+            return base.OnGround() || MountedOn != null;
         }
 
         private void SetupController()
@@ -478,7 +476,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
-                if (!isMounted && !HasGravity)
+                if (MountedOn == null && !HasGravity)
                 {
                     return;
                 }
@@ -590,7 +588,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             } 
             else
             {
-                if (isMounted || (HasGravity && OnGround()))
+                if (MountedOn != null || (HasGravity && OnGround()))
                 {
                     FallSpeed = 0;
                     if (VelocityY == 0)
@@ -729,13 +727,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     jumpModifier = new Vector2(-5, 0);
                 }
             }
-            else if (otherCollider.HasTag("Mountable"))
-            {
-                isMounted = true;
-                //VelocityY = 0;
-                //HasGravity = false;
-                MountedOn = otherCollider as PhysicalEntity;
-            }
             base.OnCollisionStart(otherCollider);
         }
 
@@ -754,13 +745,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             else if (otherCollider.HasTag("Platform") && !(otherCollider as StaticCollider).BlocksMovement)
             {
                 (otherCollider as StaticCollider).BlocksMovement = true;
-            }
-            else if (otherCollider.HasTag("Mountable"))
-            {
-                isMounted = false;
-                //HasGravity = true;
-                MountedOn = null;
-                FallSpeed = 0;
             }
             base.OnCollisionEnd(otherCollider);
         }
