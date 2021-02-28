@@ -1,4 +1,5 @@
 ﻿using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Entities.Transform;
@@ -124,7 +125,6 @@ namespace GameEngine2D
                         (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                         colliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)collisionComponent).Radius * 2, Color.Black);
                     }
-                    
                 }
                 if (collisionComponent != null && collisionComponent is CircleCollisionComponent)
                 {
@@ -280,6 +280,115 @@ namespace GameEngine2D
         protected virtual bool OnGround()
         {
             return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+        }
+
+        public sealed override void CollisionStarted(IGameObject otherCollider, bool allowOverlap)
+        {
+            if (!allowOverlap)
+            {
+                if (!(otherCollider is Entity) || (otherCollider as Entity).GetCollisionComponent() == null)
+                {
+                    return;
+                }
+
+                ICollisionComponent thisCollisionComp = GetCollisionComponent();
+                ICollisionComponent otherCollisionComp = (otherCollider as Entity).GetCollisionComponent();
+
+                if (thisCollisionComp is BoxCollisionComponent && otherCollisionComp is BoxCollisionComponent)
+                {
+
+                    BoxCollisionComponent box1 = thisCollisionComp as BoxCollisionComponent;
+                    BoxCollisionComponent box2 = otherCollisionComp as BoxCollisionComponent;
+
+                    float distanceY = box1.Position.Y - box2.Position.Y;
+
+                    if (Math.Abs(distanceY) < (box1.Height - 1))
+                    {
+                        VelocityY = 0;
+                        if (box2.Position.Y > box1.Position.Y)
+                        {
+                            //HasGravity = false;
+                            FallSpeed = 0;
+                            while (-distanceY < (box1.Height - 1))
+                            {
+
+                                Transform.InCellLocation.Y -= 0.01f;
+
+                                while (Transform.InCellLocation.Y > 1)
+                                {
+                                    Transform.InCellLocation.Y--;
+                                    Transform.GridCoordinates.Y++;
+                                }
+                                while (Transform.InCellLocation.Y < 0)
+                                {
+                                    Transform.InCellLocation.Y++;
+                                    Transform.GridCoordinates.Y--;
+                                }
+
+                                if (Parent == null)
+                                {
+                                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
+                                }
+
+                                distanceY = box1.Position.Y - box2.Position.Y;
+                            }
+                        }
+                        else
+                        {
+                            while (distanceY < (box1.Height + box2.Height) / 2)
+                            {
+
+                                Transform.InCellLocation.Y += 0.01f;
+
+                                while (Transform.InCellLocation.Y > 1)
+                                {
+                                    Transform.InCellLocation.Y--;
+                                    Transform.GridCoordinates.Y++;
+                                }
+                                while (Transform.InCellLocation.Y < 0)
+                                {
+                                    Transform.InCellLocation.Y++;
+                                    Transform.GridCoordinates.Y--;
+                                }
+
+                                if (Parent == null)
+                                {
+                                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
+                                }
+
+                                distanceY = box1.Position.Y - box2.Position.Y;
+                            }
+                        }
+                    }
+                }
+                else if (thisCollisionComp is CircleCollisionComponent && otherCollisionComp is CircleCollisionComponent)
+                {
+                    throw new Exception("Non-overlapping collision type is not implemented between the current colliders");
+                }
+                else
+                {
+                    throw new Exception("Non-overlapping collision type is not implemented between the current colliders");
+                }
+            }
+
+            base.CollisionStarted(otherCollider, allowOverlap);
+        }
+
+        public sealed override void CollisionEnded(IGameObject otherCollider)
+        {
+            if (!(otherCollider is Entity))
+            {
+                return;
+            }
+            foreach (string tag in (otherCollider as Entity).GetTags())
+            {
+                if (GetCollidesAgainst().ContainsKey(tag) && !GetCollidesAgainst()[tag])
+                {
+                    HasGravity = true;
+                    break;
+                }
+            }
+            base.CollisionEnded(otherCollider);
         }
 
         public void ResetPosition(Vector2 position)

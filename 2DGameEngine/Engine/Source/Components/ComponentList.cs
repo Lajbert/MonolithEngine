@@ -46,7 +46,7 @@ namespace GameEngine2D.Engine.Source.Components
 
         public void AddComponent<T>(T newComponent) where T : IComponent
         {
-            if (newComponent.UniquePerEntity && (components.ContainsKey(typeof(T)) && components[typeof(T)].Count > 0)) {
+            if (newComponent.UniquePerEntity && (components.ContainsKey(newComponent.GetComponentType()) && components[newComponent.GetComponentType()].Count > 0)) {
                 throw new Exception("Can't add more than on of the following component type: " + typeof(T).Name);
             }
             if (!components.ContainsKey(typeof(T)))

@@ -18,11 +18,11 @@ namespace GameEngine2D.Engine.Source.Physics.Interface
 
         public ICollisionComponent GetCollisionComponent();
 
-        public void OnCollisionStart(IGameObject otherCollider);
+        public void CollisionStarted(IGameObject otherCollider, bool allowOverlap);
 
-        public void OnCollisionEnd(IGameObject otherCollider);
+        public void CollisionEnded(IGameObject otherCollider);
 
-        public HashSet<string> GetCollidesAgainst();
+        public Dictionary<string, bool> GetCollidesAgainst();
 
         public bool CheckGridCollisions { get; set; }
     }

@@ -49,7 +49,7 @@ namespace ForestPlatformerExample.Source.Environment
             AddComponent(new Sprite(tg.GetTexture(), new Rectangle(0, 0, width, height)));
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             AddCollisionAgainst("PlatformTurner");
-            AddTag("MovingPlatform");
+            AddTag("Mountable");
         }
 
         public override void OnCollisionStart(IGameObject otherCollider)

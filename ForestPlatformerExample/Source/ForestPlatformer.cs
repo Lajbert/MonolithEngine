@@ -3,10 +3,12 @@ using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
+using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Physics;
+using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -56,7 +58,7 @@ namespace ForestPlatformerExample
             //Config.FULLSCREEN = true;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
             Config.FPS = 144;
-            Config.FIXED_UPDATE_FPS = 0;
+            Config.FIXED_UPDATE_FPS = 30;
 
             //Config.GRID = 64;
 
@@ -180,6 +182,14 @@ namespace ForestPlatformerExample
                     new MovingPlatformTurner(position, dir);
                 }
             }
+
+            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(20, 37) * Config.GRID);
+            collisionTest.HasGravity = false;
+            collisionTest.AddTag("Mountable");
+            //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));
+            collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, Vector2.Zero));
+            (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+
         }
 
         protected override void Update(GameTime gameTime)

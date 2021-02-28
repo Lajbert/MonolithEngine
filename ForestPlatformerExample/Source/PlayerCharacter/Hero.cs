@@ -36,7 +36,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private static double lastJump = 0f;
         private bool doubleJumping = false;
 
-        private bool onMovingPlatform = false;
+        private bool isMounted = false;
 
         private bool canJump = true;
         private bool canDoubleJump = false;
@@ -68,13 +68,16 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
-            AddCollisionAgainst("MovingPlatform");
+            AddCollisionAgainst("Mountable", false);
 
             CanFireTriggers = true;
 
             BlocksRay = true;
 
-            AddComponent(new CircleCollisionComponent(this, 10, new Vector2(0, -10)));
+            //AddComponent(new CircleCollisionComponent(this, 10, new Vector2(0, -10)));
+            AddComponent(new BoxCollisionComponent(this, 16, 24, new Vector2(-8, -24)));
+            //AddComponent(new BoxCollisionComponent(this, 16, 24, Vector2.Zero));
+            (GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 
             //ColliderOnGrid = true;
 
@@ -340,7 +343,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         protected override bool OnGround()
         {
-            return base.OnGround() || onMovingPlatform;
+            return base.OnGround() || isMounted;
         }
 
         private void SetupController()
@@ -386,7 +389,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) => {
-                if ((!onMovingPlatform && !HasGravity) || (!canJump && !canDoubleJump))
+                if (OnLadder || (!canJump && !canDoubleJump))
                 {
                     return;
                 }
@@ -475,7 +478,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
-                if (!onMovingPlatform && !HasGravity)
+                if (!isMounted && !HasGravity)
                 {
                     return;
                 }
@@ -587,7 +590,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             } 
             else
             {
-                if (onMovingPlatform || (HasGravity && OnGround()))
+                if (isMounted || (HasGravity && OnGround()))
                 {
                     FallSpeed = 0;
                     if (VelocityY == 0)
@@ -680,7 +683,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     {
                         Velocity += new Vector2(-2, -2);
                     }
-                } 
+                }
             }
             else if (otherCollider is Coin)
             {
@@ -725,12 +728,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     jumpModifier = new Vector2(-5, 0);
                 }
-            } 
-            else if (otherCollider is MovingPlatform)
+            }
+            else if (otherCollider.HasTag("Mountable"))
             {
-                onMovingPlatform = true;
-                VelocityY = 0;
-                HasGravity = false;
+                isMounted = true;
+                //VelocityY = 0;
+                //HasGravity = false;
                 MountedOn = otherCollider as PhysicalEntity;
             }
             base.OnCollisionStart(otherCollider);
@@ -752,14 +755,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 (otherCollider as StaticCollider).BlocksMovement = true;
             }
-            else if (otherCollider is MovingPlatform)
+            else if (otherCollider.HasTag("Mountable"))
             {
-                onMovingPlatform = false;
-                HasGravity = true;
+                isMounted = false;
+                //HasGravity = true;
                 MountedOn = null;
                 FallSpeed = 0;
             }
-            base.OnCollisionStart(otherCollider);
+            base.OnCollisionEnd(otherCollider);
         }
     }
 }

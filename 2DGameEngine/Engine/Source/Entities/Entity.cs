@@ -38,7 +38,7 @@ namespace GameEngine2D.Entities
 
         private ComponentList componentList = new ComponentList();
 
-        private HashSet<string> CollidesAgainst = new HashSet<string>();
+        private Dictionary<string, bool> CollidesAgainst = new Dictionary<string, bool>();
 
         private bool checkGridCollisions = false;
         public bool CheckGridCollisions
@@ -435,14 +435,24 @@ namespace GameEngine2D.Entities
 
         }
 
-        public HashSet<string> GetCollidesAgainst()
+        public virtual void CollisionStarted(IGameObject otherCollider, bool allowOverlap)
+        {
+            OnCollisionStart(otherCollider);
+        }
+
+        public virtual void CollisionEnded(IGameObject otherCollider)
+        {
+            OnCollisionEnd(otherCollider);
+        }
+
+        public Dictionary<string, bool> GetCollidesAgainst()
         {
             return CollidesAgainst;
         }
 
-        public void AddCollisionAgainst(string tag)
+        public void AddCollisionAgainst(string tag, bool allowOverlap = true)
         {
-            CollidesAgainst.Add(tag);
+            CollidesAgainst[tag] = allowOverlap;
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
