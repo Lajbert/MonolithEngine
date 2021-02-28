@@ -183,7 +183,7 @@ namespace ForestPlatformerExample
                 }
             }
 
-            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(20, 37) * Config.GRID);
+            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(20, 38) * Config.GRID);
             collisionTest.HasGravity = false;
             collisionTest.AddTag("Mountable");
             //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));

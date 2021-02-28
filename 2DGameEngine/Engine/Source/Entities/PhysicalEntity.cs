@@ -279,7 +279,7 @@ namespace GameEngine2D
 
         protected virtual bool OnGround()
         {
-            return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            return MountedOn != null || GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }
 
         public sealed override void CollisionStarted(IGameObject otherCollider, bool allowOverlap)
@@ -291,8 +291,6 @@ namespace GameEngine2D
                     return;
                 }
 
-                MountedOn = otherCollider as PhysicalEntity;
-
                 ICollisionComponent thisCollisionComp = GetCollisionComponent();
                 ICollisionComponent otherCollisionComp = (otherCollider as Entity).GetCollisionComponent();
 
@@ -302,16 +300,18 @@ namespace GameEngine2D
                     BoxCollisionComponent box1 = thisCollisionComp as BoxCollisionComponent;
                     BoxCollisionComponent box2 = otherCollisionComp as BoxCollisionComponent;
 
+                    float distanceX = box1.Position.X - box2.Position.X;
                     float distanceY = box1.Position.Y - box2.Position.Y;
 
-                    if (Math.Abs(distanceY) < (box1.Height - 1))
+                    VelocityY = 0;
+                    if (box2.Position.Y > box1.Position.Y)
                     {
-                        VelocityY = 0;
-                        if (box2.Position.Y > box1.Position.Y)
+                        if (Math.Abs(distanceY) < (box1.Height - 1) && !OnGround())
                         {
                             //HasGravity = false;
+                            MountedOn = otherCollider as PhysicalEntity;
                             FallSpeed = 0;
-                            while (-distanceY < (box1.Height - 1))
+                            while (-distanceY < box1.Height - 1)
                             {
 
                                 Transform.InCellLocation.Y -= 0.01f;
@@ -335,9 +335,12 @@ namespace GameEngine2D
                                 distanceY = box1.Position.Y - box2.Position.Y;
                             }
                         }
-                        else
+                    } 
+                    else if (box2.Position.Y < box1.Position.Y)
+                    {
+                        if (Math.Abs(distanceY) < box2.Height && !OnGround())
                         {
-                            while (distanceY < (box1.Height + box2.Height) / 2)
+                            while (distanceY < box2.Height)
                             {
 
                                 Transform.InCellLocation.Y += 0.01f;
@@ -362,6 +365,50 @@ namespace GameEngine2D
                             }
                         }
                     }
+
+                    if (box1.Position.X < box2.Position.X)
+                    {
+                        if (Math.Abs(distanceX) < box1.Width)
+                        {
+
+                            while (-distanceX < box1.Width)
+                            {
+                                Transform.InCellLocation.X -= 0.01f;
+
+                                while (Transform.InCellLocation.X > 1)
+                                {
+                                    Transform.InCellLocation.X--;
+                                    Transform.GridCoordinates.X++;
+                                }
+                                while (Transform.InCellLocation.X < 0)
+                                {
+                                    Transform.InCellLocation.X++;
+                                    Transform.GridCoordinates.X--;
+                                }
+
+                                if (Parent == null)
+                                {
+                                    Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
+                                }
+
+                                distanceX = box1.Position.X - box2.Position.X;
+                            }
+                        }
+                        
+                    } 
+                    /*else if (box1.Position.X > box2.Position.X)
+                    {
+                        while (Transform.InCellLocation.X > 1)
+                        {
+                            Transform.InCellLocation.X--;
+                            Transform.GridCoordinates.X++;
+                        }
+                        while (Transform.InCellLocation.X < 0)
+                        {
+                            Transform.InCellLocation.X++;
+                            Transform.GridCoordinates.X--;
+                        }
+                    }*/
                 }
                 else if (thisCollisionComp is CircleCollisionComponent && otherCollisionComp is CircleCollisionComponent)
                 {
