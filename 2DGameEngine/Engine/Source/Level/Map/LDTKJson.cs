@@ -316,7 +316,7 @@ namespace GameEngine2D.Engine.Source.Level
         public long? TileId { get; set; }
 
         /// <summary>
-        /// Possible values: `Stretch`, `Crop`
+        /// Possible values: `Cover`, `FitInside`, `Repeat`, `Stretch`
         /// </summary>
         [JsonProperty("tileRenderMode")]
         public TileRenderMode TileRenderMode { get; set; }
@@ -1215,9 +1215,9 @@ namespace GameEngine2D.Engine.Source.Level
     public enum RenderMode { Cross, Ellipse, Rectangle, Tile };
 
     /// <summary>
-    /// Possible values: `Stretch`, `Crop`
+    /// Possible values: `Cover`, `FitInside`, `Repeat`, `Stretch`
     /// </summary>
-    public enum TileRenderMode { Crop, Stretch };
+    public enum TileRenderMode { Cover, FitInside, Repeat, Stretch };
 
     /// <summary>
     /// Type of the layer as Haxe Enum Possible values: `IntGrid`, `Entities`, `Tiles`,
@@ -1615,8 +1615,12 @@ namespace GameEngine2D.Engine.Source.Level
             var value = serializer.Deserialize<string>(reader);
             switch (value)
             {
-                case "Crop":
-                    return TileRenderMode.Crop;
+                case "Cover":
+                    return TileRenderMode.Cover;
+                case "FitInside":
+                    return TileRenderMode.FitInside;
+                case "Repeat":
+                    return TileRenderMode.Repeat;
                 case "Stretch":
                     return TileRenderMode.Stretch;
             }
@@ -1633,8 +1637,14 @@ namespace GameEngine2D.Engine.Source.Level
             var value = (TileRenderMode)untypedValue;
             switch (value)
             {
-                case TileRenderMode.Crop:
-                    serializer.Serialize(writer, "Crop");
+                case TileRenderMode.Cover:
+                    serializer.Serialize(writer, "Cover");
+                    return;
+                case TileRenderMode.FitInside:
+                    serializer.Serialize(writer, "FitInside");
+                    return;
+                case TileRenderMode.Repeat:
+                    serializer.Serialize(writer, "Repeat");
                     return;
                 case TileRenderMode.Stretch:
                     serializer.Serialize(writer, "Stretch");
