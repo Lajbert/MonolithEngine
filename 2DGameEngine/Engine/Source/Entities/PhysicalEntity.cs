@@ -457,6 +457,7 @@ namespace GameEngine2D
         {
             if (mountedOn != null && otherCollider.Equals(mountedOn))
             {
+                Velocity += mountedOn.Velocity;
                 mountedOn = null;
                 //HasGravity = true;
             }
