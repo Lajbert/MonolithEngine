@@ -317,9 +317,10 @@ namespace GameEngine2D
                     float distanceY = thisBox.Position.Y - otherBox.Position.Y;
 
                     VelocityY = 0;
-                    if (otherBox.Position.Y > thisBox.Position.Y)
+
+                    if (Math.Abs(distanceY) < (thisBox.Height - 1) && !OnGround())
                     {
-                        if (Math.Abs(distanceY) < (thisBox.Height - 1) && !OnGround())
+                        if (otherBox.Position.Y > thisBox.Position.Y)
                         {
                             //HasGravity = false;
                             mountedOn = otherCollider as PhysicalEntity;
@@ -348,11 +349,12 @@ namespace GameEngine2D
                                 distanceY = thisBox.Position.Y - otherBox.Position.Y;
                             }
                         }
-                    } 
-                    else if (otherBox.Position.Y < thisBox.Position.Y)
+                    }
+                    if (Math.Abs(distanceY) < otherBox.Height && !OnGround())
                     {
-                        if (Math.Abs(distanceY) < otherBox.Height && !OnGround())
+                        if (otherBox.Position.Y < thisBox.Position.Y)
                         {
+
                             while (distanceY < otherBox.Height)
                             {
 
@@ -377,12 +379,13 @@ namespace GameEngine2D
                                 distanceY = thisBox.Position.Y - otherBox.Position.Y;
                             }
                         }
-                    } 
+                    }
 
-                    if (thisBox.Position.X < otherBox.Position.X && mountedOn == null)
+                    if (Math.Abs(distanceX) < thisBox.Width)
                     {
-                        if (Math.Abs(distanceX) < thisBox.Width)
+                        if (thisBox.Position.X < otherBox.Position.X && mountedOn == null)
                         {
+
                             VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
                             while (-distanceX < thisBox.Width - 1)
@@ -408,11 +411,13 @@ namespace GameEngine2D
                                 distanceX = thisBox.Position.X - otherBox.Position.X;
                             }
                         }
-                    } 
-                    else if (thisBox.Position.X > otherBox.Position.X && mountedOn == null)
+                    }
+
+                    if (Math.Abs(distanceX) < otherBox.Width)
                     {
-                        if (Math.Abs(distanceX) < otherBox.Width)
+                        if (thisBox.Position.X > otherBox.Position.X && mountedOn == null)
                         {
+
                             VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
                             while (distanceX < otherBox.Width - 1)
