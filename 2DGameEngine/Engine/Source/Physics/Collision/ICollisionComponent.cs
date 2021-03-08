@@ -9,7 +9,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 {
     public interface ICollisionComponent : IComponent
     {
-        public bool Overlaps(IColliderEntity otherCollider);
+        public bool CollidesWith(IColliderEntity otherCollider);
 
         public ColliderType GetType();
 

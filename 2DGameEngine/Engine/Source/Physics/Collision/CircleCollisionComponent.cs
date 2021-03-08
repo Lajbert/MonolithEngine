@@ -22,7 +22,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         private float maxDistance;
         private float distance;
 
-        public override bool Overlaps(IColliderEntity otherCollider)
+        public override bool CollidesWith(IColliderEntity otherCollider)
         {
             if (otherCollider.GetCollisionComponent().GetType() == ColliderType.CIRCLE)
             {

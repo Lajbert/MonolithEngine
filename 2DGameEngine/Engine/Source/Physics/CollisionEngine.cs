@@ -214,7 +214,7 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private void CheckCollision(IColliderEntity thisEntity, IColliderEntity otherObject, bool allowOverlap)
         {
-            if (thisEntity.GetCollisionComponent().Overlaps(otherObject))
+            if (thisEntity.GetCollisionComponent().CollidesWith(otherObject))
             {
                 if (!collisions.ContainsKey(thisEntity) || !collisions[thisEntity].ContainsKey(otherObject))
                 {

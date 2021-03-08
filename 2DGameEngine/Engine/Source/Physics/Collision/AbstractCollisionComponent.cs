@@ -45,7 +45,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             UniquePerEntity = true;
         }
 
-        public abstract bool Overlaps(IColliderEntity otherCollider);
+        public abstract bool CollidesWith(IColliderEntity otherCollider);
 
         ColliderType ICollisionComponent.GetType()
         {

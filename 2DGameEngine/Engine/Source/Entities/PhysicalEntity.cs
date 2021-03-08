@@ -151,17 +151,36 @@ namespace GameEngine2D
         public override void Update(GameTime gameTime)
         {
 
-            if (leftCollider != null && Velocity.X < 0)
-            {
-                VelocityX = 0;
-            }
-
-            if (rightCollider != null && Velocity.X > 0)
-            {
-                VelocityX = 0;
-            }
-
             elapsedTime = TimeUtil.GetElapsedTime(gameTime);
+
+            if (leftCollider != null)
+            {
+                if (leftCollider.Velocity.X != 0)
+                {
+                    if (Velocity.X >= 0)
+                    {
+                        VelocityX = leftCollider.Velocity.X * (float)(1 / Math.Pow(Friction, elapsedTime));
+                    }
+                }
+                else if (Velocity.X < 0)
+                {
+                    VelocityX = 0;
+                }
+            }
+
+            if (rightCollider != null)
+            {
+                if (rightCollider.Velocity.X != 0)
+                {
+                    if (Velocity.X <= 0)
+                    {
+                        VelocityX = rightCollider.Velocity.X * (float)(1 / Math.Pow(Friction, elapsedTime));
+                    }
+                } else if (Velocity.X > 0)
+                {
+                    VelocityX = 0;
+                }
+            }
 
             this.GameTime = gameTime;
 
@@ -316,18 +335,16 @@ namespace GameEngine2D
                     float distanceX = thisBox.Position.X - otherBox.Position.X;
                     float distanceY = thisBox.Position.Y - otherBox.Position.Y;
 
-                    VelocityY = 0;
-
-                    if (Math.Abs(distanceY) < (thisBox.Height - 1) && !OnGround())
+                    if (-distanceY < thisBox.Height && !OnGround())
                     {
                         if (otherBox.Position.Y > thisBox.Position.Y)
                         {
+                            VelocityY = 0;
                             //HasGravity = false;
                             mountedOn = otherCollider as PhysicalEntity;
                             FallSpeed = 0;
-                            while (-distanceY < thisBox.Height - 1)
+                            while (-distanceY < thisBox.Height)
                             {
-
                                 Transform.InCellLocation.Y -= 0.01f;
 
                                 while (Transform.InCellLocation.Y > 1)
@@ -345,16 +362,14 @@ namespace GameEngine2D
                                 {
                                     Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
                                 }
-
                                 distanceY = thisBox.Position.Y - otherBox.Position.Y;
                             }
                         }
                     }
-                    if (Math.Abs(distanceY) < otherBox.Height && !OnGround())
+                    /*if (distanceY < otherBox.Height && !OnGround())
                     {
                         if (otherBox.Position.Y < thisBox.Position.Y)
                         {
-
                             while (distanceY < otherBox.Height)
                             {
 
@@ -375,20 +390,19 @@ namespace GameEngine2D
                                 {
                                     Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
                                 }
-
+                                Logger.Info("Y modified downwards!");
                                 distanceY = thisBox.Position.Y - otherBox.Position.Y;
                             }
                         }
-                    }
+                    }*/
 
-                    if (Math.Abs(distanceX) < thisBox.Width)
+                    if (-distanceX < thisBox.Width)
                     {
                         if (thisBox.Position.X < otherBox.Position.X && mountedOn == null)
                         {
-
                             VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
-                            while (-distanceX < thisBox.Width - 1)
+                            while (-distanceX < thisBox.Width)
                             {
                                 Transform.InCellLocation.X -= 0.01f;
 
@@ -413,14 +427,13 @@ namespace GameEngine2D
                         }
                     }
 
-                    if (Math.Abs(distanceX) < otherBox.Width)
+                    if (distanceX < otherBox.Width)
                     {
                         if (thisBox.Position.X > otherBox.Position.X && mountedOn == null)
                         {
-
                             VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
-                            while (distanceX < otherBox.Width - 1)
+                            while (distanceX < otherBox.Width)
                             {
                                 Transform.InCellLocation.X += 0.01f;
 
