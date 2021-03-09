@@ -398,7 +398,7 @@ namespace GameEngine2D
 
                     if (-distanceX < thisBox.Width)
                     {
-                        if (thisBox.Position.X < otherBox.Position.X && mountedOn == null && velocity.X > 0)
+                        if (thisBox.Position.X < otherBox.Position.X && mountedOn == null && (velocity.X > 0 || (otherCollider as PhysicalEntity).Velocity.X != 0))
                         {
                             VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
@@ -429,7 +429,7 @@ namespace GameEngine2D
 
                     if (distanceX < otherBox.Width)
                     {
-                        if (thisBox.Position.X > otherBox.Position.X && mountedOn == null && velocity.X < 0)
+                        if (thisBox.Position.X > otherBox.Position.X && mountedOn == null && (velocity.X < 0 || (otherCollider as PhysicalEntity).Velocity.X != 0))
                         {
                             VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
