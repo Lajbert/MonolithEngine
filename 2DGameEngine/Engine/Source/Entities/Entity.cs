@@ -147,15 +147,12 @@ namespace GameEngine2D.Entities
 
             set
             {
-                if (Layer != null)
-                {
-                    Layer.OnObjectChanged(this);
-                }
+                Layer.OnObjectChanged(this);
                 base.Parent = value;
             }
         }
 
-        public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base (null)
+        public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base()
         {
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;

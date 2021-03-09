@@ -56,9 +56,12 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public GameObject(IGameObject parent)
+        public GameObject(IGameObject parent = null)
         {
-            Parent = parent;
+            if (parent != null)
+            {
+                Parent = parent;
+            }
             ID = GLOBAL_ID++;
             Children = new HashSet<IGameObject>();
         }
