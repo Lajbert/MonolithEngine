@@ -141,12 +141,27 @@ namespace GameEngine2D.Entities
 
         public bool CollisionsEnabled { get; set; } = true;
 
-        public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base (parent)
+        public sealed override IGameObject Parent
+        {
+            get => base.Parent;
+
+            set
+            {
+                if (Layer != null)
+                {
+                    Layer.OnObjectChanged(this);
+                }
+                base.Parent = value;
+            }
+        }
+
+        public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base (null)
         {
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
             this.font = font;
             layer.OnObjectChanged(this);
+            Parent = parent;
         }
 
         protected virtual void SetRayBlockers()
@@ -261,7 +276,7 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            foreach (Entity child in Children.ToList())
+            foreach (Entity child in Children)
             {
                 child.FixedUpdate(gameTime);
             }
@@ -279,7 +294,7 @@ namespace GameEngine2D.Entities
                 GetComponent<AnimationStateMachine>().Update(gameTime);
             }
 
-            foreach (Entity child in Children.ToList())
+            foreach (Entity child in Children)
             {
                 child.Update(gameTime);
             }

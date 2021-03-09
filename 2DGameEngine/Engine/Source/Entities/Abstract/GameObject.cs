@@ -23,7 +23,7 @@ namespace GameEngine2D.Entities
         public AbstractTransform Transform { get; set; }
 
         private IGameObject parent;
-        public IGameObject Parent
+        public virtual IGameObject Parent
         {
             get => parent;
 

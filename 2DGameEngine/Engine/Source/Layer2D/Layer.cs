@@ -97,36 +97,7 @@ namespace GameEngine2D.Source.GridCollision
                 spriteBatch.End();
             }
 
-            if (changedObjects.Count > 0)
-            {
-                foreach (Entity e in changedObjects)
-                {
-                    if (e.Visible)
-                    {
-                        if (!visibleObjects.Contains(e))
-                        {
-                            visibleObjects.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        visibleObjects.Remove(e);
-                    }
-                    if (e.Active)
-                    {
-                        if (!activeObjects.Contains(e))
-                        {
-                            activeObjects.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        activeObjects.Remove(e);
-                    }
-                }
-                changedObjects.Clear();
-                SortByPriority();
-            }
+            HandleChangedObjects();
         }
 
         public void UpdateAll(GameTime gameTime)
@@ -152,36 +123,7 @@ namespace GameEngine2D.Source.GridCollision
                 }
             }
 
-            if (changedObjects.Count > 0)
-            {
-                foreach (Entity e in changedObjects)
-                {
-                    if (e.Visible)
-                    {
-                        if (!visibleObjects.Contains(e))
-                        {
-                            visibleObjects.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        visibleObjects.Remove(e);
-                    }
-                    if (e.Active)
-                    {
-                        if (!activeObjects.Contains(e))
-                        {
-                            activeObjects.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        activeObjects.Remove(e);
-                    }
-                }
-                changedObjects.Clear();
-                SortByPriority();
-            }
+            HandleChangedObjects();
         }
 
         public void FixedUpdateAll(GameTime gameTime)
@@ -205,15 +147,24 @@ namespace GameEngine2D.Source.GridCollision
                 }
             }
 
+            HandleChangedObjects();
+        }
+
+        private void HandleChangedObjects()
+        {
             if (changedObjects.Count > 0)
             {
                 foreach (Entity e in changedObjects)
                 {
                     if (e.Visible)
                     {
-                        if (!visibleObjects.Contains(e))
+                        if (e.Parent == null && !visibleObjects.Contains(e))
                         {
                             visibleObjects.Add(e);
+                        }
+                        else if (e.Parent != null && visibleObjects.Contains(e))
+                        {
+                            visibleObjects.Remove(e);
                         }
                     }
                     else
@@ -222,9 +173,13 @@ namespace GameEngine2D.Source.GridCollision
                     }
                     if (e.Active)
                     {
-                        if (!activeObjects.Contains(e))
+                        if (e.Parent == null && !activeObjects.Contains(e))
                         {
                             activeObjects.Add(e);
+                        }
+                        else if (e.Parent != null && activeObjects.Contains(e))
+                        {
+                            activeObjects.Remove(e);
                         }
                     }
                     else
