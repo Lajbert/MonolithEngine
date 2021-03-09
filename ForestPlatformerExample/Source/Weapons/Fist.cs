@@ -2,6 +2,7 @@
 using ForestPlatformerExample.Source.Entities.Interfaces;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
@@ -12,6 +13,7 @@ using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ForestPlatformerExample.Source.Weapons
@@ -20,6 +22,7 @@ namespace ForestPlatformerExample.Source.Weapons
     {
 
         private PhysicalEntity hero;
+        private Dictionary<IGameObject, bool> collidesWith = new Dictionary<IGameObject, bool>();
 
         public Fist(Entity parent, Vector2 positionOffset) : base(LayerManager.Instance.EntityLayer, parent, positionOffset)
         {
@@ -33,30 +36,15 @@ namespace ForestPlatformerExample.Source.Weapons
             DEBUG_SHOW_COLLIDER = true;
         }
 
-        /*public override void OnCollisionStart(IPhysicsEntity otherCollider)
+        public override void OnCollisionStart(IGameObject otherCollider)
         {
-            Logger.Log("FIST COLLIDES WITH: " + otherCollider);
-            if (Timer.IsSet("IsAttacking")
-            {
-                Direction direction = otherCollider.GetPosition().X < parent.Position.X ? Direction.LEFT : Direction.RIGHT;
-                if (otherCollider is IAttackable)
-                {
-                    (otherCollider as IAttackable).Hit(direction);
-                }
-            }
-        }*/
+            collidesWith.Add(otherCollider, true);
+        }
 
-        /*public override void Update(GameTime gameTime)
+        public override void OnCollisionEnd(IGameObject otherCollider)
         {
-            base.Update(gameTime);
-            if (!Timer.IsSet("IsAttacking") && EnableCircleCollisions)
-            {
-                EnableCircleCollisions = false;
-            } else if (Timer.IsSet("IsAttacking") && !EnableCircleCollisions)
-            {
-                EnableCircleCollisions = true;
-            }
-        }*/
+            collidesWith.Remove(otherCollider);
+        }
 
         public void Attack()
         {
@@ -73,17 +61,24 @@ namespace ForestPlatformerExample.Source.Weapons
             {
                 hero.GetComponent<AnimationStateMachine>().PlayAnimation("AttackRight");
             }
-            if (Timer.IsSet("IsAttacking"))
-            {
-                return;
-            }
             Timer.SetTimer("IsAttacking", 300);
-            foreach (IColliderEntity entity in CollisionEngine.Instance.GetCollidesWith(this))
+
+            /*foreach (IColliderEntity entity in CollisionEngine.Instance.GetCollidesWith(this))
             {
                 if (entity is IAttackable)
                 {
                     Direction direction = entity.Transform.X < Parent.Transform.X ? Direction.WEST : Direction.EAST;
                     (entity as IAttackable).Hit(direction);
+                }
+            }*/
+
+            foreach (IGameObject other in collidesWith.Keys.ToList())
+            {
+                if (collidesWith[other] && other is IAttackable)
+                {
+                    Direction direction = other.Transform.X < hero.Transform.X ? Direction.WEST : Direction.EAST;
+                    (other as IAttackable).Hit(direction);
+                    collidesWith[other] = false;
                 }
             }
         }

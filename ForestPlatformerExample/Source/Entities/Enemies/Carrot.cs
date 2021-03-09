@@ -128,7 +128,7 @@ namespace ForestPlatformerExample.Source.Enemies
         }
 
         private List<Vector2> line = new List<Vector2>();
-        private bool canRayPass = false;
+        private bool seesHero = false;
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -171,9 +171,14 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 line.Clear();
                 Bresenham.GetLine(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), line);
-                canRayPass = Bresenham.CanLinePass(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), (x, y) => {
+                seesHero = Bresenham.CanLinePass(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), (x, y) => {
                     return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
+
+                if (seesHero)
+                {
+                    seesHero &= (CurrentFaceDirection == Direction.EAST && hero.Transform.X > Transform.X || CurrentFaceDirection == Direction.WEST && hero.Transform.X < Transform.X);
+                }
             }
         }
 
@@ -181,7 +186,7 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             base.Draw(spriteBatch, gameTime);
 
-            if (canRayPass)
+            if (seesHero)
             {
                 foreach (Vector2 point in line)
                 {
@@ -202,11 +207,11 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             if (CurrentFaceDirection == Direction.WEST)
             {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHWEST);
+                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) || (!seesHero && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHWEST));
             }
             else if (CurrentFaceDirection == Direction.EAST)
             {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHEAST);
+                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) || (!seesHero && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHEAST));
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }
