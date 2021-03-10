@@ -18,9 +18,9 @@ namespace GameEngine2D.Engine.Source.Physics.Interface
 
         public ICollisionComponent GetCollisionComponent();
 
-        public void CollisionStarted(IGameObject otherCollider, bool allowOverlap);
+        internal void CollisionStarted(IGameObject otherCollider, bool allowOverlap);
 
-        public void CollisionEnded(IGameObject otherCollider);
+        internal void CollisionEnded(IGameObject otherCollider);
 
         public Dictionary<string, bool> GetCollidesAgainst();
 

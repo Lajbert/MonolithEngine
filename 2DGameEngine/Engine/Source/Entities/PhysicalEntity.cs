@@ -80,6 +80,11 @@ namespace GameEngine2D
             set => velocity.Y = value;
         }
 
+        public bool IsOnGround
+        {
+            get => OnGround();
+        }
+
         protected float Friction = Config.FRICTION;
         protected float BumpFriction = Config.BUMP_FRICTION;
 
@@ -309,12 +314,12 @@ namespace GameEngine2D
             base.PostUpdate(gameTime);
         }
 
-        protected virtual bool OnGround()
+        private bool OnGround()
         {
             return mountedOn != null || GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }
 
-        public sealed override void CollisionStarted(IGameObject otherCollider, bool allowOverlap)
+        internal sealed override void HandleCollisionStart(IGameObject otherCollider, bool allowOverlap)
         {
             if (!allowOverlap)
             {
@@ -468,10 +473,10 @@ namespace GameEngine2D
                 }
             }
 
-            base.CollisionStarted(otherCollider, allowOverlap);
+            base.HandleCollisionStart(otherCollider, allowOverlap);
         }
 
-        public sealed override void CollisionEnded(IGameObject otherCollider)
+        internal sealed override void HandleCollisionEnd(IGameObject otherCollider)
         {
             if (mountedOn != null && otherCollider.Equals(mountedOn))
             {
@@ -501,7 +506,7 @@ namespace GameEngine2D
                     break;
                 }
             }*/
-            base.CollisionEnded(otherCollider);
+            base.HandleCollisionEnd(otherCollider);
         }
 
         public void ResetPosition(Vector2 position)

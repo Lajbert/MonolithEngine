@@ -447,15 +447,35 @@ namespace GameEngine2D.Entities
 
         }
 
-        public virtual void CollisionStarted(IGameObject otherCollider, bool allowOverlap)
+        internal virtual void HandleCollisionStart(IGameObject otherCollider, bool allowOverlap)
         {
             OnCollisionStart(otherCollider);
         }
 
-        public virtual void CollisionEnded(IGameObject otherCollider)
+        internal virtual void HandleCollisionEnd(IGameObject otherCollider)
         {
             OnCollisionEnd(otherCollider);
         }
+
+        void IColliderEntity.CollisionStarted(IGameObject otherCollider, bool allowOverlap)
+        {
+            HandleCollisionStart(otherCollider, allowOverlap);
+        }
+
+        void IColliderEntity.CollisionEnded(IGameObject otherCollider)
+        {
+            HandleCollisionEnd(otherCollider);
+        }
+
+        /*internal virtual void CollisionStarted(IGameObject otherCollider, bool allowOverlap)
+        {
+            OnCollisionStart(otherCollider);
+        }
+
+        internal virtual void CollisionEnded(IGameObject otherCollider)
+        {
+            OnCollisionEnd(otherCollider);
+        }*/
 
         public Dictionary<string, bool> GetCollidesAgainst()
         {
@@ -504,5 +524,6 @@ namespace GameEngine2D.Entities
         public virtual void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
         {
         }
+
     }
 }
