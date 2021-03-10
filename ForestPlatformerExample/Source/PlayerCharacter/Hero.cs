@@ -454,7 +454,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     return;
                 }
-                if (OnGround())
+                if (IsOnGround)
                 {
                     LeaveLadder();
                     return;
@@ -574,7 +574,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             if (OnLadder)
             {
-                if (!OnGround() && HasGravity)
+                if (!IsOnGround && HasGravity)
                 {
                     VelocityY = 0;
                     MovementSpeed = climbSpeed;
@@ -583,7 +583,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             } 
             else
             {
-                if (HasGravity && OnGround())
+                if (HasGravity && IsOnGround)
                 {
                     FallSpeed = 0;
                     if (VelocityY == 0)
@@ -701,7 +701,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = otherCollider as IMovableItem;
             }
-            else if (otherCollider.HasTag("SlideWall") && !OnGround())
+            else if (otherCollider.HasTag("SlideWall") && !IsOnGround)
             {
                 if (Timer.IsSet("IsAttacking") || isCarryingItem)
                 {
