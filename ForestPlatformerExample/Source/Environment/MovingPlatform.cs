@@ -19,7 +19,7 @@ namespace ForestPlatformerExample.Source.Environment
 {
     class MovingPlatform : PhysicalEntity
     {
-        private static readonly float SPEED = 0.1f;
+        private static readonly float SPEED = 0.5f;
 
         private float speedX = SPEED;
         //private float speedX = 0;
@@ -32,6 +32,10 @@ namespace ForestPlatformerExample.Source.Environment
         {
             HasGravity = false;
             Active = true;
+            Friction = 0f;
+            BumpFriction = 0f;
+            VelocityX = speedX * directionX;
+            VelocityY = speedY * directionY;
             //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
             Sprite s = new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
             AddComponent(new BoxCollisionComponent(this, width, height));
@@ -80,19 +84,12 @@ namespace ForestPlatformerExample.Source.Environment
                     speedX = 0;
                     speedY = SPEED;
                 }
+                VelocityX = speedX * directionX;
+                VelocityY = speedY * directionY;
             }
             
             base.OnCollisionStart(otherCollider);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            VelocityX = speedX * elapsedTime * directionX;
-            VelocityY = speedY * elapsedTime * directionY;
-            //if (Velocity.X > 0.5f) Velocity.X = 0.5f;
-            //if (Velocity.X < -0.5f) Velocity.X = -0.5f;
-            base.Update(gameTime);
-        }
     }
 }
