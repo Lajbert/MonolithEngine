@@ -38,10 +38,10 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
             {
                 BoxCollisionComponent otherBox = otherCollider.GetCollisionComponent() as BoxCollisionComponent;
 
-                return Position.X <= otherBox.Position.X + otherBox.Width &&
-                   Position.X + Width >= otherBox.Position.X &&
-                   Position.Y <= otherBox.Position.Y + otherBox.Height &&
-                   Position.Y + Height >= otherBox.Position.Y;
+                return Position.X < otherBox.Position.X + otherBox.Width &&
+                   Position.X + Width > otherBox.Position.X &&
+                   Position.Y < otherBox.Position.Y + otherBox.Height &&
+                   Position.Y + Height > otherBox.Position.Y;
             }
             else if (otherCollider.GetCollisionComponent().GetType() == ColliderType.CIRCLE)
             {
