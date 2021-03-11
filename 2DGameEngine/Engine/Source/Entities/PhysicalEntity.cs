@@ -215,8 +215,16 @@ namespace GameEngine2D
                 }
                 steps--;
             }
-            velocity.X *= (float)Math.Pow(Friction, elapsedTime);
-            bump.X *= (float)Math.Pow(BumpFriction, elapsedTime);
+            if (Friction > 0)
+            {
+                velocity.X *= (float)Math.Pow(Friction, elapsedTime);
+            }
+            
+            if (BumpFriction > 0)
+            {
+                bump.X *= (float)Math.Pow(BumpFriction, elapsedTime);
+            }
+            
 
             //rounding stuff
             if (Math.Abs(Velocity.X) <= 0.0005 * elapsedTime) velocity.X = 0;
@@ -272,8 +280,15 @@ namespace GameEngine2D
                 steps2--;
             }
 
-            velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
-            bump.Y *= (float)Math.Pow(BumpFriction, elapsedTime);
+            if (Friction > 0)
+            {
+                velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
+            }
+            if (BumpFriction > 0)
+            {
+                bump.Y *= (float)Math.Pow(BumpFriction, elapsedTime);
+            }
+            
             //rounding stuff
             if (Math.Abs(Velocity.Y) <= 0.0005 * elapsedTime) velocity.Y = 0;
             if (Math.Abs(bump.Y) <= 0.0005 * elapsedTime) bump.Y = 0;
