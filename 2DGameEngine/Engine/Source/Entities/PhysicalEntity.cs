@@ -363,7 +363,7 @@ namespace GameEngine2D
                             //HasGravity = false;
                             mountedOn = otherCollider as PhysicalEntity;
                             FallSpeed = 0;
-                            while (-distanceY < thisBox.Height)
+                            while (-distanceY < thisBox.Height - 1)
                             {
                                 Transform.InCellLocation.Y -= 0.01f;
 

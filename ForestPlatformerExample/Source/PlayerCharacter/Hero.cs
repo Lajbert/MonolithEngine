@@ -87,11 +87,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             CurrentFaceDirection = Direction.EAST;
 
-            foreach (Direction direction in new List<Direction>() { Direction.CENTER, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST })
-            {
-                GridCollisionCheckDirections.Add(direction);
-            }
-
             fist = new Fist(this, new Vector2(20, -10));
 
             if (DEBUG_SHOW_RAYCAST)

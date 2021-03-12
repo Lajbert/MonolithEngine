@@ -1,7 +1,9 @@
 ﻿using ForestPlatformerExample.Source.Entities.Enemies;
+using ForestPlatformerExample.Source.Entities.Enemies.CarrotAI;
 using ForestPlatformerExample.Source.Entities.Interfaces;
 using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D;
+using GameEngine2D.Engine.AI;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
@@ -31,17 +33,27 @@ namespace ForestPlatformerExample.Source.Enemies
 
         //private Direction CurrentFaceDirection;
 
-        private int direction = 1;
+        //private int direction = 1;
 
         private int health = 2;
 
         private Hero hero = null;
 
+        private List<Vector2> line = new List<Vector2>();
+
+        private bool seesHero = false;
+        private bool prevSeeHero = false;
+
         public Carrot(Vector2 position, Direction CurrentFaceDirection) : base(position)
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
+            AddTag("Carrot");
+
             AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -15)));
+
+            AddComponent(new CarrotAIStateMachine(new CarrotPatrolState(this)));
+            GetComponent<CarrotAIStateMachine>().AddState(new CarrotChaseState(this));
 
             //DEBUG_SHOW_PIVOT = true;
 
@@ -52,15 +64,6 @@ namespace ForestPlatformerExample.Source.Enemies
             AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
 
             this.CurrentFaceDirection = CurrentFaceDirection;
-
-            if (CurrentFaceDirection == Direction.WEST)
-            {
-                SetLeftCollisionChecks();
-            } 
-            else if (CurrentFaceDirection == Direction.EAST)
-            {
-                SetRightCollisionChecks();
-            }
 
             CollisionOffsetBottom = 1;
 
@@ -113,56 +116,6 @@ namespace ForestPlatformerExample.Source.Enemies
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
         }
 
-        private void SetLeftCollisionChecks()
-        {
-            GridCollisionCheckDirections.Clear();
-            GridCollisionCheckDirections.Add(Direction.WEST);
-            GridCollisionCheckDirections.Add(Direction.SOUTHWEST);
-        }
-
-        private void SetRightCollisionChecks()
-        {
-            GridCollisionCheckDirections.Clear();
-            GridCollisionCheckDirections.Add(Direction.EAST);
-            GridCollisionCheckDirections.Add(Direction.SOUTHEAST);
-        }
-
-        private List<Vector2> line = new List<Vector2>();
-        private bool seesHero = false;
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            if (WillCollideOrFall())
-            {
-                if (CurrentFaceDirection == Direction.WEST)
-                {
-                    SetLeftCollisionChecks();
-                    CurrentFaceDirection = Direction.EAST;
-                } 
-                else if (CurrentFaceDirection == Direction.EAST)
-                {
-                    SetRightCollisionChecks();
-                    CurrentFaceDirection = Direction.WEST;
-                }
-                direction *= -1;
-            }
-
-            //Logger.Log("Speed * direction * gameTime.ElapsedGameTime.Milliseconds: " + (Speed * direction * gameTime.ElapsedGameTime.Milliseconds));
-
-            /*if (hero != null)
-            {
-                line.Clear();
-                Bresenham.GetLine(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), line);
-                canRayPass = Bresenham.CanLinePass(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), (x, y) => {
-                    return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
-                });
-            }*/
-
-            //X += Speed * direction * gameTime.ElapsedGameTime.Milliseconds;
-            VelocityX += CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-        }
-
         public override void FixedUpdate(GameTime gameTime)
         {
             base.FixedUpdate(gameTime);
@@ -179,7 +132,25 @@ namespace ForestPlatformerExample.Source.Enemies
                 {
                     seesHero &= (CurrentFaceDirection == Direction.EAST && hero.Transform.X > Transform.X || CurrentFaceDirection == Direction.WEST && hero.Transform.X < Transform.X);
                 }
+            } else
+            {
+                seesHero = false;
             }
+
+            if (prevSeeHero == seesHero)
+            {
+                return;
+            }
+
+            if (seesHero)
+            {
+                GetComponent<CarrotAIStateMachine>().ChangeState<CarrotChaseState>();
+            } else
+            {
+                GetComponent<CarrotAIStateMachine>().ChangeState<CarrotPatrolState>();
+            }
+
+            prevSeeHero = seesHero;
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -201,19 +172,6 @@ namespace ForestPlatformerExample.Source.Enemies
                 }
             }
             //line.Clear();
-        }
-
-        private bool WillCollideOrFall()
-        {
-            if (CurrentFaceDirection == Direction.WEST)
-            {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) || (!seesHero && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHWEST));
-            }
-            else if (CurrentFaceDirection == Direction.EAST)
-            {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) || (!seesHero && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTHEAST));
-            }
-            throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }
 
         public override void Hit(Direction impactDirection)

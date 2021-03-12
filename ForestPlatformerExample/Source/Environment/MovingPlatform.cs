@@ -37,7 +37,7 @@ namespace ForestPlatformerExample.Source.Environment
             VelocityX = speedX * directionX;
             VelocityY = speedY * directionY;
             //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
-            Sprite s = new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
+            Sprite s = new Sprite(this, SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
             AddComponent(new BoxCollisionComponent(this, width, height));
             TileGroup tg = new TileGroup();
             Texture2D tileSet = SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset");
@@ -50,7 +50,7 @@ namespace ForestPlatformerExample.Source.Environment
                     tg.AddColorData(data, new Vector2(i, j));
                 }
             }
-            AddComponent(new Sprite(tg.GetTexture(), new Rectangle(0, 0, width, height)));
+            AddComponent(new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, width, height)));
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             AddCollisionAgainst("PlatformTurner");
             AddTag("Mountable");

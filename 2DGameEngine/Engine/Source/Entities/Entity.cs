@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Components;
+﻿using GameEngine2D.Engine.AI;
+using GameEngine2D.Engine.Source.Components;
 using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
@@ -41,6 +42,7 @@ namespace GameEngine2D.Entities
         private Dictionary<string, bool> CollidesAgainst = new Dictionary<string, bool>();
 
         private bool checkGridCollisions = false;
+
         public bool CheckGridCollisions
         {
             get => checkGridCollisions;
@@ -117,8 +119,6 @@ namespace GameEngine2D.Entities
         public bool BlocksRay { get; set; }
 
         public SoundEffect DestroySound;
-
-        public HashSet<Direction> GridCollisionCheckDirections = new HashSet<Direction>();
 
         protected SpriteFont font;
 
@@ -216,14 +216,18 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            if (GetComponent<Sprite>() != null)
+            /*if (GetComponent<Sprite>() != null)
             {
-                spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position + GetComponent<Sprite>().DrawOffset, GetComponent<Sprite>().SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
+                //spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position + GetComponent<Sprite>().DrawOffset, GetComponent<Sprite>().SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
+                GetComponent<Sprite>().Draw(spriteBatch, gameTime);
             }
             if (GetComponent<AnimationStateMachine>() != null)
             {
                 GetComponent<AnimationStateMachine>().Draw(spriteBatch, gameTime);
-            }
+            }*/
+
+            componentList.DrawAll(spriteBatch, gameTime);
+
 #if DEBUG
             if (DEBUG_SHOW_PIVOT)
             {
@@ -286,10 +290,7 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            if (GetComponent<AnimationStateMachine>() != null)
-            {
-                GetComponent<AnimationStateMachine>().Update(gameTime);
-            }
+            componentList.UpdateAll(gameTime);
 
             foreach (Entity child in Children)
             {
@@ -372,7 +373,6 @@ namespace GameEngine2D.Entities
             CollidesAgainst.Clear();
             RayEmitter = null;
             BlocksRay = false;
-            GridCollisionCheckDirections = new HashSet<Direction>();
         }
 
         public void SetDestroyAnimation(AbstractAnimation destroyAnimation, Direction direction = Direction.CENTER)
@@ -394,7 +394,7 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            AddComponent(new Sprite(sprite, new Rectangle(0, 0, sprite.Width, sprite.Height)));
+            AddComponent(new Sprite(this, sprite, new Rectangle(0, 0, sprite.Width, sprite.Height)));
         }
 
         public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()

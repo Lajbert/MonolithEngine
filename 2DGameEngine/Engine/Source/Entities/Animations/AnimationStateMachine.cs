@@ -1,4 +1,5 @@
 ﻿using GameEngine2D.Engine.Source.Components;
+using GameEngine2D.Engine.Source.Interfaces;
 using GameEngine2D.Source.Entities.Animation;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Entities.Animations
 {
-    public class AnimationStateMachine : IComponent
+    public class AnimationStateMachine : IComponent, IUpdatableComponent, IDrawableComponent
     {
         private List<StateAnimation> animations;
 

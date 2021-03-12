@@ -62,7 +62,8 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-            //Config.FPS = 0;
+            Config.FPS = 500;
+            Config.FIXED_UPDATE_FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
@@ -71,7 +72,6 @@ namespace ForestPlatformerExample
             }
             else
             {
-                //Config.FPS = 2000;
                 IsFixedTimeStep = true;//false;
                 graphics.SynchronizeWithVerticalRetrace = false;
                 TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
@@ -224,8 +224,6 @@ namespace ForestPlatformerExample
                     elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
                 }
             }
-
-            
 
             base.Update(gameTime);
         }

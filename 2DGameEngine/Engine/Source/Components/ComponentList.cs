@@ -1,4 +1,7 @@
-﻿using GameEngine2D.Util;
+﻿using GameEngine2D.Engine.Source.Interfaces;
+using GameEngine2D.Util;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -74,6 +77,42 @@ namespace GameEngine2D.Engine.Source.Components
         public void ClearAll()
         {
             components.Clear();
+        }
+
+        public void DrawAll(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            foreach (List<IComponent> list in components.Values)
+            {
+                if (list.Count == 0)
+                {
+                    continue;
+                }
+                foreach (IComponent component in list)
+                {
+                    if (component is IDrawableComponent)
+                    {
+                        (component as IDrawableComponent).Draw(spriteBatch, gameTime);
+                    }
+                }
+            }
+        }
+
+        public void UpdateAll(GameTime gameTime)
+        {
+            foreach (List<IComponent> list in components.Values)
+            {
+                if (list.Count == 0)
+                {
+                    continue;
+                }
+                foreach (IComponent component in list)
+                {
+                    if (component is IUpdatableComponent)
+                    {
+                        (component as IUpdatableComponent).Update(gameTime);
+                    }
+                }
+            }
         }
     }
 }

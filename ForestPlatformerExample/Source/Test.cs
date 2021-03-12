@@ -168,7 +168,6 @@ namespace TestExample
                 DEBUG_SHOW_PIVOT = true;
                 RemoveComponent<AnimationStateMachine>();
                 DEBUG_SHOW_COLLIDER = true;
-                GridCollisionCheckDirections = new HashSet<Direction>(Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList());
                 //CircleCollider = new CircleCollider(this, 30);
                 //fist = new FistTest(this, new Vector2(20, 20));
                 /*fist.Destroy();

@@ -6,13 +6,13 @@ using System.Text;
 
 namespace GameEngine2D.Engine.AI
 {
-    public abstract class State<T> where T : IGameObject
+    public abstract class AIState<T> where T : IGameObject
     {
-        protected T controllerEntity;
+        protected T controlledEntity;
 
-        public State(T controllerEntity)
+        public AIState(T controlledEntity)
         {
-            this.controllerEntity = controllerEntity;
+            this.controlledEntity = controlledEntity;
         }
 
         public virtual void Begin()
