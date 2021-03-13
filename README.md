@@ -15,6 +15,7 @@ This is a simple, [axis aligned](https://en.wikipedia.org/wiki/Axis-aligned_obje
 
 Already working features:
 * 2D Animations with state machines, automatic spritehseet importer and texture caching
+* AI with state machines (behavior trees coming soon)
 * TileGroups with automatic texture merging
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
