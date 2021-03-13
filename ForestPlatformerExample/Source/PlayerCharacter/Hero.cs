@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Enemies;
 using ForestPlatformerExample.Source.Entities.Interfaces;
 using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Environment;
@@ -57,6 +58,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private AnimationStateMachine Animations;
 
         public bool OnLadder = false;
+
+        private List<IGameObject> overlappingEnemies = new List<IGameObject>(5);
 
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, font)
         {
@@ -561,6 +564,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public override void FixedUpdate(GameTime gameTime)
         {
+            if (overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
+            {
+                Hit(overlappingEnemies[0]);
+            }
             base.FixedUpdate(gameTime);
         }
 
@@ -629,10 +636,39 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
+        private void Hit(IGameObject otherCollider)
+        {
+            DropCurrentItem();
+            UserInput.ControlsDisabled = true;
+            Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
+            Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
+            Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
+
+            if (CurrentFaceDirection == Direction.WEST)
+            {
+                Animations.PlayAnimation("HurtLeft");
+            }
+            else if (CurrentFaceDirection == Direction.EAST)
+            {
+                Animations.PlayAnimation("HurtRight");
+            }
+            if (otherCollider.Transform.X < Transform.X)
+            {
+                Velocity += new Vector2(2, -2);
+            }
+            else if (otherCollider.Transform.X > Transform.X)
+            {
+                Velocity += new Vector2(-2, -2);
+            }
+        }
+
         public override void OnCollisionStart(IGameObject otherCollider)
         {
             if (otherCollider is Carrot)
             {
+
+                overlappingEnemies.Add(otherCollider);
+
                 float angle = MathUtil.DegreeFromVectors(Transform.Position, otherCollider.Transform.Position);
                 if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                 {
@@ -645,32 +681,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 else
                 {
+
                     if (Timer.IsSet("Invincible"))
                     {
                         return;
                     }
-                    DropCurrentItem();
-                    UserInput.ControlsDisabled = true;
-                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
-                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => UserInput.ControlsDisabled = false);
-                    Timer.TriggerAfter((float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, () => canAttack = true);
 
-                    if (CurrentFaceDirection == Direction.WEST)
-                    {
-                        Animations.PlayAnimation("HurtLeft");
-                    }
-                    else if (CurrentFaceDirection == Direction.EAST)
-                    {
-                        Animations.PlayAnimation("HurtRight");
-                    }
-                    if (otherCollider.Transform.X < Transform.X)
-                    {
-                        Velocity += new Vector2(2, -2);
-                    }
-                    else if (otherCollider.Transform.X > Transform.X)
-                    {
-                        Velocity += new Vector2(-2, -2);
-                    }
+                    Hit(otherCollider);
+
                 }
             }
             else if (otherCollider is Coin)
@@ -736,6 +754,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             else if (otherCollider.HasTag("Platform") && !(otherCollider as StaticCollider).BlocksMovement)
             {
                 (otherCollider as StaticCollider).BlocksMovement = true;
+            }
+            else if (otherCollider is Carrot)
+            {
+                overlappingEnemies.Remove(otherCollider);
             }
             base.OnCollisionEnd(otherCollider);
         }
