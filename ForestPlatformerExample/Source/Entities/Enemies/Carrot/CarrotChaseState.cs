@@ -15,6 +15,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
 
         public override void Begin()
         {
+            controlledEntity.CurrentSpeed = controlledEntity.DefaultSpeed;
             checkCollisions = false;
         }
     }

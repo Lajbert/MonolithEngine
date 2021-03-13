@@ -15,6 +15,7 @@ using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities;
+using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +28,7 @@ namespace ForestPlatformerExample.Source.Enemies
     class Carrot : AbstractEnemy
     {
 
-        private float speed = 0.01f;
+        public float DefaultSpeed= 0.01f;
 
         public float CurrentSpeed = 0.01f;
 
@@ -42,9 +43,10 @@ namespace ForestPlatformerExample.Source.Enemies
         private List<Vector2> line = new List<Vector2>();
 
         private bool seesHero = false;
-        private bool prevSeeHero = false;
 
-        public Carrot(Vector2 position, Direction CurrentFaceDirection) : base(position)
+        public bool OverlapsWithHero = false;
+
+        public Carrot(Vector2 position, Direction currentFaceDirection) : base(position)
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
@@ -52,6 +54,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             AddComponent(new CarrotAIStateMachine(new CarrotPatrolState(this)));
             GetComponent<CarrotAIStateMachine>().AddState(new CarrotChaseState(this));
+            GetComponent<CarrotAIStateMachine>().AddState(new CarrotIdleState(this));
 
             //DEBUG_SHOW_PIVOT = true;
 
@@ -61,7 +64,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
 
-            this.CurrentFaceDirection = CurrentFaceDirection;
+            CurrentFaceDirection = currentFaceDirection;
 
             CollisionOffsetBottom = 1;
             CollisionOffsetLeft = 0.7f;
@@ -71,13 +74,13 @@ namespace ForestPlatformerExample.Source.Enemies
             AddComponent(Animations);
             Animations.Offset = new Vector2(3, -33);
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
-            Animations.RegisterAnimation("MoveLeft", moveLeft, () => this.CurrentFaceDirection == Direction.WEST);
+            Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Velocity.X != 0);
 
             Action<int> setSpeed = frame =>
             {
                 if (frame > 3 && frame < 8)
                 {
-                    CurrentSpeed = speed;
+                    CurrentSpeed = DefaultSpeed;
                 }
                 else
                 {
@@ -87,7 +90,7 @@ namespace ForestPlatformerExample.Source.Enemies
             moveLeft.EveryFrameAction = setSpeed;
 
             SpriteSheetAnimation moveRight = moveLeft.CopyFlipped();
-            Animations.RegisterAnimation("MoveRight", moveRight, () => this.CurrentFaceDirection == Direction.EAST);
+            Animations.RegisterAnimation("MoveRight", moveRight, () => CurrentFaceDirection == Direction.EAST && Velocity.X != 0);
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
@@ -104,6 +107,12 @@ namespace ForestPlatformerExample.Source.Enemies
 
             SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
             Animations.RegisterAnimation("DeathRight", deathRight, () => false);
+
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@idle-sheet", 12);
+            Animations.RegisterAnimation("IdleLeft", idleLeft, () => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST);
+
+            SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
+            Animations.RegisterAnimation("IdleRight", idleRight, () => Velocity.X == 0 && CurrentFaceDirection == Direction.EAST);
 
             SetDestroyAnimation(deathRight, Direction.EAST);
             SetDestroyAnimation(deathLeft, Direction.WEST);
@@ -141,25 +150,27 @@ namespace ForestPlatformerExample.Source.Enemies
                     }
                 }
                 
-            } else
+            } 
+            else
             {
                 seesHero = false;
             }
 
-            if (prevSeeHero == seesHero)
-            {
-                return;
-            }
-
             if (seesHero)
             {
-                GetComponent<CarrotAIStateMachine>().ChangeState<CarrotChaseState>();
-            } else
+                if (!OverlapsWithHero && Math.Abs(hero.Transform.X - Transform.X) < 10)
+                {
+                    GetComponent<CarrotAIStateMachine>().ChangeState<CarrotIdleState>();
+                } 
+                else
+                {
+                    GetComponent<CarrotAIStateMachine>().ChangeState<CarrotChaseState>();
+                }
+            } 
+            else
             {
                 GetComponent<CarrotAIStateMachine>().ChangeState<CarrotPatrolState>();
             }
-
-            prevSeeHero = seesHero;
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -198,7 +209,7 @@ namespace ForestPlatformerExample.Source.Enemies
             if (impactDirection == Direction.NORTH)
             {
                 CurrentSpeed = 0;
-                Timer.TriggerAfter(300, () => CurrentSpeed = speed);
+                Timer.TriggerAfter(300, () => CurrentSpeed = DefaultSpeed);
                 return;
             }
 

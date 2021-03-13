@@ -668,6 +668,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
 
                 overlappingEnemies.Add(otherCollider);
+                (otherCollider as Carrot).OverlapsWithHero = true;
 
                 float angle = MathUtil.DegreeFromVectors(Transform.Position, otherCollider.Transform.Position);
                 if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
@@ -757,6 +758,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is Carrot)
             {
+                (otherCollider as Carrot).OverlapsWithHero = false;
                 overlappingEnemies.Remove(otherCollider);
             }
             base.OnCollisionEnd(otherCollider);
