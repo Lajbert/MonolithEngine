@@ -64,6 +64,8 @@ namespace ForestPlatformerExample.Source.Enemies
             this.CurrentFaceDirection = CurrentFaceDirection;
 
             CollisionOffsetBottom = 1;
+            CollisionOffsetLeft = 0.7f;
+            CollisionOffsetRight = 0.7f;
 
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
