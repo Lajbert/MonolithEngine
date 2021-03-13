@@ -12,7 +12,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
     class CarrotPatrolState : AIState<Carrot>
     {
 
-        private int direction = 1;
+        private int moveDirection = 1;
 
         protected bool checkCollisions;
 
@@ -39,10 +39,17 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
                 {
                     controlledEntity.CurrentFaceDirection = Direction.WEST;
                 }
-                direction *= -1;
             }
 
-            controlledEntity.VelocityX += controlledEntity.CurrentSpeed * direction * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (controlledEntity.CurrentFaceDirection == Direction.WEST)
+            {
+                moveDirection = -1;
+            } else if (controlledEntity.CurrentFaceDirection == Direction.EAST)
+            {
+                moveDirection = 1;
+            }
+
+            controlledEntity.VelocityX += controlledEntity.CurrentSpeed * moveDirection * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             base.Update(gameTime);
         }

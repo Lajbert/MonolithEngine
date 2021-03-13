@@ -48,8 +48,6 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
-            AddTag("Carrot");
-
             AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -15)));
 
             AddComponent(new CarrotAIStateMachine(new CarrotPatrolState(this)));
@@ -130,8 +128,17 @@ namespace ForestPlatformerExample.Source.Enemies
 
                 if (seesHero)
                 {
-                    seesHero &= (CurrentFaceDirection == Direction.EAST && hero.Transform.X > Transform.X || CurrentFaceDirection == Direction.WEST && hero.Transform.X < Transform.X);
+                    //seesHero &= (CurrentFaceDirection == Direction.EAST && hero.Transform.X > Transform.X || CurrentFaceDirection == Direction.WEST && hero.Transform.X < Transform.X);
+                    if (hero.Transform.X < Transform.X)
+                    {
+                        CurrentFaceDirection = Direction.WEST;
+                    }
+                    else
+                    {
+                        CurrentFaceDirection = Direction.EAST;
+                    }
                 }
+                
             } else
             {
                 seesHero = false;
