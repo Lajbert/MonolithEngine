@@ -676,6 +676,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             else if (otherCollider is Coin)
             {
                 (otherCollider as Coin).Destroy();
+                ForestPlatformer.CoinCount++;
             }
             else if (otherCollider is Box && VelocityY > 0 && (otherCollider as Box).Velocity == Vector2.Zero && Transform.Y < otherCollider.Transform.Y)
             {

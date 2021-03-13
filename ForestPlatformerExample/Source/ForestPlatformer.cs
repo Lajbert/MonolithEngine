@@ -41,6 +41,8 @@ namespace ForestPlatformerExample
         private GameTime gt = new GameTime();
         private float fixedUpdateRate;
 
+        public static int CoinCount = 0;
+
         private UserInterface ui = new UserInterface();
 
         public ForestPlatformer()
@@ -120,6 +122,7 @@ namespace ForestPlatformerExample
             frameCounter = new FrameCounter();
 
             ui.AddUIElement(new Image("ForestAssets/UI/HUD-coin-count", new Vector2(30, 30), scale: 8));
+            ui.AddUIElement(new TextField(font, () => CoinCount.ToString(), new Vector2(200, 5)));
 
             Logger.Info("Object count: " + GameObject.GetObjectCount());
         }
@@ -248,10 +251,10 @@ namespace ForestPlatformerExample
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             GraphicsDevice.Clear(Color.White);
 
-            lastPrint += gameTime.ElapsedGameTime.Milliseconds;
             LayerManager.Instance.DrawAll(gameTime);
 
-            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            /*var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            lastPrint += gameTime.ElapsedGameTime.Milliseconds;
             frameCounter.Update(deltaTime);
             
             if (lastPrint > 10)
@@ -262,7 +265,7 @@ namespace ForestPlatformerExample
 
             spriteBatch.Begin();
             spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
-            spriteBatch.End();
+            spriteBatch.End();*/
 
 
             // TODO: Add your drawing code here
