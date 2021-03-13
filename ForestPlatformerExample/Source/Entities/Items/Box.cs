@@ -66,8 +66,10 @@ namespace ForestPlatformerExample.Source.Entities.Items
             SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, "ForestAssets/Items/box-idle", 24);
             Animations.RegisterAnimation("BoxIdle", boxIdle);
 
-            SpriteSheetAnimation boxHit = new SpriteSheetAnimation(this, "ForestAssets/Items/box-hit", 24);
-            boxHit.Looping = false;
+            SpriteSheetAnimation boxHit = new SpriteSheetAnimation(this, "ForestAssets/Items/box-hit", 24)
+            {
+                Looping = false
+            };
             Animations.RegisterAnimation("BoxHit", boxHit);
 
             SpriteSheetAnimation boxDestroy = new SpriteSheetAnimation(this, "ForestAssets/Items/box-destroy", 24);
@@ -79,12 +81,14 @@ namespace ForestPlatformerExample.Source.Entities.Items
             for (int i = 0; i < numOfCoins; i++)
             {
 
-                Coin c = new Coin(Vector2.Zero, 3, friction: (float)MyRandom.Between(87, 93) / (float)100);
-                c.BounceCount = 3;
-                c.Parent = this;
-                c.Visible = false;
-                c.CollisionsEnabled = false;
-                c.Active = false;
+                Coin c = new Coin(Vector2.Zero, 3, friction: (float)MyRandom.Between(87, 93) / (float)100)
+                {
+                    BounceCount = 3,
+                    Parent = this,
+                    Visible = false,
+                    CollisionsEnabled = false,
+                    Active = false
+                };
                 coins.Add(c);
             }
 

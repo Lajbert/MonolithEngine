@@ -36,8 +36,10 @@ namespace ForestPlatformerExample.Source.Items
             AddComponent(Animations);
             Animations.Offset = new Vector2(4, 3);
 
-            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/spring_spritesheet", 24);
-            springAnim.Looping = false;
+            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/spring_spritesheet", 24)
+            {
+                Looping = false
+            };
             Animations.RegisterAnimation("Bounce", springAnim);
 
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));

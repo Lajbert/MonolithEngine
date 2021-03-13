@@ -24,8 +24,10 @@ namespace GameEngine2D
             this.IsFixedTimeStep = true;//false;
             this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
-            graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = Config.FULLSCREEN;
+            graphics = new GraphicsDeviceManager(this)
+            {
+                IsFullScreen = Config.FULLSCREEN
+            };
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }

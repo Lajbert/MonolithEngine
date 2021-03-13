@@ -63,8 +63,10 @@ namespace GameEngine2D.Source.Entities
 
         public SpriteSheetAnimation Copy()
         {
-            SpriteSheetAnimation newAnim = new SpriteSheetAnimation(Parent, null, rows, columns, 0, width, height, 1, SpriteEffect);
-            newAnim.texture = texture;
+            SpriteSheetAnimation newAnim = new SpriteSheetAnimation(Parent, null, rows, columns, 0, width, height, 1, SpriteEffect)
+            {
+                texture = texture
+            };
             base.Copy(newAnim);
             return newAnim;
         }

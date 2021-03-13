@@ -13,8 +13,10 @@ namespace GameEngine2D.Engine.Source.Level.Collision
 
         public StaticCollider(Vector2 gridPosition) : base(null)
         {
-            Transform = new StaticTransform(this);
-            Transform.GridCoordinates = gridPosition;
+            Transform = new StaticTransform(this)
+            {
+                GridCoordinates = gridPosition
+            };
             GridCollisionChecker.Instance.Add(this);
         }
 

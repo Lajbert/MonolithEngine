@@ -102,11 +102,13 @@ namespace TestExample
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.IsFullScreen = Config.FULLSCREEN;
             graphics.ApplyChanges();
-            Camera = new Camera(graphics);
-            Camera.BOUND_LEFT = 500;
-            Camera.BOUND_RIGHT = 2000;
-            Camera.BOUND_TOP = 350;
-            Camera.BOUND_BOTTOM = 450;
+            Camera = new Camera(graphics)
+            {
+                BOUND_LEFT = 500,
+                BOUND_RIGHT = 2000,
+                BOUND_TOP = 350,
+                BOUND_BOTTOM = 450
+            };
             LayerManager.Instance.Camera = Camera;
             LayerManager.Instance.InitLayers();
 

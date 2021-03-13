@@ -24,8 +24,10 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public SpriteGroupAnimation Copy()
         {
-            SpriteGroupAnimation newAnim = new SpriteGroupAnimation(Parent, null, 0, SpriteEffect);
-            newAnim.Textures = Textures;
+            SpriteGroupAnimation newAnim = new SpriteGroupAnimation(Parent, null, 0, SpriteEffect)
+            {
+                Textures = Textures
+            };
             base.Copy(newAnim);
             return newAnim;
         }

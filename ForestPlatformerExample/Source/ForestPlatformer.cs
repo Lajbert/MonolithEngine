@@ -103,12 +103,13 @@ namespace ForestPlatformerExample
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.IsFullScreen = Config.FULLSCREEN;
             graphics.ApplyChanges();
-            Camera = new Camera(graphics);
-
-            Camera.BOUND_LEFT = 500;
-            Camera.BOUND_RIGHT = 2000;
-            Camera.BOUND_TOP = 350;
-            Camera.BOUND_BOTTOM = 450;
+            Camera = new Camera(graphics)
+            {
+                BOUND_LEFT = 500,
+                BOUND_RIGHT = 2000,
+                BOUND_TOP = 350,
+                BOUND_BOTTOM = 450
+            };
 
             LayerManager.Instance.Camera = Camera;
             LayerManager.Instance.InitLayers();
@@ -195,8 +196,10 @@ namespace ForestPlatformerExample
                 }
             }
 
-            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 37) * Config.GRID);
-            collisionTest.HasGravity = false;
+            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
+            {
+                HasGravity = false
+            };
             collisionTest.AddTag("Mountable");
             //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));
             collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 64, Vector2.Zero));

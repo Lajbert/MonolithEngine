@@ -76,7 +76,7 @@ namespace ForestPlatformerExample.Source.Enemies
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Velocity.X != 0);
 
-            Action<int> setSpeed = frame =>
+            void setSpeed(int frame)
             {
                 if (frame > 3 && frame < 8)
                 {
@@ -86,7 +86,7 @@ namespace ForestPlatformerExample.Source.Enemies
                 {
                     CurrentSpeed = 0;
                 }
-            };
+            }
             moveLeft.EveryFrameAction = setSpeed;
 
             SpriteSheetAnimation moveRight = moveLeft.CopyFlipped();
@@ -94,15 +94,19 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
-            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@hurt-sheet", 24);
-            hurtLeft.Looping = false;
+            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@hurt-sheet", 24)
+            {
+                Looping = false
+            };
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
-            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@death-sheet", 24);
-            deathLeft.Looping = false;
+            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@death-sheet", 24)
+            {
+                Looping = false
+            };
             Animations.RegisterAnimation("DeathLeft", deathLeft, () => false);
 
             SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
