@@ -9,7 +9,7 @@ namespace GameEngine2D.Engine.Source.Entities
 {
     public class StaticTransform : AbstractTransform
     {
-        public StaticTransform(IGameObject owner, Vector2 position = default(Vector2)) : base(owner, position)
+        public StaticTransform(IGameObject owner, Vector2 position = default) : base(owner, position)
         {
 
         }

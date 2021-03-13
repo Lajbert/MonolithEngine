@@ -37,7 +37,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         protected IColliderEntity owner;
 
-        protected AbstractCollisionComponent(ColliderType type, IColliderEntity owner, Vector2 positionOffset = default(Vector2))
+        protected AbstractCollisionComponent(ColliderType type, IColliderEntity owner, Vector2 positionOffset = default)
         {
             this.owner = owner;
             PositionOffset = positionOffset;

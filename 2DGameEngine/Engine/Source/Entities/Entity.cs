@@ -233,7 +233,7 @@ namespace GameEngine2D.Entities
             {
                 if (pivotMarker == null)
                 {
-                    pivotMarker = SpriteUtil.CreateCircle(5, Color.Red, true);
+                    pivotMarker = TextureUtil.CreateCircle(5, Color.Red, true);
                 }
                 if (font != null)
                 {

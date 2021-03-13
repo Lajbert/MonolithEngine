@@ -131,7 +131,7 @@ namespace GameEngine2D
                     if (collisionComponent is CircleCollisionComponent)
                     {
                         (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-                        colliderMarker = SpriteUtil.CreateCircle((int)((CircleCollisionComponent)collisionComponent).Radius * 2, Color.Black);
+                        colliderMarker = TextureUtil.CreateCircle((int)((CircleCollisionComponent)collisionComponent).Radius * 2, Color.Black);
                     }
                 }
                 if (collisionComponent != null && collisionComponent is CircleCollisionComponent)

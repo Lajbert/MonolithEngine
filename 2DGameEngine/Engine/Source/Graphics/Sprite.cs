@@ -19,7 +19,7 @@ namespace GameEngine2D.Engine.Source.Graphics
         public Vector2 DrawOffset;
         public Entity Owner;
 
-        public Sprite(Entity owner, Texture2D texture, Rectangle? sourceRectangle = null, Vector2 drawOffset = default(Vector2))
+        public Sprite(Entity owner, Texture2D texture, Rectangle? sourceRectangle = null, Vector2 drawOffset = default)
         {
             Texture = texture;
             if (sourceRectangle.HasValue)

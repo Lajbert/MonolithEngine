@@ -205,14 +205,14 @@ namespace GameEngine2D.Engine.Source.Physics.Bresenham
 			{
 				foreach (Vector2 point in line)
 				{
-					spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
+					spriteBatch.Draw(TextureUtil.CreateRectangle(1, Color.Black), point, Color.White);
 				}
 			}
 			else
 			{
 				foreach (Vector2 point in line)
 				{
-					spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Red), point, Color.White);
+					spriteBatch.Draw(TextureUtil.CreateRectangle(1, Color.Red), point, Color.White);
 				}
 			}
 

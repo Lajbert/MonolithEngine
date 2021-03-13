@@ -36,7 +36,7 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         }
         public bool UniquePerEntity { get; set; }
 
-        public AbstractTrigger(Vector2 positionOffset = default(Vector2), string tag = "")
+        public AbstractTrigger(Vector2 positionOffset = default, string tag = "")
         {
             PositionOffset = positionOffset;
             this.tag = tag;

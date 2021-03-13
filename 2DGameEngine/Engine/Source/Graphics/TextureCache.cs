@@ -14,7 +14,7 @@ namespace GameEngine2D.Engine.Source.Graphics
         {
             if (!cache.ContainsKey(path))
             {
-                cache[path] = SpriteUtil.LoadTexture(path);
+                cache[path] = TextureUtil.LoadTexture(path);
             }
 
             return cache[path];
@@ -27,7 +27,7 @@ namespace GameEngine2D.Engine.Source.Graphics
             {
                 if (!cache.ContainsKey(path))
                 {
-                    cache[path] = SpriteUtil.LoadTexture(path);
+                    cache[path] = TextureUtil.LoadTexture(path);
                 }
                 result.Add(cache[path]);
             }

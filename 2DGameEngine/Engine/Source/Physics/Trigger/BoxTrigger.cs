@@ -17,13 +17,13 @@ namespace GameEngine2D.Engine.Source.Physics.Trigger
         private int y2;
 
 #if DEBUG
-        public BoxTrigger(int width, int height, Vector2 positionOffset = default(Vector2), string tag = "", bool showTrigger = false) : this(width, height, positionOffset, tag)
+        public BoxTrigger(int width, int height, Vector2 positionOffset = default, string tag = "", bool showTrigger = false) : this(width, height, positionOffset, tag)
         {
             DEBUG_DISPLAY_TRIGGER = showTrigger;
         }
 #endif
 
-        public BoxTrigger(int width, int height, Vector2 positionOffset = default(Vector2), string tag = "") : base(positionOffset, tag)
+        public BoxTrigger(int width, int height, Vector2 positionOffset = default, string tag = "") : base(positionOffset, tag)
         {
             x1 = 0;
             y1 = 0;

@@ -10,7 +10,7 @@ using System.Text;
 
 namespace GameEngine2D.Engine.Source.Util
 {
-    public class SpriteUtil
+    public class TextureUtil
     {
 
         public static GraphicsDeviceManager GraphicsDeviceManager;

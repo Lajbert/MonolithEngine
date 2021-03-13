@@ -14,7 +14,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         public bool IsCircleCollider = true;
 
-        public CircleCollisionComponent(IColliderEntity owner, float radius, Vector2 positionOffset = default(Vector2)) : base (ColliderType.CIRCLE, owner, positionOffset)
+        public CircleCollisionComponent(IColliderEntity owner, float radius, Vector2 positionOffset = default) : base (ColliderType.CIRCLE, owner, positionOffset)
         {
             Radius = radius;
         }

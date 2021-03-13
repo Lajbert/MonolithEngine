@@ -87,8 +87,8 @@ namespace TestExample
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            SpriteUtil.Content = Content;
-            SpriteUtil.GraphicsDeviceManager = graphics;
+            TextureUtil.Content = Content;
+            TextureUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
             //font = Content.Load<SpriteFont>("DefaultFont");
@@ -134,8 +134,8 @@ namespace TestExample
 
         class FistTest : Fist
         {
-            private Texture2D red = SpriteUtil.CreateRectangle(16, Color.Red);
-            private Texture2D blue = SpriteUtil.CreateRectangle(16, Color.Blue);
+            private Texture2D red = TextureUtil.CreateRectangle(16, Color.Red);
+            private Texture2D blue = TextureUtil.CreateRectangle(16, Color.Blue);
 
             public FistTest(Entity parent, Vector2 position) : base(parent, position)
             {
@@ -160,8 +160,8 @@ namespace TestExample
         class HeroTest : Hero
         {
 
-            private Texture2D red = SpriteUtil.CreateRectangle(16, Color.Red);
-            private Texture2D blue = SpriteUtil.CreateRectangle(16, Color.Blue);
+            private Texture2D red = TextureUtil.CreateRectangle(16, Color.Red);
+            private Texture2D blue = TextureUtil.CreateRectangle(16, Color.Blue);
 
             public HeroTest(SpriteFont font) : base(new Vector2(18 * Config.GRID, 31 * Config.GRID), font)
             {
@@ -205,7 +205,7 @@ namespace TestExample
                 base.OnCollisionStart(otherCollider);
             }
 
-            Texture2D collPivot = SpriteUtil.CreateCircle(5, Color.Black);
+            Texture2D collPivot = TextureUtil.CreateCircle(5, Color.Black);
             public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
             {
                 base.Draw(spriteBatch, gameTime);
@@ -229,7 +229,7 @@ namespace TestExample
                 ICollisionComponent CollisionComponent = new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -10));
                 (CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 AddComponent(CollisionComponent);
-                SetSprite(SpriteUtil.CreateRectangle(16, Color.Green));
+                SetSprite(TextureUtil.CreateRectangle(16, Color.Green));
                 //(CollisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 DEBUG_SHOW_PIVOT = true;
                 DEBUG_SHOW_COLLIDER = true;
@@ -237,7 +237,7 @@ namespace TestExample
                 AddTag("Test");
             }
 
-            Texture2D collPivot = SpriteUtil.CreateCircle(5, Color.Black);
+            Texture2D collPivot = TextureUtil.CreateCircle(5, Color.Black);
             public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
             {
                 base.Draw(spriteBatch, gameTime);
@@ -285,13 +285,13 @@ namespace TestExample
                 {
                     foreach (Vector2 point in line)
                     {
-                        spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
+                        spriteBatch.Draw(TextureUtil.CreateRectangle(1, Color.Black), point, Color.White);
                     }
                 } else
                 {
                     foreach (Vector2 point in line)
                     {
-                        spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Red), point, Color.White);
+                        spriteBatch.Draw(TextureUtil.CreateRectangle(1, Color.Red), point, Color.White);
                     }
                 }
                 
@@ -343,7 +343,7 @@ namespace TestExample
             spriteBatch.DrawString(font, "Triggering: " + bt.IsInsideTrigger(hero), new Vector2(1, 30), Color.Red);
             foreach (Vector2 point in lineToDraw)
             {
-                spriteBatch.Draw(SpriteUtil.CreateRectangle(1, Color.Black), point, Color.White);
+                spriteBatch.Draw(TextureUtil.CreateRectangle(1, Color.Black), point, Color.White);
             }
             spriteBatch.End();
 

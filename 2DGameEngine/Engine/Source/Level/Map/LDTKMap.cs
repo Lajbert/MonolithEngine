@@ -49,7 +49,7 @@ namespace GameEngine2D.Source.Level
 
             foreach (TilesetDefinition tileset in json.Defs.Tilesets) {
                 string path = GetMonoGameContentName(tileset.RelPath);
-                tilesets.Add(path, SpriteUtil.LoadTexture(path));
+                tilesets.Add(path, TextureUtil.LoadTexture(path));
             }
 
             foreach (GameEngine2D.Engine.Source.Level.Level level in json.Levels)
@@ -168,19 +168,19 @@ namespace GameEngine2D.Source.Level
 
                             if (tile.F != 0)
                             {
-                                Texture2D flipped = SpriteUtil.CreateRectangle(gridSize, Color.Black);
+                                Texture2D flipped = TextureUtil.CreateRectangle(gridSize, Color.Black);
                                 flipped.SetData<Color>(data);
                                 if (tile.F == 1)
                                 {
-                                    flipped = SpriteUtil.FlipTexture(flipped, false, true);
+                                    flipped = TextureUtil.FlipTexture(flipped, false, true);
                                 } 
                                 else if (tile.F == 2)
                                 {
-                                    flipped = SpriteUtil.FlipTexture(flipped, true, false);
+                                    flipped = TextureUtil.FlipTexture(flipped, true, false);
                                 }
                                 else
                                 {
-                                    flipped = SpriteUtil.FlipTexture(flipped, true, true);
+                                    flipped = TextureUtil.FlipTexture(flipped, true, true);
                                 }
                                 
                                 flipped.GetData<Color>(data);

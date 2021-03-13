@@ -25,7 +25,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
         private Line lineY2;
 #endif
 
-        public BoxCollisionComponent(IColliderEntity owner, float width, float height, Vector2 positionOffset = default(Vector2)) : base(ColliderType.BOX, owner, positionOffset)
+        public BoxCollisionComponent(IColliderEntity owner, float width, float height, Vector2 positionOffset = default) : base(ColliderType.BOX, owner, positionOffset)
         {
             Width = width;
             Height = height;

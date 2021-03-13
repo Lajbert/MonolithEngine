@@ -71,7 +71,7 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
             }
         }
 
-        public AbstractTransform(IGameObject owner, Vector2 position = default(Vector2))
+        public AbstractTransform(IGameObject owner, Vector2 position = default)
         {
             this.owner = owner;
             InCellLocation = new Vector2(0.5f, 1f);

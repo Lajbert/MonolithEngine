@@ -8,7 +8,7 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
 {
     class DynamicTransform : StaticTransform
     {
-        public DynamicTransform(IGameObject owner, Vector2 position = default(Vector2)) : base(owner, position)
+        public DynamicTransform(IGameObject owner, Vector2 position = default) : base(owner, position)
         {
 
         }

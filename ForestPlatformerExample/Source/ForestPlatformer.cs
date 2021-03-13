@@ -9,6 +9,7 @@ using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
+using GameEngine2D.Engine.Source.UI;
 using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Global;
@@ -39,6 +40,8 @@ namespace ForestPlatformerExample
         private double elapsedTime = 0;
         private GameTime gt = new GameTime();
         private float fixedUpdateRate;
+
+        private UserInterface ui = new UserInterface();
 
         public ForestPlatformer()
         {
@@ -83,8 +86,8 @@ namespace ForestPlatformerExample
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            SpriteUtil.Content = Content;
-            SpriteUtil.GraphicsDeviceManager = graphics;
+            TextureUtil.Content = Content;
+            TextureUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
             //font = Content.Load<SpriteFont>("DefaultFont");
@@ -115,6 +118,8 @@ namespace ForestPlatformerExample
             //TODO: use this.Content to load your game content here
 
             frameCounter = new FrameCounter();
+
+            ui.AddUIElement(new Image("ForestAssets/UI/HUD-coin-count", new Vector2(30, 30), scale: 8));
 
             Logger.Info("Object count: " + GameObject.GetObjectCount());
         }
@@ -175,7 +180,7 @@ namespace ForestPlatformerExample
                 }
                 else if (entity.Identifier.Equals("MovingPlatformTurn"))
                 {
-                    Direction dir = default(Direction);
+                    Direction dir = default;
                     foreach (FieldInstance field in entity.FieldInstances)
                     {
                         if (field.Identifier == "Direction")
@@ -225,6 +230,8 @@ namespace ForestPlatformerExample
                 }
             }
 
+            ui.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -259,6 +266,10 @@ namespace ForestPlatformerExample
 
 
             // TODO: Add your drawing code here
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+            ui.Draw(spriteBatch, gameTime);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
