@@ -68,7 +68,7 @@ namespace ForestPlatformerExample
             //Config.GRID = 64;
 
             Config.FPS = 500;
-            Config.FIXED_UPDATE_FPS = 0;
+            //Config.FIXED_UPDATE_FPS = 0;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
