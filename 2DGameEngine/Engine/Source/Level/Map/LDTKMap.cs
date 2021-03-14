@@ -52,7 +52,7 @@ namespace GameEngine2D.Source.Level
                 tilesets.Add(path, TextureUtil.LoadTexture(path));
             }
 
-            foreach (GameEngine2D.Engine.Source.Level.Level level in json.Levels)
+            foreach (Engine.Source.Level.Level level in json.Levels)
             {
                 Array.Reverse(level.LayerInstances);
                 foreach (LayerInstance layerInstance in level.LayerInstances)
@@ -64,7 +64,7 @@ namespace GameEngine2D.Source.Level
                     }
 
                     string layerName = layerInstance.Identifier;
-                    GridCollision.Layer currentLayer = null;
+                    Layer currentLayer = null;
                     Texture2D tileSet = null;
                     if (layerName.StartsWith(COLLIDERS))
                     {
@@ -164,12 +164,12 @@ namespace GameEngine2D.Source.Level
                             Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
                             Color[] data = new Color[gridSize * gridSize];
                             //tileSet.GetData<Color>(data);
-                            tileSet.GetData<Color>(0, rect, data, 0, data.Length);
+                            tileSet.GetData(0, rect, data, 0, data.Length);
 
                             if (tile.F != 0)
                             {
                                 Texture2D flipped = TextureUtil.CreateRectangle(gridSize, Color.Black);
-                                flipped.SetData<Color>(data);
+                                flipped.SetData(data);
                                 if (tile.F == 1)
                                 {
                                     flipped = TextureUtil.FlipTexture(flipped, false, true);
@@ -183,7 +183,7 @@ namespace GameEngine2D.Source.Level
                                     flipped = TextureUtil.FlipTexture(flipped, true, true);
                                 }
                                 
-                                flipped.GetData<Color>(data);
+                                flipped.GetData(data);
                             }
                             //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
                             

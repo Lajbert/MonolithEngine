@@ -116,7 +116,7 @@ namespace GameEngine2D.Source.Entities
                 for (int j = 0; j < columns; j++)
                 {
                     Color[] data = new Color[frameSize * frameSize];
-                    texture.GetData<Color>(0, new Rectangle(j * frameSize, i * frameSize, frameSize, frameSize), data, 0, data.Length);
+                    texture.GetData(0, new Rectangle(j * frameSize, i * frameSize, frameSize, frameSize), data, 0, data.Length);
                     bool emptyFrameFound = true;
                     for (int c = 0; c < frameSize * frameSize; c++)
                     {

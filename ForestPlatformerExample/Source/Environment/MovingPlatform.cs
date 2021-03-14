@@ -42,7 +42,7 @@ namespace ForestPlatformerExample.Source.Environment
             TileGroup tg = new TileGroup();
             Texture2D tileSet = TextureUtil.LoadTexture("ForestAssets/Tiles/forest-tileset");
             Color[] data = new Color[Config.GRID * Config.GRID];
-            tileSet.GetData<Color>(0, new Rectangle(304, 288, Config.GRID, Config.GRID), data, 0, data.Length);
+            tileSet.GetData(0, new Rectangle(304, 288, Config.GRID, Config.GRID), data, 0, data.Length);
             for (int i = 0; i < width; i += Config.GRID)
             {
                 for (int j = 0; j < height; j += Config.GRID)

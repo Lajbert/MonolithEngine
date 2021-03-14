@@ -116,7 +116,7 @@ namespace GameEngine2D.Engine.Source.Util
             Color[] data = new Color[input.Width * input.Height];
             Color[] flipped_data = new Color[data.Length];
 
-            input.GetData<Color>(data);
+            input.GetData(data);
 
             for (int x = 0; x < input.Width; x++)
             {
@@ -136,7 +136,7 @@ namespace GameEngine2D.Engine.Source.Util
                 }
             }
 
-            flipped.SetData<Color>(flipped_data);
+            flipped.SetData(flipped_data);
 
             return flipped;
         }

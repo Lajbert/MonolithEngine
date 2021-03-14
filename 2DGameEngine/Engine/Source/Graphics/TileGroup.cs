@@ -26,7 +26,7 @@ namespace GameEngine2D.Engine.Source.Graphics
         public void AddTile(Texture2D texture, Vector2 position)
         {
             Color[] data = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(data);
+            texture.GetData(data);
             tiles.Add(position, data);
             width = Math.Max(width, (int)position.X + Config.GRID);
             height = Math.Max(height, (int)position.Y + Config.GRID);

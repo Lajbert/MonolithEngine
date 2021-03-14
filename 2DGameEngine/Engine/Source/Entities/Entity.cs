@@ -183,7 +183,7 @@ namespace GameEngine2D.Entities
         public void AddComponent<T>(T newComponent) where T : IComponent
         {
 
-            componentList.AddComponent<T>(newComponent);
+            componentList.AddComponent(newComponent);
 
             if (newComponent is ITrigger)
             {
