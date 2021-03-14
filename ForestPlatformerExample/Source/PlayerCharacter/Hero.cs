@@ -61,6 +61,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private List<IGameObject> overlappingEnemies = new List<IGameObject>(5);
 
+        private bool isSliding = false;
+
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, font)
         {
 
@@ -70,6 +72,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Mountable", false);
+            AddCollisionAgainst("SlideWall");
 
             CanFireTriggers = true;
 
@@ -119,7 +122,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //Animations.Offset = new Vector2(3, -20);
             Animations.Offset = new Vector2(0, -32);
 
-            CollisionOffsetRight = 0.5f;
+            CollisionOffsetRight = 0.45f;
             CollisionOffsetLeft = 0.6f;
             CollisionOffsetBottom = 1f;
             CollisionOffsetTop = 0.5f;
@@ -253,11 +256,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("CarryJumpingRight", "JumpingCarryLeft");
 
             SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@wall-slide-sheet", 12,SpriteEffects.FlipHorizontally, 64);
-            bool isWallSlidingRight() => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.EAST;
+            bool isWallSlidingRight() => isSliding && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
 
             SpriteSheetAnimation wallSlideLeft = wallSlideRight.CopyFlipped();
-            bool isWallSlidingLeft() => jumpModifier != Vector2.Zero && CurrentFaceDirection == Direction.WEST;
+            bool isWallSlidingLeft() => isSliding && CurrentFaceDirection == Direction.WEST;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isWallSlidingLeft, 6);
 
             SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@double-jump-sheet", 12)
@@ -736,23 +739,24 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = otherCollider as IMovableItem;
             }
-            else if (otherCollider.HasTag("SlideWall") && !IsOnGround)
+            else if (otherCollider is SlideWall && !IsOnGround)
             {
                 if (Timer.IsSet("IsAttacking") || isCarryingItem)
                 {
                     return;
                 }
+                isSliding = true;
                 if (GravityValue == Config.GRAVITY_FORCE)
                 {
                     GravityValue /= 4;
                     canAttack = false;
                 }
                 canDoubleJump = true;
-                if (otherCollider.Transform.X > Transform.X)
+                if (otherCollider.Transform.X < Transform.X)
                 {
                     jumpModifier = new Vector2(5, 0);
                 }
-                else if (otherCollider.Transform.X < Transform.X)
+                else if (otherCollider.Transform.X > Transform.X)
                 {
                     jumpModifier = new Vector2(-5, 0);
                 }
@@ -766,8 +770,9 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 overlappingItem = null;
             }
-            else if (otherCollider.HasTag("SlideWall"))
+            else if (otherCollider is SlideWall)
             {
+                isSliding = false;
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
                 canAttack = true;

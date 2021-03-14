@@ -194,6 +194,10 @@ namespace ForestPlatformerExample
                     }
                     new MovingPlatformTurner(position, dir);
                 }
+                else if (entity.Identifier.Equals("SlideWall"))
+                {
+                    new SlideWall(position, (int)entity.Width, (int)entity.Height);
+                }
             }
 
             PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
