@@ -35,6 +35,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
     {
 
         private readonly float JUMP_RATE = 0.1f;
+        private readonly float SLIDE_FORCE = 3f;
         private static double lastJump = 0f;
         private bool doubleJumping = false;
 
@@ -62,6 +63,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private List<IGameObject> overlappingEnemies = new List<IGameObject>(5);
 
+        private bool isWallSliding = false;
         private bool isSliding = false;
 
         public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, font)
@@ -257,11 +259,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("CarryJumpingRight", "JumpingCarryLeft");
 
             SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@wall-slide-sheet", 12,SpriteEffects.FlipHorizontally, 64);
-            bool isWallSlidingRight() => isSliding && CurrentFaceDirection == Direction.EAST;
+            bool isWallSlidingRight() => isWallSliding && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
 
             SpriteSheetAnimation wallSlideLeft = wallSlideRight.CopyFlipped();
-            bool isWallSlidingLeft() => isSliding && CurrentFaceDirection == Direction.WEST;
+            bool isWallSlidingLeft() => isWallSliding && CurrentFaceDirection == Direction.WEST;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isWallSlidingLeft, 6);
 
             SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@double-jump-sheet", 12)
@@ -359,6 +361,28 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
             Animations.RegisterAnimation("PickupLeft", pickupLeft, () => false);
 
+            SpriteSheetAnimation slideRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@slide-sheet", 24)
+            {
+                Looping = false
+            };
+            slideRight.StoppedCallback = () =>
+            {
+                isSliding = false;
+                Friction = Config.FRICTION;
+            };
+            slideRight.AnimationSwitchCallback = () => {
+                isSliding = false;
+                Friction = Config.FRICTION;
+            };
+            bool isSlidingRight() => IsOnGround && isSliding && CurrentFaceDirection == Direction.EAST;
+            Animations.RegisterAnimation("SlideRight", slideRight, isSlidingRight, 7);
+
+            SpriteSheetAnimation slideLeft = slideRight.CopyFlipped();
+            bool isSlidingLeft() => IsOnGround && isSliding && CurrentFaceDirection == Direction.WEST;
+            Animations.RegisterAnimation("SlideLeft", slideLeft, isSlidingLeft, 7);
+
+            Animations.AddFrameTransition("SlideRight", "SlideLeft");
+
         }
 
         private void SetupController()
@@ -372,14 +396,22 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X > 0)
                 {
-                    VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    if (!isSliding)
+                    {
+                        VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    }
+                    
                     if (VelocityX > 0.1)
                     {
                         CurrentFaceDirection = Direction.EAST;
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
-                    VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    if (!isSliding)
+                    {
+                        VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    }
+                    
                     CurrentFaceDirection = Direction.EAST;
                 }
                 fist.ChangeDirection();
@@ -389,13 +421,21 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X < -0)
                 {
-                    VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    if (!isSliding)
+                    {
+                        VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    }
+                    
                     if (VelocityX < -0.1)
                     {
                         CurrentFaceDirection = Direction.WEST;
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
+                    if (!isSliding)
+                    {
+                        VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    }
                     VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     CurrentFaceDirection = Direction.WEST;
                 }
@@ -458,6 +498,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     return;
                 }
                 Attack();
+            }, true);
+
+            UserInput.RegisterKeyPressAction(Keys.RightControl, Buttons.B, (Vector2 thumbStickPosition) => {
+                Slide();
+            }, true);
+
+            UserInput.RegisterKeyPressAction(Keys.LeftControl, (Vector2 thumbStickPosition) => {
+                Slide();
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
@@ -534,6 +582,24 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.5f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.5f; /*Globals.Camera.Recenter(); */});
         }
 
+        private void Slide()
+        {
+            if (isSliding || !IsOnGround || isCarryingItem || isWallSliding || OnLadder)
+            {
+                return;
+            }
+            isSliding = true;
+            Friction = 0.7f;
+            if (CurrentFaceDirection == Direction.EAST)
+            {
+                VelocityX = SLIDE_FORCE;
+            }
+            else
+            {
+                VelocityX = -SLIDE_FORCE;
+            }
+        }
+
         private void PickupItem()
         {
             
@@ -588,7 +654,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public override void FixedUpdate()
         {
-            if (overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
+            if (!isSliding && overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
             {
                 Hit(overlappingEnemies[0]);
             }
@@ -690,30 +756,33 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
             if (otherCollider is Carrot)
             {
-
                 overlappingEnemies.Add(otherCollider);
-                (otherCollider as Carrot).OverlapsWithHero = true;
 
-                float angle = MathUtil.DegreeFromVectors(Transform.Position, otherCollider.Transform.Position);
-                if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
+                if (!isSliding)
                 {
-                    Bump(new Vector2(0, -5));
-                    FallSpeed = 0;
-                    (otherCollider as Carrot).Hit(Direction.NORTH);
-                    Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
-                    canJump = false;
-                    canDoubleJump = true;
-                }
-                else
-                {
+                    (otherCollider as Carrot).OverlapsWithHero = true;
 
-                    if (Timer.IsSet("Invincible"))
+                    float angle = MathUtil.DegreeFromVectors(Transform.Position, otherCollider.Transform.Position);
+                    if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                     {
-                        return;
+                        Bump(new Vector2(0, -5));
+                        FallSpeed = 0;
+                        (otherCollider as Carrot).Hit(Direction.NORTH);
+                        Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
+                        canJump = false;
+                        canDoubleJump = true;
                     }
+                    else
+                    {
 
-                    Hit(otherCollider);
+                        if (Timer.IsSet("Invincible"))
+                        {
+                            return;
+                        }
 
+                        Hit(otherCollider);
+
+                    }
                 }
             }
             else if (otherCollider is Coin)
@@ -729,12 +798,16 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is Spring)
             {
-                ((Spring)otherCollider).PlayBounceAnimation();
+                if (!isSliding)
+                {
+                    ((Spring)otherCollider).PlayBounceAnimation();
 
-                Bump(new Vector2(0, -15));
-                canJump = false;
-                canDoubleJump = true;
-                FallSpeed = 0;
+                    Bump(new Vector2(0, -15));
+                    canJump = false;
+                    canDoubleJump = true;
+                    FallSpeed = 0;
+                }
+                
             }
             else if (otherCollider is IMovableItem)
             {
@@ -746,7 +819,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     return;
                 }
-                isSliding = true;
+                isWallSliding = true;
                 if (GravityValue == Config.GRAVITY_FORCE)
                 {
                     GravityValue /= 4;
@@ -773,7 +846,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is SlideWall)
             {
-                isSliding = false;
+                isWallSliding = false;
                 GravityValue = Config.GRAVITY_FORCE;
                 jumpModifier = Vector2.Zero;
                 canAttack = true;
