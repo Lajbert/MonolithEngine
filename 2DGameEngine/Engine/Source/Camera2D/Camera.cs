@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Global;
+using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Util;
 using GameEngine2D.Util;
@@ -74,7 +75,7 @@ namespace GameEngine2D.Source.Camera2D
 			}
 		}
 
-		public void stopTracking()
+		public void StopTracking()
 		{
 			target = null;
 		}
@@ -93,13 +94,13 @@ namespace GameEngine2D.Source.Camera2D
 			shake = true;
         }
 
-		public void update(GameTime gameTime)
+		public void Update()
 		{
 			if (!SCROLL)
             {
 				return;
             }
-			elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / Config.CAMERA_TIME_MULTIPLIER;
+			elapsedTime = (float)Globals.ElapsedTime / Config.CAMERA_TIME_MULTIPLIER;
 			// Follow target entity
 			if (target != null)
 			{
@@ -135,14 +136,14 @@ namespace GameEngine2D.Source.Camera2D
 			direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
 		}
 
-		public void postUpdate(GameTime gameTime)
+		public void PostUpdate()
 		{
 			// Shakes
 			if (shake)
 			{
-				shakeStarted += (float)gameTime.ElapsedGameTime.TotalSeconds;
-				position.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
-				position.Y += (float)(Math.Sin(0.3 + gameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
+				shakeStarted += Globals.ElapsedTime;
+				position.X += (float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
+				position.Y += (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
 
 				if (shakeStarted > shakeDuration)
 				{

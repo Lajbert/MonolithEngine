@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Util;
+﻿using GameEngine2D.Engine.Source.Global;
+using GameEngine2D.Engine.Source.Util;
 using GameEngine2D.Entities;
 using GameEngine2D.Entities.Interfaces;
 using GameEngine2D.Global;
@@ -100,7 +101,7 @@ namespace GameEngine2D.Source.GridCollision
             HandleChangedObjects();
         }
 
-        public void UpdateAll(GameTime gameTime)
+        public void UpdateAll()
         {
 
             /*if (!Active)
@@ -109,7 +110,8 @@ namespace GameEngine2D.Source.GridCollision
             }*/
 
             // in case of skipped frame, we should just recalculate everything
-            if (TimeUtil.GetElapsedTime(gameTime) > 1)
+
+            if (Globals.ElapsedTime > 1000)
             {
                 return;
             }
@@ -117,16 +119,16 @@ namespace GameEngine2D.Source.GridCollision
             {
                 foreach (Entity entity in activeObjects)
                 {
-                    entity.PreUpdate(gameTime);
-                    entity.Update(gameTime);
-                    entity.PostUpdate(gameTime);
+                    entity.PreUpdate();
+                    entity.Update();
+                    entity.PostUpdate();
                 }
             }
 
             HandleChangedObjects();
         }
 
-        public void FixedUpdateAll(GameTime gameTime)
+        public void FixedUpdateAll()
         {
 
             /*if (!Active)
@@ -135,7 +137,7 @@ namespace GameEngine2D.Source.GridCollision
             }*/
 
             // in case of skipped frame, we should just recalculate everything
-            if (TimeUtil.GetElapsedTime(gameTime) > 1)
+            if (Globals.ElapsedTime > 1000)
             {
                 return;
             }
@@ -143,7 +145,7 @@ namespace GameEngine2D.Source.GridCollision
             {
                 foreach (Entity entity in activeObjects)
                 {
-                    entity.FixedUpdate(gameTime);
+                    entity.FixedUpdate();
                 }
             }
 

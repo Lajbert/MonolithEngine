@@ -97,7 +97,7 @@ namespace GameEngine2D.Engine.Source.Components
             }
         }
 
-        public void UpdateAll(GameTime gameTime)
+        public void UpdateAll()
         {
             foreach (List<IComponent> list in components.Values)
             {
@@ -109,7 +109,7 @@ namespace GameEngine2D.Engine.Source.Components
                 {
                     if (component is IUpdatableComponent)
                     {
-                        (component as IUpdatableComponent).Update(gameTime);
+                        (component as IUpdatableComponent).Update();
                     }
                 }
             }

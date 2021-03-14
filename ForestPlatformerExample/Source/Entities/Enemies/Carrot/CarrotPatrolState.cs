@@ -1,6 +1,7 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
 using GameEngine2D.Engine.AI;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using Microsoft.Xna.Framework;
 using System;
@@ -27,7 +28,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
             base.Begin();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
 
             if (checkCollisions && WillCollideOrFall())
@@ -50,9 +51,9 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
                 moveDirection = 1;
             }
 
-            controlledEntity.VelocityX += controlledEntity.CurrentSpeed * moveDirection * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            controlledEntity.VelocityX += controlledEntity.CurrentSpeed * moveDirection * Globals.ElapsedTime;
 
-            base.Update(gameTime);
+            base.Update();
         }
 
         private bool WillCollideOrFall()

@@ -188,9 +188,9 @@ namespace GameEngine2D.Engine.Source.Physics.Bresenham
 		}
 
 		bool canRayPass;
-		public override void Update(GameTime gameTime)
+		public override void Update()
 		{
-			base.Update(gameTime);
+			base.Update();
 			line.Clear();
 			Bresenham.GetLine(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), line);
 			canRayPass = Bresenham.CanLinePass(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), (x, y) => {

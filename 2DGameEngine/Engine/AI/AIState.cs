@@ -20,7 +20,7 @@ namespace GameEngine2D.Engine.AI
 
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update()
         {
 
         }

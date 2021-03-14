@@ -154,7 +154,7 @@ namespace TestExample
                 SetSprite(blue);
             }*/
 
-            public override void Update(GameTime gameTime)
+            public override void Update()
             {
             }
         }
@@ -217,9 +217,9 @@ namespace TestExample
 
             }
 
-            public override void Update(GameTime gameTime)
+            public override void Update()
             {
-                base.Update(gameTime);
+                base.Update();
             }
         }
 
@@ -270,9 +270,9 @@ namespace TestExample
             }
 
             bool canRayPass;
-            public override void Update(GameTime gameTime)
+            public override void Update()
             {
-                base.Update(gameTime);
+                base.Update();
                 line.Clear();
                 Bresenham.GetLine(Parent.Transform.Position, other.Transform.Position, line);
                 canRayPass = Bresenham.CanLinePass(Parent.Transform.Position, other.Transform.Position, (x, y) => {
@@ -312,10 +312,10 @@ namespace TestExample
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic 
             Timer.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
-            CollisionEngine.Instance.Update(gameTime);
-            LayerManager.Instance.UpdateAll(gameTime);
-            Camera.update(gameTime);
-            Camera.postUpdate(gameTime);
+            CollisionEngine.Instance.Update();
+            LayerManager.Instance.UpdateAll();
+            Camera.Update();
+            Camera.PostUpdate();
             lineToDraw.Clear();
             Bresenham.GetLine(hero.Transform.Position, e.Transform.Position, lineToDraw);
             base.Update(gameTime);

@@ -83,24 +83,24 @@ namespace GameEngine2D.Entities
             }
         }
 
-        public void UpdateAll(GameTime gameTime)
+        public void UpdateAll()
         {
             foreach (List<Layer> layers in allLayers)
             {
                 foreach (Layer l in layers)
                 {
-                    l.UpdateAll(gameTime);
+                    l.UpdateAll();
                 }
             }
         }
 
-        public void FixedUpdateAll(GameTime gameTime)
+        public void FixedUpdateAll()
         {
             foreach (List<Layer> layers in allLayers)
             {
                 foreach (Layer l in layers)
                 {
-                    l.FixedUpdateAll(gameTime);
+                    l.FixedUpdateAll();
                 }
             }
         }

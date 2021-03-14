@@ -51,11 +51,11 @@ namespace GameEngine2D.Engine.Source.UI
             }
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             foreach (IUIElement element in elements)
             {
-                element.Update(gameTime);
+                element.Update();
             }
 
             if (newElements.Count > 0)

@@ -5,6 +5,7 @@ using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
 using GameEngine2D.Engine.Source.Physics;
@@ -37,8 +38,8 @@ namespace ForestPlatformerExample
 
         private Hero hero;
 
-        private double elapsedTime = 0;
-        private GameTime gt = new GameTime();
+        private double fixedUpdateElapsedTime = 0;
+
         private float fixedUpdateRate;
 
         public static int CoinCount = 0;
@@ -217,38 +218,40 @@ namespace ForestPlatformerExample
                 Exit();
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic here
-            Timer.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            Globals.ElapsedTime = elapsedTime;
+            Globals.GameTime = gameTime;
+            Timer.Update(elapsedTime);
             //CollisionEngine.Instance.Update(gameTime);
-            LayerManager.Instance.UpdateAll(gameTime);
-            Camera.update(gameTime);
-            Camera.postUpdate(gameTime);
+            LayerManager.Instance.UpdateAll();
+            Camera.Update();
+            Camera.PostUpdate();
 
             if (fixedUpdateRate == 0)
             {
-                FixedUpdate(gameTime);
+                FixedUpdate();
             } else
             {
-                if (elapsedTime >= fixedUpdateRate)
+                if (fixedUpdateElapsedTime >= fixedUpdateRate)
                 {
-                    gt.ElapsedGameTime = TimeSpan.FromMilliseconds(elapsedTime);
-                    FixedUpdate(gt);
-                    elapsedTime = 0;
+                    FixedUpdate();
+                    fixedUpdateElapsedTime = 0;
                 }
                 else
                 {
-                    elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+                    fixedUpdateElapsedTime += elapsedTime;
                 }
             }
 
-            ui.Update(gameTime);
+            ui.Update();
 
             base.Update(gameTime);
         }
 
-        private void FixedUpdate(GameTime gameTime)
+        private void FixedUpdate()
         {
-            CollisionEngine.Instance.Update(gameTime);
-            LayerManager.Instance.FixedUpdateAll(gameTime);
+            CollisionEngine.Instance.Update();
+            LayerManager.Instance.FixedUpdateAll();
         }
 
         private float lastPrint = 0;

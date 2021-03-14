@@ -1,4 +1,5 @@
-﻿using GameEngine2D.Entities;
+﻿using GameEngine2D.Engine.Source.Global;
+using GameEngine2D.Entities;
 using GameEngine2D.Global;
 using GameEngine2D.Source.Entities.Animation.Interface;
 using GameEngine2D.Util;
@@ -91,7 +92,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         protected abstract Texture2D GetTexture();
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             if (!Running)
             {
@@ -125,7 +126,7 @@ namespace GameEngine2D.Source.Entities.Animation
             }
             else
             {
-                currentDelay += gameTime.ElapsedGameTime.TotalMilliseconds;
+                currentDelay += Globals.ElapsedTime;
             }
 
             if (CurrentFrame == TotalFrames) {

@@ -10,6 +10,6 @@ namespace GameEngine2D.Engine.Source.UI
     {
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime);
 
-        public void Update(GameTime gameTime);
+        public void Update();
     }
 }

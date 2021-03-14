@@ -10,6 +10,7 @@ using GameEngine2D.Engine.Source.Entities;
 using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Level.Collision;
 using GameEngine2D.Engine.Source.Physics.Collision;
@@ -371,14 +372,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X > 0)
                 {
-                    VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * elapsedTime;
+                    VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     if (VelocityX > 0.1)
                     {
                         CurrentFaceDirection = Direction.EAST;
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
-                    VelocityX += MovementSpeed * elapsedTime;
+                    VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     CurrentFaceDirection = Direction.EAST;
                 }
                 fist.ChangeDirection();
@@ -388,14 +389,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X < -0)
                 {
-                    VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * elapsedTime;
+                    VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     if (VelocityX < -0.1)
                     {
                         CurrentFaceDirection = Direction.WEST;
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
-                    VelocityX -= MovementSpeed * elapsedTime;
+                    VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     CurrentFaceDirection = Direction.WEST;
                 }
                 fist.ChangeDirection();
@@ -436,7 +437,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     CurrentFaceDirection = Direction.EAST;
                 }
                 jumpModifier = Vector2.Zero;
-                FallSpeed = (float)GameTime.TotalGameTime.TotalSeconds;
+                FallSpeed = (float)Globals.GameTime.TotalGameTime.TotalSeconds;
 
             }, true);
 
@@ -482,11 +483,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 if (thumbStickPosition.Y != 0)
                 {
-                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
+                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 } 
                 else
                 {
-                    VelocityY += MovementSpeed * elapsedTime;
+                    VelocityY += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 }
                 //CurrentFaceDirection = GridDirection.DOWN;
             });
@@ -499,11 +500,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
                 if (thumbStickPosition.Y != 0)
                 {
-                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * elapsedTime;
+                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 }
                 else
                 {
-                    VelocityY -= MovementSpeed * elapsedTime;
+                    VelocityY -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 }
                 //CurrentFaceDirection = GridDirection.UP;
             });
@@ -585,16 +586,16 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        public override void FixedUpdate(GameTime gameTime)
+        public override void FixedUpdate()
         {
             if (overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
             {
                 Hit(overlappingEnemies[0]);
             }
-            base.FixedUpdate(gameTime);
+            base.FixedUpdate();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
 
             if (OnLadder)
@@ -621,7 +622,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
                 if (FallSpeed > 0)
                 {
-                    lastJump += gameTime.ElapsedGameTime.TotalSeconds;
+                    lastJump += Globals.ElapsedTime;
                 }
                 else
                 {
@@ -629,7 +630,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
             }
             
-            base.Update(gameTime);
+            base.Update();
         }
 
         private float GetVelocity(float thumbStickPosition, float maxVelocity)

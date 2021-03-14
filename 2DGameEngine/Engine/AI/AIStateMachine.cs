@@ -1,5 +1,6 @@
 ﻿using GameEngine2D.Engine.Source.Components;
 using GameEngine2D.Engine.Source.Entities.Abstract;
+using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
@@ -63,14 +64,14 @@ namespace GameEngine2D.Engine.AI
             return (R)currentState;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             if (currentState == null)
             {
                 return;
             }
-            TimeSpentInCurrentState += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            currentState.Update(gameTime);
+            TimeSpentInCurrentState += Globals.ElapsedTime;
+            currentState.Update();
         }
 
     }

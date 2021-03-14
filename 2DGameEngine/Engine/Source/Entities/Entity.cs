@@ -257,7 +257,7 @@ namespace GameEngine2D.Entities
             
         }
 
-        public virtual void PreUpdate(GameTime gameTime)
+        public virtual void PreUpdate()
         {
             if (!Active)
             {
@@ -266,11 +266,11 @@ namespace GameEngine2D.Entities
 
             foreach (Entity child in Children)
             {
-                child.PreUpdate(gameTime);
+                child.PreUpdate();
             }
         }
 
-        public virtual void FixedUpdate(GameTime gameTime)
+        public virtual void FixedUpdate()
         {
             if (!Active)
             {
@@ -279,26 +279,26 @@ namespace GameEngine2D.Entities
 
             foreach (Entity child in Children)
             {
-                child.FixedUpdate(gameTime);
+                child.FixedUpdate();
             }
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update()
         {
             if (!Active)
             {
                 return;
             }
 
-            componentList.UpdateAll(gameTime);
+            componentList.UpdateAll();
 
             foreach (Entity child in Children)
             {
-                child.Update(gameTime);
+                child.Update();
             }
         }
 
-        public virtual void PostUpdate(GameTime gameTime)
+        public virtual void PostUpdate()
         {
             if (!Active)
             {
@@ -312,7 +312,7 @@ namespace GameEngine2D.Entities
 
             foreach (Entity child in Children)
             {
-                child.PostUpdate(gameTime);
+                child.PostUpdate();
             }
         }
 

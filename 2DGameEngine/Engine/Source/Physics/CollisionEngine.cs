@@ -59,7 +59,7 @@ namespace GameEngine2D.Engine.Source.Physics
             }
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             if (changedObjects.Count == 0 && (entities.Count == 0 || toCheckAgainst.Count == 0 ))
             {

@@ -63,13 +63,13 @@ namespace ForestPlatformerExample.Source.Items
             }
         }
 
-        public override void PostUpdate(GameTime gameTime)
+        public override void PostUpdate()
         {
             if (Destroyed)
             {
                 return;
             }
-            base.PostUpdate(gameTime);
+            base.PostUpdate();
             // just a failsafe: in case a coin never bounces for any kind of bug, the player should still be able to pick it up at some point
             if (GetComponent<ICollisionComponent>() == null && Velocity == Vector2.Zero && !BeingDestroyed)
             {
@@ -91,9 +91,9 @@ namespace ForestPlatformerExample.Source.Items
             AddComponent(new CircleCollisionComponent(this, 10));
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
-            base.Update(gameTime);
+            base.Update();
             if (Destroyed)
             {
                 return;

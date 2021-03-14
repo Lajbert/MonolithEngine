@@ -10,7 +10,7 @@ namespace GameEngine2D.Source.Entities.Animation.Interface
 {
     public interface IAnimation
     {
-        public void Update(GameTime gameTime);
+        public void Update();
 
         public void Play(SpriteBatch spriteBatch);
     }

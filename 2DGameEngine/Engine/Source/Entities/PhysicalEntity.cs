@@ -3,6 +3,7 @@ using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Entities.Transform;
+using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Physics;
 using GameEngine2D.Engine.Source.Physics.Collision;
 using GameEngine2D.Engine.Source.Physics.Interface;
@@ -29,7 +30,6 @@ namespace GameEngine2D
 
         protected UserInputController UserInput;
 
-        protected float elapsedTime;
         private float steps;
         private float step;
         private float steps2;
@@ -45,7 +45,7 @@ namespace GameEngine2D
                 {
                     return velocity;
                 }
-                return (mountedOn.Velocity + velocity) * (float)(1 / Math.Pow(Friction, elapsedTime));
+                return mountedOn.Velocity + velocity;
             }
 
             set => velocity = value;
@@ -96,8 +96,6 @@ namespace GameEngine2D
 
         public bool HasGravity = Config.GRAVITY_ON;
 
-        protected GameTime GameTime;
-
         private Texture2D colliderMarker;
 
         private PhysicalEntity mountedOn = null;
@@ -143,20 +141,20 @@ namespace GameEngine2D
             base.Draw(spriteBatch, gameTime);
         }
 
-        public override void PreUpdate(GameTime gameTime)
+        public override void PreUpdate()
         {
             if (UserInput != null)
             {
                 UserInput.Update();
             }
 
-            base.PreUpdate(gameTime);
+            base.PreUpdate();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
 
-            elapsedTime = TimeUtil.GetElapsedTime(gameTime);
+            float gameTime = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
 
             if (leftCollider != null)
             {
@@ -164,7 +162,7 @@ namespace GameEngine2D
                 {
                     if (Velocity.X >= 0)
                     {
-                        VelocityX = leftCollider.Velocity.X * (float)(1 / Math.Pow(Friction, elapsedTime));
+                        VelocityX = leftCollider.Velocity.X * (float)(1 / Math.Pow(Friction, gameTime));
                     }
                 }
                 else if (Velocity.X < 0)
@@ -179,7 +177,7 @@ namespace GameEngine2D
                 {
                     if (Velocity.X <= 0)
                     {
-                        VelocityX = rightCollider.Velocity.X * (float)(1 / Math.Pow(Friction, elapsedTime));
+                        VelocityX = rightCollider.Velocity.X * (float)(1 / Math.Pow(Friction, gameTime));
                     }
                 } else if (Velocity.X > 0)
                 {
@@ -187,10 +185,8 @@ namespace GameEngine2D
                 }
             }
 
-            this.GameTime = gameTime;
-
-            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * elapsedTime));
-            step = (float)(Velocity.X + bump.X) * elapsedTime / steps;
+            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * gameTime));
+            step = (float)(Velocity.X + bump.X) * gameTime / steps;
             while (steps > 0)
             {
                 Transform.InCellLocation.X += step;
@@ -217,27 +213,27 @@ namespace GameEngine2D
             }
             if (Friction > 0)
             {
-                velocity.X *= (float)Math.Pow(Friction, elapsedTime);
+                velocity.X *= (float)Math.Pow(Friction, gameTime);
             }
             
             if (BumpFriction > 0)
             {
-                bump.X *= (float)Math.Pow(BumpFriction, elapsedTime);
+                bump.X *= (float)Math.Pow(BumpFriction, gameTime);
             }
             
 
             //rounding stuff
-            if (Math.Abs(Velocity.X) <= 0.0005 * elapsedTime) velocity.X = 0;
-            if (Math.Abs(bump.X) <= 0.0005 * elapsedTime) bump.X = 0;
+            if (Math.Abs(Velocity.X) <= 0.0005 * gameTime) velocity.X = 0;
+            if (Math.Abs(bump.X) <= 0.0005 * gameTime) bump.X = 0;
 
             // Y
             if (HasGravity && !OnGround())
             {
                 if (FallSpeed == 0)
                 {
-                    FallSpeed = (float)gameTime.TotalGameTime.TotalSeconds;
+                    FallSpeed = (float)Globals.GameTime.TotalGameTime.TotalSeconds;
                 }
-                ApplyGravity(gameTime);
+                ApplyGravity();
             }
 
             if (OnGround())
@@ -245,8 +241,8 @@ namespace GameEngine2D
                 FallSpeed = 0;
             }
 
-            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * elapsedTime));
-            step2 = (float)(Velocity.Y + bump.Y) * elapsedTime / steps2;
+            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * gameTime));
+            step2 = (float)(Velocity.Y + bump.Y) * gameTime / steps2;
             while (steps2 > 0)
             {
                 Transform.InCellLocation.Y += step2;
@@ -282,17 +278,17 @@ namespace GameEngine2D
 
             if (Friction > 0)
             {
-                velocity.Y *= (float)Math.Pow(Friction, elapsedTime);
+                velocity.Y *= (float)Math.Pow(Friction, gameTime);
             }
             if (BumpFriction > 0)
             {
-                bump.Y *= (float)Math.Pow(BumpFriction, elapsedTime);
+                bump.Y *= (float)Math.Pow(BumpFriction, gameTime);
             }
             
             //rounding stuff
-            if (Math.Abs(Velocity.Y) <= 0.0005 * elapsedTime) velocity.Y = 0;
-            if (Math.Abs(bump.Y) <= 0.0005 * elapsedTime) bump.Y = 0;
-            base.Update(gameTime);
+            if (Math.Abs(Velocity.Y) <= 0.0005 * gameTime) velocity.Y = 0;
+            if (Math.Abs(bump.Y) <= 0.0005 * gameTime) bump.Y = 0;
+            base.Update();
         }
 
         protected virtual void OnLand()
@@ -305,20 +301,20 @@ namespace GameEngine2D
             bump = direction;
         }
 
-        private void ApplyGravity(GameTime gameTime)
+        private void ApplyGravity()
         {
             if (Config.INCREASING_GRAVITY)
             {
-                t = (float)(gameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
-                velocity.Y += GravityValue * t * elapsedTime;
+                t = (float)(Globals.GameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
+                velocity.Y += GravityValue * t * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET; ;
             }
             else
             {
-                velocity.Y += GravityValue * elapsedTime;
+                velocity.Y += GravityValue * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET; ;
             }
         }
 
-        public override void PostUpdate(GameTime gameTime)
+        public override void PostUpdate()
         {
             //Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
             if (Parent == null)
@@ -326,7 +322,7 @@ namespace GameEngine2D
                 Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
                 Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
             }
-            base.PostUpdate(gameTime);
+            base.PostUpdate();
         }
 
         private bool OnGround()

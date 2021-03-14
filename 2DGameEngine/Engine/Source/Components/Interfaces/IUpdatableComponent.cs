@@ -7,6 +7,6 @@ namespace GameEngine2D.Engine.Source.Interfaces
 {
     public interface IUpdatableComponent
     {
-        public void Update(GameTime gameTime);
+        public void Update();
     }
 }

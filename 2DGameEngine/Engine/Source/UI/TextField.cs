@@ -36,7 +36,7 @@ namespace GameEngine2D.Engine.Source.UI
             spriteBatch.DrawString(Font, DataSource.Invoke(), Position, Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update()
         {
             
         }

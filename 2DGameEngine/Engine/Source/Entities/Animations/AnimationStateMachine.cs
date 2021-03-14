@@ -169,14 +169,14 @@ namespace GameEngine2D.Engine.Source.Entities.Animations
             transitions.Add((anim2, anim1));
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             if (animations.Count == 0 || currentAnimation == null)
             {
                 return;
             }
 
-            currentAnimation.animation.Update(gameTime);
+            currentAnimation.animation.Update();
         }
 
         private StateAnimation Pop()

@@ -129,9 +129,9 @@ namespace ForestPlatformerExample.Source.Enemies
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
         }
 
-        public override void FixedUpdate(GameTime gameTime)
+        public override void FixedUpdate()
         {
-            base.FixedUpdate(gameTime);
+            base.FixedUpdate();
 
             if (hero != null)
             {
