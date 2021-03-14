@@ -13,7 +13,7 @@ namespace ForestPlatformerExample.Source.Environment
         {
             AddComponent(new BoxCollisionComponent(this, width, height));
             (GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-            AddTag("SlideWall");
+            AddTag("Environment");
             Active = false;
 #if DEBUG
             Visible = true;

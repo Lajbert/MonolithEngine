@@ -72,7 +72,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Mountable", false);
-            AddCollisionAgainst("SlideWall");
+            AddCollisionAgainst("Environment");
 
             CanFireTriggers = true;
 

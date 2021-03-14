@@ -20,7 +20,8 @@ namespace ForestPlatformerExample.Source.Environment
                 throw new Exception("Invalid ladder dimensions!");
             }
 
-            AddTag("Ladder");
+            AddTag("Environment");
+
             AddComponent(new BoxTrigger(width, height, Vector2.Zero, "Ladder", true));
 
         }
