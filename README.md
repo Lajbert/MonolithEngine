@@ -59,7 +59,7 @@ Whatever MonoGame supports, the rest depends on you and your code :) The engine 
 None yet, hopefully the first will be released in Q3-Q4 2021.
 
 # Am I free to use the engine to make games?
-Yes, any way you want, including commercially. The only thing you cannot do is selling the engine itself as it is, but you're free to use it (partially or entirely) to make your own game or game engine, including commercial use. Free means free: no royalties, fees, or any other hidden costs. I'm grateful if you give me credits in your preferred way, but it's also not mandatory. Please keep in mind that by using the engine, you accept that you are using it "as it is" and the creator of the engine is not liable for any damages, losses or any other harm (financial or other) that is coming from using the engine. The user of this engine takes all the risks and responsibilities.
+Yes, any way you want, including commercially. The only thing you cannot do is selling the engine itself as it is, but you're free to use it (partially or entirely) to make your own game or game engine, including commercial use. Free means free: no royalties, fees, or any other hidden costs. I'm grateful if you give me credits in your preferred way, but it's also not mandatory. Please keep in mind that by using the engine, you accept that you are using it "as it is" and the creator of the engine is not liable for any damages, losses or any other harm (including, but not limited to financial, personal or any other type of damage) that is coming from using the engine. The user of this engine takes all the risks and responsibilities.
 
 # I want to write my own engine, can I use your code?
 Yes, feel free to take parts or the entire source code to your engine and create with it.
