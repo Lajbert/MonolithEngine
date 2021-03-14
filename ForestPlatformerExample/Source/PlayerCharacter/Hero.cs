@@ -368,10 +368,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             slideRight.StoppedCallback = () =>
             {
                 isSliding = false;
+                canAttack = true;
                 Friction = Config.FRICTION;
             };
             slideRight.AnimationSwitchCallback = () => {
                 isSliding = false;
+                canAttack = true;
                 Friction = Config.FRICTION;
             };
             bool isSlidingRight() => IsOnGround && isSliding && CurrentFaceDirection == Direction.EAST;
@@ -585,6 +587,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 return;
             }
             isSliding = true;
+            canAttack = false;
             Friction = 0.7f;
             if (CurrentFaceDirection == Direction.EAST)
             {
