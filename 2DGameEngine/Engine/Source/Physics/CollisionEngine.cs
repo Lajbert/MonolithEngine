@@ -28,8 +28,6 @@ namespace GameEngine2D.Engine.Source.Physics
 
         private static readonly CollisionEngine instance = new CollisionEngine();
 
-        private List<Direction> gridCollisionDirections = new List<Direction>() { Direction.SOUTH, Direction.NORTH, Direction.EAST, Direction.WEST };
-
         private CollisionEngine()
         {
 
