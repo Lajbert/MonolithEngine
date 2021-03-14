@@ -82,7 +82,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             BlocksRay = true;
 
             //AddComponent(new CircleCollisionComponent(this, 10, new Vector2(0, -10)));
-            AddComponent(new BoxCollisionComponent(this, 16, 24, new Vector2(-8, -24)));
+            AddComponent(new BoxCollisionComponent(this, 16, 25, new Vector2(-8, -24)));
             //AddComponent(new BoxCollisionComponent(this, 16, 24, Vector2.Zero));
             (GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 
