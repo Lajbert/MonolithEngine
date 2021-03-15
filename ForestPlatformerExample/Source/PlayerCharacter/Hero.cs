@@ -401,18 +401,18 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     if (!isSliding)
                     {
                         VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                        if (VelocityX > 0.1)
-                        {
-                            CurrentFaceDirection = Direction.EAST;
-                        }
+                    }
+                    if (VelocityX > 0.1)
+                    {
+                        CurrentFaceDirection = Direction.EAST;
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
                     if (!isSliding)
                     {
                         VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                        CurrentFaceDirection = Direction.EAST;
                     }
+                    CurrentFaceDirection = Direction.EAST;
                 }
                 fist.ChangeDirection();
                 //CurrentFaceDirection = Direction.RIGHT;
@@ -424,18 +424,18 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     if (!isSliding)
                     {
                         VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                        if (VelocityX < -0.1)
-                        {
-                            CurrentFaceDirection = Direction.WEST;
-                        }
+                    }
+                    if (VelocityX < -0.1)
+                    {
+                        CurrentFaceDirection = Direction.WEST;
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
                     if (!isSliding)
                     {
                         VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                        CurrentFaceDirection = Direction.WEST;
                     }
+                    CurrentFaceDirection = Direction.WEST;
                 }
                 fist.ChangeDirection();
                 //CurrentFaceDirection = Direction.LEFT;

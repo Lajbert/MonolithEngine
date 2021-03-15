@@ -418,7 +418,7 @@ namespace GameEngine2D
                         {
                             VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
-                            while (-distanceX < thisBox.Width)
+                            while (-distanceX < thisBox.Width - 1)
                             {
                                 Transform.InCellLocation.X -= 0.01f;
 
@@ -449,7 +449,7 @@ namespace GameEngine2D
                         {
                             VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
-                            while (distanceX < otherBox.Width)
+                            while (distanceX < otherBox.Width - 1)
                             {
                                 Transform.InCellLocation.X += 0.01f;
 
