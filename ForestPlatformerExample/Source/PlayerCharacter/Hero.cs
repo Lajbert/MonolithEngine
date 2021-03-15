@@ -512,6 +512,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     StaticCollider collider = GridCollisionChecker.Instance.GetColliderAt(GridUtil.GetBelowGrid(Transform.GridCoordinates));
                     if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement) {
                         collider.BlocksMovement = false;
+                        Timer.TriggerAfter(500, () => collider.BlocksMovement = true);
                     }
                 }
                 //CurrentFaceDirection = GridDirection.DOWN;

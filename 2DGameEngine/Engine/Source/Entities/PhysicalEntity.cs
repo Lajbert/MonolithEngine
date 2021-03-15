@@ -505,10 +505,6 @@ namespace GameEngine2D
                 rightCollider = null;
             }
 
-            if (!(otherCollider is Entity))
-            {
-                return;
-            }
             /*foreach (string tag in (otherCollider as Entity).GetTags())
             {
                 if (GetCollidesAgainst().ContainsKey(tag) && !GetCollidesAgainst()[tag])
