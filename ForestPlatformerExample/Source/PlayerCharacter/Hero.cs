@@ -851,10 +851,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 jumpModifier = Vector2.Zero;
                 canAttack = true;
             }
-            else if (otherCollider.HasTag("Platform") && !(otherCollider as StaticCollider).BlocksMovement)
+            /*else if (otherCollider.HasTag("Platform") && !(otherCollider as StaticCollider).BlocksMovement)
             {
                 (otherCollider as StaticCollider).BlocksMovement = true;
-            }
+            }*/
             else if (otherCollider is Carrot)
             {
                 (otherCollider as Carrot).OverlapsWithHero = false;
