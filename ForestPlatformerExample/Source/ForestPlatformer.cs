@@ -68,7 +68,7 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-            Config.FPS = 500;
+            Config.FPS = 60;
             //Config.FIXED_UPDATE_FPS = 0;
             if (Config.FPS == 0)
             {
@@ -79,8 +79,9 @@ namespace ForestPlatformerExample
             else
             {
                 IsFixedTimeStep = true;//false;
-                graphics.SynchronizeWithVerticalRetrace = false;
-                TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+                graphics.SynchronizeWithVerticalRetrace = true;
+                TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS));
+                //TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
 
             fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
@@ -233,14 +234,14 @@ namespace ForestPlatformerExample
                 FixedUpdate();
             } else
             {
-                if (fixedUpdateElapsedTime >= fixedUpdateRate)
+                if (Globals.FixedUpdateElapsedTime >= fixedUpdateRate)
                 {
                     FixedUpdate();
-                    fixedUpdateElapsedTime = 0;
+                    Globals.FixedUpdateElapsedTime = 0;
                 }
                 else
                 {
-                    fixedUpdateElapsedTime += elapsedTime;
+                    Globals.FixedUpdateElapsedTime += elapsedTime;
                 }
             }
 
@@ -251,8 +252,8 @@ namespace ForestPlatformerExample
 
         private void FixedUpdate()
         {
-            CollisionEngine.Instance.Update();
             LayerManager.Instance.FixedUpdateAll();
+            CollisionEngine.Instance.Update();
         }
 
         private float lastPrint = 0;
@@ -264,7 +265,7 @@ namespace ForestPlatformerExample
 
             LayerManager.Instance.DrawAll(gameTime);
 
-            /*var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
             frameCounter.Update(deltaTime);
             
@@ -275,8 +276,8 @@ namespace ForestPlatformerExample
             }
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
-            spriteBatch.End();*/
+            spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red);
+            spriteBatch.End();
 
 
             // TODO: Add your drawing code here

@@ -30,6 +30,8 @@ namespace GameEngine2D.Entities
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {
 
+        public Vector2 DrawPosition = Vector2.Zero;
+
         protected float CollisionOffsetLeft = 0f;
         protected float CollisionOffsetRight = 0f;
         protected float CollisionOffsetBottom = 0f;
@@ -154,6 +156,7 @@ namespace GameEngine2D.Entities
 
         public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base()
         {
+            DrawPosition = startPosition;
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
             this.font = font;
@@ -393,7 +396,6 @@ namespace GameEngine2D.Entities
             {
                 return;
             }
-
             AddComponent(new Sprite(this, sprite, new Rectangle(0, 0, sprite.Width, sprite.Height)));
         }
 
