@@ -126,7 +126,7 @@ namespace GameEngine2D.Source.Entities.Animation
             }
             else
             {
-                currentDelay += Globals.ElapsedTime;
+                currentDelay += Globals.FixedUpdateElapsedTime;
             }
 
             if (CurrentFrame == TotalFrames) {

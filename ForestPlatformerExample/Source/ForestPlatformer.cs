@@ -69,17 +69,19 @@ namespace ForestPlatformerExample
             //Config.GRID = 64;
 
             Config.FPS = 60;
-            //Config.FIXED_UPDATE_FPS = 0;
+            Config.FIXED_UPDATE_FPS = 30;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
-                graphics.SynchronizeWithVerticalRetrace = false;
+                graphics.SynchronizeWithVerticalRetrace = true;
+                //graphics.SynchronizeWithVerticalRetrace = false;
                 IsFixedTimeStep = false;
             }
             else
             {
                 IsFixedTimeStep = true;//false;
                 graphics.SynchronizeWithVerticalRetrace = true;
+                //graphics.SynchronizeWithVerticalRetrace = false;
                 TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS));
                 //TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
@@ -218,6 +220,13 @@ namespace ForestPlatformerExample
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (Globals.NextTickTime == 0)
+            {
+                float ms = (float)gameTime.TotalGameTime.TotalMilliseconds;
+                Globals.NextTickTime = ms + fixedUpdateRate;
+            }
+
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             // TODO: Add your update logic here
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -229,15 +238,19 @@ namespace ForestPlatformerExample
             Camera.Update();
             Camera.PostUpdate();
 
-            if (fixedUpdateRate == 0)
+            if (fixedUpdateRate == 0 || Config.FIXED_UPDATE_FPS == Config.FPS)
             {
+                Globals.FixedUpdateElapsedTime = elapsedTime;
                 FixedUpdate();
             } else
             {
                 if (Globals.FixedUpdateElapsedTime >= fixedUpdateRate)
                 {
                     FixedUpdate();
-                    Globals.FixedUpdateElapsedTime = 0;
+                    float ms = (float)Globals.GameTime.TotalGameTime.TotalMilliseconds;
+                    Globals.NextTickTime = ms + Globals.FixedUpdateElapsedTime;
+                    Globals.FixedUpdateElapsedTime = Globals.FixedUpdateElapsedTime - fixedUpdateRate;
+                    //Globals.FixedUpdateElapsedTime = 0;
                 }
                 else
                 {

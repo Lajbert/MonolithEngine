@@ -280,6 +280,8 @@ namespace GameEngine2D.Entities
                 return;
             }
 
+            componentList.UpdateAll();
+
             foreach (Entity child in Children)
             {
                 child.FixedUpdate();
@@ -292,8 +294,6 @@ namespace GameEngine2D.Entities
             {
                 return;
             }
-
-            componentList.UpdateAll();
 
             foreach (Entity child in Children)
             {

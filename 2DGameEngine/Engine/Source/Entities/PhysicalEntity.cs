@@ -158,16 +158,34 @@ namespace GameEngine2D
         float elapsedTime = 0f;
         public override void Update()
         {
-            DrawPosition = Transform.Position;
+            if (Config.FIXED_UPDATE_FPS == Config.FPS || Config.FIXED_UPDATE_FPS == 0)
+            {
+                DrawPosition = Transform.Position;
+                base.Update();
+                return;
+            }
+            //DrawPosition = Transform.Position;
+            if (Globals.NextTickTime > 0)
+            {
+                Vector2 posDiff = Transform.Position - previousPosition;
+                //float alpha = 0.9f;
+                float ms = (float)Globals.GameTime.TotalGameTime.TotalMilliseconds;
+                //float t = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS)).Milliseconds;
+                float t = Globals.FixedUpdateElapsedTime;
+                float alpha = 1 - ((Globals.NextTickTime - ms) / Config.FPS);
+                //DrawPosition = new Vector2(posDiff.X * alpha, posDiff.Y * alpha) + previousPosition;
 
-            /*Vector2 posDiff = Transform.Position - previousPosition;
-            //float alpha = 0.9f;
-            float ms = DateTime.Now.Millisecond;
-            float t = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS)).Milliseconds;
-            float alpha = ((ms + t) - ms) / Config.FIXED_UPDATE_FPS;
-            if (posDiff != Vector2.Zero)
-            DrawPosition = new Vector2(posDiff.X * alpha, posDiff.Y * alpha) + previousPosition;
-            previousPosition = Transform.Position;*/
+                if (alpha > 0)
+                {
+                    DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, alpha);
+                    if (HasTag("Hero") && previousPosition != Transform.Position)
+                    {
+                        Logger.Info(previousPosition + " -> " + Transform.Position + ", alpha: " + alpha + ": " + DrawPosition);
+                    }
+                }
+                
+            }
+
 
             /*float dt = Globals.FixedUpdateElapsedTime * 1000;
             elapsedTime += dt;
@@ -193,7 +211,7 @@ namespace GameEngine2D
         public override void FixedUpdate()
         {
             //float gameTime = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-
+            previousPosition = Transform.Position;
             float gameTime = (float)Globals.FixedUpdateElapsedTime * 0.01f;
 
             if (leftCollider != null)

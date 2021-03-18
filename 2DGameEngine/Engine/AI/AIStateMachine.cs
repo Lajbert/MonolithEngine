@@ -70,7 +70,7 @@ namespace GameEngine2D.Engine.AI
             {
                 return;
             }
-            TimeSpentInCurrentState += Globals.ElapsedTime;
+            TimeSpentInCurrentState += Globals.FixedUpdateElapsedTime;
             currentState.Update();
         }
 

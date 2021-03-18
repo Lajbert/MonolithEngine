@@ -76,7 +76,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Mountable", false);
             AddCollisionAgainst("Environment");
-
+            AddTag("Hero");
             CanFireTriggers = true;
 
             BlocksRay = true;
