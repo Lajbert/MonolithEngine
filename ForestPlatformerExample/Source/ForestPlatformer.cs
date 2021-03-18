@@ -69,7 +69,7 @@ namespace ForestPlatformerExample
             //Config.GRID = 64;
 
             Config.FPS = 60;
-            Config.FIXED_UPDATE_FPS = 30;
+            Config.FIXED_UPDATE_FPS = 60;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
@@ -87,6 +87,7 @@ namespace ForestPlatformerExample
             }
 
             fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
+            //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
         }
 
         protected override void Initialize()
@@ -249,6 +250,7 @@ namespace ForestPlatformerExample
                     FixedUpdate();
                     float ms = (float)Globals.GameTime.TotalGameTime.TotalMilliseconds;
                     Globals.NextTickTime = ms + Globals.FixedUpdateElapsedTime;
+                    //Globals.NextTickTime = ms + fixedUpdateRate;
                     Globals.FixedUpdateElapsedTime = Globals.FixedUpdateElapsedTime - fixedUpdateRate;
                     //Globals.FixedUpdateElapsedTime = 0;
                 }
@@ -262,6 +264,68 @@ namespace ForestPlatformerExample
 
             base.Update(gameTime);
         }
+
+
+
+
+
+
+
+        /*double t = 0.0;
+        double dt = 0.01;
+
+        double currentTime = 0;
+        double accumulator = 0.0;
+
+        protected override void Update(GameTime gameTime)
+        {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+
+
+
+            if (currentTime == 0)
+            {
+                currentTime = gameTime.TotalGameTime.TotalSeconds;
+            }
+
+            //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
+            // TODO: Add your update logic here
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            Globals.ElapsedTime = elapsedTime;
+            Globals.GameTime = gameTime;
+            Timer.Update(elapsedTime);
+            //CollisionEngine.Instance.Update(gameTime);
+            LayerManager.Instance.UpdateAll();
+            Camera.Update();
+            Camera.PostUpdate();
+
+
+            double newTime = gameTime.TotalGameTime.TotalSeconds;
+            double frameTime = newTime - currentTime;
+            if (frameTime > 0.25)
+                frameTime = 0.25;
+            currentTime = newTime;
+
+            accumulator += frameTime;
+
+            while (accumulator >= dt)
+            {
+                //previousState = currentState;
+                Globals.FixedUpdateElapsedTime = (float)dt;
+                FixedUpdate();
+                t += dt;
+                accumulator -= dt;
+            }
+
+            Globals.ALPHA = (float)(accumulator / dt);
+            ui.Update();
+
+            base.Update(gameTime);
+        }
+    */
+
+
 
         private void FixedUpdate()
         {

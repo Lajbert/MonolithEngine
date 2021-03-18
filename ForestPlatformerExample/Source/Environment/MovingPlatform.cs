@@ -54,6 +54,7 @@ namespace ForestPlatformerExample.Source.Environment
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             AddCollisionAgainst("PlatformTurner");
             AddTag("Mountable");
+            AddTag("MovingPlatform");
         }
 
         public override void OnCollisionStart(IGameObject otherCollider)

@@ -33,7 +33,7 @@ namespace ForestPlatformerExample.Source.Weapons
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Box");
 
-            DEBUG_SHOW_COLLIDER = true;
+            //DEBUG_SHOW_COLLIDER = true;
         }
 
         public override void OnCollisionStart(IGameObject otherCollider)

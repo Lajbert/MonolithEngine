@@ -161,40 +161,56 @@ namespace GameEngine2D
             if (Config.FIXED_UPDATE_FPS == Config.FPS || Config.FIXED_UPDATE_FPS == 0)
             {
                 DrawPosition = Transform.Position;
+                DrawPosition.X = (int)DrawPosition.X;
+                DrawPosition.Y = (int)DrawPosition.Y; 
                 base.Update();
                 return;
             }
             //DrawPosition = Transform.Position;
             if (Globals.NextTickTime > 0)
             {
-                Vector2 posDiff = Transform.Position - previousPosition;
-                //float alpha = 0.9f;
-                float ms = (float)Globals.GameTime.TotalGameTime.TotalMilliseconds;
-                //float t = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS)).Milliseconds;
-                float t = Globals.FixedUpdateElapsedTime;
-                float alpha = 1 - ((Globals.NextTickTime - ms) / Config.FPS);
-                //DrawPosition = new Vector2(posDiff.X * alpha, posDiff.Y * alpha) + previousPosition;
 
-                if (alpha > 0)
+                float ms = (float)Globals.GameTime.TotalGameTime.TotalMilliseconds;
+                float alpha = 1 - ((Globals.NextTickTime - ms) / (Config.FPS));
+                //alpha = MathUtil.Clamp(alpha, 0, 1);
+                Vector2 intermidate = Vector2.Lerp(previousPosition, Transform.Position, alpha);
+                DrawPosition.X = (int)intermidate.X;
+                DrawPosition.Y = (int)intermidate.Y;
+                if (HasTag("Hero"))
                 {
+                    Logger.Info("ALPHA: " + alpha);
+                }
+
+                /*if (alpha <= 1)
+                {
+                    alpha = MathUtil.Clamp(alpha, 0, 1);
                     DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, alpha);
-                    if (HasTag("Hero") && previousPosition != Transform.Position)
+                    if (HasTag("Hero"))
                     {
                         Logger.Info(previousPosition + " -> " + Transform.Position + ", alpha: " + alpha + ": " + DrawPosition);
                     }
-                }
-                
+                } else
+                {
+                    if (HasTag("Hero") )
+                    {
+                        Logger.Info("ALPHA > 1: " + alpha);
+                        DrawPosition = Transform.Position;
+                    }
+                } */
             }
 
+            /*DrawPosition = Transform.Position * Globals.ALPHA + previousPosition * (1.0f - Globals.ALPHA);
+            DrawPosition.X = (int)DrawPosition.X;
+            DrawPosition.Y = (int)DrawPosition.Y;*/
 
-            /*float dt = Globals.FixedUpdateElapsedTime * 1000;
-            elapsedTime += dt;
-            if (elapsedTime > 1)
-                elapsedTime = 1;
+            /*Vector2 intermidate = Vector2.Lerp(previousPosition, Transform.Position, Globals.ALPHA);
+            DrawPosition.X = (int)intermidate.X;
+            DrawPosition.Y = (int)intermidate.Y;*/
 
-            float param = elapsedTime / duration;
-            DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, param);
-            previousPosition = Transform.Position;*/
+            /*State state = currentState * alpha +
+    previousState * (1.0 - alpha);*/
+
+
             base.Update();
         }
 
