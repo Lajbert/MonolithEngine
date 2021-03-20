@@ -38,8 +38,6 @@ namespace ForestPlatformerExample
 
         private Hero hero;
 
-        private double fixedUpdateElapsedTime = 0;
-
         private float fixedUpdateRate;
 
         public static int CoinCount = 0;
@@ -217,21 +215,20 @@ namespace ForestPlatformerExample
 
         }
 
-        double t = 0.0;
-        double dt = 0.03;
-        double currentTime = 0;
-        double accumulator = 0.0;
+        private double fixedUpdateElapsedTime = 0.0;
+        private double fixedUpdateDelta = 0.03;
+        private double previousT = 0;
+        private double accumulator = 0.0;
+        private double maxFrameTime = 0.25;
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
-
-            if (currentTime == 0)
+            if (previousT == 0)
             {
-                currentTime = gameTime.TotalGameTime.TotalSeconds;
+                previousT = gameTime.TotalGameTime.TotalSeconds;
             }
 
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -242,24 +239,23 @@ namespace ForestPlatformerExample
             Camera.Update();
             Camera.PostUpdate();
 
+            double now = gameTime.TotalGameTime.TotalSeconds;
+            double frameTimeMS = now - previousT;
+            if (frameTimeMS > maxFrameTime)
+                frameTimeMS = maxFrameTime;
+            previousT = now;
 
-            double newTime = gameTime.TotalGameTime.TotalSeconds;
-            double frameTime = newTime - currentTime;
-            if (frameTime > 0.25)
-                frameTime = 0.25;
-            currentTime = newTime;
+            accumulator += frameTimeMS;
 
-            accumulator += frameTime;
-
-            while (accumulator >= dt)
+            while (accumulator >= fixedUpdateDelta)
             {
                 Globals.FixedUpdateMultiplier = 30;
                 FixedUpdate();
-                t += dt;
-                accumulator -= dt;
+                fixedUpdateElapsedTime += fixedUpdateDelta;
+                accumulator -= fixedUpdateDelta;
             }
 
-            Globals.FixedUpdateAlpha = (float)(accumulator / dt);
+            Globals.FixedUpdateAlpha = (float)(accumulator / fixedUpdateDelta);
 
             LayerManager.Instance.UpdateAll();
 
