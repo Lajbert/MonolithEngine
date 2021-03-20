@@ -133,6 +133,11 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             base.FixedUpdate();
 
+            if (BeingDestroyed || Destroyed)
+            {
+                return;
+            }
+
             if (hero != null)
             {
                 line.Clear();
