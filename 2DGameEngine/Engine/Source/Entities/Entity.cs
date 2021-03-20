@@ -5,6 +5,7 @@ using GameEngine2D.Engine.Source.Entities.Abstract;
 using GameEngine2D.Engine.Source.Entities.Animations;
 using GameEngine2D.Engine.Source.Entities.Interfaces;
 using GameEngine2D.Engine.Source.Entities.Transform;
+using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Graphics.Primitives;
 using GameEngine2D.Engine.Source.Physics;
@@ -154,6 +155,8 @@ namespace GameEngine2D.Entities
             }
         }
 
+        internal Vector2 previousPosition = Vector2.Zero;
+
         public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base()
         {
             DrawPosition = startPosition;
@@ -219,16 +222,6 @@ namespace GameEngine2D.Entities
                 return;
             }
 
-            /*if (GetComponent<Sprite>() != null)
-            {
-                //spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position + GetComponent<Sprite>().DrawOffset, GetComponent<Sprite>().SourceRectangle, Color.White, 0f, Pivot, 1f, SpriteEffects.None, Depth);
-                GetComponent<Sprite>().Draw(spriteBatch, gameTime);
-            }
-            if (GetComponent<AnimationStateMachine>() != null)
-            {
-                GetComponent<AnimationStateMachine>().Draw(spriteBatch, gameTime);
-            }*/
-
             componentList.DrawAll(spriteBatch, gameTime);
 
 #if DEBUG
@@ -280,6 +273,12 @@ namespace GameEngine2D.Entities
                 return;
             }
 
+            //float gameTime = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+            //previousPosition = DrawPosition;
+            /*previousPosition = Transform.Position;
+            previousPosition.X = (int)previousPosition.X;
+            previousPosition.Y = (int)previousPosition.Y;*/
+
             componentList.UpdateAll();
 
             foreach (Entity child in Children)
@@ -293,6 +292,18 @@ namespace GameEngine2D.Entities
             if (!Active)
             {
                 return;
+            }
+
+            if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == Config.FPS || Config.FIXED_UPDATE_FPS == 0)
+            {
+                DrawPosition.X = (int)Transform.Position.X;
+                DrawPosition.Y = (int)Transform.Position.Y;
+            }
+            else
+            {
+                Vector2 intermidate = Vector2.Lerp(previousPosition, Transform.Position, Globals.FixedUpdateAlpha);
+                DrawPosition.X = (int)intermidate.X;
+                DrawPosition.Y = (int)intermidate.Y;
             }
 
             foreach (Entity child in Children)

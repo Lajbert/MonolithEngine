@@ -69,12 +69,12 @@ namespace ForestPlatformerExample
             //Config.GRID = 64;
 
             Config.FPS = 60;
-            Config.FIXED_UPDATE_FPS = 60;
+            Config.FIXED_UPDATE_FPS = 30;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
-                graphics.SynchronizeWithVerticalRetrace = true;
-                //graphics.SynchronizeWithVerticalRetrace = false;
+                //graphics.SynchronizeWithVerticalRetrace = true;
+                graphics.SynchronizeWithVerticalRetrace = false;
                 IsFixedTimeStep = false;
             }
             else
@@ -217,63 +217,8 @@ namespace ForestPlatformerExample
 
         }
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            if (Globals.NextTickTime == 0)
-            {
-                float ms = (float)gameTime.TotalGameTime.TotalMilliseconds;
-                Globals.NextTickTime = ms + fixedUpdateRate;
-            }
-
-            //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
-            // TODO: Add your update logic here
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            Globals.ElapsedTime = elapsedTime;
-            Globals.GameTime = gameTime;
-            Timer.Update(elapsedTime);
-            //CollisionEngine.Instance.Update(gameTime);
-            LayerManager.Instance.UpdateAll();
-            Camera.Update();
-            Camera.PostUpdate();
-
-            if (fixedUpdateRate == 0 || Config.FIXED_UPDATE_FPS == Config.FPS)
-            {
-                Globals.FixedUpdateElapsedTime = elapsedTime;
-                FixedUpdate();
-            } else
-            {
-                if (Globals.FixedUpdateElapsedTime >= fixedUpdateRate)
-                {
-                    FixedUpdate();
-                    float ms = (float)Globals.GameTime.TotalGameTime.TotalMilliseconds;
-                    Globals.NextTickTime = ms + Globals.FixedUpdateElapsedTime;
-                    //Globals.NextTickTime = ms + fixedUpdateRate;
-                    Globals.FixedUpdateElapsedTime = Globals.FixedUpdateElapsedTime - fixedUpdateRate;
-                    //Globals.FixedUpdateElapsedTime = 0;
-                }
-                else
-                {
-                    Globals.FixedUpdateElapsedTime += elapsedTime;
-                }
-            }
-
-            ui.Update();
-
-            base.Update(gameTime);
-        }
-
-
-
-
-
-
-
-        /*double t = 0.0;
-        double dt = 0.01;
-
+        double t = 0.0;
+        double dt = 0.03;
         double currentTime = 0;
         double accumulator = 0.0;
 
@@ -289,14 +234,11 @@ namespace ForestPlatformerExample
                 currentTime = gameTime.TotalGameTime.TotalSeconds;
             }
 
-            //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
-            // TODO: Add your update logic here
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
             Globals.ElapsedTime = elapsedTime;
             Globals.GameTime = gameTime;
             Timer.Update(elapsedTime);
-            //CollisionEngine.Instance.Update(gameTime);
-            LayerManager.Instance.UpdateAll();
             Camera.Update();
             Camera.PostUpdate();
 
@@ -311,21 +253,20 @@ namespace ForestPlatformerExample
 
             while (accumulator >= dt)
             {
-                //previousState = currentState;
-                Globals.FixedUpdateElapsedTime = (float)dt;
+                Globals.FixedUpdateMultiplier = 30;
                 FixedUpdate();
                 t += dt;
                 accumulator -= dt;
             }
 
-            Globals.ALPHA = (float)(accumulator / dt);
+            Globals.FixedUpdateAlpha = (float)(accumulator / dt);
+
+            LayerManager.Instance.UpdateAll();
+
             ui.Update();
 
             base.Update(gameTime);
         }
-    */
-
-
 
         private void FixedUpdate()
         {

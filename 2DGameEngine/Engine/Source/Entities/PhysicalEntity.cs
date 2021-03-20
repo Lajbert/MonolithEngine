@@ -103,8 +103,6 @@ namespace GameEngine2D
         private PhysicalEntity leftCollider = null;
         private PhysicalEntity rightCollider = null;
 
-        private Vector2 previousPosition = Vector2.Zero;
-
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
             Transform = new DynamicTransform(this, startPosition);
@@ -153,67 +151,6 @@ namespace GameEngine2D
             base.PreUpdate();
         }
 
-
-        float duration = 2.0f;
-        float elapsedTime = 0f;
-        public override void Update()
-        {
-            if (Config.FIXED_UPDATE_FPS == Config.FPS || Config.FIXED_UPDATE_FPS == 0)
-            {
-                DrawPosition = Transform.Position;
-                DrawPosition.X = (int)DrawPosition.X;
-                DrawPosition.Y = (int)DrawPosition.Y; 
-                base.Update();
-                return;
-            }
-            //DrawPosition = Transform.Position;
-            if (Globals.NextTickTime > 0)
-            {
-
-                float ms = (float)Globals.GameTime.TotalGameTime.TotalMilliseconds;
-                float alpha = 1 - ((Globals.NextTickTime - ms) / (Config.FPS));
-                //alpha = MathUtil.Clamp(alpha, 0, 1);
-                Vector2 intermidate = Vector2.Lerp(previousPosition, Transform.Position, alpha);
-                DrawPosition.X = (int)intermidate.X;
-                DrawPosition.Y = (int)intermidate.Y;
-                if (HasTag("Hero"))
-                {
-                    Logger.Info("ALPHA: " + alpha);
-                }
-
-                /*if (alpha <= 1)
-                {
-                    alpha = MathUtil.Clamp(alpha, 0, 1);
-                    DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, alpha);
-                    if (HasTag("Hero"))
-                    {
-                        Logger.Info(previousPosition + " -> " + Transform.Position + ", alpha: " + alpha + ": " + DrawPosition);
-                    }
-                } else
-                {
-                    if (HasTag("Hero") )
-                    {
-                        Logger.Info("ALPHA > 1: " + alpha);
-                        DrawPosition = Transform.Position;
-                    }
-                } */
-            }
-
-            /*DrawPosition = Transform.Position * Globals.ALPHA + previousPosition * (1.0f - Globals.ALPHA);
-            DrawPosition.X = (int)DrawPosition.X;
-            DrawPosition.Y = (int)DrawPosition.Y;*/
-
-            /*Vector2 intermidate = Vector2.Lerp(previousPosition, Transform.Position, Globals.ALPHA);
-            DrawPosition.X = (int)intermidate.X;
-            DrawPosition.Y = (int)intermidate.Y;*/
-
-            /*State state = currentState * alpha +
-    previousState * (1.0 - alpha);*/
-
-
-            base.Update();
-        }
-
         protected virtual void OnLand()
         {
             //bump = Vector2.Zero;
@@ -226,9 +163,12 @@ namespace GameEngine2D
 
         public override void FixedUpdate()
         {
-            //float gameTime = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+
             previousPosition = Transform.Position;
-            float gameTime = (float)Globals.FixedUpdateElapsedTime * 0.01f;
+            previousPosition.X = (int)previousPosition.X;
+            previousPosition.Y = (int)previousPosition.Y;
+
+            float gameTime = (float)Globals.FixedUpdateMultiplier * 0.01f;
 
             if (leftCollider != null)
             {
@@ -381,7 +321,7 @@ namespace GameEngine2D
             if (Config.INCREASING_GRAVITY)
             {
                 t = (float)(Globals.GameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
-                velocity.Y += GravityValue * t * (float)Globals.FixedUpdateElapsedTime * 0.01f;
+                velocity.Y += GravityValue * t * (float)Globals.FixedUpdateMultiplier * 0.01f;
             }
             else
             {
