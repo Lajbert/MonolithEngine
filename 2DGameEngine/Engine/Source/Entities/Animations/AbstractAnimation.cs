@@ -87,7 +87,7 @@ namespace GameEngine2D.Source.Entities.Animation
 
         public virtual void Play(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GetTexture(), (Parent.Transform.Position + Offset), SourceRectangle, Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
+            spriteBatch.Draw(GetTexture(), (Parent.DrawPosition + Offset), SourceRectangle, Color.White, 0f, Pivot, Scale, SpriteEffect, 0f);
         }
 
         protected abstract Texture2D GetTexture();
@@ -126,7 +126,7 @@ namespace GameEngine2D.Source.Entities.Animation
             }
             else
             {
-                currentDelay += Globals.ElapsedTime;
+                currentDelay += Globals.FixedUpdateMultiplier;
             }
 
             if (CurrentFrame == TotalFrames) {

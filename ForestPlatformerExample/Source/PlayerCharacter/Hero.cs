@@ -76,7 +76,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Mountable", false);
             AddCollisionAgainst("Environment");
-
+            AddTag("Hero");
             CanFireTriggers = true;
 
             BlocksRay = true;
@@ -84,7 +84,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //AddComponent(new CircleCollisionComponent(this, 10, new Vector2(0, -10)));
             AddComponent(new BoxCollisionComponent(this, 16, 25, new Vector2(-8, -24)));
             //AddComponent(new BoxCollisionComponent(this, 16, 24, Vector2.Zero));
-            (GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 
             //ColliderOnGrid = true;
 

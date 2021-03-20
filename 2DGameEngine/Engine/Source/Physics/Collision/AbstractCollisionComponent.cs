@@ -1,5 +1,6 @@
 ﻿using GameEngine2D.Engine.Source.Components;
 using GameEngine2D.Engine.Source.Physics.Interface;
+using GameEngine2D.Entities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace GameEngine2D.Engine.Source.Physics.Collision
 
         public Vector2 Position
         {
+            //get => PositionOffset + (owner as Entity).DrawPosition;
             get => PositionOffset + owner.Transform.Position;
         }
         public bool UniquePerEntity { get; set; }

@@ -151,10 +151,24 @@ namespace GameEngine2D
             base.PreUpdate();
         }
 
-        public override void Update()
+        protected virtual void OnLand()
+        {
+            //bump = Vector2.Zero;
+        }
+
+        public void Bump(Vector2 direction)
+        {
+            bump = direction;
+        }
+
+        public override void FixedUpdate()
         {
 
-            float gameTime = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+            previousPosition = Transform.Position;
+            previousPosition.X = (int)previousPosition.X;
+            previousPosition.Y = (int)previousPosition.Y;
+
+            float gameTime = (float)Globals.FixedUpdateMultiplier * 0.01f;
 
             if (leftCollider != null)
             {
@@ -179,7 +193,8 @@ namespace GameEngine2D
                     {
                         VelocityX = rightCollider.Velocity.X * (float)(1 / Math.Pow(Friction, gameTime));
                     }
-                } else if (Velocity.X > 0)
+                }
+                else if (Velocity.X > 0)
                 {
                     VelocityX = 0;
                 }
@@ -201,13 +216,15 @@ namespace GameEngine2D
                     Transform.InCellLocation.X = CollisionOffsetRight;
                 }
 
-                while (Transform.InCellLocation.X > 1) {
-                    Transform.InCellLocation.X--; 
-                    Transform.GridCoordinates.X++; 
+                while (Transform.InCellLocation.X > 1)
+                {
+                    Transform.InCellLocation.X--;
+                    Transform.GridCoordinates.X++;
                 }
-                while (Transform.InCellLocation.X < 0) {
-                    Transform.InCellLocation.X++; 
-                    Transform.GridCoordinates.X--; 
+                while (Transform.InCellLocation.X < 0)
+                {
+                    Transform.InCellLocation.X++;
+                    Transform.GridCoordinates.X--;
                 }
                 steps--;
             }
@@ -215,12 +232,12 @@ namespace GameEngine2D
             {
                 velocity.X *= (float)Math.Pow(Friction, gameTime);
             }
-            
+
             if (BumpFriction > 0)
             {
                 bump.X *= (float)Math.Pow(BumpFriction, gameTime);
             }
-            
+
 
             //rounding stuff
             if (Math.Abs(Velocity.X) <= 0.0005 * gameTime) velocity.X = 0;
@@ -264,14 +281,16 @@ namespace GameEngine2D
                     velocity.Y = 0;
                     Transform.InCellLocation.Y = CollisionOffsetTop;
                 }
-                   
-                while (Transform.InCellLocation.Y > 1) {
-                    Transform.InCellLocation.Y--; 
-                    Transform.GridCoordinates.Y++; 
+
+                while (Transform.InCellLocation.Y > 1)
+                {
+                    Transform.InCellLocation.Y--;
+                    Transform.GridCoordinates.Y++;
                 }
-                while (Transform.InCellLocation.Y < 0) {
-                    Transform.InCellLocation.Y++; 
-                    Transform.GridCoordinates.Y--; 
+                while (Transform.InCellLocation.Y < 0)
+                {
+                    Transform.InCellLocation.Y++;
+                    Transform.GridCoordinates.Y--;
                 }
                 steps2--;
             }
@@ -284,29 +303,25 @@ namespace GameEngine2D
             {
                 bump.Y *= (float)Math.Pow(BumpFriction, gameTime);
             }
-            
+
             //rounding stuff
             if (Math.Abs(Velocity.Y) <= 0.0005 * gameTime) velocity.Y = 0;
             if (Math.Abs(bump.Y) <= 0.0005 * gameTime) bump.Y = 0;
-            base.Update();
-        }
 
-        protected virtual void OnLand()
-        {
-            //bump = Vector2.Zero;
-        }
+            if (Parent == null)
+            {
+                Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
+                Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
+            }
 
-        public void Bump(Vector2 direction)
-        {
-            bump = direction;
+            base.FixedUpdate();
         }
-
         private void ApplyGravity()
         {
             if (Config.INCREASING_GRAVITY)
             {
                 t = (float)(Globals.GameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
-                velocity.Y += GravityValue * t * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET; ;
+                velocity.Y += GravityValue * t * (float)Globals.FixedUpdateMultiplier * 0.01f;
             }
             else
             {
@@ -317,11 +332,7 @@ namespace GameEngine2D
         public override void PostUpdate()
         {
             //Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
-            if (Parent == null)
-            {
-                Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
-            }
+            
             base.PostUpdate();
         }
 

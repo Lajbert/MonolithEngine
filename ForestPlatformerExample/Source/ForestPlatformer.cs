@@ -38,8 +38,6 @@ namespace ForestPlatformerExample
 
         private Hero hero;
 
-        private double fixedUpdateElapsedTime = 0;
-
         private float fixedUpdateRate;
 
         public static int CoinCount = 0;
@@ -68,22 +66,26 @@ namespace ForestPlatformerExample
 
             //Config.GRID = 64;
 
-            Config.FPS = 500;
-            //Config.FIXED_UPDATE_FPS = 0;
+            Config.FPS = 60;
+            Config.FIXED_UPDATE_FPS = 30;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
+                //graphics.SynchronizeWithVerticalRetrace = true;
                 graphics.SynchronizeWithVerticalRetrace = false;
                 IsFixedTimeStep = false;
             }
             else
             {
                 IsFixedTimeStep = true;//false;
-                graphics.SynchronizeWithVerticalRetrace = false;
-                TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+                graphics.SynchronizeWithVerticalRetrace = true;
+                //graphics.SynchronizeWithVerticalRetrace = false;
+                TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS));
+                //TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
 
             fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
+            //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
         }
 
         protected override void Initialize()
@@ -213,36 +215,49 @@ namespace ForestPlatformerExample
 
         }
 
+        private double fixedUpdateElapsedTime = 0.0;
+        private double fixedUpdateDelta = 0.03;
+        private double previousT = 0;
+        private double accumulator = 0.0;
+        private double maxFrameTime = 0.25;
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
-            // TODO: Add your update logic here
+
+            if (previousT == 0)
+            {
+                previousT = gameTime.TotalGameTime.TotalSeconds;
+            }
+
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
             Globals.ElapsedTime = elapsedTime;
             Globals.GameTime = gameTime;
             Timer.Update(elapsedTime);
-            //CollisionEngine.Instance.Update(gameTime);
-            LayerManager.Instance.UpdateAll();
             Camera.Update();
             Camera.PostUpdate();
 
-            if (fixedUpdateRate == 0)
+            double now = gameTime.TotalGameTime.TotalSeconds;
+            double frameTimeMS = now - previousT;
+            if (frameTimeMS > maxFrameTime)
+                frameTimeMS = maxFrameTime;
+            previousT = now;
+
+            accumulator += frameTimeMS;
+
+            while (accumulator >= fixedUpdateDelta)
             {
+                Globals.FixedUpdateMultiplier = 30;
                 FixedUpdate();
-            } else
-            {
-                if (fixedUpdateElapsedTime >= fixedUpdateRate)
-                {
-                    FixedUpdate();
-                    fixedUpdateElapsedTime = 0;
-                }
-                else
-                {
-                    fixedUpdateElapsedTime += elapsedTime;
-                }
+                fixedUpdateElapsedTime += fixedUpdateDelta;
+                accumulator -= fixedUpdateDelta;
             }
+
+            Globals.FixedUpdateAlpha = (float)(accumulator / fixedUpdateDelta);
+
+            LayerManager.Instance.UpdateAll();
 
             ui.Update();
 
@@ -251,8 +266,8 @@ namespace ForestPlatformerExample
 
         private void FixedUpdate()
         {
-            CollisionEngine.Instance.Update();
             LayerManager.Instance.FixedUpdateAll();
+            CollisionEngine.Instance.Update();
         }
 
         private float lastPrint = 0;
@@ -264,7 +279,7 @@ namespace ForestPlatformerExample
 
             LayerManager.Instance.DrawAll(gameTime);
 
-            /*var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
             frameCounter.Update(deltaTime);
             
@@ -275,8 +290,8 @@ namespace ForestPlatformerExample
             }
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Red);
-            spriteBatch.End();*/
+            spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red);
+            spriteBatch.End();
 
 
             // TODO: Add your drawing code here

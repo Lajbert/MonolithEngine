@@ -38,7 +38,7 @@ namespace GameEngine2D.Engine.Source.Graphics
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Draw(Texture, Owner.Transform.Position + DrawOffset, SourceRectangle, Color.White, 0f, Owner.Pivot, 1f, SpriteEffects.None, Owner.Depth);
+            spriteBatch.Draw(Texture, Owner.DrawPosition + DrawOffset, SourceRectangle, Color.White, 0f, Owner.Pivot, 1f, SpriteEffects.None, Owner.Depth);
         }
     }
 }
