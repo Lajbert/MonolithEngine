@@ -300,13 +300,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             climb.AddFrameAction(1, setSpeed);
             climb.AddFrameAction(7, setSpeed);
 
-            bool isClimbing() => OnLadder;
+            bool isClimbing() => OnLadder && !IsOnGround;
             bool isHangingOnLadder() => (Math.Abs(VelocityX) <= 0.1f && Math.Abs(VelocityY) <= 0.1f);
             climb.AnimationPauseCondition = isHangingOnLadder;
             Animations.RegisterAnimation("ClimbingLadder", climb, isClimbing, 6);
 
             SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@climb-sheet", 15);
-            bool isSlowClimbing() => OnLadder && ((Math.Abs(VelocityX) > 0.01f && Math.Abs(VelocityX) < 0.5) || (Math.Abs(VelocityY) > 0.01f && Math.Abs(VelocityY) < 0.5));
+            bool isSlowClimbing() =>  !IsOnGround && OnLadder && ((Math.Abs(VelocityX) > 0.01f && Math.Abs(VelocityX) < 0.5) || (Math.Abs(VelocityY) > 0.01f && Math.Abs(VelocityY) < 0.5));
             slowClimb.EveryFrameAction = setSpeed;
             Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
 
@@ -519,7 +519,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
-                if (HasGravity)
+                if (!OnLadder)
                 {
                     return;
                 }
@@ -540,7 +540,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
-                if (!HasGravity)
+                if (!OnLadder)
                 {
                     return;
                 }
