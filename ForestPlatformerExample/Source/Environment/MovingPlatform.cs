@@ -33,7 +33,6 @@ namespace ForestPlatformerExample.Source.Environment
             HasGravity = false;
             Active = true;
             Friction = 0f;
-            SnapToPixel = false;
             BumpFriction = 0f;
             VelocityX = speedX * directionX;
             VelocityY = speedY * directionY;

@@ -36,6 +36,8 @@ namespace GameEngine2D
         private float step2;
         private float t;
 
+
+        private Vector2 prevVelocity = Vector2.Zero;
         private Vector2 velocity = Vector2.Zero;
 
         public Vector2 Velocity
@@ -104,9 +106,6 @@ namespace GameEngine2D
         private PhysicalEntity rightCollider = null;
 
         private Vector2 previousPosition = Vector2.Zero;
-
-        private bool snapToPixelSaved = true;
-        protected bool SnapToPixel = true;
 
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
@@ -326,17 +325,25 @@ namespace GameEngine2D
 
             if (Parent == null)
             {
-                if (SnapToPixel)
+                if (Velocity.X == 0 && prevVelocity.X != Velocity.X)
                 {
                     Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
+                } else
+                {
+                    Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
+                }
+
+                if (Velocity.Y == 0 && prevVelocity.Y != Velocity.Y)
+                {
                     Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
                 }
                 else
                 {
-                    Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
                     Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
                 }
             }
+
+            prevVelocity = Velocity;
 
             base.FixedUpdate();
         }
@@ -393,8 +400,6 @@ namespace GameEngine2D
                             VelocityY = 0;
                             //HasGravity = false;
                             mountedOn = otherCollider as PhysicalEntity;
-                            snapToPixelSaved = SnapToPixel;
-                            SnapToPixel = mountedOn.SnapToPixel;
                             FallSpeed = 0;
                             while (-distanceY < thisBox.Height - 1)
                             {
@@ -529,7 +534,6 @@ namespace GameEngine2D
             if (mountedOn != null && otherCollider.Equals(mountedOn))
             {
                 Velocity += mountedOn.Velocity;
-                SnapToPixel = snapToPixelSaved;
                 mountedOn = null;
                 //HasGravity = true;
             }
