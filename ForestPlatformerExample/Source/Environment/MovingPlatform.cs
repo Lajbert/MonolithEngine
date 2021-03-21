@@ -33,11 +33,12 @@ namespace ForestPlatformerExample.Source.Environment
             HasGravity = false;
             Active = true;
             Friction = 0f;
+            SnapToPixel = false;
             BumpFriction = 0f;
             VelocityX = speedX * directionX;
             VelocityY = speedY * directionY;
             //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
-            Sprite s = new Sprite(this, TextureUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
+            new Sprite(this, TextureUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
             AddComponent(new BoxCollisionComponent(this, width, height));
             TileGroup tg = new TileGroup();
             Texture2D tileSet = TextureUtil.LoadTexture("ForestAssets/Tiles/forest-tileset");

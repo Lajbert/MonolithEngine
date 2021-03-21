@@ -155,8 +155,6 @@ namespace GameEngine2D.Entities
             }
         }
 
-        internal Vector2 previousPosition = Vector2.Zero;
-
         public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base()
         {
             DrawPosition = startPosition;
@@ -292,18 +290,6 @@ namespace GameEngine2D.Entities
             if (!Active)
             {
                 return;
-            }
-
-            if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == Config.FPS || Config.FIXED_UPDATE_FPS == 0)
-            {
-                DrawPosition.X = (int)Transform.Position.X;
-                DrawPosition.Y = (int)Transform.Position.Y;
-            }
-            else
-            {
-                Vector2 intermidate = Vector2.Lerp(previousPosition, Transform.Position, Globals.FixedUpdateAlpha);
-                DrawPosition.X = (int)intermidate.X;
-                DrawPosition.Y = (int)intermidate.Y;
             }
 
             foreach (Entity child in Children)

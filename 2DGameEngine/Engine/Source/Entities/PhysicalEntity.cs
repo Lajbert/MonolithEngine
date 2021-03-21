@@ -103,6 +103,11 @@ namespace GameEngine2D
         private PhysicalEntity leftCollider = null;
         private PhysicalEntity rightCollider = null;
 
+        private Vector2 previousPosition = Vector2.Zero;
+
+        private bool snapToPixelSaved = true;
+        protected bool SnapToPixel = true;
+
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
             Transform = new DynamicTransform(this, startPosition);
@@ -161,12 +166,23 @@ namespace GameEngine2D
             bump = direction;
         }
 
+        public override void Update()
+        {
+            if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == Config.FPS || Config.FIXED_UPDATE_FPS == 0)
+            {
+                DrawPosition = Transform.Position;
+            }
+            else
+            {
+                DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, Globals.FixedUpdateAlpha);
+            }
+            base.Update();
+        }
+
         public override void FixedUpdate()
         {
 
             previousPosition = Transform.Position;
-            previousPosition.X = (int)previousPosition.X;
-            previousPosition.Y = (int)previousPosition.Y;
 
             float gameTime = (float)Globals.FixedUpdateMultiplier * 0.01f;
 
@@ -310,8 +326,16 @@ namespace GameEngine2D
 
             if (Parent == null)
             {
-                Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
+                if (SnapToPixel)
+                {
+                    Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
+                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
+                }
+                else
+                {
+                    Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
+                    Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
+                }
             }
 
             base.FixedUpdate();
@@ -369,6 +393,8 @@ namespace GameEngine2D
                             VelocityY = 0;
                             //HasGravity = false;
                             mountedOn = otherCollider as PhysicalEntity;
+                            snapToPixelSaved = SnapToPixel;
+                            SnapToPixel = mountedOn.SnapToPixel;
                             FallSpeed = 0;
                             while (-distanceY < thisBox.Height - 1)
                             {
@@ -503,6 +529,7 @@ namespace GameEngine2D
             if (mountedOn != null && otherCollider.Equals(mountedOn))
             {
                 Velocity += mountedOn.Velocity;
+                SnapToPixel = snapToPixelSaved;
                 mountedOn = null;
                 //HasGravity = true;
             }
