@@ -38,7 +38,7 @@ namespace ForestPlatformerExample
 
         private Hero hero;
 
-        private float fixedUpdateRate;
+        private int fixedUpdateRate;
 
         public static int CoinCount = 0;
 
@@ -64,10 +64,6 @@ namespace ForestPlatformerExample
             Config.FPS = 144;
             Config.FIXED_UPDATE_FPS = 30;
 
-            //Config.GRID = 64;
-
-            Config.FPS = 60;
-            Config.FIXED_UPDATE_FPS = 30;
             if (Config.FPS == 0)
             {
                 // uncapped framerate
@@ -84,7 +80,7 @@ namespace ForestPlatformerExample
                 //TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
 
-            fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (1 / (float)Config.FIXED_UPDATE_FPS) * 1000;
+            fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
             //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
         }
 
@@ -215,11 +211,11 @@ namespace ForestPlatformerExample
 
         }
 
-        private double fixedUpdateElapsedTime = 0.0;
-        private double fixedUpdateDelta = 0.03;
-        private double previousT = 0;
-        private double accumulator = 0.0;
-        private double maxFrameTime = 0.25;
+        private float fixedUpdateElapsedTime = 0;
+        private float fixedUpdateDelta = 0.33f;
+        private float previousT = 0;
+        private float accumulator = 0.0f;
+        private float maxFrameTime = 250;
 
         protected override void Update(GameTime gameTime)
         {
@@ -228,7 +224,8 @@ namespace ForestPlatformerExample
 
             if (previousT == 0)
             {
-                previousT = gameTime.TotalGameTime.TotalSeconds;
+                fixedUpdateDelta = fixedUpdateRate;
+                previousT = (float)gameTime.TotalGameTime.TotalMilliseconds;
             }
 
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -239,13 +236,13 @@ namespace ForestPlatformerExample
             Camera.Update();
             Camera.PostUpdate();
 
-            double now = gameTime.TotalGameTime.TotalSeconds;
-            double frameTimeMS = now - previousT;
-            if (frameTimeMS > maxFrameTime)
-                frameTimeMS = maxFrameTime;
+            float now = (float)gameTime.TotalGameTime.TotalMilliseconds;
+            float frameTime = now - previousT;
+            if (frameTime > maxFrameTime)
+                frameTime = maxFrameTime;
             previousT = now;
 
-            accumulator += frameTimeMS;
+            accumulator += frameTime;
 
             while (accumulator >= fixedUpdateDelta)
             {
