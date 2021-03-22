@@ -61,7 +61,7 @@ namespace ForestPlatformerExample
             Config.RES_H = 2160;
             //Config.FULLSCREEN = true;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
-            Config.FPS = 144;
+            Config.FPS = 60;
             Config.FIXED_UPDATE_FPS = 30;
 
             if (Config.FPS == 0)
