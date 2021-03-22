@@ -36,8 +36,6 @@ namespace GameEngine2D
         private float step2;
         private float t;
 
-
-        private Vector2 prevVelocity = Vector2.Zero;
         private Vector2 velocity = Vector2.Zero;
 
         public Vector2 Velocity
@@ -175,13 +173,22 @@ namespace GameEngine2D
             {
                 DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, Globals.FixedUpdateAlpha);
             }
+
+            if (Parent != null)
+            {
+                previousPosition = Transform.Position;
+            }
+
             base.Update();
         }
 
         public override void FixedUpdate()
         {
 
-            previousPosition = Transform.Position;
+            if (Parent == null)
+            {
+                previousPosition = Transform.Position;
+            }
 
             float gameTime = (float)Globals.FixedUpdateMultiplier * 0.01f;
 
@@ -325,7 +332,7 @@ namespace GameEngine2D
 
             if (Parent == null)
             {
-                if (Velocity.X == 0 && prevVelocity.X != Velocity.X)
+                /*if (Velocity.X == 0 && velocityAtUpdateStart.X != Velocity.X)
                 {
                     Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
                 } else
@@ -333,17 +340,21 @@ namespace GameEngine2D
                     Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
                 }
 
-                if (Velocity.Y == 0 && prevVelocity.Y != Velocity.Y)
+                if (Velocity.Y == 0 && velocityAtUpdateStart.Y != Velocity.Y)
                 {
                     Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
                 }
                 else
                 {
                     Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
-                }
-            }
+                }*/
 
-            prevVelocity = Velocity;
+                //Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
+                //Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
+
+                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
+                Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
+            }
 
             base.FixedUpdate();
         }

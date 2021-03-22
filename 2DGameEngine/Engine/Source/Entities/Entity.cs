@@ -150,8 +150,8 @@ namespace GameEngine2D.Entities
 
             set
             {
-                Layer.OnObjectChanged(this);
                 base.Parent = value;
+                Layer.OnObjectChanged(this);
             }
         }
 
