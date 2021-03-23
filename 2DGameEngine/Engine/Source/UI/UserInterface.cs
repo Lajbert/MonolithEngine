@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngine2D.Engine.Source.Entities.Controller;
+using GameEngine2D.Engine.Source.UI.Interface;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,9 +16,17 @@ namespace GameEngine2D.Engine.Source.UI
         private List<IUIElement> newElements = new List<IUIElement>();
         private List<IUIElement> removedElements = new List<IUIElement>();
 
+        private IUIElement selectedElement;
+        private MouseState currentMouseState;
+        private MouseState prevMouseState;
+
         public void AddUIElement(IUIElement newElement)
         {
             newElements.Add(newElement);
+            if (newElement is SelectableUIElement)
+            {
+                (newElement as SelectableUIElement).SetUserInterface(this);
+            }
         }
 
         public void RemoveUIElement(IUIElement toRemove)
@@ -51,11 +62,33 @@ namespace GameEngine2D.Engine.Source.UI
             }
         }
 
+        public void SelectElement(IUIElement selectedElement)
+        {
+            this.selectedElement = selectedElement;
+        }
+
+        public void DeselectElement(IUIElement deselected)
+        {
+            if (selectedElement != null && selectedElement.Equals(deselected)) {
+                selectedElement = null;
+            }
+        }
+
         public void Update()
         {
+            currentMouseState = Mouse.GetState();
+            
+            if (selectedElement != null && currentMouseState.LeftButton == ButtonState.Pressed && (prevMouseState == null || prevMouseState.LeftButton != ButtonState.Pressed))
+            {
+                if (selectedElement is SelectableUIElement)
+                {
+                    (selectedElement as SelectableUIElement).OnClick();
+                }
+            }
+
             foreach (IUIElement element in elements)
             {
-                element.Update();
+                element.Update(currentMouseState.Position);
             }
 
             if (newElements.Count > 0)
@@ -77,6 +110,8 @@ namespace GameEngine2D.Engine.Source.UI
 
                 removedElements.Clear();
             }
+
+            prevMouseState = currentMouseState;
         }
     }
 }

@@ -8,8 +8,9 @@ namespace GameEngine2D.Engine.Source.UI
 {
     public interface IUIElement
     {
+
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime);
 
-        public void Update();
+        public void Update(Point mousePosition = default);
     }
 }

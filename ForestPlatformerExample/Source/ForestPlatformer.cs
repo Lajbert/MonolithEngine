@@ -5,6 +5,7 @@ using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
 using GameEngine2D;
 using GameEngine2D.Engine.Source.Entities;
+using GameEngine2D.Engine.Source.Entities.Controller;
 using GameEngine2D.Engine.Source.Global;
 using GameEngine2D.Engine.Source.Graphics;
 using GameEngine2D.Engine.Source.Level;
@@ -42,7 +43,7 @@ namespace ForestPlatformerExample
 
         public static int CoinCount = 0;
 
-        private UserInterface ui = new UserInterface();
+        private UserInterface ui;
 
         public ForestPlatformer()
         {
@@ -121,7 +122,10 @@ namespace ForestPlatformerExample
 
             frameCounter = new FrameCounter();
 
+            ui = new UserInterface();
+
             ui.AddUIElement(new Image("ForestAssets/UI/HUD-coin-count", new Vector2(30, 30), scale: 8));
+            ui.AddUIElement(new SelectableImage("ForestAssets/UI/HUD-coin-count", "ForestAssets/UI/HUD-coin-count", new Vector2(30, 30), scale: 8));
             ui.AddUIElement(new TextField(font, () => CoinCount.ToString(), new Vector2(200, 5)));
 
             Logger.Info("Object count: " + GameObject.GetObjectCount());

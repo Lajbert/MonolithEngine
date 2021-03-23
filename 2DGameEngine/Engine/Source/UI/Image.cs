@@ -40,7 +40,7 @@ namespace GameEngine2D.Engine.Source.UI
             spriteBatch.Draw(ImageTexture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
         }
 
-        public virtual void Update()
+        public virtual void Update(Point mousePosition = default)
         {
 
         }
