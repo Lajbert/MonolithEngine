@@ -185,6 +185,11 @@ namespace GameEngine2D
         public override void FixedUpdate()
         {
 
+            if (Velocity != Vector2.Zero)
+            {
+                Velocity.Normalize();
+            }
+
             if (Parent == null)
             {
                 previousPosition = Transform.Position;
