@@ -486,11 +486,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     Vector2 force;
                     if (CurrentFaceDirection == Direction.WEST)
                     {
-                        force = new Vector2(-5, -0.5f);
+                        force = new Vector2(-5, 0);
                     }
                     else
                     {
-                        force = new Vector2(5, -0.5f);
+                        force = new Vector2(5, 0);
                     }
                     ThrowCurrentItem(force);
                     return;

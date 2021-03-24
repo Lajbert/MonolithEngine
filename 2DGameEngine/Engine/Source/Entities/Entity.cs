@@ -31,7 +31,19 @@ namespace GameEngine2D.Entities
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {
 
-        public Vector2 DrawPosition = Vector2.Zero;
+        private Vector2 drawPosition = Vector2.Zero;
+
+        public Vector2 DrawPosition {
+            get {
+                if (Parent == null)
+                {
+                    return drawPosition;
+                }
+                return (Parent as Entity).DrawPosition + Transform.PositionWithoutParent;
+            }
+
+            set => drawPosition = value;
+        }
 
         protected float CollisionOffsetLeft = 0f;
         protected float CollisionOffsetRight = 0f;

@@ -174,11 +174,6 @@ namespace GameEngine2D
                 DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, Globals.FixedUpdateAlpha);
             }
 
-            if (Parent != null)
-            {
-                previousPosition = Transform.Position;
-            }
-
             base.Update();
         }
 
@@ -190,10 +185,7 @@ namespace GameEngine2D
                 Velocity.Normalize();
             }
 
-            if (Parent == null)
-            {
-                previousPosition = Transform.Position;
-            }
+            previousPosition = Transform.Position;
 
             float gameTime = (float)Globals.FixedUpdateMultiplier * 0.01f;
 

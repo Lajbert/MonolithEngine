@@ -21,7 +21,7 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
 
         public float Rotation { get; set; }
 
-        private Vector2 position;
+        internal Vector2 PositionWithoutParent;
 
         public Vector2 Position
         {
@@ -29,13 +29,13 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
             {
                 if (owner.Parent == null)
                 {
-                    return position;
+                    return PositionWithoutParent;
                 }
-                return owner.Parent.Transform.Position + position;
+                return owner.Parent.Transform.Position + PositionWithoutParent;
             }
             set
             {
-                position = value;
+                PositionWithoutParent = value;
             }
         }
 
@@ -45,13 +45,13 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
             {
                 if (owner.Parent == null)
                 {
-                    return position.X;
+                    return PositionWithoutParent.X;
                 }
-                return owner.Parent.Transform.Position.X + position.X;
+                return owner.Parent.Transform.Position.X + PositionWithoutParent.X;
             }
             set
             {
-                position.X = value;
+                PositionWithoutParent.X = value;
             }
         }
 
@@ -61,13 +61,13 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
             {
                 if (owner.Parent == null)
                 {
-                    return position.Y;
+                    return PositionWithoutParent.Y;
                 }
-                return owner.Parent.Transform.Position.Y + position.Y;
+                return owner.Parent.Transform.Position.Y + PositionWithoutParent.Y;
             }
             set
             {
-                position.Y = value;
+                PositionWithoutParent.Y = value;
             }
         }
 
@@ -81,13 +81,13 @@ namespace GameEngine2D.Engine.Source.Entities.Transform
 
         public void OverridePositionOffset(Vector2 newPositionOffset)
         {
-            this.position = newPositionOffset;
+            this.PositionWithoutParent = newPositionOffset;
         }
 
         public void DetachFromParent()
         {
             GridCoordinates = MathUtil.CalculateGridCoordintes(Position);
-            position += owner.Transform.Position;
+            PositionWithoutParent = owner.Transform.Position;
         }
     }
 }
