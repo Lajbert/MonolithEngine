@@ -21,14 +21,12 @@ namespace MonolithEngine.Engine.Source.MyGame
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Camera Camera;
+        protected Camera Camera;
 
         private SpriteFont font;
         private FrameCounter frameCounter;
 
         private int fixedUpdateRate;
-
-        public static int CoinCount = 0;
 
         public MonolithGame()
         {
@@ -70,7 +68,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
         }
 
-        protected override void Initialize()
+        protected sealed override void Initialize()
         {
             // TODO: Add your initialization logic here
             TextureUtil.Content = Content;
@@ -78,10 +76,15 @@ namespace MonolithEngine.Engine.Source.MyGame
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
             //font = Content.Load<SpriteFont>("DefaultFont");
+
+            Init();
+
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        protected abstract void Init();
+
+        protected sealed override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             graphics.PreferredBackBufferWidth = Config.RES_W;
@@ -106,7 +109,11 @@ namespace MonolithEngine.Engine.Source.MyGame
             frameCounter = new FrameCounter();
 
             Logger.Info("Object count: " + GameObject.GetObjectCount());
+
+            LoadGameContent();
         }
+
+        protected abstract void LoadGameContent();
 
         private float fixedUpdateElapsedTime = 0;
         private float fixedUpdateDelta = 0.33f;
@@ -156,7 +163,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             base.Update(gameTime);
         }
 
-        private void FixedUpdate()
+        protected void FixedUpdate()
         {
             LayerManager.Instance.FixedUpdateAll();
             CollisionEngine.Instance.Update();
@@ -190,5 +197,6 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             base.Draw(gameTime);
         }
+
     }
 }

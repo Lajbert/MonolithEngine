@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ForestPlatformerExample.Source;
+using System;
 using TestExample;
 
 namespace ForestPlatformerExample
@@ -8,7 +9,7 @@ namespace ForestPlatformerExample
         [STAThread]
         static void Main()
         {
-            using (var game = new ForestPlatformer())
+            using (var game = new ForestPlatformerGame())
                 game.Run();
         }
     }
