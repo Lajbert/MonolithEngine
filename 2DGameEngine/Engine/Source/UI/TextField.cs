@@ -30,7 +30,7 @@ namespace MonolithEngine.Engine.Source.UI
             Depth = depth;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             //public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
             spriteBatch.DrawString(Font, DataSource.Invoke(), Position, Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);

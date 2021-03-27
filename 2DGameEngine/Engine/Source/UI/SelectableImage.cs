@@ -41,14 +41,14 @@ namespace MonolithEngine.Engine.Source.UI
             return selectionBox.Contains(mousePosition);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime gametime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (IsSelectedByCursor || IsSelectedByButtons)
             {
                 spriteBatch.Draw(selectedImageTexture, Position, SourceRectangle, Color.Red, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
             } else
             {
-                base.Draw(spriteBatch, gametime);
+                base.Draw(spriteBatch);
             }
         }
 

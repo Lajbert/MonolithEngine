@@ -9,7 +9,7 @@ namespace MonolithEngine.Engine.Source.UI
     public interface IUIElement
     {
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+        public void Draw(SpriteBatch spriteBatch);
 
         public void Update(Point mousePosition = default);
     }

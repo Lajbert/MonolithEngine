@@ -34,11 +34,11 @@ namespace MonolithEngine.Engine.Source.UI
             removedElements.Add(toRemove);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
             foreach (IUIElement element in elements)
             {
-                element.Draw(spriteBatch, gameTime);
+                element.Draw(spriteBatch);
             }
 
             if (newElements.Count > 0)

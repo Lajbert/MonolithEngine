@@ -35,7 +35,7 @@ namespace MonolithEngine.Engine.Source.UI
             }
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, GameTime gametime)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(ImageTexture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
         }

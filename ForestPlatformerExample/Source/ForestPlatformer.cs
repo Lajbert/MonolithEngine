@@ -298,7 +298,7 @@ namespace ForestPlatformerExample
             // TODO: Add your drawing code here
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-            ui.Draw(spriteBatch, gameTime);
+            ui.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

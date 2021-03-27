@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,29 +7,78 @@ namespace MonolithEngine.Engine.Source.Scene
 {
     public class SceneManager
     {
-        private List<AbstractScene> scenes = new List<AbstractScene>();
+        private Dictionary<string, AbstractScene> scenes = new Dictionary<string, AbstractScene>();
         private AbstractScene currentScene;
-        private int currentSceneIndex;
 
-        public void LoadNextScene()
+        public void AddScene(AbstractScene scene)
         {
-            LoadScene(currentSceneIndex++);
+            if (scenes.ContainsKey(scene.GetName()))
+            {
+                throw new Exception("Scene name already exists!");
+            }
+            scenes.Add(scene.GetName(), scene);
+            scene.SetSceneManager(this);
+            if (scene.Preload)
+            {
+                scene.Load();
+            }
         }
 
-        public void LoadScene(int sceneIndex)
+        internal void OnSceneFinished(IScene scene)
         {
-            ICollection<object> data = currentScene.ExportData();
-            currentScene.OnEnd();
-            currentScene.Unload();
-            currentScene = scenes[sceneIndex];
+
+        }
+
+        public void RemoveScene(AbstractScene scene)
+        {
+            scenes.Remove(scene.GetName());
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            ICollection<object> data = null;
+            if (currentScene != null)
+            {
+                data = currentScene.ExportData();
+                currentScene.OnEnd();
+                currentScene.Unload();
+            }
+            currentScene = scenes[sceneName];
             currentScene.Load();
             currentScene.ImportData(data);
             currentScene.OnStart();
         }
 
+        public void StartScene(string sceneName)
+        {
+            ICollection<object> data = null;
+            if (currentScene != null)
+            {
+                data = currentScene.ExportData();
+            }
+            currentScene = scenes[sceneName];
+            currentScene.ImportData(data);
+            currentScene.OnStart();
+        }
+
+        public void StartScene(AbstractScene scene)
+        {
+            StartScene(scene.GetName());
+        }
+
         public void LoadScene(AbstractScene scene)
         {
-            LoadScene(scenes.IndexOf(scene));
+            LoadScene(scene.GetName());
+        }
+
+        internal void Update()
+        {
+            currentScene.Update();
+        }
+
+        internal void Draw(SpriteBatch spriteBatch)
+        {
+            currentScene.Draw(spriteBatch);
         }
 
     }

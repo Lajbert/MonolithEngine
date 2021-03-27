@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Engine.Source.MyGame
 {
@@ -27,6 +28,8 @@ namespace MonolithEngine.Engine.Source.MyGame
         private FrameCounter frameCounter;
 
         private int fixedUpdateRate;
+
+        protected SceneManager SceneManager;
 
         public MonolithGame()
         {
@@ -102,6 +105,8 @@ namespace MonolithEngine.Engine.Source.MyGame
             LayerManager.Instance.Camera = Camera;
             LayerManager.Instance.InitLayers();
 
+            SceneManager = new SceneManager();
+
             font = Content.Load<SpriteFont>("DefaultFont");
 
             //TODO: use this.Content to load your game content here
@@ -160,6 +165,8 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             LayerManager.Instance.UpdateAll();
 
+            SceneManager.Update();
+
             base.Update(gameTime);
         }
 
@@ -167,6 +174,7 @@ namespace MonolithEngine.Engine.Source.MyGame
         {
             LayerManager.Instance.FixedUpdateAll();
             CollisionEngine.Instance.Update();
+            SceneManager.Update();
         }
 
         private float lastPrint = 0;
@@ -177,6 +185,10 @@ namespace MonolithEngine.Engine.Source.MyGame
             GraphicsDevice.Clear(Color.White);
 
             LayerManager.Instance.DrawAll(gameTime);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+            SceneManager.Draw(spriteBatch);
+            spriteBatch.End();
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
