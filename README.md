@@ -1,4 +1,4 @@
-# 2DGameEngine
+# Monolith Engine
 # Oh no, not another game engine!
 There are so many game engines out there already, why making another one?
 First of all, it exists because I love coding and video games! I have a couple of 2D game ideas in my head and the possible choices of engines was narrowed down to Unity only.
