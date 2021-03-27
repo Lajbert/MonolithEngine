@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine.Engine.Source.Scene.Transition;
 using MonolithEngine.Engine.Source.UI;
+using MonolithEngine.Entities;
+using MonolithEngine.Source.Camera2D;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -11,7 +13,7 @@ namespace MonolithEngine.Engine.Source.Scene
     public abstract class AbstractScene : IScene
     {
 
-        private SceneManager sceneManager;
+        public SceneManager sceneManager;
 
         private string sceneName;
 
@@ -19,7 +21,11 @@ namespace MonolithEngine.Engine.Source.Scene
 
         protected UserInterface UI;
 
-        public AbstractScene(string sceneName, bool preload = false)
+        public LayerManager LayerManager { get; }
+
+        public Camera Camera;
+
+        public AbstractScene(Camera camera, string sceneName, bool preload = false)
         {
             if (sceneName == null || sceneName.Length == 0)
             {
@@ -29,6 +35,10 @@ namespace MonolithEngine.Engine.Source.Scene
             Preload = preload;
 
             UI = new UserInterface();
+
+            LayerManager = new LayerManager(this);
+            LayerManager.InitLayers();
+            Camera = camera;
         }
 
         public abstract void Load();
@@ -62,12 +72,22 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public virtual void Update()
         {
+            LayerManager.UpdateAll();
             UI.Update();
+        }
+
+        public void FixedUpdate()
+        {
+            LayerManager.FixedUpdateAll();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            LayerManager.DrawAll(spriteBatch);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             UI.Draw(spriteBatch);
+            spriteBatch.End();
         }
     }
 }

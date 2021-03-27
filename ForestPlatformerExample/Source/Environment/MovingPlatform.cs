@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Environment
 {
@@ -28,7 +29,7 @@ namespace ForestPlatformerExample.Source.Environment
         private int directionX = -1;
         private int directionY = -1;
 
-        public MovingPlatform(Vector2 startPosition, int width, int height) : base(LayerManager.Instance.EntityLayer, null, startPosition)
+        public MovingPlatform(AbstractScene scene, Vector2 startPosition, int width, int height) : base(scene.LayerManager.EntityLayer, null, startPosition)
         {
             HasGravity = false;
             Active = true;

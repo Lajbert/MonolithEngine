@@ -25,11 +25,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Entities
 {
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {
+
+        public AbstractScene Scene;
 
         private Vector2 drawPosition = Vector2.Zero;
 
@@ -172,6 +175,7 @@ namespace MonolithEngine.Entities
             DrawPosition = startPosition;
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
+            Scene = layer.Scene;
             this.font = font;
             layer.OnObjectChanged(this);
             Parent = parent;
@@ -225,14 +229,14 @@ namespace MonolithEngine.Entities
             componentList.RemoveComponent<T>();
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (!Visible)
             {
                 return;
             }
 
-            componentList.DrawAll(spriteBatch, gameTime);
+            componentList.DrawAll(spriteBatch);
 
 #if DEBUG
             if (DEBUG_SHOW_PIVOT)
@@ -257,7 +261,7 @@ namespace MonolithEngine.Entities
             {
                 foreach (Entity child in Children)
                 {
-                    child.Draw(spriteBatch, gameTime);
+                    child.Draw(spriteBatch);
                 }
             }
             

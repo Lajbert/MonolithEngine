@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Environment
 {
@@ -14,7 +15,7 @@ namespace ForestPlatformerExample.Source.Environment
     {
         public Direction TurnDirection;
 
-        public MovingPlatformTurner(Vector2 position, Direction turnDirection) : base(LayerManager.Instance.EntityLayer, null, position)
+        public MovingPlatformTurner(AbstractScene scene, Vector2 position, Direction turnDirection) : base(scene.LayerManager.EntityLayer, null, position)
         {
             TurnDirection = turnDirection;
             //Active = false;

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Engine.Source.Graphics.Primitives
 {
@@ -18,7 +19,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
         private float radius;
         private Vector2 offset;
 
-        public Circle(Entity parent, Vector2 center, int radius, Color color) : base(LayerManager.Instance.EntityLayer, parent, center, null)
+        public Circle(AbstractScene scene, Entity parent, Vector2 center, int radius, Color color) : base(scene.LayerManager.EntityLayer, parent, center, null)
         {
             SetSprite(TextureUtil.CreateCircle(radius, color));
             this.color = color;
@@ -27,10 +28,10 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
             this.offset = new Vector2(radius, radius) / 2;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             GetComponent<Sprite>().DrawOffset -= offset;
-            base.Draw(spriteBatch, gameTime);
+            base.Draw(spriteBatch);
         }
     }
 }

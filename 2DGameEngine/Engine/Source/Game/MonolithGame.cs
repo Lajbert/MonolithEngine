@@ -48,7 +48,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.RES_H = 2160;
             //Config.FULLSCREEN = true;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
-            Config.FPS = 600;
+            Config.FPS = 500;
             Config.FIXED_UPDATE_FPS = 30;
 
             if (Config.FPS == 0)
@@ -101,9 +101,6 @@ namespace MonolithEngine.Engine.Source.MyGame
                 BOUND_TOP = 350,
                 BOUND_BOTTOM = 450
             };
-
-            LayerManager.Instance.Camera = Camera;
-            LayerManager.Instance.InitLayers();
 
             SceneManager = new SceneManager();
 
@@ -163,8 +160,6 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             Globals.FixedUpdateAlpha = (float)(accumulator / fixedUpdateDelta);
 
-            LayerManager.Instance.UpdateAll();
-
             SceneManager.Update();
 
             base.Update(gameTime);
@@ -172,7 +167,7 @@ namespace MonolithEngine.Engine.Source.MyGame
 
         protected void FixedUpdate()
         {
-            LayerManager.Instance.FixedUpdateAll();
+            SceneManager.FixedUpdate();
             CollisionEngine.Instance.Update();
             SceneManager.Update();
         }
@@ -184,11 +179,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             GraphicsDevice.Clear(Color.White);
 
-            LayerManager.Instance.DrawAll(gameTime);
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             SceneManager.Draw(spriteBatch);
-            spriteBatch.End();
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
@@ -196,7 +187,7 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             if (lastPrint > 10)
             {
-                fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+                fps = string.Format("FPS: {0}", (int)frameCounter.AverageFramesPerSecond);
                 lastPrint = 0;
             }
 

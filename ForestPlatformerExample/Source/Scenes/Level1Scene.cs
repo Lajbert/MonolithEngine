@@ -27,13 +27,11 @@ namespace ForestPlatformerExample.Source.Scenes
     {
 
         private Hero hero;
-        private Camera camera;
         private SpriteFont font;
         private List<GameObject> objects;
 
-        public Level1Scene(Camera camera, SpriteFont spriteFont) : base ("level1")
+        public Level1Scene(Camera camera, SpriteFont spriteFont) : base (camera, "level1")
         {
-            this.camera = camera;
             font = spriteFont;
             objects = new List<GameObject>();
         }
@@ -66,22 +64,22 @@ namespace ForestPlatformerExample.Source.Scenes
             UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(200, 5)));
 
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
-            LDTKMap map = mapSerializer.Deserialize("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
+            LDTKMap map = mapSerializer.Deserialize(this, "D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
             foreach (EntityInstance entity in map.entities)
             {
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
                 if (entity.Identifier.Equals("Hero"))
                 {
 
-                    hero = new Hero(position, font);
+                    hero = new Hero(this, position, font);
                 }
                 else if (entity.Identifier.Equals("Coin"))
                 {
-                    objects.Add(new Coin(position));
+                    objects.Add(new Coin(this, position));
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
-                    new MovingPlatform(position, (int)entity.Width, (int)entity.Height);
+                    new MovingPlatform(this, position, (int)entity.Width, (int)entity.Height);
                 }
                 else if (entity.Identifier.Equals("Spring"))
                 {
@@ -93,7 +91,7 @@ namespace ForestPlatformerExample.Source.Scenes
                             power = (int)field.Value;
                         }
                     }
-                    Spring spring = new Spring(position, power);
+                    Spring spring = new Spring(this, position, power);
                     objects.Add(spring);
                 }
                 else if (entity.Identifier.Equals("EnemyCarrot"))
@@ -107,16 +105,16 @@ namespace ForestPlatformerExample.Source.Scenes
                             speed = (int)field.Value;
                         }
                     }
-                    Carrot carrot = new Carrot(position, Direction.EAST);
+                    Carrot carrot = new Carrot(this, position, Direction.EAST);
                     objects.Add(carrot);
                 }
                 else if (entity.Identifier.Equals("Box"))
                 {
-                    objects.Add(new Box(position));
+                    objects.Add(new Box(this, position));
                 }
                 else if (entity.Identifier.Equals("Ladder"))
                 {
-                    objects.Add(new Ladder(position, (int)entity.Width, (int)entity.Height));
+                    objects.Add(new Ladder(this, position, (int)entity.Width, (int)entity.Height));
                 }
                 else if (entity.Identifier.Equals("MovingPlatformTurn"))
                 {
@@ -128,15 +126,15 @@ namespace ForestPlatformerExample.Source.Scenes
                             dir = Enum.Parse(typeof(Direction), field.Value);
                         }
                     }
-                    objects.Add(new MovingPlatformTurner(position, dir));
+                    objects.Add(new MovingPlatformTurner(this, position, dir));
                 }
                 else if (entity.Identifier.Equals("SlideWall"))
                 {
-                    objects.Add(new SlideWall(position, (int)entity.Width, (int)entity.Height));
+                    objects.Add(new SlideWall(this, position, (int)entity.Width, (int)entity.Height));
                 }
             }
 
-            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.Instance.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
+            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
             {
                 HasGravity = false
             };
@@ -155,7 +153,7 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void OnStart()
         {
-            camera.TrackTarget(hero, true);
+            Camera.TrackTarget(hero, true);
         }
 
         public override void Unload()

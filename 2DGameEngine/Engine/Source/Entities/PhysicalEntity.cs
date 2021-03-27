@@ -114,7 +114,7 @@ namespace MonolithEngine
             CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
-        override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        override public void Draw(SpriteBatch spriteBatch)
         {
 #if DEBUG
             ICollisionComponent collisionComponent = GetComponent<ICollisionComponent>();
@@ -140,7 +140,7 @@ namespace MonolithEngine
                 }
             }
 #endif
-            base.Draw(spriteBatch, gameTime);
+            base.Draw(spriteBatch);
         }
 
         public override void PreUpdate()

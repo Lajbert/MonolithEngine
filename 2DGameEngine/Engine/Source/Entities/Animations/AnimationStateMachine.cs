@@ -125,17 +125,17 @@ namespace MonolithEngine.Engine.Source.Entities.Animations
             return null;
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (animations.Count == 0)
             {
                 return;
             }
 
-            Play(spriteBatch, gameTime);
+            Play(spriteBatch);
         }
 
-        private void Play(SpriteBatch spriteBatch, GameTime gameTime)
+        private void Play(SpriteBatch spriteBatch)
         {
             transitionFrame = null;
             if (animationOverride != null && animationOverride.animation.Finished())

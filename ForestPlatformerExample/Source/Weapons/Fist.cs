@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Weapons
 {
@@ -24,7 +25,7 @@ namespace ForestPlatformerExample.Source.Weapons
         private PhysicalEntity hero;
         private Dictionary<IGameObject, bool> collidesWith = new Dictionary<IGameObject, bool>();
 
-        public Fist(Entity parent, Vector2 positionOffset) : base(LayerManager.Instance.EntityLayer, parent, positionOffset)
+        public Fist(AbstractScene scene, Entity parent, Vector2 positionOffset) : base(scene.LayerManager.EntityLayer, parent, positionOffset)
         {
             AddComponent(new CircleCollisionComponent(this, 10));
             hero = parent as PhysicalEntity;

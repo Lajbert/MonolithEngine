@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Engine.Source.Graphics.Primitives
 {
@@ -29,7 +30,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
         private float angleRad;
         private float length;
 
-        public Line(Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(LayerManager.Instance.EntityLayer, parent, from, null)
+        public Line(AbstractScene scene, Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(scene.LayerManager.EntityLayer, parent, from, null)
         {
             this.From = fromSaved = from;
             this.To = toSaved = to;
@@ -42,7 +43,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
             Scale = new Vector2(length, thickness);
         }
 
-        public Line(Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(LayerManager.Instance.EntityLayer, parent, from, null)
+        public Line(AbstractScene scene, Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(scene.LayerManager.EntityLayer, parent, from, null)
         {
             this.From = fromSaved = from;
             this.thickness = thickness;
@@ -72,7 +73,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
             Scale = new Vector2(length, thickness);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
         }

@@ -79,7 +79,7 @@ namespace MonolithEngine.Engine.Source.Components
             components.Clear();
         }
 
-        public void DrawAll(SpriteBatch spriteBatch, GameTime gameTime)
+        public void DrawAll(SpriteBatch spriteBatch)
         {
             foreach (List<IComponent> list in components.Values)
             {
@@ -91,7 +91,7 @@ namespace MonolithEngine.Engine.Source.Components
                 {
                     if (component is IDrawableComponent)
                     {
-                        (component as IDrawableComponent).Draw(spriteBatch, gameTime);
+                        (component as IDrawableComponent).Draw(spriteBatch);
                     }
                 }
             }

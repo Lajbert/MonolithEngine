@@ -28,6 +28,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.PlayerCharacter
 {
@@ -66,7 +67,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private bool isWallSliding = false;
         private bool isSliding = false;
 
-        public Hero(Vector2 position, SpriteFont font = null) : base(LayerManager.Instance.EntityLayer, null, position, font)
+        public Hero(AbstractScene scene, Vector2 position, SpriteFont font = null) : base(scene.LayerManager.EntityLayer, null, position, font)
         {
 
             //DEBUG_SHOW_PIVOT = true;
@@ -96,7 +97,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             CurrentFaceDirection = Direction.EAST;
 
-            fist = new Fist(this, new Vector2(20, -10));
+            fist = new Fist(scene, this, new Vector2(20, -10));
 
             if (DEBUG_SHOW_RAYCAST)
             {

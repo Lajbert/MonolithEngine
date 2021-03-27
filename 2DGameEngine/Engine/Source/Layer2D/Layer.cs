@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Source.GridCollision
 {
@@ -24,7 +25,6 @@ namespace MonolithEngine.Source.GridCollision
         private float scrollSpeedModifier;
         private bool lockY;
         private bool ySorting = false;
-        private SpriteBatch spriteBatch;
 
         public bool Visible = true;
         public bool Active = true;
@@ -35,20 +35,15 @@ namespace MonolithEngine.Source.GridCollision
 
         public float Depth { get; set; } = 0;
 
-        public Camera Camera;
+        public AbstractScene Scene;
 
-        internal Layer(Camera camera, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
+        internal Layer(AbstractScene scene, int priority = 0, bool ySorting = false, float scrollSpeedModifier = 1f, bool lockY = true)
         {
-            if (camera == null)
-            {
-                throw new Exception("Camera not provided for layer!");
-            }
             this.scrollSpeedModifier = scrollSpeedModifier;
-            this.Camera = camera;
             Priority = priority;
             this.lockY = lockY;
             this.ySorting = ySorting;
-            spriteBatch = new SpriteBatch(GraphicsDeviceManager.GraphicsDevice);
+            Scene = scene;
         }
 
         public void OnObjectChanged(Entity gameObject)
@@ -70,7 +65,7 @@ namespace MonolithEngine.Source.GridCollision
             visibleObjects.Sort((a, b) => a.DrawPriority.CompareTo(b.DrawPriority));
         }
 
-        public void DrawAll(GameTime gameTime)
+        public void DrawAll(SpriteBatch spriteBatch)
         {
 
             /*if (!Visible)
@@ -89,11 +84,11 @@ namespace MonolithEngine.Source.GridCollision
                     });
                 }
 
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.GetTransformMatrix(scrollSpeedModifier, lockY));
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Scene.Camera.GetTransformMatrix(scrollSpeedModifier, lockY));
 
                 foreach (Entity entity in visibleObjects)
                 {
-                    entity.Draw(spriteBatch, gameTime);
+                    entity.Draw(spriteBatch);
                 }
                 spriteBatch.End();
             }

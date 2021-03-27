@@ -6,13 +6,14 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Entities.Enemies
 {
     abstract class AbstractEnemy : PhysicalEntity, IAttackable
     {
 
-        public AbstractEnemy(Vector2 position) : base(LayerManager.Instance.EntityLayer, null, position)
+        public AbstractEnemy(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
             AddTag("Enemy");
         }
