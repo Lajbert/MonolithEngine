@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.Source.Physics.Interface;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
+﻿using MonolithEngine.Engine.Source.Physics.Interface;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics.Collision
+namespace MonolithEngine.Engine.Source.Physics.Collision
 {
     public class CircleCollisionComponent : AbstractCollisionComponent
     {

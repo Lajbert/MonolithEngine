@@ -1,10 +1,10 @@
-﻿using GameEngine2D.Engine.Source.Scene.Transition;
+﻿using MonolithEngine.Engine.Source.Scene.Transition;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Scene
+namespace MonolithEngine.Engine.Source.Scene
 {
     public interface Scene
     {

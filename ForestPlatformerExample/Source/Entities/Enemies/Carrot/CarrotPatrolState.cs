@@ -1,8 +1,8 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
-using GameEngine2D.Engine.AI;
-using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.AI;
+using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Engine.Source.Physics.Collision;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -60,11 +60,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
         {
             if (controlledEntity.CurrentFaceDirection == Direction.WEST)
             {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.WEST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, GameEngine2D.Engine.Source.Entities.Direction.SOUTHWEST);
+                return GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.WEST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHWEST);
             }
             else if (controlledEntity.CurrentFaceDirection == Direction.EAST)
             {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.EAST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, GameEngine2D.Engine.Source.Entities.Direction.SOUTHEAST);
+                return GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.EAST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHEAST);
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }

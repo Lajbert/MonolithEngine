@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Scene
+namespace MonolithEngine.Engine.Source.Scene
 {
     public class SceneManager
     {

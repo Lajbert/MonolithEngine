@@ -1,15 +1,15 @@
-﻿using GameEngine2D.Engine.Source.Graphics;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Source.Entities.Animation;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Source.Entities.Animation;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Entities
+namespace MonolithEngine.Source.Entities
 {
     public class SpriteSheetAnimation : AbstractAnimation
     {

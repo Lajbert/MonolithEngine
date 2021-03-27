@@ -1,7 +1,7 @@
 ﻿using ForestPlatformerExample.Source.Entities.Interfaces;
-using GameEngine2D;
-using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Entities;
+using MonolithEngine;
+using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Entities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

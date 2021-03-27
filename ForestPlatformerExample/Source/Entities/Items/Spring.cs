@@ -1,10 +1,10 @@
 ﻿using ForestPlatformerExample.Source.Entities.Items;
-using GameEngine2D;
-using GameEngine2D.Engine.Source.Entities.Animations;
-using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Source.Entities;
+using MonolithEngine;
+using MonolithEngine.Engine.Source.Entities.Animations;
+using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Source.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Engine.Source.Graphics;
-using GameEngine2D.Engine.Source.Level;
-using GameEngine2D.Engine.Source.Level.Collision;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
-using GameEngine2D.Source.GridCollision;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Engine.Source.Level;
+using MonolithEngine.Engine.Source.Level.Collision;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
+using MonolithEngine.Source.GridCollision;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace GameEngine2D.Source.Level
+namespace MonolithEngine.Source.Level
 {
     public class LDTKMap
     {

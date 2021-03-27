@@ -1,7 +1,7 @@
-﻿using GameEngine2D.Engine.Source.Components;
-using GameEngine2D.Engine.Source.Interfaces;
-using GameEngine2D.Source.Entities.Animation;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Components;
+using MonolithEngine.Engine.Source.Interfaces;
+using MonolithEngine.Source.Entities.Animation;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Entities.Animations
+namespace MonolithEngine.Engine.Source.Entities.Animations
 {
     public class AnimationStateMachine : IComponent, IUpdatableComponent, IDrawableComponent
     {

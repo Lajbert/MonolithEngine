@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Entities
+namespace MonolithEngine.Engine.Source.Entities
 {
     public enum Direction
     {

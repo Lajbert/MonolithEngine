@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Components
+namespace MonolithEngine.Engine.Source.Components
 {
     public interface IComponent
     {

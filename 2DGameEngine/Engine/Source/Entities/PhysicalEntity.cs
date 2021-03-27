@@ -1,27 +1,27 @@
-﻿using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Engine.Source.Entities.Controller;
-using GameEngine2D.Engine.Source.Entities.Interfaces;
-using GameEngine2D.Engine.Source.Entities.Transform;
-using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Physics;
-using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Engine.Source.Physics.Interface;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Entities.Interfaces;
-using GameEngine2D.Global;
-using GameEngine2D.Source;
-using GameEngine2D.Source.GridCollision;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Engine.Source.Entities.Controller;
+using MonolithEngine.Engine.Source.Entities.Interfaces;
+using MonolithEngine.Engine.Source.Entities.Transform;
+using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Engine.Source.Physics;
+using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.Source.Physics.Interface;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Entities.Interfaces;
+using MonolithEngine.Global;
+using MonolithEngine.Source;
+using MonolithEngine.Source.GridCollision;
+using MonolithEngine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
-namespace GameEngine2D
+namespace MonolithEngine
 {
     public class PhysicalEntity : Entity
     {

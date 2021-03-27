@@ -1,10 +1,10 @@
-﻿using GameEngine2D.Engine.Source.Physics.Interface;
+﻿using MonolithEngine.Engine.Source.Physics.Interface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Util
+namespace MonolithEngine.Engine.Source.Util
 {
     public class PhysicsUtil
     {

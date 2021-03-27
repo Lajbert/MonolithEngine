@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Util
+namespace MonolithEngine.Engine.Source.Util
 {
     public class FrameCounter
     {

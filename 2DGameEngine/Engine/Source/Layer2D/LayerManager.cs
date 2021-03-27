@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameEngine2D.Entities;
-using GameEngine2D.Entities.Interfaces;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.GridCollision;
+using MonolithEngine.Entities;
+using MonolithEngine.Entities.Interfaces;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Camera2D;
+using MonolithEngine.Source.GridCollision;
 using Microsoft.Xna.Framework;
 
-namespace GameEngine2D.Entities
+namespace MonolithEngine.Entities
 {
     public class LayerManager
     {

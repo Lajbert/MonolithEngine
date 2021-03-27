@@ -1,4 +1,4 @@
-﻿using GameEngine2D.Engine.Source.Physics.Interface;
+﻿using MonolithEngine.Engine.Source.Physics.Interface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,11 +6,11 @@ using System.Text;
 
 
 #if DEBUG
-using GameEngine2D.Engine.Source.Graphics.Primitives;
-using GameEngine2D.Entities;
+using MonolithEngine.Engine.Source.Graphics.Primitives;
+using MonolithEngine.Entities;
 #endif
 
-namespace GameEngine2D.Engine.Source.Physics.Collision
+namespace MonolithEngine.Engine.Source.Physics.Collision
 {
     public class BoxCollisionComponent : AbstractCollisionComponent
     {

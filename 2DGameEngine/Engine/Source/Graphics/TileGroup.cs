@@ -1,11 +1,11 @@
-﻿using GameEngine2D.Global;
+﻿using MonolithEngine.Global;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Graphics
+namespace MonolithEngine.Engine.Source.Graphics
 {
     public class TileGroup
     {

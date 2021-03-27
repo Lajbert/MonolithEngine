@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Util
+namespace MonolithEngine.Engine.Source.Util
 {
     /// <summary>
     /// Generates much more random numbers than System.Random

@@ -1,10 +1,10 @@
-﻿using GameEngine2D.Global;
+﻿using MonolithEngine.Global;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Util
+namespace MonolithEngine.Source.Util
 {
     public class MathUtil
     {

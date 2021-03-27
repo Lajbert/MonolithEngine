@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace GameEngine2D.Entities.Interfaces
+namespace MonolithEngine.Entities.Interfaces
 {
     public interface IReusable
     {

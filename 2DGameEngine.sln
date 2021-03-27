@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameEngine2D", "2DGameEngine\GameEngine2D.csproj", "{2110518F-0A53-4857-AAF6-EE83E78BB6CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonolithEngine", "2DGameEngine\MonolithEngine.csproj", "{2110518F-0A53-4857-AAF6-EE83E78BB6CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForestPlatformerExample", "ForestPlatformerExample\ForestPlatformerExample.csproj", "{FCB53008-141A-414D-A271-391F863FE58B}"
 	ProjectSection(ProjectDependencies) = postProject

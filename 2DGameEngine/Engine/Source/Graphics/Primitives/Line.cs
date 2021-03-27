@@ -1,16 +1,16 @@
-﻿using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Source;
-using GameEngine2D.Source.GridCollision;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Source;
+using MonolithEngine.Source.GridCollision;
+using MonolithEngine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Graphics.Primitives
+namespace MonolithEngine.Engine.Source.Graphics.Primitives
 {
     public class Line : Entity
     {

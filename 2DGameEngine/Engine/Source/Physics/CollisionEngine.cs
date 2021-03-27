@@ -1,16 +1,16 @@
-﻿using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Engine.Source.Entities.Interfaces;
-using GameEngine2D.Engine.Source.Level.Collision;
-using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Engine.Source.Physics.Interface;
-using GameEngine2D.Engine.Source.Physics.Trigger;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Engine.Source.Entities.Interfaces;
+using MonolithEngine.Engine.Source.Level.Collision;
+using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.Source.Physics.Interface;
+using MonolithEngine.Engine.Source.Physics.Trigger;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameEngine2D.Engine.Source.Physics
+namespace MonolithEngine.Engine.Source.Physics
 {
     public class CollisionEngine
     {

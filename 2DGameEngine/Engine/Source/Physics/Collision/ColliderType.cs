@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics.Collision
+namespace MonolithEngine.Engine.Source.Physics.Collision
 {
     public enum ColliderType
     {

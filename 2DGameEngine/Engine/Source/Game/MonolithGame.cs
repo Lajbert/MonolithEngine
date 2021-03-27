@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Graphics;
-using GameEngine2D.Engine.Source.Physics;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.GridCollision;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Engine.Source.Physics;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Camera2D;
+using MonolithEngine.Source.GridCollision;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,9 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.MyGame
+namespace MonolithEngine.Engine.Source.MyGame
 {
-    public abstract class MyGame : Game
+    public abstract class MonolithGame : Game
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -30,7 +30,7 @@ namespace GameEngine2D.Engine.Source.MyGame
 
         public static int CoinCount = 0;
 
-        public MyGame()
+        public MonolithGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

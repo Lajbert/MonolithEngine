@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.Source.Graphics;
-using GameEngine2D.Entities.Interfaces;
+﻿using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Entities.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Entities.Animation.Interface
+namespace MonolithEngine.Source.Entities.Animation.Interface
 {
     public interface IAnimation
     {

@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Entities;
-using GameEngine2D.Source.Util;
+﻿using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Entities;
+using MonolithEngine.Source.Util;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Entities.Transform
+namespace MonolithEngine.Engine.Source.Entities.Transform
 {
     public abstract class AbstractTransform : ITransform
     {

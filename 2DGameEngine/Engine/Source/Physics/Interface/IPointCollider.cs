@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics.Interface
+namespace MonolithEngine.Engine.Source.Physics.Interface
 {
     public class IPointCollider
     {

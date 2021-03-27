@@ -1,10 +1,10 @@
-﻿using GameEngine2D.Engine.Source.Util;
+﻿using MonolithEngine.Engine.Source.Util;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Graphics
+namespace MonolithEngine.Engine.Source.Graphics
 {
     public class TextureCache
     {

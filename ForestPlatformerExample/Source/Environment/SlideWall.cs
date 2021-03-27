@@ -1,5 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Entities;
+﻿using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Entities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

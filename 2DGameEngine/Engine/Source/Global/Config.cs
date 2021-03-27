@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Global
+namespace MonolithEngine.Global
 {
     public class Config
     {

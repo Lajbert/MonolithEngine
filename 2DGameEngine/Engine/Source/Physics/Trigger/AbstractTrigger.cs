@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.Source.Components;
-using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Entities;
+﻿using MonolithEngine.Engine.Source.Components;
+using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Entities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics.Trigger
+namespace MonolithEngine.Engine.Source.Physics.Trigger
 {
     public abstract class AbstractTrigger : ITrigger
     {

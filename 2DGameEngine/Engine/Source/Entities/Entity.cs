@@ -1,24 +1,24 @@
-﻿using GameEngine2D.Engine.AI;
-using GameEngine2D.Engine.Source.Components;
-using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Engine.Source.Entities.Animations;
-using GameEngine2D.Engine.Source.Entities.Interfaces;
-using GameEngine2D.Engine.Source.Entities.Transform;
-using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Graphics;
-using GameEngine2D.Engine.Source.Graphics.Primitives;
-using GameEngine2D.Engine.Source.Physics;
-using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Engine.Source.Physics.Interface;
-using GameEngine2D.Engine.Source.Physics.Raycast;
-using GameEngine2D.Engine.Source.Physics.Trigger;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Entities.Animation;
-using GameEngine2D.Source.GridCollision;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.AI;
+using MonolithEngine.Engine.Source.Components;
+using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Engine.Source.Entities.Animations;
+using MonolithEngine.Engine.Source.Entities.Interfaces;
+using MonolithEngine.Engine.Source.Entities.Transform;
+using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Engine.Source.Graphics.Primitives;
+using MonolithEngine.Engine.Source.Physics;
+using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.Source.Physics.Interface;
+using MonolithEngine.Engine.Source.Physics.Raycast;
+using MonolithEngine.Engine.Source.Physics.Trigger;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Entities.Animation;
+using MonolithEngine.Source.GridCollision;
+using MonolithEngine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameEngine2D.Entities
+namespace MonolithEngine.Entities
 {
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {

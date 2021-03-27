@@ -1,15 +1,15 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Camera2D
+namespace MonolithEngine.Source.Camera2D
 {
 	public class Camera
 	{

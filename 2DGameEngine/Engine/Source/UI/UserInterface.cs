@@ -1,5 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Entities.Controller;
-using GameEngine2D.Engine.Source.UI.Interface;
+﻿using MonolithEngine.Engine.Source.Entities.Controller;
+using MonolithEngine.Engine.Source.UI.Interface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.UI
+namespace MonolithEngine.Engine.Source.UI
 {
     public class UserInterface
     {

@@ -1,5 +1,5 @@
-﻿using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Entities.Controller
+namespace MonolithEngine.Engine.Source.Entities.Controller
 {
     public class UserInputController
     {

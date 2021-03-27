@@ -1,12 +1,12 @@
-﻿using GameEngine2D.Engine.Source.Interfaces;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Interfaces;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Components
+namespace MonolithEngine.Engine.Source.Components
 {
     public class ComponentList
     {

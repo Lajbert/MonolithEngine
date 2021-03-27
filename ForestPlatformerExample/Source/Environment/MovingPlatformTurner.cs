@@ -1,8 +1,8 @@
-﻿using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Engine.Source.Physics.Trigger;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
+﻿using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.Source.Physics.Trigger;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

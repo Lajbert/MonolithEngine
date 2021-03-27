@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameEngine2D
+namespace MonolithEngine
 {
     public static class Program
     {

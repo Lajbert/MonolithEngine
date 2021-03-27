@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics
+namespace MonolithEngine.Engine.Source.Physics
 {
     public struct CollisionInformation
     {

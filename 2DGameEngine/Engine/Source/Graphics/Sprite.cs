@@ -1,15 +1,15 @@
-﻿using GameEngine2D.Engine.Source.Components;
-using GameEngine2D.Engine.Source.Interfaces;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
-using GameEngine2D.Source.GridCollision;
+﻿using MonolithEngine.Engine.Source.Components;
+using MonolithEngine.Engine.Source.Interfaces;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
+using MonolithEngine.Source.GridCollision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Graphics
+namespace MonolithEngine.Engine.Source.Graphics
 {
     public class Sprite : IComponent, IDrawableComponent
     {

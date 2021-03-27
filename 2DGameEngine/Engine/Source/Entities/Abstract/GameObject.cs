@@ -1,15 +1,15 @@
-﻿using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Engine.Source.Entities.Transform;
-using GameEngine2D.Engine.Source.Physics;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Engine.Source.Entities.Transform;
+using MonolithEngine.Engine.Source.Physics;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Entities
+namespace MonolithEngine.Entities
 {
     public abstract class GameObject : IGameObject
     {

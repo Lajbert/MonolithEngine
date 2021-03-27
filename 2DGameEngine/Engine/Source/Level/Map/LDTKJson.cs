@@ -6,7 +6,7 @@
 //
 //    var ldtkJson = LdtkJson.FromJson(jsonString);
 
-namespace GameEngine2D.Engine.Source.Level
+namespace MonolithEngine.Engine.Source.Level
 {
     using System;
     using System.Collections.Generic;
@@ -1237,12 +1237,12 @@ namespace GameEngine2D.Engine.Source.Level
 
     public partial class LDTKJson
     {
-        public static LDTKJson FromJson(string json) => JsonConvert.DeserializeObject<LDTKJson>(json, GameEngine2D.Engine.Source.Level.Converter.Settings);
+        public static LDTKJson FromJson(string json) => JsonConvert.DeserializeObject<LDTKJson>(json, MonolithEngine.Engine.Source.Level.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this LDTKJson self) => JsonConvert.SerializeObject(self, GameEngine2D.Engine.Source.Level.Converter.Settings);
+        public static string ToJson(this LDTKJson self) => JsonConvert.SerializeObject(self, MonolithEngine.Engine.Source.Level.Converter.Settings);
     }
 
     internal static class Converter

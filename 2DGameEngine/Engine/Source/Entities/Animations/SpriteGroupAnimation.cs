@@ -1,14 +1,14 @@
-﻿using GameEngine2D.Engine.Source.Graphics;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Entities.Animation
+namespace MonolithEngine.Source.Entities.Animation
 {
     public class SpriteGroupAnimation : AbstractAnimation
     {

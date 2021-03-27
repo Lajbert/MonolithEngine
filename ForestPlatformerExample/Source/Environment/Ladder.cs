@@ -1,9 +1,9 @@
 ﻿using ForestPlatformerExample.Source.PlayerCharacter;
-using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Engine.Source.Physics.Trigger;
-using GameEngine2D.Entities;
-using GameEngine2D.Util;
+using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.Source.Physics.Trigger;
+using MonolithEngine.Entities;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

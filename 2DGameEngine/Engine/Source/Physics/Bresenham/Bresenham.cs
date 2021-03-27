@@ -1,9 +1,9 @@
 ﻿#if DEBUG
-using GameEngine2D.Engine.Source.Entities;
-using GameEngine2D.Engine.Source.Physics.Collision;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
+using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Physics.Collision;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
 #endif
 
 using Microsoft.Xna.Framework;
@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics.Bresenham
+namespace MonolithEngine.Engine.Source.Physics.Bresenham
 {
 
     public class Bresenham

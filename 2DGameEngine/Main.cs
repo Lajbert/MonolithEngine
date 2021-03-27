@@ -2,17 +2,17 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using GameEngine2D.Entities;
-using GameEngine2D.Entities.Interfaces;
+using MonolithEngine.Entities;
+using MonolithEngine.Entities.Interfaces;
 using System.Collections.Generic;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.Level;
-using GameEngine2D.Source;
-using GameEngine2D.Source.Entities.Animation;
-using GameEngine2D.Util;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Camera2D;
+using MonolithEngine.Source.Level;
+using MonolithEngine.Source;
+using MonolithEngine.Source.Entities.Animation;
+using MonolithEngine.Util;
 
-namespace GameEngine2D
+namespace MonolithEngine
 {
     public class Main : Game
     {

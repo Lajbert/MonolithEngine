@@ -1,11 +1,11 @@
-﻿using GameEngine2D.Engine.Source.Graphics;
+﻿using MonolithEngine.Engine.Source.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.UI
+namespace MonolithEngine.Engine.Source.UI
 {
     public class Image : IUIElement
     {

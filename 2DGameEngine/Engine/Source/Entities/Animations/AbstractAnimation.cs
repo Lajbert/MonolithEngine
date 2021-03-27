@@ -1,15 +1,15 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Entities;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Entities.Animation.Interface;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Entities;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Entities.Animation.Interface;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Entities.Animation
+namespace MonolithEngine.Source.Entities.Animation
 {
     public abstract class AbstractAnimation : IAnimation
     {

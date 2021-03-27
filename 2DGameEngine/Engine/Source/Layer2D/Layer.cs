@@ -1,18 +1,18 @@
-﻿using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Util;
-using GameEngine2D.Entities;
-using GameEngine2D.Entities.Interfaces;
-using GameEngine2D.Global;
-using GameEngine2D.Source.Camera2D;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Entities;
+using MonolithEngine.Entities.Interfaces;
+using MonolithEngine.Global;
+using MonolithEngine.Source.Camera2D;
+using MonolithEngine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.GridCollision
+namespace MonolithEngine.Source.GridCollision
 {
     public class Layer
     {

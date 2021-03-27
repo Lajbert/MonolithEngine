@@ -1,10 +1,10 @@
-﻿using GameEngine2D.Engine.Source.Entities.Transform;
+﻿using MonolithEngine.Engine.Source.Entities.Transform;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Entities.Abstract
+namespace MonolithEngine.Engine.Source.Entities.Abstract
 {
     public interface IGameObject
     {

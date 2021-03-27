@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Global
+namespace MonolithEngine.Engine.Source.Global
 {
     public class Globals
     {

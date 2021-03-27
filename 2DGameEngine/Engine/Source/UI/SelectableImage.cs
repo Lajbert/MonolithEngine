@@ -1,11 +1,11 @@
-﻿using GameEngine2D.Engine.Source.Graphics;
-using GameEngine2D.Engine.Source.UI.Interface;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Engine.Source.UI.Interface;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace GameEngine2D.Engine.Source.UI
+namespace MonolithEngine.Engine.Source.UI
 {
     public class SelectableImage : Image, SelectableUIElement
     {

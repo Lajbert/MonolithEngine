@@ -1,15 +1,15 @@
-﻿using GameEngine2D.Engine.Source.Entities.Interfaces;
-using GameEngine2D.Engine.Source.Graphics.Primitives;
-using GameEngine2D.Source;
-using GameEngine2D.Source.Util;
-using GameEngine2D.Util;
+﻿using MonolithEngine.Engine.Source.Entities.Interfaces;
+using MonolithEngine.Engine.Source.Graphics.Primitives;
+using MonolithEngine.Source;
+using MonolithEngine.Source.Util;
+using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics.Raycast
+namespace MonolithEngine.Engine.Source.Physics.Raycast
 {
     public class Ray2D
     {

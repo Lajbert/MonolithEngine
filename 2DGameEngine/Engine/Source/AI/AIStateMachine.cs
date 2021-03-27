@@ -1,13 +1,13 @@
-﻿using GameEngine2D.Engine.Source.Components;
-using GameEngine2D.Engine.Source.Entities.Abstract;
-using GameEngine2D.Engine.Source.Global;
-using GameEngine2D.Engine.Source.Interfaces;
+﻿using MonolithEngine.Engine.Source.Components;
+using MonolithEngine.Engine.Source.Entities.Abstract;
+using MonolithEngine.Engine.Source.Global;
+using MonolithEngine.Engine.Source.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.AI
+namespace MonolithEngine.Engine.AI
 {
     public class AIStateMachine<T> : IComponent, IUpdatableComponent where T : IGameObject
     {

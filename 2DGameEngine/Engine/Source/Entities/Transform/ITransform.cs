@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Entities.Transform
+namespace MonolithEngine.Engine.Source.Entities.Transform
 {
     public interface ITransform
     {

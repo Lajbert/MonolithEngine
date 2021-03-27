@@ -1,11 +1,11 @@
-﻿using GameEngine2D.Engine.Source.Components;
-using GameEngine2D.Engine.Source.Physics.Interface;
+﻿using MonolithEngine.Engine.Source.Components;
+using MonolithEngine.Engine.Source.Physics.Interface;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Physics.Collision
+namespace MonolithEngine.Engine.Source.Physics.Collision
 {
     public interface ICollisionComponent : IComponent
     {

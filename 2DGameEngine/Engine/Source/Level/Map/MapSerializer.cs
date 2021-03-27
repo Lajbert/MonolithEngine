@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameEngine2D.Source.Level
+namespace MonolithEngine.Source.Level
 {
     public interface MapSerializer
     {

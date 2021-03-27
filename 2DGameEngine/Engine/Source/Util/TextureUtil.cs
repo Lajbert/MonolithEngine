@@ -1,4 +1,4 @@
-﻿using GameEngine2D.Util;
+﻿using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace GameEngine2D.Engine.Source.Util
+namespace MonolithEngine.Engine.Source.Util
 {
     public class TextureUtil
     {
