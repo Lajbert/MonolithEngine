@@ -15,7 +15,7 @@ namespace MonolithEngine.Source.Camera2D
 	{
 		public static Entity target { get; set; }
 
-		private static Vector2 position = Vector2.Zero;
+		private Vector2 position = Vector2.Zero;
 
 		private Vector2 direction;
 
@@ -100,6 +100,7 @@ namespace MonolithEngine.Source.Camera2D
             {
 				return;
             }
+
 			elapsedTime = (float)Globals.ElapsedTime / Config.CAMERA_TIME_MULTIPLIER;
 			// Follow target entity
 			if (target != null)
@@ -134,9 +135,11 @@ namespace MonolithEngine.Source.Camera2D
 				position.Y = BOUND_BOTTOM;
 			}
 			direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
+
+			PostUpdate();
 		}
 
-		public void PostUpdate()
+		private void PostUpdate()
 		{
 			// Shakes
 			if (shake)

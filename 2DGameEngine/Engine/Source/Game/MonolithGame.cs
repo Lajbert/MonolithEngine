@@ -140,7 +140,6 @@ namespace MonolithEngine.Engine.Source.MyGame
             Globals.GameTime = gameTime;
             Timer.Update(elapsedTime);
             Camera.Update();
-            Camera.PostUpdate();
 
             float now = (float)gameTime.TotalGameTime.TotalMilliseconds;
             float frameTime = now - previousT;

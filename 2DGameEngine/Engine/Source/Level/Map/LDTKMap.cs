@@ -50,7 +50,7 @@ namespace MonolithEngine.Source.Level
 
             foreach (TilesetDefinition tileset in json.Defs.Tilesets) {
                 string path = GetMonoGameContentName(tileset.RelPath);
-                tilesets.Add(path, TextureUtil.LoadTexture(path));
+                tilesets.Add(path, TextureCache.GetTexture(path));
             }
 
             foreach (Engine.Source.Level.Level level in json.Levels)

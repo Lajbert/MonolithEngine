@@ -66,6 +66,7 @@ namespace MonolithEngine.Entities
 
         public void DrawAll(SpriteBatch spriteBatch)
         {
+            //spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null);
             foreach (List<Layer> layers in allLayers)
             {
                 foreach (Layer l in layers)
@@ -73,6 +74,7 @@ namespace MonolithEngine.Entities
                     l.DrawAll(spriteBatch);
                 }
             }
+            //spriteBatch.End();
         }
 
         public void UpdateAll()
