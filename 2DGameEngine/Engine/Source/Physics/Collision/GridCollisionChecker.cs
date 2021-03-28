@@ -26,21 +26,9 @@ namespace MonolithEngine.Engine.Source.Physics.Collision
 
         private static readonly GridCollisionChecker instance = new GridCollisionChecker();
 
-        private GridCollisionChecker()
+        public GridCollisionChecker()
         {
 
-        }
-
-        static GridCollisionChecker()
-        {
-        }
-
-        public static GridCollisionChecker Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         public void Add(StaticCollider gameObject)

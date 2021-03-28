@@ -28,21 +28,9 @@ namespace MonolithEngine.Engine.Source.Physics
 
         private static readonly CollisionEngine instance = new CollisionEngine();
 
-        private CollisionEngine()
+        public CollisionEngine()
         {
 
-        }
-
-        static CollisionEngine()
-        {
-        }
-
-        public static CollisionEngine Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         public void OnCollisionProfileChanged(IGameObject entity)

@@ -44,25 +44,23 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.INCREASING_GRAVITY = true;
 
 
-            Config.RES_W = 3840;
-            Config.RES_H = 2160;
-            //Config.FULLSCREEN = true;
+            Config.RES_W = 1920;
+            Config.RES_H = 1080;
+            Config.FULLSCREEN = false;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
-            Config.FPS = 500;
+            Config.FPS = 0;
             Config.FIXED_UPDATE_FPS = 30;
 
             if (Config.FPS == 0)
             {
                 // uncapped framerate
-                //graphics.SynchronizeWithVerticalRetrace = true;
                 graphics.SynchronizeWithVerticalRetrace = false;
                 IsFixedTimeStep = false;
             }
             else
             {
-                IsFixedTimeStep = true;//false;
-                graphics.SynchronizeWithVerticalRetrace = true;
-                //graphics.SynchronizeWithVerticalRetrace = false;
+                IsFixedTimeStep = true;
+                graphics.SynchronizeWithVerticalRetrace = false;
                 TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS));
                 //TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
@@ -166,9 +164,8 @@ namespace MonolithEngine.Engine.Source.MyGame
 
         protected void FixedUpdate()
         {
+            //Camera.Update();
             SceneManager.FixedUpdate();
-            CollisionEngine.Instance.Update();
-            SceneManager.Update();
         }
 
         private float lastPrint = 0;

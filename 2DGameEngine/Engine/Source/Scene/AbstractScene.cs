@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using MonolithEngine.Engine.Source.Physics;
+using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene.Transition;
 using MonolithEngine.Engine.Source.UI;
 using MonolithEngine.Entities;
@@ -23,6 +25,10 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public LayerManager LayerManager { get; }
 
+        public CollisionEngine CollisionEngine;
+
+        public GridCollisionChecker GridCollisionChecker;
+
         public Camera Camera;
 
         public AbstractScene(Camera camera, string sceneName, bool preload = false)
@@ -38,6 +44,11 @@ namespace MonolithEngine.Engine.Source.Scene
 
             LayerManager = new LayerManager(this);
             LayerManager.InitLayers();
+
+            CollisionEngine = new CollisionEngine();
+
+            GridCollisionChecker = new GridCollisionChecker();
+
             Camera = camera;
         }
 
@@ -79,6 +90,7 @@ namespace MonolithEngine.Engine.Source.Scene
         public void FixedUpdate()
         {
             LayerManager.FixedUpdateAll();
+            CollisionEngine.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)

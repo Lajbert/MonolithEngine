@@ -180,26 +180,26 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("IdleCarryLeft", idleCarryLeft, isIdleCarryLeft);
 
             SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-sheet", 24);
-            bool isRunningRight() => VelocityX > 0.5f && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
+            bool isRunningRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
-            bool isRunningLeft() => VelocityX < -0.5f && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
+            bool isRunningLeft() => VelocityX < -0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-sheet", 12, SpriteEffects.FlipHorizontally);
-            bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST);
+            bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST);
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            bool isWalkingRight() => VelocityX > 0.1 && VelocityX < 0.5f && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST);
+            bool isWalkingRight() => VelocityX > 0.1 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST);
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
             Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
 
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-with-item-sheet", 24);
-            bool isRunningCarryRight() => VelocityX > 0.5f && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
+            bool isRunningCarryRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
             runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; };
             runningCarryRight.EveryFrameAction = (frame) => {
                 if (carriedItem == null) return;
@@ -219,15 +219,15 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("RunningCarryRight", runningCarryRight, isRunningCarryRight, 1);
 
             SpriteSheetAnimation runningCarryLeft = runningCarryRight.CopyFlipped();
-            bool isRunningCarryLeft() => VelocityX < -0.5f && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
+            bool isRunningCarryLeft() => VelocityX < -0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryLeft", runningCarryLeft, isRunningCarryLeft, 1);
 
             SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Hero/main-character@run-with-item-sheet", 12, SpriteEffects.FlipHorizontally);
-            bool isCarryWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
+            bool isCarryWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
 
             SpriteSheetAnimation walkingCarryRight = walkingCarryLeft.CopyFlipped();
-            bool isCarryWalkingRight() => VelocityX > 0.1 && VelocityX < 0.5f && !GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
+            bool isCarryWalkingRight() => VelocityX > 0.1 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryRight", walkingCarryRight, isCarryWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningCarryRight", "WalkingCarryRight");
@@ -510,7 +510,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
                 if (HasGravity)
                 {
-                    StaticCollider collider = GridCollisionChecker.Instance.GetColliderAt(GridUtil.GetBelowGrid(Transform.GridCoordinates));
+                    StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(Transform.GridCoordinates));
                     if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement) {
                         collider.BlocksMovement = false;
                         Timer.TriggerAfter(500, () => collider.BlocksMovement = true);

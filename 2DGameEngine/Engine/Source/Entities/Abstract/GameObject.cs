@@ -105,7 +105,6 @@ namespace MonolithEngine.Entities
         public virtual void AddTag(string tag)
         {
             Tags.Add(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
 
         public bool HasTag(string tag)
@@ -128,7 +127,6 @@ namespace MonolithEngine.Entities
         public virtual void RemoveTag(string tag)
         {
             Tags.Remove(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
         }
     }
 }

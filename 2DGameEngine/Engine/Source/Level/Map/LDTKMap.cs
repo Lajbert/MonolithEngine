@@ -103,7 +103,7 @@ namespace MonolithEngine.Source.Level
                         {
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
-                            StaticCollider e = new StaticCollider((new Vector2(x, y)));
+                            StaticCollider e = new StaticCollider(scene, (new Vector2(x, y)));
                             switch (grid.V)
                             {
                                 case 0:
