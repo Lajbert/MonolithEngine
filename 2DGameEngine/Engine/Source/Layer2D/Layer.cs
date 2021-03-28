@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Entities.Animations;
 
 namespace MonolithEngine.Source.GridCollision
 {
@@ -153,6 +154,7 @@ namespace MonolithEngine.Source.GridCollision
             {
                 foreach (Entity e in changedObjects)
                 {
+
                     if (e.Visible)
                     {
                         if (e.Parent == null && !visibleObjects.Contains(e))
@@ -193,8 +195,30 @@ namespace MonolithEngine.Source.GridCollision
         {
             foreach (Entity entity in activeObjects)
             {
+                entity.ClearAllComponents();
                 entity.Destroy();
             }
+
+            foreach(Entity entity in visibleObjects)
+            {
+                entity.ClearAllComponents();
+                entity.Destroy();
+            }
+
+            foreach (Entity entity in changedObjects)
+            {
+                entity.ClearAllComponents();
+                entity.Destroy();
+            }
+
+            //changedObjects.Clear();
+
+            HandleChangedObjects();
+
+            Logger.Info("Layers data:");
+            Logger.Info("Active: " + string.Join(", ", activeObjects));
+            Logger.Info("VisibleObjects: " + string.Join(", ", visibleObjects));
+            Logger.Info("Changed: " + string.Join(", ", changedObjects));
         }
 
     }

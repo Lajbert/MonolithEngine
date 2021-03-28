@@ -30,6 +30,8 @@ namespace ForestPlatformerExample.Source
 
         private SpriteFont font;
 
+        private KeyboardState prevKeyboardState;
+
         protected override void Init()
         {
             font = Content.Load<SpriteFont>("DefaultFont");
@@ -47,10 +49,13 @@ namespace ForestPlatformerExample.Source
         {
             base.Update(gameTime);
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.R))
+            KeyboardState state = Keyboard.GetState();
+
+            if (prevKeyboardState != state && state.IsKeyDown(Keys.R) /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
             {
                 SceneManager.LoadScene("level1");
             }
+            prevKeyboardState = state;
         }
     }
 }

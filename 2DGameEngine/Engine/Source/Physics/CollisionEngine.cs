@@ -9,6 +9,7 @@ using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using MonolithEngine.Entities;
 
 namespace MonolithEngine.Engine.Source.Physics
 {
@@ -25,8 +26,6 @@ namespace MonolithEngine.Engine.Source.Physics
         private Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>> gridCollisions = new Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>>();
 
         private HashSet<IGameObject> changedObjects = new HashSet<IGameObject>();
-
-        private static readonly CollisionEngine instance = new CollisionEngine();
 
         public CollisionEngine()
         {
@@ -51,6 +50,88 @@ namespace MonolithEngine.Engine.Source.Physics
             {
                 return;
             }
+
+            if (changedObjects.Count > 0)
+            {
+                foreach (IColliderEntity changed in changedObjects)
+                {
+                    if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0)
+                    {
+                        entities.Remove(changed);
+                        if (!changed.CanFireTriggers)
+                        {
+                            toCheckAgainst.Remove(changed);
+                        }
+                    }
+                    else
+                    {
+                        if (changed.GetCollisionComponent() != null)
+                        {
+                            if (changed.GetCollidesAgainst().Count > 0)
+                            {
+                                if (!collisions.ContainsKey(changed))
+                                {
+                                    collisions[changed] = new Dictionary<IColliderEntity, bool>();
+                                }
+                                if (!entities.Contains(changed))
+                                {
+                                    entities.Add(changed);
+                                }
+                            }
+                            else
+                            {
+                                collisions.Remove(changed);
+                                entities.Remove(changed);
+                            }
+
+                            if (changed.GetTags().Count > 0)
+                            {
+                                if (!toCheckAgainst.Contains(changed))
+                                {
+                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                    Logger.Warn("ONLY ADD THIS IF THERE IS ANYTHING COLLIDING WITH IT, USE CENTRAL COLLISION REGISTRATION");
+                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                    toCheckAgainst.Add(changed);
+                                }
+                            }
+                            else
+                            {
+                                toCheckAgainst.Remove(changed);
+                            }
+                        }
+
+                        if (changed.CheckGridCollisions)
+                        {
+                            gridCollisions[changed] = new Dictionary<StaticCollider, bool>();
+                            if (!entities.Contains(changed))
+                            {
+                                entities.Add(changed);
+                            }
+                        }
+
+                        if (changed.GetTriggers().Count > 0)
+                        {
+                            if (!entities.Contains(changed))
+                            {
+                                entities.Add(changed);
+                            }
+
+                            triggers[changed] = new Dictionary<string, Dictionary<IGameObject, bool>>();
+                            foreach (ITrigger trigger in changed.GetTriggers())
+                            {
+                                triggers[changed][trigger.GetTag()] = new Dictionary<IGameObject, bool>();
+                            }
+                        }
+
+                        if (changed.CanFireTriggers && !toCheckAgainst.Contains(changed))
+                        {
+                            toCheckAgainst.Add(changed);
+                        }
+                    }
+                }
+            }
+
+            changedObjects.Clear();
 
             foreach (IColliderEntity thisEntity in entities)
             {
@@ -105,85 +186,6 @@ namespace MonolithEngine.Engine.Source.Physics
             }
 
             InactivateCollisionsAndTriggers();
-
-            if (changedObjects.Count > 0)
-            {
-                foreach (IColliderEntity changed in changedObjects)
-                {
-                    if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0 && !changed.CheckGridCollisions)
-                    {
-                        entities.Remove(changed);
-                        if (!changed.CanFireTriggers)
-                        {
-                            toCheckAgainst.Remove(changed);
-                        }
-                    } else
-                    {
-                        if (changed.GetCollisionComponent() != null)
-                        {
-                            if (changed.GetCollidesAgainst().Count > 0)
-                            {
-                                if (!collisions.ContainsKey(changed))
-                                {
-                                    collisions[changed] = new Dictionary<IColliderEntity, bool>();
-                                }
-                                if (!entities.Contains(changed))
-                                {
-                                    entities.Add(changed);
-                                }
-                            }
-                            else
-                            {
-                                collisions.Remove(changed);
-                                entities.Remove(changed);
-                            }
-
-                            if (changed.GetTags().Count > 0)
-                            {
-                                if (!toCheckAgainst.Contains(changed))
-                                {
-                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                    Logger.Warn("ONLY ADD THIS IF THERE IS ANYTHING COLLIDING WITH IT, USE CENTRAL COLLISION REGISTRATION");
-                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                    toCheckAgainst.Add(changed);
-                                }
-                            }
-                            else
-                            {
-                                toCheckAgainst.Remove(changed);
-                            }
-                        }
-
-                        if (changed.CheckGridCollisions)
-                        {
-                            gridCollisions[changed] = new Dictionary<StaticCollider, bool>();
-                            if (!entities.Contains(changed)) {
-                                entities.Add(changed);
-                            }
-                        }
-
-                        if (changed.GetTriggers().Count > 0)
-                        {
-                            if (!entities.Contains(changed))
-                            {
-                                entities.Add(changed);
-                            }
-
-                            triggers[changed] = new Dictionary<string, Dictionary<IGameObject, bool>>();
-                            foreach (ITrigger trigger in changed.GetTriggers())
-                            {
-                                triggers[changed][trigger.GetTag()] = new Dictionary<IGameObject, bool>();
-                            }                            
-                        }
-
-                        if (changed.CanFireTriggers && !toCheckAgainst.Contains(changed))
-                        {
-                            toCheckAgainst.Add(changed);
-                        }
-                    }
-                }
-            }
-            changedObjects.Clear();
         }
 
         /*private void CheckGridCollisions(IColliderEntity thisEntity)
@@ -301,6 +303,14 @@ namespace MonolithEngine.Engine.Source.Physics
                 }
             }
 
+        }
+
+        public void Destroy()
+        {
+            Update();
+            Logger.Info("Collision engine data:");
+            Logger.Info("Entities: " + string.Join(", ", entities));
+            Logger.Info("To check against: " + string.Join(", ", toCheckAgainst));
         }
     }
 }

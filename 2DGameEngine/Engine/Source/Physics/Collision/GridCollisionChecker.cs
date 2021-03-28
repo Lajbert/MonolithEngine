@@ -20,11 +20,9 @@ namespace MonolithEngine.Engine.Source.Physics.Collision
         private ICollection<Direction> whereToCheck;
 
         private List<(StaticCollider, Direction)> allCollisionsResult = new List<(StaticCollider, Direction)>();
-        List<Direction> tagCollisionResult = new List<Direction>();
+        private List<Direction> tagCollisionResult = new List<Direction>();
 
         private static readonly List<Direction> basicDirections = new List<Direction>() { Direction.CENTER, Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH };
-
-        private static readonly GridCollisionChecker instance = new GridCollisionChecker();
 
         public GridCollisionChecker()
         {
@@ -155,6 +153,14 @@ namespace MonolithEngine.Engine.Source.Physics.Collision
         {
             Vector2 position = objectPositions[gameObject];
             objects.Remove(position);
+        }
+
+        public void Destroy()
+        {
+            objects.Clear();
+            objectPositions.Clear();
+            allCollisionsResult.Clear();
+            tagCollisionResult.Clear();
         }
 
     }

@@ -863,5 +863,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             base.OnCollisionEnd(otherCollider);
         }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+        }
     }
 }

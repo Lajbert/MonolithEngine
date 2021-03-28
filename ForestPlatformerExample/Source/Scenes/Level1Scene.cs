@@ -156,12 +156,5 @@ namespace ForestPlatformerExample.Source.Scenes
             Camera.TrackTarget(hero, true);
         }
 
-        public override void Unload()
-        {
-            foreach (GameObject entity in objects)
-            {
-                entity.Destroy();
-            }
-        }
     }
 }
