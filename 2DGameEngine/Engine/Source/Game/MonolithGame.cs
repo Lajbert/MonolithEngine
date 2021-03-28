@@ -164,7 +164,6 @@ namespace MonolithEngine.Engine.Source.MyGame
 
         protected void FixedUpdate()
         {
-            //Camera.Update();
             SceneManager.FixedUpdate();
         }
 
