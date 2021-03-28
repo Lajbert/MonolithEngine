@@ -1,6 +1,5 @@
 ﻿using ForestPlatformerExample.Source;
 using System;
-using TestExample;
 
 namespace ForestPlatformerExample
 {

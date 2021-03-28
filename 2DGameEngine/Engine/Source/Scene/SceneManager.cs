@@ -71,6 +71,11 @@ namespace MonolithEngine.Engine.Source.Scene
             LoadScene(scene.GetName());
         }
 
+        public void FixedUpdate()
+        {
+            currentScene.FixedUpdate();
+        }
+
         internal void Update()
         {
             currentScene.Update();

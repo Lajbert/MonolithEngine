@@ -5,19 +5,23 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Engine.Source.Level.Collision
 {
     public class StaticCollider : GameObject
     {
 
-        public StaticCollider(Vector2 gridPosition) : base(null)
+        private AbstractScene scene;
+
+        public StaticCollider(AbstractScene scene, Vector2 gridPosition) : base(null)
         {
             Transform = new StaticTransform(this)
             {
                 GridCoordinates = gridPosition
             };
-            GridCollisionChecker.Instance.Add(this);
+            this.scene = scene;
+            scene.GridCollisionChecker.Add(this);
         }
 
         private HashSet<Direction> blockedFrom = new HashSet<Direction>();
@@ -26,7 +30,7 @@ namespace MonolithEngine.Engine.Source.Level.Collision
 
         public override void Destroy()
         {
-            GridCollisionChecker.Instance.Remove(this);
+            scene.GridCollisionChecker.Remove(this);
         }
 
         public void AddBlockedDirection(Direction direction)

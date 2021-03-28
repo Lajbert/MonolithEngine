@@ -19,6 +19,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Entities.Items
 {
@@ -32,7 +33,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private List<Coin> coins = new List<Coin>();
 
-        public Box(Vector2 position, int bumps = 1) : base(position)
+        public Box(AbstractScene scene, Vector2 position, int bumps = 1) : base(scene, position)
         {
             //ColliderOnGrid = true;
 
@@ -81,7 +82,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             for (int i = 0; i < numOfCoins; i++)
             {
 
-                Coin c = new Coin(Vector2.Zero, 3, friction: (float)MyRandom.Between(87, 93) / (float)100)
+                Coin c = new Coin(Scene, Vector2.Zero, 3, friction: (float)MyRandom.Between(87, 93) / (float)100)
                 {
                     BounceCount = 3,
                     Parent = this,
@@ -151,7 +152,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1));
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
-            Layer.Camera.Shake(2f, 0.5f);
+            Scene.Camera.Shake(2f, 0.5f);
             Destroy();
         }
 

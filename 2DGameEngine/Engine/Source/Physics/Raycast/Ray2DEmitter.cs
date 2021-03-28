@@ -51,7 +51,8 @@ namespace MonolithEngine.Engine.Source.Physics.Raycast
                 ray.debugLine.Transform.Position = owner.Transform.Position;
                 ray.debugLine.From = owner.Transform.Position;
 #endif
-                foreach (Entity e in LayerManager.Instance.EntityLayer.GetAll())
+                foreach (Entity e in new List<Entity>())
+                //foreach (Entity e in scene.LayerManager.EntityLayer.GetAll())
                 {
                     if (!e.BlocksRay || e.Equals(owner))
                     {

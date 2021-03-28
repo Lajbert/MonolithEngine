@@ -141,7 +141,7 @@ namespace MonolithEngine.Engine.Source.Util
             return flipped;
         }
 
-        public static List<Texture2D> LoadTextures(string fullPath, int startFrame, int endFrame)
+        internal static List<Texture2D> LoadTextures(string fullPath, int startFrame, int endFrame)
         {
             List<Texture2D> result = new List<Texture2D>();
             for (int i = startFrame; i <= endFrame; i++)
@@ -152,7 +152,7 @@ namespace MonolithEngine.Engine.Source.Util
             return result;
         }
 
-        public static Texture2D LoadTexture(string path)
+        internal static Texture2D LoadTexture(string path)
         {
             return Content.Load<Texture2D>(path);
         }

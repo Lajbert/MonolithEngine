@@ -44,25 +44,23 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.INCREASING_GRAVITY = true;
 
 
-            Config.RES_W = 3840;
-            Config.RES_H = 2160;
-            //Config.FULLSCREEN = true;
+            Config.RES_W = 1920;
+            Config.RES_H = 1080;
+            Config.FULLSCREEN = false;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
-            Config.FPS = 600;
+            Config.FPS = 0;
             Config.FIXED_UPDATE_FPS = 30;
 
             if (Config.FPS == 0)
             {
                 // uncapped framerate
-                //graphics.SynchronizeWithVerticalRetrace = true;
                 graphics.SynchronizeWithVerticalRetrace = false;
                 IsFixedTimeStep = false;
             }
             else
             {
-                IsFixedTimeStep = true;//false;
-                graphics.SynchronizeWithVerticalRetrace = true;
-                //graphics.SynchronizeWithVerticalRetrace = false;
+                IsFixedTimeStep = true;
+                graphics.SynchronizeWithVerticalRetrace = false;
                 TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS));
                 //TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
@@ -102,9 +100,6 @@ namespace MonolithEngine.Engine.Source.MyGame
                 BOUND_BOTTOM = 450
             };
 
-            LayerManager.Instance.Camera = Camera;
-            LayerManager.Instance.InitLayers();
-
             SceneManager = new SceneManager();
 
             font = Content.Load<SpriteFont>("DefaultFont");
@@ -143,7 +138,6 @@ namespace MonolithEngine.Engine.Source.MyGame
             Globals.GameTime = gameTime;
             Timer.Update(elapsedTime);
             Camera.Update();
-            Camera.PostUpdate();
 
             float now = (float)gameTime.TotalGameTime.TotalMilliseconds;
             float frameTime = now - previousT;
@@ -163,8 +157,6 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             Globals.FixedUpdateAlpha = (float)(accumulator / fixedUpdateDelta);
 
-            LayerManager.Instance.UpdateAll();
-
             SceneManager.Update();
 
             base.Update(gameTime);
@@ -172,9 +164,7 @@ namespace MonolithEngine.Engine.Source.MyGame
 
         protected void FixedUpdate()
         {
-            LayerManager.Instance.FixedUpdateAll();
-            CollisionEngine.Instance.Update();
-            SceneManager.Update();
+            SceneManager.FixedUpdate();
         }
 
         private float lastPrint = 0;
@@ -184,11 +174,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             GraphicsDevice.Clear(Color.White);
 
-            LayerManager.Instance.DrawAll(gameTime);
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             SceneManager.Draw(spriteBatch);
-            spriteBatch.End();
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
@@ -196,7 +182,7 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             if (lastPrint > 10)
             {
-                fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+                fps = string.Format("FPS: {0}", (int)frameCounter.AverageFramesPerSecond);
                 lastPrint = 0;
             }
 

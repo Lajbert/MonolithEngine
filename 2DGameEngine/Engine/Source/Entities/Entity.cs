@@ -25,11 +25,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Entities
 {
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {
+
+        public AbstractScene Scene;
 
         private Vector2 drawPosition = Vector2.Zero;
 
@@ -65,7 +68,7 @@ namespace MonolithEngine.Entities
                 if ( value != checkGridCollisions )
                 {
                     checkGridCollisions = value;
-                    CollisionEngine.Instance.OnCollisionProfileChanged(this);
+                    Scene.CollisionEngine.OnCollisionProfileChanged(this);
                 }
             }
         }
@@ -78,7 +81,7 @@ namespace MonolithEngine.Entities
             set
             {
                 canFireTriggers = value;
-                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+                Scene.CollisionEngine.OnCollisionProfileChanged(this);
             }
         }
 
@@ -172,6 +175,7 @@ namespace MonolithEngine.Entities
             DrawPosition = startPosition;
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
+            Scene = layer.Scene;
             this.font = font;
             layer.OnObjectChanged(this);
             Parent = parent;
@@ -208,7 +212,7 @@ namespace MonolithEngine.Entities
 
             if (typeof(T) is ICollisionComponent || typeof(T) is ITrigger)
             {
-                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+                Scene.CollisionEngine.OnCollisionProfileChanged(this);
             }
         }
 
@@ -216,7 +220,7 @@ namespace MonolithEngine.Entities
         {
             if (typeof(T) is ICollisionComponent || typeof(T) is ITrigger)
             {
-                CollisionEngine.Instance.OnCollisionProfileChanged(this);
+                Scene.CollisionEngine.OnCollisionProfileChanged(this);
             }
         }
 
@@ -225,14 +229,14 @@ namespace MonolithEngine.Entities
             componentList.RemoveComponent<T>();
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (!Visible)
             {
                 return;
             }
 
-            componentList.DrawAll(spriteBatch, gameTime);
+            componentList.DrawAll(spriteBatch);
 
 #if DEBUG
             if (DEBUG_SHOW_PIVOT)
@@ -257,7 +261,7 @@ namespace MonolithEngine.Entities
             {
                 foreach (Entity child in Children)
                 {
-                    child.Draw(spriteBatch, gameTime);
+                    child.Draw(spriteBatch);
                 }
             }
             
@@ -496,13 +500,13 @@ namespace MonolithEngine.Entities
         public void AddCollisionAgainst(string tag, bool allowOverlap = true)
         {
             CollidesAgainst[tag] = allowOverlap;
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public void RemoveCollisionAgainst(string tag)
         {
             CollidesAgainst.Remove(tag);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public ICollection<ITrigger> GetTriggers()
@@ -525,7 +529,7 @@ namespace MonolithEngine.Entities
         public void RemoveTrigger(ITrigger trigger)
         {
             componentList.RemoveComponent(trigger);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public virtual void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
@@ -534,6 +538,18 @@ namespace MonolithEngine.Entities
 
         public virtual void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
         {
+        }
+
+        public override void AddTag(string tag)
+        {
+            base.AddTag(tag);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
+        }
+
+        public override void RemoveTag(string tag)
+        {
+            base.RemoveTag(tag);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
     }

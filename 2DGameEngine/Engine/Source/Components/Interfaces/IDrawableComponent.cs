@@ -8,6 +8,6 @@ namespace MonolithEngine.Engine.Source.Interfaces
 {
     public interface IDrawableComponent
     {
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+        public void Draw(SpriteBatch spriteBatch);
     }
 }

@@ -8,12 +8,13 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Environment
 {
     class Ladder : Entity
     {
-        public Ladder(Vector2 position, int width, int height) : base(LayerManager.Instance.EntityLayer, null, position)
+        public Ladder(AbstractScene scene, Vector2 position, int width, int height) : base(scene.LayerManager.EntityLayer, null, position)
         {
             if (width == 0 || height == 0)
             {

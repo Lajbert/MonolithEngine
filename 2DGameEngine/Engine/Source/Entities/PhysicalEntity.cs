@@ -111,10 +111,10 @@ namespace MonolithEngine
             CheckGridCollisions = true;
             Active = true;
             ResetPosition(startPosition);
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
-        override public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        override public void Draw(SpriteBatch spriteBatch)
         {
 #if DEBUG
             ICollisionComponent collisionComponent = GetComponent<ICollisionComponent>();
@@ -140,7 +140,7 @@ namespace MonolithEngine
                 }
             }
 #endif
-            base.Draw(spriteBatch, gameTime);
+            base.Draw(spriteBatch);
         }
 
         public override void PreUpdate()
@@ -225,12 +225,12 @@ namespace MonolithEngine
             {
                 Transform.InCellLocation.X += step;
 
-                if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
+                if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
                 {
                     Transform.InCellLocation.X = CollisionOffsetLeft;
                 }
 
-                if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
+                if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
                 {
                     Transform.InCellLocation.X = CollisionOffsetRight;
                 }
@@ -283,7 +283,7 @@ namespace MonolithEngine
             {
                 Transform.InCellLocation.Y += step2;
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
+                if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
                 {
                     if (HasGravity)
                     {
@@ -295,7 +295,7 @@ namespace MonolithEngine
 
                 }
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
+                if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
                 {
                     velocity.Y = 0;
                     Transform.InCellLocation.Y = CollisionOffsetTop;
@@ -377,7 +377,7 @@ namespace MonolithEngine
 
         private bool OnGround()
         {
-            return mountedOn != null || GridCollisionChecker.Instance.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            return mountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
         }
 
         internal sealed override void HandleCollisionStart(IGameObject otherCollider, bool allowOverlap)
@@ -581,7 +581,7 @@ namespace MonolithEngine
             Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             base.Destroy();
-            CollisionEngine.Instance.OnCollisionProfileChanged(this);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public bool IsMovingAtLeast(float speed)

@@ -4,12 +4,13 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Environment
 {
     class SlideWall : Entity
     {
-        public SlideWall(Vector2 position, int width, int height) : base(LayerManager.Instance.EntityLayer, null, position)
+        public SlideWall(AbstractScene scene, Vector2 position, int width, int height) : base(scene.LayerManager.EntityLayer, null, position)
         {
             if (width == 0 || height == 0)
             {

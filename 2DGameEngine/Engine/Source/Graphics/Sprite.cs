@@ -36,7 +36,7 @@ namespace MonolithEngine.Engine.Source.Graphics
             Owner = owner;
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Owner.DrawPosition + DrawOffset, SourceRectangle, Color.White, 0f, Owner.Pivot, 1f, SpriteEffects.None, Owner.Depth);
         }

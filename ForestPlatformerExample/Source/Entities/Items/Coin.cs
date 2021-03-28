@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Items
 {
@@ -23,7 +24,7 @@ namespace ForestPlatformerExample.Source.Items
 
         //private float repelForce = 2;
 
-        public Coin(Vector2 position, int bounceCount = 0, float friction = 0.9f) : base(position)
+        public Coin(AbstractScene scene, Vector2 position, int bounceCount = 0, float friction = 0.9f) : base(scene, position)
         {
 
             Active = true;

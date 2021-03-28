@@ -57,10 +57,11 @@ namespace MonolithEngine.Engine.Source.Physics.Collision
             float y1 = 0;
             float x2 = Width;
             float y2 = Height;
-            lineX1 = new Line(owner as Entity, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), Color.Red);
-            lineY1 = new Line(owner as Entity, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), Color.Red);
-            lineX2 = new Line(owner as Entity, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
-            lineY2 = new Line(owner as Entity, new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
+            Entity ownerEntity = (owner as Entity);
+            lineX1 = new Line(ownerEntity.Scene, ownerEntity, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), Color.Red);
+            lineY1 = new Line(ownerEntity.Scene, ownerEntity, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), Color.Red);
+            lineX2 = new Line(ownerEntity.Scene, ownerEntity, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
+            lineY2 = new Line(ownerEntity.Scene, ownerEntity, new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
         }
 #endif
     }

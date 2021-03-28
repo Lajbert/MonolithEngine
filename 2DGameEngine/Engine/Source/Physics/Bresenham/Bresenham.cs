@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Engine.Source.Physics.Bresenham
 {
@@ -181,7 +182,7 @@ namespace MonolithEngine.Engine.Source.Physics.Bresenham
 	{
 		List<Vector2> line = new List<Vector2>();
 		Entity other;
-		public BresenhamLine(Entity owner, Entity other) : base(LayerManager.Instance.EntityLayer, owner, Vector2.Zero)
+		public BresenhamLine(AbstractScene scene, Entity owner, Entity other) : base(scene.LayerManager.EntityLayer, owner, Vector2.Zero)
 		{
 			this.other = other;
 			Active = true;
@@ -194,13 +195,13 @@ namespace MonolithEngine.Engine.Source.Physics.Bresenham
 			line.Clear();
 			Bresenham.GetLine(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), line);
 			canRayPass = Bresenham.CanLinePass(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), (x, y) => {
-				return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+				return Scene.GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
 			});
 		}
 
-		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+		public override void Draw(SpriteBatch spriteBatch)
 		{
-			base.Draw(spriteBatch, gameTime);
+			base.Draw(spriteBatch);
 			if (canRayPass)
 			{
 				foreach (Vector2 point in line)

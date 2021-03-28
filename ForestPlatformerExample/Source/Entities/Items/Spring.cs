@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Items
 {
@@ -17,7 +18,7 @@ namespace ForestPlatformerExample.Source.Items
     {
 
         public int Power;
-        public Spring(Vector2 position, int power) : base(position)
+        public Spring(AbstractScene scene, Vector2 position, int power) : base(scene, position)
         {
 
             Active = true;

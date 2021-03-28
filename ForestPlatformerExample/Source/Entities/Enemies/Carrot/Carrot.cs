@@ -22,6 +22,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
@@ -46,7 +47,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
         public bool OverlapsWithHero = false;
 
-        public Carrot(Vector2 position, Direction currentFaceDirection) : base(position)
+        public Carrot(AbstractScene scene, Vector2 position, Direction currentFaceDirection) : base(scene, position)
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
@@ -143,7 +144,7 @@ namespace ForestPlatformerExample.Source.Enemies
                 line.Clear();
                 Bresenham.GetLine(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), line);
                 seesHero = Bresenham.CanLinePass(Transform.Position + new Vector2(0, -15), hero.Transform.Position + new Vector2(0, -10), (x, y) => {
-                    return GridCollisionChecker.Instance.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+                    return Scene.GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
                 });
 
                 if (seesHero)
@@ -182,9 +183,9 @@ namespace ForestPlatformerExample.Source.Enemies
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch, gameTime);
+            base.Draw(spriteBatch);
 
             if (seesHero)
             {

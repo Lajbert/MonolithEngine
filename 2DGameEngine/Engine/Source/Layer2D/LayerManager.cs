@@ -7,6 +7,8 @@ using MonolithEngine.Global;
 using MonolithEngine.Source.Camera2D;
 using MonolithEngine.Source.GridCollision;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Entities
 {
@@ -22,13 +24,11 @@ namespace MonolithEngine.Entities
 
         private List<Layer> backgroundLayers = new List<Layer>();
 
-        public Camera Camera;
+        private AbstractScene scene;
 
-        private static readonly LayerManager instance = new LayerManager();
-
-        private LayerManager()
+        public LayerManager(AbstractScene scene)
         {
-
+            this.scene = scene;
         }
         static LayerManager()
         {
@@ -40,7 +40,7 @@ namespace MonolithEngine.Entities
             {
                 throw new Exception("Root already initialized!");
             }
-            EntityLayer = new Layer(Camera, 10);
+            EntityLayer = new Layer(scene, 10);
 
             allLayers.Add(parallaxLayers);
             allLayers.Add(backgroundLayers);
@@ -51,14 +51,6 @@ namespace MonolithEngine.Entities
                     }
                 );
             allLayers.Add(foregroundLayers);
-        }
-
-        public static LayerManager Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         public void Destroy()
@@ -72,15 +64,17 @@ namespace MonolithEngine.Entities
             }
         }
 
-        public void DrawAll(GameTime gameTime)
+        public void DrawAll(SpriteBatch spriteBatch)
         {
+            //spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null);
             foreach (List<Layer> layers in allLayers)
             {
                 foreach (Layer l in layers)
                 {
-                    l.DrawAll(gameTime);
+                    l.DrawAll(spriteBatch);
                 }
             }
+            //spriteBatch.End();
         }
 
         public void UpdateAll()
@@ -107,21 +101,21 @@ namespace MonolithEngine.Entities
 
         public Layer CreateForegroundLayer(int priority = 0)
         {
-            Layer l = new Layer(Camera, priority, false);
+            Layer l = new Layer(scene, priority, false);
             AddLayer(foregroundLayers, l);
             return l;
         }
 
         public Layer CreateBackgroundLayer(int priority = 0)
         {
-            Layer l = new Layer(Camera, priority, false);
+            Layer l = new Layer(scene, priority, false);
             AddLayer(backgroundLayers, l);
             return l;
         }
 
         public Layer CreateParallaxLayer(int priority = 0, float scrollSpeedMultiplier = 1, bool lockY = false)
         {
-            Layer l = new Layer(Camera, priority, false, scrollSpeedMultiplier, lockY);
+            Layer l = new Layer(scene, priority, false, scrollSpeedMultiplier, lockY);
             AddLayer(parallaxLayers, l);
             return l;
         }

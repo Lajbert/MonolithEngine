@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace ForestPlatformerExample.Source.Environment
 {
@@ -28,7 +29,7 @@ namespace ForestPlatformerExample.Source.Environment
         private int directionX = -1;
         private int directionY = -1;
 
-        public MovingPlatform(Vector2 startPosition, int width, int height) : base(LayerManager.Instance.EntityLayer, null, startPosition)
+        public MovingPlatform(AbstractScene scene, Vector2 startPosition, int width, int height) : base(scene.LayerManager.EntityLayer, null, startPosition)
         {
             HasGravity = false;
             Active = true;
@@ -37,10 +38,10 @@ namespace ForestPlatformerExample.Source.Environment
             VelocityX = speedX * directionX;
             VelocityY = speedY * directionY;
             //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
-            new Sprite(this, TextureUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
+            new Sprite(this, TextureCache.GetTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
             AddComponent(new BoxCollisionComponent(this, width, height));
             TileGroup tg = new TileGroup();
-            Texture2D tileSet = TextureUtil.LoadTexture("ForestAssets/Tiles/forest-tileset");
+            Texture2D tileSet = TextureCache.GetTexture("ForestAssets/Tiles/forest-tileset");
             Color[] data = new Color[Config.GRID * Config.GRID];
             tileSet.GetData(0, new Rectangle(304, 288, Config.GRID, Config.GRID), data, 0, data.Length);
             for (int i = 0; i < width; i += Config.GRID)

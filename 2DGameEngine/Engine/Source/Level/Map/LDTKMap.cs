@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Source.Level
 {
@@ -42,14 +43,14 @@ namespace MonolithEngine.Source.Level
         //private Vector2 pivot = new Vector2(-Config.GRID / 2, 0);
         private Vector2 pivot = Vector2.Zero;
 
-        public LDTKMap(LDTKJson json)
+        public LDTKMap(AbstractScene scene, LDTKJson json)
         {
             //Globals.Camera.LevelGridCountH = 256;
             //Globals.Camera.LevelGridCountW = 256;
 
             foreach (TilesetDefinition tileset in json.Defs.Tilesets) {
                 string path = GetMonoGameContentName(tileset.RelPath);
-                tilesets.Add(path, TextureUtil.LoadTexture(path));
+                tilesets.Add(path, TextureCache.GetTexture(path));
             }
 
             foreach (Engine.Source.Level.Level level in json.Levels)
@@ -68,13 +69,13 @@ namespace MonolithEngine.Source.Level
                     Texture2D tileSet = null;
                     if (layerName.StartsWith(COLLIDERS))
                     {
-                        currentLayer = LayerManager.Instance.EntityLayer;
+                        currentLayer = scene.LayerManager.EntityLayer;
                         tileSet = null;
                         //continue;
                     } else if (layerName.StartsWith(BACKGROUND))
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
-                        currentLayer = LayerManager.Instance.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
+                        currentLayer = scene.LayerManager.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
                         tileGroup = new TileGroup();
                     }
@@ -82,14 +83,14 @@ namespace MonolithEngine.Source.Level
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         scrollSpeedModifier += 0.1f;
-                        currentLayer = LayerManager.Instance.CreateParallaxLayer(int.Parse(layerName[layerName.Length - 1] + ""), scrollSpeedModifier, true);
+                        currentLayer = scene.LayerManager.CreateParallaxLayer(int.Parse(layerName[layerName.Length - 1] + ""), scrollSpeedModifier, true);
                         tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
                         tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(FOREGROUND))
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
-                        currentLayer = LayerManager.Instance.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
+                        currentLayer = scene.LayerManager.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
                         tileGroup = new TileGroup();
                     }
@@ -102,7 +103,7 @@ namespace MonolithEngine.Source.Level
                         {
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
-                            StaticCollider e = new StaticCollider((new Vector2(x, y)));
+                            StaticCollider e = new StaticCollider(scene, (new Vector2(x, y)));
                             switch (grid.V)
                             {
                                 case 0:

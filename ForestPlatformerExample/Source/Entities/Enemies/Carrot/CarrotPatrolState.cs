@@ -60,11 +60,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
         {
             if (controlledEntity.CurrentFaceDirection == Direction.WEST)
             {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.WEST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHWEST);
+                return controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.WEST) || !controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHWEST);
             }
             else if (controlledEntity.CurrentFaceDirection == Direction.EAST)
             {
-                return GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.EAST) || !GridCollisionChecker.Instance.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHEAST);
+                return controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.EAST) || !controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHEAST);
             }
             throw new Exception("Wrong CurrentFaceDirection for carrot!");
         }
