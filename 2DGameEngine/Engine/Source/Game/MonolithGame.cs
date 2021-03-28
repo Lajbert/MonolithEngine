@@ -44,11 +44,11 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.INCREASING_GRAVITY = true;
 
 
-            Config.RES_W = 1920;
-            Config.RES_H = 1080;
+            Config.RES_W = 3840;
+            Config.RES_H = 2160;
             Config.FULLSCREEN = false;
             Config.ZOOM = (Config.RES_W / 1920) * 2;
-            Config.FPS = 0;
+            Config.FPS = 500;
             Config.FIXED_UPDATE_FPS = 30;
 
             if (Config.FPS == 0)
