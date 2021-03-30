@@ -23,7 +23,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Asset;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
@@ -75,8 +74,7 @@ namespace ForestPlatformerExample.Source.Enemies
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
             Animations.Offset = new Vector2(3, -33);
-
-            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotMove"), 12);
+            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@move-sheet", 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Velocity.X != 0);
 
             void setSpeed(int frame)
@@ -97,7 +95,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
-            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotHurt"), 24)
+            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@hurt-sheet", 24)
             {
                 Looping = false
             };
@@ -106,7 +104,7 @@ namespace ForestPlatformerExample.Source.Enemies
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
-            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotDeath"), 24)
+            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@death-sheet", 24)
             {
                 Looping = false
             };
@@ -115,7 +113,7 @@ namespace ForestPlatformerExample.Source.Enemies
             SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
             Animations.RegisterAnimation("DeathRight", deathRight, () => false);
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotIdle"), 12);
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, "ForestAssets/Characters/Carrot/carrot@idle-sheet", 12);
             Animations.RegisterAnimation("IdleLeft", idleLeft, () => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();

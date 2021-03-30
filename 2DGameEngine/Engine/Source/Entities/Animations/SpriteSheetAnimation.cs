@@ -24,10 +24,10 @@ namespace MonolithEngine.Source.Entities
 
         private int frameSize;
 
-        public SpriteSheetAnimation(Entity parent, Texture2D texture, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
+        public SpriteSheetAnimation(Entity parent, string texturePath, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
         {
             
-            this.texture = texture;
+            this.texture = TextureCache.GetTexture(texturePath);
             if (frameSizeOverride == 0)
             {
                 frameSize = GetFrameSize();
@@ -42,9 +42,12 @@ namespace MonolithEngine.Source.Entities
             TotalFrames = GetFrameCount();
         }
 
-        protected SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width = 0, int height = 0, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
+        protected SpriteSheetAnimation(Entity parent, string texturePath, int rows, int columns, int totalFrames, int width = 0, int height = 0, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
         {
-            this.texture = texture;
+            if (texturePath != null)
+            {
+                this.texture = TextureCache.GetTexture(texturePath);
+            }
             this.rows = rows;
             this.columns = columns;
             if (width == 0 || height == 0)

@@ -58,12 +58,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public abstract void OnStart();
 
-        public virtual void Unload()
-        {
-            LayerManager.Destroy();
-            CollisionEngine.Destroy();
-            GridCollisionChecker.Destroy();
-        }
+        public abstract void Unload();
 
         public abstract ICollection<object> ExportData();
 

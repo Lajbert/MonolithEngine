@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Asset;
 
 namespace MonolithEngine.Source.Level
 {
@@ -33,6 +32,8 @@ namespace MonolithEngine.Source.Level
         //string path = "SpriteSheets/MagicCliffsEnvironment/";
         //Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
 
+        Dictionary<string, Texture2D> tilesets = new Dictionary<string, Texture2D>();
+
         public HashSet<EntityInstance> entities = new HashSet<EntityInstance>();
 
         private TileGroup tileGroup;
@@ -49,7 +50,7 @@ namespace MonolithEngine.Source.Level
 
             foreach (TilesetDefinition tileset in json.Defs.Tilesets) {
                 string path = GetMonoGameContentName(tileset.RelPath);
-                Assets.LoadTexture(path, path);
+                tilesets.Add(path, TextureCache.GetTexture(path));
             }
 
             foreach (Engine.Source.Level.Level level in json.Levels)
@@ -75,7 +76,7 @@ namespace MonolithEngine.Source.Level
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = scene.LayerManager.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
-                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+                        tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
                         tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(PARALLAX))
@@ -83,14 +84,14 @@ namespace MonolithEngine.Source.Level
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         scrollSpeedModifier += 0.1f;
                         currentLayer = scene.LayerManager.CreateParallaxLayer(int.Parse(layerName[layerName.Length - 1] + ""), scrollSpeedModifier, true);
-                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+                        tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
                         tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(FOREGROUND))
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = scene.LayerManager.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
-                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+                        tileSet = tilesets[GetMonoGameContentName(layerInstance.TilesetRelPath)];
                         tileGroup = new TileGroup();
                     }
                  

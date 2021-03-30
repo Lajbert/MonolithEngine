@@ -18,9 +18,9 @@ namespace MonolithEngine.Engine.Source.UI
         public int Depth = 1;
         public Color Color = Color.White;
 
-        public Image(Texture2D texture, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default)
+        public Image(string imagePath, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default)
         {
-            ImageTexture = texture;
+            ImageTexture = TextureCache.GetTexture(imagePath);
             Position = position;
             if (sourceRectangle == default)
             {

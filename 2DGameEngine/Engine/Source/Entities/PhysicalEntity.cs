@@ -581,6 +581,7 @@ namespace MonolithEngine
             Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             base.Destroy();
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public bool IsMovingAtLeast(float speed)

@@ -19,9 +19,9 @@ namespace MonolithEngine.Engine.Source.UI
 
         public Action OnClick;
 
-        public SelectableImage(Texture2D texture, Texture2D selectedImage = null, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default) : base (texture, position, sourceRectangle, scale, rotation, depth, color)
+        public SelectableImage(string baseImagePath, string selectedImage = null, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default) : base (baseImagePath, position, sourceRectangle, scale, rotation, depth, color)
         {
-            selectedImageTexture = texture;
+            selectedImageTexture = TextureCache.GetTexture(selectedImage);
             if (sourceRectangle == default)
             {
                 selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), ImageTexture.Width * (int)scale, ImageTexture.Height * (int)scale);

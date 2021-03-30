@@ -73,7 +73,7 @@ namespace MonolithEngine.Engine.Source.Util
             return rect;
         }
 
-        internal static List<Texture2D> LoadTextures(string fullPath, int frameCount)
+        public static List<Texture2D> LoadTextures(string fullPath, int frameCount)
         {
             return LoadTextures(fullPath, 0, frameCount);
         }
@@ -110,7 +110,7 @@ namespace MonolithEngine.Engine.Source.Util
             return result;
         }*/
 
-        internal static Texture2D FlipTexture(Texture2D input, bool vertical, bool horizontal)
+        public static Texture2D FlipTexture(Texture2D input, bool vertical, bool horizontal)
         {
             Texture2D flipped = new Texture2D(GraphicsDeviceManager.GraphicsDevice, input.Width, input.Height);
             Color[] data = new Color[input.Width * input.Height];

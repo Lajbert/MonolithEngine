@@ -346,7 +346,9 @@ namespace MonolithEngine.Entities
             }
             if (GetComponent<AnimationStateMachine>() != null && GetComponent<AnimationStateMachine>().HasAnimation(DESTROY_AMINATION + CurrentFaceDirection))
             {
+                //RemoveCollisions();
                 GetComponent<AnimationStateMachine>().PlayAnimation(DESTROY_AMINATION + CurrentFaceDirection);
+                //Animations.GetAnimation(DESTROY_AMINATION).StoppedCallback = () => Cleanup();
             } 
             else
             {
@@ -380,18 +382,11 @@ namespace MonolithEngine.Entities
             Destroyed = true;
         }
 
-        internal void ClearAllComponents()
-        {
-            componentList.ClearAll();
-        }
-
         protected virtual void RemoveCollisions()
         {
             componentList.Clear<ICollisionComponent>();
             componentList.Clear<ITrigger>();
             CollidesAgainst.Clear();
-            CanFireTriggers = false;
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
             RayEmitter = null;
             BlocksRay = false;
         }
