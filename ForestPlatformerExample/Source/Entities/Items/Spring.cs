@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Asset;
 
 namespace ForestPlatformerExample.Source.Items
 {
@@ -37,7 +38,7 @@ namespace ForestPlatformerExample.Source.Items
             AddComponent(Animations);
             Animations.Offset = new Vector2(4, 3);
 
-            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/spring_spritesheet", 24)
+            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, Assets.GetTexture("SpringAnim"), 24)
             {
                 Looping = false
             };

@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Asset;
 
 namespace ForestPlatformerExample.Source.Items
 {
@@ -44,10 +45,10 @@ namespace ForestPlatformerExample.Source.Items
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
 
-            SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/coin-pickup", 24);
+            SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 24);
             Animations.RegisterAnimation("Idle", coinAnim);
 
-            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, "ForestAssets/Items/pickup-effect", 24);
+            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickupEffect"), 24);
             SetDestroyAnimation(pickupAnim);
 
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));

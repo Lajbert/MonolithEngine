@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Asset;
 
 namespace MonolithEngine.Source.Entities.Animation
 {
@@ -14,12 +15,9 @@ namespace MonolithEngine.Source.Entities.Animation
     {
         public List<Texture2D> Textures;
 
-        public SpriteGroupAnimation(Entity parent, List<string> texturepaths, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, texturepaths.Count, framerate, spriteEffect)
+        public SpriteGroupAnimation(Entity parent, List<Texture2D> textures, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, textures.Count, framerate, spriteEffect)
         {
-            if (texturepaths != null)
-            {
-                this.Textures = TextureCache.GetTextures(texturepaths);
-            }
+            this.Textures = textures;
         }
 
         public SpriteGroupAnimation Copy()
