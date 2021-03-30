@@ -6,6 +6,7 @@ using ForestPlatformerExample.Source.PlayerCharacter;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine;
+using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Level;
 using MonolithEngine.Engine.Source.Physics.Collision;
@@ -59,8 +60,8 @@ namespace ForestPlatformerExample.Source.Scenes
         private void LoadData()
         {
 
-            UI.AddUIElement(new Image("ForestAssets/UI/HUD-coin-count", new Vector2(30, 30), scale: 8));
-            UI.AddUIElement(new SelectableImage("ForestAssets/UI/HUD-coin-count", "ForestAssets/UI/HUD-coin-count", new Vector2(30, 30), scale: 8));
+            UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 8));
+            UI.AddUIElement(new SelectableImage(Assets.GetTexture("HUDCointCount"), Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 8));
             UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(200, 5)));
 
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
@@ -156,12 +157,5 @@ namespace ForestPlatformerExample.Source.Scenes
             Camera.TrackTarget(hero, true);
         }
 
-        public override void Unload()
-        {
-            foreach (GameObject entity in objects)
-            {
-                entity.Destroy();
-            }
-        }
     }
 }

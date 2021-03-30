@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Asset;
 
 namespace ForestPlatformerExample.Source.Entities.Items
 {
@@ -64,16 +65,16 @@ namespace ForestPlatformerExample.Source.Entities.Items
             AddComponent(Animations);
             Animations.Offset = new Vector2(0, -16);
 
-            SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, "ForestAssets/Items/box-idle", 24);
+            SpriteSheetAnimation boxIdle = new SpriteSheetAnimation(this, Assets.GetTexture("BoxIdle"), 24);
             Animations.RegisterAnimation("BoxIdle", boxIdle);
 
-            SpriteSheetAnimation boxHit = new SpriteSheetAnimation(this, "ForestAssets/Items/box-hit", 24)
+            SpriteSheetAnimation boxHit = new SpriteSheetAnimation(this, Assets.GetTexture("BoxHit"), 24)
             {
                 Looping = false
             };
             Animations.RegisterAnimation("BoxHit", boxHit);
 
-            SpriteSheetAnimation boxDestroy = new SpriteSheetAnimation(this, "ForestAssets/Items/box-destroy", 24);
+            SpriteSheetAnimation boxDestroy = new SpriteSheetAnimation(this, Assets.GetTexture("BoxDestroy"), 24);
             boxDestroy.StartedCallback += () => Pop();
             boxDestroy.Looping = false;
             SetDestroyAnimation(boxDestroy);
