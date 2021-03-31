@@ -53,6 +53,17 @@ namespace ForestPlatformerExample.Source
 
             Assets.LoadTexture("HUDCointCount", "ForestAssets/UI/HUD-coin-count");
 
+            // UI text generated with: https://fontmeme.com/pixel-fonts/
+            // font: KA1
+            // base color: 2A2A57
+            // selected color: FF0000
+            Assets.LoadTexture("HUDNewGameBase", "ForestAssets/UI/new_game_base");
+            Assets.LoadTexture("HUDNewGameSelected", "ForestAssets/UI/new_game_selected");
+            Assets.LoadTexture("HUDSettingsBase", "ForestAssets/UI/settings_base");
+            Assets.LoadTexture("HUDSettingsSelected", "ForestAssets/UI/settings_selected");
+            Assets.LoadTexture("HUDQuitBase", "ForestAssets/UI/quit_base");
+            Assets.LoadTexture("HUDQuitSelected", "ForestAssets/UI/quit_selected");
+
             Assets.LoadTexture("CarrotMove", "ForestAssets/Characters/Carrot/carrot@move-sheet");
             Assets.LoadTexture("CarrotHurt", "ForestAssets/Characters/Carrot/carrot@hurt-sheet");
             Assets.LoadTexture("CarrotDeath", "ForestAssets/Characters/Carrot/carrot@death-sheet");
@@ -72,11 +83,13 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HeroPickup", "ForestAssets/Characters/Hero/main-character@pick-up-sheet");
             Assets.LoadTexture("HeroSlide", "ForestAssets/Characters/Hero/main-character@slide-sheet");
 
+            MainMenuScene mainMenuScene = new MainMenuScene(Camera);
             Level1Scene level1 = new Level1Scene(Camera, font);
 
+            SceneManager.AddScene(mainMenuScene);
             SceneManager.AddScene(level1);
 
-            SceneManager.LoadScene(level1);
+            SceneManager.LoadScene(mainMenuScene);
         }
 
         protected override void Update(GameTime gameTime)

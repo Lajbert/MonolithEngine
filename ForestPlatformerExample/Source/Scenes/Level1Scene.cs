@@ -31,7 +31,7 @@ namespace ForestPlatformerExample.Source.Scenes
         private SpriteFont font;
         private List<GameObject> objects;
 
-        public Level1Scene(Camera camera, SpriteFont spriteFont) : base (camera, "level1")
+        public Level1Scene(Camera camera, SpriteFont spriteFont) : base (camera, "Level1")
         {
             font = spriteFont;
             objects = new List<GameObject>();

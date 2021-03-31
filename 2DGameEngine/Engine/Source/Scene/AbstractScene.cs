@@ -15,7 +15,7 @@ namespace MonolithEngine.Engine.Source.Scene
     public abstract class AbstractScene : IScene
     {
 
-        public SceneManager sceneManager;
+        protected SceneManager SceneManager;
 
         private string sceneName;
 
@@ -69,7 +69,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public void Finish()
         {
-            sceneManager.OnSceneFinished(this);
+            SceneManager.OnSceneFinished(this);
         }
 
         public abstract ISceneTransitionEffect GetTransitionEffect();
@@ -78,7 +78,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         internal void SetSceneManager(SceneManager sceneManager)
         {
-            this.sceneManager = sceneManager;
+            this.SceneManager = sceneManager;
         }
 
         public string GetName()

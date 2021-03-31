@@ -14,7 +14,7 @@ namespace MonolithEngine.Engine.Source.Asset
 
         public static void LoadTexture(string name, string path)
         {
-            textures[name] = TextureUtil.LoadTexture(path);
+            textures.Add(name, TextureUtil.LoadTexture(path));
         }
 
         public static Texture2D GetTexture(string name)
@@ -40,7 +40,7 @@ namespace MonolithEngine.Engine.Source.Asset
             {
                 result.Add(TextureUtil.LoadTexture(path));
             }
-            textureGroups[name] = result;
+            textureGroups.Add(name, result);
         }
 
         public static List<Texture2D> LoadAndGetTextureGroup(string name, List<string> paths)

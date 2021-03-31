@@ -9,6 +9,7 @@ namespace MonolithEngine.Engine.Source.Scene
     {
         private Dictionary<string, AbstractScene> scenes = new Dictionary<string, AbstractScene>();
         private AbstractScene currentScene;
+        public Action ExitAction;
 
         public void AddScene(AbstractScene scene)
         {

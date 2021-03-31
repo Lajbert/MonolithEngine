@@ -21,7 +21,7 @@ namespace MonolithEngine.Engine.Source.UI
 
         public SelectableImage(Texture2D texture, Texture2D selectedImage = null, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default) : base (texture, position, sourceRectangle, scale, rotation, depth, color)
         {
-            selectedImageTexture = texture;
+            selectedImageTexture = selectedImage;
             if (sourceRectangle == default)
             {
                 selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), ImageTexture.Width * (int)scale, ImageTexture.Height * (int)scale);
@@ -45,7 +45,7 @@ namespace MonolithEngine.Engine.Source.UI
         {
             if (IsSelectedByCursor || IsSelectedByButtons)
             {
-                spriteBatch.Draw(selectedImageTexture, Position, SourceRectangle, Color.Red, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
+                spriteBatch.Draw(selectedImageTexture, Position, SourceRectangle, Color.White, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
             } else
             {
                 base.Draw(spriteBatch);
