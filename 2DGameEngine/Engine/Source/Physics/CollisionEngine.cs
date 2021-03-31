@@ -51,6 +51,65 @@ namespace MonolithEngine.Engine.Source.Physics
                 return;
             }
 
+            HandleChangedObjects();
+
+            foreach (IColliderEntity thisEntity in entities)
+            {
+
+                if (!thisEntity.CollisionsEnabled && thisEntity.GetTriggers().Count == 0)
+                {
+                    continue;
+                }
+
+                foreach (IColliderEntity otherEntity in toCheckAgainst)
+                {
+                    if (thisEntity.Equals(otherEntity))
+                    {
+                        continue;
+                    }
+
+                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
+                    {
+                        CheckTriggers(thisEntity, otherEntity);
+                    }
+
+                    if (otherEntity.GetTags().Count == 0 || !otherEntity.CollisionsEnabled)
+                    {
+                        continue;
+                    }
+
+                    bool possibleCollision = false;
+                    bool allowOverlap = false;
+                    foreach(string tag in otherEntity.GetTags()) {
+                        if (thisEntity.GetCollidesAgainst().ContainsKey(tag)) {
+                            possibleCollision = true;
+                            allowOverlap = thisEntity.GetCollidesAgainst()[tag];
+                            break;
+                        }
+                    }
+
+                    if (!possibleCollision)
+                    {
+                        continue;
+                    }
+
+                    if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
+                    {
+                        CheckCollision(thisEntity, otherEntity, allowOverlap);
+                    }
+                    
+                    /*if (thisEntity.CheckGridCollisions)
+                    {
+                        CheckGridCollisions(thisEntity);
+                    }*/
+                }
+            }
+
+            InactivateCollisionsAndTriggers();
+        }
+
+        private void HandleChangedObjects()
+        {
             if (changedObjects.Count > 0)
             {
                 foreach (IColliderEntity changed in changedObjects)
@@ -132,60 +191,6 @@ namespace MonolithEngine.Engine.Source.Physics
             }
 
             changedObjects.Clear();
-
-            foreach (IColliderEntity thisEntity in entities)
-            {
-
-                if (!thisEntity.CollisionsEnabled && thisEntity.GetTriggers().Count == 0)
-                {
-                    continue;
-                }
-
-                foreach (IColliderEntity otherEntity in toCheckAgainst)
-                {
-                    if (thisEntity.Equals(otherEntity))
-                    {
-                        continue;
-                    }
-
-                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
-                    {
-                        CheckTriggers(thisEntity, otherEntity);
-                    }
-
-                    if (otherEntity.GetTags().Count == 0 || !otherEntity.CollisionsEnabled)
-                    {
-                        continue;
-                    }
-
-                    bool possibleCollision = false;
-                    bool allowOverlap = false;
-                    foreach(string tag in otherEntity.GetTags()) {
-                        if (thisEntity.GetCollidesAgainst().ContainsKey(tag)) {
-                            possibleCollision = true;
-                            allowOverlap = thisEntity.GetCollidesAgainst()[tag];
-                            break;
-                        }
-                    }
-
-                    if (!possibleCollision)
-                    {
-                        continue;
-                    }
-
-                    if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
-                    {
-                        CheckCollision(thisEntity, otherEntity, allowOverlap);
-                    }
-                    
-                    /*if (thisEntity.CheckGridCollisions)
-                    {
-                        CheckGridCollisions(thisEntity);
-                    }*/
-                }
-            }
-
-            InactivateCollisionsAndTriggers();
         }
 
         /*private void CheckGridCollisions(IColliderEntity thisEntity)
@@ -307,7 +312,7 @@ namespace MonolithEngine.Engine.Source.Physics
 
         public void Destroy()
         {
-            Update();
+            HandleChangedObjects();
             Logger.Info("Collision engine data:");
             Logger.Info("Entities: " + string.Join(", ", entities));
             Logger.Info("To check against: " + string.Join(", ", toCheckAgainst));
