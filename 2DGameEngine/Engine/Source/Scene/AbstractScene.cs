@@ -21,6 +21,8 @@ namespace MonolithEngine.Engine.Source.Scene
 
         internal bool Preload = false;
 
+        internal bool AlwaysActive;
+
         protected UserInterface UI;
 
         public LayerManager LayerManager { get; }
@@ -31,7 +33,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public Camera Camera;
 
-        public AbstractScene(Camera camera, string sceneName, bool preload = false)
+        public AbstractScene(Camera camera, string sceneName, bool preload = false, bool alwaysActive = false)
         {
             if (sceneName == null || sceneName.Length == 0)
             {
@@ -39,6 +41,7 @@ namespace MonolithEngine.Engine.Source.Scene
             }
             this.sceneName = sceneName;
             Preload = preload;
+            AlwaysActive = alwaysActive;
 
             UI = new UserInterface();
 

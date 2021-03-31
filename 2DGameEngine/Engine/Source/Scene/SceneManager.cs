@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using MonolithEngine.Engine.Source.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MonolithEngine.Engine.Source.Scene
@@ -8,7 +10,10 @@ namespace MonolithEngine.Engine.Source.Scene
     public class SceneManager
     {
         private Dictionary<string, AbstractScene> scenes = new Dictionary<string, AbstractScene>();
+        private HashSet<AbstractScene> activeScenes = new HashSet<AbstractScene>();
         private AbstractScene currentScene;
+        private AbstractScene nextSceneToLoad;
+        private AbstractScene nextSceneToStart;
 
         public void AddScene(AbstractScene scene)
         {
@@ -36,14 +41,25 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public void LoadScene(string sceneName)
         {
+            nextSceneToLoad = scenes[sceneName];
+        }
+
+        private void LoadNextScene()
+        {
             ICollection<object> data = null;
             if (currentScene != null)
             {
                 data = currentScene.ExportData();
                 currentScene.OnEnd();
                 currentScene.Unload();
+                if (!currentScene.AlwaysActive)
+                {
+                    activeScenes.RemoveIfExists(currentScene);
+                }
             }
-            currentScene = scenes[sceneName];
+            currentScene = nextSceneToLoad;
+            nextSceneToLoad = null;
+            activeScenes.AddIfMissing(currentScene);
             currentScene.Load();
             currentScene.ImportData(data);
             currentScene.OnStart();
@@ -51,12 +67,24 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public void StartScene(string sceneName)
         {
+            nextSceneToStart = scenes[sceneName];
+        }
+
+        private void StartNextScene()
+        {
             ICollection<object> data = null;
             if (currentScene != null)
             {
                 data = currentScene.ExportData();
+                currentScene.OnEnd();
+                if (!currentScene.AlwaysActive)
+                {
+                    activeScenes.RemoveIfExists(currentScene);
+                }
             }
-            currentScene = scenes[sceneName];
+            currentScene = nextSceneToStart;
+            nextSceneToStart = null;
+            activeScenes.AddIfMissing(currentScene);
             currentScene.ImportData(data);
             currentScene.OnStart();
         }
@@ -73,12 +101,34 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public void FixedUpdate()
         {
-            currentScene.FixedUpdate();
+            foreach (AbstractScene scene in activeScenes)
+            {
+                scene.FixedUpdate();
+            }
+            if (nextSceneToLoad != null)
+            {
+                LoadNextScene();
+            }
+            if (nextSceneToStart != null)
+            {
+                StartNextScene();
+            }
         }
 
         internal void Update()
         {
-            currentScene.Update();
+            foreach (AbstractScene scene in activeScenes)
+            {
+                scene.Update();
+            }
+            if (nextSceneToLoad != null)
+            {
+                LoadNextScene();
+            }
+            if (nextSceneToStart != null)
+            {
+                StartNextScene();
+            }
         }
 
         internal void Draw(SpriteBatch spriteBatch)
