@@ -149,12 +149,14 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void OnEnd()
         {
-            
+            ForestPlatformerGame.GameRunning = false;
         }
 
         public override void OnStart()
         {
             Camera.TrackTarget(hero, true);
+            ForestPlatformerGame.Paused = false;
+            ForestPlatformerGame.GameRunning = true;
         }
 
     }

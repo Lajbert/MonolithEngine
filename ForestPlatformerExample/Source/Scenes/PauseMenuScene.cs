@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.MyGame;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Scene.Transition;
 using MonolithEngine.Engine.Source.UI;
@@ -13,14 +11,9 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Scenes
 {
-    // UI text generated with: https://fontmeme.com/pixel-fonts/
-    // font: KA1
-    // base color: 2A2A57
-    // selected color: FF0000
-
-    class MainMenuScene : AbstractScene
+    class PauseMenuScene : AbstractScene
     {
-        public MainMenuScene(Camera camera) : base(camera, "MainMenu")
+        public PauseMenuScene(Camera camera) : base(camera, "PauseMenu", true)
         {
 
         }
@@ -42,18 +35,17 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void Load()
         {
-            //UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 8));
-            SelectableImage newGame = new SelectableImage(Assets.GetTexture("HUDNewGameBase"), Assets.GetTexture("HUDNewGameSelected"), new Vector2(300, 300), scale: 1);
-            newGame.OnClick = () =>
+            SelectableImage continueGame = new SelectableImage(Assets.GetTexture("HUDContinueBase"), Assets.GetTexture("HUDContinueSelected"), new Vector2(300, 300), scale: 1);
+            continueGame.OnClick = () =>
             {
-                SceneManager.LoadScene("Level1");
+                SceneManager.StartScene("Level1");
             };
 
             SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(300, 500), scale: 1);
             quit.OnClick = Config.ExitAction;
 
             UI.AddUIElement(quit);
-            UI.AddUIElement(newGame);
+            UI.AddUIElement(continueGame);
         }
 
         public override void OnEnd()
@@ -63,7 +55,7 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void OnStart()
         {
-            ForestPlatformerGame.Paused = false;
+            ForestPlatformerGame.Paused = true;
             ForestPlatformerGame.GameRunning = false;
         }
     }

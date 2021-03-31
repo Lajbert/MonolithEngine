@@ -33,6 +33,9 @@ namespace ForestPlatformerExample.Source
 
         private KeyboardState prevKeyboardState;
 
+        public static bool GameRunning = false;
+        public static bool Paused = false;
+
         protected override void Init()
         {
             font = Content.Load<SpriteFont>("DefaultFont");
@@ -63,6 +66,8 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HUDSettingsSelected", "ForestAssets/UI/settings_selected");
             Assets.LoadTexture("HUDQuitBase", "ForestAssets/UI/quit_base");
             Assets.LoadTexture("HUDQuitSelected", "ForestAssets/UI/quit_selected");
+            Assets.LoadTexture("HUDContinueBase", "ForestAssets/UI/continue_base");
+            Assets.LoadTexture("HUDContinueSelected", "ForestAssets/UI/continue_selected");
 
             Assets.LoadTexture("CarrotMove", "ForestAssets/Characters/Carrot/carrot@move-sheet");
             Assets.LoadTexture("CarrotHurt", "ForestAssets/Characters/Carrot/carrot@hurt-sheet");
@@ -84,9 +89,11 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HeroSlide", "ForestAssets/Characters/Hero/main-character@slide-sheet");
 
             MainMenuScene mainMenuScene = new MainMenuScene(Camera);
+            PauseMenuScene pauseMenuScene = new PauseMenuScene(Camera);
             Level1Scene level1 = new Level1Scene(Camera, font);
 
             SceneManager.AddScene(mainMenuScene);
+            SceneManager.AddScene(pauseMenuScene);
             SceneManager.AddScene(level1);
 
             SceneManager.LoadScene(mainMenuScene);
@@ -100,8 +107,22 @@ namespace ForestPlatformerExample.Source
 
             if (prevKeyboardState != state && state.IsKeyDown(Keys.R) /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
             {
-                SceneManager.LoadScene("level1");
+                SceneManager.LoadScene("Level1");
             }
+
+            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && GameRunning /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
+            {
+                SceneManager.StartScene("PauseMenu");
+            }
+
+            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && Paused /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
+            {
+                SceneManager.StartScene("Level1");
+            }
+
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
+
             prevKeyboardState = state;
         }
     }

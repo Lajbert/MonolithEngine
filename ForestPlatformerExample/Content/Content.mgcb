@@ -373,6 +373,30 @@
 /processorParam:TextureFormat=Color
 /build:ForestAssets/Tiles/forest-tileset.png
 
+#begin ForestAssets/UI/continue_base.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/continue_base.png
+
+#begin ForestAssets/UI/continue_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/continue_selected.png
+
 #begin ForestAssets/UI/HUD-coin-count.png
 /importer:TextureImporter
 /processor:TextureProcessor

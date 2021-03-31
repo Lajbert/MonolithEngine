@@ -92,6 +92,9 @@ namespace MonolithEngine.Engine.Source.MyGame
             graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.IsFullScreen = Config.FULLSCREEN;
             graphics.ApplyChanges();
+
+            Config.ExitAction = Exit;
+
             Camera = new Camera(graphics)
             {
                 BOUND_LEFT = 500,
@@ -101,10 +104,6 @@ namespace MonolithEngine.Engine.Source.MyGame
             };
 
             SceneManager = new SceneManager();
-            SceneManager.ExitAction = () =>
-            {
-                Exit();
-            };
 
             font = Content.Load<SpriteFont>("DefaultFont");
 
@@ -127,8 +126,8 @@ namespace MonolithEngine.Engine.Source.MyGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
             if (previousT == 0)
             {

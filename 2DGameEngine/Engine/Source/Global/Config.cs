@@ -35,5 +35,7 @@ namespace MonolithEngine.Global
         public static float CAMERA_FRICTION = 0.89f;
         public static float CAMERA_FOLLOW_DELAY = 0.0005f;
         public static float CAMERA_ZOOM = 1;
+
+        public static Action ExitAction;
     }
 }
