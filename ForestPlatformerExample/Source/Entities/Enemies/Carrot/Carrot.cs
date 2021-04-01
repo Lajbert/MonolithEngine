@@ -192,7 +192,7 @@ namespace ForestPlatformerExample.Source.Enemies
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-
+#if DEBUG
             if (seesHero)
             {
                 foreach (Vector2 point in line)
@@ -208,6 +208,7 @@ namespace ForestPlatformerExample.Source.Enemies
                 }
             }
             //line.Clear();
+#endif
         }
 
         public override void Hit(Direction impactDirection)
