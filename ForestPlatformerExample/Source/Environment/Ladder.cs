@@ -23,7 +23,11 @@ namespace ForestPlatformerExample.Source.Environment
 
             AddTag("Environment");
 
+#if DEBUG
             AddComponent(new BoxTrigger(width, height, Vector2.Zero, "Ladder", true));
+#else
+            AddComponent(new BoxTrigger(width, height, Vector2.Zero, "Ladder"));
+#endif
 
         }
 

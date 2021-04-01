@@ -16,11 +16,11 @@ namespace ForestPlatformerExample.Source.Environment
             {
                 throw new Exception("Invalid slide wall dimensions!");
             }
-            AddComponent(new BoxCollisionComponent(this, width, height));
-            (GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            AddComponent(new BoxCollisionComponent(this, width, height));    
             AddTag("Environment");
             Active = false;
 #if DEBUG
+            (GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             Visible = true;
 #else
             Visible = false;

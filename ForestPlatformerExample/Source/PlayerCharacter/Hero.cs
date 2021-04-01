@@ -99,7 +99,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             CurrentFaceDirection = Direction.EAST;
 
             fist = new Fist(scene, this, new Vector2(20, -10));
-
+#if DEBUG_SHOW_RAYCAST
             if (DEBUG_SHOW_RAYCAST)
             {
                 /*if (RayBlockerLines == null)
@@ -113,6 +113,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 l = new Line(null, GetRayBlockerLines()[1].Item1, GetRayBlockerLines()[1].Item2, Color.Blue);
                 l.SetParent(this, new Vector2(0, -Config.GRID / 2 - 15));*/
             }
+#endif
 
             /*SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
             DrawOffset = new Vector2(-8, -16);
