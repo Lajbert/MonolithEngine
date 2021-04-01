@@ -31,7 +31,7 @@ namespace ForestPlatformerExample.Source.Scenes
         private SpriteFont font;
         private List<GameObject> objects;
 
-        public Level1Scene(Camera camera, SpriteFont spriteFont) : base (camera, "Level1")
+        public Level1Scene(SpriteFont spriteFont) : base ("Level1")
         {
             font = spriteFont;
             objects = new List<GameObject>();
@@ -60,8 +60,8 @@ namespace ForestPlatformerExample.Source.Scenes
         private void LoadData()
         {
 
-            UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 8));
-            UI.AddUIElement(new SelectableImage(Assets.GetTexture("HUDCointCount"), Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 8));
+            UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 2));
+            UI.AddUIElement(new SelectableImage(Assets.GetTexture("HUDCointCount"), Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 2));
             UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(200, 5)));
 
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();

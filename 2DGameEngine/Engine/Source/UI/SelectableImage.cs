@@ -4,13 +4,14 @@ using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using MonolithEngine.Global;
 
 namespace MonolithEngine.Engine.Source.UI
 {
     public class SelectableImage : Image, SelectableUIElement
     {
-        public bool IsSelectedByCursor = false;
-        public bool IsSelectedByButtons = false;
+        public bool IsHoveredOver = false;
+        public bool IsSelected = false;
 
         private Texture2D selectedImageTexture;
         private Rectangle selectionBox;
@@ -24,10 +25,10 @@ namespace MonolithEngine.Engine.Source.UI
             selectedImageTexture = selectedImage;
             if (sourceRectangle == default)
             {
-                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), ImageTexture.Width * (int)scale, ImageTexture.Height * (int)scale);
+                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), ImageTexture.Width * (int)(scale * Config.ZOOM), ImageTexture.Height * (int)(scale * Config.ZOOM));
             } else
             {
-                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), sourceRectangle.Width * (int)scale, sourceRectangle.Height * (int)scale);
+                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), sourceRectangle.Width * (int)(scale * Config.ZOOM), sourceRectangle.Height * (int)(scale * Config.ZOOM));
             }
 
             OnClick = () =>
@@ -43,9 +44,9 @@ namespace MonolithEngine.Engine.Source.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (IsSelectedByCursor || IsSelectedByButtons)
+            if (IsHoveredOver || IsSelected)
             {
-                spriteBatch.Draw(selectedImageTexture, Position, SourceRectangle, Color.White, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
+                spriteBatch.Draw(selectedImageTexture, Position, SourceRectangle, Color.White, Rotation, Vector2.Zero, Scale * Config.ZOOM, SpriteEffect, Depth);
             } else
             {
                 base.Draw(spriteBatch);
@@ -56,12 +57,12 @@ namespace MonolithEngine.Engine.Source.UI
         {
             if (mousePosition != default && IsMouseOver(mousePosition))
             {
-                IsSelectedByCursor = true;
+                IsHoveredOver = true;
                 userInterface.SelectElement(this);
             } 
             else
             {
-                IsSelectedByCursor = false;
+                IsHoveredOver = false;
                 userInterface.DeselectElement(this);
             }
         }

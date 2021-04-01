@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Source.Camera2D;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace MonolithEngine.Engine.Source.Scene
         private AbstractScene currentScene;
         private AbstractScene nextSceneToLoad;
         private AbstractScene nextSceneToStart;
+        private Camera camera;
+
+        public SceneManager(Camera camera)
+        {
+            this.camera = camera;
+        }
 
         public void AddScene(AbstractScene scene)
         {
@@ -22,6 +29,7 @@ namespace MonolithEngine.Engine.Source.Scene
                 throw new Exception("Scene name already exists!");
             }
             scenes.Add(scene.GetName(), scene);
+            scene.Camera = camera;
             scene.SetSceneManager(this);
             if (scene.Preload)
             {

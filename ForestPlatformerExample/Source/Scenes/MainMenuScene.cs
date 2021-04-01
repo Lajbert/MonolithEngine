@@ -20,7 +20,7 @@ namespace ForestPlatformerExample.Source.Scenes
 
     class MainMenuScene : AbstractScene
     {
-        public MainMenuScene(Camera camera) : base(camera, "MainMenu")
+        public MainMenuScene() : base("MainMenu")
         {
 
         }
@@ -43,16 +43,23 @@ namespace ForestPlatformerExample.Source.Scenes
         public override void Load()
         {
             //UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 8));
-            SelectableImage newGame = new SelectableImage(Assets.GetTexture("HUDNewGameBase"), Assets.GetTexture("HUDNewGameSelected"), new Vector2(300, 300), scale: 1);
+            SelectableImage newGame = new SelectableImage(Assets.GetTexture("HUDNewGameBase"), Assets.GetTexture("HUDNewGameSelected"), new Vector2(300, 300), scale: 0.25f);
             newGame.OnClick = () =>
             {
                 SceneManager.LoadScene("Level1");
             };
 
-            SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(300, 500), scale: 1);
+            SelectableImage settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(300, 400), scale: 0.25f);
+            settings.OnClick = () =>
+            {
+                SceneManager.StartScene("Settings");
+            };
+
+            SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(300, 500), scale: 0.25f);
             quit.OnClick = Config.ExitAction;
 
             UI.AddUIElement(quit);
+            UI.AddUIElement(settings);
             UI.AddUIElement(newGame);
         }
 

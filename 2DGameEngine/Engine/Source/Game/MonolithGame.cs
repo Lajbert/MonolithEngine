@@ -103,7 +103,7 @@ namespace MonolithEngine.Engine.Source.MyGame
                 BOUND_BOTTOM = 450
             };
 
-            SceneManager = new SceneManager();
+            SceneManager = new SceneManager(Camera);
 
             font = Content.Load<SpriteFont>("DefaultFont");
 

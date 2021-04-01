@@ -33,7 +33,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public Camera Camera;
 
-        public AbstractScene(Camera camera, string sceneName, bool preload = false, bool alwaysActive = false)
+        public AbstractScene(string sceneName, bool preload = false, bool alwaysActive = false)
         {
             if (sceneName == null || sceneName.Length == 0)
             {
@@ -52,7 +52,6 @@ namespace MonolithEngine.Engine.Source.Scene
 
             GridCollisionChecker = new GridCollisionChecker();
 
-            Camera = camera;
         }
 
         public abstract void Load();

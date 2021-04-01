@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Global;
 
 namespace MonolithEngine.Engine.Source.UI
 {
@@ -37,7 +38,7 @@ namespace MonolithEngine.Engine.Source.UI
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ImageTexture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
+            spriteBatch.Draw(ImageTexture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale * Config.ZOOM, SpriteEffect, Depth);
         }
 
         public virtual void Update(Point mousePosition = default)

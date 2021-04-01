@@ -88,11 +88,13 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HeroPickup", "ForestAssets/Characters/Hero/main-character@pick-up-sheet");
             Assets.LoadTexture("HeroSlide", "ForestAssets/Characters/Hero/main-character@slide-sheet");
 
-            MainMenuScene mainMenuScene = new MainMenuScene(Camera);
-            PauseMenuScene pauseMenuScene = new PauseMenuScene(Camera);
-            Level1Scene level1 = new Level1Scene(Camera, font);
+            MainMenuScene mainMenuScene = new MainMenuScene();
+            PauseMenuScene pauseMenuScene = new PauseMenuScene();
+            Level1Scene level1 = new Level1Scene(font);
+            SettingsScene settings = new SettingsScene();
 
             SceneManager.AddScene(mainMenuScene);
+            SceneManager.AddScene(settings);
             SceneManager.AddScene(pauseMenuScene);
             SceneManager.AddScene(level1);
 
