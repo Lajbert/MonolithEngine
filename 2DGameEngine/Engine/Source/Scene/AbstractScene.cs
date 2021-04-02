@@ -33,7 +33,9 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public Camera Camera;
 
-        public AbstractScene(string sceneName, bool preload = false, bool alwaysActive = false)
+        public bool UseLoadingScreen;
+
+        public AbstractScene(string sceneName, bool preload = false, bool alwaysActive = false, bool useLoadingScreen = false)
         {
             if (sceneName == null || sceneName.Length == 0)
             {
@@ -42,7 +44,7 @@ namespace MonolithEngine.Engine.Source.Scene
             this.sceneName = sceneName;
             Preload = preload;
             AlwaysActive = alwaysActive;
-
+            UseLoadingScreen = useLoadingScreen;
             UI = new UserInterface();
 
             LayerManager = new LayerManager(this);
