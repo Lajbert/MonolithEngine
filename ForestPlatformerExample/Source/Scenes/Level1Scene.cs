@@ -31,7 +31,7 @@ namespace ForestPlatformerExample.Source.Scenes
         private SpriteFont font;
         private List<GameObject> objects;
 
-        public Level1Scene(SpriteFont spriteFont) : base ("Level1")
+        public Level1Scene(SpriteFont spriteFont) : base ("Level1", useLoadingScreen: true)
         {
             font = spriteFont;
             objects = new List<GameObject>();

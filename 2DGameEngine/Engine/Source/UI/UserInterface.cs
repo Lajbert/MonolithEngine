@@ -47,29 +47,11 @@ namespace MonolithEngine.Engine.Source.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            HandleNewElements();
+
             foreach (IUIElement element in elements)
             {
                 element.Draw(spriteBatch);
-            }
-
-            if (newElements.Count > 0)
-            {
-                foreach (IUIElement element in newElements)
-                {
-                    elements.Add(element);
-                }
-
-                newElements.Clear();
-            }
-
-            if (removedElements.Count > 0)
-            {
-                foreach (IUIElement element in removedElements)
-                {
-                    elements.Remove(element);
-                }
-
-                removedElements.Clear();
             }
         }
 
@@ -102,6 +84,13 @@ namespace MonolithEngine.Engine.Source.UI
                 element.Update(currentMouseState.Position);
             }
 
+            HandleNewElements();
+
+            prevMouseState = currentMouseState;
+        }
+
+        private void HandleNewElements()
+        {
             if (newElements.Count > 0)
             {
                 foreach (IUIElement element in newElements)
@@ -121,8 +110,6 @@ namespace MonolithEngine.Engine.Source.UI
 
                 removedElements.Clear();
             }
-
-            prevMouseState = currentMouseState;
         }
     }
 }

@@ -14,12 +14,14 @@ namespace MonolithEngine.Engine.Source.Scene
         private Dictionary<string, AbstractScene> scenes = new Dictionary<string, AbstractScene>();
         private HashSet<AbstractScene> activeScenes = new HashSet<AbstractScene>();
         private AbstractScene currentScene;
-        private AbstractScene loadScreen;
+        private AbstractScene loadingScreen;
         private AbstractScene nextSceneToLoad;
         private AbstractScene nextSceneToStart;
         private Camera camera;
 
         private bool isLoading = false;
+
+        private bool useLoadingScreen = false;
 
         public SceneManager(Camera camera)
         {
@@ -43,7 +45,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public void SetLoadingScene(AbstractScene loadingScene)
         {
-            this.loadScreen = loadingScene;
+            this.loadingScreen = loadingScene;
         }
 
         public void OnResolutionChanged()
@@ -89,6 +91,7 @@ namespace MonolithEngine.Engine.Source.Scene
             currentScene.ImportData(data);
             currentScene.OnStart();
             isLoading = false;
+            useLoadingScreen = false;
         }
 
         public void StartScene(string sceneName)
@@ -114,6 +117,7 @@ namespace MonolithEngine.Engine.Source.Scene
             currentScene.ImportData(data);
             currentScene.OnStart();
             isLoading = false;
+            useLoadingScreen = false;
         }
 
         public void StartScene(AbstractScene scene)
@@ -150,16 +154,18 @@ namespace MonolithEngine.Engine.Source.Scene
         {
             if (nextSceneToLoad != null)
             {
-                if (!isLoading && loadScreen != null)
+                if (nextSceneToLoad.UseLoadingScreen && !isLoading && loadingScreen != null)
                 {
+                    useLoadingScreen = true;
                     return;
                 }
                 LoadNextScene();
             }
             if (nextSceneToStart != null)
             {
-                if (!isLoading && loadScreen != null)
+                if (nextSceneToStart.UseLoadingScreen && !isLoading && loadingScreen != null)
                 {
+                    useLoadingScreen = true;
                     return;
                 }
                 StartNextScene();
@@ -168,10 +174,10 @@ namespace MonolithEngine.Engine.Source.Scene
 
         internal void Draw(SpriteBatch spriteBatch)
         {
-            if ((nextSceneToLoad != null || nextSceneToStart != null) && loadScreen != null)
+            if (useLoadingScreen && loadingScreen != null)
             {
                 isLoading = true;
-                loadScreen.Draw(spriteBatch);
+                loadingScreen.Draw(spriteBatch);
             } else
             {
                 currentScene.Draw(spriteBatch);

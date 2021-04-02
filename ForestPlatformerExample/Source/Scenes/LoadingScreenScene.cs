@@ -11,7 +11,7 @@ namespace ForestPlatformerExample.Source.Scenes
 {
     class LoadingScreenScene : AbstractScene
     {
-        public LoadingScreenScene() : base("loading", true)
+        public LoadingScreenScene() : base("loading", preload: true)
         {
 
         }
