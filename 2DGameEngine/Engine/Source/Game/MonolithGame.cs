@@ -44,29 +44,42 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.INCREASING_GRAVITY = true;
 
 
-            Config.RES_W = 3840;
-            Config.RES_H = 2160;
-            Config.FULLSCREEN = false;
-            Config.ZOOM = (Config.RES_W / 1920) * 2;
-            Config.FPS = 500;
+            VideoConfiguration.RESOLUTION_WIDTH = 3840;
+            VideoConfiguration.RESOLUTION_HEIGHT = 2160;
+            VideoConfiguration.FULLSCREEN = false;
+            Config.ZOOM = (VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
+            VideoConfiguration.FRAME_LIMIT = 120;
             Config.FIXED_UPDATE_FPS = 30;
 
-            if (Config.FPS == 0)
+            fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
+            //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
+        }
+
+        public void ApplyVideoConfiguration()
+        {
+            if (VideoConfiguration.FRAME_LIMIT == 0)
             {
-                // uncapped framerate
-                graphics.SynchronizeWithVerticalRetrace = false;
                 IsFixedTimeStep = false;
             }
             else
             {
                 IsFixedTimeStep = true;
-                graphics.SynchronizeWithVerticalRetrace = false;
-                TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FPS));
+                TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / VideoConfiguration.FRAME_LIMIT));
                 //TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
             }
 
-            fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
-            //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
+            if (VideoConfiguration.VSYNC)
+            {
+                graphics.SynchronizeWithVerticalRetrace = true;
+            } else
+            {
+                graphics.SynchronizeWithVerticalRetrace = false;
+            }
+
+            graphics.PreferredBackBufferWidth = VideoConfiguration.RESOLUTION_WIDTH;
+            graphics.PreferredBackBufferHeight = VideoConfiguration.RESOLUTION_HEIGHT;
+            graphics.IsFullScreen = VideoConfiguration.FULLSCREEN;
+            graphics.ApplyChanges();
         }
 
         protected sealed override void Initialize()
@@ -77,7 +90,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
             //font = Content.Load<SpriteFont>("DefaultFont");
-
+            VideoConfiguration.GameInstance = this;
             Init();
 
             base.Initialize();
@@ -88,10 +101,8 @@ namespace MonolithEngine.Engine.Source.MyGame
         protected sealed override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            graphics.PreferredBackBufferWidth = Config.RES_W;
-            graphics.PreferredBackBufferHeight = Config.RES_H;
-            graphics.IsFullScreen = Config.FULLSCREEN;
-            graphics.ApplyChanges();
+
+            ApplyVideoConfiguration();
 
             Config.ExitAction = Exit;
 

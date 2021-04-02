@@ -20,6 +20,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using MonolithEngine.Engine.Source.MyGame;
 
 namespace MonolithEngine
 {
@@ -165,7 +166,7 @@ namespace MonolithEngine
 
         public override void Update()
         {
-            if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == Config.FPS || Config.FIXED_UPDATE_FPS == 0)
+            if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == VideoConfiguration.FRAME_LIMIT || Config.FIXED_UPDATE_FPS == 0)
             {
                 DrawPosition = Transform.Position;
             }

@@ -8,9 +8,8 @@ using MonolithEngine.Global;
 
 namespace MonolithEngine.Engine.Source.UI
 {
-    public class Image : IUIElement
+    public class Image : AbstractUIElement
     {
-        public Vector2 Position;
         public Rectangle SourceRectangle;
         public float Scale = 1f;
         public float Rotation = 0f;
@@ -19,11 +18,10 @@ namespace MonolithEngine.Engine.Source.UI
         public int Depth = 1;
         public Color Color = Color.White;
 
-        public Image(Texture2D texture, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default)
+        public Image(Texture2D texture, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default) : base (position)
         {
             ImageTexture = texture;
-            Position = position;
-            if (sourceRectangle == default)
+            if (sourceRectangle == default && ImageTexture != null)
             {
                 SourceRectangle = new Rectangle(0, 0, ImageTexture.Width, ImageTexture.Height);
             }
@@ -36,14 +34,9 @@ namespace MonolithEngine.Engine.Source.UI
             }
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ImageTexture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale * Config.ZOOM, SpriteEffect, Depth);
-        }
-
-        public virtual void Update(Point mousePosition = default)
-        {
-
+            spriteBatch.Draw(ImageTexture, GetPosition(), SourceRectangle, Color, Rotation, Vector2.Zero, Scale * Config.ZOOM, SpriteEffect, Depth);
         }
     }
 }

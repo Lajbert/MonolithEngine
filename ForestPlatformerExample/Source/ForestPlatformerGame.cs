@@ -35,6 +35,7 @@ namespace ForestPlatformerExample.Source
 
         public static bool GameRunning = false;
         public static bool Paused = false;
+        public static bool WasGameStarted = false;
 
         protected override void Init()
         {
@@ -43,19 +44,6 @@ namespace ForestPlatformerExample.Source
 
         protected override void LoadGameContent()
         {
-
-            Assets.LoadTexture("CoinPickup", "ForestAssets/Items/coin-pickup");
-            Assets.LoadTexture("CoinPickupEffect", "ForestAssets/Items/pickup-effect");
-            Assets.LoadTexture("SpringAnim", "ForestAssets/Items/spring_spritesheet");
-
-            Assets.LoadTexture("ForestTileset", "ForestAssets/Tiles/forest-tileset");
-
-            Assets.LoadTexture("BoxIdle", "ForestAssets/Items/box-idle");
-            Assets.LoadTexture("BoxHit", "ForestAssets/Items/box-hit");
-            Assets.LoadTexture("BoxDestroy", "ForestAssets/Items/box-destroy");
-
-            Assets.LoadTexture("HUDCointCount", "ForestAssets/UI/HUD-coin-count");
-
             // UI text generated with: https://fontmeme.com/pixel-fonts/
             // font: KA1
             // base color: 2A2A57
@@ -68,6 +56,50 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HUDQuitSelected", "ForestAssets/UI/quit_selected");
             Assets.LoadTexture("HUDContinueBase", "ForestAssets/UI/continue_base");
             Assets.LoadTexture("HUDContinueSelected", "ForestAssets/UI/continue_selected");
+            Assets.LoadTexture("HUDVideoSettingsBase", "ForestAssets/UI/video_base");
+            Assets.LoadTexture("HUDVideoSettingsSelected", "ForestAssets/UI/video_selected");
+            Assets.LoadTexture("HUDAudioSettingsBase", "ForestAssets/UI/audio_base");
+            Assets.LoadTexture("HUDAudioSettingsSelected", "ForestAssets/UI/audio_selected");
+            Assets.LoadTexture("HUDBackBase", "ForestAssets/UI/back_base");
+            Assets.LoadTexture("HUDBackSelected", "ForestAssets/UI/back_selected");
+            Assets.LoadTexture("HUDResolutionLabel", "ForestAssets/UI/resolution");
+            Assets.LoadTexture("HUDFPSLimitLabel", "ForestAssets/UI/fps_limit");
+            Assets.LoadTexture("HUDVsyncLabel", "ForestAssets/UI/vsync");
+            Assets.LoadTexture("HUDWindowModeLabel", "ForestAssets/UI/window_mode");
+            Assets.LoadTexture("HUD30", "ForestAssets/UI/30");
+            Assets.LoadTexture("HUD60", "ForestAssets/UI/60");
+            Assets.LoadTexture("HUD120", "ForestAssets/UI/120");
+            Assets.LoadTexture("HUDUnlimited", "ForestAssets/UI/unlimited");
+            Assets.LoadTexture("HUD720p", "ForestAssets/UI/720p");
+            Assets.LoadTexture("HUD1080p", "ForestAssets/UI/1080p");
+            Assets.LoadTexture("HUD1440p", "ForestAssets/UI/1440p");
+            Assets.LoadTexture("HUD4K", "ForestAssets/UI/4k");
+            Assets.LoadTexture("HUDOn", "ForestAssets/UI/on");
+            Assets.LoadTexture("HUDOff", "ForestAssets/UI/off");
+            Assets.LoadTexture("HUDApplyBase", "ForestAssets/UI/apply_base");
+            Assets.LoadTexture("HUDApplySelected", "ForestAssets/UI/apply_selected");
+            Assets.LoadTexture("HUDCancelBase", "ForestAssets/UI/cancel_base");
+            Assets.LoadTexture("HUDCancelSelected", "ForestAssets/UI/cancel_selected");
+            Assets.LoadTexture("HUDWindowed", "ForestAssets/UI/windowed");
+            Assets.LoadTexture("HUDFullscreen", "ForestAssets/UI/fullscreen");
+            Assets.LoadTexture("HUDArrowRightBase", "ForestAssets/UI/arrow_right_base");
+            Assets.LoadTexture("HUDArrowRightSelected", "ForestAssets/UI/arrow_right_selected");
+            Assets.LoadTexture("HUDArrowLeftBase", "ForestAssets/UI/arrow_right_base", flipHorizontal: true);
+            Assets.LoadTexture("HUDArrowLeftSelected", "ForestAssets/UI/arrow_right_selected", flipHorizontal: true);
+
+            // Entities
+
+            Assets.LoadTexture("CoinPickup", "ForestAssets/Items/coin-pickup");
+            Assets.LoadTexture("CoinPickupEffect", "ForestAssets/Items/pickup-effect");
+            Assets.LoadTexture("SpringAnim", "ForestAssets/Items/spring_spritesheet");
+
+            Assets.LoadTexture("ForestTileset", "ForestAssets/Tiles/forest-tileset");
+
+            Assets.LoadTexture("BoxIdle", "ForestAssets/Items/box-idle");
+            Assets.LoadTexture("BoxHit", "ForestAssets/Items/box-hit");
+            Assets.LoadTexture("BoxDestroy", "ForestAssets/Items/box-destroy");
+
+            Assets.LoadTexture("HUDCointCount", "ForestAssets/UI/HUD-coin-count");
 
             Assets.LoadTexture("CarrotMove", "ForestAssets/Characters/Carrot/carrot@move-sheet");
             Assets.LoadTexture("CarrotHurt", "ForestAssets/Characters/Carrot/carrot@hurt-sheet");
@@ -92,11 +124,13 @@ namespace ForestPlatformerExample.Source
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
             Level1Scene level1 = new Level1Scene(font);
             SettingsScene settings = new SettingsScene();
+            VideoSettingsScene videoSettings = new VideoSettingsScene();
 
             SceneManager.AddScene(mainMenuScene);
             SceneManager.AddScene(settings);
             SceneManager.AddScene(pauseMenuScene);
             SceneManager.AddScene(level1);
+            SceneManager.AddScene(videoSettings);
 
             SceneManager.LoadScene(mainMenuScene);
         }
@@ -111,12 +145,10 @@ namespace ForestPlatformerExample.Source
             {
                 SceneManager.LoadScene("Level1");
             }
-
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && GameRunning /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
             {
                 SceneManager.StartScene("PauseMenu");
             }
-
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && Paused /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
             {
                 SceneManager.StartScene("Level1");

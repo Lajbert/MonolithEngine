@@ -25,10 +25,10 @@ namespace MonolithEngine.Engine.Source.UI
             selectedImageTexture = selectedImage;
             if (sourceRectangle == default)
             {
-                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), ImageTexture.Width * (int)(scale * Config.ZOOM), ImageTexture.Height * (int)(scale * Config.ZOOM));
+                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), (int)(ImageTexture.Width * (scale * Config.ZOOM)), (int)(ImageTexture.Height * (scale * Config.ZOOM)));
             } else
             {
-                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), sourceRectangle.Width * (int)(scale * Config.ZOOM), sourceRectangle.Height * (int)(scale * Config.ZOOM));
+                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), (int)(sourceRectangle.Width * (scale * Config.ZOOM)), (int)(sourceRectangle.Height * (scale * Config.ZOOM)));
             }
 
             OnClick = () =>

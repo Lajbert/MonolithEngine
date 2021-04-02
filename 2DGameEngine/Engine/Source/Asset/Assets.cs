@@ -12,9 +12,15 @@ namespace MonolithEngine.Engine.Source.Asset
 
         private static Dictionary<string, List<Texture2D>> textureGroups = new Dictionary<string, List<Texture2D>>();
 
-        public static void LoadTexture(string name, string path)
+        public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false)
         {
-            textures.Add(name, TextureUtil.LoadTexture(path));
+            if (flipVertical || flipHorizontal)
+            {
+                textures.Add(name, TextureUtil.FlipTexture(TextureUtil.LoadTexture(path), flipVertical, flipHorizontal));
+            } else
+            {
+                textures.Add(name, TextureUtil.LoadTexture(path));
+            }
         }
 
         public static Texture2D GetTexture(string name)

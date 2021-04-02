@@ -159,6 +159,7 @@ namespace ForestPlatformerExample.Source.Scenes
             Camera.TrackTarget(hero, true);
             ForestPlatformerGame.Paused = false;
             ForestPlatformerGame.GameRunning = true;
+            ForestPlatformerGame.WasGameStarted = true;
         }
 
     }

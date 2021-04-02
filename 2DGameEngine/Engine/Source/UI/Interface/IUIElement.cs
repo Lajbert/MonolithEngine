@@ -12,5 +12,9 @@ namespace MonolithEngine.Engine.Source.UI
         public void Draw(SpriteBatch spriteBatch);
 
         public void Update(Point mousePosition = default);
+
+        public IUIElement GetParent();
+
+        public Vector2 GetPosition();
     }
 }

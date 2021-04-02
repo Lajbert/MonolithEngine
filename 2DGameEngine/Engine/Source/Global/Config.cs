@@ -23,11 +23,7 @@ namespace MonolithEngine.Global
         public static float SPRITE_COLLISION_OFFSET = 0f;
 
         public static float TIME_OFFSET = 10;
-        public static int RES_W = 1920;
-        public static int RES_H = 1080;
-        public static int FPS = 60;
         public static int FIXED_UPDATE_FPS = 30;
-        public static bool FULLSCREEN = false;
         public static int PIVOT_RADIUS = 10;
 
         public static int CAMERA_TIME_MULTIPLIER = 1; // set this and CAMERA_FOLLOW_DELAY to a higher value to create a "wabbly" camera

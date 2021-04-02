@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.MyGame;
 
 namespace MonolithEngine.Source.Camera2D
 {
@@ -21,10 +22,10 @@ namespace MonolithEngine.Source.Camera2D
 
 		private Vector2 bumpOffset;
 
-		private float resolutionWidth = Config.RES_W;
-		private float resolutionHeight = Config.RES_H;
-		public float LevelGridCountW = (float)Math.Floor((decimal)Config.RES_W);
-		public float LevelGridCountH = (float)Math.Floor((decimal)Config.RES_H);
+		private float resolutionWidth = VideoConfiguration.RESOLUTION_WIDTH;
+		private float resolutionHeight = VideoConfiguration.RESOLUTION_HEIGHT;
+		public float LevelGridCountW = (float)Math.Floor((decimal)VideoConfiguration.RESOLUTION_WIDTH);
+		public float LevelGridCountH = (float)Math.Floor((decimal)VideoConfiguration.RESOLUTION_HEIGHT);
 		//public float LevelGridCountW = 98;
 		//public float LevelGridCountH = 36;
 

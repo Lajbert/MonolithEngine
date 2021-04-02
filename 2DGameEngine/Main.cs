@@ -22,11 +22,11 @@ namespace MonolithEngine
         {
             // >>>>>>> set framerate >>>>>>>>>>
             this.IsFixedTimeStep = true;//false;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
+            //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / Config.FPS); //60);
 
             graphics = new GraphicsDeviceManager(this)
             {
-                IsFullScreen = Config.FULLSCREEN
+                //IsFullScreen = Config.FULLSCREEN
             };
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -40,8 +40,8 @@ namespace MonolithEngine
 
         protected override void LoadContent()
         {
-            graphics.PreferredBackBufferWidth = Config.RES_W;
-            graphics.PreferredBackBufferHeight = Config.RES_H;
+            //graphics.PreferredBackBufferWidth = Config.RES_W;
+            //graphics.PreferredBackBufferHeight = Config.RES_H;
             graphics.ApplyChanges();
         }
             

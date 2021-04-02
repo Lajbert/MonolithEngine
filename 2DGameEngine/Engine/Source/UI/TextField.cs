@@ -6,21 +6,19 @@ using System.Text;
 
 namespace MonolithEngine.Engine.Source.UI
 {
-    public class TextField : IUIElement
+    public class TextField : AbstractUIElement
     {
         public SpriteFont Font;
         public Func<string> DataSource;
-        public Vector2 Position;
         public Color Color = Color.Black;
         public float Scale;
         public float Rotation;
         public float Depth;
 
-        public TextField(SpriteFont font, Func<string> dataSource, Vector2 position, Color color = default, float scale = 1f, float rotation = 0f, float depth = 1)
+        public TextField(SpriteFont font, Func<string> dataSource, Vector2 position, Color color = default, float scale = 1f, float rotation = 0f, float depth = 1) : base (position)
         {
             Font = font;
             DataSource = dataSource;
-            Position = position;
             if (color != default)
             {
                 Color = color;
@@ -30,15 +28,17 @@ namespace MonolithEngine.Engine.Source.UI
             Depth = depth;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             //public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
-            spriteBatch.DrawString(Font, DataSource.Invoke(), Position, Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
-        }
-
-        public virtual void Update(Point mousePosition = default)
-        {
-            
+            if (Parent == null)
+            {
+                spriteBatch.DrawString(Font, DataSource.Invoke(), GetPosition(), Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
+            }
+            else
+            {
+                spriteBatch.DrawString(Font, DataSource.Invoke(), GetPosition(), Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
+            }
         }
     }
 }
