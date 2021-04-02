@@ -132,22 +132,8 @@ namespace MonolithEngine.Engine.Source.Scene
             {
                 scene.FixedUpdate();
             }
-            if (nextSceneToLoad != null)
-            {
-                if (!isLoading && loadScreen != null)
-                {
-                    return;
-                }
-                LoadNextScene();
-            }
-            if (nextSceneToStart != null)
-            {
-                if (!isLoading && loadScreen != null)
-                {
-                    return;
-                }
-                StartNextScene();
-            }
+
+            HandleSceneTransition();
         }
 
         internal void Update()
@@ -156,6 +142,12 @@ namespace MonolithEngine.Engine.Source.Scene
             {
                 scene.Update();
             }
+
+            HandleSceneTransition();
+        }
+
+        private void HandleSceneTransition()
+        {
             if (nextSceneToLoad != null)
             {
                 if (!isLoading && loadScreen != null)
