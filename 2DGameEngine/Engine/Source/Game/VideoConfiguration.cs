@@ -9,11 +9,11 @@ namespace MonolithEngine.Engine.Source.MyGame
     {
         internal static MonolithGame GameInstance;
 
-        public static int RESOLUTION_WIDTH;
-        public static int RESOLUTION_HEIGHT;
-        public static bool VSYNC;
-        public static int FRAME_LIMIT;
-        public static bool FULLSCREEN;
+        public static int RESOLUTION_WIDTH = 0;
+        public static int RESOLUTION_HEIGHT = 0;
+        public static bool VSYNC = true;
+        public static int FRAME_LIMIT = 0;
+        public static bool FULLSCREEN = true;
 
         public static void Apply()
         {

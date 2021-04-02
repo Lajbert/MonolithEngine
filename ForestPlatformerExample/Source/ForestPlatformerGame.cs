@@ -40,9 +40,12 @@ namespace ForestPlatformerExample.Source
         {
             font = Content.Load<SpriteFont>("DefaultFont");
 
-            VideoConfiguration.RESOLUTION_WIDTH = 1920;
-            VideoConfiguration.RESOLUTION_HEIGHT = 1080;
-            VideoConfiguration.FULLSCREEN = false;
+
+            //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            VideoConfiguration.RESOLUTION_WIDTH = 1280;
+            VideoConfiguration.RESOLUTION_HEIGHT = 720;
+            VideoConfiguration.FULLSCREEN = true;
             VideoConfiguration.FRAME_LIMIT = 120;
         }
 
@@ -145,15 +148,15 @@ namespace ForestPlatformerExample.Source
 
             KeyboardState state = Keyboard.GetState();
 
-            if (prevKeyboardState != state && state.IsKeyDown(Keys.R) /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
+            if (prevKeyboardState != state && state.IsKeyDown(Keys.R))
             {
                 SceneManager.LoadScene("Level1");
             }
-            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && !Paused/*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
+            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && !Paused)
             {
                 SceneManager.StartScene("PauseMenu");
             }
-            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && Paused/*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
+            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && Paused)
             {
                 SceneManager.StartScene("Level1");
             } else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && !WasGameStarted)

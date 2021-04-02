@@ -76,6 +76,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.ZOOM = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             graphics.ApplyChanges();
+            Logger.Info("STOP HERE");
         }
 
         protected sealed override void Initialize()
@@ -97,6 +98,12 @@ namespace MonolithEngine.Engine.Source.MyGame
         protected sealed override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            if (VideoConfiguration.RESOLUTION_WIDTH == 0 || VideoConfiguration.RESOLUTION_HEIGHT == 0)
+            {
+                VideoConfiguration.RESOLUTION_WIDTH = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                VideoConfiguration.RESOLUTION_HEIGHT = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            }
 
             ApplyVideoConfiguration();
 
