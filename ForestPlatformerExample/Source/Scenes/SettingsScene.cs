@@ -34,19 +34,19 @@ namespace ForestPlatformerExample.Source.Scenes
         public override void Load()
         {
 
-            SelectableImage videoSettings = new SelectableImage(Assets.GetTexture("HUDVideoSettingsBase"), Assets.GetTexture("HUDVideoSettingsSelected"), new Vector2(300, 300), scale: 0.25f);
+            SelectableImage videoSettings = new SelectableImage(Assets.GetTexture("HUDVideoSettingsBase"), Assets.GetTexture("HUDVideoSettingsSelected"), new Vector2(150, 150), scale: 0.25f);
             videoSettings.OnClick = () =>
             {
                 SceneManager.StartScene("VideoSettings");
             };
 
-            SelectableImage audioSettings = new SelectableImage(Assets.GetTexture("HUDAudioSettingsBase"), Assets.GetTexture("HUDAudioSettingsSelected"), new Vector2(300, 400), scale: 0.25f);
+            SelectableImage audioSettings = new SelectableImage(Assets.GetTexture("HUDAudioSettingsBase"), Assets.GetTexture("HUDAudioSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
             audioSettings.OnClick = () =>
             {
                 SceneManager.StartScene("AudioSettings");
             };
 
-            SelectableImage back = new SelectableImage(Assets.GetTexture("HUDBackBase"), Assets.GetTexture("HUDBackSelected"), new Vector2(300, 500), scale: 0.25f);
+            SelectableImage back = new SelectableImage(Assets.GetTexture("HUDBackBase"), Assets.GetTexture("HUDBackSelected"), new Vector2(150, 250), scale: 0.25f);
             back.OnClick = () =>
             {
                 if (ForestPlatformerGame.WasGameStarted)

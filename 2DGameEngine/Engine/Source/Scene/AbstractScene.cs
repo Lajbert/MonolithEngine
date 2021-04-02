@@ -74,6 +74,11 @@ namespace MonolithEngine.Engine.Source.Scene
             SceneManager.OnSceneFinished(this);
         }
 
+        public void OnResolitionChanged()
+        {
+            UI.OnResolutionChanged();
+        }
+
         public abstract ISceneTransitionEffect GetTransitionEffect();
 
         public abstract void ImportData(ICollection<object> state);
@@ -104,7 +109,8 @@ namespace MonolithEngine.Engine.Source.Scene
         {
             LayerManager.DrawAll(spriteBatch);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+            //spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.GetUITransformMatrix());
             UI.Draw(spriteBatch);
             spriteBatch.End();
         }

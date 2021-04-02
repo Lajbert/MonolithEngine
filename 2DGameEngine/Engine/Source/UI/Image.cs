@@ -36,7 +36,7 @@ namespace MonolithEngine.Engine.Source.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ImageTexture, GetPosition(), SourceRectangle, Color, Rotation, Vector2.Zero, Scale * Config.ZOOM, SpriteEffect, Depth);
+            spriteBatch.Draw(ImageTexture, GetPosition(), SourceRectangle, Color, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
         }
     }
 }

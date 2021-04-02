@@ -35,19 +35,19 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void Load()
         {
-            SelectableImage continueGame = new SelectableImage(Assets.GetTexture("HUDContinueBase"), Assets.GetTexture("HUDContinueSelected"), new Vector2(300, 300), scale: 0.25f);
+            SelectableImage continueGame = new SelectableImage(Assets.GetTexture("HUDContinueBase"), Assets.GetTexture("HUDContinueSelected"), new Vector2(150, 150), scale: 0.25f);
             continueGame.OnClick = () =>
             {
                 SceneManager.StartScene("Level1");
             };
 
-            SelectableImage settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(300, 400), scale: 0.25f);
+            SelectableImage settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
             settings.OnClick = () =>
             {
                 SceneManager.StartScene("Settings");
             };
 
-            SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(300, 500), scale: 0.25f);
+            SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(150, 250), scale: 0.25f);
             quit.OnClick = Config.ExitAction;
 
             UI.AddUIElement(quit);

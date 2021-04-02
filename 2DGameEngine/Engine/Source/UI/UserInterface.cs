@@ -20,6 +20,17 @@ namespace MonolithEngine.Engine.Source.UI
         private MouseState currentMouseState;
         private MouseState prevMouseState;
 
+        public void OnResolutionChanged()
+        {
+            foreach (IUIElement element in elements)
+            {
+                if (element is SelectableUIElement)
+                {
+                    (element as SelectableUIElement).OnResolutionChanged();
+                }
+            }
+        }
+
         public void AddUIElement(IUIElement newElement)
         {
             newElements.Add(newElement);

@@ -14,6 +14,7 @@ namespace MonolithEngine.Engine.Source.UI
         public bool IsSelected = false;
 
         private Texture2D selectedImageTexture;
+        private Rectangle unscaledSelectionBox;
         private Rectangle selectionBox;
 
         public UserInterface userInterface;
@@ -25,16 +26,24 @@ namespace MonolithEngine.Engine.Source.UI
             selectedImageTexture = selectedImage;
             if (sourceRectangle == default)
             {
-                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), (int)(ImageTexture.Width * (scale * Config.ZOOM)), (int)(ImageTexture.Height * (scale * Config.ZOOM)));
-            } else
+                unscaledSelectionBox = new Rectangle((int)position.X + sourceRectangle.X, (int)position.Y + sourceRectangle.Y, (int)(ImageTexture.Width * scale), (int)(ImageTexture.Height * scale));
+            } 
+            else
             {
-                selectionBox = new Rectangle((int)(position.X + sourceRectangle.X), (int)(position.Y + sourceRectangle.Y), (int)(sourceRectangle.Width * (scale * Config.ZOOM)), (int)(sourceRectangle.Height * (scale * Config.ZOOM)));
+                unscaledSelectionBox = new Rectangle((int)position.X + sourceRectangle.X, (int)position.Y + sourceRectangle.Y, (int)(sourceRectangle.Width * scale), (int)(sourceRectangle.Height * scale));
             }
+
+            OnResolutionChanged();
 
             OnClick = () =>
             {
                 Logger.Info("------------- CLICK -----------");
             };
+        }
+
+        public void OnResolutionChanged()
+        {
+            selectionBox = new Rectangle((int)(unscaledSelectionBox.X * Config.SCALE), (int)(unscaledSelectionBox.Y * Config.SCALE), (int)(unscaledSelectionBox.Width * Config.SCALE), (int)(unscaledSelectionBox.Height * Config.SCALE));
         }
 
         private bool IsMouseOver(Point mousePosition)
@@ -46,7 +55,7 @@ namespace MonolithEngine.Engine.Source.UI
         {
             if (IsHoveredOver || IsSelected)
             {
-                spriteBatch.Draw(selectedImageTexture, Position, SourceRectangle, Color.White, Rotation, Vector2.Zero, Scale * Config.ZOOM, SpriteEffect, Depth);
+                spriteBatch.Draw(selectedImageTexture, GetPosition(), SourceRectangle, Color.White, Rotation, Vector2.Zero, Scale, SpriteEffect, Depth);
             } else
             {
                 base.Draw(spriteBatch);

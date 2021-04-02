@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using MonolithEngine.Engine.Source.UI.Interface;
 using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Source.Camera2D;
 using System;
@@ -34,6 +35,14 @@ namespace MonolithEngine.Engine.Source.Scene
             if (scene.Preload)
             {
                 scene.Load();
+            }
+        }
+
+        public void OnResolutionChanged()
+        {
+            foreach (AbstractScene scene in scenes.Values)
+            {
+                scene.OnResolitionChanged();
             }
         }
 

@@ -40,6 +40,11 @@ namespace ForestPlatformerExample.Source
         protected override void Init()
         {
             font = Content.Load<SpriteFont>("DefaultFont");
+
+            VideoConfiguration.RESOLUTION_WIDTH = 1920;
+            VideoConfiguration.RESOLUTION_HEIGHT = 1080;
+            VideoConfiguration.FULLSCREEN = false;
+            VideoConfiguration.FRAME_LIMIT = 120;
         }
 
         protected override void LoadGameContent()

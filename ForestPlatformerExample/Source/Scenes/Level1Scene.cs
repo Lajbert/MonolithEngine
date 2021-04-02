@@ -60,9 +60,8 @@ namespace ForestPlatformerExample.Source.Scenes
         private void LoadData()
         {
 
-            UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 2));
-            UI.AddUIElement(new SelectableImage(Assets.GetTexture("HUDCointCount"), Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 2));
-            UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(200, 5)));
+            UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(5, 5), scale: 2));
+            UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale:0.2f));
 
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
             LDTKMap map = mapSerializer.Deserialize(this, "D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");

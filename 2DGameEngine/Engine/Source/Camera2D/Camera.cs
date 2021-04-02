@@ -22,13 +22,6 @@ namespace MonolithEngine.Source.Camera2D
 
 		private Vector2 bumpOffset;
 
-		private float resolutionWidth = VideoConfiguration.RESOLUTION_WIDTH;
-		private float resolutionHeight = VideoConfiguration.RESOLUTION_HEIGHT;
-		public float LevelGridCountW = (float)Math.Floor((decimal)VideoConfiguration.RESOLUTION_WIDTH);
-		public float LevelGridCountH = (float)Math.Floor((decimal)VideoConfiguration.RESOLUTION_HEIGHT);
-		//public float LevelGridCountW = 98;
-		//public float LevelGridCountH = 36;
-
 		private float shakePower = 1.5f;
 		private float shakeStarted = 0f;
 		private float shakeDuration = 0f;
@@ -47,6 +40,7 @@ namespace MonolithEngine.Source.Camera2D
 		private float friction = 0.89f;
 
 		private Matrix transformMatrix;
+		private Matrix uiTransofrmMatrix;
 
 		private Vector2 viewportCenter;
 		private Vector3 viewportCenterTransform;
@@ -57,13 +51,24 @@ namespace MonolithEngine.Source.Camera2D
 		public int BOUND_TOP = 0;
 		public int BOUND_BOTTOM = 0;
 
+		private GraphicsDeviceManager graphicsDeviceManager;
+
 		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
 			position = Vector2.Zero;
 			direction = Vector2.Zero;
-			resolutionWidth = graphicsDeviceManager.PreferredBackBufferWidth;
-			resolutionHeight = graphicsDeviceManager.PreferredBackBufferHeight;
+			this.graphicsDeviceManager = graphicsDeviceManager;
+			ResolutionUpdated();
+		}
+
+		public void ResolutionUpdated()
+        {
 			viewportCenter = new Vector2(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight) / 2;
 			viewportCenterTransform = new Vector3(viewportCenter, 0);
+			uiTransofrmMatrix = Matrix.Identity* Matrix.CreateScale(Config.SCALE, Config.SCALE, 1);
+			if (target != null)
+            {
+				TrackTarget(target, true, targetTracingOffset);
+            }
 		}
 
 		public void TrackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
@@ -155,6 +160,11 @@ namespace MonolithEngine.Source.Camera2D
 					shakeStarted = 0f;
 				}
 			}
+		}
+
+		public Matrix GetUITransformMatrix()
+        {
+			return uiTransofrmMatrix;
 		}
 
 		public Matrix GetTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)

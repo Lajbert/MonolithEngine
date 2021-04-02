@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonolithEngine.Global;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,9 +31,9 @@ namespace MonolithEngine.Engine.Source.UI
         {
             if (Parent != null)
             {
-                return Parent.GetPosition() + Position;
+                return (Parent.GetPosition() + Position);// * Config.SCALE;
             }
-            return Position;
+            return Position;// * Config.SCALE;
         }
 
         public virtual void Update(Point mousePosition = default)

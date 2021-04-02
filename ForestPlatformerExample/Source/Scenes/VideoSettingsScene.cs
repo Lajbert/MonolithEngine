@@ -12,10 +12,10 @@ namespace ForestPlatformerExample.Source.Scenes
 {
     class VideoSettingsScene : AbstractScene
     {
-        private MultiSelectionImage resolutionSelect = new MultiSelectionImage(new Vector2(600, 400), scale: 0.25f);
-        private MultiSelectionImage frameLimitSelect = new MultiSelectionImage(new Vector2(600, 700), scale: 0.25f);
-        private MultiSelectionImage vsyncSelect = new MultiSelectionImage(new Vector2(600, 900), scale: 0.25f);
-        private MultiSelectionImage windowModeSelect = new MultiSelectionImage(new Vector2(600, 1100), scale: 0.25f);
+        private MultiSelectionImage resolutionSelect = new MultiSelectionImage(new Vector2(300, 100), scale: 0.25f);
+        private MultiSelectionImage frameLimitSelect = new MultiSelectionImage(new Vector2(300, 200), scale: 0.25f);
+        private MultiSelectionImage vsyncSelect = new MultiSelectionImage(new Vector2(300, 300), scale: 0.25f);
+        private MultiSelectionImage windowModeSelect = new MultiSelectionImage(new Vector2(300, 400), scale: 0.25f);
 
         public VideoSettingsScene() : base ("VideoSettings", preload: true)
         {
@@ -39,76 +39,76 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void Load()
         {
-            Image resolutionLabel = new Image(Assets.GetTexture("HUDResolutionLabel"), new Vector2(300, 300), scale: 0.25f);
+            Image resolutionLabel = new Image(Assets.GetTexture("HUDResolutionLabel"), new Vector2(150, 50), scale: 0.25f);
             resolutionSelect.AddOption("720p", Assets.GetTexture("HUD720p"));
             resolutionSelect.AddOption("1080p", Assets.GetTexture("HUD1080p"));
             resolutionSelect.AddOption("1440p", Assets.GetTexture("HUD1440p"));
             resolutionSelect.AddOption("4K", Assets.GetTexture("HUD4K"));
-            SelectableImage resolutionRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(1370, 400), scale: 0.02f);
+            SelectableImage resolutionRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 100), scale: 0.02f);
             resolutionRight.OnClick = () =>
             {
                 resolutionSelect.Next();
             };
-            SelectableImage resolutionLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(530, 400), scale: 0.02f);
+            SelectableImage resolutionLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 100), scale: 0.02f);
             resolutionLeft.OnClick = () =>
             {
                 resolutionSelect.Previous();
             };
 
 
-            Image frameLimiterLabel = new Image(Assets.GetTexture("HUDFPSLimitLabel"), new Vector2(300, 600), scale: 0.25f);
+            Image frameLimiterLabel = new Image(Assets.GetTexture("HUDFPSLimitLabel"), new Vector2(150, 150), scale: 0.25f);
             frameLimitSelect.AddOption("30", Assets.GetTexture("HUD30"));
             frameLimitSelect.AddOption("60", Assets.GetTexture("HUD60"));
             frameLimitSelect.AddOption("120", Assets.GetTexture("HUD120"));
             frameLimitSelect.AddOption("Unlimited", Assets.GetTexture("HUDUnlimited"));
 
-            SelectableImage fpsRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(1370, 700), scale: 0.02f);
+            SelectableImage fpsRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 200), scale: 0.02f);
             fpsRight.OnClick = () =>
             {
                 frameLimitSelect.Next();
             };
-            SelectableImage fpsLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(530, 700), scale: 0.02f);
+            SelectableImage fpsLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 200), scale: 0.02f);
             fpsLeft.OnClick = () =>
             {
                 frameLimitSelect.Previous();
             };
 
-            Image vsyncLabel = new Image(Assets.GetTexture("HUDVsyncLabel"), new Vector2(300, 800), scale: 0.25f);
+            Image vsyncLabel = new Image(Assets.GetTexture("HUDVsyncLabel"), new Vector2(150, 250), scale: 0.25f);
             vsyncSelect.AddOption("On", Assets.GetTexture("HUDOn"));
             vsyncSelect.AddOption("Off", Assets.GetTexture("HUDOff"));
 
-            SelectableImage vsyncRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(1370, 900), scale: 0.02f);
+            SelectableImage vsyncRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 300), scale: 0.02f);
             vsyncRight.OnClick = () =>
             {
                 vsyncSelect.Next();
             };
-            SelectableImage vsyncLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(530, 900), scale: 0.02f);
+            SelectableImage vsyncLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 300), scale: 0.02f);
             vsyncLeft.OnClick = () =>
             {
                 vsyncSelect.Previous();
             };
 
-            Image windowModeLabel = new Image(Assets.GetTexture("HUDWindowModeLabel"), new Vector2(300, 1000), scale: 0.25f);
+            Image windowModeLabel = new Image(Assets.GetTexture("HUDWindowModeLabel"), new Vector2(150, 350), scale: 0.25f);
             windowModeSelect.AddOption("Fullscreen", Assets.GetTexture("HUDFullscreen"));
             windowModeSelect.AddOption("Windowed", Assets.GetTexture("HUDWindowed"));
 
-            SelectableImage windowModeRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(1370, 1100), scale: 0.02f);
+            SelectableImage windowModeRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 400), scale: 0.02f);
             windowModeRight.OnClick = () =>
             {
                 windowModeSelect.Next();
             };
-            SelectableImage windowModeLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(530, 1100), scale: 0.02f);
+            SelectableImage windowModeLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 400), scale: 0.02f);
             windowModeLeft.OnClick = () =>
             {
                 windowModeSelect.Previous();
             };
 
-            SelectableImage cancel = new SelectableImage(Assets.GetTexture("HUDCancelBase"), Assets.GetTexture("HUDCancelSelected"), new Vector2(300, 1300), scale: 0.25f);
+            SelectableImage cancel = new SelectableImage(Assets.GetTexture("HUDCancelBase"), Assets.GetTexture("HUDCancelSelected"), new Vector2(150, 500), scale: 0.25f);
             cancel.OnClick = () =>
             {
                 SceneManager.StartScene("Settings");
             };
-            SelectableImage apply = new SelectableImage(Assets.GetTexture("HUDApplyBase"), Assets.GetTexture("HUDApplySelected"), new Vector2(900, 1300), scale: 0.25f);
+            SelectableImage apply = new SelectableImage(Assets.GetTexture("HUDApplyBase"), Assets.GetTexture("HUDApplySelected"), new Vector2(450, 500), scale: 0.25f);
             apply.OnClick = ApplyConfiguration;
 
             UI.AddUIElement(resolutionLabel);
@@ -190,7 +190,53 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public void ApplyConfiguration()
         {
+            if (resolutionSelect.GetSelection().Equals("720p")) {
+                VideoConfiguration.RESOLUTION_WIDTH = 1280;
+                VideoConfiguration.RESOLUTION_HEIGHT = 720;
+            } 
+            else if (resolutionSelect.GetSelection().Equals("1080p")) {
+                VideoConfiguration.RESOLUTION_WIDTH = 1920;
+                VideoConfiguration.RESOLUTION_HEIGHT = 1080;
+            }
+            else if(resolutionSelect.GetSelection().Equals("1440p")) {
+                VideoConfiguration.RESOLUTION_WIDTH = 2560;
+                VideoConfiguration.RESOLUTION_HEIGHT = 1440;
+            }
+            else if(resolutionSelect.GetSelection().Equals("4K")) {
+                VideoConfiguration.RESOLUTION_WIDTH = 3840;
+                VideoConfiguration.RESOLUTION_HEIGHT = 2160;
+            } 
 
+            if (vsyncSelect.GetSelection().Equals("On"))
+            {
+                VideoConfiguration.VSYNC = true;
+            } else
+            {
+                VideoConfiguration.VSYNC = false;
+            }
+
+            if (windowModeSelect.GetSelection().Equals("Fullscreen"))
+            {
+                VideoConfiguration.FULLSCREEN = true;
+            } else
+            {
+                VideoConfiguration.FULLSCREEN = false;
+            }
+
+            if (frameLimitSelect.GetSelection().Equals("Unlimited"))
+            {
+                VideoConfiguration.FRAME_LIMIT = 0;
+            }
+            else
+            {
+                VideoConfiguration.FRAME_LIMIT = int.Parse(frameLimitSelect.GetSelection());
+            }
+
+            VideoConfiguration.Apply();
+
+            Camera.ResolutionUpdated();
+
+            SceneManager.OnResolutionChanged();
         }
 
         public override void OnEnd()

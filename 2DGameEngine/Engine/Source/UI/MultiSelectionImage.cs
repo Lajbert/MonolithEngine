@@ -35,6 +35,11 @@ namespace MonolithEngine.Engine.Source.UI
             SourceRectangle = new Rectangle(0, 0, ImageTexture.Width, ImageTexture.Height);
         }
 
+        public string GetSelection()
+        {
+            return selected.label;
+        }
+
         public void SetSelected(string label)
         {
             foreach (Option o in options)
