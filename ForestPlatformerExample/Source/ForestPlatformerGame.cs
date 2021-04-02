@@ -33,7 +33,6 @@ namespace ForestPlatformerExample.Source
 
         private KeyboardState prevKeyboardState;
 
-        public static bool GameRunning = false;
         public static bool Paused = false;
         public static bool WasGameStarted = false;
 
@@ -150,13 +149,16 @@ namespace ForestPlatformerExample.Source
             {
                 SceneManager.LoadScene("Level1");
             }
-            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && GameRunning /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
+            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && !Paused/*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
             {
                 SceneManager.StartScene("PauseMenu");
             }
-            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && Paused /*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
+            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && Paused/*GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||*/)
             {
                 SceneManager.StartScene("Level1");
+            } else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && !WasGameStarted)
+            {
+                SceneManager.StartScene("MainMenu");
             }
 
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

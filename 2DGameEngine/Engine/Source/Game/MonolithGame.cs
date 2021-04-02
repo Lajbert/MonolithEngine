@@ -73,8 +73,8 @@ namespace MonolithEngine.Engine.Source.MyGame
             graphics.PreferredBackBufferWidth = VideoConfiguration.RESOLUTION_WIDTH;
             graphics.PreferredBackBufferHeight = VideoConfiguration.RESOLUTION_HEIGHT;
             graphics.IsFullScreen = VideoConfiguration.FULLSCREEN;
-            Config.ZOOM = (VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
-            Config.SCALE = (VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
+            Config.ZOOM = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
+            Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             graphics.ApplyChanges();
         }
 
