@@ -42,7 +42,6 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void Load()
         {
-            //UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(30, 30), scale: 8));
             SelectableImage newGame = new SelectableImage(Assets.GetTexture("HUDNewGameBase"), Assets.GetTexture("HUDNewGameSelected"), new Vector2(150, 150), scale: 0.25f);
             newGame.OnClick = () =>
             {
