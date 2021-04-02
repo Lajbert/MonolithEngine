@@ -43,10 +43,11 @@ namespace ForestPlatformerExample.Source
 
             //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            VideoConfiguration.RESOLUTION_WIDTH = 1280;
-            VideoConfiguration.RESOLUTION_HEIGHT = 720;
-            VideoConfiguration.FULLSCREEN = true;
-            VideoConfiguration.FRAME_LIMIT = 120;
+            VideoConfiguration.RESOLUTION_WIDTH = 2560;
+            VideoConfiguration.RESOLUTION_HEIGHT = 1440;
+            VideoConfiguration.FULLSCREEN = false;
+            VideoConfiguration.FRAME_LIMIT = 0;
+            VideoConfiguration.VSYNC = true;
         }
 
         protected override void LoadGameContent()
@@ -93,6 +94,7 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HUDArrowRightSelected", "ForestAssets/UI/arrow_right_selected");
             Assets.LoadTexture("HUDArrowLeftBase", "ForestAssets/UI/arrow_right_base", flipHorizontal: true);
             Assets.LoadTexture("HUDArrowLeftSelected", "ForestAssets/UI/arrow_right_selected", flipHorizontal: true);
+            Assets.LoadTexture("HUDLoading", "ForestAssets/UI/loading");
 
             // Entities
 
@@ -132,14 +134,17 @@ namespace ForestPlatformerExample.Source
             Level1Scene level1 = new Level1Scene(font);
             SettingsScene settings = new SettingsScene();
             VideoSettingsScene videoSettings = new VideoSettingsScene();
+            LoadingScreenScene loadingScreen = new LoadingScreenScene();
 
             SceneManager.AddScene(mainMenuScene);
             SceneManager.AddScene(settings);
             SceneManager.AddScene(pauseMenuScene);
             SceneManager.AddScene(level1);
             SceneManager.AddScene(videoSettings);
+            SceneManager.AddScene(loadingScreen);
 
             SceneManager.LoadScene(mainMenuScene);
+            SceneManager.SetLoadingScene(loadingScreen);
         }
 
         protected override void Update(GameTime gameTime)

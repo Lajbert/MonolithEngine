@@ -14,9 +14,12 @@ namespace MonolithEngine.Engine.Source.Scene
         private Dictionary<string, AbstractScene> scenes = new Dictionary<string, AbstractScene>();
         private HashSet<AbstractScene> activeScenes = new HashSet<AbstractScene>();
         private AbstractScene currentScene;
+        private AbstractScene loadScreen;
         private AbstractScene nextSceneToLoad;
         private AbstractScene nextSceneToStart;
         private Camera camera;
+
+        private bool isLoading = false;
 
         public SceneManager(Camera camera)
         {
@@ -36,6 +39,11 @@ namespace MonolithEngine.Engine.Source.Scene
             {
                 scene.Load();
             }
+        }
+
+        public void SetLoadingScene(AbstractScene loadingScene)
+        {
+            this.loadScreen = loadingScene;
         }
 
         public void OnResolutionChanged()
@@ -80,6 +88,7 @@ namespace MonolithEngine.Engine.Source.Scene
             currentScene.Load();
             currentScene.ImportData(data);
             currentScene.OnStart();
+            isLoading = false;
         }
 
         public void StartScene(string sceneName)
@@ -104,6 +113,7 @@ namespace MonolithEngine.Engine.Source.Scene
             activeScenes.AddIfMissing(currentScene);
             currentScene.ImportData(data);
             currentScene.OnStart();
+            isLoading = false;
         }
 
         public void StartScene(AbstractScene scene)
@@ -124,10 +134,18 @@ namespace MonolithEngine.Engine.Source.Scene
             }
             if (nextSceneToLoad != null)
             {
+                if (!isLoading && loadScreen != null)
+                {
+                    return;
+                }
                 LoadNextScene();
             }
             if (nextSceneToStart != null)
             {
+                if (!isLoading && loadScreen != null)
+                {
+                    return;
+                }
                 StartNextScene();
             }
         }
@@ -140,17 +158,32 @@ namespace MonolithEngine.Engine.Source.Scene
             }
             if (nextSceneToLoad != null)
             {
+                if (!isLoading && loadScreen != null)
+                {
+                    return;
+                }
                 LoadNextScene();
             }
             if (nextSceneToStart != null)
             {
+                if (!isLoading && loadScreen != null)
+                {
+                    return;
+                }
                 StartNextScene();
             }
         }
 
         internal void Draw(SpriteBatch spriteBatch)
         {
-            currentScene.Draw(spriteBatch);
+            if ((nextSceneToLoad != null || nextSceneToStart != null) && loadScreen != null)
+            {
+                isLoading = true;
+                loadScreen.Draw(spriteBatch);
+            } else
+            {
+                currentScene.Draw(spriteBatch);
+            }
         }
 
     }
