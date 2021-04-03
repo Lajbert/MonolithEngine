@@ -409,12 +409,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 isSliding = false;
                 canAttack = true;
-                Friction = Config.FRICTION;
+                HorizontalFriction = Config.HORIZONTAL_FRICTION;
             };
             slideRight.AnimationSwitchCallback = () => {
                 isSliding = false;
                 canAttack = true;
-                Friction = Config.FRICTION;
+                HorizontalFriction = Config.HORIZONTAL_FRICTION;
             };
             bool isSlidingRight() => IsOnGround && isSliding && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("SlideRight", slideRight, isSlidingRight, 7);
@@ -630,7 +630,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             isSliding = true;
             canAttack = false;
-            Friction = 0.7f;
+            HorizontalFriction = 0.7f;
             if (CurrentFaceDirection == Direction.EAST)
             {
                 VelocityX = SLIDE_FORCE;
@@ -808,7 +808,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                     {
                         Assets.PlaySoundEffect("CarrotJumpHurtSound");
-                        Bump(new Vector2(0, -5));
+                        Bump(new Vector2(0, -1.5f));
                         FallSpeed = 0;
                         (otherCollider as Carrot).Hit(Direction.NORTH);
                         Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
@@ -837,7 +837,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             else if (otherCollider is Box && VelocityY > 0 && (otherCollider as Box).Velocity == Vector2.Zero && Transform.Y < otherCollider.Transform.Y)
             {
                 Assets.PlaySoundEffect("BoxBounceSound");
-                Bump(new Vector2(0, -5));
+                Bump(new Vector2(0, -1.5f));
                 FallSpeed = 0;
                 (otherCollider as Box).Hit(Direction.CENTER);
             }
@@ -847,7 +847,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     ((Spring)otherCollider).Bounce();
 
-                    Bump(new Vector2(0, -15));
+                    Bump(new Vector2(0, -3f));
                     canJump = false;
                     canDoubleJump = true;
                     FallSpeed = 0;

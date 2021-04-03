@@ -86,7 +86,8 @@ namespace MonolithEngine
             get => OnGround();
         }
 
-        protected float Friction = Config.FRICTION;
+        protected float HorizontalFriction = Config.HORIZONTAL_FRICTION;
+        protected float VerticalFriction = Config.VERTICAL_FRICTION;
         protected float BumpFriction = Config.BUMP_FRICTION;
 
         protected float MovementSpeed = Config.CHARACTER_SPEED;
@@ -188,15 +189,13 @@ namespace MonolithEngine
 
             previousPosition = Transform.Position;
 
-            float gameTime = (float)Globals.FixedUpdateMultiplier * 0.01f * 30;
-
             if (leftCollider != null)
             {
                 if (leftCollider.Velocity.X != 0)
                 {
                     if (Velocity.X >= 0)
                     {
-                        VelocityX = leftCollider.Velocity.X * (float)(1 / Math.Pow(Friction, gameTime));
+                        VelocityX = leftCollider.Velocity.X * (float)(1 / Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier));
                     }
                 }
                 else if (Velocity.X < 0)
@@ -211,7 +210,7 @@ namespace MonolithEngine
                 {
                     if (Velocity.X <= 0)
                     {
-                        VelocityX = rightCollider.Velocity.X * (float)(1 / Math.Pow(Friction, gameTime));
+                        VelocityX = rightCollider.Velocity.X * (float)(1 / Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier));
                     }
                 }
                 else if (Velocity.X > 0)
@@ -220,8 +219,8 @@ namespace MonolithEngine
                 }
             }
 
-            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * gameTime));
-            step = (float)(Velocity.X + bump.X) * gameTime / steps;
+            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier));
+            step = (float)(Velocity.X + bump.X) * Globals.FixedUpdateMultiplier / steps;
             while (steps > 0)
             {
                 Transform.InCellLocation.X += step;
@@ -248,20 +247,20 @@ namespace MonolithEngine
                 }
                 steps--;
             }
-            if (Friction > 0)
+            if (HorizontalFriction > 0)
             {
-                velocity.X *= (float)Math.Pow(Friction, gameTime);
+                velocity.X *= (float)Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier);
             }
 
             if (BumpFriction > 0)
             {
-                bump.X *= (float)Math.Pow(BumpFriction, gameTime);
+                bump.X *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
             }
 
 
             //rounding stuff
-            if (Math.Abs(Velocity.X) <= 0.0005 * gameTime) velocity.X = 0;
-            if (Math.Abs(bump.X) <= 0.0005 * gameTime) bump.X = 0;
+            if (Math.Abs(Velocity.X) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.X = 0;
+            if (Math.Abs(bump.X) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.X = 0;
 
             // Y
             if (HasGravity && !OnGround())
@@ -278,8 +277,8 @@ namespace MonolithEngine
                 FallSpeed = 0;
             }
 
-            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * gameTime));
-            step2 = (float)(Velocity.Y + bump.Y) * gameTime / steps2;
+            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier));
+            step2 = (float)(Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier / steps2;
             while (steps2 > 0)
             {
                 Transform.InCellLocation.Y += step2;
@@ -315,18 +314,18 @@ namespace MonolithEngine
                 steps2--;
             }
 
-            if (Friction > 0)
+            if (VerticalFriction > 0)
             {
-                velocity.Y *= (float)Math.Pow(Friction, gameTime);
+                velocity.Y *= (float)Math.Pow(VerticalFriction, Globals.FixedUpdateMultiplier);
             }
             if (BumpFriction > 0)
             {
-                bump.Y *= (float)Math.Pow(BumpFriction, gameTime);
+                bump.Y *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
             }
 
             //rounding stuff
-            if (Math.Abs(Velocity.Y) <= 0.0005 * gameTime) velocity.Y = 0;
-            if (Math.Abs(bump.Y) <= 0.0005 * gameTime) bump.Y = 0;
+            if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
+            if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
             if (Parent == null)
             {

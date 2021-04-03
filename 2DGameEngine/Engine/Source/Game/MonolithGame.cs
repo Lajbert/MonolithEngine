@@ -37,10 +37,10 @@ namespace MonolithEngine.Engine.Source.MyGame
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Config.GRAVITY_ON = true;
-            Config.GRAVITY_FORCE = 12f;
+            Config.GRAVITY_FORCE = 0.3f;
             //Config.ZOOM = 2f;
-            Config.CHARACTER_SPEED = 2f;
-            Config.JUMP_FORCE = 7f;
+            Config.CHARACTER_SPEED = 1f;
+            Config.JUMP_FORCE = 1.5f;
             Config.INCREASING_GRAVITY = true;
 
             Config.FIXED_UPDATE_FPS = 30;

@@ -21,7 +21,7 @@ namespace ForestPlatformerExample.Source.Environment
 {
     class MovingPlatform : PhysicalEntity
     {
-        private static readonly float SPEED = 0.5f;
+        private static readonly float SPEED = 0.2f;
 
         private float speedX = SPEED;
         //private float speedX = 0;
@@ -34,7 +34,8 @@ namespace ForestPlatformerExample.Source.Environment
         {
             HasGravity = false;
             Active = true;
-            Friction = 0f;
+            HorizontalFriction = 0f;
+            VerticalFriction = 0f;
             BumpFriction = 0f;
             VelocityX = speedX * directionX;
             VelocityY = speedY * directionY;

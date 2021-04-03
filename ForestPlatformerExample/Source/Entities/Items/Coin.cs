@@ -36,7 +36,8 @@ namespace ForestPlatformerExample.Source.Items
 
             HasGravity = true;
 
-            Friction = friction;
+            HorizontalFriction = friction;
+            VerticalFriction = friction;
 
             //ColliderOnGrid = true;
 

@@ -55,7 +55,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             CollisionOffsetRight = 0.5f;
 
             GravityValue /= 2;
-            Friction = 0.6f;
+            HorizontalFriction = 0.6f;
 
             Active = true;
 
@@ -83,7 +83,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             for (int i = 0; i < numOfCoins; i++)
             {
 
-                Coin c = new Coin(Scene, Vector2.Zero, 3, friction: (float)MyRandom.Between(87, 93) / (float)100)
+                Coin c = new Coin(Scene, Vector2.Zero, 3, friction: (float)MyRandom.Between(57, 63) / (float)100)
                 {
                     BounceCount = 3,
                     Parent = this,
@@ -151,7 +151,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 c.Parent = null;
                 c.Active = true;
                 c.Visible = true;
-                c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1));
+                c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1) * 0.3f);
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
             Scene.Camera.Shake(2f, 0.5f);
