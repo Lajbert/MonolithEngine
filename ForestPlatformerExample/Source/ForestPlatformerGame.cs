@@ -129,6 +129,19 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HeroPickup", "ForestAssets/Characters/Hero/main-character@pick-up-sheet");
             Assets.LoadTexture("HeroSlide", "ForestAssets/Characters/Hero/main-character@slide-sheet");
 
+            Assets.LoadSoundEffect("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true);
+            Assets.LoadSoundEffect("SpringBounceSound", "ForestAssets/Audio/spring");
+            Assets.LoadSoundEffect("JumpSound", "ForestAssets/Audio/jump2");
+            Assets.GetSoundEffect("JumpSound").Volume = 0.5f;
+            Assets.LoadSoundEffect("BoxBounceSound", "ForestAssets/Audio/box_bounce");
+            Assets.LoadSoundEffect("CoinPickupSound", "ForestAssets/Audio/coin_pickup");
+            Assets.LoadSoundEffect("HeroHurtSound", "ForestAssets/Audio/hero_hurt");
+            Assets.LoadSoundEffect("CarrotJumpHurtSound", "ForestAssets/Audio/carrot_jump_hurt");
+            Assets.LoadSoundEffect("BoxExplosionSound", "ForestAssets/Audio/box_explosion");
+            Assets.LoadSoundEffect("FastFootstepsSound", "ForestAssets/Audio/footsteps", true);
+            Assets.LoadSoundEffect("SlowFootstepsSound", "ForestAssets/Audio/footsteps_slow", true);
+            Assets.LoadSoundEffect("CarrotExplodeSound", "ForestAssets/Audio/carrot_explode");
+
             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
             Level1Scene level1 = new Level1Scene(font);
@@ -164,7 +177,8 @@ namespace ForestPlatformerExample.Source
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && Paused)
             {
                 SceneManager.StartScene("Level1");
-            } else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && !WasGameStarted)
+            } 
+            else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && !WasGameStarted)
             {
                 SceneManager.StartScene("MainMenu");
             }

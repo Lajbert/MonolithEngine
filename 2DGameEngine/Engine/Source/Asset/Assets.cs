@@ -15,7 +15,7 @@ namespace MonolithEngine.Engine.Source.Asset
 
         private static Dictionary<string, List<Texture2D>> textureGroups = new Dictionary<string, List<Texture2D>>();
 
-        private static Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
+        private static Dictionary<string, SoundEffectInstance> soundEffects = new Dictionary<string, SoundEffectInstance>();
 
         private static Dictionary<string, Song> songs = new Dictionary<string, Song>();
 
@@ -62,9 +62,11 @@ namespace MonolithEngine.Engine.Source.Asset
             return textureGroups[name];
         }
 
-        public static void LoadSoundEffect(string name, string path)
+        public static void LoadSoundEffect(string name, string path, bool isLooped = false)
         {
-            soundEffects[name] = AssetUtil.LoadSoundEffect(path);
+            SoundEffectInstance instance = AssetUtil.LoadSoundEffect(path).CreateInstance();
+            instance.IsLooped = isLooped;
+            soundEffects[name] = instance;
         }
 
         public static void LoadSong(string name, string path)
@@ -72,9 +74,26 @@ namespace MonolithEngine.Engine.Source.Asset
             songs[name] = AssetUtil.LoadSong(path);
         }
 
-        public static SoundEffect GetSoundEffect(string name)
+        public static SoundEffectInstance GetSoundEffect(string name)
         {
             return soundEffects[name];
+        }
+
+        public static void PlaySoundEffect(string name, bool waitForFinish = false)
+        {
+            if (waitForFinish)
+            {
+                soundEffects[name].Play();
+            } else
+            {
+                SoundEffectInstance instance = soundEffects[name];
+                SoundState currentState = instance.State;
+                if (currentState == SoundState.Playing)
+                {
+                    instance.Stop();
+                }
+                instance.Play();
+            }
         }
 
         public static Song GetSong(string name)

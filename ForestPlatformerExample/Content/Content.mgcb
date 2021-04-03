@@ -13,6 +13,78 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ForestAssets/Audio/box_bounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/box_bounce.wav
+
+#begin ForestAssets/Audio/box_explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/box_explosion.wav
+
+#begin ForestAssets/Audio/carrot_explode.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/carrot_explode.wav
+
+#begin ForestAssets/Audio/carrot_jump_hurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/carrot_jump_hurt.wav
+
+#begin ForestAssets/Audio/coin_pickup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/coin_pickup.wav
+
+#begin ForestAssets/Audio/footsteps.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/footsteps.wav
+
+#begin ForestAssets/Audio/footsteps_slow.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/footsteps_slow.wav
+
+#begin ForestAssets/Audio/hero_hurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/hero_hurt.wav
+
+#begin ForestAssets/Audio/jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/jump.wav
+
+#begin ForestAssets/Audio/jump2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/jump2.wav
+
+#begin ForestAssets/Audio/POL-chubby-cat-long.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/POL-chubby-cat-long.wav
+
+#begin ForestAssets/Audio/spring.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/spring.wav
+
 #begin ForestAssets/Characters/Carrot/carrot@death-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
+using Microsoft.Xna.Framework.Audio;
 
 namespace ForestPlatformerExample.Source.PlayerCharacter
 {
@@ -118,7 +119,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             /*SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
             DrawOffset = new Vector2(-8, -16);
             CollisionOffsetBottom = 1f;*/
-
         }
 
         private void SetupAnimations()
@@ -182,6 +182,16 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("IdleCarryLeft", idleCarryLeft, isIdleCarryLeft);
 
             SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 24);
+            runningRight.StartedCallback = () =>
+            {
+                Assets.GetSoundEffect("FastFootstepsSound").Play();
+            };
+
+            runningRight.StoppedCallback = () =>
+            {
+                Assets.GetSoundEffect("FastFootstepsSound").Stop();
+            };
+
             bool isRunningRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
@@ -190,6 +200,15 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
+            walkingLeft.StartedCallback = () =>
+            {
+                Assets.GetSoundEffect("SlowFootstepsSound").Play();
+            };
+
+            walkingLeft.StoppedCallback = () =>
+            {
+                Assets.GetSoundEffect("SlowFootstepsSound").Stop();
+            };
             bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST);
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
@@ -201,6 +220,15 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
 
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 24);
+            runningCarryRight.StartedCallback = () =>
+            {
+                Assets.GetSoundEffect("FastFootstepsSound").Play();
+            };
+
+            runningCarryRight.StoppedCallback = () =>
+            {
+                Assets.GetSoundEffect("FastFootstepsSound").Stop();
+            };
             bool isRunningCarryRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
             runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; };
             runningCarryRight.EveryFrameAction = (frame) => {
@@ -225,6 +253,15 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("RunningCarryLeft", runningCarryLeft, isRunningCarryLeft, 1);
 
             SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 12, SpriteEffects.FlipHorizontally);
+            walkingCarryLeft.StartedCallback = () =>
+            {
+                Assets.GetSoundEffect("SlowFootstepsSound").Play();
+            };
+
+            walkingCarryLeft.StoppedCallback = () =>
+            {
+                Assets.GetSoundEffect("SlowFootstepsSound").Stop();
+            };
             bool isCarryWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
 
@@ -468,6 +505,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     doubleJumping = true;
                 }
 
+                SoundEffectInstance jumpSound = Assets.GetSoundEffect("JumpSound");
+                if (jumpSound.State == SoundState.Playing)
+                {
+                    jumpSound.Stop();
+                }
+                jumpSound.Play();
                 VelocityY -= Config.JUMP_FORCE + jumpModifier.Y;
                 VelocityX += jumpModifier.X;
                 if (jumpModifier.X < 0)
@@ -731,6 +774,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private void Hit(IGameObject otherCollider)
         {
+            Assets.PlaySoundEffect("HeroHurtSound");
             DropCurrentItem();
             UserInput.ControlsDisabled = true;
             Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
@@ -768,6 +812,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     float angle = MathUtil.DegreeFromVectors(Transform.Position, otherCollider.Transform.Position);
                     if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                     {
+                        Assets.PlaySoundEffect("CarrotJumpHurtSound");
                         Bump(new Vector2(0, -5));
                         FallSpeed = 0;
                         (otherCollider as Carrot).Hit(Direction.NORTH);
@@ -790,11 +835,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is Coin)
             {
+                Assets.PlaySoundEffect("CoinPickupSound");
                 (otherCollider as Coin).Destroy();
                 ForestPlatformerGame.CoinCount++;
             }
             else if (otherCollider is Box && VelocityY > 0 && (otherCollider as Box).Velocity == Vector2.Zero && Transform.Y < otherCollider.Transform.Y)
             {
+                Assets.PlaySoundEffect("BoxBounceSound");
                 Bump(new Vector2(0, -5));
                 FallSpeed = 0;
                 (otherCollider as Box).Hit(Direction.CENTER);
@@ -803,7 +850,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 if (!isSliding)
                 {
-                    ((Spring)otherCollider).PlayBounceAnimation();
+                    ((Spring)otherCollider).Bounce();
 
                     Bump(new Vector2(0, -15));
                     canJump = false;
@@ -870,5 +917,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
             base.Destroy();
         }
+
     }
 }

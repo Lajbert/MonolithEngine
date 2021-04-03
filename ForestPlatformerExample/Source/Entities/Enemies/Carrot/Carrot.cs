@@ -245,6 +245,12 @@ namespace ForestPlatformerExample.Source.Enemies
             FallSpeed = 0;
         }
 
+        public override void Destroy()
+        {
+            Assets.PlaySoundEffect("CarrotExplodeSound");
+            base.Destroy();
+        }
+
         private void PlayHurtAnimation()
         {
             if (CurrentFaceDirection == Direction.WEST)

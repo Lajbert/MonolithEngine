@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Util;
 
 namespace ForestPlatformerExample.Source.Items
 {
@@ -48,9 +49,10 @@ namespace ForestPlatformerExample.Source.Items
             //Pivot = new Vector2(5, 5);
         }
 
-        public void PlayBounceAnimation()
+        public void Bounce()
         {
             GetComponent<AnimationStateMachine>().PlayAnimation("Bounce");
+            Assets.PlaySoundEffect("SpringBounceSound");
         }
     }
 }

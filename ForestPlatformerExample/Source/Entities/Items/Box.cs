@@ -145,6 +145,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private void Pop()
         {
+            Assets.PlaySoundEffect("BoxExplosionSound");
             foreach (Coin c in coins)
             {
                 c.Parent = null;
