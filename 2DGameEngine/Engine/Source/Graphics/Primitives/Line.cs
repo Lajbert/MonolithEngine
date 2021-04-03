@@ -36,7 +36,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
             this.To = toSaved = to;
             this.thickness = thickness;
             this.color = color;
-            SetSprite(TextureUtil.CreateRectangle(1, Color.White));
+            SetSprite(AssetUtil.CreateRectangle(1, Color.White));
             length = Vector2.Distance(from, to);
             angleRad = MathUtil.RadFromVectors(from, to);
             Origin = new Vector2(0f, 0f);
@@ -48,7 +48,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
             this.From = fromSaved = from;
             this.thickness = thickness;
             this.color = color;
-            SetSprite(TextureUtil.CreateRectangle(1, Color.White));
+            SetSprite(AssetUtil.CreateRectangle(1, Color.White));
             this.length = length;
             this.angleRad = angleRad;
             To = toSaved = MathUtil.EndPointOfLine(from, length, this.angleRad);

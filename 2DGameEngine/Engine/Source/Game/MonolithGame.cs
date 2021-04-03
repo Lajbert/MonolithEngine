@@ -82,8 +82,8 @@ namespace MonolithEngine.Engine.Source.MyGame
         protected sealed override void Initialize()
         {
             // TODO: Add your initialization logic here
-            TextureUtil.Content = Content;
-            TextureUtil.GraphicsDeviceManager = graphics;
+            AssetUtil.Content = Content;
+            AssetUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
             //font = Content.Load<SpriteFont>("DefaultFont");

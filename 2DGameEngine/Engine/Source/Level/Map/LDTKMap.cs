@@ -168,19 +168,19 @@ namespace MonolithEngine.Source.Level
 
                             if (tile.F != 0)
                             {
-                                Texture2D flipped = TextureUtil.CreateRectangle(gridSize, Color.Black);
+                                Texture2D flipped = AssetUtil.CreateRectangle(gridSize, Color.Black);
                                 flipped.SetData(data);
                                 if (tile.F == 1)
                                 {
-                                    flipped = TextureUtil.FlipTexture(flipped, false, true);
+                                    flipped = AssetUtil.FlipTexture(flipped, false, true);
                                 } 
                                 else if (tile.F == 2)
                                 {
-                                    flipped = TextureUtil.FlipTexture(flipped, true, false);
+                                    flipped = AssetUtil.FlipTexture(flipped, true, false);
                                 }
                                 else
                                 {
-                                    flipped = TextureUtil.FlipTexture(flipped, true, true);
+                                    flipped = AssetUtil.FlipTexture(flipped, true, true);
                                 }
                                 
                                 flipped.GetData(data);

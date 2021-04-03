@@ -197,14 +197,14 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 foreach (Vector2 point in line)
                 {
-                    spriteBatch.Draw(TextureUtil.CreateRectangle(1, Color.Red), point, Color.White);
+                    spriteBatch.Draw(Assets.CreateRectangle(1, Color.Red), point, Color.White);
                 }
             }
             else
             {
                 foreach (Vector2 point in line)
                 {
-                    spriteBatch.Draw(TextureUtil.CreateRectangle(1, Color.Blue), point, Color.White);
+                    spriteBatch.Draw(Assets.CreateRectangle(1, Color.Blue), point, Color.White);
                 }
             }
             //line.Clear();

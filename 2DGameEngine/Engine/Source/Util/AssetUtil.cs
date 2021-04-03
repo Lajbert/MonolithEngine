@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace MonolithEngine.Engine.Source.Util
 {
-    public class TextureUtil
+    internal class AssetUtil
     {
 
         public static GraphicsDeviceManager GraphicsDeviceManager;
@@ -73,7 +75,7 @@ namespace MonolithEngine.Engine.Source.Util
             return rect;
         }
 
-        internal static List<Texture2D> LoadTextures(string fullPath, int frameCount)
+        public static List<Texture2D> LoadTextures(string fullPath, int frameCount)
         {
             return LoadTextures(fullPath, 0, frameCount);
         }
@@ -110,7 +112,7 @@ namespace MonolithEngine.Engine.Source.Util
             return result;
         }*/
 
-        internal static Texture2D FlipTexture(Texture2D input, bool vertical, bool horizontal)
+        public static Texture2D FlipTexture(Texture2D input, bool vertical, bool horizontal)
         {
             Texture2D flipped = new Texture2D(GraphicsDeviceManager.GraphicsDevice, input.Width, input.Height);
             Color[] data = new Color[input.Width * input.Height];
@@ -141,7 +143,7 @@ namespace MonolithEngine.Engine.Source.Util
             return flipped;
         }
 
-        internal static List<Texture2D> LoadTextures(string fullPath, int startFrame, int endFrame)
+        public static List<Texture2D> LoadTextures(string fullPath, int startFrame, int endFrame)
         {
             List<Texture2D> result = new List<Texture2D>();
             for (int i = startFrame; i <= endFrame; i++)
@@ -152,7 +154,7 @@ namespace MonolithEngine.Engine.Source.Util
             return result;
         }
 
-        internal static Texture2D LoadTexture(string path)
+        public static Texture2D LoadTexture(string path)
         {
             return Content.Load<Texture2D>(path);
         }
@@ -184,6 +186,16 @@ namespace MonolithEngine.Engine.Source.Util
             {
                 return HashCode.Combine(size, color);
             }
+        }
+
+        public static SoundEffect LoadSoundEffect(string path)
+        {
+            return Content.Load<SoundEffect>(path);
+        }
+
+        public static Song LoadSong(string path)
+        {
+            return Content.Load<Song>(path);
         }
     }
 }

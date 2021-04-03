@@ -243,7 +243,7 @@ namespace MonolithEngine.Entities
             {
                 if (pivotMarker == null)
                 {
-                    pivotMarker = TextureUtil.CreateCircle(5, Color.Red, true);
+                    pivotMarker = AssetUtil.CreateCircle(5, Color.Red, true);
                 }
                 if (font != null)
                 {

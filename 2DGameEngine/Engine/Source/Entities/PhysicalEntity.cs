@@ -132,7 +132,7 @@ namespace MonolithEngine
                     if (collisionComponent is CircleCollisionComponent)
                     {
                         (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-                        colliderMarker = TextureUtil.CreateCircle((int)((CircleCollisionComponent)collisionComponent).Radius * 2, Color.Black);
+                        colliderMarker = AssetUtil.CreateCircle((int)((CircleCollisionComponent)collisionComponent).Radius * 2, Color.Black);
                     }
                 }
                 if (collisionComponent != null && collisionComponent is CircleCollisionComponent)

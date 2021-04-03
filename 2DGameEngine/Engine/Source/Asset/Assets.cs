@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using MonolithEngine.Engine.Source.Util;
 using System;
 using System.Collections.Generic;
@@ -12,14 +15,18 @@ namespace MonolithEngine.Engine.Source.Asset
 
         private static Dictionary<string, List<Texture2D>> textureGroups = new Dictionary<string, List<Texture2D>>();
 
+        private static Dictionary<string, SoundEffect> soundEffects = new Dictionary<string, SoundEffect>();
+
+        private static Dictionary<string, Song> songs = new Dictionary<string, Song>();
+
         public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false)
         {
             if (flipVertical || flipHorizontal)
             {
-                textures.Add(name, TextureUtil.FlipTexture(TextureUtil.LoadTexture(path), flipVertical, flipHorizontal));
+                textures.Add(name, AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal));
             } else
             {
-                textures.Add(name, TextureUtil.LoadTexture(path));
+                textures.Add(name, AssetUtil.LoadTexture(path));
             }
         }
 
@@ -44,7 +51,7 @@ namespace MonolithEngine.Engine.Source.Asset
             List<Texture2D> result = new List<Texture2D>();
             foreach (string path in paths)
             {
-                result.Add(TextureUtil.LoadTexture(path));
+                result.Add(AssetUtil.LoadTexture(path));
             }
             textureGroups.Add(name, result);
         }
@@ -55,9 +62,34 @@ namespace MonolithEngine.Engine.Source.Asset
             return textureGroups[name];
         }
 
-        public static void PlayAudio(string name, bool looping = false)
+        public static void LoadSoundEffect(string name, string path)
         {
+            soundEffects[name] = AssetUtil.LoadSoundEffect(path);
+        }
 
+        public static void LoadSong(string name, string path)
+        {
+            songs[name] = AssetUtil.LoadSong(path);
+        }
+
+        public static SoundEffect GetSoundEffect(string name)
+        {
+            return soundEffects[name];
+        }
+
+        public static Song GetSong(string name)
+        {
+            return songs[name];
+        }
+
+        public static Texture2D CreateRectangle(int size, Color color)
+        {
+            return AssetUtil.CreateRectangle(size, color);
+        }
+
+        public static Texture2D CreateCircle(int diameter, Color color, bool filled = false)
+        {
+            return AssetUtil.CreateCircle(diameter, color, filled);
         }
     }
 }
