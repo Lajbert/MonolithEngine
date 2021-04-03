@@ -188,7 +188,7 @@ namespace MonolithEngine
 
             previousPosition = Transform.Position;
 
-            float gameTime = (float)Globals.FixedUpdateMultiplier * 0.01f;
+            float gameTime = (float)Globals.FixedUpdateElapsedTime * 0.01f * 30;
 
             if (leftCollider != null)
             {
@@ -361,7 +361,7 @@ namespace MonolithEngine
             if (Config.INCREASING_GRAVITY)
             {
                 t = (float)(Globals.GameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
-                velocity.Y += GravityValue * t * (float)Globals.FixedUpdateMultiplier * 0.01f;
+                velocity.Y += GravityValue * t * (float)Globals.FixedUpdateElapsedTime * 0.01f * 30;
             }
             else
             {

@@ -166,7 +166,7 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             while (accumulator >= fixedUpdateDelta)
             {
-                Globals.FixedUpdateMultiplier = 30;
+                Globals.FixedUpdateElapsedTime = 1;
                 FixedUpdate();
                 fixedUpdateElapsedTime += fixedUpdateDelta;
                 accumulator -= fixedUpdateDelta;

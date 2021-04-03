@@ -60,7 +60,7 @@ namespace MonolithEngine.Source.Entities.Animation
             this.SpriteEffect = spriteEffect;
             this.StartedCallback = startCallback;
             this.StoppedCallback = stopCallback;
-            delay = TimeSpan.FromSeconds(1).TotalMilliseconds / framerate;
+            delay = (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / framerate)).TotalSeconds;
         }
 
         public bool Finished()
@@ -125,7 +125,7 @@ namespace MonolithEngine.Source.Entities.Animation
             }
             else
             {
-                currentDelay += Globals.FixedUpdateMultiplier;
+                currentDelay += Globals.FixedUpdateElapsedTime;
             }
 
             if (CurrentFrame == TotalFrames) {

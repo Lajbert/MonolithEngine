@@ -70,7 +70,7 @@ namespace MonolithEngine.Engine.AI
             {
                 return;
             }
-            TimeSpentInCurrentState += Globals.FixedUpdateMultiplier;
+            TimeSpentInCurrentState += (Globals.FixedUpdateElapsedTime * 30);
             currentState.Update();
         }
 
