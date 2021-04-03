@@ -77,7 +77,6 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.ZOOM = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             graphics.ApplyChanges();
-            Logger.Info("STOP HERE");
         }
 
         protected sealed override void Initialize()
@@ -126,8 +125,6 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             frameCounter = new FrameCounter();
 
-            Logger.Info("Object count: " + GameObject.GetObjectCount());
-
             LoadGameContent();
         }
 
@@ -143,6 +140,13 @@ namespace MonolithEngine.Engine.Source.MyGame
         {
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             //    Exit();
+
+            if (gameTime.ElapsedGameTime.TotalSeconds > 0.1)
+            {
+                accumulator = 0;
+                previousT = 0;
+                return;
+            }
 
             if (previousT == 0)
             {
