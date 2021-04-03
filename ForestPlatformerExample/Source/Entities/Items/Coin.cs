@@ -46,10 +46,10 @@ namespace ForestPlatformerExample.Source.Items
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
 
-            SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 24);
+            SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 30);
             Animations.RegisterAnimation("Idle", coinAnim);
 
-            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickupEffect"), 24);
+            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickupEffect"), 30);
             SetDestroyAnimation(pickupAnim);
 
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));

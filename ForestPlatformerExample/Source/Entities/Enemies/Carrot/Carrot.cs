@@ -119,7 +119,7 @@ namespace ForestPlatformerExample.Source.Enemies
             SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
             Animations.RegisterAnimation("DeathRight", deathRight, () => false);
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotIdle"), 12);
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotIdle"), 24);
             Animations.RegisterAnimation("IdleLeft", idleLeft, () => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
@@ -232,7 +232,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             
             Velocity = Vector2.Zero;
-            Vector2 attackForce = new Vector2(5, -5);
+            Vector2 attackForce = new Vector2(1, -1);
             if (impactDirection == Direction.WEST)
             {
                 attackForce.X *= -1;

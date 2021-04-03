@@ -786,11 +786,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             if (otherCollider.Transform.X < Transform.X)
             {
-                Velocity += new Vector2(2, -2);
+                Velocity += new Vector2(1, -1);
             }
             else if (otherCollider.Transform.X > Transform.X)
             {
-                Velocity += new Vector2(-2, -2);
+                Velocity += new Vector2(-1, -1);
             }
         }
 
@@ -873,11 +873,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 canDoubleJump = true;
                 if (otherCollider.Transform.X < Transform.X)
                 {
-                    jumpModifier = new Vector2(5, 0);
+                    jumpModifier = new Vector2(2, 0);
                 }
                 else if (otherCollider.Transform.X > Transform.X)
                 {
-                    jumpModifier = new Vector2(-5, 0);
+                    jumpModifier = new Vector2(-2, 0);
                 }
             }
             base.OnCollisionStart(otherCollider);
