@@ -39,7 +39,7 @@ namespace MonolithEngine.Engine.Source.Scene
             scene.SetSceneManager(this);
             if (scene.Preload)
             {
-                scene.Load();
+                scene.InternalLoad();
             }
         }
 
@@ -87,7 +87,7 @@ namespace MonolithEngine.Engine.Source.Scene
             currentScene = nextSceneToLoad;
             nextSceneToLoad = null;
             activeScenes.AddIfMissing(currentScene);
-            currentScene.Load();
+            currentScene.InternalLoad();
             currentScene.ImportData(data);
             currentScene.OnStart();
             isLoading = false;

@@ -56,6 +56,12 @@ namespace MonolithEngine.Engine.Source.Scene
 
         }
 
+        internal void InternalLoad()
+        {
+            Load();
+            UI.HandleNewElements();
+        }
+
         public abstract void Load();
 
         public abstract void OnEnd();

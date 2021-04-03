@@ -89,7 +89,7 @@ namespace MonolithEngine.Engine.Source.UI
             prevMouseState = currentMouseState;
         }
 
-        private void HandleNewElements()
+        internal void HandleNewElements()
         {
             if (newElements.Count > 0)
             {
