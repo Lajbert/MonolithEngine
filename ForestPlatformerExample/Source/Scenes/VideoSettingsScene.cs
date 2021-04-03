@@ -55,6 +55,11 @@ namespace ForestPlatformerExample.Source.Scenes
                 resolutionSelect.Previous();
             };
 
+            resolutionRight.HoverSound = Assets.GetSoundEffect("MenuHover");
+            resolutionRight.SelectSound = Assets.GetSoundEffect("MenuSelect");
+            resolutionLeft.HoverSound = Assets.GetSoundEffect("MenuHover");
+            resolutionLeft.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
 
             Image frameLimiterLabel = new Image(Assets.GetTexture("HUDFPSLimitLabel"), new Vector2(150, 150), scale: 0.25f);
             frameLimitSelect.AddOption("30", Assets.GetTexture("HUD30"));
@@ -73,6 +78,11 @@ namespace ForestPlatformerExample.Source.Scenes
                 frameLimitSelect.Previous();
             };
 
+            fpsRight.HoverSound = Assets.GetSoundEffect("MenuHover");
+            fpsRight.SelectSound = Assets.GetSoundEffect("MenuSelect");
+            fpsLeft.HoverSound = Assets.GetSoundEffect("MenuHover");
+            fpsLeft.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             Image vsyncLabel = new Image(Assets.GetTexture("HUDVsyncLabel"), new Vector2(150, 250), scale: 0.25f);
             vsyncSelect.AddOption("On", Assets.GetTexture("HUDOn"));
             vsyncSelect.AddOption("Off", Assets.GetTexture("HUDOff"));
@@ -87,6 +97,11 @@ namespace ForestPlatformerExample.Source.Scenes
             {
                 vsyncSelect.Previous();
             };
+
+            vsyncRight.HoverSound = Assets.GetSoundEffect("MenuHover");
+            vsyncRight.SelectSound = Assets.GetSoundEffect("MenuSelect");
+            vsyncLeft.HoverSound = Assets.GetSoundEffect("MenuHover");
+            vsyncLeft.SelectSound = Assets.GetSoundEffect("MenuSelect");
 
             Image windowModeLabel = new Image(Assets.GetTexture("HUDWindowModeLabel"), new Vector2(150, 350), scale: 0.25f);
             windowModeSelect.AddOption("Fullscreen", Assets.GetTexture("HUDFullscreen"));
@@ -103,12 +118,24 @@ namespace ForestPlatformerExample.Source.Scenes
                 windowModeSelect.Previous();
             };
 
+            windowModeRight.HoverSound = Assets.GetSoundEffect("MenuHover");
+            windowModeRight.SelectSound = Assets.GetSoundEffect("MenuSelect");
+            windowModeLeft.HoverSound = Assets.GetSoundEffect("MenuHover");
+            windowModeLeft.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             SelectableImage cancel = new SelectableImage(Assets.GetTexture("HUDCancelBase"), Assets.GetTexture("HUDCancelSelected"), new Vector2(150, 500), scale: 0.25f);
+            cancel.HoverSound = Assets.GetSoundEffect("MenuHover");
+            cancel.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             cancel.OnClick = () =>
             {
                 SceneManager.StartScene("Settings");
             };
+
             SelectableImage apply = new SelectableImage(Assets.GetTexture("HUDApplyBase"), Assets.GetTexture("HUDApplySelected"), new Vector2(450, 500), scale: 0.25f);
+            apply.HoverSound = Assets.GetSoundEffect("MenuHover");
+            apply.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             apply.OnClick = ApplyConfiguration;
 
             UI.AddUIElement(resolutionLabel);

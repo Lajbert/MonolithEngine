@@ -43,18 +43,27 @@ namespace ForestPlatformerExample.Source.Scenes
         public override void Load()
         {
             SelectableImage newGame = new SelectableImage(Assets.GetTexture("HUDNewGameBase"), Assets.GetTexture("HUDNewGameSelected"), new Vector2(150, 150), scale: 0.25f);
+            newGame.HoverSound = Assets.GetSoundEffect("MenuHover");
+            newGame.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             newGame.OnClick = () =>
             {
                 SceneManager.LoadScene("Level1");
             };
 
             SelectableImage settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
+            settings.HoverSound = Assets.GetSoundEffect("MenuHover");
+            settings.SelectSound = Assets.GetSoundEffect("MenuSelect");
+            
             settings.OnClick = () =>
             {
                 SceneManager.StartScene("Settings");
             };
 
             SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(150, 250), scale: 0.25f);
+            quit.HoverSound = Assets.GetSoundEffect("MenuHover");
+            quit.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             quit.OnClick = Config.ExitAction;
 
             UI.AddUIElement(quit);

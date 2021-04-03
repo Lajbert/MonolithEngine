@@ -141,6 +141,8 @@ namespace ForestPlatformerExample.Source
             Assets.LoadSoundEffect("FastFootstepsSound", "ForestAssets/Audio/footsteps", true);
             Assets.LoadSoundEffect("SlowFootstepsSound", "ForestAssets/Audio/footsteps_slow", true);
             Assets.LoadSoundEffect("CarrotExplodeSound", "ForestAssets/Audio/carrot_explode");
+            Assets.LoadSoundEffect("MenuHover", "ForestAssets/Audio/menu_hover");
+            Assets.LoadSoundEffect("MenuSelect", "ForestAssets/Audio/menu_select");
 
             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();

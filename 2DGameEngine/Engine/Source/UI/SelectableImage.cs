@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using MonolithEngine.Global;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonolithEngine.Engine.Source.UI
 {
@@ -20,6 +21,10 @@ namespace MonolithEngine.Engine.Source.UI
         public UserInterface userInterface;
 
         public Action OnClick;
+
+        public SoundEffectInstance HoverSound;
+
+        public SoundEffectInstance SelectSound;
 
         public SelectableImage(Texture2D texture, Texture2D selectedImage = null, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default) : base (texture, position, sourceRectangle, scale, rotation, depth, color)
         {
@@ -66,6 +71,10 @@ namespace MonolithEngine.Engine.Source.UI
         {
             if (mousePosition != default && IsMouseOver(mousePosition))
             {
+                if (!IsHoveredOver)
+                {
+                    HoverSound?.Play();
+                }
                 IsHoveredOver = true;
                 userInterface.SelectElement(this);
             } 
@@ -78,6 +87,7 @@ namespace MonolithEngine.Engine.Source.UI
 
         void SelectableUIElement.OnClick()
         {
+            SelectSound?.Play();
             OnClick.Invoke();
         }
 

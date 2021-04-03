@@ -73,6 +73,18 @@
 /processorParam:Quality=Best
 /build:ForestAssets/Audio/jump2.wav
 
+#begin ForestAssets/Audio/menu_hover.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/menu_hover.wav
+
+#begin ForestAssets/Audio/menu_select.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/menu_select.wav
+
 #begin ForestAssets/Audio/POL-chubby-cat-long.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

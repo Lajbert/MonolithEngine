@@ -35,18 +35,27 @@ namespace ForestPlatformerExample.Source.Scenes
         {
 
             SelectableImage videoSettings = new SelectableImage(Assets.GetTexture("HUDVideoSettingsBase"), Assets.GetTexture("HUDVideoSettingsSelected"), new Vector2(150, 150), scale: 0.25f);
+            videoSettings.HoverSound = Assets.GetSoundEffect("MenuHover");
+            videoSettings.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             videoSettings.OnClick = () =>
             {
                 SceneManager.StartScene("VideoSettings");
             };
 
             SelectableImage audioSettings = new SelectableImage(Assets.GetTexture("HUDAudioSettingsBase"), Assets.GetTexture("HUDAudioSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
+            audioSettings.HoverSound = Assets.GetSoundEffect("MenuHover");
+            audioSettings.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             audioSettings.OnClick = () =>
             {
                 SceneManager.StartScene("AudioSettings");
             };
 
             SelectableImage back = new SelectableImage(Assets.GetTexture("HUDBackBase"), Assets.GetTexture("HUDBackSelected"), new Vector2(150, 250), scale: 0.25f);
+            back.HoverSound = Assets.GetSoundEffect("MenuHover");
+            back.SelectSound = Assets.GetSoundEffect("MenuSelect");
+
             back.OnClick = () =>
             {
                 if (ForestPlatformerGame.WasGameStarted)
