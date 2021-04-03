@@ -136,8 +136,6 @@ namespace MonolithEngine.Entities
 
         public bool BlocksRay { get; set; }
 
-        public SoundEffect DestroySound;
-
         protected SpriteFont font;
 
         protected Ray2DEmitter RayEmitter { get; set; }
@@ -339,11 +337,9 @@ namespace MonolithEngine.Entities
                 return;
             }
             BeingDestroyed = true;
+
             RemoveCollisions();
-            if (DestroySound != null)
-            {
-                DestroySound.Play();
-            }
+
             if (GetComponent<AnimationStateMachine>() != null && GetComponent<AnimationStateMachine>().HasAnimation(DESTROY_AMINATION + CurrentFaceDirection))
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation(DESTROY_AMINATION + CurrentFaceDirection);
@@ -357,10 +353,7 @@ namespace MonolithEngine.Entities
         protected void Cleanup()
         {
             componentList.ClearAll();
-            if (DestroySound != null)
-            {
-                DestroySound.Dispose();
-            }
+
             if (Parent != null)
             {
                 Parent.RemoveChild(this);

@@ -105,6 +105,14 @@ namespace MonolithEngine.Source.Entities.Animation
                 return;
             }
 
+            if (CurrentFrame == StartFrame)
+            {
+                if (!Looping)
+                {
+                    InvokeStartedCallback();
+                }
+            }
+
             if (currentDelay >= delay)
             {
                 CurrentFrame++;
@@ -124,6 +132,7 @@ namespace MonolithEngine.Source.Entities.Animation
                 if (!Looping)
                 {
                     Stop();
+                    InvokeStoppedCallback();
                 }
                 else
                 {
@@ -135,6 +144,24 @@ namespace MonolithEngine.Source.Entities.Animation
         public int GetCurrentFrame()
         {
             return CurrentFrame;
+        }
+
+        public void InvokeStoppedCallback()
+        {
+            if (!stopActionCalled)
+            {
+                StoppedCallback?.Invoke();
+                stopActionCalled = true;
+            }
+        }
+
+        public void InvokeStartedCallback()
+        {
+            if (!startActionCalled)
+            {
+                StartedCallback?.Invoke();
+                startActionCalled = true;
+            }
         }
 
         public void Init(int? startFrame = null)

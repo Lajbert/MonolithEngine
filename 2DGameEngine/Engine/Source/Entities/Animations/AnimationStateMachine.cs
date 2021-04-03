@@ -155,12 +155,12 @@ namespace MonolithEngine.Engine.Source.Entities.Animations
                         transitionFrame = currentAnimation.animation.GetCurrentFrame();
                     }
                     currentAnimation.animation.Stop();
-                    currentAnimation.animation.StoppedCallback?.Invoke();
+                    currentAnimation.animation.InvokeStoppedCallback();
                     currentAnimation.animation.AnimationSwitchCallback?.Invoke();
                 }
                 currentAnimation = nextAnimation;
                 currentAnimation.animation.Init(transitionFrame);
-                currentAnimation?.animation.StartedCallback?.Invoke();
+                currentAnimation?.animation.InvokeStartedCallback();
             }
             currentAnimation.animation.Play(spriteBatch);
         }

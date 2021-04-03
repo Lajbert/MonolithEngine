@@ -505,12 +505,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     doubleJumping = true;
                 }
 
-                SoundEffectInstance jumpSound = Assets.GetSoundEffect("JumpSound");
-                if (jumpSound.State == SoundState.Playing)
-                {
-                    jumpSound.Stop();
-                }
-                jumpSound.Play();
                 VelocityY -= Config.JUMP_FORCE + jumpModifier.Y;
                 VelocityX += jumpModifier.X;
                 if (jumpModifier.X < 0)
@@ -522,6 +516,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 jumpModifier = Vector2.Zero;
                 FallSpeed = (float)Globals.GameTime.TotalGameTime.TotalSeconds;
+                Assets.PlaySoundEffect("JumpSound");
 
             }, true);
 
