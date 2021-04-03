@@ -44,6 +44,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.INCREASING_GRAVITY = true;
 
             Config.FIXED_UPDATE_FPS = 30;
+            Globals.FixedUpdateMultiplier = 1;
 
             fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
             //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
@@ -166,7 +167,6 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             while (accumulator >= fixedUpdateDelta)
             {
-                Globals.FixedUpdateElapsedTime = 1;
                 FixedUpdate();
                 fixedUpdateElapsedTime += fixedUpdateDelta;
                 accumulator -= fixedUpdateDelta;

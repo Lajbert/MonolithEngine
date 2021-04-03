@@ -125,7 +125,7 @@ namespace MonolithEngine.Source.Entities.Animation
             }
             else
             {
-                currentDelay += Globals.FixedUpdateElapsedTime;
+                currentDelay += Globals.FixedUpdateMultiplier;
             }
 
             if (CurrentFrame == TotalFrames) {

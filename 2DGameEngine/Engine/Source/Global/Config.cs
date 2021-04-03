@@ -15,7 +15,7 @@ namespace MonolithEngine.Global
         public static bool  GRAVITY_ON = true;
         public static float GRAVITY_FORCE = 8f;
         public static float JUMP_FORCE = 10f;
-        public static float GRAVITY_T_MULTIPLIER = 0.5f;
+        public static float GRAVITY_T_MULTIPLIER = 0.15f;
 
         public static bool INCREASING_GRAVITY = true;
 
