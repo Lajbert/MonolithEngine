@@ -98,13 +98,14 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         private void SpawnBullet()
         {
-            Vector2 speed = new Vector2(-0.3f, 0);
             if (CurrentFaceDirection == Direction.EAST)
             {
-                speed *= -1;
+                new Bullet(Scene, Transform.Position + new Vector2(14, -4), new Vector2(0.3f, 0));
+            } 
+            else
+            {
+                new Bullet(Scene, Transform.Position - new Vector2(29, 4), new Vector2(-0.3f, 0));
             }
-
-            new Bullet(Scene, Transform.Position - new Vector2(20, 15), speed);
         }
 
         private void PlayAttackAnimation()

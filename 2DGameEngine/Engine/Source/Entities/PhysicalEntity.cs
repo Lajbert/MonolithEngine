@@ -110,6 +110,7 @@ namespace MonolithEngine
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
             Transform = new DynamicTransform(this, startPosition);
+            previousPosition = startPosition;
             CheckGridCollisions = true;
             Active = true;
             ResetPosition(startPosition);

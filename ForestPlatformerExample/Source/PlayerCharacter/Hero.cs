@@ -79,6 +79,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Mountable", false);
             AddCollisionAgainst("Environment");
+            AddCollisionAgainst("Projectile");
             AddTag("Hero");
             CanFireTriggers = true;
 
@@ -767,7 +768,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        private void Hit(IGameObject otherCollider)
+        private void Hit(IGameObject otherCollider, bool usePositionCheck = true)
         {
             Assets.PlaySoundEffect("HeroHurtSound");
             DropCurrentItem();
@@ -784,14 +785,33 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Animations.PlayAnimation("HurtRight");
             }
-            if (otherCollider.Transform.X < Transform.X)
+            if (usePositionCheck)
             {
-                Velocity += new Vector2(1, -1);
+                if (otherCollider.Transform.X < Transform.X)
+                {
+                    Velocity += new Vector2(1, -1);
+                }
+                else if (otherCollider.Transform.X > Transform.X)
+                {
+                    Velocity += new Vector2(-1, -1);
+                }
             }
-            else if (otherCollider.Transform.X > Transform.X)
+            else
             {
-                Velocity += new Vector2(-1, -1);
+                if (((otherCollider as PhysicalEntity).Velocity.X == 0))
+                {
+                    Velocity += new Vector2(0, -1);
+                } 
+                else if ((otherCollider as PhysicalEntity).Velocity.X > 0)
+                {
+                    Velocity += new Vector2(1, -1);
+                }
+                else if(((otherCollider as PhysicalEntity).Velocity.X < 0))
+                {
+                    Velocity += new Vector2(-1, -1);
+                }
             }
+            
         }
 
         public override void OnCollisionStart(IGameObject otherCollider)
@@ -826,6 +846,17 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                         Hit(otherCollider);
 
                     }
+                }
+            }
+            else if (otherCollider.HasTag("Projectile"))
+            {
+                if (!isSliding)
+                {
+                    if (Timer.IsSet("Invincible"))
+                    {
+                        return;
+                    }
+                    Hit(otherCollider, false);
                 }
             }
             else if (otherCollider is Coin)

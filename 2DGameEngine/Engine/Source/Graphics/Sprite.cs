@@ -18,6 +18,7 @@ namespace MonolithEngine.Engine.Source.Graphics
         public Rectangle SourceRectangle;
         public Vector2 DrawOffset;
         public Entity Owner;
+        public SpriteEffects SpriteEffect = SpriteEffects.None;
 
         public Sprite(Entity owner, Texture2D texture, Rectangle? sourceRectangle = null, Vector2 drawOffset = default)
         {
@@ -38,7 +39,7 @@ namespace MonolithEngine.Engine.Source.Graphics
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Owner.DrawPosition + DrawOffset, SourceRectangle, Color.White, 0f, Owner.Pivot, 1f, SpriteEffects.None, Owner.Depth);
+            spriteBatch.Draw(Texture, Owner.DrawPosition + DrawOffset, SourceRectangle, Color.White, 0f, Owner.Pivot, 1f, SpriteEffect, Owner.Depth);
         }
     }
 }
