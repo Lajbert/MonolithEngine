@@ -71,7 +71,12 @@ namespace MonolithEngine.Engine.AI
                 return;
             }
             TimeSpentInCurrentState += Globals.FixedUpdateMultiplier;
-            currentState.Update();
+            currentState.FixedUpdate();
+        }
+
+        public AIState<T> GetCurrentState()
+        {
+            return currentState;
         }
 
     }

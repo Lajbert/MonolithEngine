@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
@@ -133,6 +134,10 @@ namespace ForestPlatformerExample.Source.Scenes
                 else if (entity.Identifier.Equals("SlideWall"))
                 {
                     objects.Add(new SlideWall(this, position, (int)entity.Width, (int)entity.Height));
+                } 
+                else if (entity.Identifier.Equals("EnemyTrunk"))
+                {
+                    objects.Add(new Trunk(this, position, Direction.WEST));
                 }
             }
 

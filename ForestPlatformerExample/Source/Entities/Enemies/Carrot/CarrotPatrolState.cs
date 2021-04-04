@@ -13,8 +13,6 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
     class CarrotPatrolState : AIState<Carrot>
     {
 
-        private int moveDirection = 1;
-
         protected bool checkCollisions;
 
         public CarrotPatrolState(Carrot carrot) : base(carrot)
@@ -25,48 +23,17 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
         {
             checkCollisions = true;
             controlledEntity.CurrentSpeed = controlledEntity.DefaultSpeed;
-            base.Begin();
         }
 
-        public override void Update()
+        public override void End()
         {
 
-            if (checkCollisions && WillCollideOrFall())
-            {
-                if (controlledEntity.CurrentFaceDirection == Direction.WEST)
-                {
-                    controlledEntity.CurrentFaceDirection = Direction.EAST;
-                }
-                else if (controlledEntity.CurrentFaceDirection == Direction.EAST)
-                {
-                    controlledEntity.CurrentFaceDirection = Direction.WEST;
-                }
-            }
-
-            if (controlledEntity.CurrentFaceDirection == Direction.WEST)
-            {
-                moveDirection = -1;
-            } else if (controlledEntity.CurrentFaceDirection == Direction.EAST)
-            {
-                moveDirection = 1;
-            }
-
-            controlledEntity.VelocityX += controlledEntity.CurrentSpeed * moveDirection * Globals.ElapsedTime;
-
-            base.Update();
         }
 
-        private bool WillCollideOrFall()
+        public override void FixedUpdate()
         {
-            if (controlledEntity.CurrentFaceDirection == Direction.WEST)
-            {
-                return controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.WEST) || !controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHWEST);
-            }
-            else if (controlledEntity.CurrentFaceDirection == Direction.EAST)
-            {
-                return controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, Direction.EAST) || !controlledEntity.Scene.GridCollisionChecker.HasBlockingColliderAt(controlledEntity.Transform.GridCoordinates, MonolithEngine.Engine.Source.Entities.Direction.SOUTHEAST);
-            }
-            throw new Exception("Wrong CurrentFaceDirection for carrot!");
+
+            AIUtil.Patrol(checkCollisions, controlledEntity);
         }
 
     }

@@ -18,5 +18,15 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
         {
             controlledEntity.Velocity = Vector2.Zero;
         }
+
+        public override void End()
+        {
+            
+        }
+
+        public override void FixedUpdate()
+        {
+            
+        }
     }
 }

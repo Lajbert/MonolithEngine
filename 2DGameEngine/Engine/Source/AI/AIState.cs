@@ -15,20 +15,11 @@ namespace MonolithEngine.Engine.AI
             this.controlledEntity = controlledEntity;
         }
 
-        public virtual void Begin()
-        {
+        public abstract void Begin();
 
-        }
+        public abstract void FixedUpdate();
 
-        public virtual void Update()
-        {
-
-        }
-
-        public virtual void End()
-        {
-
-        }
+        public abstract void End();
 
     }
 }

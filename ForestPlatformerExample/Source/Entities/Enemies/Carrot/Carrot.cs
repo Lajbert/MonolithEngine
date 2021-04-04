@@ -30,10 +30,6 @@ namespace ForestPlatformerExample.Source.Enemies
     class Carrot : AbstractEnemy
     {
 
-        public float DefaultSpeed= 0.01f;
-
-        public float CurrentSpeed = 0.01f;
-
         //private Direction CurrentFaceDirection;
 
         //private int direction = 1;
@@ -91,7 +87,7 @@ namespace ForestPlatformerExample.Source.Enemies
                 }
                 else
                 {
-                    CurrentSpeed = 0;
+                    CurrentSpeed = 0.001f;
                 }
             }
             moveLeft.EveryFrameAction = setSpeed;
@@ -187,6 +183,7 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 GetComponent<CarrotAIStateMachine>().ChangeState<CarrotPatrolState>();
             }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)

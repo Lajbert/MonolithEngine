@@ -12,6 +12,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
 {
     abstract class AbstractEnemy : PhysicalEntity, IAttackable
     {
+        public int MoveDirection = 1;
+
+        public float DefaultSpeed = 0.05f;
+
+        public float CurrentSpeed = 0.05f;
 
         public AbstractEnemy(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {

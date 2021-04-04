@@ -129,6 +129,15 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HeroPickup", "ForestAssets/Characters/Hero/main-character@pick-up-sheet");
             Assets.LoadTexture("HeroSlide", "ForestAssets/Characters/Hero/main-character@slide-sheet");
 
+            Assets.LoadTexture("TrunkAttack", "ForestAssets/Characters/Trunk/Attack (64x32)");
+            Assets.LoadTexture("TrunkBulletPieces", "ForestAssets/Characters/Trunk/Bullet Pieces");
+            Assets.LoadTexture("TrunkBullet", "ForestAssets/Characters/Trunk/Bullet");
+            Assets.LoadTexture("TrunkHit", "ForestAssets/Characters/Trunk/Hit (64x32)");
+            Assets.LoadTexture("TrunkIdle", "ForestAssets/Characters/Trunk/Idle (64x32)");
+            Assets.LoadTexture("TrunkRun", "ForestAssets/Characters/Trunk/Run (64x32)");
+
+            // Sounds
+
             Assets.LoadSoundEffect("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true);
             Assets.LoadSoundEffect("SpringBounceSound", "ForestAssets/Audio/spring");
             Assets.LoadSoundEffect("JumpSound", "ForestAssets/Audio/jump2");
