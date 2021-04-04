@@ -24,6 +24,10 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         public override void FixedUpdate()
         {
+            if (controlledEntity.IsAttacking)
+            {
+                return;
+            }
             AIUtil.Patrol(true, controlledEntity);
         }
     }

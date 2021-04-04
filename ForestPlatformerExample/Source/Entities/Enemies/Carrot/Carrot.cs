@@ -267,7 +267,6 @@ namespace ForestPlatformerExample.Source.Enemies
                 hero = otherEntity as Hero;
             }
             
-            base.OnEnterTrigger(triggerTag, otherEntity);
         }
 
         public override void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
@@ -277,7 +276,6 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 hero = null;
             }
-            base.OnLeaveTrigger(triggerTag, otherEntity);
         }
     }
 }
