@@ -23,6 +23,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         public Hero Target;
 
+        public bool turnedLeft = true;
+
         public Trunk(AbstractScene scene, Vector2 position, Direction currentFaceDirection) : base(scene, position)
         {
             CurrentFaceDirection = currentFaceDirection;
@@ -61,9 +63,13 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
                 SpawnBullet();
             });
             attackLeft.Looping = false;
+            attackLeft.StartedCallback = () => turnedLeft = true;
+            attackLeft.StoppedCallback = () => turnedLeft = false;
             Animations.RegisterAnimation("AttackLeft", attackLeft, () => false);
 
             SpriteSheetAnimation attackRight = attackLeft.CopyFlipped();
+            attackRight.StartedCallback = () => turnedLeft = false;
+            attackRight.StoppedCallback = () => turnedLeft = true;
             Animations.RegisterAnimation("AttackRight", attackRight, () => false);
 
             SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkHit"), 1, 18, 18, 64, 32, 24);
@@ -98,13 +104,13 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         private void SpawnBullet()
         {
-            if (CurrentFaceDirection == Direction.EAST)
+            if (turnedLeft)
             {
-                new Bullet(Scene, Transform.Position + new Vector2(14, -4), new Vector2(0.3f, 0));
+                new Bullet(Scene, Transform.Position - new Vector2(29, 4), new Vector2(-0.3f, 0));
             } 
             else
             {
-                new Bullet(Scene, Transform.Position - new Vector2(29, 4), new Vector2(-0.3f, 0));
+                new Bullet(Scene, Transform.Position + new Vector2(14, -4), new Vector2(0.3f, 0));
             }
         }
 

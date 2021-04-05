@@ -29,7 +29,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
             CircleCollisionComponent collider = new CircleCollisionComponent(this, 3, new Vector2(8, 8));
             AddComponent(collider);
-
+            CheckGridCollisions = false;
             HorizontalFriction = 0;
             VerticalFriction = 0;
             HasGravity = false;
