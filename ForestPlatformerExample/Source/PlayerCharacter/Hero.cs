@@ -39,7 +39,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
     {
 
         private readonly float JUMP_RATE = 0.1f;
-        private readonly float SLIDE_FORCE = 3f;
+        private readonly float SLIDE_FORCE = 1f;
         private static double lastJump = 0f;
         private bool doubleJumping = false;
 
@@ -632,7 +632,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             isSliding = true;
             canAttack = false;
-            HorizontalFriction = 0.7f;
+            HorizontalFriction = 0.9f;
             if (CurrentFaceDirection == Direction.EAST)
             {
                 VelocityX = SLIDE_FORCE;

@@ -60,7 +60,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
 #if DEBUG
             AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
-            DEBUG_SHOW_PIVOT = true;
+            //DEBUG_SHOW_PIVOT = true;
 #else
             AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision"));
 #endif
