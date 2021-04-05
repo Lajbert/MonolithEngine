@@ -255,9 +255,13 @@ namespace MonolithEngine.Engine.Source.Physics
 
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
+                if (thisEntity.IsDestroyed)
+                {
+                    continue;
+                }
                 foreach (IColliderEntity otherObject in collisions[thisEntity].Keys.ToList())
                 {
-                    if (thisEntity.Equals(otherObject))
+                    if (thisEntity.Equals(otherObject) || !otherObject.CollisionsEnabled)
                     {
                         continue;
                     }
@@ -275,6 +279,10 @@ namespace MonolithEngine.Engine.Source.Physics
 
             foreach (IHasTrigger thisEntity in triggers.Keys)
             {
+                if (thisEntity.IsDestroyed)
+                {
+                    continue;
+                }
                 foreach (string tag in triggers[thisEntity].Keys)
                 {
                     foreach (IHasTrigger otherEntity in triggers[thisEntity][tag].Keys.ToList())

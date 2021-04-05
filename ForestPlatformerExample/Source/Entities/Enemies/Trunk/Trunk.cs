@@ -4,9 +4,11 @@ using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Entities.Abstract;
 using MonolithEngine.Engine.Source.Entities.Animations;
+using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Physics.Trigger;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Global;
 using MonolithEngine.Source.Entities;
 using MonolithEngine.Util;
 using System;
@@ -19,26 +21,37 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
     {
         public bool IsAttacking = false;
 
+        private bool canAttack = true;
+
         private TrunkAIStateMachine AI;
 
         public Hero Target;
 
         public bool turnedLeft = true;
 
+        private int health = 2;
+
         public Trunk(AbstractScene scene, Vector2 position, Direction currentFaceDirection) : base(scene, position)
         {
             CurrentFaceDirection = currentFaceDirection;
 
             AnimationStateMachine Animations = new AnimationStateMachine();
+            Animations.Offset = new Vector2(0, -16);
+            
+            CollisionOffsetBottom = 1;
+
             AddComponent(Animations);
             AI = new TrunkAIStateMachine(new TrunkPatrolState(this));
             AI.AddState(new TrunkAttackState(this));
             AddComponent(AI);
 
+            AddComponent(new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -24)));
 #if DEBUG
-            AddComponent(new BoxTrigger(512, 256, new Vector2(-256, -128), showTrigger: true));
+            //DEBUG_SHOW_PIVOT = true;
+            AddComponent(new BoxTrigger(512, 256, new Vector2(-256, -144), showTrigger: true));
+            //(GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #else
-            AddComponent(new BoxTrigger(256, 256, new Vector2(-256, -128)));
+            AddComponent(new BoxTrigger(512, 256, new Vector2(-256, -144)));
 #endif
 
             /*
@@ -72,7 +85,10 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             attackRight.StoppedCallback = () => turnedLeft = true;
             Animations.RegisterAnimation("AttackRight", attackRight, () => false);
 
-            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkHit"), 1, 18, 18, 64, 32, 24);
+            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkHit"), 1, 5, 5, 64, 32, 24);
+            hitLeft.Looping = false;
+            hitLeft.StartedCallback = () => canAttack = false;
+            hitLeft.StoppedCallback = () => canAttack = true;
             Animations.RegisterAnimation("HitLeft", hitLeft, () => false);
 
             SpriteSheetAnimation hitRight = hitLeft.CopyFlipped();
@@ -84,12 +100,31 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         public override void Hit(Direction impactDireciton)
         {
-            
+            if (health == 0)
+            {
+                Destroy();
+                return;
+            }
+
+            health--;
+            PlayHurtAnimation();
+        }
+
+        private void PlayHurtAnimation()
+        {
+            if (CurrentFaceDirection == Direction.WEST)
+            {
+                GetComponent<AnimationStateMachine>().PlayAnimation("HitLeft");
+            }
+            else 
+            {
+                GetComponent<AnimationStateMachine>().PlayAnimation("HitRight");
+            }
         }
 
         public void Shoot()
         {
-            if (Timer.IsSet("TrunkShooting"))
+            if (Timer.IsSet("TrunkShooting") || !canAttack)
             {
                 return;
             }
@@ -106,11 +141,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
         {
             if (turnedLeft)
             {
-                new Bullet(Scene, Transform.Position - new Vector2(29, 4), new Vector2(-0.3f, 0));
+                new Bullet(Scene, Transform.Position - new Vector2(29, 20), new Vector2(-0.3f, 0));
             } 
             else
             {
-                new Bullet(Scene, Transform.Position + new Vector2(14, -4), new Vector2(0.3f, 0));
+                new Bullet(Scene, Transform.Position + new Vector2(14, -20), new Vector2(0.3f, 0));
             }
         }
 

@@ -54,14 +54,13 @@ namespace ForestPlatformerExample.Source.Enemies
             GetComponent<CarrotAIStateMachine>().AddState(new CarrotChaseState(this));
             GetComponent<CarrotAIStateMachine>().AddState(new CarrotIdleState(this));
 
-            //DEBUG_SHOW_PIVOT = true;
-
             //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
 #if DEBUG
             AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
+            DEBUG_SHOW_PIVOT = true;
 #else
             AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision"));
 #endif
@@ -220,6 +219,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             health--;
             PlayHurtAnimation();
+            Assets.PlaySoundEffect("CarrotJumpHurtSound");
             if (impactDirection == Direction.NORTH)
             {
                 CurrentSpeed = 0;

@@ -31,6 +31,7 @@ using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
 using Microsoft.Xna.Framework.Audio;
+using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 
 namespace ForestPlatformerExample.Source.PlayerCharacter
 {
@@ -816,21 +817,18 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public override void OnCollisionStart(IGameObject otherCollider)
         {
-            if (otherCollider is Carrot)
+            if (otherCollider.HasTag("Enemy"))
             {
                 overlappingEnemies.Add(otherCollider);
 
                 if (!isSliding)
                 {
-                    (otherCollider as Carrot).OverlapsWithHero = true;
-
                     float angle = MathUtil.DegreeFromVectors(Transform.Position, otherCollider.Transform.Position);
-                    if (angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
+                    if (Velocity.Y > 0 && angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                     {
-                        Assets.PlaySoundEffect("CarrotJumpHurtSound");
                         Bump(new Vector2(0, -1.5f));
                         FallSpeed = 0;
-                        (otherCollider as Carrot).Hit(Direction.NORTH);
+                        (otherCollider as AbstractEnemy).Hit(Direction.NORTH);
                         Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
                         canJump = false;
                         canDoubleJump = true;
@@ -845,6 +843,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
                         Hit(otherCollider);
 
+                    }
+                    if (otherCollider is Carrot)
+                    {
+                        (otherCollider as Carrot).OverlapsWithHero = true;
                     }
                 }
             }
@@ -931,9 +933,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 (otherCollider as StaticCollider).BlocksMovement = true;
             }*/
-            else if (otherCollider is Carrot)
+            else if (otherCollider.HasTag("Enemy"))
             {
-                (otherCollider as Carrot).OverlapsWithHero = false;
+                if (otherCollider is Carrot)
+                {
+                    (otherCollider as Carrot).OverlapsWithHero = false;
+                }
+                
                 overlappingEnemies.Remove(otherCollider);
             }
             base.OnCollisionEnd(otherCollider);

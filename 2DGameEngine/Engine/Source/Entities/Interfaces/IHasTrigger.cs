@@ -8,6 +8,8 @@ namespace MonolithEngine.Engine.Source.Entities.Interfaces
 {
     public interface IHasTrigger : IGameObject
     {
+        public bool IsDestroyed { get; }
+
         public ICollection<ITrigger> GetTriggers();
 
         public bool CanFireTriggers { get; set; }

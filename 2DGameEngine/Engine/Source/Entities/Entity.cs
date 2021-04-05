@@ -36,6 +36,11 @@ namespace MonolithEngine.Entities
 
         private Vector2 drawPosition = Vector2.Zero;
 
+        public bool IsDestroyed { get {
+                return Destroyed || BeingDestroyed;
+            } 
+        }
+
         public Vector2 DrawPosition {
             get {
                 if (Parent == null)
