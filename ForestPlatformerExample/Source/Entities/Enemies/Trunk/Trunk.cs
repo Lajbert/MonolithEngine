@@ -50,7 +50,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleRight", idleRight, () => Velocity.X == 0 && CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkRun"), 1, 18, 18, 64, 32, 24);
+            SpriteSheetAnimation runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkRun"), 1, 14, 14, 64, 32, 24);
             Animations.RegisterAnimation("RunLeft", runLeft, () => Velocity.X < 0);
 
             SpriteSheetAnimation runRight = runLeft.CopyFlipped();
