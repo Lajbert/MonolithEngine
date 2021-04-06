@@ -40,7 +40,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.GRAVITY_ON = true;
             Config.GRAVITY_FORCE = 0.3f;
             //Config.ZOOM = 2f;
-            Config.CHARACTER_SPEED = 1f;
+            Config.CHARACTER_SPEED = 0.7f;
             Config.JUMP_FORCE = 1.5f;
             Config.INCREASING_GRAVITY = true;
 

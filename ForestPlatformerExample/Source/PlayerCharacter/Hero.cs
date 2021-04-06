@@ -442,7 +442,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     if (!isSliding)
                     {
-                        VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                        VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
                     if (VelocityX > 0.1)
                     {
@@ -452,7 +452,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     if (!isSliding)
                     {
-                        VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                        VelocityX += MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
                     CurrentFaceDirection = Direction.EAST;
                 }
@@ -465,7 +465,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     if (!isSliding)
                     {
-                        VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                        VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
                     if (VelocityX < -0.1)
                     {
@@ -475,7 +475,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     if (!isSliding)
                     {
-                        VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                        VelocityX -= MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
                     CurrentFaceDirection = Direction.WEST;
                 }
@@ -573,11 +573,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 if (thumbStickPosition.Y != 0)
                 {
-                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                 } 
                 else
                 {
-                    VelocityY += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    VelocityY += MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                 }
                 //CurrentFaceDirection = GridDirection.DOWN;
             });
@@ -590,11 +590,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
                 if (thumbStickPosition.Y != 0)
                 {
-                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                 }
                 else
                 {
-                    VelocityY -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                    VelocityY -= MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                 }
                 //CurrentFaceDirection = GridDirection.UP;
             });

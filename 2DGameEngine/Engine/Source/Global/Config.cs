@@ -7,7 +7,7 @@ namespace MonolithEngine.Global
 {
     public class Config
     {
-        public static float CHARACTER_SPEED = 1;
+        public static float CHARACTER_SPEED = 1f;
         public static float ZOOM = 1f;
         public static int   GRID = 16;
         public static float HORIZONTAL_FRICTION = 0.4f;
@@ -23,7 +23,7 @@ namespace MonolithEngine.Global
         public static float SPRITE_DRAW_OFFSET = 0f;
         public static float SPRITE_COLLISION_OFFSET = 0f;
 
-        public static float TIME_OFFSET = 10;
+        public static float TIME_OFFSET = 0.1f;
         public static int FIXED_UPDATE_FPS = 30;
         public static int PIVOT_RADIUS = 10;
 
