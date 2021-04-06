@@ -19,5 +19,7 @@ namespace MonolithEngine.Engine.Source.Entities.Abstract
         public void AddChild(IGameObject gameObject);
 
         public void RemoveChild(IGameObject gameObject);
+
+        public void Destroy();
     }
 }

@@ -169,9 +169,9 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         public override void OnCollisionStart(IGameObject otherCollider)
         {
-            if (otherCollider is Carrot && IsMovingAtLeast(0.5f))
+            if (otherCollider.HasTag("Enemy") && IsMovingAtLeast(0.5f))
             {
-                (otherCollider as Carrot).Destroy();
+                otherCollider.Destroy();
                 Explode();
             }
             base.OnCollisionStart(otherCollider);
