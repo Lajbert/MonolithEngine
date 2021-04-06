@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonolithEngine;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Level;
 using MonolithEngine.Engine.Source.MyGame;
@@ -138,20 +139,19 @@ namespace ForestPlatformerExample.Source
 
             // Sounds
 
-            Assets.LoadSoundEffect("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true);
-            Assets.LoadSoundEffect("SpringBounceSound", "ForestAssets/Audio/spring");
-            Assets.LoadSoundEffect("JumpSound", "ForestAssets/Audio/jump2");
-            Assets.GetSoundEffect("JumpSound").Volume = 0.5f;
-            Assets.LoadSoundEffect("BoxBounceSound", "ForestAssets/Audio/box_bounce");
-            Assets.LoadSoundEffect("CoinPickupSound", "ForestAssets/Audio/coin_pickup");
-            Assets.LoadSoundEffect("HeroHurtSound", "ForestAssets/Audio/hero_hurt");
-            Assets.LoadSoundEffect("CarrotJumpHurtSound", "ForestAssets/Audio/carrot_jump_hurt");
-            Assets.LoadSoundEffect("BoxExplosionSound", "ForestAssets/Audio/box_explosion");
-            Assets.LoadSoundEffect("FastFootstepsSound", "ForestAssets/Audio/footsteps", true);
-            Assets.LoadSoundEffect("SlowFootstepsSound", "ForestAssets/Audio/footsteps_slow", true);
-            Assets.LoadSoundEffect("CarrotExplodeSound", "ForestAssets/Audio/carrot_explode");
-            Assets.LoadSoundEffect("MenuHover", "ForestAssets/Audio/menu_hover");
-            Assets.LoadSoundEffect("MenuSelect", "ForestAssets/Audio/menu_select");
+            AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC);
+            AudioEngine.AddSound("SpringBounceSound", "ForestAssets/Audio/spring");
+            AudioEngine.AddSound("JumpSound", "ForestAssets/Audio/jump2", maxVolume: 0.5f);
+            AudioEngine.AddSound("BoxBounceSound", "ForestAssets/Audio/box_bounce");
+            AudioEngine.AddSound("CoinPickupSound", "ForestAssets/Audio/coin_pickup");
+            AudioEngine.AddSound("HeroHurtSound", "ForestAssets/Audio/hero_hurt");
+            AudioEngine.AddSound("CarrotJumpHurtSound", "ForestAssets/Audio/carrot_jump_hurt");
+            AudioEngine.AddSound("BoxExplosionSound", "ForestAssets/Audio/box_explosion");
+            AudioEngine.AddSound("FastFootstepsSound", "ForestAssets/Audio/footsteps", true);
+            AudioEngine.AddSound("SlowFootstepsSound", "ForestAssets/Audio/footsteps_slow", true);
+            AudioEngine.AddSound("CarrotExplodeSound", "ForestAssets/Audio/carrot_explode");
+            AudioEngine.AddSound("MenuHover", "ForestAssets/Audio/menu_hover");
+            AudioEngine.AddSound("MenuSelect", "ForestAssets/Audio/menu_select");
 
             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();

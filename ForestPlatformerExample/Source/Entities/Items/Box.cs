@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 
 namespace ForestPlatformerExample.Source.Entities.Items
 {
@@ -145,7 +146,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private void Pop()
         {
-            Assets.PlaySoundEffect("BoxExplosionSound");
+            AudioEngine.Play("BoxExplosionSound");
             foreach (Coin c in coins)
             {
                 c.Parent = null;

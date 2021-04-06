@@ -20,12 +20,12 @@ using MonolithEngine.Source.GridCollision;
 using MonolithEngine.Source.Util;
 using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Audio;
 
 namespace MonolithEngine.Entities
 {

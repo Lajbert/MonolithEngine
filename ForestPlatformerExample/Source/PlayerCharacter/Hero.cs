@@ -30,8 +30,8 @@ using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
-using Microsoft.Xna.Framework.Audio;
 using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
+using MonolithEngine.Engine.Source.Audio;
 
 namespace ForestPlatformerExample.Source.PlayerCharacter
 {
@@ -186,12 +186,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 24);
             runningRight.StartedCallback = () =>
             {
-                Assets.GetSoundEffect("FastFootstepsSound").Play();
+                AudioEngine.Play("FastFootstepsSound");
             };
 
             runningRight.StoppedCallback = () =>
             {
-                Assets.GetSoundEffect("FastFootstepsSound").Stop();
+                AudioEngine.Stop("FastFootstepsSound");
             };
 
             bool isRunningRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
@@ -204,12 +204,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
             walkingLeft.StartedCallback = () =>
             {
-                Assets.GetSoundEffect("SlowFootstepsSound").Play();
+                AudioEngine.Play("SlowFootstepsSound");
             };
 
             walkingLeft.StoppedCallback = () =>
             {
-                Assets.GetSoundEffect("SlowFootstepsSound").Stop();
+                AudioEngine.Stop("SlowFootstepsSound");
             };
             bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST);
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
@@ -224,12 +224,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 24);
             runningCarryRight.StartedCallback = () =>
             {
-                Assets.GetSoundEffect("FastFootstepsSound").Play();
+                AudioEngine.Play("FastFootstepsSound");
             };
 
             runningCarryRight.StoppedCallback = () =>
             {
-                Assets.GetSoundEffect("FastFootstepsSound").Stop();
+                AudioEngine.Stop("FastFootstepsSound");
             };
             bool isRunningCarryRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
             runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; };
@@ -257,12 +257,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 12, SpriteEffects.FlipHorizontally);
             walkingCarryLeft.StartedCallback = () =>
             {
-                Assets.GetSoundEffect("SlowFootstepsSound").Play();
+                AudioEngine.Play("SlowFootstepsSound");
             };
 
             walkingCarryLeft.StoppedCallback = () =>
             {
-                Assets.GetSoundEffect("SlowFootstepsSound").Stop();
+                AudioEngine.Stop("SlowFootstepsSound");
             };
             bool isCarryWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
@@ -518,7 +518,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 jumpModifier = Vector2.Zero;
                 FallSpeed = (float)Globals.GameTime.TotalGameTime.TotalSeconds;
-                Assets.PlaySoundEffect("JumpSound");
+                AudioEngine.Play("JumpSound");
 
             }, true);
 
@@ -771,7 +771,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private void Hit(IGameObject otherCollider, bool usePositionCheck = true)
         {
-            Assets.PlaySoundEffect("HeroHurtSound");
+            AudioEngine.Play("HeroHurtSound");
             DropCurrentItem();
             UserInput.ControlsDisabled = true;
             Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
@@ -863,13 +863,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is Coin)
             {
-                Assets.PlaySoundEffect("CoinPickupSound");
+                AudioEngine.Play("CoinPickupSound");
                 (otherCollider as Coin).Destroy();
                 ForestPlatformerGame.CoinCount++;
             }
             else if (otherCollider is Box && VelocityY > 0 && (otherCollider as Box).Velocity == Vector2.Zero && Transform.Y < otherCollider.Transform.Y)
             {
-                Assets.PlaySoundEffect("BoxBounceSound");
+                AudioEngine.Play("BoxBounceSound");
                 Bump(new Vector2(0, -1.5f));
                 FallSpeed = 0;
                 (otherCollider as Box).Hit(Direction.CENTER);

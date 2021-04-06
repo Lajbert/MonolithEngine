@@ -5,7 +5,7 @@ using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+using MonolithEngine.Engine.Source.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine;
 using MonolithEngine.Engine.Source.Asset;
@@ -32,7 +32,6 @@ namespace ForestPlatformerExample.Source.Scenes
         private Hero hero;
         private SpriteFont font;
         private List<GameObject> objects;
-        private SoundEffectInstance backgroundMusic;
 
         public Level1Scene(SpriteFont spriteFont) : base ("Level1", useLoadingScreen: true)
         {
@@ -153,13 +152,11 @@ namespace ForestPlatformerExample.Source.Scenes
             (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #endif
 
-            backgroundMusic = Assets.GetSoundEffect("Level1Music");
-
         }
 
         public override void OnEnd()
         {
-            backgroundMusic.Pause();
+            AudioEngine.Pause("Level1Music");
         }
 
         public override void OnStart()
@@ -167,7 +164,7 @@ namespace ForestPlatformerExample.Source.Scenes
             Camera.TrackTarget(hero, true);
             ForestPlatformerGame.Paused = false;
             ForestPlatformerGame.WasGameStarted = true;
-            backgroundMusic.Play();
+            AudioEngine.Play("Level1Music");
         }
 
     }

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using MonolithEngine.Global;
-using Microsoft.Xna.Framework.Audio;
+using MonolithEngine.Engine.Source.Audio;
 
 namespace MonolithEngine.Engine.Source.UI
 {
@@ -22,9 +22,13 @@ namespace MonolithEngine.Engine.Source.UI
 
         public Action OnClick;
 
-        public SoundEffectInstance HoverSound;
+        public Action HoverStartedAction;
 
-        public SoundEffectInstance SelectSound;
+        public Action HoverStoppedAction;
+
+        public string HoverSoundEffectName;
+
+        public string SelectSoundEffectName;
 
         public SelectableImage(Texture2D texture, Texture2D selectedImage = null, Vector2 position = default, Rectangle sourceRectangle = default, float scale = 1f, float rotation = 0f, int depth = 1, Color color = default) : base (texture, position, sourceRectangle, scale, rotation, depth, color)
         {
@@ -73,13 +77,21 @@ namespace MonolithEngine.Engine.Source.UI
             {
                 if (!IsHoveredOver)
                 {
-                    HoverSound?.Play();
+                    if (HoverSoundEffectName != null)
+                    {
+                        AudioEngine.Play(HoverSoundEffectName);
+                    }
+                    HoverStartedAction?.Invoke();
                 }
                 IsHoveredOver = true;
                 userInterface.SelectElement(this);
             } 
             else
             {
+                if (IsHoveredOver)
+                {
+                    HoverStoppedAction?.Invoke();
+                }
                 IsHoveredOver = false;
                 userInterface.DeselectElement(this);
             }
@@ -87,7 +99,10 @@ namespace MonolithEngine.Engine.Source.UI
 
         void SelectableUIElement.OnClick()
         {
-            SelectSound?.Play();
+            if (SelectSoundEffectName != null)
+            {
+                AudioEngine.Play(SelectSoundEffectName);
+            }
             OnClick.Invoke();
         }
 

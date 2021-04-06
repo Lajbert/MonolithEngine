@@ -13,6 +13,7 @@ using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Util;
+using MonolithEngine.Engine.Source.Audio;
 
 namespace ForestPlatformerExample.Source.Items
 {
@@ -52,7 +53,7 @@ namespace ForestPlatformerExample.Source.Items
         public void Bounce()
         {
             GetComponent<AnimationStateMachine>().PlayAnimation("Bounce");
-            Assets.PlaySoundEffect("SpringBounceSound");
+            AudioEngine.Play("SpringBounceSound");
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+using MonolithEngine.Engine.Source.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using MonolithEngine.Engine.Source.Util;
@@ -14,10 +14,6 @@ namespace MonolithEngine.Engine.Source.Asset
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
         private static Dictionary<string, List<Texture2D>> textureGroups = new Dictionary<string, List<Texture2D>>();
-
-        private static Dictionary<string, SoundEffectInstance> soundEffects = new Dictionary<string, SoundEffectInstance>();
-
-        private static Dictionary<string, Song> songs = new Dictionary<string, Song>();
 
         public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false)
         {
@@ -60,45 +56,6 @@ namespace MonolithEngine.Engine.Source.Asset
         {
             LoadTextureGroup(name, paths);
             return textureGroups[name];
-        }
-
-        public static void LoadSoundEffect(string name, string path, bool isLooped = false)
-        {
-            SoundEffectInstance instance = AssetUtil.LoadSoundEffect(path).CreateInstance();
-            instance.IsLooped = isLooped;
-            soundEffects[name] = instance;
-        }
-
-        public static void LoadSong(string name, string path)
-        {
-            songs[name] = AssetUtil.LoadSong(path);
-        }
-
-        public static SoundEffectInstance GetSoundEffect(string name)
-        {
-            return soundEffects[name];
-        }
-
-        public static void PlaySoundEffect(string name, bool waitForFinish = false)
-        {
-            if (waitForFinish)
-            {
-                soundEffects[name].Play();
-            } else
-            {
-                SoundEffectInstance instance = soundEffects[name];
-                SoundState currentState = instance.State;
-                if (currentState == SoundState.Playing)
-                {
-                    instance.Stop();
-                }
-                instance.Play();
-            }
-        }
-
-        public static Song GetSong(string name)
-        {
-            return songs[name];
         }
 
         public static Texture2D CreateRectangle(int size, Color color)

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 
 namespace ForestPlatformerExample.Source.Enemies
 {
@@ -219,7 +220,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
             health--;
             PlayHurtAnimation();
-            Assets.PlaySoundEffect("CarrotJumpHurtSound");
+            AudioEngine.Play("CarrotJumpHurtSound");
             if (impactDirection == Direction.NORTH)
             {
                 CurrentSpeed = 0;
@@ -244,7 +245,7 @@ namespace ForestPlatformerExample.Source.Enemies
 
         public override void Destroy()
         {
-            Assets.PlaySoundEffect("CarrotExplodeSound");
+            AudioEngine.Play("CarrotExplodeSound");
             base.Destroy();
         }
 
