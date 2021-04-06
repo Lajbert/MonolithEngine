@@ -104,8 +104,6 @@ namespace MonolithEngine.Engine.Source.Audio
         private class AudioEntry
         {
 
-            public string Name;
-
             public AudioTag Tag;
 
             public SoundEffectInstance SoundEffect;
@@ -118,6 +116,7 @@ namespace MonolithEngine.Engine.Source.Audio
             {
                 Tag = tag;
                 SoundEffect = soundEffect;
+                SoundEffect.Volume = maxVolume;
                 IsMuted = isMuted;
                 MaxVolume = maxVolume;
             }
