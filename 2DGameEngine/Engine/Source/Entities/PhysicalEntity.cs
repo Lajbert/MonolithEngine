@@ -31,12 +31,6 @@ namespace MonolithEngine
 
         protected UserInputController UserInput;
 
-        private float steps;
-        private float step;
-        private float steps2;
-        private float step2;
-        private float t;
-
         private Vector2 velocity = Vector2.Zero;
 
         public Vector2 Velocity
@@ -221,11 +215,11 @@ namespace MonolithEngine
                 }
             }
 
-            steps = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier));
-            step = (float)(Velocity.X + bump.X) * Globals.FixedUpdateMultiplier / steps;
-            while (steps > 0)
+            float stepsX = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier));
+            float stepX = (float)(Velocity.X + bump.X) * Globals.FixedUpdateMultiplier / stepsX;
+            while (stepsX > 0)
             {
-                Transform.InCellLocation.X += step;
+                Transform.InCellLocation.X += stepX;
 
                 if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
                 {
@@ -247,7 +241,7 @@ namespace MonolithEngine
                     Transform.InCellLocation.X++;
                     Transform.GridCoordinates.X--;
                 }
-                steps--;
+                stepsX--;
             }
             if (HorizontalFriction > 0)
             {
@@ -279,11 +273,11 @@ namespace MonolithEngine
                 FallSpeed = 0;
             }
 
-            steps2 = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier));
-            step2 = (float)(Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier / steps2;
-            while (steps2 > 0)
+            float stepsY = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier));
+            float stepY = (float)(Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier / stepsY;
+            while (stepsY > 0)
             {
-                Transform.InCellLocation.Y += step2;
+                Transform.InCellLocation.Y += stepY;
 
                 if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
                 {
@@ -316,7 +310,7 @@ namespace MonolithEngine
                     Transform.InCellLocation.Y++;
                     Transform.GridCoordinates.Y--;
                 }
-                steps2--;
+                stepsY--;
             }
 
             if (VerticalFriction > 0)
@@ -334,26 +328,6 @@ namespace MonolithEngine
 
             if (Parent == null)
             {
-                /*if (Velocity.X == 0 && velocityAtUpdateStart.X != Velocity.X)
-                {
-                    Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                } else
-                {
-                    Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
-                }
-
-                if (Velocity.Y == 0 && velocityAtUpdateStart.Y != Velocity.Y)
-                {
-                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
-                }
-                else
-                {
-                    Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
-                }*/
-
-                //Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                //Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
-
                 Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
                 Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
             }
@@ -364,7 +338,7 @@ namespace MonolithEngine
         {
             if (Config.INCREASING_GRAVITY)
             {
-                t = (float)(Globals.GameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
+                float t = (float)(Globals.GameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
                 velocity.Y += GravityValue * t * Globals.FixedUpdateMultiplier;
             }
             else
