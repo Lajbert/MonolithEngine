@@ -530,7 +530,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     doubleJumping = true;
                 }
 
-                if (Math.Abs(Velocity.X) < 0.1 && MovementSpeed == Config.CHARACTER_SPEED)
+                if (DECREASED_AIR_MOBILITY && Math.Abs(Velocity.X) < 0.1 && MovementSpeed == Config.CHARACTER_SPEED)
                 {
                     MovementSpeed /= 2;
                 }
