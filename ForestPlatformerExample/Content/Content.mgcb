@@ -103,6 +103,24 @@
 /processorParam:Quality=Best
 /build:ForestAssets/Audio/spring.wav
 
+#begin ForestAssets/Audio/trunk_damage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/trunk_damage.wav
+
+#begin ForestAssets/Audio/trunk_death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/trunk_death.wav
+
+#begin ForestAssets/Audio/trunk_shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/trunk_shoot.wav
+
 #begin ForestAssets/Characters/Carrot/carrot@death-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor

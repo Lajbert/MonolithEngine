@@ -1,6 +1,7 @@
 ﻿using ForestPlatformerExample.Source.PlayerCharacter;
 using Microsoft.Xna.Framework;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Entities.Abstract;
 using MonolithEngine.Engine.Source.Entities.Animations;
@@ -30,6 +31,10 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
         public bool turnedLeft = true;
 
         private int health = 2;
+
+        private bool destroyed = false;
+
+        private float rotation = 0f;
 
         public Trunk(AbstractScene scene, Vector2 position, Direction currentFaceDirection) : base(scene, position)
         {
@@ -62,6 +67,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             */
 
             SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkIdle"), 1, 18, 18, 64, 32, 24);
+            idleLeft.Looping = true;
             Animations.RegisterAnimation("IdleLeft", idleLeft, () => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
@@ -104,12 +110,51 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
         {
             if (health == 0)
             {
+                
                 Destroy();
                 return;
             }
-
+            AudioEngine.Play("TrunkHit");
             health--;
             PlayHurtAnimation();
+        }
+
+        public override void Destroy()
+        {
+            destroyed = true;
+            if (CurrentFaceDirection == Direction.WEST)
+            {
+                GetComponent<AnimationStateMachine>().PlayAnimation("IdleLeft");
+            }
+            else
+            {
+                GetComponent<AnimationStateMachine>().PlayAnimation("IdleRight");
+            }
+            
+            AudioEngine.Play("TrunkDeath");
+            HorizontalFriction = .99f;
+            VerticalFriction = .99f;
+            int rand = MyRandom.Between(0, 10);
+            Vector2 bump = new Vector2(0.1f, -0.1f);
+            rotation = 0.1f;
+            if (rand % 2 == 0)
+            {
+                bump.X *= -1;
+                rotation *= -1;
+            }
+            CheckGridCollisions = false;
+            RemoveCollisions();
+            Velocity += bump;
+            Timer.TriggerAfter(3000, base.Destroy);
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            if (destroyed)
+            {
+                Transform.Rotation += rotation;
+            }
         }
 
         private void PlayHurtAnimation()
@@ -130,6 +175,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             {
                 return;
             }
+
             IsAttacking = true;
             Timer.SetTimer("TrunkShooting", 1500);
             Timer.TriggerAfter(1500, () =>
@@ -141,6 +187,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         private void SpawnBullet()
         {
+            AudioEngine.Play("TrunkShoot");
             if (turnedLeft)
             {
                 new Bullet(Scene, Transform.Position - new Vector2(29, 20), new Vector2(-0.3f, 0));
