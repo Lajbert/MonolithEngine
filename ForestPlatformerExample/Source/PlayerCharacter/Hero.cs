@@ -68,7 +68,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private List<IGameObject> overlappingEnemies = new List<IGameObject>(5);
 
         private bool isWallSliding = false;
-        private bool isSliding = false;
+        private bool isSliding {
+            get => slideDirection == Direction.EAST || slideDirection == Direction.WEST;
+        }
+        private Direction slideDirection = default;
 
         private Direction jumpDirection = default;
 
@@ -413,12 +416,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             };
             slideRight.StoppedCallback = () =>
             {
-                isSliding = false;
+                slideDirection = default;
                 canAttack = true;
                 HorizontalFriction = Config.HORIZONTAL_FRICTION;
             };
             slideRight.AnimationSwitchCallback = () => {
-                isSliding = false;
+                slideDirection = default;
                 canAttack = true;
                 HorizontalFriction = Config.HORIZONTAL_FRICTION;
             };
@@ -444,7 +447,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X > 0)
                 {
-                    if (!isSliding)
+                    if (slideDirection != Direction.EAST)
                     {
                         VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
@@ -454,7 +457,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
-                    if (!isSliding)
+                    if (slideDirection != Direction.EAST)
                     {
                         VelocityX += MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
@@ -475,7 +478,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X < -0)
                 {
-                    if (!isSliding)
+                    if (slideDirection != Direction.WEST)
                     {
                         VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
@@ -485,7 +488,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     }
                 } else if (thumbStickPosition.X == 0)
                 {
-                    if (!isSliding)
+                    if (slideDirection != Direction.WEST)
                     {
                         VelocityX -= MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
                     }
@@ -650,7 +653,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 return;
             }
-            isSliding = true;
+            slideDirection = CurrentFaceDirection;
             canAttack = false;
             HorizontalFriction = 0.9f;
             if (CurrentFaceDirection == Direction.EAST)
