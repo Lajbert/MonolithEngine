@@ -215,11 +215,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 AudioEngine.Stop("SlowFootstepsSound");
             };
-            bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST);
+            bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST);
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            bool isWalkingRight() => VelocityX > 0.1 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST);
+            bool isWalkingRight() => VelocityX > 0.01 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST);
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");

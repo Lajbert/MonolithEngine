@@ -23,7 +23,7 @@ namespace ForestPlatformerExample.Source.Weapons
     {
 
         private PhysicalEntity hero;
-        private Dictionary<IGameObject, bool> collidesWith = new Dictionary<IGameObject, bool>();
+        private List<IGameObject> collidesWith = new List<IGameObject>();
 
         public Fist(AbstractScene scene, Entity parent, Vector2 positionOffset) : base(scene.LayerManager.EntityLayer, parent, positionOffset)
         {
@@ -39,7 +39,7 @@ namespace ForestPlatformerExample.Source.Weapons
 
         public override void OnCollisionStart(IGameObject otherCollider)
         {
-            collidesWith.Add(otherCollider, true);
+            collidesWith.Add(otherCollider);
         }
 
         public override void OnCollisionEnd(IGameObject otherCollider)
@@ -73,13 +73,12 @@ namespace ForestPlatformerExample.Source.Weapons
                 }
             }*/
 
-            foreach (IGameObject other in collidesWith.Keys.ToList())
+            foreach (IGameObject other in collidesWith)
             {
-                if (collidesWith[other] && other is IAttackable)
+                if (other is IAttackable)
                 {
                     Direction direction = other.Transform.X < hero.Transform.X ? Direction.WEST : Direction.EAST;
                     (other as IAttackable).Hit(direction);
-                    collidesWith[other] = false;
                 }
             }
         }
