@@ -162,6 +162,8 @@ namespace MonolithEngine.Entities
 
         public bool CollisionsEnabled { get; set; } = true;
 
+        public float DrawRotation;
+
         public sealed override IGameObject Parent
         {
             get => base.Parent;

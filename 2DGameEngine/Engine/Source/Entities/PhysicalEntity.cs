@@ -104,6 +104,8 @@ namespace MonolithEngine
 
         private Vector2 previousPosition = Vector2.Zero;
 
+        private float previousRotation = 0f;
+
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
         {
             Transform = new DynamicTransform(this, startPosition);
@@ -169,6 +171,11 @@ namespace MonolithEngine
                 DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, Globals.FixedUpdateAlpha);
             }
 
+            if (previousRotation != Transform.Rotation)
+            {
+                DrawRotation = MathUtil.LerpRotationDegrees(previousRotation, Transform.Rotation, Globals.FixedUpdateAlpha);
+            }
+
             base.Update();
         }
 
@@ -181,6 +188,8 @@ namespace MonolithEngine
             }
 
             previousPosition = Transform.Position;
+
+            previousRotation = Transform.Rotation;
 
             if (leftCollider != null)
             {

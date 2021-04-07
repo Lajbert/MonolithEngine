@@ -59,5 +59,30 @@ namespace MonolithEngine.Source.Util
         {
 			return new Vector2((int)Math.Floor(position.X / Config.GRID), (int)Math.Floor(position.Y / Config.GRID));
 		}
-	}
+
+        public static float LerpRotationDegrees(float from, float to, float alpha)
+        {
+            if (alpha == 0) return from;
+            if (from == to || alpha == 1) return to;
+
+            Vector2 fromV = new Vector2((float)Math.Cos(from), (float)Math.Sin(from));
+            Vector2 toV = new Vector2((float)Math.Cos(to), (float)Math.Sin(to));
+
+            Vector2 interpolated = LerpRorationVectors(fromV, toV, alpha);
+
+            return (float)Math.Atan2(interpolated.Y, interpolated.X);
+        }
+
+        public static Vector2 LerpRorationVectors(Vector2 from, Vector2 to, float alpha)
+        {
+            if (alpha == 0) return from;
+            if (from == to || alpha == 1) return to;
+
+            double theta = Math.Acos(Vector2.Dot(from, to));
+            if (theta == 0) return to;
+
+            double sinTheta = Math.Sin(theta);
+            return (float)(Math.Sin((1 - alpha) * theta) / sinTheta) * from + (float)(Math.Sin(alpha * theta) / sinTheta) * to;
+        }
+    }
 }

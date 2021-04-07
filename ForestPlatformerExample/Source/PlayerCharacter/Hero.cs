@@ -40,6 +40,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private readonly float JUMP_RATE = 0.1f;
         private readonly float SLIDE_FORCE = 1f;
+        private readonly bool DECREASED_AIR_MOBILITY = false;
+
         private static double lastJump = 0f;
         private bool doubleJumping = false;
 
@@ -74,8 +76,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private Direction slideDirection = default;
 
         private Direction jumpDirection = default;
-
-        private bool keyReleasedInAir = false;
 
         public Hero(AbstractScene scene, Vector2 position, SpriteFont font = null) : base(scene.LayerManager.EntityLayer, null, position, font)
         {
@@ -469,9 +469,9 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             UserInput.RegisterKeyReleaseAction(Keys.Right, Buttons.LeftThumbstickRight, () =>
             {
-                if (jumpDirection == Direction.EAST)
+                if (DECREASED_AIR_MOBILITY && jumpDirection == Direction.EAST && MovementSpeed == Config.CHARACTER_SPEED)
                 {
-                    keyReleasedInAir = true;
+                    MovementSpeed /= 2;
                 }
             });
 
@@ -500,9 +500,9 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             UserInput.RegisterKeyReleaseAction(Keys.Left, Buttons.LeftThumbstickLeft, () =>
             {
-                if (jumpDirection == Direction.WEST)
+                if (DECREASED_AIR_MOBILITY && jumpDirection == Direction.WEST && MovementSpeed == Config.CHARACTER_SPEED)
                 {
-                    keyReleasedInAir = true;
+                    MovementSpeed /= 2;
                 }
             });
 
@@ -528,6 +528,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     lastJump = 0f;
                     canDoubleJump = false;
                     doubleJumping = true;
+                }
+
+                if (Math.Abs(Velocity.X) < 0.1 && MovementSpeed == Config.CHARACTER_SPEED)
+                {
+                    MovementSpeed /= 2;
                 }
 
                 VelocityY -= Config.JUMP_FORCE + jumpModifier.Y;
@@ -724,28 +729,25 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Hit(overlappingEnemies[0]);
             }
-            
-            if (!IsOnGround && (CurrentFaceDirection != jumpDirection || keyReleasedInAir) && MovementSpeed == Config.CHARACTER_SPEED)
-            {
-                MovementSpeed /= 2;
-                keyReleasedInAir = false;
-                //jumpDirection = CurrentFaceDirection;
-            }
 
             base.FixedUpdate();
         }
 
         protected override void OnLeaveGround()
         {
-            jumpDirection = CurrentFaceDirection;
-            Logger.Info("ONLEAVEGROUND");
+            if (DECREASED_AIR_MOBILITY)
+            {
+                jumpDirection = Velocity.X < 0 ? Direction.WEST : Direction.EAST;
+            }
         }
 
         protected override void OnLand()
         {
-            Logger.Info("ONLAND");
-            jumpDirection = default;
-            MovementSpeed = Config.CHARACTER_SPEED;
+            if (DECREASED_AIR_MOBILITY)
+            {
+                jumpDirection = default;
+                MovementSpeed = Config.CHARACTER_SPEED;
+            }
         }
 
         public override void Update()
