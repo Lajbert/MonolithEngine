@@ -12,5 +12,6 @@ namespace MonolithEngine.Engine.Source.Global
         public static GameTime GameTime;
         public static float NextTickTime = 0;
         public static float FixedUpdateAlpha;
+        public static TimeSpan FixedUpdateRate;
     }
 }
