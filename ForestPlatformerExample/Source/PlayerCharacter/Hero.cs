@@ -70,6 +70,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private bool isWallSliding = false;
         private bool isSliding = false;
 
+        private Direction jumpDirection = default;
+
+        private bool keyReleasedInAir = false;
+
         public Hero(AbstractScene scene, Vector2 position, SpriteFont font = null) : base(scene.LayerManager.EntityLayer, null, position, font)
         {
 
@@ -460,6 +464,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 //CurrentFaceDirection = Direction.RIGHT;
             });
 
+            UserInput.RegisterKeyReleaseAction(Keys.Right, Buttons.LeftThumbstickRight, () =>
+            {
+                if (jumpDirection == Direction.EAST)
+                {
+                    keyReleasedInAir = true;
+                }
+            });
+
             UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
                 if (thumbStickPosition.X < -0)
                 {
@@ -481,6 +493,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 fist.ChangeDirection();
                 //CurrentFaceDirection = Direction.LEFT;
+            });
+
+            UserInput.RegisterKeyReleaseAction(Keys.Left, Buttons.LeftThumbstickLeft, () =>
+            {
+                if (jumpDirection == Direction.WEST)
+                {
+                    keyReleasedInAir = true;
+                }
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) => {
@@ -701,7 +721,28 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Hit(overlappingEnemies[0]);
             }
+            
+            if (!IsOnGround && (CurrentFaceDirection != jumpDirection || keyReleasedInAir) && MovementSpeed == Config.CHARACTER_SPEED)
+            {
+                MovementSpeed /= 2;
+                keyReleasedInAir = false;
+                //jumpDirection = CurrentFaceDirection;
+            }
+
             base.FixedUpdate();
+        }
+
+        protected override void OnLeaveGround()
+        {
+            jumpDirection = CurrentFaceDirection;
+            Logger.Info("ONLEAVEGROUND");
+        }
+
+        protected override void OnLand()
+        {
+            Logger.Info("ONLAND");
+            jumpDirection = default;
+            MovementSpeed = Config.CHARACTER_SPEED;
         }
 
         public override void Update()

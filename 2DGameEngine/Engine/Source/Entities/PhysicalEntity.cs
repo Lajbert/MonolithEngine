@@ -81,10 +81,7 @@ namespace MonolithEngine
             set => velocity.Y = value;
         }
 
-        public bool IsOnGround
-        {
-            get => OnGround();
-        }
+        public bool IsOnGround;
 
         protected float HorizontalFriction = Config.HORIZONTAL_FRICTION;
         protected float VerticalFriction = Config.VERTICAL_FRICTION;
@@ -154,11 +151,6 @@ namespace MonolithEngine
             }
 
             base.PreUpdate();
-        }
-
-        protected virtual void OnLand()
-        {
-            //bump = Vector2.Zero;
         }
 
         public void Bump(Vector2 direction)
@@ -378,7 +370,25 @@ namespace MonolithEngine
 
         private bool OnGround()
         {
-            return mountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            bool onGround = mountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            if (onGround && !IsOnGround)
+            {
+                OnLand();
+            } else if (!onGround && IsOnGround)
+            {
+                OnLeaveGround();
+            }
+            IsOnGround = onGround;
+            return IsOnGround;
+        }
+
+        protected virtual void OnLeaveGround()
+        {
+            //bump = Vector2.Zero;
+        }
+        protected virtual void OnLand()
+        {
+            //bump = Vector2.Zero;
         }
 
         internal sealed override void HandleCollisionStart(IGameObject otherCollider, bool allowOverlap)
