@@ -61,6 +61,12 @@
 /processorParam:Quality=Best
 /build:ForestAssets/Audio/hero_hurt.wav
 
+#begin ForestAssets/Audio/hero_punch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/hero_punch.wav
+
 #begin ForestAssets/Audio/jump.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

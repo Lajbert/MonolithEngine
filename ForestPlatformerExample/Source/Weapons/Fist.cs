@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Audio;
 
 namespace ForestPlatformerExample.Source.Weapons
 {
@@ -49,10 +50,13 @@ namespace ForestPlatformerExample.Source.Weapons
 
         public void Attack()
         {
+            
             if (Timer.IsSet("IsAttacking"))
             {
                 return;
             }
+
+            AudioEngine.Play("HeroPunch");
             //canAttack = false;
             if (CurrentFaceDirection == Direction.WEST)
             {
