@@ -155,7 +155,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1) * 0.3f);
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
-            Scene.Camera.Shake(2f, 0.5f);
+            Scene.Camera.Shake();
             Destroy();
         }
 
@@ -178,7 +178,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             base.OnCollisionStart(otherCollider);
         }
 
-        protected override void OnLand()
+        protected override void OnLand(Vector2 velocity)
         {
             if (currentBump < 1)
             {

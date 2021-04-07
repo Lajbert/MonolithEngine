@@ -56,9 +56,8 @@ namespace ForestPlatformerExample.Source.Items
             //Pivot = new Vector2(5, 5);
         }
 
-        protected override void OnLand()
-        {
-            base.OnLand();
+        protected override void OnLand(Vector2 velocity)
+        {;
             if (BounceCount >= 0)
             {
                 Bump(new Vector2(0, -BounceCount));

@@ -83,6 +83,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_RAYCAST = true;
 
+            DrawPriority = 0;
+
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
             AddCollisionAgainst("Mountable", false);
@@ -729,7 +731,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Hit(overlappingEnemies[0]);
             }
-
             base.FixedUpdate();
         }
 
@@ -741,7 +742,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        protected override void OnLand()
+        protected override void OnLand(Vector2 velocity)
         {
             if (DECREASED_AIR_MOBILITY)
             {

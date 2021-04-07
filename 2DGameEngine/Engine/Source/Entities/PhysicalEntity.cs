@@ -289,12 +289,15 @@ namespace MonolithEngine
                 {
                     if (HasGravity)
                     {
+                        if (Velocity.Y > 0)
+                        {
+                            OnLand(Velocity);
+                        }
+                        
                         velocity.Y = 0;
                         bump.Y = 0;
                         Transform.InCellLocation.Y = CollisionOffsetBottom;
                     }
-                    OnLand();
-
                 }
 
                 if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
@@ -380,10 +383,7 @@ namespace MonolithEngine
         private bool OnGround()
         {
             bool onGround = mountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
-            if (onGround && !IsOnGround)
-            {
-                OnLand();
-            } else if (!onGround && IsOnGround)
+            if (!onGround && IsOnGround)
             {
                 OnLeaveGround();
             }
@@ -395,7 +395,7 @@ namespace MonolithEngine
         {
             //bump = Vector2.Zero;
         }
-        protected virtual void OnLand()
+        protected virtual void OnLand(Vector2 velocity)
         {
             //bump = Vector2.Zero;
         }
@@ -425,10 +425,15 @@ namespace MonolithEngine
                     {
                         if (otherBox.Position.Y > thisBox.Position.Y)
                         {
-                            VelocityY = 0;
-                            //HasGravity = false;
-                            mountedOn = otherCollider as PhysicalEntity;
-                            FallSpeed = 0;
+                            if (HasGravity)
+                            {
+                                OnLand(Velocity);
+                                VelocityY = 0;
+                                //HasGravity = false;
+                                mountedOn = otherCollider as PhysicalEntity;
+                                FallSpeed = 0;
+                            }
+
                             while (-distanceY < thisBox.Height - 1)
                             {
                                 Transform.InCellLocation.Y -= 0.01f;

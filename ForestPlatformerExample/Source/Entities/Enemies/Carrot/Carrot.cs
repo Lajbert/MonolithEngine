@@ -49,6 +49,8 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Orange));
 
+            DrawPriority = 1;
+
             AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -15)));
 
             AddComponent(new CarrotAIStateMachine(new CarrotPatrolState(this)));

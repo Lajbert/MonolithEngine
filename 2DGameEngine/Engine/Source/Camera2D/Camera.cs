@@ -25,6 +25,7 @@ namespace MonolithEngine.Source.Camera2D
 		private float shakePower = 1.5f;
 		private float shakeStarted = 0f;
 		private float shakeDuration = 0f;
+		private bool easedStop;
 
 		private bool SCROLL = true;
 
@@ -93,11 +94,12 @@ namespace MonolithEngine.Source.Camera2D
 			}
 		}
 
-		public void Shake(float power = 1, float duration = 1)
+		public void Shake(float power = 5, float duration = 300, bool easeOut = true)
         {
 			shakePower = power;
 			shakeDuration = duration;
 			shake = true;
+			easedStop = easeOut;
         }
 
 		public void Update()
@@ -151,8 +153,13 @@ namespace MonolithEngine.Source.Camera2D
 			if (shake)
 			{
 				shakeStarted += Globals.ElapsedTime;
-				position.X += (float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * 2.5 * shakePower * 0.5f);
-				position.Y += (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * 2.5 * shakePower * 0.5f);
+				float power = shakePower;
+				if (easedStop) {
+					float alpha = shakeStarted / shakeDuration;
+					power = MathHelper.Lerp(shakePower, 0, alpha);
+				}
+				position.X += (float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * power);
+				position.Y += (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * power);
 
 				if (shakeStarted > shakeDuration)
 				{
