@@ -215,50 +215,6 @@ namespace MonolithEngine
                 }
             }
 
-            float stepsX = (float)Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier));
-            float stepX = (float)(Velocity.X + bump.X) * Globals.FixedUpdateMultiplier / stepsX;
-            while (stepsX > 0)
-            {
-                Transform.InCellLocation.X += stepX;
-
-                if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
-                {
-                    Transform.InCellLocation.X = CollisionOffsetLeft;
-                }
-
-                if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
-                {
-                    Transform.InCellLocation.X = CollisionOffsetRight;
-                }
-
-                while (Transform.InCellLocation.X > 1)
-                {
-                    Transform.InCellLocation.X--;
-                    Transform.GridCoordinates.X++;
-                }
-                while (Transform.InCellLocation.X < 0)
-                {
-                    Transform.InCellLocation.X++;
-                    Transform.GridCoordinates.X--;
-                }
-                stepsX--;
-            }
-            if (HorizontalFriction > 0)
-            {
-                velocity.X *= (float)Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier);
-            }
-
-            if (BumpFriction > 0)
-            {
-                bump.X *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
-            }
-
-
-            //rounding stuff
-            if (Math.Abs(Velocity.X) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.X = 0;
-            if (Math.Abs(bump.X) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.X = 0;
-
-            // Y
             if (HasGravity && !OnGround())
             {
                 if (FallSpeed == 0)
@@ -273,58 +229,106 @@ namespace MonolithEngine
                 FallSpeed = 0;
             }
 
-            float stepsY = (float)Math.Ceiling(Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier));
-            float stepY = (float)(Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier / stepsY;
-            while (stepsY > 0)
-            {
-                Transform.InCellLocation.Y += stepY;
+            float steps = (float)(Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) + (Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier))));
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
+            if (steps > 0)
+            {
+                float stepX = (float)((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) / steps;
+                float stepY = (float)((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier) / steps;
+
+                while (steps > 0)
                 {
-                    if (HasGravity)
+                    Transform.InCellLocation.X += stepX;
+
+                    if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
                     {
-                        if (Velocity.Y > 0)
-                        {
-                            OnLand(Velocity);
-                        }
-                        
-                        velocity.Y = 0;
-                        bump.Y = 0;
-                        Transform.InCellLocation.Y = CollisionOffsetBottom;
+                        Transform.InCellLocation.X = CollisionOffsetLeft;
                     }
-                }
 
-                if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
-                {
-                    velocity.Y = 0;
-                    Transform.InCellLocation.Y = CollisionOffsetTop;
-                }
+                    if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
+                    {
+                        Transform.InCellLocation.X = CollisionOffsetRight;
+                    }
 
-                while (Transform.InCellLocation.Y > 1)
-                {
-                    Transform.InCellLocation.Y--;
-                    Transform.GridCoordinates.Y++;
+                    while (Transform.InCellLocation.X > 1)
+                    {
+                        Transform.InCellLocation.X--;
+                        Transform.GridCoordinates.X++;
+                    }
+                    while (Transform.InCellLocation.X < 0)
+                    {
+                        Transform.InCellLocation.X++;
+                        Transform.GridCoordinates.X--;
+                    }
+
+                    // Y
+
+                    Transform.InCellLocation.Y += stepY;
+
+                    if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
+                    {
+                        if (HasGravity)
+                        {
+                            if (Velocity.Y > 0)
+                            {
+                                OnLand(Velocity);
+                            }
+
+                            velocity.Y = 0;
+                            bump.Y = 0;
+                            Transform.InCellLocation.Y = CollisionOffsetBottom;
+                        }
+                    }
+
+                    if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
+                    {
+                        velocity.Y = 0;
+                        Transform.InCellLocation.Y = CollisionOffsetTop;
+                    }
+
+                    while (Transform.InCellLocation.Y > 1)
+                    {
+                        Transform.InCellLocation.Y--;
+                        Transform.GridCoordinates.Y++;
+                    }
+                    while (Transform.InCellLocation.Y < 0)
+                    {
+                        Transform.InCellLocation.Y++;
+                        Transform.GridCoordinates.Y--;
+                    }
+
+                    if (HorizontalFriction > 0)
+                    {
+                        velocity.X *= (float)Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier);
+                    }
+
+                    if (BumpFriction > 0)
+                    {
+                        bump.X *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
+                    }
+
+
+                    //rounding stuff
+                    if (Math.Abs(Velocity.X) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.X = 0;
+                    if (Math.Abs(bump.X) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.X = 0;
+
+                    if (VerticalFriction > 0)
+                    {
+                        velocity.Y *= (float)Math.Pow(VerticalFriction, Globals.FixedUpdateMultiplier);
+                    }
+                    if (BumpFriction > 0)
+                    {
+                        bump.Y *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
+                    }
+
+                    //rounding stuff
+                    if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
+                    if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
+
+                    steps--;
+
                 }
-                while (Transform.InCellLocation.Y < 0)
-                {
-                    Transform.InCellLocation.Y++;
-                    Transform.GridCoordinates.Y--;
-                }
-                stepsY--;
             }
-
-            if (VerticalFriction > 0)
-            {
-                velocity.Y *= (float)Math.Pow(VerticalFriction, Globals.FixedUpdateMultiplier);
-            }
-            if (BumpFriction > 0)
-            {
-                bump.Y *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
-            }
-
-            //rounding stuff
-            if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
-            if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
             if (Parent == null)
             {
