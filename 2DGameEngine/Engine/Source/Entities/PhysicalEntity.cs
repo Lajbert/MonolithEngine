@@ -297,38 +297,38 @@ namespace MonolithEngine
                         Transform.GridCoordinates.Y--;
                     }
 
-                    if (HorizontalFriction > 0)
-                    {
-                        velocity.X *= (float)Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier);
-                    }
-
-                    if (BumpFriction > 0)
-                    {
-                        bump.X *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
-                    }
-
-
-                    //rounding stuff
-                    if (Math.Abs(Velocity.X) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.X = 0;
-                    if (Math.Abs(bump.X) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.X = 0;
-
-                    if (VerticalFriction > 0)
-                    {
-                        velocity.Y *= (float)Math.Pow(VerticalFriction, Globals.FixedUpdateMultiplier);
-                    }
-                    if (BumpFriction > 0)
-                    {
-                        bump.Y *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
-                    }
-
-                    //rounding stuff
-                    if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
-                    if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
-
                     steps--;
 
                 }
             }
+
+            if (HorizontalFriction > 0)
+            {
+                velocity.X *= (float)Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier);
+            }
+
+            if (BumpFriction > 0)
+            {
+                bump.X *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
+            }
+
+
+            //rounding stuff
+            if (Math.Abs(Velocity.X) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.X = 0;
+            if (Math.Abs(bump.X) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.X = 0;
+
+            if (VerticalFriction > 0)
+            {
+                velocity.Y *= (float)Math.Pow(VerticalFriction, Globals.FixedUpdateMultiplier);
+            }
+            if (BumpFriction > 0)
+            {
+                bump.Y *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
+            }
+
+            //rounding stuff
+            if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
+            if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
             if (Parent == null)
             {
