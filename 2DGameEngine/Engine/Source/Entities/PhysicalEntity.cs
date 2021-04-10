@@ -265,7 +265,7 @@ namespace MonolithEngine
 
                     Transform.InCellLocation.Y += stepY;
 
-                    if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
+                    if (mountedOn == null && CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
                     {
                         if (HasGravity)
                         {
@@ -399,40 +399,30 @@ namespace MonolithEngine
                     float distanceX = thisBox.Position.X - otherBox.Position.X;
                     float distanceY = thisBox.Position.Y - otherBox.Position.Y;
 
-                    if (-distanceY < thisBox.Height && !OnGround() && velocity.Y > 0)
+                    float xOverlap = Math.Max(0, Math.Min(thisBox.Position.X + thisBox.Width, otherBox.Position.X + otherBox.Width) - Math.Max(thisBox.Position.X, otherBox.Position.X));
+                    float yOverlap = Math.Max(0, Math.Min(thisBox.Position.Y + thisBox.Height, otherBox.Position.Y + otherBox.Height) - Math.Max(thisBox.Position.Y, otherBox.Position.Y));
+
+                    //Logger.Info("OVERLAP: " + xOverlap + " , " + yOverlap);
+
+                    if (yOverlap > 0 && !OnGround() && velocity.Y > 0)
                     {
-                        if (otherBox.Position.Y > thisBox.Position.Y)
+                        //if (otherBox.Position.Y > thisBox.Position.Y)
                         {
-                            if (HasGravity)
+                            OnLand(Velocity);
+                            VelocityY = 0;
+                            //HasGravity = false;
+                            mountedOn = otherCollider as PhysicalEntity;
+                            FallSpeed = 0;
+                            //Transform.Y -= Math.Abs(thisBox.Position.Y - otherBox.Position.Y);
+                            Transform.Y -= Math.Abs(yOverlap);
+                            Transform.GridCoordinates.Y = (int)(Transform.Position.Y / Config.GRID);
+                            Transform.InCellLocation = MathUtil.CalculateInCellLocation(Transform.Position);
+
+                            if (Parent == null)
                             {
-                                OnLand(Velocity);
-                                VelocityY = 0;
-                                //HasGravity = false;
-                                mountedOn = otherCollider as PhysicalEntity;
-                                FallSpeed = 0;
+                                Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
                             }
-
-                            while (-distanceY < thisBox.Height - 1)
-                            {
-                                Transform.InCellLocation.Y -= 0.01f;
-
-                                while (Transform.InCellLocation.Y > 1)
-                                {
-                                    Transform.InCellLocation.Y--;
-                                    Transform.GridCoordinates.Y++;
-                                }
-                                while (Transform.InCellLocation.Y < 0)
-                                {
-                                    Transform.InCellLocation.Y++;
-                                    Transform.GridCoordinates.Y--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
-                                }
-                                distanceY = thisBox.Position.Y - otherBox.Position.Y;
-                            }
+                            //Logger.Info("OVERLAP 2 : " + xOverlap + " , " + yOverlap);
                         }
                     }
                     /*if (distanceY < otherBox.Height && !OnGround())
