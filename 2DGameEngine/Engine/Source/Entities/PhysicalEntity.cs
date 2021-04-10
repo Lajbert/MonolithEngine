@@ -332,8 +332,7 @@ namespace MonolithEngine
 
             if (Parent == null)
             {
-                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
-                Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
+                Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
             }
 
             base.FixedUpdate();
