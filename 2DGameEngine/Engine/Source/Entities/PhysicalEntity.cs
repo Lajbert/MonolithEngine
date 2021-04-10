@@ -396,25 +396,20 @@ namespace MonolithEngine
                     BoxCollisionComponent thisBox = thisCollisionComp as BoxCollisionComponent;
                     BoxCollisionComponent otherBox = otherCollisionComp as BoxCollisionComponent;
 
-                    float distanceX = thisBox.Position.X - otherBox.Position.X;
-                    float distanceY = thisBox.Position.Y - otherBox.Position.Y;
-
                     float xOverlap = Math.Max(0, Math.Min(thisBox.Position.X + thisBox.Width, otherBox.Position.X + otherBox.Width) - Math.Max(thisBox.Position.X, otherBox.Position.X));
                     float yOverlap = Math.Max(0, Math.Min(thisBox.Position.Y + thisBox.Height, otherBox.Position.Y + otherBox.Height) - Math.Max(thisBox.Position.Y, otherBox.Position.Y));
 
                     //Logger.Info("OVERLAP: " + xOverlap + " , " + yOverlap);
 
-                    if (yOverlap > 0 && !OnGround() && velocity.Y > 0)
+                    if (yOverlap != 0 && yOverlap < xOverlap)
                     {
-                        //if (otherBox.Position.Y > thisBox.Position.Y)
+                        if (yOverlap > 0 && !OnGround() && velocity.Y > 0)
                         {
                             OnLand(Velocity);
                             VelocityY = 0;
-                            //HasGravity = false;
                             mountedOn = otherCollider as PhysicalEntity;
                             FallSpeed = 0;
-                            //Transform.Y -= Math.Abs(thisBox.Position.Y - otherBox.Position.Y);
-                            Transform.Y -= Math.Abs(yOverlap);
+                            Transform.Y -= yOverlap;
                             Transform.GridCoordinates.Y = (int)(Transform.Position.Y / Config.GRID);
                             Transform.InCellLocation = MathUtil.CalculateInCellLocation(Transform.Position);
 
@@ -422,97 +417,35 @@ namespace MonolithEngine
                             {
                                 Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
                             }
-                            //Logger.Info("OVERLAP 2 : " + xOverlap + " , " + yOverlap);
                         }
-                    }
-                    /*if (distanceY < otherBox.Height && !OnGround())
+                    } 
+                    else if (xOverlap > 0 && xOverlap < yOverlap)
                     {
-                        if (otherBox.Position.Y < thisBox.Position.Y)
-                        {
-                            while (distanceY < otherBox.Height)
-                            {
-
-                                Transform.InCellLocation.Y += 0.01f;
-
-                                while (Transform.InCellLocation.Y > 1)
-                                {
-                                    Transform.InCellLocation.Y--;
-                                    Transform.GridCoordinates.Y++;
-                                }
-                                while (Transform.InCellLocation.Y < 0)
-                                {
-                                    Transform.InCellLocation.Y++;
-                                    Transform.GridCoordinates.Y--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
-                                }
-                                Logger.Info("Y modified downwards!");
-                                distanceY = thisBox.Position.Y - otherBox.Position.Y;
-                            }
-                        }
-                    }*/
-
-                    if (-distanceX < thisBox.Width)
-                    {
-                        if (thisBox.Position.X < otherBox.Position.X && mountedOn == null && (velocity.X > 0 || (otherCollider as PhysicalEntity).Velocity.X != 0))
+                        if (Velocity.X > 0)
                         {
                             VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
-                            while (-distanceX < thisBox.Width - 1)
+                            Transform.X -= xOverlap;
+                            Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
+                            Transform.InCellLocation = MathUtil.CalculateInCellLocation(Transform.Position);
+
+                            if (Parent == null)
                             {
-                                Transform.InCellLocation.X -= 0.01f;
-
-                                while (Transform.InCellLocation.X > 1)
-                                {
-                                    Transform.InCellLocation.X--;
-                                    Transform.GridCoordinates.X++;
-                                }
-                                while (Transform.InCellLocation.X < 0)
-                                {
-                                    Transform.InCellLocation.X++;
-                                    Transform.GridCoordinates.X--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                                }
-
-                                distanceX = thisBox.Position.X - otherBox.Position.X;
+                                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
                             }
                         }
-                    }
 
-                    if (distanceX < otherBox.Width)
-                    {
-                        if (thisBox.Position.X > otherBox.Position.X && mountedOn == null && (velocity.X < 0 || (otherCollider as PhysicalEntity).Velocity.X != 0))
+                        if (Velocity.X < 0)
                         {
                             VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
-                            while (distanceX < otherBox.Width - 1)
+                            Transform.X += xOverlap;
+                            Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
+                            Transform.InCellLocation = MathUtil.CalculateInCellLocation(Transform.Position);
+
+                            if (Parent == null)
                             {
-                                Transform.InCellLocation.X += 0.01f;
-
-                                while (Transform.InCellLocation.X > 1)
-                                {
-                                    Transform.InCellLocation.X--;
-                                    Transform.GridCoordinates.X++;
-                                }
-                                while (Transform.InCellLocation.X < 0)
-                                {
-                                    Transform.InCellLocation.X++;
-                                    Transform.GridCoordinates.X--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                                }
-
-                                distanceX = thisBox.Position.X - otherBox.Position.X;
+                                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
                             }
                         }
                     }
