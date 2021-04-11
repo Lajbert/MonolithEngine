@@ -5,6 +5,7 @@ using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Engine.Source.Graphics;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Global;
 using MonolithEngine.Source.Util;
 using MonolithEngine.Util;
@@ -39,6 +40,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             float x = position.X / Config.GRID;
             float y = position.Y / Config.GRID;
             Transform.InCellLocation = new Vector2(x - (float)Math.Truncate(x), y - (float)Math.Truncate(y));
+
+            Timer.TriggerAfter(5000, Destroy);
         }
     }
 }

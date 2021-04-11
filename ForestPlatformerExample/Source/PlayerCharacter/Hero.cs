@@ -956,6 +956,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     return;
                 }
                 isWallSliding = true;
+                if (Velocity.Y < 0)
+                {
+                    VelocityY = 0;
+                }
                 if (GravityValue == Config.GRAVITY_FORCE)
                 {
                     GravityValue /= 4;
@@ -964,11 +968,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 canDoubleJump = true;
                 if (otherCollider.Transform.X < Transform.X)
                 {
-                    jumpModifier = new Vector2(2, 0);
+                    jumpModifier = new Vector2(1, 0);
                 }
                 else if (otherCollider.Transform.X > Transform.X)
                 {
-                    jumpModifier = new Vector2(-2, 0);
+                    jumpModifier = new Vector2(-1, 0);
                 }
             }
             base.OnCollisionStart(otherCollider);

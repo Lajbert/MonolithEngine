@@ -39,11 +39,14 @@ namespace ForestPlatformerExample.Source.Items
             HorizontalFriction = friction;
             VerticalFriction = friction;
 
+            CollisionOffsetBottom = 1;
+
             //ColliderOnGrid = true;
 
             //DEBUG_SHOW_PIVOT = true;
 
             AnimationStateMachine Animations = new AnimationStateMachine();
+            Animations.Offset = new Vector2(0, -8);
             AddComponent(Animations);
 
             SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 30);
@@ -54,6 +57,11 @@ namespace ForestPlatformerExample.Source.Items
 
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));
             //Pivot = new Vector2(5, 5);
+
+#if DEBUG
+            //DEBUG_SHOW_COLLIDER = true;
+            //DEBUG_SHOW_PIVOT = true;
+#endif
         }
 
         protected override void OnLand(Vector2 velocity)
@@ -90,7 +98,8 @@ namespace ForestPlatformerExample.Source.Items
 
         public void SetCircleCollider()
         {
-            AddComponent(new CircleCollisionComponent(this, 10));
+            CircleCollisionComponent collision = new CircleCollisionComponent(this, 10, new Vector2(0, -8));
+            AddComponent(collision);
         }
 
         public override void Update()

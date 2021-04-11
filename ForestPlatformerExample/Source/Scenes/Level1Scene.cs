@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
+using MonolithEngine.Util;
 
 namespace ForestPlatformerExample.Source.Scenes
 {
@@ -78,7 +79,18 @@ namespace ForestPlatformerExample.Source.Scenes
                 }
                 else if (entity.Identifier.Equals("Coin"))
                 {
-                    objects.Add(new Coin(this, position));
+                    bool hasGravity = true;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+                        if (field.Identifier == "hasGravity")
+                        {
+                            hasGravity = field.Value;
+                        }
+                    }
+                    Logger.Info("Gravity: " + hasGravity);
+                    Coin c = new Coin(this, position);
+                    c.HasGravity = hasGravity;
+                    objects.Add(c);
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
