@@ -4,7 +4,6 @@ using MonolithEngine.Engine.Source.Physics;
 using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Entities;
 using MonolithEngine.Global;
-using MonolithEngine.Source.Camera2D;
 using MonolithEngine.Source.GridCollision;
 using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
@@ -15,6 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Audio;
+using MonolithEngine.Engine.Source.Camera2D;
 
 namespace MonolithEngine.Engine.Source.MyGame
 {
@@ -113,10 +113,7 @@ namespace MonolithEngine.Engine.Source.MyGame
 
             Camera = new Camera(graphics)
             {
-                BOUND_LEFT = 500,
-                BOUND_RIGHT = 2000,
-                BOUND_TOP = 350,
-                BOUND_BOTTOM = 450
+                Limits = new Rectangle(0, 0, 10000, 700)
             };
 
             SceneManager = new SceneManager(Camera);

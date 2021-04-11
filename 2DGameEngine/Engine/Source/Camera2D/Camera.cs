@@ -1,203 +1,249 @@
-﻿using MonolithEngine.Engine.Source.Global;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonolithEngine.Engine.Source.Global;
 using MonolithEngine.Entities;
 using MonolithEngine.Global;
 using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using MonolithEngine.Engine.Source.MyGame;
 
-namespace MonolithEngine.Source.Camera2D
+namespace MonolithEngine.Engine.Source.Camera2D
 {
-	public class Camera
-	{
-		public static Entity target { get; set; }
+    public class Camera
+    {
+        private const float MinZoom = 0.01f;
 
-		private Vector2 position = Vector2.Zero;
+        private readonly Viewport _viewport;
+        private readonly Vector2 _origin;
 
-		private Vector2 direction;
+        private Vector2 _position;
+        private float _zoom = 1f;
+        private Rectangle? _limits;
 
-		private Vector2 bumpOffset;
+        public static Entity target;
+        private Vector2 targetPosition = Vector2.Zero;
+        private Vector2 targetTracingOffset = Vector2.Zero;
+        private float targetCameraDistance;
+        private float angle;
+        private float friction = 0.89f;
 
-		private float shakePower = 1.5f;
-		private float shakeStarted = 0f;
-		private float shakeDuration = 0f;
-		private bool easedStop;
+        private float shakePower = 1.5f;
+        private float shakeStarted = 0f;
+        private float shakeDuration = 0f;
+        private bool easedStop;
 
-		private bool SCROLL = true;
+        private bool SCROLL = true;
 
-		private bool shake = false;
+        private bool shake = false;
 
-		private float elapsedTime;
+        private float elapsedTime;
 
-		private Vector2 targetPosition = Vector2.Zero;
-		private Vector2 targetTracingOffset = Vector2.Zero;
-		private float targetCameraDistance;
-		private float angle;
+        private Vector2 direction;
 
-		private float friction = 0.89f;
+        private Matrix uiTransofrmMatrix;
 
-		private Matrix transformMatrix;
-		private Matrix uiTransofrmMatrix;
+        private float scrollSpeedModifier;
 
-		private Vector2 viewportCenter;
-		private Vector3 viewportCenterTransform;
-		public Vector2 CurrentCenter;
-
-		public int BOUND_LEFT = 0;
-        public int BOUND_RIGHT = 0;
-		public int BOUND_TOP = 0;
-		public int BOUND_BOTTOM = 0;
-
-		private GraphicsDeviceManager graphicsDeviceManager;
-
-		public Camera(GraphicsDeviceManager graphicsDeviceManager) {
-			position = Vector2.Zero;
-			direction = Vector2.Zero;
-			this.graphicsDeviceManager = graphicsDeviceManager;
-			ResolutionUpdated();
-		}
-
-		public void ResolutionUpdated()
+        public Camera(GraphicsDeviceManager graphicsDeviceManager)
         {
-			viewportCenter = new Vector2(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight) / 2;
-			viewportCenterTransform = new Vector3(viewportCenter, 0);
-			uiTransofrmMatrix = Matrix.Identity* Matrix.CreateScale(Config.SCALE, Config.SCALE, 1);
-			if (target != null)
-            {
-				TrackTarget(target, true, targetTracingOffset);
-            }
-		}
+            _viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
+            _origin = new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
+            Position = Vector2.Zero;
+            direction = Vector2.Zero;
 
-		public void TrackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
-		{
-			targetTracingOffset = tracingOffset;
-			target = e;
-			if (immediate)
-			{
-				Recenter();
-			}
-		}
-
-		public void StopTracking()
-		{
-			target = null;
-		}
-
-		public void Recenter()
-		{
-			if (target != null) {
-				position = target.Transform.Position + targetTracingOffset;
-			}
-		}
-
-		public void Shake(float power = 5, float duration = 300, bool easeOut = true)
-        {
-			shakePower = power;
-			shakeDuration = duration;
-			shake = true;
-			easedStop = easeOut;
+            ResolutionUpdated();
         }
 
-		public void Update()
-		{
-			if (!SCROLL)
+        public void Shake(float power = 5, float duration = 300, bool easeOut = true)
+        {
+            shakePower = power;
+            shakeDuration = duration;
+            shake = true;
+            easedStop = easeOut;
+        }
+
+        public void Update()
+        {
+            Zoom = Config.ZOOM;
+            if (!SCROLL)
             {
-				return;
+                return;
             }
 
-			elapsedTime = (float)Globals.ElapsedTime / Config.CAMERA_TIME_MULTIPLIER;
-			// Follow target entity
-			if (target != null)
-			{
-				targetPosition = target.Transform.Position + targetTracingOffset;
+            elapsedTime = (float)Globals.ElapsedTime / Config.CAMERA_TIME_MULTIPLIER;
+            // Follow target entity
+            if (target != null)
+            {
+                targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
 
-				targetCameraDistance = Vector2.Distance(position, targetPosition);
-				if (targetCameraDistance >= Config.CAMERA_DEADZONE)
-				{
-					angle = MathUtil.RadFromVectors(position, targetPosition);
-					direction.X += (float)Math.Cos(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
-					direction.Y += (float)Math.Sin(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
-				}
-			}
+                targetCameraDistance = Vector2.Distance(Position, targetPosition);
+                if (targetCameraDistance >= Config.CAMERA_DEADZONE)
+                {
+                    angle = MathUtil.RadFromVectors(Position, targetPosition);
+                    direction.X += (float)Math.Cos(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+                    direction.Y += (float)Math.Sin(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+                }
+            }
 
-			position += direction * elapsedTime;
+            Position += direction * elapsedTime;
 
-			if (BOUND_LEFT != 0 && position.X < BOUND_LEFT)
-			{
-				position.X = BOUND_LEFT;
-			}
-			if (BOUND_TOP != 0 && position.Y < BOUND_TOP)
-			{
-				position.Y = BOUND_TOP;
-			}
-			if (BOUND_RIGHT != 0 && position.X > BOUND_RIGHT)
-			{
-				position.X = BOUND_RIGHT;
-			}
-			if (BOUND_BOTTOM != 0 && position.Y > BOUND_BOTTOM)
-			{
-				position.Y = BOUND_BOTTOM;
-			}
-			direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
+            direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
 
-			PostUpdate();
-		}
-
-		private void PostUpdate()
-		{
-			// Shakes
-			if (shake)
-			{
-				shakeStarted += Globals.ElapsedTime;
-				float power = shakePower;
-				if (easedStop) {
-					float alpha = shakeStarted / shakeDuration;
-					power = MathHelper.Lerp(shakePower, 0, alpha);
-				}
-				position.X += (float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * power);
-				position.Y += (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * power);
-
-				if (shakeStarted > shakeDuration)
-				{
-					shake = false;
-					shakeStarted = 0f;
-				}
-			}
-		}
-
-		public Matrix GetUITransformMatrix()
-        {
-			return uiTransofrmMatrix;
-		}
-
-		public Matrix GetTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)
-        {
-			CalculateTransformMatrix(scrollSpeedModifier, lockY);
-
-			return transformMatrix;
+            PostUpdate();
         }
-		
-		private void CalculateTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = true)
+
+        private void PostUpdate()
         {
-			if (lockY)
+            // Shakes
+            if (shake)
             {
-				transformMatrix =
-					Matrix.CreateTranslation(new Vector3(new Vector2((-position.X + viewportCenter.X) * scrollSpeedModifier, (-position.Y + viewportCenter.Y)), 0)) *
-					Matrix.CreateTranslation(-viewportCenterTransform) *
-					Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
-					Matrix.CreateTranslation(viewportCenterTransform);
-			} else
+                shakeStarted += Globals.ElapsedTime;
+                float power = shakePower;
+                if (easedStop)
+                {
+                    float alpha = shakeStarted / shakeDuration;
+                    power = MathHelper.Lerp(shakePower, 0, alpha);
+                }
+                Position += new Vector2((float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * power), (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * power));
+                /*position.X += (float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * power);
+				position.Y += (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * power);*/
+
+                if (shakeStarted > shakeDuration)
+                {
+                    shake = false;
+                    shakeStarted = 0f;
+                }
+            }
+        }
+
+        public void ResolutionUpdated()
+        {
+            uiTransofrmMatrix = Matrix.Identity * Matrix.CreateScale(Config.SCALE, Config.SCALE, 1);
+        }
+
+        public void TrackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
+        {
+            targetTracingOffset = tracingOffset;
+            target = e;
+            if (immediate)
             {
-				transformMatrix =
-					Matrix.CreateTranslation(new Vector3(-position + viewportCenter, 0) * scrollSpeedModifier) *
-					Matrix.CreateTranslation(-viewportCenterTransform) *
-					Matrix.CreateScale(Config.ZOOM, Config.ZOOM, 1) *
-					Matrix.CreateTranslation(viewportCenterTransform);
-			}
-		}
-	}
+                Recenter();
+            }
+        }
+
+        public void StopTracking()
+        {
+            target = null;
+        }
+
+        public void Recenter()
+        {
+            if (target != null)
+            {
+                Position = target.Transform.Position + targetTracingOffset;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the position of the camera.
+        /// </summary>
+        public Vector2 Position
+        {
+            get
+            {
+                return _position;
+            }
+            set
+            {
+                _position = value;
+                ValidatePosition();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the zoom of the camera.
+        /// </summary>
+        public float Zoom
+        {
+            get
+            {
+                return _zoom;
+            }
+            set
+            {
+                _zoom = MathHelper.Max(value, MinZoom);
+                ValidateZoom();
+                ValidatePosition();
+            }
+        }
+
+        /// <summary>
+        /// Sets a rectangle that describes which region of the world the camera should
+        /// be able to see. Setting it to null removes the limit.
+        /// </summary>
+        public Rectangle? Limits
+        {
+            set
+            {
+                _limits = value;
+                ValidateZoom();
+                ValidatePosition();
+            }
+        }
+
+        /// <summary>
+        /// Calculates a view matrix for this camera.
+        /// </summary>
+        public Matrix ViewMatrix
+        {
+            get
+            {
+                return Matrix.CreateTranslation(new Vector3(-new Vector2(_position.X * scrollSpeedModifier, _position.Y), 0f)) *
+                       Matrix.CreateTranslation(new Vector3(-_origin, 0f)) *
+                       Matrix.CreateScale(_zoom, _zoom, 1f) *
+                       Matrix.CreateTranslation(new Vector3(_origin, 0f));
+            }
+        }
+
+        /// <summary>
+        /// When using limiting, makes sure the camera position is valid.
+        /// </summary>
+        private void ValidatePosition()
+        {
+            if (_limits.HasValue)
+            {
+                Vector2 cameraWorldMin = Vector2.Transform(Vector2.Zero, Matrix.Invert(ViewMatrix));
+                Vector2 cameraSize = new Vector2(_viewport.Width, _viewport.Height) / _zoom;
+                Vector2 limitWorldMin = new Vector2(_limits.Value.Left, _limits.Value.Top);
+                Vector2 limitWorldMax = new Vector2(_limits.Value.Right, _limits.Value.Bottom);
+                Vector2 positionOffset = _position - cameraWorldMin;
+                _position = Vector2.Clamp(cameraWorldMin, limitWorldMin, limitWorldMax - cameraSize) + positionOffset;
+            }
+        }
+
+        /// <summary>
+        /// When using limiting, makes sure the camera zoom is valid.
+        /// </summary>
+        private void ValidateZoom()
+        {
+            if (_limits.HasValue)
+            {
+                float minZoomX = (float)_viewport.Width / _limits.Value.Width;
+                float minZoomY = (float)_viewport.Height / _limits.Value.Height;
+                _zoom = MathHelper.Max(_zoom, MathHelper.Max(minZoomX, minZoomY));
+            }
+        }
+
+        public Matrix GetUITransformMatrix()
+        {
+            return uiTransofrmMatrix;
+        }
+
+        public Matrix GetTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)
+        {
+            this.scrollSpeedModifier = scrollSpeedModifier;
+            return ViewMatrix;
+        }
+    }
 }

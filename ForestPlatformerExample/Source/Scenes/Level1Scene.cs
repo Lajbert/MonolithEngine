@@ -18,7 +18,6 @@ using MonolithEngine.Engine.Source.UI;
 using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Entities;
 using MonolithEngine.Global;
-using MonolithEngine.Source.Camera2D;
 using MonolithEngine.Source.Level;
 using System;
 using System.Collections.Generic;
