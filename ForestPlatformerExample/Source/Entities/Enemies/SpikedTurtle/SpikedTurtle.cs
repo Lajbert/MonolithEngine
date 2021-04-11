@@ -64,7 +64,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
             SpriteSheetAnimation hitRight = hitLeft.CopyFlipped();
             Animations.RegisterAnimation("HitRight", hitRight, () => CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation spikesOutLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleSpikesOut"), 1, 8, 8, 44, 26, 30);
+            SpriteSheetAnimation spikesOutLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleSpikesOut"), 1, 8, 8, 44, 26, 240);
             spikesOutLeft.Looping = false;
             spikesOutLeft.AddFrameAction(5, (frame) =>
             {
@@ -79,7 +79,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
             SpriteSheetAnimation spikesOutRight = spikesOutLeft.CopyFlipped();
             Animations.RegisterAnimation("SpikesOutRight", spikesOutRight, () => false);
 
-            SpriteSheetAnimation spikesInLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleSpikesIn"), 1, 8, 8, 44, 26, 30);
+            SpriteSheetAnimation spikesInLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleSpikesIn"), 1, 8, 8, 44, 26, 240);
             spikesInLeft.Looping = false;
             spikesInLeft.AddFrameAction(6, (frame) =>
             {

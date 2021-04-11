@@ -86,7 +86,6 @@ namespace ForestPlatformerExample.Source.Scenes
                             hasGravity = field.Value;
                         }
                     }
-                    Logger.Info("Gravity: " + hasGravity);
                     Coin c = new Coin(this, position);
                     c.HasGravity = hasGravity;
                     objects.Add(c);

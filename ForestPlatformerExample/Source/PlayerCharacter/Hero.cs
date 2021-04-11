@@ -193,7 +193,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             bool isIdleCarryLeft() => CurrentFaceDirection == Direction.WEST && isCarryingItem;
             Animations.RegisterAnimation("IdleCarryLeft", idleCarryLeft, isIdleCarryLeft);
 
-            SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 24);
+            SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 40);
             runningRight.StartedCallback = () =>
             {
                 AudioEngine.Play("FastFootstepsSound");
@@ -221,47 +221,51 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 AudioEngine.Stop("SlowFootstepsSound");
             };
-            bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST);
+            bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            bool isWalkingRight() => VelocityX > 0.01 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST);
+            bool isWalkingRight() => VelocityX > 0.01 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
             Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
 
-            SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 24);
-            runningCarryRight.StartedCallback = () =>
+            SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 24)
             {
-                AudioEngine.Play("FastFootstepsSound");
+                StartedCallback = () =>
+                {
+                    AudioEngine.Play("FastFootstepsSound");
+                },
+
+                StoppedCallback = () =>
+                {
+                    AudioEngine.Stop("FastFootstepsSound");
+                },
+                AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; },
+                EveryFrameAction = (frame) =>
+                {
+                    if (carriedItem == null) return;
+                    Entity e = carriedItem as Entity;
+                    Vector2 offset = e.GetComponent<AnimationStateMachine>().Offset;
+                    float unit = 3;
+                    if (frame == 3 || frame == 8)
+                    {
+                        offset.Y += unit;
+                    }
+                    else if (frame == 4 || frame == 9)
+                    {
+                        offset.Y -= unit;
+                    }
+                    e.GetComponent<AnimationStateMachine>().Offset = offset;
+                },
             };
 
-            runningCarryRight.StoppedCallback = () =>
-            {
-                AudioEngine.Stop("FastFootstepsSound");
-            };
-            bool isRunningCarryRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
-            runningCarryRight.AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; };
-            runningCarryRight.EveryFrameAction = (frame) => {
-                if (carriedItem == null) return;
-                Entity e = carriedItem as Entity;
-                Vector2 offset = e.GetComponent<AnimationStateMachine>().Offset;
-                float unit = 3;
-                if (frame == 3 || frame == 8)
-                {
-                    offset.Y += unit;
-                }
-                else if (frame == 4 || frame == 9)
-                {
-                    offset.Y -= unit;
-                }
-                e.GetComponent<AnimationStateMachine>().Offset = offset;
-            };
+            bool isRunningCarryRight() => VelocityX >= 0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryRight", runningCarryRight, isRunningCarryRight, 1);
 
             SpriteSheetAnimation runningCarryLeft = runningCarryRight.CopyFlipped();
-            bool isRunningCarryLeft() => VelocityX < -0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
+            bool isRunningCarryLeft() => VelocityX <= -0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryLeft", runningCarryLeft, isRunningCarryLeft, 1);
 
             SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 12, SpriteEffects.FlipHorizontally);
@@ -274,11 +278,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 AudioEngine.Stop("SlowFootstepsSound");
             };
-            bool isCarryWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
+            bool isCarryWalkingLeft() => VelocityX > -0.1f && VelocityX < 0 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
 
             SpriteSheetAnimation walkingCarryRight = walkingCarryLeft.CopyFlipped();
-            bool isCarryWalkingRight() => VelocityX > 0.1 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
+            bool isCarryWalkingRight() => VelocityX > 0 && VelocityX < 0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryRight", walkingCarryRight, isCarryWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningCarryRight", "WalkingCarryRight");
