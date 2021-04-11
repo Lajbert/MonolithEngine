@@ -229,7 +229,7 @@ namespace MonolithEngine
                 FallSpeed = 0;
             }
 
-            float steps = (float)(Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) + (Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier))));
+            float steps = (float)(Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) + (Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier))) / Config.COLLISION_CHECK_GRID_SIZE);
 
             if (steps > 0)
             {
@@ -265,7 +265,7 @@ namespace MonolithEngine
 
                     Transform.InCellLocation.Y += stepY;
 
-                    if (CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
+                    if (mountedOn == null && CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
                     {
                         if (HasGravity)
                         {
@@ -330,14 +330,19 @@ namespace MonolithEngine
             if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
             if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
-            if (Parent == null)
-            {
-                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
-                Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
-            }
+            SetPosition();
 
             base.FixedUpdate();
         }
+
+        private void SetPosition()
+        {
+            if (Parent == null)
+            {
+                Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
+            }
+        }
+
         private void ApplyGravity()
         {
             if (Config.INCREASING_GRAVITY)
@@ -396,133 +401,54 @@ namespace MonolithEngine
                     BoxCollisionComponent thisBox = thisCollisionComp as BoxCollisionComponent;
                     BoxCollisionComponent otherBox = otherCollisionComp as BoxCollisionComponent;
 
-                    float distanceX = thisBox.Position.X - otherBox.Position.X;
-                    float distanceY = thisBox.Position.Y - otherBox.Position.Y;
+                    float xOverlap = Math.Max(0, Math.Min(thisBox.Position.X + thisBox.Width, otherBox.Position.X + otherBox.Width) - Math.Max(thisBox.Position.X, otherBox.Position.X));
+                    float yOverlap = Math.Max(0, Math.Min(thisBox.Position.Y + thisBox.Height, otherBox.Position.Y + otherBox.Height) - Math.Max(thisBox.Position.Y, otherBox.Position.Y));
 
-                    if (-distanceY < thisBox.Height && !OnGround() && velocity.Y > 0)
+                    if (yOverlap != 0 && yOverlap < xOverlap && thisBox.Position.Y < otherBox.Position.Y)
                     {
-                        if (otherBox.Position.Y > thisBox.Position.Y)
+                        if (yOverlap > 0 && !OnGround() && velocity.Y > 0)
                         {
-                            if (HasGravity)
+                            OnLand(Velocity);
+                            VelocityY = 0;
+                            mountedOn = otherCollider as PhysicalEntity;
+                            FallSpeed = 0;
+                            Transform.Y -= yOverlap;
+                            Transform.InCellLocation.Y = MathUtil.CalculateInCellLocation(Transform.Position).Y;
+                            Transform.GridCoordinates.Y = (int)(Transform.Position.Y / Config.GRID);
+
+                            if (Parent == null)
                             {
-                                OnLand(Velocity);
-                                VelocityY = 0;
-                                //HasGravity = false;
-                                mountedOn = otherCollider as PhysicalEntity;
-                                FallSpeed = 0;
-                            }
-
-                            while (-distanceY < thisBox.Height - 1)
-                            {
-                                Transform.InCellLocation.Y -= 0.01f;
-
-                                while (Transform.InCellLocation.Y > 1)
-                                {
-                                    Transform.InCellLocation.Y--;
-                                    Transform.GridCoordinates.Y++;
-                                }
-                                while (Transform.InCellLocation.Y < 0)
-                                {
-                                    Transform.InCellLocation.Y++;
-                                    Transform.GridCoordinates.Y--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
-                                }
-                                distanceY = thisBox.Position.Y - otherBox.Position.Y;
+                                Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
                             }
                         }
-                    }
-                    /*if (distanceY < otherBox.Height && !OnGround())
+                    } 
+                    else if (xOverlap > 0 && xOverlap < yOverlap)
                     {
-                        if (otherBox.Position.Y < thisBox.Position.Y)
-                        {
-                            while (distanceY < otherBox.Height)
-                            {
-
-                                Transform.InCellLocation.Y += 0.01f;
-
-                                while (Transform.InCellLocation.Y > 1)
-                                {
-                                    Transform.InCellLocation.Y--;
-                                    Transform.GridCoordinates.Y++;
-                                }
-                                while (Transform.InCellLocation.Y < 0)
-                                {
-                                    Transform.InCellLocation.Y++;
-                                    Transform.GridCoordinates.Y--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.Y = (int)((Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID);
-                                }
-                                Logger.Info("Y modified downwards!");
-                                distanceY = thisBox.Position.Y - otherBox.Position.Y;
-                            }
-                        }
-                    }*/
-
-                    if (-distanceX < thisBox.Width)
-                    {
-                        if (thisBox.Position.X < otherBox.Position.X && mountedOn == null && (velocity.X > 0 || (otherCollider as PhysicalEntity).Velocity.X != 0))
+                        if (Velocity.X > 0)
                         {
                             VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
-                            while (-distanceX < thisBox.Width - 1)
+                            Transform.X -= xOverlap;
+                            Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
+                            Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
+
+                            if (Parent == null)
                             {
-                                Transform.InCellLocation.X -= 0.01f;
-
-                                while (Transform.InCellLocation.X > 1)
-                                {
-                                    Transform.InCellLocation.X--;
-                                    Transform.GridCoordinates.X++;
-                                }
-                                while (Transform.InCellLocation.X < 0)
-                                {
-                                    Transform.InCellLocation.X++;
-                                    Transform.GridCoordinates.X--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                                }
-
-                                distanceX = thisBox.Position.X - otherBox.Position.X;
+                                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
                             }
                         }
-                    }
 
-                    if (distanceX < otherBox.Width)
-                    {
-                        if (thisBox.Position.X > otherBox.Position.X && mountedOn == null && (velocity.X < 0 || (otherCollider as PhysicalEntity).Velocity.X != 0))
+                        if (Velocity.X < 0)
                         {
                             VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
-                            while (distanceX < otherBox.Width - 1)
+                            Transform.X += xOverlap;
+                            Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
+                            Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
+
+                            if (Parent == null)
                             {
-                                Transform.InCellLocation.X += 0.01f;
-
-                                while (Transform.InCellLocation.X > 1)
-                                {
-                                    Transform.InCellLocation.X--;
-                                    Transform.GridCoordinates.X++;
-                                }
-                                while (Transform.InCellLocation.X < 0)
-                                {
-                                    Transform.InCellLocation.X++;
-                                    Transform.GridCoordinates.X--;
-                                }
-
-                                if (Parent == null)
-                                {
-                                    Transform.X = (int)((Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID);
-                                }
-
-                                distanceX = thisBox.Position.X - otherBox.Position.X;
+                                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
                             }
                         }
                     }

@@ -81,7 +81,7 @@ namespace ForestPlatformerExample.Source.Scenes
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
-                    new MovingPlatform(this, position, (int)entity.Width, (int)entity.Height);
+                    objects.Add(new MovingPlatform(this, position, (int)entity.Width, (int)entity.Height));
                 }
                 else if (entity.Identifier.Equals("Spring"))
                 {
