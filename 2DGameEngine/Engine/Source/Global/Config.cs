@@ -18,6 +18,8 @@ namespace MonolithEngine.Global
         public static float JUMP_FORCE = 3f;
         public static float GRAVITY_T_MULTIPLIER = 1f;
 
+        public static float COLLISION_CHECK_GRID_SIZE = 1f;
+
         public static bool INCREASING_GRAVITY = true;
 
         public static float SPRITE_DRAW_OFFSET = 0f;
