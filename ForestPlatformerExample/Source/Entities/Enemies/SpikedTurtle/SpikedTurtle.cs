@@ -92,9 +92,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
 
 
 #if DEBUG
-            DEBUG_SHOW_PIVOT = true;
-            DEBUG_SHOW_COLLIDER = true;
-
+            //DEBUG_SHOW_PIVOT = true;
+            //DEBUG_SHOW_COLLIDER = true;
 #endif
         }
 

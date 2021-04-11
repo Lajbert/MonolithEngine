@@ -411,6 +411,7 @@ namespace MonolithEngine
                             OnLand(Velocity);
                             VelocityY = 0;
                             mountedOn = otherCollider as PhysicalEntity;
+                            bump = Vector2.Zero;
                             FallSpeed = 0;
                             Transform.Y -= yOverlap;
                             Transform.InCellLocation.Y = MathUtil.CalculateInCellLocation(Transform.Position).Y;
