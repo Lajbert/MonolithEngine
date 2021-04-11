@@ -330,13 +330,19 @@ namespace MonolithEngine
             if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
             if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
+            SetPosition();
+
+            base.FixedUpdate();
+        }
+
+        private void SetPosition()
+        {
             if (Parent == null)
             {
                 Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
             }
-
-            base.FixedUpdate();
         }
+
         private void ApplyGravity()
         {
             if (Config.INCREASING_GRAVITY)
