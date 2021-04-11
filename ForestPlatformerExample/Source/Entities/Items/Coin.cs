@@ -52,7 +52,7 @@ namespace ForestPlatformerExample.Source.Items
             SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 30);
             Animations.RegisterAnimation("Idle", coinAnim);
 
-            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickupEffect"), 30);
+            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickupEffect"), 45);
             SetDestroyAnimation(pickupAnim);
 
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));
