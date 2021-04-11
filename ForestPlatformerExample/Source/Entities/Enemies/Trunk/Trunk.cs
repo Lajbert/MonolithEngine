@@ -32,10 +32,6 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         private int health = 2;
 
-        private bool destroyed = false;
-
-        private float rotation = 0f;
-
         public Trunk(AbstractScene scene, Vector2 position, Direction currentFaceDirection) : base(scene, position)
         {
             CurrentFaceDirection = currentFaceDirection;
@@ -121,7 +117,6 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         public override void Destroy()
         {
-            destroyed = true;
             if (CurrentFaceDirection == Direction.WEST)
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("IdleLeft");
@@ -132,29 +127,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             }
             
             AudioEngine.Play("TrunkDeath");
-            HorizontalFriction = .99f;
-            VerticalFriction = .99f;
-            int rand = MyRandom.Between(0, 10);
-            Vector2 bump = new Vector2(0.1f, -0.1f);
-            rotation = 0.1f;
-            if (rand % 2 == 0)
-            {
-                bump.X *= -1;
-                rotation *= -1;
-            }
-            CheckGridCollisions = false;
-            RemoveCollisions();
-            Velocity += bump;
-            Timer.TriggerAfter(3000, base.Destroy);
-        }
-
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-            if (destroyed)
-            {
-                Transform.Rotation += rotation;
-            }
+            base.Destroy();
         }
 
         private void PlayHurtAnimation()

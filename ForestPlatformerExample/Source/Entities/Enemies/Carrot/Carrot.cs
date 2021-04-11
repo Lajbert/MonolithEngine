@@ -51,6 +51,8 @@ namespace ForestPlatformerExample.Source.Enemies
 
             DrawPriority = 1;
 
+            HasDestroyAnimation = true;
+
             AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -15)));
 
             AddComponent(new CarrotAIStateMachine(new CarrotPatrolState(this)));

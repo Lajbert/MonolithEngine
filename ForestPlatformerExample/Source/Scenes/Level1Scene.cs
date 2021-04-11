@@ -23,6 +23,7 @@ using MonolithEngine.Source.Level;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
 
 namespace ForestPlatformerExample.Source.Scenes
 {
@@ -137,6 +138,10 @@ namespace ForestPlatformerExample.Source.Scenes
                 else if (entity.Identifier.Equals("EnemyTrunk"))
                 {
                     objects.Add(new Trunk(this, position, Direction.WEST));
+                }
+                else if (entity.Identifier.Equals("EnemySpikedTurtle"))
+                {
+                    objects.Add(new SpikedTurtle(this, position, Direction.WEST));
                 }
             }
 

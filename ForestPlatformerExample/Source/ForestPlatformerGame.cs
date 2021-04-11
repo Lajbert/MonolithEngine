@@ -137,6 +137,12 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("TrunkIdle", "ForestAssets/Characters/Trunk/Idle (64x32)");
             Assets.LoadTexture("TrunkRun", "ForestAssets/Characters/Trunk/Run (64x32)");
 
+            Assets.LoadTexture("TurtleSpikesIn", "ForestAssets/Characters/SpikedTurtle/Spikes in (44x26)");
+            Assets.LoadTexture("TurtleSpikesOut", "ForestAssets/Characters/SpikedTurtle/Spikes out (44x26)");
+            Assets.LoadTexture("TurtleHit", "ForestAssets/Characters/SpikedTurtle/Hit (44x26)");
+            Assets.LoadTexture("TurtleIdleSpiked", "ForestAssets/Characters/SpikedTurtle/Idle 1 (44x26)");
+            Assets.LoadTexture("TurtleIdleNormal", "ForestAssets/Characters/SpikedTurtle/Idle 2 (44x26)");
+
             // Sounds
 
             AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC);

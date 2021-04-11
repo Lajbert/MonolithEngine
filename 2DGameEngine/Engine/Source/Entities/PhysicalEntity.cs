@@ -112,6 +112,7 @@ namespace MonolithEngine
 
         override public void Draw(SpriteBatch spriteBatch)
         {
+            base.Draw(spriteBatch);
 #if DEBUG
             ICollisionComponent collisionComponent = GetComponent<ICollisionComponent>();
             if (DEBUG_SHOW_PIVOT)
@@ -119,7 +120,7 @@ namespace MonolithEngine
                 //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
             }
 
-            if (DEBUG_SHOW_COLLIDER)
+            if (DEBUG_SHOW_COLLIDER && collisionComponent != null)
             {
                 (collisionComponent as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
                 if (colliderMarker == null)
@@ -136,7 +137,6 @@ namespace MonolithEngine
                 }
             }
 #endif
-            base.Draw(spriteBatch);
         }
 
         public override void PreUpdate()

@@ -32,6 +32,7 @@ using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
 using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using MonolithEngine.Engine.Source.Audio;
+using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
 
 namespace ForestPlatformerExample.Source.PlayerCharacter
 {
@@ -870,6 +871,16 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
                 if (!isSliding)
                 {
+                    if (otherCollider is SpikedTurtle && (otherCollider as SpikedTurtle).SpikesOut)
+                    {
+                        if (Timer.IsSet("Invincible"))
+                        {
+                            return;
+                        }
+
+                        Hit(otherCollider);
+                        return;
+                    }
                     float angle = MathUtil.DegreeFromVectors(Transform.Position, otherCollider.Transform.Position);
                     if (Velocity.Y > 0 && angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                     {

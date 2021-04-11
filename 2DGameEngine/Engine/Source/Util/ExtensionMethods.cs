@@ -23,6 +23,14 @@ namespace MonolithEngine.Engine.Source.Util
             }
         }
 
+        public static void RemoveIfExists<T, V>(this Dictionary<T, V> map, T toRemove)
+        {
+            if (map.ContainsKey(toRemove))
+            {
+                map.Remove(toRemove);
+            }
+        }
+
         public static IEnumerable<T> GetValues<T>()
         {
             return Enum.GetValues(typeof(T)).Cast<T>();

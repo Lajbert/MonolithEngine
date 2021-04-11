@@ -79,5 +79,10 @@ namespace MonolithEngine.Engine.Source.Util
         {
             return timers.ContainsKey(timer);
         }
+
+        public static void CancelAction(Action action)
+        {
+            triggeredAction.RemoveIfExists(action);
+        }
     }
 }

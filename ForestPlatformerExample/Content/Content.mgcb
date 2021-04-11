@@ -349,6 +349,66 @@
 /processorParam:TextureFormat=Color
 /build:ForestAssets/Characters/Hero/main-character@wall-slide-sheet.png
 
+#begin ForestAssets/Characters/SpikedTurtle/Hit (44x26).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/Characters/SpikedTurtle/Hit (44x26).png
+
+#begin ForestAssets/Characters/SpikedTurtle/Idle 1 (44x26).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/Characters/SpikedTurtle/Idle 1 (44x26).png
+
+#begin ForestAssets/Characters/SpikedTurtle/Idle 2 (44x26).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/Characters/SpikedTurtle/Idle 2 (44x26).png
+
+#begin ForestAssets/Characters/SpikedTurtle/Spikes in (44x26).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/Characters/SpikedTurtle/Spikes in (44x26).png
+
+#begin ForestAssets/Characters/SpikedTurtle/Spikes out (44x26).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/Characters/SpikedTurtle/Spikes out (44x26).png
+
 #begin ForestAssets/Characters/Trunk/Attack (64x32).png
 /importer:TextureImporter
 /processor:TextureProcessor
