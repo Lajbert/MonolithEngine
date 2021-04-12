@@ -51,7 +51,7 @@ namespace MonolithEngine.Engine.Source.Camera2D
             _origin = new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
             Position = Vector2.Zero;
             direction = Vector2.Zero;
-
+            Zoom = Config.SCALE;
             ResolutionUpdated();
         }
 
@@ -65,7 +65,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
 
         public void Update()
         {
-            Zoom = Config.ZOOM;
             if (!SCROLL)
             {
                 return;

@@ -3,25 +3,29 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using MonolithEngine.Engine.Source.Global;
 
 namespace MonolithEngine.Engine.Source.Util
 {
     public class Timer
     {
 
-        private static Dictionary<Action, float> triggeredAction = new Dictionary<Action, float>();
+        private static Dictionary<Action, float> triggeredActions = new Dictionary<Action, float>();
+        private static List<RepeatedAction> repeatedActions = new List<RepeatedAction>();
         private static Dictionary<string, float> timers = new Dictionary<string, float>();
+        private static List<LerpAction> lerps = new List<LerpAction>();
 
         public static void TriggerAfter(float delayInMs, Action action, bool overrideExisting = true)
         {
             if (overrideExisting)
             {
-                triggeredAction[action] = delayInMs;
+                triggeredActions[action] = delayInMs;
             } else
             {
-                if (!triggeredAction.ContainsKey(action))
+                if (!triggeredActions.ContainsKey(action))
                 {
-                    triggeredAction[action] = delayInMs;
+                    triggeredActions[action] = delayInMs;
                 }
             }
         }
@@ -43,26 +47,26 @@ namespace MonolithEngine.Engine.Source.Util
 
         public static void Update(float elapsedTime)
         {
-            if (triggeredAction.Count == 0 && timers.Count == 0)
+            if (triggeredActions.Count == 0 && timers.Count == 0)
             {
                 return;
             }
 
             //TODO: check the performance improvement possibilities for this
-            foreach (Action key in new List<Action>(triggeredAction.Keys))
+            foreach (Action key in triggeredActions.Keys.ToList())
             {
-                if (triggeredAction[key] - elapsedTime <= 0)
+                if (triggeredActions[key] - elapsedTime <= 0)
                 {
                     key.Invoke();
-                    triggeredAction.Remove(key);
+                    triggeredActions.Remove(key);
                 }
                 else
                 {
-                    triggeredAction[key] -= elapsedTime;
+                    triggeredActions[key] -= elapsedTime;
                 }
             }
 
-            foreach (string key in new List<string>(timers.Keys))
+            foreach (string key in timers.Keys.ToList())
             {
                 if (timers[key] - elapsedTime <= 0)
                 {
@@ -73,6 +77,32 @@ namespace MonolithEngine.Engine.Source.Util
                     timers[key] -= elapsedTime;
                 }
             }
+
+            foreach (LerpAction lerp in lerps.ToList())
+            {
+                if (lerp.progress <= lerp.duration)
+                {
+                    lerp.callback.Invoke(MathHelper.Lerp(lerp.from, lerp.to, lerp.progress / lerp.duration));
+                }
+                else
+                {
+                    lerps.Remove(lerp);
+                }
+                lerp.progress += elapsedTime;
+            }
+
+            foreach (RepeatedAction action in repeatedActions.ToList())
+            {
+                if (action.progress <= action.duration)
+                {
+                    action.action.Invoke(elapsedTime);
+                    action.progress += elapsedTime;
+                } else
+                {
+                    repeatedActions.Remove(action);
+                }
+            }
+
         }
 
         public static bool IsSet(string timer)
@@ -82,7 +112,49 @@ namespace MonolithEngine.Engine.Source.Util
 
         public static void CancelAction(Action action)
         {
-            triggeredAction.RemoveIfExists(action);
+            triggeredActions.RemoveIfExists(action);
+        }
+
+        public static void Repeat(float duration, Action<float> action)
+        {
+            repeatedActions.Add(new RepeatedAction(0, duration, action));
+        }
+
+        public static void Lerp(float duration, float from, float to, Action<float> callback)
+        {
+            lerps.Add(new LerpAction(0, duration, from, to, callback));
+        }
+
+        private class RepeatedAction
+        {
+            public float progress;
+            public float duration;
+            public Action<float> action;
+
+            public RepeatedAction(float progress, float duration, Action<float> action)
+            {
+                this.progress = progress;
+                this.action = action;
+                this.duration = duration;
+            }
+        }
+
+        private class LerpAction
+        {
+            public Action<float> callback;
+            public float progress;
+            public float duration;
+            public float from;
+            public float to;
+
+            public LerpAction(float progress, float endTime, float from, float to, Action<float> callback)
+            {
+                this.callback = callback;
+                this.progress = progress;
+                this.duration = endTime;
+                this.from = from;
+                this.to = to;
+            }
         }
     }
 }

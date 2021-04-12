@@ -656,7 +656,22 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
             }, true);
 
-            UserInput.RegisterMouseActions(() => { Config.ZOOM += 0.5f; /*Globals.Camera.Recenter(); */ }, () => { Config.ZOOM -= 0.5f; /*Globals.Camera.Recenter(); */});
+            UserInput.RegisterMouseActions(
+                () => {
+                    Scene.Camera.Zoom += 0.5f;
+                    /*Timer.Repeat(2000, (elapsedTime) =>
+                    {
+                        Scene.Camera.Zoom += 0.001f * elapsedTime;
+                    });*/
+                }, 
+                () =>
+                {
+                    Scene.Camera.Zoom -= 0.5f;
+                    /*Timer.Repeat(2000, (elapsedTime) =>
+                    {
+                        Scene.Camera.Zoom -= 0.001f * elapsedTime;
+                    });*/
+                });
         }
 
         private void Slide()
