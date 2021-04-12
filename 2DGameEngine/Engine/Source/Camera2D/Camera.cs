@@ -14,8 +14,8 @@ namespace MonolithEngine.Engine.Source.Camera2D
     {
         private const float MinZoom = 0.01f;
 
-        private readonly Viewport _viewport;
-        private readonly Vector2 _origin;
+        private Viewport _viewport;
+        private Vector2 _origin;
 
         private Vector2 _position;
         private float _zoom = 1f;
@@ -45,14 +45,27 @@ namespace MonolithEngine.Engine.Source.Camera2D
 
         private float scrollSpeedModifier;
 
+        private GraphicsDeviceManager graphicsDeviceManager;
+
         public Camera(GraphicsDeviceManager graphicsDeviceManager)
         {
-            _viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
-            _origin = new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
+            this.graphicsDeviceManager = graphicsDeviceManager;
             Position = Vector2.Zero;
             direction = Vector2.Zero;
             Zoom = Config.SCALE;
             ResolutionUpdated();
+        }
+
+        public void ResolutionUpdated()
+        {
+            _viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
+            _origin = new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
+            Zoom = Config.SCALE;
+            if (target != null)
+            {
+                TrackTarget(target, true, targetTracingOffset);
+            }
+            uiTransofrmMatrix = Matrix.Identity * Matrix.CreateScale(Config.SCALE, Config.SCALE, 1);
         }
 
         public void Shake(float power = 5, float duration = 300, bool easeOut = true)
@@ -116,11 +129,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
             }
         }
 
-        public void ResolutionUpdated()
-        {
-            uiTransofrmMatrix = Matrix.Identity * Matrix.CreateScale(Config.SCALE, Config.SCALE, 1);
-        }
-
         public void TrackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
         {
             targetTracingOffset = tracingOffset;
@@ -144,9 +152,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
             }
         }
 
-        /// <summary>
-        /// Gets or sets the position of the camera.
-        /// </summary>
         public Vector2 Position
         {
             get
@@ -160,9 +165,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
             }
         }
 
-        /// <summary>
-        /// Gets or sets the zoom of the camera.
-        /// </summary>
         public float Zoom
         {
             get
@@ -177,10 +179,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
             }
         }
 
-        /// <summary>
-        /// Sets a rectangle that describes which region of the world the camera should
-        /// be able to see. Setting it to null removes the limit.
-        /// </summary>
         public Rectangle? Limits
         {
             set
@@ -191,9 +189,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
             }
         }
 
-        /// <summary>
-        /// Calculates a view matrix for this camera.
-        /// </summary>
         public Matrix ViewMatrix
         {
             get
@@ -205,9 +200,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
             }
         }
 
-        /// <summary>
-        /// When using limiting, makes sure the camera position is valid.
-        /// </summary>
         private void ValidatePosition()
         {
             if (_limits.HasValue)
@@ -221,9 +213,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
             }
         }
 
-        /// <summary>
-        /// When using limiting, makes sure the camera zoom is valid.
-        /// </summary>
         private void ValidateZoom()
         {
             if (_limits.HasValue)
