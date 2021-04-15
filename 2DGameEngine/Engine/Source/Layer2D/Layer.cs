@@ -140,6 +140,7 @@ namespace MonolithEngine.Source.GridCollision
             {
                 foreach (Entity entity in activeObjects)
                 {
+                    entity.PreFixedUpdate();
                     entity.FixedUpdate();
                 }
             }

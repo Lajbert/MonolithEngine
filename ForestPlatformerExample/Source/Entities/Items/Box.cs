@@ -25,7 +25,7 @@ using MonolithEngine.Engine.Source.Audio;
 
 namespace ForestPlatformerExample.Source.Entities.Items
 {
-    class Box : AbstractInteractive, IAttackable, IMovableItem
+    class Box : PhysicalEntity,IAttackable, IMovableItem
     {
 
         int life = 2;
@@ -35,7 +35,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private List<Coin> coins = new List<Coin>();
 
-        public Box(AbstractScene scene, Vector2 position, int bumps = 1) : base(scene, position)
+        public Box(AbstractScene scene, Vector2 position, int bumps = 1) : base(scene.LayerManager.EntityLayer, null, position)
         {
             //ColliderOnGrid = true;
 

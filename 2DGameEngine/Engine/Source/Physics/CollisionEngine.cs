@@ -23,7 +23,7 @@ namespace MonolithEngine.Engine.Source.Physics
 
         private Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>> triggers = new Dictionary<IHasTrigger, Dictionary<string, Dictionary<IGameObject, bool>>>();
 
-        private Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>> gridCollisions = new Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>>();
+        //private Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>> gridCollisions = new Dictionary<IColliderEntity, Dictionary<StaticCollider, bool>>();
 
         private HashSet<IGameObject> changedObjects = new HashSet<IGameObject>();
 
@@ -44,7 +44,7 @@ namespace MonolithEngine.Engine.Source.Physics
             }
         }
 
-        public void Update()
+        public void Update(IColliderEntity thisEntity = null)
         {
             if (changedObjects.Count == 0 && (entities.Count == 0 || toCheckAgainst.Count == 0 ))
             {
@@ -53,12 +53,12 @@ namespace MonolithEngine.Engine.Source.Physics
 
             HandleChangedObjects();
 
-            foreach (IColliderEntity thisEntity in entities)
+            //foreach (IColliderEntity thisEntity in entities)
             {
 
                 if (!thisEntity.CollisionsEnabled && thisEntity.GetTriggers().Count == 0)
                 {
-                    continue;
+                    return;
                 }
 
                 foreach (IColliderEntity otherEntity in toCheckAgainst)
@@ -105,7 +105,7 @@ namespace MonolithEngine.Engine.Source.Physics
                 }
             }
 
-            InactivateCollisionsAndTriggers();
+            InactivateCollisionsAndTriggers(thisEntity);
         }
 
         private void HandleChangedObjects()
@@ -159,14 +159,14 @@ namespace MonolithEngine.Engine.Source.Physics
                             }
                         }
 
-                        if (changed.CheckGridCollisions)
+                        /*if (changed.CheckGridCollisions)
                         {
                             gridCollisions[changed] = new Dictionary<StaticCollider, bool>();
                             if (!entities.Contains(changed))
                             {
                                 entities.Add(changed);
                             }
-                        }
+                        }*/
 
                         if (changed.GetTriggers().Count > 0)
                         {
@@ -250,12 +250,16 @@ namespace MonolithEngine.Engine.Source.Physics
             return result;
         }
 
-        private void InactivateCollisionsAndTriggers()
+        private void InactivateCollisionsAndTriggers(IColliderEntity toUpdate)
         {
 
             foreach (IColliderEntity thisEntity in collisions.Keys)
             {
                 if (thisEntity.IsDestroyed)
+                {
+                    continue;
+                }
+                if (toUpdate != null && !thisEntity.Equals(toUpdate))
                 {
                     continue;
                 }
@@ -283,6 +287,10 @@ namespace MonolithEngine.Engine.Source.Physics
                 {
                     continue;
                 }
+                if (toUpdate != null && !thisEntity.Equals(toUpdate))
+                {
+                    continue;
+                }
                 foreach (string tag in triggers[thisEntity].Keys)
                 {
                     foreach (IHasTrigger otherEntity in triggers[thisEntity][tag].Keys.ToList())
@@ -300,7 +308,7 @@ namespace MonolithEngine.Engine.Source.Physics
                 }
             }
 
-            foreach (IColliderEntity thisEntity in gridCollisions.Keys)
+            /*foreach (IColliderEntity thisEntity in gridCollisions.Keys)
             {
                 foreach (StaticCollider otherCollider in gridCollisions[thisEntity].Keys.ToList())
                 {
@@ -314,7 +322,7 @@ namespace MonolithEngine.Engine.Source.Physics
                         gridCollisions[thisEntity][otherCollider] = false;
                     }
                 }
-            }
+            }*/
 
         }
 

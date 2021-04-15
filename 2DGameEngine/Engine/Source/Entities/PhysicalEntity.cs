@@ -141,17 +141,13 @@ namespace MonolithEngine
 
         public override void PreUpdate()
         {
-            if (UserInput != null)
-            {
-                UserInput.Update();
-            }
-
             base.PreUpdate();
         }
 
         public void Bump(Vector2 direction)
         {
             bump = direction;
+            FallSpeed = 0;
         }
 
         public override void Update()
@@ -171,6 +167,16 @@ namespace MonolithEngine
             }
 
             base.Update();
+        }
+
+        public override void PreFixedUpdate()
+        {
+            if (UserInput != null)
+            {
+                UserInput.Update();
+            }
+
+            base.PreFixedUpdate();
         }
 
         public override void FixedUpdate()
@@ -230,7 +236,7 @@ namespace MonolithEngine
             }
 
             float steps = (float)(Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) + (Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier))) / Config.COLLISION_CHECK_GRID_SIZE);
-
+            bool collisionUpdated = steps > 0;
             if (steps > 0)
             {
                 float stepX = (float)((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) / steps;
@@ -297,6 +303,9 @@ namespace MonolithEngine
                         Transform.GridCoordinates.Y--;
                     }
 
+                    SetPosition();
+                    Scene.CollisionEngine.Update(this);
+
                     steps--;
 
                 }
@@ -331,6 +340,11 @@ namespace MonolithEngine
             if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
             SetPosition();
+
+            if (!collisionUpdated)
+            {
+                Scene.CollisionEngine.Update(this);
+            }
 
             base.FixedUpdate();
         }
@@ -385,7 +399,7 @@ namespace MonolithEngine
 
         internal sealed override void HandleCollisionStart(IGameObject otherCollider, bool allowOverlap)
         {
-            if (!allowOverlap)
+            if (!allowOverlap && Parent == null)
             {
                 if (!(otherCollider is Entity) || (otherCollider as Entity).GetCollisionComponent() == null)
                 {
@@ -416,11 +430,6 @@ namespace MonolithEngine
                             Transform.Y -= yOverlap;
                             Transform.InCellLocation.Y = MathUtil.CalculateInCellLocation(Transform.Position).Y;
                             Transform.GridCoordinates.Y = (int)(Transform.Position.Y / Config.GRID);
-
-                            if (Parent == null)
-                            {
-                                Transform.Y = (Transform.GridCoordinates.Y + Transform.InCellLocation.Y) * Config.GRID;
-                            }
                         }
                     } 
                     else if (xOverlap > 0 && xOverlap < yOverlap)
@@ -432,11 +441,6 @@ namespace MonolithEngine
                             Transform.X -= xOverlap;
                             Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
                             Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
-
-                            if (Parent == null)
-                            {
-                                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
-                            }
                         }
 
                         if (Velocity.X < 0)
@@ -446,11 +450,6 @@ namespace MonolithEngine
                             Transform.X += xOverlap;
                             Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
                             Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
-
-                            if (Parent == null)
-                            {
-                                Transform.X = (Transform.GridCoordinates.X + Transform.InCellLocation.X) * Config.GRID;
-                            }
                         }
                     }
                 }
@@ -477,11 +476,13 @@ namespace MonolithEngine
             }
 
             if (leftCollider != null && otherCollider.Equals(leftCollider)) {
+                //leftCollider.VelocityX = 0;
                 leftCollider = null;
             }
 
             if (rightCollider != null && otherCollider.Equals(rightCollider))
             {
+                //rightCollider.VelocityX = 0;
                 rightCollider = null;
             }
 

@@ -111,7 +111,7 @@ namespace MonolithEngine.Engine.Source.Scene
         public void FixedUpdate()
         {
             LayerManager.FixedUpdateAll();
-            CollisionEngine.Update();
+            //CollisionEngine.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)

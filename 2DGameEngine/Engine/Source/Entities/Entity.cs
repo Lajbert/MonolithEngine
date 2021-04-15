@@ -285,6 +285,10 @@ namespace MonolithEngine.Entities
             }
         }
 
+        public virtual void PreFixedUpdate()
+        {
+        }
+
         public virtual void FixedUpdate()
         {
             if (!Active)
