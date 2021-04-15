@@ -30,7 +30,7 @@ namespace ForestPlatformerExample.Source.Items
 
             Active = true;
 
-            DrawPriority = 1;
+            DrawPriority = 2;
 
             SetCircleCollider();
 

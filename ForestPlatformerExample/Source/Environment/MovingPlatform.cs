@@ -40,7 +40,7 @@ namespace ForestPlatformerExample.Source.Environment
             VelocityX = speedX * directionX;
             VelocityY = speedY * directionY;
             //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
-            new Sprite(this, Assets.GetTexture("ForestTileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
+            //new Sprite(this, Assets.GetTexture("ForestTileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
             AddComponent(new BoxCollisionComponent(this, width, height));
             TileGroup tg = new TileGroup();
             Texture2D tileSet = Assets.GetTexture("ForestTileset");

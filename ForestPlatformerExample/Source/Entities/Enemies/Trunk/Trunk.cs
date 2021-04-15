@@ -36,7 +36,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
         {
             CurrentFaceDirection = currentFaceDirection;
 
-            DrawPriority = 2;
+            DrawPriority = 3;
 
             AnimationStateMachine Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(0, -16);

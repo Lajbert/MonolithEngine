@@ -154,6 +154,10 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     objects.Add(new SpikedTurtle(this, position, Direction.WEST));
                 }
+                else if (entity.Identifier.Equals("Spikes"))
+                {
+                    objects.Add(new Spikes(this, position, (int)entity.Width));
+                }
             }
 
 

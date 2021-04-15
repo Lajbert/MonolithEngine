@@ -92,6 +92,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Environment");
             AddCollisionAgainst("Projectile");
             AddCollisionAgainst("Box");
+            AddCollisionAgainst("Spikes");
             AddTag("Hero");
             CanFireTriggers = true;
 
@@ -750,7 +751,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
             if (!isSliding && overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
             {
-                Hit(overlappingEnemies[0]);
+                if (overlappingEnemies[0] is Spikes)
+                {
+                    Hit(overlappingEnemies[0], true, new Vector2(0, -1.5f));
+                } else
+                {
+                    Hit(overlappingEnemies[0]);
+                }
+                
             }
             base.FixedUpdate();
         }
@@ -837,8 +845,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
-        private void Hit(IGameObject otherCollider, bool usePositionCheck = true)
+        private void Hit(IGameObject otherCollider, bool usePositionCheck = true, Vector2 forceRightFacing = default)
         {
+            if (Timer.IsSet("Invincible"))
+            {
+                return;
+            }
             AudioEngine.Play("HeroHurtSound");
             Velocity = Vector2.Zero;
             DropCurrentItem();
@@ -855,31 +867,31 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Animations.PlayAnimation("HurtRight");
             }
+            
+            if (forceRightFacing == default)
+            {
+                forceRightFacing = new Vector2(1, -1);
+            }
+
             if (usePositionCheck)
             {
-                if (otherCollider.Transform.X < Transform.X)
+                if (otherCollider.Transform.X > Transform.X)
                 {
-                    Velocity += new Vector2(1, -1);
+                    forceRightFacing.X *= -1;
                 }
-                else if (otherCollider.Transform.X > Transform.X)
-                {
-                    Velocity += new Vector2(-1, -1);
-                }
+                Velocity += forceRightFacing;
             }
             else
             {
                 if (((otherCollider as PhysicalEntity).Velocity.X == 0))
                 {
-                    Velocity += new Vector2(0, -1);
+                    forceRightFacing.X = 0;
                 } 
-                else if ((otherCollider as PhysicalEntity).Velocity.X > 0)
-                {
-                    Velocity += new Vector2(1, -1);
-                }
                 else if(((otherCollider as PhysicalEntity).Velocity.X < 0))
                 {
-                    Velocity += new Vector2(-1, -1);
+                    forceRightFacing.X *= -1;
                 }
+                Velocity += forceRightFacing;
             }
             
         }
@@ -894,11 +906,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     if (otherCollider is SpikedTurtle && (otherCollider as SpikedTurtle).SpikesOut)
                     {
-                        if (Timer.IsSet("Invincible"))
-                        {
-                            return;
-                        }
-
                         Hit(otherCollider);
                         return;
                     }
@@ -915,14 +922,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     }
                     else
                     {
-
-                        if (Timer.IsSet("Invincible"))
-                        {
-                            return;
-                        }
-
                         Hit(otherCollider);
-
                     }
                     if (otherCollider is Carrot)
                     {
@@ -934,10 +934,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 if (!isSliding)
                 {
-                    if (Timer.IsSet("Invincible"))
-                    {
-                        return;
-                    }
                     Hit(otherCollider, false);
                 }
             }
@@ -954,6 +950,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Bump(new Vector2(0, -1.5f));
                 FallSpeed = 0;
                 (otherCollider as Box).Hit(Direction.CENTER);
+            }
+            else if (otherCollider is Spikes)
+            {
+                Hit(otherCollider, true, new Vector2(0, -1.5f));
+                overlappingEnemies.Add(otherCollider);
             }
             else if (otherCollider is Spring)
             {
@@ -1025,6 +1026,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     (otherCollider as Carrot).OverlapsWithHero = false;
                 }
                 
+                overlappingEnemies.Remove(otherCollider);
+            }
+            else if (otherCollider is Spikes)
+            {
                 overlappingEnemies.Remove(otherCollider);
             }
             base.OnCollisionEnd(otherCollider);

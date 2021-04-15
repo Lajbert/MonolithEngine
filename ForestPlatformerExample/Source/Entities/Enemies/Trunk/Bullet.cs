@@ -20,7 +20,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         public Bullet(AbstractScene scene, Vector2 position, Vector2 speed) : base(scene.LayerManager.EntityLayer, null, position)
         {
-            DrawPriority = 2;
+            DrawPriority = 3;
 
             AddTag("Projectile");
             Sprite sprite = new Sprite(this, Assets.GetTexture("TrunkBullet"));

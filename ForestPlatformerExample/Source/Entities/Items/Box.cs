@@ -41,7 +41,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
             BumpFriction = 0.2f;
 
-            DrawPriority = 1;
+            DrawPriority = 2;
 
             AddCollisionAgainst("Enemy");
             AddTag("Box");
