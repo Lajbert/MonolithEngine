@@ -426,7 +426,6 @@ namespace MonolithEngine
                     float xOverlap = Math.Max(0, Math.Min(thisBox.Position.X + thisBox.Width, otherBox.Position.X + otherBox.Width) - Math.Max(thisBox.Position.X, otherBox.Position.X));
                     float yOverlap = Math.Max(0, Math.Min(thisBox.Position.Y + thisBox.Height, otherBox.Position.Y + otherBox.Height) - Math.Max(thisBox.Position.Y, otherBox.Position.Y));
 
-                    //if (yOverlap != 0 && thisBox.Position.Y < otherBox.Position.Y)
                     if (yOverlap != 0 && yOverlap < xOverlap && thisBox.Position.Y < otherBox.Position.Y)
                     {
                         if (yOverlap > 0 && !OnGround() && velocity.Y > 0)

@@ -69,6 +69,7 @@ namespace ForestPlatformerExample.Source.Scenes
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
             LDTKMap map = mapSerializer.Deserialize(this, "D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
             Vector2 heroPosition = Vector2.Zero;
+            List<(Vector2, Direction)> movingPlatforms = new List<(Vector2, Direction)>();
             foreach (EntityInstance entity in map.entities)
             {
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
@@ -139,7 +140,7 @@ namespace ForestPlatformerExample.Source.Scenes
                             dir = Enum.Parse(typeof(Direction), field.Value);
                         }
                     }
-                    objects.Add(new MovingPlatformTurner(this, position, dir));
+                    movingPlatforms.Add((position, dir));
                 }
                 else if (entity.Identifier.Equals("SlideWall"))
                 {
@@ -168,7 +169,13 @@ namespace ForestPlatformerExample.Source.Scenes
 #if DEBUG
             (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #endif
+
             hero = new Hero(this, heroPosition, font);
+            foreach ((Vector2, Direction) prop in movingPlatforms)
+            {
+                objects.Add(new MovingPlatformTurner(this, prop.Item1, prop.Item2));
+            }
+            
         }
 
         public override void OnEnd()

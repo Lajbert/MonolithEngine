@@ -162,6 +162,7 @@ namespace ForestPlatformerExample.Source
             AudioEngine.AddSound("TrunkHit", "ForestAssets/Audio/trunk_damage");
             AudioEngine.AddSound("TrunkShoot", "ForestAssets/Audio/trunk_shoot");
             AudioEngine.AddSound("TrunkDeath", "ForestAssets/Audio/trunk_death");
+            AudioEngine.MuteAll();
 
             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
