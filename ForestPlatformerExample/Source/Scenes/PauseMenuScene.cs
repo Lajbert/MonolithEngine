@@ -4,7 +4,6 @@ using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Scene.Transition;
 using MonolithEngine.Engine.Source.UI;
 using MonolithEngine.Global;
-using MonolithEngine.Source.Camera2D;
 using System;
 using System.Collections.Generic;
 using System.Text;

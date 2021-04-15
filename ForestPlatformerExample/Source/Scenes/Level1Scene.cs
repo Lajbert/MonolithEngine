@@ -18,7 +18,6 @@ using MonolithEngine.Engine.Source.UI;
 using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Entities;
 using MonolithEngine.Global;
-using MonolithEngine.Source.Camera2D;
 using MonolithEngine.Source.Level;
 using System;
 using System.Collections.Generic;
@@ -69,13 +68,13 @@ namespace ForestPlatformerExample.Source.Scenes
 
             MapSerializer mapSerializer = new LDTKJsonMapSerializer();
             LDTKMap map = mapSerializer.Deserialize(this, "D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
+            Vector2 heroPosition = Vector2.Zero;
             foreach (EntityInstance entity in map.entities)
             {
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
                 if (entity.Identifier.Equals("Hero"))
                 {
-
-                    hero = new Hero(this, position, font);
+                    heroPosition = position;
                 }
                 else if (entity.Identifier.Equals("Coin"))
                 {
@@ -87,7 +86,6 @@ namespace ForestPlatformerExample.Source.Scenes
                             hasGravity = field.Value;
                         }
                     }
-                    Logger.Info("Gravity: " + hasGravity);
                     Coin c = new Coin(this, position);
                     c.HasGravity = hasGravity;
                     objects.Add(c);
@@ -157,6 +155,8 @@ namespace ForestPlatformerExample.Source.Scenes
                 }
             }
 
+
+            //hero = new Hero(this, heroPosition, font);
             PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
             {
                 HasGravity = false
@@ -168,7 +168,7 @@ namespace ForestPlatformerExample.Source.Scenes
 #if DEBUG
             (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #endif
-
+            hero = new Hero(this, heroPosition, font);
         }
 
         public override void OnEnd()

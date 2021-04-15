@@ -6,7 +6,6 @@ using MonolithEngine.Entities;
 using MonolithEngine.Entities.Interfaces;
 using System.Collections.Generic;
 using MonolithEngine.Global;
-using MonolithEngine.Source.Camera2D;
 using MonolithEngine.Source.Level;
 using MonolithEngine.Source;
 using MonolithEngine.Source.Entities.Animation;

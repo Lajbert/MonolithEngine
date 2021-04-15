@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine.Engine.Source.Audio;
+using MonolithEngine.Engine.Source.Camera2D;
 using MonolithEngine.Engine.Source.Physics;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene.Transition;
 using MonolithEngine.Engine.Source.UI;
 using MonolithEngine.Entities;
-using MonolithEngine.Source.Camera2D;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -111,7 +111,7 @@ namespace MonolithEngine.Engine.Source.Scene
         public void FixedUpdate()
         {
             LayerManager.FixedUpdateAll();
-            CollisionEngine.Update();
+            //CollisionEngine.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)

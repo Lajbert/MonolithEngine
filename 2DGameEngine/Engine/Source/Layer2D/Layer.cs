@@ -3,7 +3,6 @@ using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Entities;
 using MonolithEngine.Entities.Interfaces;
 using MonolithEngine.Global;
-using MonolithEngine.Source.Camera2D;
 using MonolithEngine.Source.Util;
 using MonolithEngine.Util;
 using Microsoft.Xna.Framework;
@@ -141,6 +140,7 @@ namespace MonolithEngine.Source.GridCollision
             {
                 foreach (Entity entity in activeObjects)
                 {
+                    entity.PreFixedUpdate();
                     entity.FixedUpdate();
                 }
             }
