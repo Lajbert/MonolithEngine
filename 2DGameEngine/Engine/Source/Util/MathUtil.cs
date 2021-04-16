@@ -60,7 +60,7 @@ namespace MonolithEngine.Source.Util
 			return new Vector2((int)Math.Floor(position.X / Config.GRID), (int)Math.Floor(position.Y / Config.GRID));
 		}
 
-        internal static Vector2 CalculateInCellLocation(Vector2 position)
+        public static Vector2 CalculateInCellLocation(Vector2 position)
         {
             Vector2 pos = position / Config.GRID;
             return new Vector2(pos.X - (float)Math.Truncate(pos.X), pos.Y - (float)Math.Truncate(pos.Y));

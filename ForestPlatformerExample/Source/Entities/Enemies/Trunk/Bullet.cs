@@ -39,7 +39,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             Velocity = speed;
             float x = position.X / Config.GRID;
             float y = position.Y / Config.GRID;
-            Transform.InCellLocation = new Vector2(x - (float)Math.Truncate(x), y - (float)Math.Truncate(y));
+            Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(position);
+            Transform.InCellLocation = MathUtil.CalculateInCellLocation(position);
 
             Timer.TriggerAfter(5000, Destroy);
         }

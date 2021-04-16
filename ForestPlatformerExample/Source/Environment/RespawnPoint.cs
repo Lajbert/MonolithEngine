@@ -18,7 +18,7 @@ namespace ForestPlatformerExample.Source.Environment
         {
             if (width == 0 || height == 0)
             {
-                throw new Exception("Invalid spawn point trigger size");
+                throw new Exception("Invalid respawn point trigger size");
             }
             Visible = false;
             Active = true;
