@@ -37,8 +37,6 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             VerticalFriction = 0;
             HasGravity = false;
             Velocity = speed;
-            float x = position.X / Config.GRID;
-            float y = position.Y / Config.GRID;
             Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(position);
             Transform.InCellLocation = MathUtil.CalculateInCellLocation(position);
 
