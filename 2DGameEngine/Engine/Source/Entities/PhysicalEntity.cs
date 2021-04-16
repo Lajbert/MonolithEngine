@@ -407,6 +407,12 @@ namespace MonolithEngine
 
         internal sealed override void HandleCollisionStart(IGameObject otherCollider, bool allowOverlap)
         {
+            PositionEntity(otherCollider, allowOverlap);
+            base.HandleCollisionStart(otherCollider, allowOverlap);
+        }
+
+        private void PositionEntity(IGameObject otherCollider, bool allowOverlap)
+        {
             if (!allowOverlap && Parent == null)
             {
                 if (!(otherCollider is Entity) || (otherCollider as Entity).GetCollisionComponent() == null)
@@ -473,8 +479,6 @@ namespace MonolithEngine
                     throw new Exception("Non-overlapping collision type is not implemented between the current colliders");
                 }
             }
-
-            base.HandleCollisionStart(otherCollider, allowOverlap);
         }
 
         internal sealed override void HandleCollisionEnd(IGameObject otherCollider)
