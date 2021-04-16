@@ -17,13 +17,13 @@ namespace MonolithEngine.Engine.Source.Physics.Trigger
         private int y2;
 
 #if DEBUG
-        public BoxTrigger(int width, int height, Vector2 positionOffset = default, string tag = "", bool showTrigger = false) : this(width, height, positionOffset, tag)
+        public BoxTrigger(Entity owner, int width, int height, Vector2 positionOffset = default, string tag = "", bool showTrigger = false) : this(owner, width, height, positionOffset, tag)
         {
             DEBUG_DISPLAY_TRIGGER = showTrigger;
         }
 #endif
 
-        public BoxTrigger(int width, int height, Vector2 positionOffset = default, string tag = "") : base(positionOffset, tag)
+        public BoxTrigger(Entity owner, int width, int height, Vector2 positionOffset = default, string tag = "") : base(owner, positionOffset, tag)
         {
             x1 = 0;
             y1 = 0;
@@ -41,10 +41,10 @@ namespace MonolithEngine.Engine.Source.Physics.Trigger
         {
             if (DEBUG_DISPLAY_TRIGGER)
             {
-                Line lineX1 = new Line(Owner.Scene, Owner, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), Color.Red);
-                Line lineY1 = new Line(Owner.Scene, Owner, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), Color.Red);
-                Line lineX2 = new Line(Owner.Scene, Owner, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
-                Line lineY2 = new Line(Owner.Scene, Owner, new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
+                Line lineX1 = new Line(owner.Scene, owner, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), Color.Red);
+                Line lineY1 = new Line(owner.Scene, owner, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), Color.Red);
+                Line lineX2 = new Line(owner.Scene, owner, new Vector2(PositionOffset.X + x1, PositionOffset.Y + y2), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
+                Line lineY2 = new Line(owner.Scene, owner, new Vector2(PositionOffset.X + x2, PositionOffset.Y + y1), new Vector2(PositionOffset.X + x2, PositionOffset.Y + y2), Color.Red);
             }
         }
 #endif

@@ -243,7 +243,7 @@ namespace MonolithEngine
             }
 
             float steps = (float)(Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) + (Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier))) / Config.DYNAMIC_COLLISION_CHECK_FREQUENCY);
-            bool collisionUpdated = steps > 0;
+            IsCollisionCheckedInCurrentLoop = steps > 0;
             if (steps > 0)
             {
                 stepX = (float)((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) / steps;
@@ -355,11 +355,6 @@ namespace MonolithEngine
             if (Math.Abs(bump.Y) <= 0.1 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
             SetPosition();
-
-            if (!collisionUpdated)
-            {
-                Scene.CollisionEngine.Update(this);
-            }
 
             base.FixedUpdate();
         }
@@ -519,6 +514,7 @@ namespace MonolithEngine
         public void ResetPosition(Vector2 position)
         {
             Transform.InCellLocation = new Vector2(0.5f, 1f);
+            Transform.GridCoordinates = position / Config.GRID;
             Transform.Position = position;
             FallSpeed = 0;
         }

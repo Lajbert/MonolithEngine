@@ -158,6 +158,10 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     objects.Add(new Spikes(this, position, (int)entity.Width));
                 }
+                else if (entity.Identifier.Equals("RespawnPoint"))
+                {
+                    objects.Add(new RespawnPoint(this, 256, 256, position));
+                }
             }
 
 

@@ -36,6 +36,8 @@ namespace MonolithEngine.Entities
 
         private Vector2 drawPosition = Vector2.Zero;
 
+        internal bool IsCollisionCheckedInCurrentLoop = false;
+
         public bool IsDestroyed { get {
                 return Destroyed || BeingDestroyed;
             } 
@@ -210,12 +212,7 @@ namespace MonolithEngine.Entities
 
             componentList.AddComponent(newComponent);
 
-            if (newComponent is ITrigger)
-            {
-                (newComponent as AbstractTrigger).SetOwner(this);
-            }
-
-            if (typeof(T) is ICollisionComponent || typeof(T) is ITrigger)
+            if (newComponent is ICollisionComponent || newComponent is ITrigger)
             {
                 Scene.CollisionEngine.OnCollisionProfileChanged(this);
             }
@@ -223,7 +220,7 @@ namespace MonolithEngine.Entities
 
         public void RemoveComponent<T>(T component) where T : IComponent
         {
-            if (typeof(T) is ICollisionComponent || typeof(T) is ITrigger)
+            if (component is ICollisionComponent || component is ITrigger)
             {
                 Scene.CollisionEngine.OnCollisionProfileChanged(this);
             }
@@ -301,6 +298,11 @@ namespace MonolithEngine.Entities
             /*previousPosition = Transform.Position;
             previousPosition.X = (int)previousPosition.X;
             previousPosition.Y = (int)previousPosition.Y;*/
+
+            if (!IsCollisionCheckedInCurrentLoop)
+            {
+                Scene.CollisionEngine.Update(this);
+            }
 
             componentList.UpdateAll();
 

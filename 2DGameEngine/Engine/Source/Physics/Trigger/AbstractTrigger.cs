@@ -10,7 +10,7 @@ namespace MonolithEngine.Engine.Source.Physics.Trigger
 {
     public abstract class AbstractTrigger : ITrigger
     {
-        protected Entity Owner;
+        protected Entity owner;
         private string tag = "";
         protected Vector2 PositionOffset;
 
@@ -23,6 +23,7 @@ namespace MonolithEngine.Engine.Source.Physics.Trigger
             {
                 if (value != showDebug)
                 {
+                    showDebug = value;
                     CreateDebugVisual();
                 }
                 showDebug = value;
@@ -32,23 +33,16 @@ namespace MonolithEngine.Engine.Source.Physics.Trigger
 
         public Vector2 Position
         {
-            get => Owner.Transform.Position + PositionOffset;
+            get => owner.Transform.Position + PositionOffset;
         }
         public bool UniquePerEntity { get; set; }
 
-        public AbstractTrigger(Vector2 positionOffset = default, string tag = "")
+        public AbstractTrigger(Entity owner, Vector2 positionOffset = default, string tag = "")
         {
+            this.owner = owner;
             PositionOffset = positionOffset;
             this.tag = tag;
             UniquePerEntity = false;
-        }
-
-        public void SetOwner(Entity owner)
-        {
-            Owner = owner;
-#if DEBUG
-            CreateDebugVisual();
-#endif
         }
 
         public abstract bool IsInsideTrigger(IGameObject otherObject);

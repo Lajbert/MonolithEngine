@@ -78,6 +78,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private Direction jumpDirection = default;
 
+        public Vector2 LastSpawnPoint = default;
+
         public Hero(AbstractScene scene, Vector2 position, SpriteFont font = null) : base(scene.LayerManager.EntityLayer, null, position, font)
         {
 
@@ -85,6 +87,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //DEBUG_SHOW_RAYCAST = true;
 
             DrawPriority = 0;
+
+            LastSpawnPoint = position;
 
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
@@ -760,6 +764,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
                 
             }
+
+            if (Transform.Y > 2000)
+            {
+                Respawn();
+            }
+
             base.FixedUpdate();
         }
 
@@ -1033,6 +1043,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 overlappingEnemies.Remove(otherCollider);
             }
             base.OnCollisionEnd(otherCollider);
+        }
+
+        private void Respawn()
+        {
+            ResetPosition(LastSpawnPoint);
         }
 
         public override void Destroy()

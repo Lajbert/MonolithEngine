@@ -49,9 +49,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             AddComponent(AI);
 
             AddComponent(new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -24)));
+            AddComponent(new BoxTrigger(this, 512, 256, new Vector2(-256, -144), tag: ""));
 #if DEBUG
             //DEBUG_SHOW_PIVOT = true;
-            AddComponent(new BoxTrigger(512, 256, new Vector2(-256, -144), showTrigger: true));
+            //AddComponent(new BoxTrigger(this, 512, 256, new Vector2(-256, -144), showTrigger: true));
+            (GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;
             //(GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #else
             AddComponent(new BoxTrigger(512, 256, new Vector2(-256, -144)));
