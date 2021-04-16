@@ -12,7 +12,7 @@ namespace MonolithEngine.Global
         public static int   GRID = 16;
         public static float HORIZONTAL_FRICTION = 0.4f;
         public static float VERTICAL_FRICTION = 0.8f;
-        public static float BUMP_FRICTION = 0.9f;
+        public static float BUMP_FRICTION = 0.7f;
         public static bool  GRAVITY_ON = true;
         public static float GRAVITY_FORCE = 8f;
         public static float JUMP_FORCE = 3f;

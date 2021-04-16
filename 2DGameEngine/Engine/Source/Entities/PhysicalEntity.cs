@@ -29,6 +29,8 @@ namespace MonolithEngine
 
         private Vector2 bump;
 
+        private bool keepBouncing = false;
+
         protected UserInputController UserInput;
 
         private Vector2 velocity = Vector2.Zero;
@@ -147,11 +149,12 @@ namespace MonolithEngine
             base.PreUpdate();
         }
 
-        public void Bump(Vector2 direction)
+        public void Bump(Vector2 direction, bool keepBouncing = false)
         {
             bump = direction;
             FallSpeed = 0;
             stepY = 0;
+            this.keepBouncing = keepBouncing;
         }
 
         public override void Update()
@@ -285,7 +288,10 @@ namespace MonolithEngine
                             }
 
                             velocity.Y = 0;
-                            bump.Y = 0;
+                            if (!keepBouncing)
+                            {
+                                bump.Y = 0;
+                            }
                             Transform.InCellLocation.Y = CollisionOffsetBottom;
                         }
                     }
@@ -327,7 +333,7 @@ namespace MonolithEngine
 
             if (BumpFriction > 0)
             {
-                bump.X *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
+                bump.X *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier * 0.1);
             }
 
 
@@ -341,12 +347,12 @@ namespace MonolithEngine
             }
             if (BumpFriction > 0)
             {
-                bump.Y *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier);
+                bump.Y *= (float)Math.Pow(BumpFriction, Globals.FixedUpdateMultiplier * 0.1);
             }
 
             //rounding stuff
             if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
-            if (Math.Abs(bump.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.Y = 0;
+            if (Math.Abs(bump.Y) <= 0.1 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
             SetPosition();
 
@@ -549,6 +555,11 @@ namespace MonolithEngine
         public void AddVelocity(Vector2 velocity)
         {
             Velocity += velocity;
+        }
+
+        public bool IsAtRest()
+        {
+            return Velocity == Vector2.Zero && bump == Vector2.Zero;
         }
     }
 }

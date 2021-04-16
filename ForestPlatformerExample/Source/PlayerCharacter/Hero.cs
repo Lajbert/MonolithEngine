@@ -913,7 +913,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     if (Velocity.Y > 0 && angle <= 155 && angle >= 25 && !Timer.IsSet("Invincible"))
                     {
                         VelocityY = 0;
-                        Bump(new Vector2(0, -1.5f));
+                        Bump(new Vector2(0, -0.5f));
                         FallSpeed = 0;
                         (otherCollider as AbstractEnemy).Hit(Direction.NORTH);
                         Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(0.5).TotalMilliseconds, true);
@@ -947,7 +947,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 AudioEngine.Play("BoxBounceSound");
                 VelocityY = 0;
-                Bump(new Vector2(0, -1.5f));
+                Bump(new Vector2(0, -0.5f));
                 FallSpeed = 0;
                 (otherCollider as Box).Hit(Direction.CENTER);
             }
@@ -962,7 +962,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     ((Spring)otherCollider).Bounce();
                     VelocityY = 0;
-                    Bump(new Vector2(0, -3f));
+                    Bump(new Vector2(0, -2f));
                     canJump = false;
                     canDoubleJump = true;
                     FallSpeed = 0;

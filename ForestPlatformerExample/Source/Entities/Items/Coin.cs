@@ -21,8 +21,6 @@ namespace ForestPlatformerExample.Source.Items
 {
     class Coin : AbstractInteractive
     {
-        public int BounceCount;
-
         //private float repelForce = 2;
 
         public Coin(AbstractScene scene, Vector2 position, int bounceCount = 0, float friction = 0.9f) : base(scene, position)
@@ -50,6 +48,10 @@ namespace ForestPlatformerExample.Source.Items
             AddComponent(Animations);
 
             SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 30);
+            coinAnim.AnimationPauseCondition = () =>
+            {
+                return !IsAtRest();
+            };
             Animations.RegisterAnimation("Idle", coinAnim);
 
             SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickupEffect"), 45);
@@ -64,13 +66,9 @@ namespace ForestPlatformerExample.Source.Items
 #endif
         }
 
-        protected override void OnLand(Vector2 velocity)
-        {;
-            if (BounceCount >= 0)
-            {
-                Bump(new Vector2(0, -BounceCount));
-                BounceCount--;
-            }
+        public void SetBump(Vector2 power)
+        {
+            Bump(power, true);
         }
 
         public override void PostUpdate()

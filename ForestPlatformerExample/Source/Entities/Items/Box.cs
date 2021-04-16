@@ -86,11 +86,10 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
                 Coin c = new Coin(Scene, Vector2.Zero, 3, friction: (float)MyRandom.Between(57, 63) / (float)100)
                 {
-                    BounceCount = 3,
                     Parent = this,
                     Visible = false,
                     CollisionsEnabled = false,
-                    Active = false
+                    Active = false,
                 };
                 coins.Add(c);
             }
@@ -153,6 +152,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 c.Active = true;
                 c.Visible = true;
                 c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1) * 0.3f);
+                c.SetBump(new Vector2(0, -0.5f));
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
             Scene.Camera.Shake();
