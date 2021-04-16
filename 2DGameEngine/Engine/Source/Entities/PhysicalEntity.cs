@@ -151,6 +151,7 @@ namespace MonolithEngine
         {
             bump = direction;
             FallSpeed = 0;
+            stepY = 0;
         }
 
         public override void Update()
