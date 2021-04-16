@@ -280,7 +280,7 @@ namespace MonolithEngine
 
                     if (mountedOn == null && CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
                     {
-                        if (HasGravity)
+                        //if (HasGravity)
                         {
                             if (Velocity.Y > 0)
                             {

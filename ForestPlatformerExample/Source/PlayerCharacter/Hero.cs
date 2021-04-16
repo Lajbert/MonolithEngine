@@ -53,7 +53,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private bool canAttack = true;
 
-        private float climbSpeed = Config.CHARACTER_SPEED / 2;
+        private float climbSpeed = Config.CHARACTER_SPEED / 10;
 
         public Fist fist;
 
@@ -342,7 +342,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("DoubleJumpingRight", "DoubleJumpingLeft");
 
-            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 60);
+            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 24);
 
             void climbResetAction()
             {
@@ -795,7 +795,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             if (OnLadder)
             {
-                if (!IsOnGround && HasGravity)
+                if (IsOnGround)
+                {
+                    LeaveLadder();
+                }
+                else if (!IsOnGround && HasGravity)
                 {
                     VelocityY = 0;
                     MovementSpeed = climbSpeed;
