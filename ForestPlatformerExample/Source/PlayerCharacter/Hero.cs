@@ -53,7 +53,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private bool canAttack = true;
 
-        private float climbSpeed = Config.CHARACTER_SPEED / 10;
+        private float climbSpeed = Config.CHARACTER_SPEED / 2;
 
         public Fist fist;
 
@@ -342,11 +342,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("DoubleJumpingRight", "DoubleJumpingLeft");
 
-            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 24);
+            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 40);
 
             void climbResetAction()
             {
                 MovementSpeed = climbSpeed;
+                HorizontalFriction = 0.1f;
+                VerticalFriction = 0.1f;
             }
 
             void setSpeed(int frame)
@@ -363,16 +365,17 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             climb.AddFrameAction(7, setSpeed);
 
             bool isClimbing() => OnLadder && !IsOnGround;
-            bool isHangingOnLadder() => (Math.Abs(VelocityX) <= 0.1f && Math.Abs(VelocityY) <= 0.1f);
+            //bool isHangingOnLadder() => (Math.Abs(VelocityX) <= 0.1f && Math.Abs(VelocityY) <= 0.1f);
+            bool isHangingOnLadder() => Velocity == Vector2.Zero;
             climb.AnimationPauseCondition = isHangingOnLadder;
             Animations.RegisterAnimation("ClimbingLadder", climb, isClimbing, 6);
 
-            SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 15);
+            /*SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 15);
             bool isSlowClimbing() =>  !IsOnGround && OnLadder && ((Math.Abs(VelocityX) > 0.01f && Math.Abs(VelocityX) < 0.5) || (Math.Abs(VelocityY) > 0.01f && Math.Abs(VelocityY) < 0.5));
             slowClimb.EveryFrameAction = setSpeed;
             Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
 
-            Animations.AddFrameTransition("ClimbingLadder", "SlowClimbingLadder");
+            Animations.AddFrameTransition("ClimbingLadder", "SlowClimbingLadder");*/
 
             SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroJump"), 24)
             {
@@ -857,6 +860,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 VelocityY -= Config.JUMP_FORCE / 2;
             }
+            HorizontalFriction = Config.HORIZONTAL_FRICTION;
+            VerticalFriction = Config.VERTICAL_FRICTION;
         }
 
         private void Hit(IGameObject otherCollider, bool usePositionCheck = true, Vector2 forceRightFacing = default)
