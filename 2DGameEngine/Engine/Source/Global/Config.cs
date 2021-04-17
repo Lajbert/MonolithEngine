@@ -8,7 +8,6 @@ namespace MonolithEngine.Global
     public class Config
     {
         public static float CHARACTER_SPEED = 1f;
-        public static float ZOOM = 1f;
         public static int   GRID = 16;
         public static float HORIZONTAL_FRICTION = 0.4f;
         public static float VERTICAL_FRICTION = 0.8f;

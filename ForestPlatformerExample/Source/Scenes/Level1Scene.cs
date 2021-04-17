@@ -58,6 +58,7 @@ namespace ForestPlatformerExample.Source.Scenes
         public override void Load()
         {
             LoadData();
+            Camera.Zoom += 0.5f;
         }
 
         private void LoadData()

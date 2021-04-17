@@ -44,8 +44,8 @@ namespace MonolithEngine.Engine.Source.MyGame
             Config.GRAVITY_ON = true;
             Config.GRAVITY_FORCE = 0.3f;
             //Config.ZOOM = 2f;
-            Config.CHARACTER_SPEED = 3f;
-            Config.JUMP_FORCE = 1.5f;
+            Config.CHARACTER_SPEED = 2f;
+            Config.JUMP_FORCE = 1f;
             Config.INCREASING_GRAVITY = true;
 
             Config.FIXED_UPDATE_FPS = 30;
@@ -80,7 +80,6 @@ namespace MonolithEngine.Engine.Source.MyGame
             graphics.PreferredBackBufferWidth = VideoConfiguration.RESOLUTION_WIDTH;
             graphics.PreferredBackBufferHeight = VideoConfiguration.RESOLUTION_HEIGHT;
             graphics.IsFullScreen = VideoConfiguration.FULLSCREEN;
-            Config.ZOOM = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             graphics.ApplyChanges();
         }
