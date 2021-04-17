@@ -63,11 +63,11 @@ namespace ForestPlatformerExample.Source.Enemies
 
             Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
 
+            AddComponent(new BoxTrigger(this, 300, 300, new Vector2(-150, -150), "vision"));
+
 #if DEBUG
-            AddComponent(new BoxTrigger(this, 300, 300, new Vector2(-150, -150), "vision", showTrigger:true));
+            //(GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;
             //DEBUG_SHOW_PIVOT = true;
-#else
-            AddComponent(new BoxTrigger(300, 300, new Vector2(-150, -150), "vision"));
 #endif
 
             CurrentFaceDirection = currentFaceDirection;
@@ -212,7 +212,7 @@ namespace ForestPlatformerExample.Source.Enemies
         {
             base.Draw(spriteBatch);
 #if DEBUG
-            if (seesHero)
+            /*if (seesHero)
             {
                 foreach (Vector2 point in line)
                 {
@@ -225,7 +225,7 @@ namespace ForestPlatformerExample.Source.Enemies
                 {
                     spriteBatch.Draw(Assets.CreateRectangle(1, Color.Blue), point, Color.White);
                 }
-            }
+            }*/
             //line.Clear();
 #endif
         }

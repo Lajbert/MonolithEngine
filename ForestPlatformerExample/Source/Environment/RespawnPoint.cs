@@ -25,10 +25,8 @@ namespace ForestPlatformerExample.Source.Environment
             AddTag("Environment");
             AddComponent(new BoxTrigger(this, width, height, new Vector2(-width / 2, -height + Config.GRID), tag: ""));
 #if DEBUG
-            Visible = true;
-            (GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;
-#else
-            AddComponent(new BoxTrigger(width, height, new Vector2(width/2, height - Config.GRID), showTrigger: true));
+            //Visible = true;
+            //(GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;
 #endif
         }
 

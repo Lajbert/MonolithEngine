@@ -30,8 +30,8 @@ namespace ForestPlatformerExample.Source.Items
 
             //CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
             AddComponent(new BoxCollisionComponent(this, 16, 9, new Vector2(-8, 7)));
-            (GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-            DEBUG_SHOW_PIVOT = true;
+            //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            //DEBUG_SHOW_PIVOT = true;
 
             //DEBUG_SHOW_PIVOT = true;
 
