@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Graphics;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene;
@@ -14,7 +15,7 @@ namespace ForestPlatformerExample.Source.Environment
 {
     class Spikes : Entity
     {
-        public Spikes(AbstractScene scene, Vector2 position, int length) : base(scene.LayerManager.EntityLayer, null, position)
+        public Spikes(AbstractScene scene, Vector2 position, int length, Direction direction) : base(scene.LayerManager.EntityLayer, null, position)
         {
             //Rectangle
             //AddComponent(new Sprite(this, Assets.GetTexture("ForestTileset"), new Rectangle(256, 368, Config.GRID, Config.GRID)));
@@ -42,7 +43,7 @@ namespace ForestPlatformerExample.Source.Environment
                     tg.AddColorData(data, new Vector2(i, j));
                 }
             }
-            AddComponent(new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, length, Config.GRID)));
+            AddComponent(new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, length, Config.GRID), flipVertical: direction == Direction.SOUTH));
             AddComponent(new BoxCollisionComponent(this, length, Config.GRID));
 #if DEBUG
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;

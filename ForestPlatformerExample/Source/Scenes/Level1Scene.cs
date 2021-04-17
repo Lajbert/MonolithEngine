@@ -156,7 +156,15 @@ namespace ForestPlatformerExample.Source.Scenes
                 }
                 else if (entity.Identifier.Equals("Spikes"))
                 {
-                    objects.Add(new Spikes(this, position, (int)entity.Width));
+                    Direction dir = default;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+                        if (field.Identifier == "Direction")
+                        {
+                            dir = Enum.Parse(typeof(Direction), field.Value);
+                        }
+                    }
+                    objects.Add(new Spikes(this, position, (int)entity.Width, dir));
                 }
                 else if (entity.Identifier.Equals("RespawnPoint"))
                 {

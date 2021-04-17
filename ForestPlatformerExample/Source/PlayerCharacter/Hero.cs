@@ -972,7 +972,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is Spikes)
             {
-                Hit(otherCollider, true, new Vector2(0, -1.5f));
+                if (!isSliding)
+                {
+                    Hit(otherCollider, true, new Vector2(0, -1.5f));
+                }
                 overlappingEnemies.Add(otherCollider);
             }
             else if (otherCollider is Spring)

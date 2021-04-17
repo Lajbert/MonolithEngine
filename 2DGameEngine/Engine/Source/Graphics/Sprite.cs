@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MonolithEngine.Engine.Source.Util;
 
 namespace MonolithEngine.Engine.Source.Graphics
 {
@@ -20,9 +21,17 @@ namespace MonolithEngine.Engine.Source.Graphics
         public Entity Owner;
         public SpriteEffects SpriteEffect = SpriteEffects.None;
 
-        public Sprite(Entity owner, Texture2D texture, Rectangle? sourceRectangle = null, Vector2 drawOffset = default)
+        public Sprite(Entity owner, Texture2D texture, Rectangle? sourceRectangle = null, Vector2 drawOffset = default, bool flipHorizontal = false, bool flipVertical = false)
         {
-            Texture = texture;
+            if (flipHorizontal || flipVertical)
+            {
+                Texture = AssetUtil.FlipTexture(texture, flipVertical, flipHorizontal);
+            } 
+            else
+            {
+                Texture = texture;
+            }
+
             if (sourceRectangle.HasValue)
             {
                 SourceRectangle = sourceRectangle.Value;
