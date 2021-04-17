@@ -33,6 +33,12 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            if (Transform.Y > 2000 && RotationRate == 0)
+            {
+                base.Destroy();
+            }
+
             if (RotationRate != 0)
             {
                 Transform.Rotation += RotationRate;

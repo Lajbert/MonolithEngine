@@ -149,7 +149,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             CollisionOffsetRight = 0.45f;
             CollisionOffsetLeft = 0.6f;
             CollisionOffsetBottom = 1f;
-            CollisionOffsetTop = 0.5f;
+            CollisionOffsetTop = 1f;
 
             SpriteSheetAnimation hurtRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroHurt"), 24)
             {
@@ -864,10 +864,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Ladder = null;
             HasGravity = true;
             MovementSpeed = Config.CHARACTER_SPEED;
-            /*if (VelocityY < -0.5)
-            {
-                VelocityY -= Config.JUMP_FORCE / 2;
-            }*/
             HorizontalFriction = Config.HORIZONTAL_FRICTION;
             VerticalFriction = Config.VERTICAL_FRICTION;
         }
@@ -878,6 +874,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 return;
             }
+            FallSpeed = 0;
             AudioEngine.Play("HeroHurtSound");
             Velocity = Vector2.Zero;
             DropCurrentItem();
@@ -995,7 +992,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     VelocityY = 0;
                     Bump(new Vector2(0, -2f));
                     canJump = false;
-                    canDoubleJump = true;
+                    canDoubleJump = false;
                     FallSpeed = 0;
                 }
                 

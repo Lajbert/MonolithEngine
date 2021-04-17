@@ -204,5 +204,14 @@ namespace MonolithEngine.Engine.Source.Entities.Animations
                 anim.animation.Destroy();
             }
         }
+
+        public string GetCurrentAnimationState()
+        {
+            if (currentAnimation == null)
+            {
+                return "NULL";
+            }
+            return currentAnimation.state;
+        }
     }
 }

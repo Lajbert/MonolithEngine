@@ -105,6 +105,10 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 Looping = false
             };
+            hurtLeft.StoppedCallback = () =>
+            {
+                CurrentSpeed = DefaultSpeed;
+            };
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
@@ -125,6 +129,15 @@ namespace ForestPlatformerExample.Source.Enemies
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleRight", idleRight, () => Velocity.X == 0 && CurrentFaceDirection == Direction.EAST);
 
+            SpriteSheetAnimation fallLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotMove"), 2);
+            fallLeft.Looping = true;
+            fallLeft.StartFrame = 5;
+            fallLeft.EndFrame = 6;
+            Animations.RegisterAnimation("FallLeft", fallLeft, () => Velocity.Y > 0 && !IsOnGround && CurrentFaceDirection == Direction.WEST, 2);
+
+            SpriteSheetAnimation fallRight = fallLeft.CopyFlipped();
+            Animations.RegisterAnimation("FallRight", fallRight, () => Velocity.Y > 0 && !IsOnGround && CurrentFaceDirection == Direction.EAST, 2);
+
             SetDestroyAnimation(deathRight, Direction.EAST);
             SetDestroyAnimation(deathLeft, Direction.WEST);
 
@@ -132,6 +145,11 @@ namespace ForestPlatformerExample.Source.Enemies
             Visible = true;
 
             BlocksRay = true;
+
+            DebugFunction = () =>
+            {
+                return Animations.GetCurrentAnimationState();
+            };
 
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
         }
@@ -223,6 +241,7 @@ namespace ForestPlatformerExample.Source.Enemies
             }
 
             health--;
+            CurrentSpeed = 0;
             PlayHurtAnimation();
             AudioEngine.Play("CarrotJumpHurtSound");
             if (impactDirection == Direction.NORTH)
