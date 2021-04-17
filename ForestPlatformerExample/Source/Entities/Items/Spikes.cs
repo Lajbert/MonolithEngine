@@ -15,10 +15,12 @@ namespace ForestPlatformerExample.Source.Environment
 {
     class Spikes : Entity
     {
+
+        public Direction Direction;
+
         public Spikes(AbstractScene scene, Vector2 position, int length, Direction direction) : base(scene.LayerManager.EntityLayer, null, position)
         {
-            //Rectangle
-            //AddComponent(new Sprite(this, Assets.GetTexture("ForestTileset"), new Rectangle(256, 368, Config.GRID, Config.GRID)));
+            Direction = direction;
             TileGroup tg = new TileGroup();
             Texture2D tileSet = Assets.GetTexture("ForestTileset");
             Color[] data = new Color[Config.GRID * Config.GRID];

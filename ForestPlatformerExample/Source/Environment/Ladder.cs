@@ -36,7 +36,7 @@ namespace ForestPlatformerExample.Source.Environment
         {
             if (otherEntity is Hero)
             {
-                (otherEntity as Hero).OnLadder = true;
+                (otherEntity as Hero).EnterLadder(this);
             }
             base.OnEnterTrigger(triggerTag, otherEntity);
         }
@@ -45,10 +45,7 @@ namespace ForestPlatformerExample.Source.Environment
         {
             if (otherEntity is Hero)
             {
-                (otherEntity as Hero).OnLadder = false;
                 (otherEntity as Hero).LeaveLadder();
-                //TODO
-                Logger.Warn("REDESIGN: Move the LeaveLadder() somehow fully to the Hero class, this trigger should only switch booleans!");
             }
             base.OnLeaveTrigger(triggerTag, otherEntity);
         }

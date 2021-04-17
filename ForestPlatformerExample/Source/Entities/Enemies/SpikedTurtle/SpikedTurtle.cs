@@ -99,7 +99,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
 
         private void SpikesOutState()
         {
-            if (hurt || RotationRate > 0)
+            if (hurt || RotationRate != 0)
             {
                 return;
             }

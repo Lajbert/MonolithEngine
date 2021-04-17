@@ -66,7 +66,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private AnimationStateMachine Animations;
 
-        public bool OnLadder = false;
+        public Ladder Ladder = null;
 
         private List<IGameObject> overlappingEnemies = new List<IGameObject>(5);
 
@@ -346,9 +346,16 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             void climbResetAction()
             {
-                MovementSpeed = climbSpeed;
-                HorizontalFriction = 0.1f;
-                VerticalFriction = 0.1f;
+                if (Ladder != null)
+                {
+                    MovementSpeed = climbSpeed;
+                    HorizontalFriction = 0.1f;
+                    VerticalFriction = 0.1f;
+                }
+                else
+                {
+                    LeaveLadder();
+                }
             }
 
             void setSpeed(int frame)
@@ -364,14 +371,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             climb.AddFrameAction(1, setSpeed);
             climb.AddFrameAction(7, setSpeed);
 
-            bool isClimbing() => OnLadder && !IsOnGround;
+            bool isClimbing() => Ladder != null && !IsOnGround;
             //bool isHangingOnLadder() => (Math.Abs(VelocityX) <= 0.1f && Math.Abs(VelocityY) <= 0.1f);
             bool isHangingOnLadder() => Velocity == Vector2.Zero;
             climb.AnimationPauseCondition = isHangingOnLadder;
             Animations.RegisterAnimation("ClimbingLadder", climb, isClimbing, 6);
 
             /*SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 15);
-            bool isSlowClimbing() =>  !IsOnGround && OnLadder && ((Math.Abs(VelocityX) > 0.01f && Math.Abs(VelocityX) < 0.5) || (Math.Abs(VelocityY) > 0.01f && Math.Abs(VelocityY) < 0.5));
+            bool isSlowClimbing() =>  !IsOnGround && Ladder != null && ((Math.Abs(VelocityX) > 0.01f && Math.Abs(VelocityX) < 0.5) || (Math.Abs(VelocityY) > 0.01f && Math.Abs(VelocityY) < 0.5));
             slowClimb.EveryFrameAction = setSpeed;
             Animations.RegisterAnimation("SlowClimbingLadder", slowClimb, isSlowClimbing, 7);
 
@@ -523,7 +530,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) => {
-                if (OnLadder || (!canJump && !canDoubleJump))
+                if (Ladder != null || (!canJump && !canDoubleJump))
                 {
                     return;
                 }
@@ -606,7 +613,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }, true);
 
             UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
-                if (!OnLadder)
+                if (Ladder == null)
                 {
                     return;
                 }
@@ -627,7 +634,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             });
 
             UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
-                if (!OnLadder)
+                if (Ladder == null)
                 {
                     return;
                 }
@@ -685,7 +692,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private void Slide()
         {
-            if (isSliding || !IsOnGround || isCarryingItem || isWallSliding || OnLadder)
+            if (isSliding || !IsOnGround || isCarryingItem || isWallSliding || Ladder != null)
             {
                 return;
             }
@@ -795,21 +802,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public override void Update()
         {
-
-            if (OnLadder)
-            {
-                if (IsOnGround)
-                {
-                    LeaveLadder();
-                }
-                else if (!IsOnGround && HasGravity)
-                {
-                    VelocityY = 0;
-                    MovementSpeed = climbSpeed;
-                    HasGravity = false;
-                }
-            } 
-            else
+            if (Ladder == null)
             {
                 if (HasGravity && IsOnGround)
                 {
@@ -851,15 +844,30 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             RayBlockerLines.Add((new Vector2(Transform.X, Transform.Y - Config.GRID / 2 - 10), new Vector2(Transform.X, Transform.Y + Config.GRID / 2 - 10)));
         }
 
+        public void EnterLadder(Ladder ladder)
+        {
+            Ladder = ladder;
+            canJump = false;
+            canDoubleJump = true;
+            VelocityY = 0;
+            MovementSpeed = climbSpeed;
+            HasGravity = false;
+        }
+
         public void LeaveLadder()
         {
+            if (Ladder != null && Ladder.Transform.Position.Y > Transform.Y && Velocity.Y < 0)
+            {
+                VelocityY -= Config.JUMP_FORCE;
+            }
             FallSpeed = 0;
+            Ladder = null;
             HasGravity = true;
             MovementSpeed = Config.CHARACTER_SPEED;
-            if (VelocityY < -0.5)
+            /*if (VelocityY < -0.5)
             {
                 VelocityY -= Config.JUMP_FORCE / 2;
-            }
+            }*/
             HorizontalFriction = Config.HORIZONTAL_FRICTION;
             VerticalFriction = Config.VERTICAL_FRICTION;
         }
@@ -972,7 +980,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is Spikes)
             {
-                if (!isSliding)
+                Direction spikeDirection = (otherCollider as Spikes).Direction;
+                if (spikeDirection != Direction.SOUTH || (spikeDirection == Direction.SOUTH && !isSliding))
                 {
                     Hit(otherCollider, true, new Vector2(0, -1.5f));
                 }
