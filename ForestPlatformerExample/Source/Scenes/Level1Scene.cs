@@ -170,6 +170,10 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     objects.Add(new RespawnPoint(this, 256, 256, position));
                 }
+                else if (entity.Identifier.Equals("NextLevelTrigger"))
+                {
+                    objects.Add(new NextLevelTrigger(this, position));
+                }
             }
 
 
@@ -207,5 +211,9 @@ namespace ForestPlatformerExample.Source.Scenes
             AudioEngine.Play("Level1Music");
         }
 
+        public override void OnFinished()
+        {
+            SceneManager.StartScene("PauseMenu");
+        }
     }
 }

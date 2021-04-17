@@ -69,6 +69,8 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public abstract void OnStart();
 
+        public abstract void OnFinished();
+
         public virtual void Unload()
         {
             LayerManager.Destroy();
@@ -81,6 +83,7 @@ namespace MonolithEngine.Engine.Source.Scene
         public void Finish()
         {
             SceneManager.OnSceneFinished(this);
+            OnFinished();
         }
 
         public void OnResolitionChanged()

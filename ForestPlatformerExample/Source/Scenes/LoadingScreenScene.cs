@@ -47,5 +47,10 @@ namespace ForestPlatformerExample.Source.Scenes
         {
             
         }
+
+        public override void OnFinished()
+        {
+
+        }
     }
 }

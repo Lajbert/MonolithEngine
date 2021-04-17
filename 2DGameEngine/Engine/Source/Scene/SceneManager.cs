@@ -59,7 +59,6 @@ namespace MonolithEngine.Engine.Source.Scene
 
         internal void OnSceneFinished(IScene scene)
         {
-
         }
 
         public void RemoveScene(AbstractScene scene)

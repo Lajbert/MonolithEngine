@@ -20,6 +20,8 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public abstract void Unload();
 
+        public abstract void OnFinished();
+
         public ISceneTransitionEffect GetTransitionEffect();
 
         public abstract ICollection<object> ExportData();

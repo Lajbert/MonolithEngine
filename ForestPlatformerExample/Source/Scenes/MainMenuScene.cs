@@ -79,5 +79,10 @@ namespace ForestPlatformerExample.Source.Scenes
         {
             ForestPlatformerGame.Paused = false;
         }
+
+        public override void OnFinished()
+        {
+
+        }
     }
 }

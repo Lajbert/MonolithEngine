@@ -80,6 +80,30 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public Vector2 LastSpawnPoint = default;
 
+        private Vector2 autoMovementSpeed = Vector2.Zero;
+
+        private bool levelEndReached = false;
+
+        public bool LevelEndReached  { 
+            get {
+                return levelEndReached;
+            }
+
+            set {
+                if (value)
+                {
+                    SetupAutoMovement();
+                }
+                else
+                {
+                    DisableAutoMovement();
+                }
+                levelEndReached = value;
+            }
+        }
+
+        public bool ReadyForNextLevel { get => Ladder != null; }
+
         public Hero(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
 
@@ -763,21 +787,30 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public override void FixedUpdate()
         {
-            if (!isSliding && overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
-            {
-                if (overlappingEnemies[0] is Spikes)
-                {
-                    Hit(overlappingEnemies[0], true, new Vector2(0, -1.5f));
-                } else
-                {
-                    Hit(overlappingEnemies[0]);
-                }
-                
-            }
 
-            if (Transform.Y > 2000)
+            if (LevelEndReached && Ladder != null)
             {
-                Respawn();
+                Velocity += autoMovementSpeed;
+            } 
+            else
+            {
+                if (!isSliding && overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
+                {
+                    if (overlappingEnemies[0] is Spikes)
+                    {
+                        Hit(overlappingEnemies[0], true, new Vector2(0, -1.5f));
+                    }
+                    else
+                    {
+                        Hit(overlappingEnemies[0]);
+                    }
+
+                }
+
+                if (Transform.Y > 2000)
+                {
+                    Respawn();
+                }
             }
 
             base.FixedUpdate();
@@ -1071,6 +1104,22 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         public override void Destroy()
         {
             base.Destroy();
+        }
+
+        private void SetupAutoMovement()
+        {
+            if (Ladder == null)
+            {
+                //return;
+            }
+            UserInput.ControlsDisabled = true;
+            autoMovementSpeed = new Vector2(0, -0.3f);
+        }
+
+        private void DisableAutoMovement()
+        {
+            UserInput.ControlsDisabled = false;
+            autoMovementSpeed = Vector2.Zero;
         }
 
     }

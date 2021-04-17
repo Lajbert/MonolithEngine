@@ -276,5 +276,10 @@ namespace ForestPlatformerExample.Source.Scenes
             ForestPlatformerGame.Paused = true;
             SetCurrentVideoSettings();
         }
+
+        public override void OnFinished()
+        {
+
+        }
     }
 }
