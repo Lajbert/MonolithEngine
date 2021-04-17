@@ -80,7 +80,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public Vector2 LastSpawnPoint = default;
 
-        public Hero(AbstractScene scene, Vector2 position, SpriteFont font = null) : base(scene.LayerManager.EntityLayer, null, position, font)
+        public Hero(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
 
             //DEBUG_SHOW_PIVOT = true;

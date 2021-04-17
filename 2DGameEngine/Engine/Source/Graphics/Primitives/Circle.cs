@@ -19,7 +19,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
         private float radius;
         private Vector2 offset;
 
-        public Circle(AbstractScene scene, Entity parent, Vector2 center, int radius, Color color) : base(scene.LayerManager.EntityLayer, parent, center, null)
+        public Circle(AbstractScene scene, Entity parent, Vector2 center, int radius, Color color) : base(scene.LayerManager.EntityLayer, parent, center)
         {
             SetSprite(AssetUtil.CreateCircle(radius, color));
             this.color = color;

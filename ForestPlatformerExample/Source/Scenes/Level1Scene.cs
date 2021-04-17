@@ -178,7 +178,7 @@ namespace ForestPlatformerExample.Source.Scenes
             (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #endif
 
-            hero = new Hero(this, heroPosition, font);
+            hero = new Hero(this, heroPosition);
             foreach ((Vector2, Direction) prop in movingPlatforms)
             {
                 objects.Add(new MovingPlatformTurner(this, prop.Item1, prop.Item2));

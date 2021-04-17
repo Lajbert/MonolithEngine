@@ -146,13 +146,13 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
 
         public void Shoot()
         {
-            if (Timer.IsSet("TrunkShooting") || !canAttack)
+            if (Timer.IsSet("TrunkShooting" + GetID()) || !canAttack)
             {
                 return;
             }
 
             IsAttacking = true;
-            Timer.SetTimer("TrunkShooting", 1500);
+            Timer.SetTimer("TrunkShooting" + GetID(), 1500);
             Timer.TriggerAfter(1500, () =>
             {
                 IsAttacking = false;
@@ -200,6 +200,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
                 Target = null;
                 GetComponent<TrunkAIStateMachine>().ChangeState<TrunkPatrolState>();
             }
+        }
+
+        public override void Update()
+        {
+            base.Update();
         }
 
     }

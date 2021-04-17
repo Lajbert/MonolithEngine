@@ -105,7 +105,7 @@ namespace MonolithEngine
         private float stepX;
         private float stepY;
 
-        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base(layer, parent, startPosition, font)
+        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition) : base(layer, parent, startPosition)
         {
             Transform = new DynamicTransform(this, startPosition);
             previousPosition = startPosition;

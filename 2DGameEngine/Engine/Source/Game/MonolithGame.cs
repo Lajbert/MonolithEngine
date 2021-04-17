@@ -32,6 +32,10 @@ namespace MonolithEngine.Engine.Source.MyGame
 
         protected SceneManager SceneManager;
 
+#if DEBUG
+        private SpriteFont debugFont;
+#endif
+
         public MonolithGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -88,10 +92,10 @@ namespace MonolithEngine.Engine.Source.MyGame
             AssetUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
-            //font = Content.Load<SpriteFont>("DefaultFont");
+            debugFont = Content.Load<SpriteFont>("Fonts/DebugFont");
             VideoConfiguration.GameInstance = this;
             Init();
-
+            Entity.DebugFont = debugFont;
             base.Initialize();
         }
 

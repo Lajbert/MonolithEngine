@@ -82,6 +82,11 @@ namespace MonolithEngine.Entities
             return ID;
         }
 
+        public int GetID()
+        {
+            return ID;
+        }
+
         public static int GetObjectCount()
         {
             return GLOBAL_ID;

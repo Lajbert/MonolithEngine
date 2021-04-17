@@ -30,7 +30,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
         private float angleRad;
         private float length;
 
-        public Line(AbstractScene scene, Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(scene.LayerManager.EntityLayer, parent, from, null)
+        public Line(AbstractScene scene, Entity parent, Vector2 from, Vector2 to, Color color, float thickness = 1f) : base(scene.LayerManager.EntityLayer, parent, from)
         {
             this.From = fromSaved = from;
             this.To = toSaved = to;
@@ -43,7 +43,7 @@ namespace MonolithEngine.Engine.Source.Graphics.Primitives
             Scale = new Vector2(length, thickness);
         }
 
-        public Line(AbstractScene scene, Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(scene.LayerManager.EntityLayer, parent, from, null)
+        public Line(AbstractScene scene, Entity parent, Vector2 from, float angleRad, float length, Color color, float thickness = 1f) : base(scene.LayerManager.EntityLayer, parent, from)
         {
             this.From = fromSaved = from;
             this.thickness = thickness;

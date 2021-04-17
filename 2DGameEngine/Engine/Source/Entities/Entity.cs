@@ -143,7 +143,10 @@ namespace MonolithEngine.Entities
 
         public bool BlocksRay { get; set; }
 
-        protected SpriteFont font;
+#if DEBUG
+        public static SpriteFont DebugFont;
+        public Func<string> DebugFunction = null;
+#endif
 
         protected Ray2DEmitter RayEmitter { get; set; }
 
@@ -177,13 +180,12 @@ namespace MonolithEngine.Entities
             }
         }
 
-        public Entity(Layer layer, Entity parent, Vector2 startPosition, SpriteFont font = null) : base()
+        public Entity(Layer layer, Entity parent, Vector2 startPosition) : base()
         {
             DrawPosition = startPosition;
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
             Scene = layer.Scene;
-            this.font = font;
             layer.OnObjectChanged(this);
             Parent = parent;
         }
@@ -247,11 +249,11 @@ namespace MonolithEngine.Entities
                 {
                     pivotMarker = AssetUtil.CreateCircle(5, Color.Red, true);
                 }
-                if (font != null)
-                {
-                    //spriteBatch.DrawString(font, "Veloctiy.Y : " + Velocity.Y, DrawPosition, Color.Black);
-                }
                 spriteBatch.Draw(pivotMarker, Transform.Position - new Vector2(2.5f, 2.5f), Color.White);
+            }
+            if (DebugFunction != null)
+            {
+                spriteBatch.DrawString(DebugFont, DebugFunction.Invoke(), DrawPosition, Color.Black);
             }
 #endif
             /*if (font != null)
