@@ -20,8 +20,8 @@ namespace ForestPlatformerExample.Source.Environment
             AddTag("Environment");
             Active = false;
 #if DEBUG
-            (GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-            Visible = true;
+            //(GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            //Visible = true;
 #else
             Visible = false;
 #endif

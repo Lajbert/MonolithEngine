@@ -103,9 +103,9 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             Active = true;
             Visible = true;
 
-            DebugFunction = () => {
+            /*DebugFunction = () => {
                 return AI.GetCurrentState().GetType().Name;
-            };
+            };*/
         }
 
         public override void Hit(Direction impactDireciton)

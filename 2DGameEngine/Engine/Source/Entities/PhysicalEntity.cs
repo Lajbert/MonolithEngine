@@ -299,6 +299,7 @@ namespace MonolithEngine
                     if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
                     {
                         velocity.Y = 0;
+                        bump.Y = 0;
                         Transform.InCellLocation.Y = CollisionOffsetTop;
                     }
 
@@ -556,6 +557,12 @@ namespace MonolithEngine
         public bool IsAtRest()
         {
             return Velocity == Vector2.Zero && bump == Vector2.Zero;
+        }
+
+        public void CancelVelocities()
+        {
+            Velocity = Vector2.Zero;
+            bump = Vector2.Zero;
         }
     }
 }

@@ -146,10 +146,10 @@ namespace ForestPlatformerExample.Source.Enemies
 
             BlocksRay = true;
 
-            DebugFunction = () =>
+            /*DebugFunction = () =>
             {
                 return Animations.GetCurrentAnimationState();
-            };
+            };*/
 
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Red));
         }

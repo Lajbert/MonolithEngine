@@ -909,7 +909,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             FallSpeed = 0;
             AudioEngine.Play("HeroHurtSound");
-            Velocity = Vector2.Zero;
+            CancelVelocities();
             DropCurrentItem();
             UserInput.ControlsDisabled = true;
             Timer.SetTimer("Invincible", (float)TimeSpan.FromSeconds(1).TotalMilliseconds, true);
