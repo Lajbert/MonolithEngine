@@ -144,9 +144,9 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     new RespawnPoint(this, 256, 256, position);
                 }
-                else if (entity.Identifier.Equals("NextLevelTrigger"))
+                else if (entity.Identifier.Equals("IceTrigger"))
                 {
-                    //new NextLevelTrigger(this, position);
+                    new IceTrigger(this, (int)entity.Width, (int)entity.Height, position);
                 }
             }
 

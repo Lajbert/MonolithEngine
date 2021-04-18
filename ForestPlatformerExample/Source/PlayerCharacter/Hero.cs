@@ -104,6 +104,22 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public bool ReadyForNextLevel { get => Ladder != null; }
 
+        public bool OnIce
+        {
+            set
+            {
+                if (value)
+                {
+                    HorizontalFriction = 0.92f;
+                    MovementSpeed /= 5;
+                } else
+                {
+                    HorizontalFriction = Config.HORIZONTAL_FRICTION;
+                    MovementSpeed = Config.CHARACTER_SPEED;
+                }
+            }
+        }
+
         public Hero(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
 
@@ -234,11 +250,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 AudioEngine.Stop("FastFootstepsSound");
             };
 
-            bool isRunningRight() => VelocityX > 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
+            bool isRunningRight() => UserInput.IsKeyPressed(Keys.Right) && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
-            bool isRunningLeft() => VelocityX < -0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
+            bool isRunningLeft() => UserInput.IsKeyPressed(Keys.Left) && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
@@ -251,11 +267,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 AudioEngine.Stop("SlowFootstepsSound");
             };
-            bool isWalkingLeft() => VelocityX > -0.5f && VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
+            bool isWalkingLeft() => UserInput.IsKeyPressed(Keys.Right) && VelocityX > -0.5f && VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            bool isWalkingRight() => VelocityX > 0.01 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
+            bool isWalkingRight() => UserInput.IsKeyPressed(Keys.Left) && VelocityX > 0.01 && VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
