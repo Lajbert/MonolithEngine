@@ -1,6 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Entities;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Global;
 using MonolithEngine.Engine.Source.Level.Collision;
+using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Util;
 using System;
 using System.Collections.Generic;
@@ -25,34 +27,47 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
             throw new Exception("Wrong CurrentFaceDirection for enemy!");
         }
 
-        public static void Patrol(bool checkCollisions, AbstractEnemy enemy)
+        private static bool changeDirectionAllowed = false;
+        public static void Patrol(bool checkCollisions, AbstractEnemy enemy, float waitingTime = 0f)
         {
             if (enemy.Velocity.Y > 0)
             {
                 return;
             }
+            Direction newFaceDirection = enemy.CurrentFaceDirection;
             if (checkCollisions && WillColliderOrFall(enemy))
             {
+                if (waitingTime > 0 && !changeDirectionAllowed)
+                {
+                    Timer.SetTimer("CARROT_WAIT" + enemy.GetID(), waitingTime);
+                    enemy.Velocity = Vector2.Zero;
+                    changeDirectionAllowed = true;
+                }
                 if (enemy.CurrentFaceDirection == Direction.WEST)
                 {
-                    enemy.CurrentFaceDirection = Direction.EAST;
+                    newFaceDirection = Direction.EAST;
                 }
                 else if (enemy.CurrentFaceDirection == Direction.EAST)
                 {
-                    enemy.CurrentFaceDirection = Direction.WEST;
+                    newFaceDirection = Direction.WEST;
                 }
             }
 
-            if (enemy.CurrentFaceDirection == Direction.WEST)
+            if (newFaceDirection == Direction.WEST)
             {
                 enemy.MoveDirection = -1;
             }
-            else if (enemy.CurrentFaceDirection == Direction.EAST)
+            else if (newFaceDirection == Direction.EAST)
             {
                 enemy.MoveDirection = 1;
             }
 
-            enemy.VelocityX += enemy.CurrentSpeed * enemy.MoveDirection * Globals.FixedUpdateMultiplier;
+            if (!Timer.IsSet("CARROT_WAIT" + enemy.GetID()))
+            {
+                enemy.CurrentFaceDirection = newFaceDirection;
+                enemy.VelocityX += enemy.CurrentSpeed * enemy.MoveDirection * Globals.FixedUpdateMultiplier;
+                changeDirectionAllowed = false;
+            }
         }
     }
 }

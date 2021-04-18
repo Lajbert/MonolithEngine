@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Enemies.IceCream;
 using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
 using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using ForestPlatformerExample.Source.Entities.Items;
@@ -143,6 +144,10 @@ namespace ForestPlatformerExample.Source.Scenes
                         }
                     }
                     Carrot carrot = new Carrot(scene, position, Direction.EAST);
+                }
+                else if (entity.Identifier.Equals("EnemyIceCream"))
+                {
+                    new IceCream(scene, position);
                 }
             }
 
