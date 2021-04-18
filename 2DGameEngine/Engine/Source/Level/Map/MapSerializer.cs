@@ -8,6 +8,6 @@ namespace MonolithEngine.Source.Level
 {
     public interface MapSerializer
     {
-        public LDTKMap Deserialize(AbstractScene scene, string filePath);
+        public LDTKMap Load(string filePath);
     }
 }

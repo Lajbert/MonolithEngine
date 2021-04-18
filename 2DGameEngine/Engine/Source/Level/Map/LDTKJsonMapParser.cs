@@ -10,12 +10,11 @@ using MonolithEngine.Engine.Source.Scene;
 
 namespace MonolithEngine.Source.Level
 {
-    public class LDTKJsonMapSerializer : MapSerializer
+    public class LDTKJsonMapParser : MapSerializer
     {
-        public LDTKMap Deserialize(AbstractScene scene, string filePath)
+        public LDTKMap Load(string filePath)
         {
-            return new LDTKMap(scene, LDTKJson.FromJson(File.ReadAllText(filePath)));
-            //return JsonSerializer.Deserialize<LDTKMap>(File.ReadAllText(filePath));
+            return new LDTKMap(LDTKJson.FromJson(File.ReadAllText(filePath)));
         }
     }
 }

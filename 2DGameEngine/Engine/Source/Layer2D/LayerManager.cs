@@ -124,5 +124,11 @@ namespace MonolithEngine.Entities
             layer.Add(newLayer);
             layer.Sort((a, b) => a.Priority.CompareTo(b.Priority));
         }
+
+        private void RemoveLayer(List<Layer> layer, Layer toRemove)
+        {
+            layer.Remove(toRemove);
+            layer.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+        }
     }
 }

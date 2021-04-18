@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine.Engine.Source.Audio;
 using MonolithEngine.Engine.Source.Camera2D;
 using MonolithEngine.Engine.Source.Physics;
@@ -35,6 +36,8 @@ namespace MonolithEngine.Engine.Source.Scene
         public Camera Camera;
 
         public bool UseLoadingScreen;
+
+        public Color BackgroundColor = Color.White;
 
         public AbstractScene(string sceneName, bool preload = false, bool alwaysActive = false, bool useLoadingScreen = false)
         {

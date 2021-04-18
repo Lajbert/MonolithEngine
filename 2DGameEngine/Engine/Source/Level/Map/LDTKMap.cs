@@ -33,8 +33,6 @@ namespace MonolithEngine.Source.Level
         //string path = "SpriteSheets/MagicCliffsEnvironment/";
         //Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
 
-        public HashSet<EntityInstance> entities = new HashSet<EntityInstance>();
-
         private TileGroup tileGroup;
 
         private float scrollSpeedModifier = 0f;
@@ -42,22 +40,31 @@ namespace MonolithEngine.Source.Level
         //private Vector2 pivot = new Vector2(-Config.GRID / 2, 0);
         private Vector2 pivot = Vector2.Zero;
 
-        public LDTKMap(AbstractScene scene, LDTKJson json)
-        {
-            //Globals.Camera.LevelGridCountH = 256;
-            //Globals.Camera.LevelGridCountW = 256;
+        private LDTKJson world;
 
-            foreach (TilesetDefinition tileset in json.Defs.Tilesets) {
+        public LDTKMap(LDTKJson json)
+        {
+            world = json;
+
+            foreach (TilesetDefinition tileset in world.Defs.Tilesets) {
                 string path = GetMonoGameContentName(tileset.RelPath);
                 Assets.LoadTexture(path, path);
             }
+        }
 
-            foreach (Engine.Source.Level.Level level in json.Levels)
+        public HashSet<EntityInstance> ParseLevel(AbstractScene scene, string levelID)
+        {
+            HashSet<EntityInstance> entities = new HashSet<EntityInstance>();
+
+            foreach (Engine.Source.Level.Level level in world.Levels)
             {
+                if (!level.Identifier.Equals(levelID))
+                {
+                    continue;
+                }
                 Array.Reverse(level.LayerInstances);
                 foreach (LayerInstance layerInstance in level.LayerInstances)
                 {
-
                     foreach (EntityInstance entity in layerInstance.EntityInstances)
                     {
                         entities.Add(entity);
@@ -66,19 +73,20 @@ namespace MonolithEngine.Source.Level
                     string layerName = layerInstance.Identifier;
                     Layer currentLayer = null;
                     Texture2D tileSet = null;
-                    if (layerName.StartsWith(COLLIDERS))
+                    if (layerName.StartsWith(COLLIDERS) && layerInstance.GridTiles.Length > 0)
                     {
                         currentLayer = scene.LayerManager.EntityLayer;
                         tileSet = null;
                         //continue;
-                    } else if (layerName.StartsWith(BACKGROUND))
+                    }
+                    else if (layerName.StartsWith(BACKGROUND) && layerInstance.GridTiles.Length > 0)
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = scene.LayerManager.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
                         tileGroup = new TileGroup();
                     }
-                    else if (layerName.StartsWith(PARALLAX))
+                    else if (layerName.StartsWith(PARALLAX) && layerInstance.GridTiles.Length > 0)
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         scrollSpeedModifier += 0.1f;
@@ -86,19 +94,19 @@ namespace MonolithEngine.Source.Level
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
                         tileGroup = new TileGroup();
                     }
-                    else if (layerName.StartsWith(FOREGROUND))
+                    else if (layerName.StartsWith(FOREGROUND) && layerInstance.GridTiles.Length > 0)
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = scene.LayerManager.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
                         tileGroup = new TileGroup();
                     }
-                 
+
                     if (layerInstance.Identifier.StartsWith(COLLIDERS))
                     {
                         currentLayer = null;
                         //public Dictionary<string, dynamic>[] IntGrid { get; set; }
-                        foreach (IntGridValueInstance grid in layerInstance.IntGrid )
+                        foreach (IntGridValueInstance grid in layerInstance.IntGrid)
                         {
                             int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
                             int x = (int)(grid.CoordId - y * layerInstance.CWid);
@@ -137,13 +145,13 @@ namespace MonolithEngine.Source.Level
                             }
                         }
 
-                    } else
+                    }
+                    else
                     {
                         foreach (TileInstance tile in layerInstance.GridTiles)
                         {
                             //Logger.Log("Tile: " + tile.);
                             //if (layerInstance.Identifier.StartsWith(PARALLAX)) { currentLayer = null;  continue; }
-                            
                             long tileId = tile.T;
                             int atlasGridBaseWidth = (int)layerInstance.GridSize;
                             int padding = 0;
@@ -173,7 +181,7 @@ namespace MonolithEngine.Source.Level
                                 if (tile.F == 1)
                                 {
                                     flipped = AssetUtil.FlipTexture(flipped, false, true);
-                                } 
+                                }
                                 else if (tile.F == 2)
                                 {
                                     flipped = AssetUtil.FlipTexture(flipped, true, false);
@@ -182,11 +190,11 @@ namespace MonolithEngine.Source.Level
                                 {
                                     flipped = AssetUtil.FlipTexture(flipped, true, true);
                                 }
-                                
+
                                 flipped.GetData(data);
                             }
                             //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
-                            
+
                             tileGroup.AddColorData(data, pos);
                             //e.Visible = false;
                             //e.Active = false;
@@ -203,6 +211,7 @@ namespace MonolithEngine.Source.Level
                     }
                 }
             }
+            return entities;
         }
 
         private string GetMonoGameContentName(string fullpath)

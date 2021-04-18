@@ -37,6 +37,8 @@ namespace ForestPlatformerExample.Source
         public static bool Paused = false;
         public static bool WasGameStarted = false;
 
+        private LDTKMap world;
+
         protected override void Init()
         {
             font = Content.Load<SpriteFont>("DefaultFont");
@@ -53,6 +55,10 @@ namespace ForestPlatformerExample.Source
 
         protected override void LoadGameContent()
         {
+
+            MapSerializer mapSerializer = new LDTKJsonMapParser();
+            world = mapSerializer.Load("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
+
             // UI text generated with: https://fontmeme.com/pixel-fonts/
             // font: KA1
             // base color: 2A2A57
@@ -166,10 +172,11 @@ namespace ForestPlatformerExample.Source
 
             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
-            Level1Scene level1 = new Level1Scene(font);
+            Level1Scene level1 = new Level1Scene(world, font);
             SettingsScene settings = new SettingsScene();
             VideoSettingsScene videoSettings = new VideoSettingsScene();
             LoadingScreenScene loadingScreen = new LoadingScreenScene();
+            Level2Scene level2 = new Level2Scene(world, font);
 
             SceneManager.AddScene(mainMenuScene);
             SceneManager.AddScene(settings);
@@ -177,6 +184,7 @@ namespace ForestPlatformerExample.Source
             SceneManager.AddScene(level1);
             SceneManager.AddScene(videoSettings);
             SceneManager.AddScene(loadingScreen);
+            SceneManager.AddScene(level2);
 
             SceneManager.LoadScene(mainMenuScene);
             SceneManager.SetLoadingScene(loadingScreen);

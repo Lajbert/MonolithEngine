@@ -13,14 +13,12 @@ namespace ForestPlatformerExample.Source.Environment
 {
     class NextLevelTrigger : Entity
     {
-        public NextLevelTrigger(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
+        public NextLevelTrigger(AbstractScene scene, Vector2 position, int width, int height) : base(scene.LayerManager.EntityLayer, null, position)
         {
             Visible = false;
             Active = true;
             AddTag("Environment");
-            int width = 256;
-            int height = 256;
-            AddComponent(new BoxTrigger(this, width, height, new Vector2(-width / 2, -height + Config.GRID), tag: ""));
+            AddComponent(new BoxTrigger(this, width, height, Vector2.Zero, tag: ""));
 #if DEBUG
             Visible = true;
             (GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;

@@ -1,43 +1,39 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
 using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using ForestPlatformerExample.Source.Entities.Items;
 using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
 using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Level;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Scene.Transition;
 using MonolithEngine.Engine.Source.UI;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
 using MonolithEngine.Source.Level;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
-using MonolithEngine.Util;
 
 namespace ForestPlatformerExample.Source.Scenes
 {
-    class Level1Scene : AbstractScene
+    class Level2Scene : AbstractScene
     {
-
         private Hero hero;
         private SpriteFont font;
         private LDTKMap world;
 
-        public Level1Scene(LDTKMap world, SpriteFont spriteFont) : base ("Level1", useLoadingScreen: true)
+        public Level2Scene(LDTKMap world, SpriteFont spriteFont) : base("Level2", useLoadingScreen: true)
         {
             font = spriteFont;
             this.world = world;
+            BackgroundColor = Color.LightBlue;
         }
 
         public override ICollection<object> ExportData()
@@ -65,12 +61,12 @@ namespace ForestPlatformerExample.Source.Scenes
         {
 
             UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(5, 5), scale: 2));
-            UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale:0.2f));
+            UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale: 0.2f));
 
             Vector2 heroPosition = Vector2.Zero;
             List<(Vector2, Direction)> movingPlatforms = new List<(Vector2, Direction)>();
 
-            foreach (EntityInstance entity in world.ParseLevel(this, "Level_1"))
+            foreach (EntityInstance entity in world.ParseLevel(this, "Level_2"))
             {
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
                 if (entity.Identifier.Equals("Hero"))
@@ -142,7 +138,7 @@ namespace ForestPlatformerExample.Source.Scenes
                 else if (entity.Identifier.Equals("SlideWall"))
                 {
                     new SlideWall(this, position, (int)entity.Width, (int)entity.Height);
-                } 
+                }
                 else if (entity.Identifier.Equals("EnemyTrunk"))
                 {
                     new Trunk(this, position, Direction.WEST);
@@ -169,30 +165,16 @@ namespace ForestPlatformerExample.Source.Scenes
                 }
                 else if (entity.Identifier.Equals("NextLevelTrigger"))
                 {
-                    new NextLevelTrigger(this, position, (int)entity.Width, (int)entity.Height);
+                    //new NextLevelTrigger(this, position);
                 }
             }
-
-
-            //hero = new Hero(this, heroPosition, font);
-            PhysicalEntity collisionTest = new PhysicalEntity(LayerManager.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
-            {
-                HasGravity = false
-            };
-            collisionTest.SetSprite(Assets.CreateRectangle(64, Color.Yellow));
-            collisionTest.AddTag("Mountable");
-            //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));
-            collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 64, 64, Vector2.Zero));
-#if DEBUG
-            (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-#endif
 
             hero = new Hero(this, heroPosition);
             foreach ((Vector2, Direction) prop in movingPlatforms)
             {
                 new MovingPlatformTurner(this, prop.Item1, prop.Item2);
             }
-            
+
         }
 
         public override void OnEnd()

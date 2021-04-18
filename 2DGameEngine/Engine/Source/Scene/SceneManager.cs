@@ -20,13 +20,16 @@ namespace MonolithEngine.Engine.Source.Scene
         private AbstractScene nextSceneToStart;
         private Camera camera;
 
+        private GraphicsDevice graphicsDevice;
+
         private bool isLoading = false;
 
         private bool useLoadingScreen = false;
 
-        public SceneManager(Camera camera)
+        public SceneManager(Camera camera, GraphicsDevice graphicsDevice)
         {
             this.camera = camera;
+            this.graphicsDevice = graphicsDevice;
         }
 
         public void AddScene(AbstractScene scene)
@@ -174,6 +177,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         internal void Draw(SpriteBatch spriteBatch)
         {
+            graphicsDevice.Clear(currentScene.BackgroundColor);
             if (useLoadingScreen && loadingScreen != null)
             {
                 isLoading = true;

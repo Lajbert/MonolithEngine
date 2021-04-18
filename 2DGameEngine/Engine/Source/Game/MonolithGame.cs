@@ -119,7 +119,7 @@ namespace MonolithEngine.Engine.Source.MyGame
                 Limits = new Rectangle(0, 50, 5470, 700)
             };
 
-            SceneManager = new SceneManager(Camera);
+            SceneManager = new SceneManager(Camera, graphics.GraphicsDevice);
 
             font = Content.Load<SpriteFont>("DefaultFont");
 
@@ -195,8 +195,6 @@ namespace MonolithEngine.Engine.Source.MyGame
         protected override void Draw(GameTime gameTime)
         {
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
-            GraphicsDevice.Clear(Color.White);
-
             SceneManager.Draw(spriteBatch);
 
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;

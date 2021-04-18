@@ -794,6 +794,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             } 
             else
             {
+                if (Ladder != null && !IsOnGround)
+                {
+                    SetupLadderMovement();
+                } else if (Ladder != null)
+                {
+                    ExitLadderMovement();
+                }
+
                 if (!isSliding && overlappingEnemies.Count > 0 && !Timer.IsSet("Invincible"))
                 {
                     if (overlappingEnemies[0] is Spikes)
@@ -812,6 +820,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     Respawn();
                 }
             }
+
+            Logger.Info("ANIM: " + Animations.GetCurrentAnimationState());
 
             base.FixedUpdate();
         }
@@ -880,25 +890,36 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         public void EnterLadder(Ladder ladder)
         {
             Ladder = ladder;
+            VelocityY = 0;
+            SetupLadderMovement();
+        }
+
+        private void SetupLadderMovement()
+        {
             canJump = false;
             canDoubleJump = true;
-            VelocityY = 0;
             MovementSpeed = climbSpeed;
             HasGravity = false;
         }
 
-        public void LeaveLadder()
+        private void ExitLadderMovement()
         {
             if (Ladder != null && Ladder.Transform.Position.Y > Transform.Y && Velocity.Y < 0)
             {
                 VelocityY -= Config.JUMP_FORCE;
             }
             FallSpeed = 0;
-            Ladder = null;
+            
             HasGravity = true;
             MovementSpeed = Config.CHARACTER_SPEED;
             HorizontalFriction = Config.HORIZONTAL_FRICTION;
             VerticalFriction = Config.VERTICAL_FRICTION;
+        }
+
+        public void LeaveLadder()
+        {
+            ExitLadderMovement();
+            Ladder = null;
         }
 
         private void Hit(IGameObject otherCollider, bool usePositionCheck = true, Vector2 forceRightFacing = default)
