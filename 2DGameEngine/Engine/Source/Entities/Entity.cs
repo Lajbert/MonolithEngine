@@ -60,8 +60,6 @@ namespace MonolithEngine.Entities
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        private readonly string DESTROY_AMINATION = "Destroy";
-
         private ComponentList componentList = new ComponentList();
 
         private Dictionary<string, bool> CollidesAgainst = new Dictionary<string, bool>();
@@ -347,7 +345,7 @@ namespace MonolithEngine.Entities
 
         public override void Destroy()
         {
-            if (BeingDestroyed)
+            if (BeingDestroyed || Destroyed)
             {
                 return;
             }
@@ -355,14 +353,12 @@ namespace MonolithEngine.Entities
 
             RemoveCollisions();
 
-            if (GetComponent<AnimationStateMachine>() != null && GetComponent<AnimationStateMachine>().HasAnimation(DESTROY_AMINATION + CurrentFaceDirection))
-            {
-                GetComponent<AnimationStateMachine>().PlayAnimation(DESTROY_AMINATION + CurrentFaceDirection);
-            } 
-            else
-            {
-                Cleanup();
-            }
+            ClearAllComponents();
+
+            Cleanup();
+
+            Destroyed = true;
+            BeingDestroyed = false;
         }
 
         protected void Cleanup()
@@ -385,7 +381,6 @@ namespace MonolithEngine.Entities
             }
             Active = false;
             Visible = false;
-            Destroyed = true;
         }
 
         internal void ClearAllComponents()
@@ -402,18 +397,6 @@ namespace MonolithEngine.Entities
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
             RayEmitter = null;
             BlocksRay = false;
-        }
-
-        public void SetDestroyAnimation(AbstractAnimation destroyAnimation, Direction direction = Direction.CENTER)
-        {
-            if (GetComponent<AnimationStateMachine>() == null)
-            {
-                AddComponent(new AnimationStateMachine());
-            }
-            //destroyAnimation.StartedCallback += () => RemoveCollisions();
-            destroyAnimation.StoppedCallback += () => Cleanup();
-            destroyAnimation.Looping = false;
-            GetComponent<AnimationStateMachine>().RegisterAnimation(DESTROY_AMINATION + direction.ToString(), destroyAnimation, () => false);
         }
 
         public void SetSprite(Texture2D sprite)
@@ -565,5 +548,9 @@ namespace MonolithEngine.Entities
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
+        public override bool IsAlive()
+        {
+            return !IsDestroyed && !BeingDestroyed;
+        }
     }
 }

@@ -141,7 +141,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
             if (health == 0)
             {
 
-                Destroy();
+                Die();
                 return;
             }
             //AudioEngine.Play("TrunkHit");
@@ -149,7 +149,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
             PlayHurtAnimation();
         }
 
-        public override void Destroy()
+        public override void Die()
         {
             if (CurrentFaceDirection == Direction.WEST)
             {
@@ -161,7 +161,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
             }
 
             //AudioEngine.Play("TrunkDeath");
-            base.Destroy();
+            base.Die();
         }
 
         private void PlayHurtAnimation()

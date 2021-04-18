@@ -21,5 +21,7 @@ namespace MonolithEngine.Engine.Source.Entities.Abstract
         public void RemoveChild(IGameObject gameObject);
 
         public void Destroy();
+
+        public bool IsAlive();
     }
 }

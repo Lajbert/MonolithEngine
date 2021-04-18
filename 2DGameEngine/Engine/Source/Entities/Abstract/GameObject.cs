@@ -133,5 +133,7 @@ namespace MonolithEngine.Entities
         {
             Tags.Remove(tag);
         }
+
+        public abstract bool IsAlive();
     }
 }

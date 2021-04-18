@@ -1031,7 +1031,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             else if (otherCollider is Coin)
             {
                 AudioEngine.Play("CoinPickupSound");
-                (otherCollider as Coin).Destroy();
+                (otherCollider as Coin).Die();
                 ForestPlatformerGame.CoinCount++;
             }
             else if (otherCollider is Box && (otherCollider as Box).Velocity == Vector2.Zero && Transform.Y < otherCollider.Transform.Y)

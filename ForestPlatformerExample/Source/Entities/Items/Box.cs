@@ -22,10 +22,11 @@ using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Engine.Source.Audio;
+using ForestPlatformerExample.Source.Entities.Enemies;
 
 namespace ForestPlatformerExample.Source.Entities.Items
 {
-    class Box : PhysicalEntity,IAttackable, IMovableItem
+    class Box : AbstractInteractive, IAttackable, IMovableItem
     {
 
         int life = 2;
@@ -35,7 +36,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
 
         private List<Coin> coins = new List<Coin>();
 
-        public Box(AbstractScene scene, Vector2 position, int bumps = 1) : base(scene.LayerManager.EntityLayer, null, position)
+        public Box(AbstractScene scene, Vector2 position, int bumps = 1) : base(scene,  position)
         {
             //ColliderOnGrid = true;
 
@@ -101,7 +102,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
         {
             if (life == 0)
             {
-                Destroy();
+                Die();
                 return;
             }
 
@@ -156,7 +157,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
             Scene.Camera.Shake();
-            Destroy();
+            Die();
         }
 
         /*protected override void OnCircleCollisionStart(Entity otherCollider, CollisionResult collisionResult)
@@ -172,7 +173,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
         {
             if (otherCollider.HasTag("Enemy") && IsMovingAtLeast(0.5f))
             {
-                otherCollider.Destroy();
+                (otherCollider as AbstractEnemy).Die();
                 Explode();
             }
             base.OnCollisionStart(otherCollider);
@@ -192,7 +193,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
         {
             Velocity = Vector2.Zero;
             GravityValue = 0;
-            Destroy();
+            Die();
         }
     }
 }

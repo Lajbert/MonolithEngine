@@ -105,6 +105,14 @@ namespace MonolithEngine.Engine.Source.Util
 
         }
 
+        public static void Clear()
+        {
+            triggeredActions.Clear();
+            repeatedActions.Clear();
+            timers.Clear();
+            lerps.Clear();
+        }
+
         public static bool IsSet(string timer)
         {
             return timers.ContainsKey(timer);

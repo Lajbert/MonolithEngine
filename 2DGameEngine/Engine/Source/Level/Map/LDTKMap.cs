@@ -35,8 +35,6 @@ namespace MonolithEngine.Source.Level
 
         private TileGroup tileGroup;
 
-        private float scrollSpeedModifier = 0f;
-
         //private Vector2 pivot = new Vector2(-Config.GRID / 2, 0);
         private Vector2 pivot = Vector2.Zero;
 
@@ -62,6 +60,7 @@ namespace MonolithEngine.Source.Level
                 {
                     continue;
                 }
+                float scrollSpeedModifier = 0f;
                 Array.Reverse(level.LayerInstances);
                 foreach (LayerInstance layerInstance in level.LayerInstances)
                 {

@@ -8,22 +8,21 @@ using System.Collections.Generic;
 using System.Text;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Engine.Source.Util;
+using MonolithEngine.Engine.Source.Entities.Animations;
+using MonolithEngine.Source.Entities.Animation;
 
 namespace ForestPlatformerExample.Source.Entities.Enemies
 {
-    abstract class AbstractEnemy : PhysicalEntity, IAttackable
+    abstract class AbstractEnemy : AbstractDestroyable, IAttackable
     {
+
         public int MoveDirection = 1;
 
         public float DefaultSpeed = 0.05f;
 
         public float CurrentSpeed = 0.05f;
 
-        protected float RotationRate = 0f;
-
-        protected bool HasDestroyAnimation = false;
-
-        public AbstractEnemy(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
+        public AbstractEnemy(AbstractScene scene, Vector2 position) : base(scene, position)
         {
             AddTag("Enemy");
         }
@@ -36,37 +35,12 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
 
             if (Transform.Y > 2000 && RotationRate == 0)
             {
-                base.Destroy();
+                Destroy();
             }
 
             if (RotationRate != 0)
             {
                 Transform.Rotation += RotationRate;
-            }
-        }
-
-        public override void Destroy()
-        {
-            if (!HasDestroyAnimation)
-            {
-                HorizontalFriction = .99f;
-                VerticalFriction = .99f;
-                int rand = MyRandom.Between(0, 10);
-                Vector2 bump = new Vector2(0.1f, -0.1f);
-                RotationRate = 0.1f;
-                if (rand % 2 == 0)
-                {
-                    bump.X *= -1;
-                    RotationRate *= -1;
-                }
-                CheckGridCollisions = false;
-                RemoveCollisions();
-                Velocity += bump;
-                Timer.TriggerAfter(3000, base.Destroy);
-            } 
-            else
-            {
-                base.Destroy();
             }
         }
     }

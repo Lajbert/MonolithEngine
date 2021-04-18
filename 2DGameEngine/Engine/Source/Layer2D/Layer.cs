@@ -196,19 +196,16 @@ namespace MonolithEngine.Source.GridCollision
             foreach (Entity entity in activeObjects)
             {
                 entity.Destroy();
-                entity.ClearAllComponents();
             }
 
             foreach(Entity entity in visibleObjects)
             {
                 entity.Destroy();
-                entity.ClearAllComponents();
             }
 
             foreach (Entity entity in changedObjects)
             {
                 entity.Destroy();
-                entity.ClearAllComponents();
             }
 
             //changedObjects.Clear();

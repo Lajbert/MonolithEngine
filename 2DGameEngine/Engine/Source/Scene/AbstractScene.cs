@@ -6,6 +6,7 @@ using MonolithEngine.Engine.Source.Physics;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene.Transition;
 using MonolithEngine.Engine.Source.UI;
+using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Entities;
 using System;
 using System.Collections.Generic;
@@ -79,6 +80,7 @@ namespace MonolithEngine.Engine.Source.Scene
             LayerManager.Destroy();
             CollisionEngine.Destroy();
             GridCollisionChecker.Destroy();
+            Timer.Clear();
         }
 
         public abstract ICollection<object> ExportData();

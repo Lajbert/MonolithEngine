@@ -52,5 +52,10 @@ namespace MonolithEngine.Engine.Source.Level.Collision
         {
             return BlocksMovement && IsBlockedFrom(direction);
         }
+
+        public override bool IsAlive()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

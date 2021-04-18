@@ -51,8 +51,6 @@ namespace ForestPlatformerExample.Source.Enemies
 
             DrawPriority = 1;
 
-            HasDestroyAnimation = true;
-
             AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -15)));
 
             AddComponent(new CarrotAIStateMachine(new CarrotPatrolState(this)));
@@ -236,7 +234,7 @@ namespace ForestPlatformerExample.Source.Enemies
             {
                 CurrentSpeed = 0;
                 RemoveCollisions();
-                Destroy();
+                Die();
                 return;
             }
 
@@ -266,10 +264,10 @@ namespace ForestPlatformerExample.Source.Enemies
             FallSpeed = 0;
         }
 
-        public override void Destroy()
+        public override void Die()
         {
             AudioEngine.Play("CarrotExplodeSound");
-            base.Destroy();
+            base.Die();
         }
 
         private void PlayHurtAnimation()
