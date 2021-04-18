@@ -373,11 +373,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 StartFrame = 12,
                 EndFrame = 16
             };
-            bool isDoubleJumpingRight() => doubleJumping && CurrentFaceDirection == Direction.EAST;
+            bool isDoubleJumpingRight() => !IsOnGround && Velocity.Y != 0 && doubleJumping && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("DoubleJumpingRight", doubleJumpRight, isDoubleJumpingRight, 3);
 
             SpriteSheetAnimation doubleJumpLeft = doubleJumpRight.CopyFlipped();
-            bool isDoubleJumpingLeft() => doubleJumping && CurrentFaceDirection == Direction.WEST;
+            bool isDoubleJumpingLeft() => !IsOnGround && Velocity.Y != 0 && doubleJumping && CurrentFaceDirection == Direction.WEST;
             Animations.RegisterAnimation("DoubleJumpingLeft", doubleJumpLeft, isDoubleJumpingLeft, 3);
 
             Animations.AddFrameTransition("DoubleJumpingRight", "DoubleJumpingLeft");
@@ -803,7 +803,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public override void FixedUpdate()
         {
-
             if (LevelEndReached && Ladder != null)
             {
                 Velocity += autoMovementSpeed;
