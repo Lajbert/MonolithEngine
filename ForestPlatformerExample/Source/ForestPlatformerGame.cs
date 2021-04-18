@@ -149,6 +149,14 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("TurtleIdleSpiked", "ForestAssets/Characters/SpikedTurtle/Idle 1 (44x26)");
             Assets.LoadTexture("TurtleIdleNormal", "ForestAssets/Characters/SpikedTurtle/Idle 2 (44x26)");
 
+            Assets.LoadTexture("IceCreamIdle", "IcySkies/Characters/IceCream/ice-cream@idle");
+            Assets.LoadTexture("IceCreamDeath", "IcySkies/Characters/IceCream/ice-cream@death");
+            Assets.LoadTexture("IceCreamHurt", "IcySkies/Characters/IceCream/ice-cream@hurt");
+            Assets.LoadTexture("IceCreamMove", "IcySkies/Characters/IceCream/ice-cream@move");
+            Assets.LoadTexture("IceCreamAttack", "IcySkies/Characters/IceCream/ice-cream@attack");
+            Assets.LoadTexture("IceCreamProjectileHit", "IcySkies/Characters/IceCream/ice-cream-projectile@hit");
+            Assets.LoadTexture("IceCreamProjectileIdle", "IcySkies/Characters/IceCream/ice-cream-projectile@idle");
+
             // Sounds
 
             AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC);

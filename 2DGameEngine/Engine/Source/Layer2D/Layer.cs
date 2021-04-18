@@ -195,20 +195,20 @@ namespace MonolithEngine.Source.GridCollision
         {
             foreach (Entity entity in activeObjects)
             {
-                entity.ClearAllComponents();
                 entity.Destroy();
+                entity.ClearAllComponents();
             }
 
             foreach(Entity entity in visibleObjects)
             {
-                entity.ClearAllComponents();
                 entity.Destroy();
+                entity.ClearAllComponents();
             }
 
             foreach (Entity entity in changedObjects)
             {
-                entity.ClearAllComponents();
                 entity.Destroy();
+                entity.ClearAllComponents();
             }
 
             //changedObjects.Clear();

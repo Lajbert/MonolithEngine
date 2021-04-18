@@ -29,7 +29,7 @@ namespace ForestPlatformerExample.Source.Scenes
         private SpriteFont font;
         private LDTKMap world;
 
-        public Level2Scene(LDTKMap world, SpriteFont spriteFont) : base("Level2", useLoadingScreen: true)
+        public Level2Scene(LDTKMap world, SpriteFont spriteFont) : base("Level_2", useLoadingScreen: true)
         {
             font = spriteFont;
             this.world = world;
@@ -63,98 +63,11 @@ namespace ForestPlatformerExample.Source.Scenes
             UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(5, 5), scale: 2));
             UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale: 0.2f));
 
-            Vector2 heroPosition = Vector2.Zero;
-            List<(Vector2, Direction)> movingPlatforms = new List<(Vector2, Direction)>();
+            EntityParser parser = new EntityParser(world);
 
-            foreach (EntityInstance entity in world.ParseLevel(this, "Level_2"))
-            {
-                Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
-                if (entity.Identifier.Equals("Hero"))
-                {
-                    heroPosition = position;
-                }
-                else if (entity.Identifier.Equals("Coin"))
-                {
-                    bool hasGravity = true;
-                    foreach (FieldInstance field in entity.FieldInstances)
-                    {
-                        if (field.Identifier == "hasGravity")
-                        {
-                            hasGravity = field.Value;
-                        }
-                    }
-                    Coin c = new Coin(this, position);
-                    c.HasGravity = hasGravity;
-                }
-                else if (entity.Identifier.Equals("MovingPlatform"))
-                {
-                    new MovingPlatform(this, position, (int)entity.Width, (int)entity.Height);
-                }
-                else if (entity.Identifier.Equals("Spring"))
-                {
-                    int power = -1;
-                    foreach (FieldInstance field in entity.FieldInstances)
-                    {
-                        if (field.Identifier == "power")
-                        {
-                            power = (int)field.Value;
-                        }
-                    }
-                    Spring spring = new Spring(this, position, power);
-                }
-                
-                else if (entity.Identifier.Equals("Box"))
-                {
-                    new Box(this, position);
-                }
-                else if (entity.Identifier.Equals("Ladder"))
-                {
-                    new Ladder(this, position, (int)entity.Width, (int)entity.Height);
-                }
-                else if (entity.Identifier.Equals("MovingPlatformTurn"))
-                {
-                    Direction dir = default;
-                    foreach (FieldInstance field in entity.FieldInstances)
-                    {
-                        if (field.Identifier == "Direction")
-                        {
-                            dir = Enum.Parse(typeof(Direction), field.Value);
-                        }
-                    }
-                    movingPlatforms.Add((position, dir));
-                }
-                else if (entity.Identifier.Equals("SlideWall"))
-                {
-                    new SlideWall(this, position, (int)entity.Width, (int)entity.Height);
-                }
-                else if (entity.Identifier.Equals("Spikes"))
-                {
-                    Direction dir = default;
-                    foreach (FieldInstance field in entity.FieldInstances)
-                    {
-                        if (field.Identifier == "Direction")
-                        {
-                            dir = Enum.Parse(typeof(Direction), field.Value);
-                        }
-                    }
-                    float size = entity.Width > entity.Height ? entity.Width : entity.Height;
-                    new Spikes(this, position, (int)size, dir);
-                }
-                else if (entity.Identifier.Equals("RespawnPoint"))
-                {
-                    new RespawnPoint(this, 256, 256, position);
-                }
-                else if (entity.Identifier.Equals("IceTrigger"))
-                {
-                    new IceTrigger(this, (int)entity.Width, (int)entity.Height, position);
-                }
-            }
+            parser.LoadEntities(this, sceneName);
 
-            hero = new Hero(this, heroPosition);
-            foreach ((Vector2, Direction) prop in movingPlatforms)
-            {
-                new MovingPlatformTurner(this, prop.Item1, prop.Item2);
-            }
+            hero = parser.GetHero();
 
         }
 

@@ -60,7 +60,9 @@ namespace MonolithEngine.Entities
                 {
                     l.Destroy();
                 }
+                layers.Clear();
             }
+            allLayers.Clear();
         }
 
         public void DrawAll(SpriteBatch spriteBatch)

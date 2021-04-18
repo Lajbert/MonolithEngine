@@ -19,7 +19,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         protected SceneManager SceneManager;
 
-        private string sceneName;
+        protected string sceneName;
 
         internal bool Preload = false;
 

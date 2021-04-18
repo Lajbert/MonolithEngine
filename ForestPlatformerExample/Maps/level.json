@@ -9,7 +9,7 @@
 		"url": "https://ldtk.io"
 	},
 	"jsonVersion": "0.9.1",
-	"nextUid": 60,
+	"nextUid": 61,
 	"worldLayout": "Free",
 	"worldGridWidth": 256,
 	"worldGridHeight": 256,
@@ -799,6 +799,31 @@
 			"lineOpacity": 1,
 			"hollow": true,
 			"color": "#62DAFF",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileId": null,
+			"tileRenderMode": "FitInside",
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
+		},
+		{
+			"identifier": "EnemyIceCream",
+			"uid": 60,
+			"tags": [],
+			"width": 16,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": false,
+			"keepAspectRatio": false,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#D99494",
 			"renderMode": "Rectangle",
 			"showName": true,
 			"tilesetId": null,
@@ -2999,13 +3024,13 @@
 						},
 						{
 							"__identifier": "Hero",
-							"__grid": [3,41],
+							"__grid": [332,29],
 							"__pivot": [0,0],
 							"__tile": null,
 							"width": 16,
 							"height": 16,
 							"defUid": 20,
-							"px": [48,656],
+							"px": [5312,464],
 							"fieldInstances": []
 						}
 					]
@@ -20449,6 +20474,17 @@
 							"height": 16,
 							"defUid": 48,
 							"px": [1136,656],
+							"fieldInstances": []
+						},
+						{
+							"__identifier": "EnemyIceCream",
+							"__grid": [14,41],
+							"__pivot": [0,0],
+							"__tile": null,
+							"width": 16,
+							"height": 16,
+							"defUid": 60,
+							"px": [224,656],
 							"fieldInstances": []
 						}
 					]
