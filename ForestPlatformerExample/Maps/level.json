@@ -697,7 +697,7 @@
 			"width": 16,
 			"height": 16,
 			"resizableX": true,
-			"resizableY": false,
+			"resizableY": true,
 			"keepAspectRatio": false,
 			"fillOpacity": 1,
 			"lineOpacity": 1,
@@ -20041,6 +20041,86 @@
 							"defUid": 59,
 							"px": [480,416],
 							"fieldInstances": []
+						},
+						{
+							"__identifier": "Spikes",
+							"__grid": [16,38],
+							"__pivot": [0,0],
+							"__tile": { "tilesetUid": 1, "srcRect": [256,368,16,16] },
+							"width": 16,
+							"height": 64,
+							"defUid": 47,
+							"px": [256,608],
+							"fieldInstances": [{
+								"__identifier": "Direction",
+								"__value": "WEST",
+								"__type": "LocalEnum.Direction",
+								"defUid": 49,
+								"realEditorValues": [{
+									"id": "V_String",
+									"params": ["WEST"]
+								}]
+							}]
+						},
+						{
+							"__identifier": "Spikes",
+							"__grid": [22,41],
+							"__pivot": [0,0],
+							"__tile": { "tilesetUid": 1, "srcRect": [256,368,16,16] },
+							"width": 80,
+							"height": 16,
+							"defUid": 47,
+							"px": [352,656],
+							"fieldInstances": [{
+								"__identifier": "Direction",
+								"__value": "NORTH",
+								"__type": "LocalEnum.Direction",
+								"defUid": 49,
+								"realEditorValues": [{
+									"id": "V_String",
+									"params": ["NORTH"]
+								}]
+							}]
+						},
+						{
+							"__identifier": "Spikes",
+							"__grid": [22,37],
+							"__pivot": [0,0],
+							"__tile": { "tilesetUid": 1, "srcRect": [256,368,16,16] },
+							"width": 96,
+							"height": 16,
+							"defUid": 47,
+							"px": [352,592],
+							"fieldInstances": [{
+								"__identifier": "Direction",
+								"__value": "SOUTH",
+								"__type": "LocalEnum.Direction",
+								"defUid": 49,
+								"realEditorValues": [{
+									"id": "V_String",
+									"params": ["SOUTH"]
+								}]
+							}]
+						},
+						{
+							"__identifier": "Spikes",
+							"__grid": [18,38],
+							"__pivot": [0,0],
+							"__tile": { "tilesetUid": 1, "srcRect": [256,368,16,16] },
+							"width": 16,
+							"height": 64,
+							"defUid": 47,
+							"px": [288,608],
+							"fieldInstances": [{
+								"__identifier": "Direction",
+								"__value": "EAST",
+								"__type": "LocalEnum.Direction",
+								"defUid": 49,
+								"realEditorValues": [{
+									"id": "V_String",
+									"params": ["EAST"]
+								}]
+							}]
 						}
 					]
 				},

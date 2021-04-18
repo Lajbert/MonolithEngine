@@ -102,19 +102,7 @@ namespace ForestPlatformerExample.Source.Scenes
                     }
                     Spring spring = new Spring(this, position, power);
                 }
-                else if (entity.Identifier.Equals("EnemyCarrot"))
-                {
-                    int speed = -1;
-                    foreach (FieldInstance field in entity.FieldInstances)
-                    {
-
-                        if (field.Identifier == "speed")
-                        {
-                            speed = (int)field.Value;
-                        }
-                    }
-                    Carrot carrot = new Carrot(this, position, Direction.EAST);
-                }
+                
                 else if (entity.Identifier.Equals("Box"))
                 {
                     new Box(this, position);
@@ -139,14 +127,6 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     new SlideWall(this, position, (int)entity.Width, (int)entity.Height);
                 }
-                else if (entity.Identifier.Equals("EnemyTrunk"))
-                {
-                    new Trunk(this, position, Direction.WEST);
-                }
-                else if (entity.Identifier.Equals("EnemySpikedTurtle"))
-                {
-                    new SpikedTurtle(this, position, Direction.WEST);
-                }
                 else if (entity.Identifier.Equals("Spikes"))
                 {
                     Direction dir = default;
@@ -157,7 +137,8 @@ namespace ForestPlatformerExample.Source.Scenes
                             dir = Enum.Parse(typeof(Direction), field.Value);
                         }
                     }
-                    new Spikes(this, position, (int)entity.Width, dir);
+                    float size = entity.Width > entity.Height ? entity.Width : entity.Height;
+                    new Spikes(this, position, (int)size, dir);
                 }
                 else if (entity.Identifier.Equals("RespawnPoint"))
                 {

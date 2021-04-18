@@ -161,7 +161,8 @@ namespace ForestPlatformerExample.Source.Scenes
                             dir = Enum.Parse(typeof(Direction), field.Value);
                         }
                     }
-                    new Spikes(this, position, (int)entity.Width, dir);
+                    float size = entity.Width > entity.Height ? entity.Width : entity.Height;
+                    new Spikes(this, position, (int)size, dir);
                 }
                 else if (entity.Identifier.Equals("RespawnPoint"))
                 {

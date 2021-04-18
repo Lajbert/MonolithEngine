@@ -821,8 +821,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
             }
 
-            Logger.Info("ANIM: " + Animations.GetCurrentAnimationState());
-
             base.FixedUpdate();
         }
 
