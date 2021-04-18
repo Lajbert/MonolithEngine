@@ -12,6 +12,9 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
 {
     class AIUtil
     {
+
+        private static bool changeDirectionAllowed = false;
+
         public static bool WillColliderOrFall(AbstractEnemy enemy)
         {
             if (enemy.CurrentFaceDirection == Direction.WEST)
@@ -27,7 +30,6 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
             throw new Exception("Wrong CurrentFaceDirection for enemy!");
         }
 
-        private static bool changeDirectionAllowed = false;
         public static void Patrol(bool checkCollisions, AbstractEnemy enemy, float waitingTime = 0f)
         {
             if (enemy.Velocity.Y > 0)

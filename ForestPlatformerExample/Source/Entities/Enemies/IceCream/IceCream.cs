@@ -27,10 +27,10 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             AddComponent(new BoxTrigger(this, 300, 300, new Vector2(-150, -150), "vision"));
 
 #if DEBUG
-            DEBUG_SHOW_COLLIDER = true;
+            /*DEBUG_SHOW_COLLIDER = true;
             (GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;
             (GetCollisionComponent() as CircleCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-            DEBUG_SHOW_PIVOT = true;
+            DEBUG_SHOW_PIVOT = true;*/
 #endif
 
             CurrentFaceDirection = Direction.WEST;
@@ -51,12 +51,25 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
             SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamHurt"), 24);
             hurtLeft.Looping = false;
+            hurtLeft.StartedCallback = () => CurrentSpeed = 0;
+            hurtLeft.StoppedCallback = () => CurrentSpeed = DefaultSpeed;
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamMove"), 17);
+            moveLeft.EveryFrameAction = (frame) =>
+            {
+                if (frame >= 7 && frame <= 10)
+                {
+                    CurrentSpeed = DefaultSpeed;
+                }
+                else
+                {
+                    CurrentSpeed = 0.001f;
+                }
+            };
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Velocity.X != 0);
 
             SpriteSheetAnimation moveRight = moveLeft.CopyFlipped();

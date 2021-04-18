@@ -152,7 +152,7 @@ namespace ForestPlatformerExample.Source.Scenes
             }
 
 #if DEBUG
-            PhysicalEntity collisionTest = new PhysicalEntity(scene.LayerManager.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
+           /* PhysicalEntity collisionTest = new PhysicalEntity(scene.LayerManager.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
             {
                 HasGravity = false
             };
@@ -160,7 +160,7 @@ namespace ForestPlatformerExample.Source.Scenes
             collisionTest.AddTag("Mountable");
             //collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 32, 32, new Vector2(-16, -16)));
             collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 64, 64, Vector2.Zero));
-            (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;*/
 #endif
 
             hero = new Hero(scene, heroPosition);
