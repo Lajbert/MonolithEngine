@@ -515,7 +515,7 @@ namespace MonolithEngine
         public void ResetPosition(Vector2 position)
         {
             Transform.InCellLocation = new Vector2(0.5f, 1f);
-            Transform.GridCoordinates = position / Config.GRID;
+            Transform.GridCoordinates = new Vector2((int)(position.X / Config.GRID), (int)(position.Y / Config.GRID));
             Transform.Position = position;
             FallSpeed = 0;
         }

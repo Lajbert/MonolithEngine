@@ -59,8 +59,6 @@ namespace ForestPlatformerExample.Source.Entities.Items
             GravityValue /= 2;
             HorizontalFriction = 0.6f;
 
-            Active = true;
-
             //DEBUG_SHOW_PIVOT = true;
 
             AnimationStateMachine Animations = new AnimationStateMachine();
