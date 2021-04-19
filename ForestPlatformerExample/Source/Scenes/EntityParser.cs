@@ -3,6 +3,7 @@ using ForestPlatformerExample.Source.Entities.Enemies.IceCream;
 using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
 using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using ForestPlatformerExample.Source.Entities.Items;
+using ForestPlatformerExample.Source.Entities.Traps;
 using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
@@ -148,6 +149,14 @@ namespace ForestPlatformerExample.Source.Scenes
                 else if (entity.Identifier.Equals("EnemyIceCream"))
                 {
                     new IceCream(scene, position);
+                }
+                else if (entity.Identifier.Equals("Saw"))
+                {
+                    new Saw(scene, position);
+                }
+                else if (entity.Identifier.Equals("SawPath"))
+                {
+                    new SawPath(scene, position, (int)entity.Width, (int)entity.Height);
                 }
             }
 

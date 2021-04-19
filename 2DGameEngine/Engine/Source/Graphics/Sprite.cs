@@ -21,8 +21,9 @@ namespace MonolithEngine.Engine.Source.Graphics
         public Entity Owner;
         public SpriteEffects SpriteEffect = SpriteEffects.None;
         public float Rotation = 0f;
+        public Vector2 Origin;
 
-        public Sprite(Entity owner, Texture2D texture, Rectangle? sourceRectangle = null, Vector2 drawOffset = default, float rotation = 0f, bool flipHorizontal = false, bool flipVertical = false)
+        public Sprite(Entity owner, Texture2D texture, Rectangle? sourceRectangle = null, Vector2 drawOffset = default, float rotation = 0f, Vector2 origin = default, bool flipHorizontal = false, bool flipVertical = false)
         {
             if (flipHorizontal || flipVertical)
             {
@@ -46,11 +47,12 @@ namespace MonolithEngine.Engine.Source.Graphics
             DrawOffset = drawOffset;
             Owner = owner;
             Rotation = rotation;
+            Origin = origin;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Owner.DrawPosition + DrawOffset, SourceRectangle, Color.White, Rotation, Owner.Pivot, 1f, SpriteEffect, Owner.Depth);
+            spriteBatch.Draw(Texture, Owner.DrawPosition + DrawOffset, SourceRectangle, Color.White, Rotation, Origin, 1f, SpriteEffect, Owner.Depth);
         }
     }
 }

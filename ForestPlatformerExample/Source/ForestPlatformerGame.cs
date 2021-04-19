@@ -157,6 +157,9 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("IceCreamProjectileHit", "IcySkies/Characters/IceCream/ice-cream-projectile@hit");
             Assets.LoadTexture("IceCreamProjectileIdle", "IcySkies/Characters/IceCream/ice-cream-projectile@idle");
 
+            // Traps
+            Assets.LoadTexture("Saw", "IcySkies/Traps/Saw/saw");
+
             // Sounds
 
             AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC);
