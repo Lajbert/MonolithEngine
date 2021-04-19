@@ -1,12 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ForestPlatformerExample.Source.PlayerCharacter;
+using Microsoft.Xna.Framework;
+using MonolithEngine.Engine.AI;
 using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Engine.Source.Entities;
+using MonolithEngine.Engine.Source.Entities.Abstract;
 using MonolithEngine.Engine.Source.Entities.Animations;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Physics.Trigger;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Global;
 using MonolithEngine.Source.Entities;
+using MonolithEngine.Source.Util;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +19,14 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 {
     class IceCream : AbstractEnemy
     {
+
+        public Hero Target;
+
+        private bool isAttacking = false;
+
+        private bool canAttack = true;
+
+        private IceCreamAIStateMachine AI;
 
         public IceCream(AbstractScene scene, Vector2 position) : base (scene, position)
         {
@@ -51,8 +63,16 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
             SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamHurt"), 24);
             hurtLeft.Looping = false;
-            hurtLeft.StartedCallback = () => CurrentSpeed = 0;
-            hurtLeft.StoppedCallback = () => CurrentSpeed = DefaultSpeed;
+            hurtLeft.StartedCallback = () =>
+            {
+                CurrentSpeed = 0;
+                canAttack = false;
+            };
+            hurtLeft.StoppedCallback = () =>
+            {
+                CurrentSpeed = DefaultSpeed;
+                canAttack = true;
+            };
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
@@ -75,6 +95,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             SpriteSheetAnimation moveRight = moveLeft.CopyFlipped();
             Animations.RegisterAnimation("MoveRight", moveRight, () => CurrentFaceDirection == Direction.EAST && Velocity.X != 0);
 
+            Animations.AddFrameTransition("MoveLeft", "MoveRight");
+
             SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamDeath"), 24);
             deathLeft.Looping = false;
             Animations.RegisterAnimation("DeathLeft", deathLeft, () => false);
@@ -82,14 +104,64 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
             Animations.RegisterAnimation("DeathRight", deathRight, () => false);
 
-            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamDeath"), 24);
+            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamAttack"), 36);
             attackLeft.Looping = false;
+            attackLeft.StartedCallback = () => isAttacking = true;
+            attackLeft.StoppedCallback = () => isAttacking = false;
+            attackLeft.AddFrameAction(21, (frame) =>
+            {
+                SpawnProjectiles();
+            });
             Animations.RegisterAnimation("AttackLeft", attackLeft, () => false);
 
             SpriteSheetAnimation attackRight = attackLeft.CopyFlipped();
             Animations.RegisterAnimation("AttackRight", attackRight, () => false);
 
-            AddComponent(new IceCreamAIStateMachine(new IceCreamPatrolState(this)));
+            Animations.AddFrameTransition("AttackLeft", "AttackRight");
+
+
+            AI = new IceCreamAIStateMachine(new IceCreamPatrolState(this));
+            AI.AddState(new IceCreamAttackState(this));
+
+            AddComponent(AI);
+        }
+
+        public override void FixedUpdate()
+        {
+            if (Target != null)
+            {
+                AI.ChangeState<IceCreamAttackState>();
+            }
+            else if (!isAttacking)
+            {
+                AI.ChangeState<IceCreamPatrolState>();
+            }
+            base.FixedUpdate();
+        }
+
+        public void Attack()
+        {
+            if (isAttacking || !canAttack)
+            {
+                return;
+            }
+
+            if (CurrentFaceDirection == Direction.WEST)
+            {
+                GetComponent<AnimationStateMachine>().PlayAnimation("AttackLeft");
+            }
+            else 
+            {
+                GetComponent<AnimationStateMachine>().PlayAnimation("AttackRight");
+            }
+        }
+
+        private void SpawnProjectiles()
+        {
+            IceCreamProjectile p1 = new IceCreamProjectile(Scene, Transform.Position + new Vector2(0, -40));
+            p1.AddForce(new Vector2(-0.2f, -0.3f));
+            IceCreamProjectile p2 = new IceCreamProjectile(Scene, Transform.Position + new Vector2(0, -40));
+            p2.AddForce(new Vector2(0.2f, -0.3f));
         }
 
         public override void Hit(Direction impactDireciton)
@@ -97,10 +169,29 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             if (CurrentFaceDirection == Direction.WEST)
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HurtLeft");
-            } else
+            } 
+            else
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HurtRight");
             }
+        }
+
+        public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
+        {
+            if (otherEntity is Hero)
+            {
+                Target = otherEntity as Hero;
+            }
+            base.OnEnterTrigger(triggerTag, otherEntity);
+        }
+
+        public override void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
+        {
+            if (otherEntity is Hero)
+            {
+                Target = null;
+            }
+            base.OnLeaveTrigger(triggerTag, otherEntity);
         }
     }
 }
