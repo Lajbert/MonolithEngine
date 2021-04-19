@@ -34,6 +34,7 @@ using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using MonolithEngine.Engine.Source.Audio;
 using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
 using ForestPlatformerExample.Source.Entities.Enemies.IceCream;
+using ForestPlatformerExample.Source.Entities.Traps;
 
 namespace ForestPlatformerExample.Source.PlayerCharacter
 {
@@ -127,6 +128,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_RAYCAST = true;
 
+            Transform.InCellLocation = new Vector2(0.5f, 1f);
+
             DrawPriority = 0;
 
             LastSpawnPoint = position;
@@ -139,6 +142,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Box");
             AddCollisionAgainst("Spikes");
             AddCollisionAgainst("IceCreamProjectile");
+            AddCollisionAgainst("Saw");
             AddTag("Hero");
             CanFireTriggers = true;
 
@@ -1100,6 +1104,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Hit(otherCollider, true);
                 (otherCollider as IceCreamProjectile).DestroyBullet();
+            }
+            else if (otherCollider is Saw)
+            {
+                Hit(otherCollider, true);
             }
             base.OnCollisionStart(otherCollider);
         }

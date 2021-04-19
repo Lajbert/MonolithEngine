@@ -14,21 +14,36 @@ namespace ForestPlatformerExample.Source.Entities.Traps
     class Saw : PhysicalEntity
     {
 
-        private float ROTATION_RATE = 0.1f;
+        private float ROTATION_RATE = 0.2f;
 
         private Sprite sprite;
 
-        public Saw(AbstractScene scene, Vector2 position) : base (scene.LayerManager.EntityLayer, null, position)
+        private float Speed = 0.2f;
+
+        public Saw(AbstractScene scene, Vector2 position, bool horizontalMovement = true) : base (scene.LayerManager.EntityLayer, null, position)
         {
 
             AddTag("Saw");
 
             CanFireTriggers = true;
 
+            CheckGridCollisions = false;
+
+            HorizontalFriction = 0;
+            VerticalFriction = 0;
+
             sprite = new Sprite(this, Assets.GetTexture("Saw"), new Rectangle(0, 0, 38, 38), origin: new Vector2(19, 19));
-            //sprite = new Sprite(this, Assets.GetTexture("Saw"), new Rectangle(0, 0, 38, 38), Vector2.Zero);
             AddComponent(sprite);
             HasGravity = false;
+
+            if (horizontalMovement)
+            {
+                VelocityX = Speed;
+            }
+            else
+            {
+                VelocityY = Speed;
+            }
 
             AddComponent(new CircleCollisionComponent(this, 19));
         }
@@ -37,6 +52,11 @@ namespace ForestPlatformerExample.Source.Entities.Traps
         {
             base.FixedUpdate();
             sprite.Rotation += ROTATION_RATE;
+        }
+
+        public void ChangeDirection()
+        {
+            Velocity *= -1;
         }
     }
 }

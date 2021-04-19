@@ -152,7 +152,16 @@ namespace ForestPlatformerExample.Source.Scenes
                 }
                 else if (entity.Identifier.Equals("Saw"))
                 {
-                    new Saw(scene, position);
+                    bool horizontal = true;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+
+                        if (field.Identifier == "HorizontalMovement")
+                        {
+                            horizontal = field.Value;
+                        }
+                    }
+                    new Saw(scene, position, horizontal);
                 }
                 else if (entity.Identifier.Equals("SawPath"))
                 {

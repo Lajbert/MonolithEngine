@@ -29,6 +29,10 @@ namespace ForestPlatformerExample.Source.Entities.Traps
 
         public override void OnLeaveTrigger(string triggerTag, IGameObject otherEntity)
         {
+            if (otherEntity is Saw)
+            {
+                (otherEntity as Saw).ChangeDirection();
+            }
             base.OnLeaveTrigger(triggerTag, otherEntity);
         }
     }

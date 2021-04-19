@@ -74,7 +74,7 @@ namespace MonolithEngine.Engine.Source.Entities.Transform
         public AbstractTransform(IGameObject owner, Vector2 position = default)
         {
             this.owner = owner;
-            InCellLocation = new Vector2(0.5f, 1f);
+            InCellLocation = MathUtil.CalculateInCellLocation(position);
             Position = position;
             GridCoordinates = MathUtil.CalculateGridCoordintes(position);
         }
