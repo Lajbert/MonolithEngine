@@ -105,6 +105,8 @@ namespace MonolithEngine
         private float stepX;
         private float stepY;
 
+        protected bool CollidesOnGrid = false;
+
         public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition) : base(layer, parent, startPosition)
         {
             Transform = new DynamicTransform(this, startPosition);
@@ -188,6 +190,7 @@ namespace MonolithEngine
 
         public override void FixedUpdate()
         {
+            CollidesOnGrid = false;
 
             if (Velocity != Vector2.Zero)
             {
@@ -256,11 +259,13 @@ namespace MonolithEngine
                     if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
                     {
                         Transform.InCellLocation.X = CollisionOffsetLeft;
+                        CollidesOnGrid = true;
                     }
 
                     if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
                     {
                         Transform.InCellLocation.X = CollisionOffsetRight;
+                        CollidesOnGrid = true;
                     }
 
                     while (Transform.InCellLocation.X > 1)
@@ -293,6 +298,7 @@ namespace MonolithEngine
                                 bump.Y = 0;
                             }
                             Transform.InCellLocation.Y = CollisionOffsetBottom;
+                            CollidesOnGrid = true;
                         }
                     }
 
@@ -301,6 +307,7 @@ namespace MonolithEngine
                         velocity.Y = 0;
                         bump.Y = 0;
                         Transform.InCellLocation.Y = CollisionOffsetTop;
+                        CollidesOnGrid = true;
                     }
 
                     while (Transform.InCellLocation.Y > 1)
@@ -563,6 +570,8 @@ namespace MonolithEngine
         {
             Velocity = Vector2.Zero;
             bump = Vector2.Zero;
+            stepX = 0;
+            stepY = 0;
         }
     }
 }

@@ -13,9 +13,11 @@ using System.Text;
 
 namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 {
-    class IceCreamProjectile : PhysicalEntity
+    class IceCreamProjectile : AbstractDestroyable
     {
-        public IceCreamProjectile(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
+        private bool destroyStarted = false;
+
+        public IceCreamProjectile(AbstractScene scene, Vector2 position) : base(scene, position)
         {
             AddTag("IceCreamProjectile");
             CheckGridCollisions = true;
@@ -31,10 +33,44 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             SpriteSheetAnimation idle = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileIdle"), 1, 6, 6, 11, 11, 24);
             Animations.RegisterAnimation("Idle", idle);
 
-            /*SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 24);
-            Animations.RegisterAnimation("Hit", hit, () => false);*/
+            //SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 24);
+            SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 1, 8, 8, 45, 45, 24);
+            hit.Looping = false;
+            hit.StartedCallback = () =>
+            {
+                CancelVelocities();
+                HasGravity = false;
+                RemoveCollisions();
+            };
+            hit.StoppedCallback = () =>
+            {
+                Destroy();
+            };
+            Animations.RegisterAnimation("Hit", hit, () => false);
 
-            //Timer.TriggerAfter(5000, Destroy);
+            CircleCollisionComponent collider = new CircleCollisionComponent(this, 5, Vector2.Zero);
+            AddComponent(collider);
+
+            Timer.TriggerAfter(5000, Destroy);
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            if (CollidesOnGrid)
+            {
+                DestroyBullet();
+            }
+        }
+
+        public void DestroyBullet()
+        {
+            if (destroyStarted)
+            {
+                return;
+            }
+            destroyStarted = true;
+            GetComponent<AnimationStateMachine>().PlayAnimation("Hit");
         }
     }
 }

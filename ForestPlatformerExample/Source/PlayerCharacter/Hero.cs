@@ -33,6 +33,7 @@ using MonolithEngine.Engine.Source.Asset;
 using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using MonolithEngine.Engine.Source.Audio;
 using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
+using ForestPlatformerExample.Source.Entities.Enemies.IceCream;
 
 namespace ForestPlatformerExample.Source.PlayerCharacter
 {
@@ -137,6 +138,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Projectile");
             AddCollisionAgainst("Box");
             AddCollisionAgainst("Spikes");
+            AddCollisionAgainst("IceCreamProjectile");
             AddTag("Hero");
             CanFireTriggers = true;
 
@@ -1093,6 +1095,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     jumpModifier = new Vector2(-1, 0);
                 }
+            }
+            else if(otherCollider is IceCreamProjectile)
+            {
+                Hit(otherCollider, true);
+                (otherCollider as IceCreamProjectile).DestroyBullet();
             }
             base.OnCollisionStart(otherCollider);
         }
