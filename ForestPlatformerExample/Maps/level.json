@@ -20238,17 +20238,6 @@
 							"fieldInstances": [{ "__identifier": "hasGravity", "__value": false, "__type": "Bool", "defUid": 44, "realEditorValues": [] }]
 						},
 						{
-							"__identifier": "Coin",
-							"__grid": [22,34],
-							"__pivot": [0,0],
-							"__tile": null,
-							"width": 16,
-							"height": 16,
-							"defUid": 21,
-							"px": [352,544],
-							"fieldInstances": [{ "__identifier": "hasGravity", "__value": false, "__type": "Bool", "defUid": 44, "realEditorValues": [] }]
-						},
-						{
 							"__identifier": "RespawnPoint",
 							"__grid": [53,41],
 							"__pivot": [0,0],
@@ -20478,13 +20467,13 @@
 						},
 						{
 							"__identifier": "EnemyIceCream",
-							"__grid": [14,32],
+							"__grid": [14,33],
 							"__pivot": [0,0],
 							"__tile": null,
 							"width": 16,
 							"height": 16,
 							"defUid": 60,
-							"px": [224,512],
+							"px": [224,528],
 							"fieldInstances": []
 						}
 					]

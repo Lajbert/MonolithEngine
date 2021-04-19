@@ -19,6 +19,8 @@ namespace MonolithEngine.Engine.AI
 
         public bool UniquePerEntity { get; set; }
 
+        public bool Enabled = true;
+
         public AIStateMachine(AIState<T> initialState = null)
         {
             UniquePerEntity = true;
@@ -66,7 +68,7 @@ namespace MonolithEngine.Engine.AI
 
         public void Update()
         {
-            if (currentState == null)
+            if (!Enabled || currentState == null)
             {
                 return;
             }
@@ -78,6 +80,5 @@ namespace MonolithEngine.Engine.AI
         {
             return currentState;
         }
-
     }
 }

@@ -28,6 +28,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
         private IceCreamAIStateMachine AI;
 
+        private int health = 2;
+
         public IceCream(AbstractScene scene, Vector2 position) : base (scene, position)
         {
             DrawPriority = 1;
@@ -97,13 +99,6 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
-            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamDeath"), 24);
-            deathLeft.Looping = false;
-            Animations.RegisterAnimation("DeathLeft", deathLeft, () => false);
-
-            SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
-            Animations.RegisterAnimation("DeathRight", deathRight, () => false);
-
             SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamAttack"), 36);
             attackLeft.Looping = false;
             attackLeft.StartedCallback = () => isAttacking = true;
@@ -124,6 +119,15 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             AI.AddState(new IceCreamAttackState(this));
 
             AddComponent(AI);
+
+            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamDeath"), 24);
+            deathLeft.Looping = false;
+            Animations.RegisterAnimation("DeathLeft", deathLeft, () => false);
+
+            SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
+            Animations.RegisterAnimation("DeathRight", deathRight, () => false);
+            SetDestroyAnimation(deathLeft, Direction.WEST);
+            SetDestroyAnimation(deathRight, Direction.EAST);
         }
 
         public override void FixedUpdate()
@@ -166,6 +170,14 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
         public override void Hit(Direction impactDireciton)
         {
+            if (health == 0)
+            {
+                CurrentSpeed = 0;
+                AI.Enabled = false;
+                Die();
+                return;
+            }
+
             if (CurrentFaceDirection == Direction.WEST)
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HurtLeft");
@@ -174,6 +186,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HurtRight");
             }
+            health--;
         }
 
         public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)

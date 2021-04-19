@@ -60,8 +60,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
             {
                 AddComponent(new AnimationStateMachine());
             }
-            //destroyAnimation.StartedCallback += () => RemoveCollisions();
-            destroyAnimation.StoppedCallback = Destroy;
+            destroyAnimation.StartedCallback += () => RemoveCollisions();
+            destroyAnimation.StoppedCallback += Destroy;
             destroyAnimation.Looping = false;
             GetComponent<AnimationStateMachine>().RegisterAnimation(DESTROY_AMINATION + direction.ToString(), destroyAnimation, () => false);
         }
