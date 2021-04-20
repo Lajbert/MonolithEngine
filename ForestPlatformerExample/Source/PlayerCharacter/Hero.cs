@@ -73,7 +73,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         private List<IGameObject> overlappingEnemies = new List<IGameObject>(5);
 
         private bool isWallSliding = false;
-        private bool isSliding {
+        private bool isSliding
+        {
             get => slideDirection == Direction.EAST || slideDirection == Direction.WEST;
         }
         private Direction slideDirection = default;
@@ -86,12 +87,15 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private bool levelEndReached = false;
 
-        public bool LevelEndReached  { 
-            get {
+        public bool LevelEndReached
+        {
+            get
+            {
                 return levelEndReached;
             }
 
-            set {
+            set
+            {
                 if (value)
                 {
                     SetupAutoMovement();
@@ -114,7 +118,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     HorizontalFriction = 0.92f;
                     MovementSpeed /= 5;
-                } else
+                }
+                else
                 {
                     HorizontalFriction = Config.HORIZONTAL_FRICTION;
                     MovementSpeed = Config.CHARACTER_SPEED;
@@ -368,7 +373,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             Animations.AddFrameTransition("CarryJumpingRight", "JumpingCarryLeft");
 
-            SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroWallSlide"), 12,SpriteEffects.FlipHorizontally, 64);
+            SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroWallSlide"), 12, SpriteEffects.FlipHorizontally, 64);
             bool isWallSlidingRight() => isWallSliding && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
 
@@ -437,11 +442,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 StartFrame = 9,
                 EndFrame = 11
             };
-            bool isFallingRight() => HasGravity && VelocityY > 0.1 && CurrentFaceDirection == Direction.EAST && !isCarryingItem;
+            bool isFallingRight() => fan != null || (HasGravity && VelocityY > 0.1 && CurrentFaceDirection == Direction.EAST && !isCarryingItem);
             Animations.RegisterAnimation("FallingRight", fallingRight, isFallingRight, 5);
 
             SpriteSheetAnimation fallingLeft = fallingRight.CopyFlipped();
-            bool isFallingLeft() => HasGravity && VelocityY > 0.1 && CurrentFaceDirection == Direction.WEST && !isCarryingItem;
+            bool isFallingLeft() => fan != null || (HasGravity && VelocityY > 0.1 && CurrentFaceDirection == Direction.WEST && !isCarryingItem);
             Animations.RegisterAnimation("FallingLeft", fallingLeft, isFallingLeft, 5);
 
             Animations.AddFrameTransition("FallingRight", "FallingLeft");
@@ -491,7 +496,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 canAttack = true;
                 HorizontalFriction = Config.HORIZONTAL_FRICTION;
             };
-            slideRight.AnimationSwitchCallback = () => {
+            slideRight.AnimationSwitchCallback = () =>
+            {
                 slideDirection = default;
                 canAttack = true;
                 HorizontalFriction = Config.HORIZONTAL_FRICTION;
@@ -511,11 +517,13 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
             UserInput = new UserInputController();
 
-            UserInput.RegisterKeyPressAction(Keys.R, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.R, (Vector2 thumbStickPosition) =>
+            {
                 ResetPosition(new Vector2(12 * Config.GRID, 12 * Config.GRID));
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight,(Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight, (Vector2 thumbStickPosition) =>
+            {
                 if (thumbStickPosition.X > 0)
                 {
                     if (slideDirection != Direction.EAST)
@@ -526,7 +534,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     {
                         CurrentFaceDirection = Direction.EAST;
                     }
-                } else if (thumbStickPosition.X == 0)
+                }
+                else if (thumbStickPosition.X == 0)
                 {
                     if (slideDirection != Direction.EAST)
                     {
@@ -546,7 +555,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
             });
 
-            UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) =>
+            {
                 if (thumbStickPosition.X < -0)
                 {
                     if (slideDirection != Direction.WEST)
@@ -557,7 +567,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     {
                         CurrentFaceDirection = Direction.WEST;
                     }
-                } else if (thumbStickPosition.X == 0)
+                }
+                else if (thumbStickPosition.X == 0)
                 {
                     if (slideDirection != Direction.WEST)
                     {
@@ -577,7 +588,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 }
             });
 
-            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) =>
+            {
                 if (Ladder != null || (!canJump && !canDoubleJump))
                 {
                     return;
@@ -611,7 +623,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 if (jumpModifier.X < 0)
                 {
                     CurrentFaceDirection = Direction.WEST;
-                } else if (jumpModifier.X > 0)
+                }
+                else if (jumpModifier.X > 0)
                 {
                     CurrentFaceDirection = Direction.EAST;
                 }
@@ -621,7 +634,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.Space, Buttons.X, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Space, Buttons.X, (Vector2 thumbStickPosition) =>
+            {
                 if (isCarryingItem)
                 {
                     (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset;
@@ -640,19 +654,23 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 Attack();
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.RightControl, Buttons.B, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.RightControl, Buttons.B, (Vector2 thumbStickPosition) =>
+            {
                 Slide();
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.LeftControl, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.LeftControl, (Vector2 thumbStickPosition) =>
+            {
                 Slide();
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) =>
+            {
                 if (HasGravity)
                 {
                     StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(Transform.GridCoordinates));
-                    if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement) {
+                    if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement)
+                    {
                         collider.BlocksMovement = false;
                         Timer.TriggerAfter(500, () => collider.BlocksMovement = true);
                     }
@@ -660,7 +678,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 //CurrentFaceDirection = GridDirection.DOWN;
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) =>
+            {
                 if (Ladder == null)
                 {
                     return;
@@ -673,7 +692,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 if (thumbStickPosition.Y != 0)
                 {
                     VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
-                } 
+                }
                 else
                 {
                     VelocityY += MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
@@ -681,7 +700,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 //CurrentFaceDirection = GridDirection.DOWN;
             });
 
-            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) =>
+            {
                 if (Ladder == null)
                 {
                     return;
@@ -698,18 +718,21 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 //CurrentFaceDirection = GridDirection.UP;
             });
 
-            UserInput.RegisterKeyPressAction(Keys.LeftShift, Buttons.Y, (Vector2 thumbStickPosition) => {
-                if (isCarryingItem  && carriedItem != null)
+            UserInput.RegisterKeyPressAction(Keys.LeftShift, Buttons.Y, (Vector2 thumbStickPosition) =>
+            {
+                if (isCarryingItem && carriedItem != null)
                 {
                     DropCurrentItem();
-                } else
+                }
+                else
                 {
                     PickupItem();
                 }
-                
+
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.RightShift, (Vector2 thumbStickPosition) => {
+            UserInput.RegisterKeyPressAction(Keys.RightShift, (Vector2 thumbStickPosition) =>
+            {
                 if (isCarryingItem && carriedItem != null)
                 {
                     DropCurrentItem();
@@ -721,21 +744,21 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }, true);
 
             UserInput.RegisterMouseActions(
-                () => {
-                    Scene.Camera.Zoom += 0.5f;
-                    /*Timer.Repeat(2000, (elapsedTime) =>
-                    {
-                        Scene.Camera.Zoom += 0.001f * elapsedTime;
-                    });*/
-                }, 
                 () =>
                 {
-                    Scene.Camera.Zoom -= 0.5f;
-                    /*Timer.Repeat(2000, (elapsedTime) =>
+                    Timer.Repeat(300, (elapsedTime) =>
                     {
-                        Scene.Camera.Zoom -= 0.001f * elapsedTime;
-                    });*/
-                });
+                        Scene.Camera.Zoom += 0.002f * elapsedTime;
+                    });
+                },
+                () =>
+                {
+                    Timer.Repeat(300, (elapsedTime) =>
+                    {
+                        Scene.Camera.Zoom -= 0.002f * elapsedTime;
+                    });
+                }
+            );
         }
 
         private void Slide()
@@ -759,7 +782,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private void PickupItem()
         {
-            
+
             if (overlappingItem == null || carriedItem != null)
             {
                 return;
@@ -814,26 +837,27 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             if (LevelEndReached && Ladder != null)
             {
                 Velocity += autoMovementSpeed;
-            } 
+            }
             else if (fan != null)
             {
                 canJump = false;
                 canDoubleJump = false;
                 FallSpeed = 0f;
                 float posDiff = fan.Transform.Y - Transform.Y;
-                float upwardForce = MathHelper.Lerp(0.5f, 0, (float)(posDiff / fan.ForceFieldHeight));
+                float updraft = MathHelper.Lerp(0.5f, 0, (float)(posDiff / fan.ForceFieldHeight));
                 if (MyRandom.Between(0, 10) % 2 == 0)
                 {
-                    upwardForce = 0;
+                    updraft = 0;
                 }
-                VelocityY -= upwardForce;
+                VelocityY -= updraft;
             }
             else
             {
                 if (Ladder != null && !IsOnGround)
                 {
                     SetupLadderMovement();
-                } else if (Ladder != null)
+                }
+                else if (Ladder != null)
                 {
                     ExitLadderMovement();
                 }
@@ -901,7 +925,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     doubleJumping = false;
                 }
             }
-            
+
             base.Update();
         }
 
@@ -943,7 +967,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 VelocityY -= Config.JUMP_FORCE;
             }
             FallSpeed = 0;
-            
+
             HasGravity = true;
             MovementSpeed = Config.CHARACTER_SPEED;
             HorizontalFriction = Config.HORIZONTAL_FRICTION;
@@ -979,7 +1003,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Animations.PlayAnimation("HurtRight");
             }
-            
+
             if (forceRightFacing == default)
             {
                 forceRightFacing = new Vector2(1, -1);
@@ -998,14 +1022,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 if (((otherCollider as PhysicalEntity).Velocity.X == 0))
                 {
                     forceRightFacing.X = 0;
-                } 
-                else if(((otherCollider as PhysicalEntity).Velocity.X < 0))
+                }
+                else if (((otherCollider as PhysicalEntity).Velocity.X < 0))
                 {
                     forceRightFacing.X *= -1;
                 }
                 Velocity += forceRightFacing;
             }
-            
+
         }
 
         public override void OnCollisionStart(IGameObject otherCollider)
@@ -1083,7 +1107,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     canDoubleJump = false;
                     FallSpeed = 0;
                 }
-                
+
             }
             else if (otherCollider is IMovableItem)
             {
@@ -1115,7 +1139,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                     jumpModifier = new Vector2(-1, 0);
                 }
             }
-            else if(otherCollider is IceCreamProjectile)
+            else if (otherCollider is IceCreamProjectile)
             {
                 Hit(otherCollider, true);
                 (otherCollider as IceCreamProjectile).DestroyBullet();
@@ -1150,7 +1174,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 {
                     (otherCollider as Carrot).OverlapsWithHero = false;
                 }
-                
+
                 overlappingEnemies.Remove(otherCollider);
             }
             else if (otherCollider is Spikes)
@@ -1190,6 +1214,9 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
             this.fan = fan;
             VerticalFriction = 0;
+            canJump = false;
+            canDoubleJump = false;
+            doubleJumping = false;
         }
 
         public void LeaveFanArea()

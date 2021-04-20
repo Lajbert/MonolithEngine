@@ -47,10 +47,6 @@ namespace MonolithEngine.Engine.Source.Util
 
         public static void Update(float elapsedTime)
         {
-            if (triggeredActions.Count == 0 && timers.Count == 0)
-            {
-                return;
-            }
 
             //TODO: check the performance improvement possibilities for this
             foreach (Action key in triggeredActions.Keys.ToList())

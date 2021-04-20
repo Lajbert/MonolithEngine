@@ -22,10 +22,7 @@ namespace MonolithEngine.Engine.Source.Camera2D
         private Rectangle? _limits;
 
         public static Entity target;
-        private Vector2 targetPosition = Vector2.Zero;
         private Vector2 targetTracingOffset = Vector2.Zero;
-        private float targetCameraDistance;
-        private float angle;
         private float friction = 0.89f;
 
         private float shakePower = 1.5f;
@@ -36,8 +33,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
         private bool SCROLL = true;
 
         private bool shake = false;
-
-        private float elapsedTime;
 
         private Vector2 direction;
 
@@ -82,23 +77,24 @@ namespace MonolithEngine.Engine.Source.Camera2D
             {
                 return;
             }
-
-            elapsedTime = (float)Globals.ElapsedTime / Config.CAMERA_TIME_MULTIPLIER;
+            float zoomMultiplier = Math.Max(1, Zoom / 2);
+            float deadzone = Config.CAMERA_DEADZONE / zoomMultiplier;
+            float elapsedTime = (float)Globals.ElapsedTime / Config.CAMERA_TIME_MULTIPLIER;
             // Follow target entity
             if (target != null)
             {
-                targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
+                Vector2 targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
 
-                targetCameraDistance = Vector2.Distance(Position, targetPosition);
-                if (targetCameraDistance >= Config.CAMERA_DEADZONE)
+                float targetCameraDistance = Vector2.Distance(Position, targetPosition);
+                if (targetCameraDistance >= deadzone)
                 {
-                    angle = MathUtil.RadFromVectors(Position, targetPosition);
-                    direction.X += (float)Math.Cos(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
-                    direction.Y += (float)Math.Sin(angle) * (targetCameraDistance - Config.CAMERA_DEADZONE) * Config.CAMERA_FOLLOW_DELAY * elapsedTime;
+                    float angle = MathUtil.RadFromVectors(Position, targetPosition);
+                    direction.X += (float)Math.Cos(angle) * (targetCameraDistance - deadzone) * (Config.CAMERA_FOLLOW_DELAY / zoomMultiplier) * elapsedTime;
+                    direction.Y += (float)Math.Sin(angle) * (targetCameraDistance - deadzone) * (Config.CAMERA_FOLLOW_DELAY / zoomMultiplier) * elapsedTime;
                 }
             }
 
-            Position += direction * elapsedTime;
+            Position += direction * elapsedTime * zoomMultiplier;
 
             direction *= new Vector2((float)Math.Pow(friction, elapsedTime), (float)Math.Pow(friction, elapsedTime));
 
@@ -118,8 +114,6 @@ namespace MonolithEngine.Engine.Source.Camera2D
                     power = MathHelper.Lerp(shakePower, 0, alpha);
                 }
                 Position += new Vector2((float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * power), (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * power));
-                /*position.X += (float)(Math.Cos(Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.1) * power);
-				position.Y += (float)(Math.Sin(0.3 + Globals.GameTime.TotalGameTime.TotalMilliseconds * 1.7) * power);*/
 
                 if (shakeStarted > shakeDuration)
                 {

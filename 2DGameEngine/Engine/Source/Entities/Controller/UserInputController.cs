@@ -26,6 +26,7 @@ namespace MonolithEngine.Engine.Source.Entities.Controller
         private int? prevMouseScrollWheelValue = 0;
         private Action mouseWheelUpAction;
         private Action mouseWheelDownAction;
+        private float scrollThreshold = 0f;
 
         private Vector2 leftThumbstick = Vector2.Zero;
         private Vector2 rightThumbStick = Vector2.Zero;
@@ -56,10 +57,11 @@ namespace MonolithEngine.Engine.Source.Entities.Controller
             pressedKeys[key] = false;
         }
 
-        public void RegisterMouseActions(Action wheelUpAction, Action wheelDownAction)
+        public void RegisterMouseActions(Action wheelUpAction, Action wheelDownAction, float scrollThreshold = 0)
         {
             mouseWheelUpAction = wheelUpAction;
             mouseWheelDownAction = wheelDownAction;
+            this.scrollThreshold = scrollThreshold;
         }
 
         public bool IsKeyPressed(Keys key)
@@ -182,14 +184,14 @@ namespace MonolithEngine.Engine.Source.Entities.Controller
 
             if (mouseState.ScrollWheelValue > prevMouseScrollWheelValue)
             {
-                if (mouseWheelUpAction != null)
+                if (mouseWheelUpAction != null && (mouseState.ScrollWheelValue - prevMouseScrollWheelValue) >= scrollThreshold)
                 {
                     mouseWheelUpAction.Invoke();
                     prevMouseScrollWheelValue = mouseState.ScrollWheelValue;
                 }
             } else if (mouseState.ScrollWheelValue < prevMouseScrollWheelValue)
             {
-                if (mouseWheelDownAction != null)
+                if (mouseWheelDownAction != null && (prevMouseScrollWheelValue - mouseState.ScrollWheelValue) >= scrollThreshold)
                 {
                     mouseWheelDownAction.Invoke();
                     prevMouseScrollWheelValue = mouseState.ScrollWheelValue;
