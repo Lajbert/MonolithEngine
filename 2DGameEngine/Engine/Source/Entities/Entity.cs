@@ -233,11 +233,6 @@ namespace MonolithEngine.Entities
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (!Visible)
-            {
-                return;
-            }
-
             componentList.DrawAll(spriteBatch);
 
 #if DEBUG

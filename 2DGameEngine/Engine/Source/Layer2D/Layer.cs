@@ -88,7 +88,10 @@ namespace MonolithEngine.Source.GridCollision
 
                 foreach (Entity entity in visibleObjects)
                 {
-                    entity.Draw(spriteBatch);
+                    if (entity.Visible)
+                    {
+                        entity.Draw(spriteBatch);
+                    }
                 }
                 spriteBatch.End();
             }
