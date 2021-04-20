@@ -271,11 +271,6 @@ namespace MonolithEngine.Entities
 
         public virtual void PreUpdate()
         {
-            if (!Active)
-            {
-                return;
-            }
-
             foreach (Entity child in Children)
             {
                 child.PreUpdate();
@@ -288,11 +283,6 @@ namespace MonolithEngine.Entities
 
         public virtual void FixedUpdate()
         {
-            if (!Active)
-            {
-                return;
-            }
-
             //float gameTime = (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
             //previousPosition = DrawPosition;
             /*previousPosition = Transform.Position;
@@ -314,11 +304,6 @@ namespace MonolithEngine.Entities
 
         public virtual void Update()
         {
-            if (!Active)
-            {
-                return;
-            }
-
             foreach (Entity child in Children)
             {
                 child.Update();
@@ -327,11 +312,6 @@ namespace MonolithEngine.Entities
 
         public virtual void PostUpdate()
         {
-            if (!Active)
-            {
-                return;
-            }
-
             if (RayEmitter != null)
             {
                 RayEmitter.UpdateRays();

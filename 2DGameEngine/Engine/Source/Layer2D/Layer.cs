@@ -114,9 +114,12 @@ namespace MonolithEngine.Source.GridCollision
             {
                 foreach (Entity entity in activeObjects)
                 {
-                    entity.PreUpdate();
-                    entity.Update();
-                    entity.PostUpdate();
+                    if (entity.Active)
+                    {
+                        entity.PreUpdate();
+                        entity.Update();
+                        entity.PostUpdate();
+                    }
                 }
             }
 
@@ -140,8 +143,11 @@ namespace MonolithEngine.Source.GridCollision
             {
                 foreach (Entity entity in activeObjects)
                 {
-                    entity.PreFixedUpdate();
-                    entity.FixedUpdate();
+                    if (entity.Active)
+                    {
+                        entity.PreFixedUpdate();
+                        entity.FixedUpdate();
+                    }
                 }
             }
 

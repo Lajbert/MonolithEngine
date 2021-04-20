@@ -146,11 +146,6 @@ namespace MonolithEngine
 #endif
         }
 
-        public override void PreUpdate()
-        {
-            base.PreUpdate();
-        }
-
         public void Bump(Vector2 direction, bool keepBouncing = false)
         {
             bump = direction;
@@ -161,6 +156,7 @@ namespace MonolithEngine
 
         public override void Update()
         {
+
             if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == VideoConfiguration.FRAME_LIMIT || Config.FIXED_UPDATE_FPS == 0)
             {
                 DrawPosition = Transform.Position;
