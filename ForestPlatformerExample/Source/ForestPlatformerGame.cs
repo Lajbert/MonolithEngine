@@ -105,16 +105,6 @@ namespace ForestPlatformerExample.Source
 
             // Entities
 
-            Assets.LoadTexture("CoinPickup", "ForestAssets/Items/coin-pickup");
-            Assets.LoadTexture("CoinPickupEffect", "ForestAssets/Items/pickup-effect");
-            Assets.LoadTexture("SpringAnim", "ForestAssets/Items/spring_spritesheet");
-
-            Assets.LoadTexture("ForestTileset", "ForestAssets/Tiles/forest-tileset");
-
-            Assets.LoadTexture("BoxIdle", "ForestAssets/Items/box-idle");
-            Assets.LoadTexture("BoxHit", "ForestAssets/Items/box-hit");
-            Assets.LoadTexture("BoxDestroy", "ForestAssets/Items/box-destroy");
-
             Assets.LoadTexture("HUDCointCount", "ForestAssets/UI/HUD-coin-count");
 
             Assets.LoadTexture("CarrotMove", "ForestAssets/Characters/Carrot/carrot@move-sheet");
@@ -159,6 +149,20 @@ namespace ForestPlatformerExample.Source
 
             // Traps
             Assets.LoadTexture("Saw", "IcySkies/Traps/Saw/saw");
+
+            // Items
+
+            Assets.LoadTexture("CoinPickup", "ForestAssets/Items/coin-pickup");
+            Assets.LoadTexture("CoinPickupEffect", "ForestAssets/Items/pickup-effect");
+            Assets.LoadTexture("SpringAnim", "ForestAssets/Items/spring_spritesheet");
+
+            Assets.LoadTexture("ForestTileset", "ForestAssets/Tiles/forest-tileset");
+
+            Assets.LoadTexture("BoxIdle", "ForestAssets/Items/box-idle");
+            Assets.LoadTexture("BoxHit", "ForestAssets/Items/box-hit");
+            Assets.LoadTexture("BoxDestroy", "ForestAssets/Items/box-destroy");
+
+            Assets.LoadTexture("FanAnim", "IcySkies/Items/Fan/fan");
 
             // Sounds
 

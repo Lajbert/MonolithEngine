@@ -167,6 +167,19 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     new SawPath(scene, position, (int)entity.Width, (int)entity.Height);
                 }
+                else if (entity.Identifier.Equals("Fan"))
+                {
+                    int forceFeildHeight = -1;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+
+                        if (field.Identifier == "forceFeildHeight")
+                        {
+                            forceFeildHeight = (int)field.Value;
+                        }
+                    }
+                    new Fan(scene, position, forceFeildHeight);
+                }
             }
 
 #if DEBUG

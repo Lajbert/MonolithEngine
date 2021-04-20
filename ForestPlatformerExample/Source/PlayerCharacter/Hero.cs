@@ -122,6 +122,8 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
         }
 
+        private Fan fan;
+
         public Hero(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
 
@@ -813,6 +815,19 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 Velocity += autoMovementSpeed;
             } 
+            else if (fan != null)
+            {
+                canJump = false;
+                canDoubleJump = false;
+                FallSpeed = 0f;
+                float posDiff = fan.Transform.Y - Transform.Y;
+                float upwardForce = MathHelper.Lerp(0.5f, 0, (float)(posDiff / fan.ForceFieldHeight));
+                if (MyRandom.Between(0, 10) % 2 == 0)
+                {
+                    upwardForce = 0;
+                }
+                VelocityY -= upwardForce;
+            }
             else
             {
                 if (Ladder != null && !IsOnGround)
@@ -1169,6 +1184,18 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
         {
             UserInput.ControlsDisabled = false;
             autoMovementSpeed = Vector2.Zero;
+        }
+
+        public void EnterFanArea(Fan fan)
+        {
+            this.fan = fan;
+            VerticalFriction = 0;
+        }
+
+        public void LeaveFanArea()
+        {
+            fan = null;
+            VerticalFriction = Config.VERTICAL_FRICTION;
         }
 
     }

@@ -1201,6 +1201,18 @@
 /processorParam:TextureFormat=Color
 /build:IcySkies/Characters/IceCream/ice-cream-projectile@idle.png
 
+#begin IcySkies/Items/Fan/On (24x8).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Items/Fan/On (24x8).png;IcySkies/Items/Fan/fan.png
+
 #begin IcySkies/Tiles/clouds-1.png
 /importer:TextureImporter
 /processor:TextureProcessor

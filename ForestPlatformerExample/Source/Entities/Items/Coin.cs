@@ -44,7 +44,7 @@ namespace ForestPlatformerExample.Source.Items
             //DEBUG_SHOW_PIVOT = true;
 
             AnimationStateMachine Animations = new AnimationStateMachine();
-            Animations.Offset = new Vector2(0, -8);
+            Animations.Offset = new Vector2(8, 8);
             AddComponent(Animations);
 
             SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 30);
@@ -96,7 +96,7 @@ namespace ForestPlatformerExample.Source.Items
 
         public void SetCircleCollider()
         {
-            CircleCollisionComponent collision = new CircleCollisionComponent(this, 10, new Vector2(0, -8));
+            CircleCollisionComponent collision = new CircleCollisionComponent(this, 10, new Vector2(8, 8));
             AddComponent(collision);
         }
 
