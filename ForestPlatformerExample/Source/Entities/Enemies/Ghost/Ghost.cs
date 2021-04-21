@@ -18,6 +18,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
         private bool beingHit = false;
 
+        private int health = 2;
+
         public Ghost(AbstractScene scene, Vector2 position) : base (scene, position)
         {
             AnimationStateMachine animations = new AnimationStateMachine();
@@ -25,7 +27,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
             SpriteSheetAnimation appearLeft = new SpriteSheetAnimation(this, Assets.GetTexture("GhostAppear"), 44, 30, 24);
             appearLeft.Looping = false;
-            appearLeft.StartedCallback = () =>
+            appearLeft.StoppedCallback = () =>
             {
                 CollisionsEnabled = true;
             };
@@ -68,7 +70,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
             AddComponent(new BoxCollisionComponent(this, 25, 25, new Vector2(-12, -12)));
 
-            Timer.TriggerAfter(APPEAR_DISAPPEAR_TIMEOUT, Disappear);
+            Timer.TriggerAfter(MyRandom.Between(0, APPEAR_DISAPPEAR_TIMEOUT), Disappear);
         }
 
         private void Appear()
@@ -105,6 +107,12 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
         public override void Hit(Direction impactDireciton)
         {
+            if (health == 0)
+            {
+                Die();
+                return;
+            }
+
             if (CurrentFaceDirection == Direction.WEST)
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HitLeft");
@@ -113,6 +121,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HitRight");
             }
+
+            health--;
         }
 
         public override void FixedUpdate()

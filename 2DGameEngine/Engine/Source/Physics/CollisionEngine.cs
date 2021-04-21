@@ -262,7 +262,7 @@ namespace MonolithEngine.Engine.Source.Physics
                 }
                 foreach (IColliderEntity otherObject in collisions[thisEntity].Keys.ToList())
                 {
-                    if (thisEntity.Equals(otherObject) || !otherObject.CollisionsEnabled)
+                    if (thisEntity.Equals(otherObject))
                     {
                         continue;
                     }
