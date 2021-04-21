@@ -1,4 +1,5 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
+using ForestPlatformerExample.Source.Entities.Enemies.Ghost;
 using ForestPlatformerExample.Source.Entities.Enemies.IceCream;
 using ForestPlatformerExample.Source.Entities.Enemies.Rock;
 using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
@@ -193,6 +194,10 @@ namespace ForestPlatformerExample.Source.Scenes
                         }
                     }
                     new Rock(scene, position, size);
+                }
+                else if (entity.Identifier.Equals("EnemyGhost"))
+                {
+                    new Ghost(scene, position);
                 }
             }
 

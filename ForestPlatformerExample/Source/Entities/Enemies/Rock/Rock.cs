@@ -114,6 +114,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
             animations.RegisterAnimation("HitLeft", hitLeft, () => false);
             animations.RegisterAnimation("HitRight", hitRight, () => false);
 
+            animations.AddFrameTransition("RunningLeft", "RunningRight");
             AddComponent(animations);
 
             AddComponent(collisionComponent);

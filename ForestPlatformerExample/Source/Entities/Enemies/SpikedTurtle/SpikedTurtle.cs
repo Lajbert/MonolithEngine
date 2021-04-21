@@ -20,7 +20,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
 
         private float health = 2;
 
-        private bool hurt = false;
+        private bool beingHit = false;
 
         public SpikedTurtle(AbstractScene scene, Vector2 position, Direction currentFaceDirection) : base(scene, position)
         {
@@ -57,8 +57,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
 
             SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleHit"), 44, 26, 24);
             hitLeft.Looping = false;
-            hitLeft.StartedCallback = () => { hurt = true; };
-            hitLeft.StoppedCallback = () => { hurt = false; };
+            hitLeft.StartedCallback = () => { beingHit = true; };
+            hitLeft.StoppedCallback = () => { beingHit = false; };
             Animations.RegisterAnimation("HitLeft", hitLeft, () => CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation hitRight = hitLeft.CopyFlipped();
@@ -99,7 +99,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
 
         private void SpikesOutState()
         {
-            if (hurt || RotationRate != 0)
+            if (beingHit || RotationRate != 0)
             {
                 return;
             }
