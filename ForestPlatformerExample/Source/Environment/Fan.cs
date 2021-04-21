@@ -44,7 +44,7 @@ namespace ForestPlatformerExample.Source.Environment
 
 #if DEBUG
             //(GetComponent<ITrigger>() as BoxTrigger).DEBUG_DISPLAY_TRIGGER = true;
-            (GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            //(GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #endif
 
             Active = true;
