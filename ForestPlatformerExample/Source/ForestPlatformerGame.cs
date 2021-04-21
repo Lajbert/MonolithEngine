@@ -147,6 +147,16 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("IceCreamProjectileHit", "IcySkies/Characters/IceCream/ice-cream-projectile@hit");
             Assets.LoadTexture("IceCreamProjectileIdle", "IcySkies/Characters/IceCream/ice-cream-projectile@idle");
 
+            Assets.LoadTexture("Rock1Idle", "IcySkies/Characters/Rock/Rock1_Idle (38x34)");
+            Assets.LoadTexture("Rock1Run", "IcySkies/Characters/Rock/Rock1_Run (38x34)");
+            Assets.LoadTexture("Rock1Hit", "IcySkies/Characters/Rock/Rock1_Hit");
+            Assets.LoadTexture("Rock2Idle", "IcySkies/Characters/Rock/Rock2_Idle (32x28)");
+            Assets.LoadTexture("Rock2Run", "IcySkies/Characters/Rock/Rock2_Run (32x28)");
+            Assets.LoadTexture("Rock2Hit", "IcySkies/Characters/Rock/Rock2_Hit (32x28)");
+            Assets.LoadTexture("Rock3Idle", "IcySkies/Characters/Rock/Rock3_Idle (22x18)");
+            Assets.LoadTexture("Rock3Run", "IcySkies/Characters/Rock/Rock3_Run (22x18)");
+            Assets.LoadTexture("Rock3Hit", "IcySkies/Characters/Rock/Rock3_Hit (22x18)");
+
             // Traps
             Assets.LoadTexture("Saw", "IcySkies/Traps/Saw/saw");
 

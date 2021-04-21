@@ -25,6 +25,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies
         public AbstractEnemy(AbstractScene scene, Vector2 position) : base(scene, position)
         {
             AddTag("Enemy");
+            CurrentFaceDirection = Direction.WEST;
         }
 
         public abstract void Hit(Direction impactDireciton);

@@ -1,5 +1,6 @@
 ﻿using ForestPlatformerExample.Source.Enemies;
 using ForestPlatformerExample.Source.Entities.Enemies.IceCream;
+using ForestPlatformerExample.Source.Entities.Enemies.Rock;
 using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
 using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
 using ForestPlatformerExample.Source.Entities.Items;
@@ -179,6 +180,19 @@ namespace ForestPlatformerExample.Source.Scenes
                         }
                     }
                     new Fan(scene, position, forceFeildHeight);
+                }
+                else if (entity.Identifier.Equals("EnemyRock"))
+                {
+                    RockSize size = default;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+
+                        if (field.Identifier == "RockSize")
+                        {
+                            size = Enum.Parse(typeof(RockSize), field.Value);
+                        }
+                    }
+                    new Rock(scene, position, size);
                 }
             }
 
