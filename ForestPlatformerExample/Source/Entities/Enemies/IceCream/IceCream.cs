@@ -168,7 +168,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
             p2.AddForce(new Vector2(0.2f, -0.3f));
         }
 
-        public override void Hit(Direction impactDireciton)
+        public override void Hit(Direction impactDirection)
         {
             if (health == 0)
             {
@@ -187,6 +187,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
                 GetComponent<AnimationStateMachine>().PlayAnimation("HurtRight");
             }
             health--;
+
+            base.Hit(impactDirection);
         }
 
         public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)

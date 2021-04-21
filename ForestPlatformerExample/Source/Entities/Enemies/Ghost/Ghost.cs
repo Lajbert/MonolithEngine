@@ -75,6 +75,10 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
         private void Appear()
         {
+            if (RotationRate != 0 || Destroyed || BeingDestroyed)
+            {
+                return;
+            }
             Visible = true;
             if (CurrentFaceDirection == Direction.WEST)
             {
@@ -90,7 +94,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
         private void Disappear()
         {
-            if (RotationRate != 0 || beingHit)
+            if (RotationRate != 0 || beingHit || Destroyed || BeingDestroyed)
             {
                 return;
             }
@@ -105,7 +109,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
             Timer.TriggerAfter(APPEAR_DISAPPEAR_TIMEOUT, Appear);
         }
 
-        public override void Hit(Direction impactDireciton)
+        public override void Hit(Direction impactDirection)
         {
             if (health == 0)
             {
@@ -123,6 +127,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
             }
 
             health--;
+
+            base.Hit(impactDirection);
         }
 
         public override void FixedUpdate()

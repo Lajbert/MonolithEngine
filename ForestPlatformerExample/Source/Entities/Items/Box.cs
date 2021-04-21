@@ -96,7 +96,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             //SetSprite(SpriteUtil.CreateRectangle(Config.GRID, Color.Brown));
         }
 
-        public void Hit(Direction impactDireciton)
+        public void Hit(Direction impactDirection)
         {
             if (life == 0)
             {

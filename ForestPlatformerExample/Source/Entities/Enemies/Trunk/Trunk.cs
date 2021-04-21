@@ -108,7 +108,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             };*/
         }
 
-        public override void Hit(Direction impactDireciton)
+        public override void Hit(Direction impactDirection)
         {
             if (health == 0)
             {
@@ -119,6 +119,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             AudioEngine.Play("TrunkHit");
             health--;
             PlayHurtAnimation();
+
+            base.Hit(impactDirection);
         }
 
         public override void Die()

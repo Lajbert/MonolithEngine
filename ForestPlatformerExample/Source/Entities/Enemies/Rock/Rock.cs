@@ -133,7 +133,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
             base.FixedUpdate();
         }
 
-        public override void Hit(Direction impactDireciton)
+        public override void Hit(Direction impactDirection)
         {
             if (health == 0)
             {
@@ -175,6 +175,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HitRight");
             }
+
+            base.Hit(impactDirection);
         }
     }
 

@@ -136,7 +136,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
             SpikesOut = true;
         }
 
-        public override void Hit(Direction impactDireciton)
+        public override void Hit(Direction impactDirection)
         {
             if (health == 0)
             {
@@ -147,6 +147,8 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
             //AudioEngine.Play("TrunkHit");
             health--;
             PlayHurtAnimation();
+
+            base.Hit(impactDirection);
         }
 
         public override void Die()

@@ -7,6 +7,6 @@ namespace ForestPlatformerExample.Source.Entities.Interfaces
 {
     interface IAttackable
     {
-        public void Hit(Direction impactDireciton);
+        public void Hit(Direction impactDirection);
     }
 }
