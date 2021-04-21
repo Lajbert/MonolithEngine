@@ -78,11 +78,6 @@ namespace ForestPlatformerExample.Source.Items
                 return;
             }
             base.PostUpdate();
-            // just a failsafe: in case a coin never bounces for any kind of bug, the player should still be able to pick it up at some point
-            if (GetComponent<ICollisionComponent>() == null && Velocity == Vector2.Zero && !BeingDestroyed)
-            {
-                SetCircleCollider();
-            }
         }
 
         /*public override void OnCollisionStart(IColliderEntity otherCollider)
