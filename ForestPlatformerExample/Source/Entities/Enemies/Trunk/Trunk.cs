@@ -64,20 +64,20 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             Assets.LoadTexture("TrunkBullet", "ForestAssets/Characters/Trunk/Bullet");
             */
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkIdle"), 1, 18, 18, 64, 32, 24);
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkIdle"), 64, 32, 24);
             idleLeft.Looping = true;
             Animations.RegisterAnimation("IdleLeft", idleLeft, () => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleRight", idleRight, () => Velocity.X == 0 && CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkRun"), 1, 14, 14, 64, 32, 24);
+            SpriteSheetAnimation runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkRun"), 64, 32, 24);
             Animations.RegisterAnimation("RunLeft", runLeft, () => Velocity.X < 0);
 
             SpriteSheetAnimation runRight = runLeft.CopyFlipped();
             Animations.RegisterAnimation("RunRight", runRight, () => Velocity.X > 0);
 
-            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkAttack"), 1, 11, 11, 64, 32, 24);
+            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkAttack"),  64, 32, 24);
             attackLeft.AddFrameAction(8, (frame) => {
                 SpawnBullet();
             });
@@ -91,7 +91,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             attackRight.StoppedCallback = () => turnedLeft = true;
             Animations.RegisterAnimation("AttackRight", attackRight, () => false);
 
-            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkHit"), 1, 5, 5, 64, 32, 24);
+            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkHit"), 64, 32, 24);
             hitLeft.Looping = false;
             hitLeft.StartedCallback = () => canAttack = false;
             hitLeft.StoppedCallback = () => canAttack = true;

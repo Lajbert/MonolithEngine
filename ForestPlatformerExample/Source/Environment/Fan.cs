@@ -32,7 +32,7 @@ namespace ForestPlatformerExample.Source.Environment
             AnimationStateMachine animations = new AnimationStateMachine();
             animations.Offset = drawOffset;
             AddComponent(animations);
-            SpriteSheetAnimation fanAnim = new SpriteSheetAnimation(this, Assets.GetTexture("FanAnim"), 1, 4, 4, 24, 8, 24);
+            SpriteSheetAnimation fanAnim = new SpriteSheetAnimation(this, Assets.GetTexture("FanAnim"), 24, 8, 24);
             fanAnim.Scale = 2f;
             animations.RegisterAnimation("FanWorking", fanAnim);
 

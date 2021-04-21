@@ -30,11 +30,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
-            SpriteSheetAnimation idle = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileIdle"), 1, 6, 6, 11, 11, 24);
+            SpriteSheetAnimation idle = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileIdle"), 11, 11, 24);
             Animations.RegisterAnimation("Idle", idle);
 
             //SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 24);
-            SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 1, 8, 8, 45, 45, 24);
+            SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 45, 45, 24);
             hit.Looping = false;
             hit.StartedCallback = () =>
             {

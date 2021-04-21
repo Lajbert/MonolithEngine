@@ -22,11 +22,11 @@ namespace MonolithEngine.Source.Entities
         private int currentRow;
         private int currentColumn;
 
-        private int frameSize;
+        //private int frameSize;
 
         public SpriteSheetAnimation(Entity parent, Texture2D texture, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
         {
-            
+            int frameSize;
             this.texture = texture;
             if (frameSizeOverride == 0)
             {
@@ -42,7 +42,7 @@ namespace MonolithEngine.Source.Entities
             TotalFrames = GetFrameCount();
         }
 
-        public SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width = 0, int height = 0, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
+        private SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width, int height, int framerate, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
         {
             this.texture = texture;
             this.rows = rows;
@@ -56,6 +56,16 @@ namespace MonolithEngine.Source.Entities
                 this.width = width;
                 this.height = height;
             }
+        }
+
+        public SpriteSheetAnimation(Entity parent, Texture2D texture, int frameWidth, int frameHeight, int framerate, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, 0, framerate, spriteEffect)
+        {
+            this.texture = texture;
+            this.width = frameWidth;
+            this.height = frameHeight;
+            this.rows = texture.Height / frameHeight;
+            this.columns = texture.Width / frameWidth;
+            TotalFrames = GetFrameCount();
         }
 
         public SpriteSheetAnimation Copy()
@@ -112,10 +122,10 @@ namespace MonolithEngine.Source.Entities
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    Color[] data = new Color[frameSize * frameSize];
-                    texture.GetData(0, new Rectangle(j * frameSize, i * frameSize, frameSize, frameSize), data, 0, data.Length);
+                    Color[] data = new Color[width * height];
+                    texture.GetData(0, new Rectangle(j * width, i * height, width, height), data, 0, data.Length);
                     bool emptyFrameFound = true;
-                    for (int c = 0; c < frameSize * frameSize; c++)
+                    for (int c = 0; c < width * height; c++)
                     {
                         if (data[c].ToVector4() != Vector4.Zero)
                         {
