@@ -1117,6 +1117,66 @@
 /processorParam:TextureFormat=Color
 /build:ForestAssets/UI/windowed.png
 
+#begin IcySkies/Characters/Ghost/Appear (44x30).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Characters/Ghost/Appear (44x30).png
+
+#begin IcySkies/Characters/Ghost/Desappear (44x30).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Characters/Ghost/Desappear (44x30).png
+
+#begin IcySkies/Characters/Ghost/Gost Particles (48x16).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Characters/Ghost/Gost Particles (48x16).png
+
+#begin IcySkies/Characters/Ghost/Hit (44x30).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Characters/Ghost/Hit (44x30).png
+
+#begin IcySkies/Characters/Ghost/Idle (44x30).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Characters/Ghost/Idle (44x30).png
+
 #begin IcySkies/Characters/IceCream/ice-cream@attack.png
 /importer:TextureImporter
 /processor:TextureProcessor

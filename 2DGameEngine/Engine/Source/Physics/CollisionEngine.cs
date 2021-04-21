@@ -53,56 +53,53 @@ namespace MonolithEngine.Engine.Source.Physics
 
             HandleChangedObjects();
 
-            //foreach (IColliderEntity thisEntity in entities)
+
+            if (!thisEntity.CollisionsEnabled && thisEntity.GetTriggers().Count == 0)
             {
+                return;
+            }
 
-                if (!thisEntity.CollisionsEnabled && thisEntity.GetTriggers().Count == 0)
+            foreach (IColliderEntity otherEntity in toCheckAgainst)
+            {
+                if (thisEntity.Equals(otherEntity))
                 {
-                    return;
+                    continue;
                 }
 
-                foreach (IColliderEntity otherEntity in toCheckAgainst)
+                if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
                 {
-                    if (thisEntity.Equals(otherEntity))
-                    {
-                        continue;
-                    }
+                    CheckTriggers(thisEntity, otherEntity);
+                }
 
-                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
-                    {
-                        CheckTriggers(thisEntity, otherEntity);
-                    }
+                if (otherEntity.GetTags().Count == 0 || !otherEntity.CollisionsEnabled)
+                {
+                    continue;
+                }
 
-                    if (otherEntity.GetTags().Count == 0 || !otherEntity.CollisionsEnabled)
-                    {
-                        continue;
+                bool possibleCollision = false;
+                bool allowOverlap = false;
+                foreach(string tag in otherEntity.GetTags()) {
+                    if (thisEntity.GetCollidesAgainst().ContainsKey(tag)) {
+                        possibleCollision = true;
+                        allowOverlap = thisEntity.GetCollidesAgainst()[tag];
+                        break;
                     }
+                }
 
-                    bool possibleCollision = false;
-                    bool allowOverlap = false;
-                    foreach(string tag in otherEntity.GetTags()) {
-                        if (thisEntity.GetCollidesAgainst().ContainsKey(tag)) {
-                            possibleCollision = true;
-                            allowOverlap = thisEntity.GetCollidesAgainst()[tag];
-                            break;
-                        }
-                    }
+                if (!possibleCollision)
+                {
+                    continue;
+                }
 
-                    if (!possibleCollision)
-                    {
-                        continue;
-                    }
-
-                    if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
-                    {
-                        CheckCollision(thisEntity, otherEntity, allowOverlap);
-                    }
+                if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
+                {
+                    CheckCollision(thisEntity, otherEntity, allowOverlap);
+                }
                     
-                    /*if (thisEntity.CheckGridCollisions)
-                    {
-                        CheckGridCollisions(thisEntity);
-                    }*/
-                }
+                /*if (thisEntity.CheckGridCollisions)
+                {
+                    CheckGridCollisions(thisEntity);
+                }*/
             }
 
             InactivateCollisionsAndTriggers(thisEntity);
