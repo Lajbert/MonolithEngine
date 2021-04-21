@@ -4,6 +4,7 @@ using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Entities.Animations;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Source.Entities;
 using System;
 using System.Collections.Generic;
@@ -61,7 +62,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
 
                 health = 1;
 
-                CurrentSpeed = 0.1f;
+                CurrentSpeed = (float)MyRandom.Between(8, 10) / 100f;
 
                 runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock2Run"), 1, 14, 14, 32, 28, 24);
                 runRight = runLeft.CopyFlipped();
@@ -80,7 +81,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
             {
                 health = 0;
 
-                CurrentSpeed = 0.15f;
+                CurrentSpeed = (float)MyRandom.Between(12, 15) / 100f;
 
                 runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock3Run"), 1, 14, 14, 22, 18, 24);
                 runRight = runLeft.CopyFlipped();
