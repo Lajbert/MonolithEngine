@@ -150,6 +150,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("Spikes");
             AddCollisionAgainst("IceCreamProjectile");
             AddCollisionAgainst("Saw");
+            AddCollisionAgainst("Fan");
             AddTag("Hero");
             CanFireTriggers = true;
 
@@ -1146,6 +1147,11 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             }
             else if (otherCollider is Saw)
             {
+                Hit(otherCollider, true);
+            }
+            else if (otherCollider is Fan)
+            {
+                LeaveFanArea();
                 Hit(otherCollider, true);
             }
             base.OnCollisionStart(otherCollider);

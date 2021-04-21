@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Engine.Source.Entities.Abstract;
 using MonolithEngine.Engine.Source.Entities.Animations;
+using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Physics.Trigger;
 using MonolithEngine.Engine.Source.Scene;
 using MonolithEngine.Entities;
@@ -26,6 +27,7 @@ namespace ForestPlatformerExample.Source.Environment
             {
                 throw new Exception("Incorrect force field height for fan!");
             }
+            AddTag("Fan");
             ForceFieldHeight = forceFeildHeight;
             AnimationStateMachine animations = new AnimationStateMachine();
             animations.Offset = drawOffset;
@@ -38,8 +40,11 @@ namespace ForestPlatformerExample.Source.Environment
 
             AddComponent(new BoxTrigger(this, 64, ForceFieldHeight, positionOffset: offset + drawOffset, tag: ""));
 
+            AddComponent(new BoxCollisionComponent(this, 46, 8, new Vector2(-14, 0)));
+
 #if DEBUG
             //(GetComponent<ITrigger>() as BoxTrigger).DEBUG_DISPLAY_TRIGGER = true;
+            (GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #endif
 
             Active = true;
