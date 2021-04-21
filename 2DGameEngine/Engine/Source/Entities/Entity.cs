@@ -258,7 +258,10 @@ namespace MonolithEngine.Entities
             {
                 foreach (Entity child in Children)
                 {
-                    child.Draw(spriteBatch);
+                    if (child.Visible)
+                    {
+                        child.Draw(spriteBatch);
+                    }
                 }
             }
             
@@ -268,12 +271,22 @@ namespace MonolithEngine.Entities
         {
             foreach (Entity child in Children)
             {
-                child.PreUpdate();
+                if (child.Active)
+                {
+                    child.PreUpdate();
+                }
             }
         }
 
         public virtual void PreFixedUpdate()
         {
+            foreach (Entity child in Children)
+            {
+                if (child.Active)
+                {
+                    child.PreFixedUpdate();
+                }
+            }
         }
 
         public virtual void FixedUpdate()
@@ -293,7 +306,10 @@ namespace MonolithEngine.Entities
 
             foreach (Entity child in Children)
             {
-                child.FixedUpdate();
+                if (child.Active)
+                {
+                    child.FixedUpdate();
+                }
             }
         }
 
@@ -301,7 +317,10 @@ namespace MonolithEngine.Entities
         {
             foreach (Entity child in Children)
             {
-                child.Update();
+                if (child.Active)
+                {
+                    child.Update();
+                }
             }
         }
 
@@ -314,7 +333,10 @@ namespace MonolithEngine.Entities
 
             foreach (Entity child in Children)
             {
-                child.PostUpdate();
+                if (child.Active)
+                {
+                    child.PostUpdate();
+                }
             }
         }
 

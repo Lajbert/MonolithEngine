@@ -83,7 +83,7 @@ namespace ForestPlatformerExample.Source.Entities.Items
             for (int i = 0; i < numOfCoins; i++)
             {
 
-                Coin c = new Coin(Scene, Vector2.Zero, 3, friction: (float)MyRandom.Between(57, 63) / (float)100)
+                Coin c = new Coin(Scene, new Vector2(-8, -20), 3, friction: (float)MyRandom.Between(57, 63) / (float)100)
                 {
                     Parent = this,
                     Visible = false,

@@ -27,7 +27,7 @@ namespace ForestPlatformerExample.Source.Items
         {
 
             Active = true;
-
+            AddTag("COIN");
             DrawPriority = 2;
 
             SetCircleCollider();
@@ -37,11 +37,7 @@ namespace ForestPlatformerExample.Source.Items
             HorizontalFriction = friction;
             VerticalFriction = friction;
 
-            CollisionOffsetBottom = 1;
-
-            //ColliderOnGrid = true;
-
-            //DEBUG_SHOW_PIVOT = true;
+            CollisionOffsetBottom = 0;
 
             AnimationStateMachine Animations = new AnimationStateMachine();
             Animations.Offset = new Vector2(8, 8);
