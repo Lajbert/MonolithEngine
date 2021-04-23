@@ -29,6 +29,7 @@ Already working features:
 * Fixed timestep for game logic updates, interpolation for in-between frames
 * Basic audio support
 * Asset management
+* Scene management
 
 Many more features are coming including ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
 
