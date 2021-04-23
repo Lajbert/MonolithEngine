@@ -68,20 +68,20 @@ Yes, any way you want, including commercially. The only thing you cannot do is s
 Yes, feel free to take parts or the entire source code to your engine and create with it.
 
 # Can I contribute to the engine?
-It will be possible in the future, the details are currently being figured out. Stay tuned!
+Of course, contact me directly if you'd like to make suggestions or commit some code!
 
 # Can I request features?
-I am planning to make it possible to request features, but my main focus right now is to implement the features that I wll need for my game.
+If there will be a community around the engine, I will make it possible to request features, but my main focus right now is to implement the features that I wll need for my game(s).
 
 # Any chances of 3D support?
-While 2.5D support is planned later this year (3D characters on 2D side scroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch.
-I am aware 2D and 3D development are similar in many ways, but also different enough that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use.
+Unlikely. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch.
+I am aware 2D and 3D development are similar in many ways, but also different enough that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use. 2.5D support may not be completely out of question, but not in the near future.
 
 # Do you provide support for the engine?
-I can't. It's a hobby project currently and I don't have the means to do it. If something is seriously broken, feel free to contact me as it's also in my best interest to get it fixed.
+I can't. It's a hobby project currently and I don't have the means to do it. If something is seriously broken, or could be done better than I do, please contact me as it's also in my best interest to get it fixed.
 
 # Do you have a bug tracker somewhere?
-It is planned, stay tuned!
+Right now, only Github issues :) If there will be a community around the engine, I will have do it properly.
 
 # Is there a timeline for future development?
-Also planned.
+It's planned, but it depends on the public interest in the engine.
