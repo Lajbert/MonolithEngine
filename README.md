@@ -46,8 +46,7 @@ Right now there is one platformer game example included in project to get you st
 Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed.
 
 # Why should I chose this engine over other major commercial engines out there?
-I can't really come up with any catchy selling point apart from the things I already listed above, so good thing I'm not a salesman making a living off selling this engine :) It's there if you'd like to try something new and simple, maybe you'll like it, maybe not, maybe you'll just see one or two tricks you like and add it to your toolbox.
-It's really up to you!
+I can't really come up with any catchy selling point apart from the things I already listed above :) It's there if you'd like to try something new and simple, maybe you'll like it, maybe not, maybe you'll just see one or two tricks you like and add it to your toolbox.
 
 # I have a little experience with Unity (or any other game engine), is that going to help me?
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
@@ -71,7 +70,7 @@ It will be possible in the future, the details are currently being figured out. 
 I am planning to make it possible to request features, but my main focus right now is to implement the features that I wll need for my game.
 
 # Any chances of 3D support?
-While 2.5D support is planned later this year (3D characters on 2D side scroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch :) 
+While 2.5D support is planned later this year (3D characters on 2D side scroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch.
 I am aware 2D and 3D development are similar in many ways, but also different enough that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use.
 
 # Do you provide support for the engine?
@@ -81,4 +80,4 @@ I can't. It's a hobby project currently and I don't have the means to do it. If 
 It is planned, stay tuned!
 
 # Is there a timeline for future development?
-Also planned :)
+Also planned.
