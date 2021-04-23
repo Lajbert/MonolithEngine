@@ -24,10 +24,14 @@ Already working features:
 * dynamic circle and box collisions (for dynamic objects colliding with each other, like the hero character colliding with enemies, pickups, traps, etc.)
 * Triggers (Box trigger supported, Circle trigger coming soon) for detecting that an object inside an area, like the hero character entering a certain part of the map that opens a door, etc.
 * Raycasting!
+* Bresenham line algorithm (for field of view, AI or any other purpose)
 * Keyboard and controller input handling
 * Utilities like Timer, primitives, etc.
+* Fixed timestep for game logic updates, interpolation for in-between frames
+* Basic audio support
+* Asset management
 
-Many more features are coming including fixed timestep for physics updates (regardless of the FPS), audio support, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
+Many more features are coming including ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
 
 # How stable is the engine?
 It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, unit tests, etc. I'd say it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
