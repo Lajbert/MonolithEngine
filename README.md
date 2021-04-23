@@ -23,8 +23,7 @@ Already working features:
 * 2D grid based static environmental collisions (for dynamic objects colliding with static objects like ground, walls and other static environment colliders)
 * dynamic circle and box collisions (for dynamic objects colliding with each other, like the hero character colliding with enemies, pickups, traps, etc.)
 * Triggers (Box trigger supported, Circle trigger coming soon) for detecting that an object inside an area, like the hero character entering a certain part of the map that opens a door, etc.
-* Raycasting!
-* Bresenham line algorithm (for field of view, AI or any other purpose)
+* Raycasting with 2 different implementation: Bresenham line and line-line intersection (for various purposes like AI, graphics effects, etc)
 * Keyboard and controller input handling
 * Utilities like Timer, primitives, etc.
 * Fixed timestep for game logic updates, interpolation for in-between frames
