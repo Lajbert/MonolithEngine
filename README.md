@@ -25,7 +25,7 @@ Already working features:
 * Triggers (Box trigger supported, Circle trigger coming soon) for detecting that an object inside an area, like the hero character entering a certain part of the map that opens a door, etc.
 * Raycasting with 2 different implementation: Bresenham line and line-line intersection (for various purposes like AI, graphics effects, etc)
 * Keyboard and controller input handling
-* Utilities like Timer, primitives, etc.
+* Utilities like Timer, math, primitives, etc.
 * Fixed timestep for game logic updates, interpolation for in-between frames
 * Basic audio support
 * Asset management
