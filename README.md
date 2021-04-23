@@ -2,7 +2,7 @@
 # Oh no, not another game engine!
 There are so many game engines out there already, why making another one?
 First of all, it exists because I love coding and video games! I have a couple of 2D game ideas in my head and the possible choices of engines was narrowed down to Unity only.
-The rest were either "too much" (like UE4) or not entirely cross-platform. When I was playing around with Unity, I quickly realized that
+The rest were either "too much" (like UE4), not entirely cross-platform or simply expensive :) . When I was playing around with Unity, I quickly realized that
 since I'm the type of person who rather goes to the source code than the documentation, this will not be my preferred choice, so I decided to code my own engine
 with the feature set that I will actually use. During the first hours of the development, I already realized that for me, working on the engine is at least as fun as 
 working on a specific game. I've chosen to utilize [MonoGame](https://www.monogame.net/) framework to ensure that the engine is cross-platform and low level enough for my needs.
@@ -23,14 +23,17 @@ Already working features:
 * 2D grid based static environmental collisions (for dynamic objects colliding with static objects like ground, walls and other static environment colliders)
 * dynamic circle and box collisions (for dynamic objects colliding with each other, like the hero character colliding with enemies, pickups, traps, etc.)
 * Triggers (Box trigger supported, Circle trigger coming soon) for detecting that an object inside an area, like the hero character entering a certain part of the map that opens a door, etc.
-* Raycasting!
+* Raycasting with 2 different implementation: Bresenham line and line-line intersection (for various purposes like AI, graphics effects, etc)
 * Keyboard and controller input handling
-* Utilities like Timer, primitives, etc.
+* Utilities like Timer, math, primitives, etc.
+* Fixed timestep for game logic updates, interpolation for in-between frames
+* Basic audio support
+* Asset management
 
-Many more features are coming including fixed timestep for physics updates (regardless of the FPS), audio support, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
+Many more features are coming including ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
 
 # How stable is the engine?
-It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, unit tests, etc. I'd say it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
+It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, cleanups, unit tests, etc. I'd say it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
 
 # Who should use this engine?
 Although I'm striving for simplicity, this engine is not made for beginners, especially not for people who rely on user interfaces like the one Unity has. It's for people who don't mind adjusting pivots and offsets from the code and prefers checking out the source to reading endless documentations.
@@ -46,8 +49,7 @@ Right now there is one platformer game example included in project to get you st
 Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed.
 
 # Why should I chose this engine over other major commercial engines out there?
-I can't really come up with any catchy selling point apart from the things I already listed above, so good thing I'm not a salesman making a living off selling this engine :) It's there if you'd like to try something new and simple, maybe you'll like it, maybe not, maybe you'll just see one or two tricks you like and add it to your toolbox.
-It's really up to you!
+I can't really come up with any catchy selling point apart from the things I already listed above :) It's there if you'd like to try something new and simple, maybe you'll like it, maybe not, maybe you'll just see one or two tricks you like and add it to your toolbox.
 
 # I have a little experience with Unity (or any other game engine), is that going to help me?
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
@@ -71,7 +73,7 @@ It will be possible in the future, the details are currently being figured out. 
 I am planning to make it possible to request features, but my main focus right now is to implement the features that I wll need for my game.
 
 # Any chances of 3D support?
-While 2.5D support is planned later this year (3D characters on 2D side scroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch :) 
+While 2.5D support is planned later this year (3D characters on 2D side scroller or isometric map, like Hades), full 3D support will probably never come. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch.
 I am aware 2D and 3D development are similar in many ways, but also different enough that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use.
 
 # Do you provide support for the engine?
@@ -81,4 +83,4 @@ I can't. It's a hobby project currently and I don't have the means to do it. If 
 It is planned, stay tuned!
 
 # Is there a timeline for future development?
-Also planned :)
+Also planned.
