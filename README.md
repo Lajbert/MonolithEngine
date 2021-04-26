@@ -30,6 +30,7 @@ Already working features:
 * Basic audio support
 * Asset management
 * Scene management
+* Basic UI capabilites
 
 Many more features are coming including ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, basic shaders and other juicy stuff, stay tuned!
 
