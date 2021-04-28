@@ -60,7 +60,7 @@ namespace ForestPlatformerExample.Source.Environment
                 "\n\n You won't take any damage while sliding." +
                 "\n\n [PRESS ENTER TO CONTINUE]";
             popup.SetText(Assets.GetFont("InGameText"), text, Color.White);
-            popup.SetSprite(Assets.CreateRectangle(230, 190, Color.Black));
+            popup.SetSprite(Assets.CreateRectangle(230, 210, Color.Black));
             Destroy();
         }
 
