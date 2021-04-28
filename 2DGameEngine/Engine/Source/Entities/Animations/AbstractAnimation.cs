@@ -35,7 +35,7 @@ namespace MonolithEngine.Source.Entities.Animation
         public Action<int> EveryFrameAction;
         private Dictionary<int, Action<int>> frameActions = new Dictionary<int, Action<int>>();
 
-        public Vector2 Pivot;
+        public Vector2 Origin;
 
         public int StartFrame = 0;
         public int EndFrame
@@ -87,7 +87,7 @@ namespace MonolithEngine.Source.Entities.Animation
 
         public virtual void Play(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GetTexture(), (Parent.DrawPosition + Offset), SourceRectangle, Color.White, Parent.DrawRotation, Pivot, Scale, SpriteEffect, 0f);
+            spriteBatch.Draw(GetTexture(), (Parent.DrawPosition + Offset), SourceRectangle, Color.White, Parent.DrawRotation, Origin, Scale, SpriteEffect, 0f);
         }
 
         internal abstract Texture2D GetTexture();

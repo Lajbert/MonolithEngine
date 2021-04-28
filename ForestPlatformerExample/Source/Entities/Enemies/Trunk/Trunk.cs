@@ -163,11 +163,11 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
             AudioEngine.Play("TrunkShoot");
             if (turnedLeft)
             {
-                new Bullet(Scene, Transform.Position - new Vector2(29, 20), new Vector2(-0.3f, 0));
+                new Bullet(Scene, Transform.Position - new Vector2(29, 15), new Vector2(-0.3f, 0));
             } 
             else
             {
-                new Bullet(Scene, Transform.Position + new Vector2(14, -20), new Vector2(0.3f, 0));
+                new Bullet(Scene, Transform.Position + new Vector2(14, -15), new Vector2(0.3f, 0));
             }
         }
 

@@ -378,8 +378,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroWallSlide"), 12, SpriteEffects.FlipHorizontally, 64);
             bool isWallSlidingRight() => isWallSliding && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
+            wallSlideRight.Offset += new Vector2(6, 0);
 
             SpriteSheetAnimation wallSlideLeft = wallSlideRight.CopyFlipped();
+            wallSlideRight.Offset += new Vector2(-12, 0);
             bool isWallSlidingLeft() => isWallSliding && CurrentFaceDirection == Direction.WEST;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isWallSlidingLeft, 6);
 

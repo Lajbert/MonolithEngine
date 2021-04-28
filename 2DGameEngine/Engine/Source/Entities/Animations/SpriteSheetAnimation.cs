@@ -104,7 +104,7 @@ namespace MonolithEngine.Source.Entities
         internal override Texture2D GetTexture()
         {
             SourceRectangle = sourceRectangles[CurrentFrame];
-            Pivot = new Vector2(width / 2, height / 2);
+            Origin = new Vector2(width / 2, height / 2);
             return texture;
         }
 

@@ -48,7 +48,10 @@ namespace MonolithEngine.Engine.Source.Entities.Animations
             {
                 function = () => (true);
             }
-            animation.Offset = Offset;
+            if (animation.Offset == Vector2.Zero)
+            {
+                animation.Offset = Offset;
+            }
             StateAnimation anim = new StateAnimation(state, animation, function, priority);
             animations.Add(anim);
             animations.Sort((a, b) => a.priority.CompareTo(b.priority) * -1);
