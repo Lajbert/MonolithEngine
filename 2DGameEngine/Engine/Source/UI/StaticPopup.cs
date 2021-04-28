@@ -18,8 +18,13 @@ namespace MonolithEngine.Engine.Source.UI
         
         private UserInputController input;
 
+        private SpriteFont font;
 
-        public StaticPopup(AbstractScene scene, Texture2D texture, Vector2 position, float scale = 1, float timeout = 0, Keys continueButton = Keys.Space) : base(scene.LayerManager.UILayer, null, position)
+        private string text;
+
+        private Color textColor;
+
+        public StaticPopup(AbstractScene scene, Vector2 position, float timeout = 0, Keys continueButton = Keys.Space) : base(scene.LayerManager.UILayer, null, position)
         {
             input = new UserInputController();
 
@@ -39,20 +44,45 @@ namespace MonolithEngine.Engine.Source.UI
                 });
             }
 
-            Sprite s = new Sprite(this, texture, new Rectangle(0, 0, texture.Width, texture.Height));
-            s.Scale = scale;
-            AddComponent(s);
-
             Active = true;
             Visible = true;
         }
 
+        public void SetSprite(Texture2D texture, float scale)
+        {
+            Sprite s = new Sprite(this, texture, new Rectangle(0, 0, texture.Width, texture.Height));
+            s.Scale = scale;
+            AddComponent(s);
+        }
 
+        public void SetText(SpriteFont font, string text, Color textColor = default)
+        {
+            this.text = text;
+            this.font = font;
+            if (textColor == default)
+            {
+                this.textColor = Color.White;
+            }
+            else
+            {
+                this.textColor = textColor;
+            }
+        }
 
         public override void FixedUpdate()
         {
             input.Update();
             base.FixedUpdate();
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            if (text != null)
+            {
+                spriteBatch.DrawString(font, text, Transform.Position, textColor);
+            }
         }
 
     }

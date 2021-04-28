@@ -188,6 +188,8 @@ namespace ForestPlatformerExample.Source
 
             Assets.LoadTexture("FinishedTrophy", "IcySkies/Items/POI/End (Idle)");
 
+            Assets.AddFont("InGameText", Content.Load<SpriteFont>("Text/InGameText"));
+
             // Sounds
 
             AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC);

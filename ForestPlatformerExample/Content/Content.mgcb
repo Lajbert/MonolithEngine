@@ -1585,3 +1585,10 @@
 /processorParam:TextureFormat=Color
 /build:IcySkies/Traps/Saw/Off.png;IcySkies/Traps/Saw/saw.png
 
+#begin Text/File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Text/File.spritefont;Text/InGameText.spritefont
+

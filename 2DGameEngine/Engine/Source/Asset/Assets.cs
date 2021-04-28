@@ -15,6 +15,8 @@ namespace MonolithEngine.Engine.Source.Asset
 
         private static Dictionary<string, List<Texture2D>> textureGroups = new Dictionary<string, List<Texture2D>>();
 
+        private static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
+
         public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false)
         {
             if (flipVertical || flipHorizontal)
@@ -63,9 +65,24 @@ namespace MonolithEngine.Engine.Source.Asset
             return AssetUtil.CreateRectangle(size, color);
         }
 
+        public static Texture2D CreateRectangle(int width, int height, Color color)
+        {
+            return AssetUtil.CreateRectangle(width, height, color);
+        }
+
         public static Texture2D CreateCircle(int diameter, Color color, bool filled = false)
         {
             return AssetUtil.CreateCircle(diameter, color, filled);
+        }
+
+        public static void AddFont(string name, SpriteFont spriteFont)
+        {
+            fonts.Add(name, spriteFont);
+        }
+
+        public static SpriteFont GetFont(string name)
+        {
+            return fonts[name];
         }
     }
 }

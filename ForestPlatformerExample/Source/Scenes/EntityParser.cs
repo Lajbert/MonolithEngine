@@ -206,6 +206,19 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     new GameFinishTrophy(scene, position);
                 }
+                else if (entity.Identifier.Equals("PopupTextTrigger"))
+                {
+                    string textName = null;
+                    foreach (FieldInstance field in entity.FieldInstances)
+                    {
+
+                        if (field.Identifier == "TextName")
+                        {
+                            textName = field.Value;
+                        }
+                    }
+                    new PopupTrigger(scene, position, (int)entity.Width, (int)entity.Height, textName);
+                }
             }
 
 #if DEBUG

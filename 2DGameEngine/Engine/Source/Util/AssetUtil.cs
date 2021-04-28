@@ -78,6 +78,30 @@ namespace MonolithEngine.Engine.Source.Util
             return rect;
         }
 
+        public static Texture2D CreateRectangle(int width, int height, Color color)
+        {
+            int key = 2 * width + height;
+            if (rectangleCache.ContainsKey(new RectangleKey(key, color)))
+            {
+                return rectangleCache[new RectangleKey(key, color)];
+            }
+            Texture2D rect = new Texture2D(GraphicsDeviceManager.GraphicsDevice, width, height);
+            Color[] data = new Color[width * height];
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    int i = x + width * y;
+                    data[i] = color;
+                }
+            }
+            rect.SetData(data);
+
+            rectangleCache.Add(new RectangleKey(key, color), rect);
+            return rect;
+        }
+
         public static List<Texture2D> LoadTextures(string fullPath, int frameCount)
         {
             return LoadTextures(fullPath, 0, frameCount);
