@@ -27,11 +27,12 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
 
             CurrentFaceDirection = currentFaceDirection;
 
-            AddComponent(new CircleCollisionComponent(this, 17, new Vector2(0, -5)));
+            AddComponent(new CircleCollisionComponent(this, 17, new Vector2(8, -5)));
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
-            Animations.Offset = new Vector2(0, -13);
+            Animations.Offset = new Vector2(8, -13);
             CollisionOffsetBottom = 1;
+            //DEBUG_SHOW_COLLIDER = true;
 
             SpriteSheetAnimation idleNormalLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleIdleNormal"), 44, 26, 24);
             idleNormalLeft.Looping = true;

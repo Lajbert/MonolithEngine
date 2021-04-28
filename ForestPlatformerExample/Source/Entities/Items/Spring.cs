@@ -29,8 +29,8 @@ namespace ForestPlatformerExample.Source.Items
             Power = power;
 
             //CollisionComponent = new CircleCollisionComponent(this, 10, new Vector2(2, 10));
-            AddComponent(new BoxCollisionComponent(this, 16, 9, new Vector2(-8, 7)));
-            //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
+            AddComponent(new BoxCollisionComponent(this, 16, 9, new Vector2(0, 7)));
+            (GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             //DEBUG_SHOW_PIVOT = true;
 
             //DEBUG_SHOW_PIVOT = true;
@@ -39,7 +39,7 @@ namespace ForestPlatformerExample.Source.Items
 
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
-            Animations.Offset = new Vector2(0, 8);
+            Animations.Offset = new Vector2(8, 8);
 
             SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, Assets.GetTexture("SpringAnim"), 24)
             {
