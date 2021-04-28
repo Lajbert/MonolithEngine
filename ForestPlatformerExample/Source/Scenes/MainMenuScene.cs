@@ -47,7 +47,7 @@ namespace ForestPlatformerExample.Source.Scenes
 
             newGame.OnClick = () =>
             {
-                SceneManager.LoadScene("Level_2");
+                SceneManager.LoadScene("LevelSelect");
             };
 
             SelectableImage settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: 0.25f);

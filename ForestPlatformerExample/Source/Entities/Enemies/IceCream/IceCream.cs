@@ -36,8 +36,6 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
             AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -20)));
 
-            Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
-
             AddComponent(new BoxTrigger(this, 300, 300, new Vector2(-150, -150), "vision"));
 
 #if DEBUG

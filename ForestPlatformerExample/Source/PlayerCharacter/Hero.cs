@@ -151,6 +151,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("IceCreamProjectile");
             AddCollisionAgainst("Saw");
             AddCollisionAgainst("Fan");
+            AddCollisionAgainst("FinishTropy", false);
             AddTag("Hero");
             CanFireTriggers = true;
 

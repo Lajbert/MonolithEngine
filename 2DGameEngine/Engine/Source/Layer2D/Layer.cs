@@ -29,6 +29,8 @@ namespace MonolithEngine.Source.GridCollision
         public bool Visible = true;
         public bool Active = true;
 
+        internal bool Pausable = true;
+
         public static GraphicsDeviceManager GraphicsDeviceManager;
 
         public int Priority = 0;

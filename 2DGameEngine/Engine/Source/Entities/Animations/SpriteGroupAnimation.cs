@@ -37,7 +37,7 @@ namespace MonolithEngine.Source.Entities.Animation
             return newAnim;
         }
 
-        protected override Texture2D GetTexture()
+        internal override Texture2D GetTexture()
         {
             Pivot = new Vector2((float)Math.Floor((decimal)Textures[CurrentFrame].Width / 2), (float)Math.Floor((decimal)Textures[CurrentFrame].Height / 2));
             SourceRectangle = new Rectangle(0, 0, Textures[CurrentFrame].Width, Textures[CurrentFrame].Height);

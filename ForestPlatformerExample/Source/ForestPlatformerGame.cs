@@ -102,6 +102,13 @@ namespace ForestPlatformerExample.Source
             Assets.LoadTexture("HUDArrowLeftBase", "ForestAssets/UI/arrow_right_base", flipHorizontal: true);
             Assets.LoadTexture("HUDArrowLeftSelected", "ForestAssets/UI/arrow_right_selected", flipHorizontal: true);
             Assets.LoadTexture("HUDLoading", "ForestAssets/UI/loading");
+            Assets.LoadTexture("Level1Base", "ForestAssets/UI/level_1_base");
+            Assets.LoadTexture("Level1Selected", "ForestAssets/UI/level_1_selected");
+            Assets.LoadTexture("Level2Base", "ForestAssets/UI/level_2_base");
+            Assets.LoadTexture("Level2Selected", "ForestAssets/UI/level_2_selected");
+            Assets.LoadTexture("RestartBase", "ForestAssets/UI/restart_base");
+            Assets.LoadTexture("RestartSelected", "ForestAssets/UI/restart_selected");
+            Assets.LoadTexture("FinishedText", "ForestAssets/UI/finish");
 
             // Entities
 
@@ -179,6 +186,8 @@ namespace ForestPlatformerExample.Source
 
             Assets.LoadTexture("FanAnim", "IcySkies/Items/Fan/fan");
 
+            Assets.LoadTexture("FinishedTrophy", "IcySkies/Items/POI/End (Idle)");
+
             // Sounds
 
             AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC);
@@ -207,6 +216,7 @@ namespace ForestPlatformerExample.Source
             VideoSettingsScene videoSettings = new VideoSettingsScene();
             LoadingScreenScene loadingScreen = new LoadingScreenScene();
             Level2Scene level2 = new Level2Scene(world, font);
+            LevelSelectScreen levelSelectScreen = new LevelSelectScreen();
 
             SceneManager.AddScene(mainMenuScene);
             SceneManager.AddScene(settings);
@@ -215,6 +225,7 @@ namespace ForestPlatformerExample.Source
             SceneManager.AddScene(videoSettings);
             SceneManager.AddScene(loadingScreen);
             SceneManager.AddScene(level2);
+            SceneManager.AddScene(levelSelectScreen);
 
             SceneManager.LoadScene(mainMenuScene);
             SceneManager.SetLoadingScene(loadingScreen);
@@ -228,7 +239,7 @@ namespace ForestPlatformerExample.Source
 
             if (prevKeyboardState != state && state.IsKeyDown(Keys.R))
             {
-                SceneManager.LoadScene("Level1");
+                SceneManager.LoadScene("Level_1");
             }
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && !Paused)
             {
@@ -236,7 +247,7 @@ namespace ForestPlatformerExample.Source
             }
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && Paused)
             {
-                SceneManager.StartScene("Level1");
+                SceneManager.StartScene("Level_1");
             } 
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && !WasGameStarted)
             {

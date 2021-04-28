@@ -9,6 +9,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using MonolithEngine.Engine.Source.Graphics;
+using MonolithEngine.Source.Entities;
+using MonolithEngine.Source.Entities.Animation;
 
 namespace MonolithEngine.Engine.Source.Util
 {
@@ -197,5 +200,189 @@ namespace MonolithEngine.Engine.Source.Util
         {
             return Content.Load<Song>(path);
         }
+
+        public static Rectangle AutoBoundingBox(Color[] inputImage, int imageWidth)
+        {
+            int left = int.MaxValue;
+            int top = int.MaxValue;
+            int right = int.MinValue;
+            int bottom = int.MinValue;
+
+            for (int i = 0; i < inputImage.Length; i++)
+            {
+                if (inputImage[i].ToVector4() != Vector4.Zero)
+                {
+                    int x = i % imageWidth;
+                    int y = i / imageWidth;
+
+                    if (x < left)
+                    {
+                        left = x;
+                    }
+                    if (x > right)
+                    {
+                        right = x;
+                    }
+                    if (y < top)
+                    {
+                        top = y;
+                    }
+                    if (y > bottom)
+                    {
+                        bottom = y;
+                    }
+                }
+            }
+            return new Rectangle(left, top, right - left + 1, bottom - top + 1);
+        }
+
+        public static Rectangle AutoBoundingBox(Texture2D texture)
+        {
+            int width = texture.Width;
+            int height = texture.Height;
+            Color[] data = new Color[width * height];
+            texture.GetData(0, new Rectangle(0, 0, width, height), data, 0, data.Length);
+            return AutoBoundingBox(data, width);
+        }
+
+        public static Rectangle AutoBoundingBox(Sprite sprite)
+        {
+            return AutoBoundingBox(sprite.Texture);
+        }
+
+        public static float AutoCircumscribedCircle(AbstractAnimation anim, BoundCalculationMode calculationMode = BoundCalculationMode.MAX)
+        {
+            return CircleFromRectangle(AutoBoundingBox(anim, calculationMode), calculationMode);
+        }
+
+        public static float AutoCircumscribedCircle(Texture2D texture, BoundCalculationMode calculationMode = BoundCalculationMode.MAX)
+        {
+            return CircleFromRectangle(AutoBoundingBox(texture), calculationMode);
+        }
+
+        private static float CircleFromRectangle(Rectangle rect, BoundCalculationMode calculationMode)
+        {
+            if (calculationMode == BoundCalculationMode.MAX)
+            {
+                return Math.Max(rect.Width, rect.Height);
+            }
+            else if (calculationMode == BoundCalculationMode.MIN)
+            {
+                return Math.Min(rect.Width, rect.Height);
+            }
+            else
+            {
+                return (rect.Width + rect.Height) / 2;
+            }
+        }
+
+        public static float AutoCircumscribedCircle(Sprite sprite, BoundCalculationMode calculationMode)
+        {
+            return AutoCircumscribedCircle(sprite.Texture, calculationMode);
+        }
+
+        public static Rectangle AutoBoundingBox(AbstractAnimation anim, BoundCalculationMode calculationMode = BoundCalculationMode.MAX)
+        {
+            List<Rectangle> boundingBoxes = new List<Rectangle>();
+
+            anim.Init();
+            while (anim.CurrentFrame < anim.EndFrame)
+            {
+                boundingBoxes.Add(AutoBoundingBox(GetTextureArea(anim.GetTexture(), anim.SourceRectangle), anim.SourceRectangle.Width));
+                anim.CurrentFrame++;
+            }
+            anim.Init();
+
+            Rectangle result;
+
+            if (calculationMode == BoundCalculationMode.MAX)
+            {
+                result = new Rectangle(int.MaxValue, int.MaxValue, int.MinValue, int.MinValue);
+                foreach (Rectangle r in boundingBoxes)
+                {
+                    if (r.X < result.X)
+                    {
+                        result.X = r.X;
+                    }
+                    if (r.Y < result.Y)
+                    {
+                        result.Y = r.Y;
+                    }
+                    if (r.Width > result.Width)
+                    {
+                        result.Width = r.Width;
+                    }
+                    if (r.Height > result.Height)
+                    {
+                        result.Height = r.Height;
+                    }
+                }
+            }
+            else if (calculationMode == BoundCalculationMode.MIN)
+            {
+                result = new Rectangle(int.MinValue, int.MinValue, int.MaxValue, int.MaxValue);
+                foreach (Rectangle r in boundingBoxes)
+                {
+                    if (r.X > result.X)
+                    {
+                        result.X = r.X;
+                    }
+                    if (r.Y > result.Y)
+                    {
+                        result.Y = r.Y;
+                    }
+                    if (r.Width < result.Width)
+                    {
+                        result.Width = r.Width;
+                    }
+                    if (r.Height < result.Height)
+                    {
+                        result.Height = r.Height;
+                    }
+                }
+            }
+            else
+            {
+                result = new Rectangle(0, 0, 0, 0);
+                foreach (Rectangle r in boundingBoxes)
+                {
+                    result.X += r.X;
+                    result.Y += r.Y;
+                    result.Width += r.Width;
+                    result.Height += r.Height;
+                }
+
+                result.X = (int)Math.Round((decimal)result.X / boundingBoxes.Count);
+                result.Y = (int)Math.Round((decimal)result.Y / boundingBoxes.Count);
+                result.Width = (int)Math.Round((decimal)result.Width / boundingBoxes.Count);
+                result.Height = (int)Math.Round((decimal)result.Height / boundingBoxes.Count);
+            }
+            return result;
+        }
+
+        public static Color[] GetTextureArea(Texture2D texture, Rectangle rectangle)
+        {
+            int width = texture.Width;
+            int height = texture.Height;
+            Color[] colorData = new Color[width * height];
+            texture.GetData(0, new Rectangle(0, 0, width, height), colorData, 0, colorData.Length);
+            Color[] color = new Color[rectangle.Width * rectangle.Height];
+            for (int x = 0; x < rectangle.Width; x++)
+            {
+                for (int y = 0; y < rectangle.Height; y++)
+                {
+                    color[x + y * rectangle.Width] = colorData[x + rectangle.X + (y + rectangle.Y) * width];
+                }
+            }
+            return color;
+        }
+
+        public enum BoundCalculationMode
+        {
+            MAX,
+            MIN,
+            AVERAGE
+        }
+
     }
 }

@@ -10,12 +10,15 @@ using ForestPlatformerExample.Source.Environment;
 using ForestPlatformerExample.Source.Items;
 using ForestPlatformerExample.Source.PlayerCharacter;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using MonolithEngine;
 using MonolithEngine.Engine.Source.Asset;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Level;
 using MonolithEngine.Engine.Source.Physics.Collision;
 using MonolithEngine.Engine.Source.Scene;
+using MonolithEngine.Engine.Source.UI;
+using MonolithEngine.Engine.Source.Util;
 using MonolithEngine.Entities;
 using MonolithEngine.Global;
 using MonolithEngine.Source.Level;
@@ -199,6 +202,10 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     new Ghost(scene, position);
                 }
+                else if (entity.Identifier.Equals("GameFinishedTrophy"))
+                {
+                    new GameFinishTrophy(scene, position);
+                }
             }
 
 #if DEBUG
@@ -218,6 +225,7 @@ namespace ForestPlatformerExample.Source.Scenes
             {
                 new MovingPlatformTurner(scene, prop.Item1, prop.Item2);
             }
+
         }
 
         public Hero GetHero()

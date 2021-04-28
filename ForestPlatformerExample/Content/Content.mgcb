@@ -841,6 +841,18 @@
 /processorParam:TextureFormat=Color
 /build:ForestAssets/UI/continue_selected.png
 
+#begin ForestAssets/UI/finish.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/finish.png
+
 #begin ForestAssets/UI/fps_limit.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -924,6 +936,54 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ForestAssets/UI/HUD-numbers.png
+
+#begin ForestAssets/UI/level_1_base.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/level_1_base.png
+
+#begin ForestAssets/UI/level_1_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/level_1_selected.png
+
+#begin ForestAssets/UI/level_2_base.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/level_2_base.png
+
+#begin ForestAssets/UI/level_2_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/level_2_selected.png
 
 #begin ForestAssets/UI/loading.png
 /importer:TextureImporter
@@ -1020,6 +1080,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ForestAssets/UI/resolution.png
+
+#begin ForestAssets/UI/restart_base.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/restart_base.png
+
+#begin ForestAssets/UI/restart_selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ForestAssets/UI/restart_selected.png
 
 #begin ForestAssets/UI/settings_base.png
 /importer:TextureImporter
@@ -1380,6 +1464,54 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:IcySkies/Items/Fan/On (24x8).png;IcySkies/Items/Fan/fan.png
+
+#begin IcySkies/Items/POI/Checkpoint (Flag Idle)(64x64).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Items/POI/Checkpoint (Flag Idle)(64x64).png
+
+#begin IcySkies/Items/POI/Checkpoint (Flag Out) (64x64).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Items/POI/Checkpoint (Flag Out) (64x64).png
+
+#begin IcySkies/Items/POI/Checkpoint (No Flag).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Items/POI/Checkpoint (No Flag).png
+
+#begin IcySkies/Items/POI/End (Idle).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IcySkies/Items/POI/End (Idle).png
 
 #begin IcySkies/Tiles/clouds-1.png
 /importer:TextureImporter

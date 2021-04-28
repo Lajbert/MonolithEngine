@@ -59,8 +59,6 @@ namespace ForestPlatformerExample.Source.Enemies
 
             //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 
-            Pivot = new Vector2(Config.GRID / 4, Config.GRID / 4);
-
             AddComponent(new BoxTrigger(this, 300, 300, new Vector2(-150, -150), "vision"));
 
 #if DEBUG

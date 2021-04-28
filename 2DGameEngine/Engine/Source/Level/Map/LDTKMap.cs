@@ -35,6 +35,12 @@ namespace MonolithEngine.Source.Level
 
         private TileGroup tileGroup;
 
+        private TileGroup mergedBackgroundTileGroup;
+        private Layer mergedBackgroundLayer;
+
+        private TileGroup mergedForegroundTileGroup;
+        private Layer mergedForegroundLayer;
+
         //private Vector2 pivot = new Vector2(-Config.GRID / 2, 0);
         private Vector2 pivot = Vector2.Zero;
 
@@ -53,6 +59,10 @@ namespace MonolithEngine.Source.Level
         public HashSet<EntityInstance> ParseLevel(AbstractScene scene, string levelID)
         {
             HashSet<EntityInstance> entities = new HashSet<EntityInstance>();
+            mergedBackgroundTileGroup = new TileGroup();
+            mergedForegroundTileGroup = new TileGroup();
+            mergedBackgroundLayer = scene.LayerManager.CreateBackgroundLayer();
+            mergedForegroundLayer = scene.LayerManager.CreateForegroundLayer();
 
             foreach (Engine.Source.Level.Level level in world.Levels)
             {
@@ -83,7 +93,7 @@ namespace MonolithEngine.Source.Level
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = scene.LayerManager.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
-                        tileGroup = new TileGroup();
+                        //tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(PARALLAX) && layerInstance.GridTiles.Length > 0)
                     {
@@ -96,9 +106,9 @@ namespace MonolithEngine.Source.Level
                     else if (layerName.StartsWith(FOREGROUND) && layerInstance.GridTiles.Length > 0)
                     {
                         //currentLayer = RootContainer.Instance.BackgroundLayer;
-                        currentLayer = scene.LayerManager.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
+                        //currentLayer = scene.LayerManager.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
-                        tileGroup = new TileGroup();
+                        //tileGroup = new TileGroup();
                     }
 
                     if (layerInstance.Identifier.StartsWith(COLLIDERS))
@@ -149,6 +159,19 @@ namespace MonolithEngine.Source.Level
                     {
                         foreach (TileInstance tile in layerInstance.GridTiles)
                         {
+                            TileGroup currentTileGroup; 
+                            if (layerName.StartsWith(BACKGROUND))
+                            {
+                                currentTileGroup = mergedBackgroundTileGroup;
+                            }
+                            else if (layerName.StartsWith(FOREGROUND))
+                            {
+                                currentTileGroup = mergedForegroundTileGroup;
+                            }
+                            else
+                            {
+                                currentTileGroup = tileGroup;
+                            }
                             //Logger.Log("Tile: " + tile.);
                             //if (layerInstance.Identifier.StartsWith(PARALLAX)) { currentLayer = null;  continue; }
                             long tileId = tile.T;
@@ -194,13 +217,13 @@ namespace MonolithEngine.Source.Level
                             }
                             //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
 
-                            tileGroup.AddColorData(data, pos);
+                            currentTileGroup.AddColorData(data, pos);
                             //e.Visible = false;
                             //e.Active = false;
                             //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
 
                         }
-                        if (currentLayer != null)
+                        if (currentLayer != null && !layerName.StartsWith(BACKGROUND) && !layerName.StartsWith(FOREGROUND))
                         {
                             Entity tile = new Entity(currentLayer, null, new Vector2(0, 0));
                             tile.SetSprite(tileGroup.GetTexture());
@@ -209,6 +232,13 @@ namespace MonolithEngine.Source.Level
                         }
                     }
                 }
+                Entity mergedBG = new Entity(mergedBackgroundLayer, null, new Vector2(0, 0));
+                mergedBG.SetSprite(mergedBackgroundTileGroup.GetTexture());
+                mergedBG.GetComponent<Sprite>().DrawOffset = pivot;
+
+                Entity mergedFG = new Entity(mergedForegroundLayer, null, new Vector2(0, 0));
+                mergedFG.SetSprite(mergedForegroundTileGroup.GetTexture());
+                mergedFG.GetComponent<Sprite>().DrawOffset = pivot;
             }
             return entities;
         }
