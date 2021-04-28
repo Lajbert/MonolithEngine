@@ -20,7 +20,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         protected SceneManager SceneManager;
 
-        protected string sceneName;
+        protected string SceneName;
 
         internal bool Preload = false;
 
@@ -46,7 +46,7 @@ namespace MonolithEngine.Engine.Source.Scene
             {
                 throw new Exception("The scene must have a non-null, non-empty unique name!");
             }
-            this.sceneName = sceneName;
+            this.SceneName = sceneName;
             Preload = preload;
             AlwaysActive = alwaysActive;
             UseLoadingScreen = useLoadingScreen;
@@ -107,7 +107,7 @@ namespace MonolithEngine.Engine.Source.Scene
 
         public string GetName()
         {
-            return sceneName;
+            return SceneName;
         }
 
         public virtual void Update()

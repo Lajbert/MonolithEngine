@@ -68,7 +68,7 @@ namespace ForestPlatformerExample.Source.Scenes
 
             EntityParser parser = new EntityParser(world);
 
-            parser.LoadEntities(this, sceneName);
+            parser.LoadEntities(this, SceneName);
 
             hero = parser.GetHero();
         }
@@ -84,6 +84,7 @@ namespace ForestPlatformerExample.Source.Scenes
             ForestPlatformerGame.Paused = false;
             ForestPlatformerGame.WasGameStarted = true;
             AudioEngine.Play("Level1Music");
+            ForestPlatformerGame.CurrentScene = SceneName;
         }
 
         public override void OnFinished()

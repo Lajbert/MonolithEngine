@@ -39,6 +39,8 @@ namespace ForestPlatformerExample.Source
 
         private LDTKMap world;
 
+        public static string CurrentScene;
+
         protected override void Init()
         {
             font = Content.Load<SpriteFont>("DefaultFont");
@@ -243,7 +245,7 @@ namespace ForestPlatformerExample.Source
 
             if (prevKeyboardState != state && state.IsKeyDown(Keys.R))
             {
-                SceneManager.LoadScene("Level_1");
+                SceneManager.LoadScene(CurrentScene);
             }
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && !Paused)
             {
@@ -251,7 +253,7 @@ namespace ForestPlatformerExample.Source
             }
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && WasGameStarted && Paused)
             {
-                SceneManager.StartScene("Level_1");
+                SceneManager.StartScene(CurrentScene);
             } 
             else if (prevKeyboardState != state && state.IsKeyDown(Keys.Escape) && !WasGameStarted)
             {
