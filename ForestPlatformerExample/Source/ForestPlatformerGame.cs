@@ -46,13 +46,44 @@ namespace ForestPlatformerExample.Source
             font = Content.Load<SpriteFont>("DefaultFont");
 
 
-            //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            VideoConfiguration.RESOLUTION_WIDTH = 2560;
-            VideoConfiguration.RESOLUTION_HEIGHT = 1440;
-            VideoConfiguration.FULLSCREEN = false;
+            int desktopWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int desktopHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            int gdc = GDC(desktopWidth, desktopHeight);
+
+            if (desktopWidth / gdc == 16 && desktopHeight / gdc == 9)
+            {
+#if DEBUG
+                VideoConfiguration.RESOLUTION_WIDTH = 2560;
+                VideoConfiguration.RESOLUTION_HEIGHT = 1440;
+                VideoConfiguration.FULLSCREEN = false;
+#else
+                VideoConfiguration.RESOLUTION_WIDTH = desktopWidth;
+                VideoConfiguration.RESOLUTION_HEIGHT = desktopHeight;
+                VideoConfiguration.FULLSCREEN = true;
+#endif
+            }
+            else
+            {
+                VideoConfiguration.RESOLUTION_WIDTH = 1280;
+                VideoConfiguration.RESOLUTION_HEIGHT = 720;
+                VideoConfiguration.FULLSCREEN = false;
+            }
             VideoConfiguration.FRAME_LIMIT = 0;
             VideoConfiguration.VSYNC = true;
+        }
+
+        // greatest common divisor using Euclidean algorithm
+        private int GDC(int a, int b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a | b;
         }
 
         protected override void LoadGameContent()

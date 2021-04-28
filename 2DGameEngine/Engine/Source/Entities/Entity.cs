@@ -134,7 +134,6 @@ namespace MonolithEngine.Entities
             }
         }
 
-        //public Vector2 Pivot = new Vector2(0.5f, 1);
         public Vector2 Pivot = Vector2.Zero;
 
         protected Layer Layer { get; set; }

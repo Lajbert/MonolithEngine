@@ -61,12 +61,12 @@ namespace ForestPlatformerExample.Source.Environment
                 if (Direction == Direction.EAST)
                 {
                     rotation = MathUtil.DegreesToRad(90);
-                    offset = new Vector2(Config.GRID, 0);
+                    offset = new Vector2(-Config.GRID, 0);
                 }
                 else 
                 {
                     rotation = MathUtil.DegreesToRad(-90);
-                    offset = new Vector2(0, length);
+                    offset = new Vector2(0, -length);
                 }
                 sprite = new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, length, Config.GRID), rotation: rotation, drawOffset: offset);
                 AddComponent(new BoxCollisionComponent(this, Config.GRID, length));

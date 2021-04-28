@@ -52,7 +52,14 @@ namespace MonolithEngine.Engine.Source.Graphics
                 SourceRectangle = AssetUtil.AutoBoundingBox(this);
             }
 
-            offset = new Vector2(SourceRectangle.Width * owner.Pivot.X, SourceRectangle.Height * owner.Pivot.Y);
+            if (drawOffset == default)
+            {
+                offset = new Vector2(SourceRectangle.Width * owner.Pivot.X, SourceRectangle.Height * owner.Pivot.Y);
+            }
+            else
+            {
+                offset = drawOffset;
+            }
 
         }
 
