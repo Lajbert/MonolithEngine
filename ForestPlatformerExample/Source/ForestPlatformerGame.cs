@@ -216,6 +216,7 @@ namespace ForestPlatformerExample.Source
             VideoSettingsScene videoSettings = new VideoSettingsScene();
             LoadingScreenScene loadingScreen = new LoadingScreenScene();
             Level2Scene level2 = new Level2Scene(world, font);
+            LevelSelectScreen levelSelectScreen = new LevelSelectScreen();
 
             SceneManager.AddScene(mainMenuScene);
             SceneManager.AddScene(settings);
@@ -224,6 +225,7 @@ namespace ForestPlatformerExample.Source
             SceneManager.AddScene(videoSettings);
             SceneManager.AddScene(loadingScreen);
             SceneManager.AddScene(level2);
+            SceneManager.AddScene(levelSelectScreen);
 
             SceneManager.LoadScene(mainMenuScene);
             SceneManager.SetLoadingScene(loadingScreen);

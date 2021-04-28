@@ -22,6 +22,8 @@ namespace MonolithEngine.Source.Entities
         private int currentRow;
         private int currentColumn;
 
+        private Dictionary<int, Rectangle> sourceRectangles = new Dictionary<int, Rectangle>();
+
         //private int frameSize;
 
         public SpriteSheetAnimation(Entity parent, Texture2D texture, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
@@ -40,6 +42,7 @@ namespace MonolithEngine.Source.Entities
             this.width = frameSize;
             this.height = frameSize;
             TotalFrames = GetFrameCount();
+            SetupSourceRectangles();
         }
 
         private SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width, int height, int framerate, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
@@ -66,30 +69,41 @@ namespace MonolithEngine.Source.Entities
             this.rows = texture.Height / frameHeight;
             this.columns = texture.Width / frameWidth;
             TotalFrames = GetFrameCount();
+            SetupSourceRectangles();
         }
 
-        public SpriteSheetAnimation Copy()
+        private SpriteSheetAnimation Copy()
         {
             SpriteSheetAnimation newAnim = new SpriteSheetAnimation(Parent, null, rows, columns, 0, width, height, 1, SpriteEffect)
             {
                 texture = texture
             };
             base.Copy(newAnim);
+            //newAnim.SetupSourceRectangles();
             return newAnim;
+        }
+
+        private void SetupSourceRectangles()
+        {
+            for (int i = StartFrame; i <= EndFrame; i++)
+            {
+                currentRow = (int)((float)i / (float)columns);
+                currentColumn = i % columns;
+                sourceRectangles.Add(i, new Rectangle(width * currentColumn, height * currentRow, width, height));
+            }
         }
 
         public SpriteSheetAnimation CopyFlipped()
         {
             SpriteSheetAnimation newAnim = Copy();
             newAnim.Flip();
+            newAnim.SetupSourceRectangles();
             return newAnim;
         }
 
-        protected override Texture2D GetTexture()
+        internal override Texture2D GetTexture()
         {
-            currentRow = (int)((float)CurrentFrame / (float)columns);
-            currentColumn = CurrentFrame % columns;
-            SourceRectangle = new Rectangle(width * currentColumn, height * currentRow, width, height);
+            SourceRectangle = sourceRectangles[CurrentFrame];
             Pivot = new Vector2(width / 2, height / 2);
             return texture;
         }

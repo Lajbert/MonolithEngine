@@ -14,8 +14,8 @@ namespace MonolithEngine.Source.Entities.Animation
     public abstract class AbstractAnimation : IAnimation
     {
 
-        protected int CurrentFrame;
-        protected int TotalFrames;
+        internal int CurrentFrame;
+        internal int TotalFrames;
         private double delay = 0;
         private double currentDelay = 0;
         protected Entity Parent { get; set; }
@@ -46,7 +46,7 @@ namespace MonolithEngine.Source.Entities.Animation
         }
         public float DrawPriority { get; set; }
 
-        protected Rectangle SourceRectangle;
+        internal Rectangle SourceRectangle;
 
         public AbstractAnimation(Entity parent, int totalFrames, int framerate, SpriteEffects spriteEffect = SpriteEffects.None, Action startCallback = null, Action stopCallback = null)
         {
@@ -90,7 +90,7 @@ namespace MonolithEngine.Source.Entities.Animation
             spriteBatch.Draw(GetTexture(), (Parent.DrawPosition + Offset), SourceRectangle, Color.White, Parent.DrawRotation, Pivot, Scale, SpriteEffect, 0f);
         }
 
-        protected abstract Texture2D GetTexture();
+        internal abstract Texture2D GetTexture();
 
         public void Update()
         {

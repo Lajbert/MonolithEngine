@@ -48,7 +48,7 @@ namespace MonolithEngine.Engine.Source.Graphics
             else
             {
                 //SourceRectangle = new Rectangle(0, 0, Config.GRID, Config.GRID);
-                SourceRectangle = AssetUtil.GenerateBoundingBox(this);
+                SourceRectangle = AssetUtil.AutoBoundingBox(this);
             }
 
             offset = new Vector2(SourceRectangle.Width * owner.Pivot.X, SourceRectangle.Height * owner.Pivot.Y);
