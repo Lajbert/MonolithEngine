@@ -57,7 +57,7 @@ namespace ForestPlatformerExample.Source
         {
 
             MapSerializer mapSerializer = new LDTKJsonMapParser();
-            world = mapSerializer.Load("D:/GameDev/MonoGame/2DGameEngine/ForestPlatformerExample/Maps/level.json");
+            world = mapSerializer.Load("Content/Map/level.json");
 
             // UI text generated with: https://fontmeme.com/pixel-fonts/
             // font: KA1

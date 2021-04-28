@@ -1585,6 +1585,9 @@
 /processorParam:TextureFormat=Color
 /build:IcySkies/Traps/Saw/Off.png;IcySkies/Traps/Saw/saw.png
 
+#begin Map/level.json
+/copy:Map/level.json
+
 #begin Text/File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

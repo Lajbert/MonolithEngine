@@ -21,7 +21,7 @@ namespace MonolithEngine.Source.Level
     public class LDTKMap
     {
 
-        private readonly string CONTENT = "Content/";
+        private readonly string PREFIX = "../";
         private readonly string EXTENSION_DOT = ".";
         private readonly string BACKGROUND = "Background";
         private readonly string FOREGROUND = "Foreground";
@@ -245,7 +245,7 @@ namespace MonolithEngine.Source.Level
 
         private string GetMonoGameContentName(string fullpath)
         {
-            string path = fullpath.Substring(fullpath.IndexOf(CONTENT) + CONTENT.Length);
+            string path = fullpath.Substring(fullpath.IndexOf(PREFIX) + PREFIX.Length);
             return path.Substring(0, path.LastIndexOf(EXTENSION_DOT));
         }
     }
