@@ -32,11 +32,55 @@ namespace MonolithEngine.Engine.Source.Graphics
             height = Math.Max(height, (int)position.Y + Config.GRID);
         }
 
-        public void AddColorData(Color[] data, Vector2 position)
+        public void AddColorData(Color[] data, Vector2 position, BlendMode blendMode = BlendMode.MERGE)
         {
-            tiles.Add(position, data);
+            if (blendMode == BlendMode.MERGE)
+            {
+                if (tiles.ContainsKey(position)) {
+                    Color[] result = MergeTile(tiles[position], data);
+                    tiles[position] = result;
+                }
+                else
+                {
+                    tiles[position] = data;
+                }
+
+            }
+            else if (blendMode == BlendMode.OVERWRITE)
+            {
+                tiles[position] = data;
+            }
+            else if (blendMode == BlendMode.NONE)
+            {
+                tiles.Add(position, data);
+            }
+
             width = Math.Max(width, (int)position.X + Config.GRID);
             height = Math.Max(height, (int)position.Y + Config.GRID);
+        }
+
+        private Color[] MergeTile(Color[] data1, Color[] data2)
+        {
+            if (data1.Length != data2.Length)
+            {
+                throw new Exception("Can't merge different sized color arrays");
+            }
+            Color[] result = new Color[data1.Length];
+
+            for (int i = 0; i < data1.Length; i++)
+            {
+                Color c = data1[i];
+                if (data2[i].A == 255)
+                {
+                    c.R = data2[i].R;
+                    c.G = data2[i].G;
+                    c.B = data2[i].B;
+                    c.A = data2[i].A;
+                }
+                result[i] = c;
+            }
+
+            return result;
         }
 
         public Texture2D GetTexture()
@@ -62,6 +106,12 @@ namespace MonolithEngine.Engine.Source.Graphics
             {
                 texture.SetData(0, new Rectangle((int)tile.Key.X, (int)tile.Key.Y, Config.GRID, Config.GRID), tile.Value, 0, tile.Value.Length);
             }
+        }
+        public enum BlendMode
+        {
+            OVERWRITE,
+            MERGE,
+            NONE
         }
     }
 }

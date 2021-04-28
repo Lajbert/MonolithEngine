@@ -199,6 +199,10 @@ namespace ForestPlatformerExample.Source.Scenes
                 {
                     new Ghost(scene, position);
                 }
+                else if (entity.Identifier.Equals("GameFinishedTrophy"))
+                {
+                    new GameFinishTrophy(scene, position);
+                }
             }
 
 #if DEBUG

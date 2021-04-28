@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using MonolithEngine.Engine.Source.Graphics;
 
 namespace MonolithEngine.Engine.Source.Util
 {
@@ -196,6 +197,48 @@ namespace MonolithEngine.Engine.Source.Util
         public static Song LoadSong(string path)
         {
             return Content.Load<Song>(path);
+        }
+
+        public static Rectangle GenerateBoundingBox(Sprite sprite)
+        {
+            Texture2D texture = sprite.Texture;
+
+            int width = texture.Width;
+            int height = texture.Height;
+
+            int left = int.MaxValue;
+            int top = int.MaxValue;
+            int right = int.MinValue;
+            int bottom = int.MinValue;
+
+            Color[] data = new Color[width * height];
+            texture.GetData(0, new Rectangle(0, 0, width, height), data, 0, data.Length);
+            for (int i = 0; i < width * height; i++)
+            {
+                if (data[i].ToVector4() != Vector4.Zero)
+                {
+                    int x = i % width;
+                    int y = i / width;
+
+                    if (x < left)
+                    {
+                        left = x;
+                    }
+                    if (x > right)
+                    {
+                        right = x;
+                    }
+                    if (y < top)
+                    {
+                        top = y;
+                    }
+                    if (y > bottom)
+                    {
+                        bottom = y;
+                    }
+                }
+            }
+            return new Rectangle(left, top, right - left + 1, bottom - top + 1);
         }
     }
 }
