@@ -19,11 +19,15 @@ namespace MonolithEngine.Entities
 
         public Layer EntityLayer;
 
+        internal Layer UILayer;
+
         private List<Layer> foregroundLayers = new List<Layer>();
 
         private List<Layer> backgroundLayers = new List<Layer>();
 
         private AbstractScene scene;
+
+        internal bool Paused = false;
 
         public LayerManager(AbstractScene scene)
         {
@@ -41,6 +45,9 @@ namespace MonolithEngine.Entities
             }
             EntityLayer = new Layer(scene, 10);
 
+            UILayer = new Layer(scene, 10);
+            UILayer.Pausable = false;
+
             allLayers.Add(parallaxLayers);
             allLayers.Add(backgroundLayers);
             allLayers.Add(
@@ -50,6 +57,12 @@ namespace MonolithEngine.Entities
                     }
                 );
             allLayers.Add(foregroundLayers);
+            allLayers.Add(
+                new List<Layer>()
+                    {
+                        UILayer,
+                    }
+                );
         }
 
         public void Destroy()
@@ -84,7 +97,10 @@ namespace MonolithEngine.Entities
             {
                 foreach (Layer l in layers)
                 {
-                    l.UpdateAll();
+                    if (!Paused || !l.Pausable)
+                    {
+                        l.UpdateAll();
+                    }
                 }
             }
         }
@@ -95,7 +111,10 @@ namespace MonolithEngine.Entities
             {
                 foreach (Layer l in layers)
                 {
-                    l.FixedUpdateAll();
+                    if (!Paused || !l.Pausable)
+                    {
+                        l.FixedUpdateAll();
+                    }
                 }
             }
         }
@@ -132,5 +151,6 @@ namespace MonolithEngine.Entities
             layer.Remove(toRemove);
             layer.Sort((a, b) => a.Priority.CompareTo(b.Priority));
         }
+
     }
 }
