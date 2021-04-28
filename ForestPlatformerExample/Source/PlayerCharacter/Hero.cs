@@ -151,7 +151,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             AddCollisionAgainst("IceCreamProjectile");
             AddCollisionAgainst("Saw");
             AddCollisionAgainst("Fan");
-            AddCollisionAgainst("FinishTropy", false);
+            AddCollisionAgainst("FinishTropy");
             AddTag("Hero");
             CanFireTriggers = true;
 
@@ -1154,6 +1154,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             {
                 LeaveFanArea();
                 Hit(otherCollider, true);
+            }
+            else if (otherCollider is GameFinishTrophy)
+            {
+                Scene.Finish();
             }
             base.OnCollisionStart(otherCollider);
         }

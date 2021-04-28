@@ -21,7 +21,7 @@ namespace ForestPlatformerExample.Source.Environment
         {
             AddTag("FinishTropy");
 
-            //DrawPriority = 5;
+            DrawPriority = 5;
 
             Pivot = new Vector2(0.5f, 1f);
 
@@ -38,11 +38,6 @@ namespace ForestPlatformerExample.Source.Environment
             DEBUG_SHOW_COLLIDER = true;
             (GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
 #endif
-        }
-
-        public override void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
-        {
-            base.OnEnterTrigger(triggerTag, otherEntity);
         }
     }
 }

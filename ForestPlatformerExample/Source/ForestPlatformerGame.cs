@@ -219,6 +219,7 @@ namespace ForestPlatformerExample.Source
             LoadingScreenScene loadingScreen = new LoadingScreenScene();
             Level2Scene level2 = new Level2Scene(world, font);
             LevelSelectScreen levelSelectScreen = new LevelSelectScreen();
+            GameEndScene endScene = new GameEndScene();
 
             SceneManager.AddScene(mainMenuScene);
             SceneManager.AddScene(settings);
@@ -228,6 +229,7 @@ namespace ForestPlatformerExample.Source
             SceneManager.AddScene(loadingScreen);
             SceneManager.AddScene(level2);
             SceneManager.AddScene(levelSelectScreen);
+            SceneManager.AddScene(endScene);
 
             SceneManager.LoadScene(mainMenuScene);
             SceneManager.SetLoadingScene(loadingScreen);

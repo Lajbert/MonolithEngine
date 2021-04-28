@@ -86,7 +86,7 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void OnFinished()
         {
-            SceneManager.StartScene("PauseMenu");
+            SceneManager.StartScene("EndScene");
         }
     }
 }
