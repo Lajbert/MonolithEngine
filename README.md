@@ -13,7 +13,7 @@ This means features will come according to my needs (or interests :) ) and chang
 # What is this exactly?
 This is a simple, [axis aligned](https://en.wikipedia.org/wiki/Axis-aligned_object) 2D game engine that encapsulates the common functionalities that most 2D games need. Is it as comprehensive as other major engines out there? Definitely not. Is it small, fast, lightweight, free and easy to understand? Yes! 
 
-Already working features:
+Features so far:
 * 2D Animations with state machines
 * Automatic sprite/spritehseet importer with texture caching and bounding box (circle and rectangle) generator
 * AI with state machines (behavior trees coming soon)
