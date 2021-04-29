@@ -41,7 +41,7 @@ Features so far:
 * Basic UI capabilites
 * Gravity for platformet-type games (can be turned off to make a top-down game)
 
-Many more features are coming including a particle system, pathfinding, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, native Aseprite support, basic shaders and other juicy stuff, stay tuned!
+Many more features are coming including a object pooling, particle system, pathfinding, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, native Aseprite support, basic shaders and other juicy stuff, stay tuned!
 
 # How stable is the engine?
 It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, cleanups, unit tests, etc. I'd say it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
