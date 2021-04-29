@@ -1,6 +1,7 @@
 # Monolith Engine
 
-#Disclaimer: the engine is very young, I have a lot of cleanup and refactoring work ahead of me. Originally I wasn't planning to make it open just yet, but I did it because of Ludum Dare 48, where I have to provide the source code. The code will undergo several improvements and cleanups in the next weeks/months.
+# Disclaimer: 
+the engine is very young, I have a lot of cleanup and refactoring work ahead of me. Originally I wasn't planning to make it open just yet, but I did it because of Ludum Dare 48, where I have to provide the source code. The code will undergo several improvements and cleanups in the next weeks/months. I am a beginner in video game development and this is my learning project, so if you find anything that could be improved or should be done better/differently, I am very happy to hear about it. Also, I am happy to recieve any feedback in general.
 
 # Sample platformer game:
 https://lajbert.itch.io/platformer-demo
