@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.UI
+namespace MonolithEngine
 {
     public class MultiSelectionImage : Image
     {

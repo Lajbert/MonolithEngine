@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Util
+namespace MonolithEngine
 {
     /// <summary>
     /// Generates much more random numbers than System.Random

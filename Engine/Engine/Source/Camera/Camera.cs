@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Util;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Camera2D
+namespace MonolithEngine
 {
     public class Camera
     {

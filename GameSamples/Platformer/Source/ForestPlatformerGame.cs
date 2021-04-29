@@ -1,29 +1,9 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using ForestPlatformerExample.Source.Entities.Items;
-using ForestPlatformerExample.Source.Environment;
-using ForestPlatformerExample.Source.Items;
-using ForestPlatformerExample.Source.PlayerCharacter;
-using ForestPlatformerExample.Source.Scenes;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonolithEngine;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Level;
-using MonolithEngine.Engine.Source.MyGame;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.UI;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Level;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source
+namespace ForestPlatformerExample
 {
     class ForestPlatformerGame : MonolithGame
     {

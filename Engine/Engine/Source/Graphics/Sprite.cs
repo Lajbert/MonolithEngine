@@ -1,16 +1,7 @@
-﻿using MonolithEngine.Engine.Source.Components;
-using MonolithEngine.Engine.Source.Interfaces;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.GridCollision;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Util;
 
-namespace MonolithEngine.Engine.Source.Graphics
+namespace MonolithEngine
 {
     public class Sprite : IComponent, IDrawableComponent
     {

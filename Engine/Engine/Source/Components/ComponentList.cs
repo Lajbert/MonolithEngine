@@ -1,12 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Interfaces;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Components
+namespace MonolithEngine
 {
     public class ComponentList
     {

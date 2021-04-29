@@ -1,19 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Entities.Interfaces;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Entities.Animations;
 
-namespace MonolithEngine.Source.GridCollision
+namespace MonolithEngine
 {
     public class Layer
     {

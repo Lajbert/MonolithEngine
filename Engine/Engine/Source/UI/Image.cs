@@ -1,12 +1,7 @@
-﻿using MonolithEngine.Engine.Source.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Global;
 
-namespace MonolithEngine.Engine.Source.UI
+namespace MonolithEngine
 {
     public class Image : AbstractUIElement
     {

@@ -1,9 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Interfaces
+namespace ForestPlatformerExample
 {
     interface IAttackable
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MonolithEngine.Engine.PostProcess.GodRays
+﻿namespace MonolithEngine
 {
     public class GodRay2D
     {

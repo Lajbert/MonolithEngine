@@ -1,12 +1,9 @@
-﻿using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using MonolithEngine.Engine.Source.Global;
 
-namespace MonolithEngine.Engine.Source.Util
+namespace MonolithEngine
 {
     public class Timer
     {

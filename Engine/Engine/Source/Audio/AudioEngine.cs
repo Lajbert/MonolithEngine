@@ -1,12 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework.Audio;
 
-namespace MonolithEngine.Engine.Source.Audio
+namespace MonolithEngine
 {
     public class AudioEngine
     {

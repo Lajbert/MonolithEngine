@@ -1,13 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Entities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
 
-namespace MonolithEngine.Engine.Source.Level.Collision
+namespace MonolithEngine
 {
     public class StaticCollider : GameObject
     {

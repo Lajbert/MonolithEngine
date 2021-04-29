@@ -1,10 +1,7 @@
-﻿using MonolithEngine.Global;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Source.Util
+namespace MonolithEngine
 {
     public class MathUtil
     {

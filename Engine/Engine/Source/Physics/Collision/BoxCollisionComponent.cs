@@ -1,16 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Physics.Interface;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
-#if DEBUG
-using MonolithEngine.Engine.Source.Graphics.Primitives;
-using MonolithEngine.Entities;
-#endif
-
-namespace MonolithEngine.Engine.Source.Physics.Collision
+namespace MonolithEngine
 {
     public class BoxCollisionComponent : AbstractCollisionComponent
     {

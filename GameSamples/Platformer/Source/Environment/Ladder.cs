@@ -1,16 +1,8 @@
-﻿using ForestPlatformerExample.Source.PlayerCharacter;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Entities;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
 
-namespace ForestPlatformerExample.Source.Environment
+namespace ForestPlatformerExample
 {
     class Ladder : Entity
     {

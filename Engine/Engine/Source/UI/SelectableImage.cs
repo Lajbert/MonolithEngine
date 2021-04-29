@@ -1,13 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.UI.Interface;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using MonolithEngine.Global;
-using MonolithEngine.Engine.Source.Audio;
 
-namespace MonolithEngine.Engine.Source.UI
+namespace MonolithEngine
 {
     public class SelectableImage : Image, SelectableUIElement
     {

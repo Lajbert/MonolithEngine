@@ -1,19 +1,12 @@
-﻿using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Source.Entities;
-using MonolithEngine.Source.Entities.Animation;
 
-namespace MonolithEngine.Engine.Source.Util
+namespace MonolithEngine
 {
     internal class AssetUtil
     {

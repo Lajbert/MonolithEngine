@@ -1,16 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Util;
+using MonolithEngine;
 using System;
 
-namespace ForestPlatformerExample.Source.Environment
+namespace ForestPlatformerExample
 {
     class Spikes : Entity
     {

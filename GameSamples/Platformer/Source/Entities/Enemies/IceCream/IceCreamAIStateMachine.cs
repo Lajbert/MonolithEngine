@@ -1,9 +1,6 @@
-﻿using MonolithEngine.Engine.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
+namespace ForestPlatformerExample
 {
     class IceCreamAIStateMachine : AIStateMachine<IceCream>
     {

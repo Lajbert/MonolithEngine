@@ -1,33 +1,10 @@
-﻿using MonolithEngine.Engine.AI;
-using MonolithEngine.Engine.Source.Components;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Entities.Interfaces;
-using MonolithEngine.Engine.Source.Entities.Transform;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.Graphics.Primitives;
-using MonolithEngine.Engine.Source.Physics;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Interface;
-using MonolithEngine.Engine.Source.Physics.Raycast;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Entities.Animation;
-using MonolithEngine.Source.GridCollision;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Audio;
 
-namespace MonolithEngine.Entities
+namespace MonolithEngine
 {
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {

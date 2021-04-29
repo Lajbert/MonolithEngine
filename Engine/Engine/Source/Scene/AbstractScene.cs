@@ -1,19 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Camera2D;
-using MonolithEngine.Engine.Source.Physics;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Scene.Transition;
-using MonolithEngine.Engine.Source.UI;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Scene
+namespace MonolithEngine
 {
     public abstract class AbstractScene : IScene
     {

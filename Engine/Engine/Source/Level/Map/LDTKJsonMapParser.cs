@@ -1,14 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Level;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using MonolithEngine.Engine.Source.Scene;
+﻿using System.IO;
 
-namespace MonolithEngine.Source.Level
+namespace MonolithEngine
 {
     public class LDTKJsonMapParser : MapSerializer
     {

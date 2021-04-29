@@ -1,31 +1,9 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
-using ForestPlatformerExample.Source.Entities.Items;
-using ForestPlatformerExample.Source.Environment;
-using ForestPlatformerExample.Source.Items;
-using ForestPlatformerExample.Source.PlayerCharacter;
-using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Audio;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Level;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Scene.Transition;
-using MonolithEngine.Engine.Source.UI;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Level;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
-using MonolithEngine.Util;
 
-namespace ForestPlatformerExample.Source.Scenes
+namespace ForestPlatformerExample
 {
     class Level1Scene : AbstractScene
     {

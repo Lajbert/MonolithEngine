@@ -1,18 +1,8 @@
-﻿using ForestPlatformerExample.Source.PlayerCharacter;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.UI;
-using MonolithEngine.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Environment
+namespace ForestPlatformerExample
 {
     class PopupTrigger : Entity
     {

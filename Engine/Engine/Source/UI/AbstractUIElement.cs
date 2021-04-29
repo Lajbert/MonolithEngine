@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonolithEngine.Global;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.UI
+namespace MonolithEngine
 {
     public abstract class AbstractUIElement : IUIElement
     {

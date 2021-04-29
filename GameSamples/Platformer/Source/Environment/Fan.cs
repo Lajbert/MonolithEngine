@@ -1,18 +1,8 @@
-﻿using ForestPlatformerExample.Source.PlayerCharacter;
-using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Entities;
-using MonolithEngine.Source.Entities;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Environment
+namespace ForestPlatformerExample
 {
     class Fan : Entity 
     {

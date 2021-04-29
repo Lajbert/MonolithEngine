@@ -1,12 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonolithEngine.Engine.Source.Scene.Transition;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace MonolithEngine.Engine.Source.Scene
+namespace MonolithEngine
 {
     public interface IScene
     {

@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.AI;
-using MonolithEngine.Engine.Source.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
+namespace ForestPlatformerExample
 {
     class IceCreamAttackState : AIState<IceCream>
     {

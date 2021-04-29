@@ -1,11 +1,7 @@
-﻿using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Transform;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Entities
+namespace MonolithEngine
 {
     public class StaticTransform : AbstractTransform
     {

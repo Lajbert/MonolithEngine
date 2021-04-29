@@ -1,22 +1,9 @@
-﻿using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.Level;
-using MonolithEngine.Engine.Source.Level.Collision;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.GridCollision;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Asset;
 
-namespace MonolithEngine.Source.Level
+namespace MonolithEngine
 {
     public class LDTKMap
     {
@@ -64,7 +51,7 @@ namespace MonolithEngine.Source.Level
             mergedBackgroundLayer = scene.LayerManager.CreateBackgroundLayer();
             mergedForegroundLayer = scene.LayerManager.CreateForegroundLayer();
 
-            foreach (Engine.Source.Level.Level level in world.Levels)
+            foreach (Level level in world.Levels)
             {
                 if (!level.Identifier.Equals(levelID))
                 {

@@ -1,12 +1,7 @@
-﻿using ForestPlatformerExample.Source.PlayerCharacter;
-using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.AI;
-using MonolithEngine.Engine.Source.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
+namespace ForestPlatformerExample
 {
     class TrunkAttackState : AIState<Trunk>
     {

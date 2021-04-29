@@ -1,32 +1,11 @@
-﻿using ForestPlatformerExample.Source.Entities.Enemies;
-using ForestPlatformerExample.Source.Entities.Enemies.CarrotAI;
-using ForestPlatformerExample.Source.Entities.Interfaces;
-using ForestPlatformerExample.Source.PlayerCharacter;
-using MonolithEngine;
-using MonolithEngine.Engine.AI;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Physics.Bresenham;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Raycast;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Entities;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
+﻿using MonolithEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Audio;
+using ForestPlatformerExampl;
 
-namespace ForestPlatformerExample.Source.Enemies
+namespace ForestPlatformerExample
 {
     class Carrot : AbstractEnemy
     {

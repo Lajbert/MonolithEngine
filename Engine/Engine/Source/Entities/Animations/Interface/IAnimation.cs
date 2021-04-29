@@ -1,12 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Entities.Interfaces;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace MonolithEngine.Source.Entities.Animation.Interface
+namespace MonolithEngine
 {
     public interface IAnimation
     {

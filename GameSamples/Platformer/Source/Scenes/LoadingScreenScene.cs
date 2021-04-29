@@ -1,13 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Scene.Transition;
-using MonolithEngine.Engine.Source.UI;
-using System;
+using MonolithEngine;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Scenes
+namespace ForestPlatformerExample
 {
     class LoadingScreenScene : AbstractScene
     {

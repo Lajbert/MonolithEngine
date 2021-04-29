@@ -1,16 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonolithEngine.Engine.Source.Entities.Controller;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.UI
+namespace MonolithEngine
 {
     class DynamicPopup : Entity
     {

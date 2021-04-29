@@ -1,14 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.MyGame;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Scene.Transition;
-using MonolithEngine.Engine.Source.UI;
+using MonolithEngine;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Scenes
+namespace ForestPlatformerExample
 {
     class VideoSettingsScene : AbstractScene
     {

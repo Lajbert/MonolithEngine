@@ -1,15 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonolithEngine;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Scene;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Entities.Traps
+namespace ForestPlatformerExample
 {
     class Saw : PhysicalEntity
     {

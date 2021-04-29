@@ -1,14 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Source;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Physics.Raycast
+namespace MonolithEngine
 {
     public class Ray2DEmitter
     {

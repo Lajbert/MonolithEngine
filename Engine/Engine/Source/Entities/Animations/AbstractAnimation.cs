@@ -1,15 +1,9 @@
-﻿using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Entities.Animation.Interface;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Source.Entities.Animation
+namespace MonolithEngine
 {
     public abstract class AbstractAnimation : IAnimation
     {

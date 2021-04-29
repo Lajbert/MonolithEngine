@@ -1,15 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Transform;
-using MonolithEngine.Engine.Source.Physics;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace MonolithEngine.Entities
+namespace MonolithEngine
 {
     public abstract class GameObject : IGameObject
     {

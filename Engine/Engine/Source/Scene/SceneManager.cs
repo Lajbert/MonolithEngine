@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Camera2D;
-using MonolithEngine.Engine.Source.UI.Interface;
-using MonolithEngine.Engine.Source.Util;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Scene
+namespace MonolithEngine
 {
     public class SceneManager
     {

@@ -1,12 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Entities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
 
-namespace ForestPlatformerExample.Source.Environment
+namespace ForestPlatformerExample
 {
     class SlideWall : Entity
     {

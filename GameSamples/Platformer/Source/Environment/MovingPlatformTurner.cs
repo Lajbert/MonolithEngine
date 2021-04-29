@@ -1,15 +1,7 @@
-﻿using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Environment
+namespace ForestPlatformerExample
 {
     class MovingPlatformTurner : Entity
     {

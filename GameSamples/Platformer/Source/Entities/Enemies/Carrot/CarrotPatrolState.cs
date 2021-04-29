@@ -1,14 +1,6 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using MonolithEngine.Engine.AI;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
+namespace ForestPlatformerExample
 {
     class CarrotPatrolState : AIState<Carrot>
     {

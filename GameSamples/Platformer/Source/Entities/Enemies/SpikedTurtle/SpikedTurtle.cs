@@ -1,17 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Source.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle
+namespace ForestPlatformerExample
 {
     class SpikedTurtle : AbstractEnemy
     {

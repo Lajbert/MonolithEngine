@@ -1,15 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using MonolithEngine.Entities;
-using MonolithEngine.Entities.Interfaces;
-using System.Collections.Generic;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Level;
-using MonolithEngine.Source;
-using MonolithEngine.Source.Entities.Animation;
-using MonolithEngine.Util;
 
 namespace MonolithEngine
 {

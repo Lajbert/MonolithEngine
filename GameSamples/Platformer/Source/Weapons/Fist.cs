@@ -1,24 +1,8 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using ForestPlatformerExample.Source.Entities.Interfaces;
-using MonolithEngine;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Physics;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Interface;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Util;
+﻿using MonolithEngine;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Audio;
 
-namespace ForestPlatformerExample.Source.Weapons
+namespace ForestPlatformerExample
 {
     class Fist : PhysicalEntity
     {

@@ -1,26 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Controller;
-using MonolithEngine.Engine.Source.Entities.Interfaces;
-using MonolithEngine.Engine.Source.Entities.Transform;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.Physics;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Interface;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Entities.Interfaces;
-using MonolithEngine.Global;
-using MonolithEngine.Source;
-using MonolithEngine.Source.GridCollision;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using MonolithEngine.Engine.Source.MyGame;
 
 namespace MonolithEngine
 {

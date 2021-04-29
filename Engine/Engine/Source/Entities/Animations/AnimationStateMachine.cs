@@ -1,15 +1,9 @@
-﻿using MonolithEngine.Engine.Source.Components;
-using MonolithEngine.Engine.Source.Interfaces;
-using MonolithEngine.Source.Entities.Animation;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Entities.Animations
+namespace MonolithEngine
 {
     public class AnimationStateMachine : IComponent, IUpdatableComponent, IDrawableComponent
     {

@@ -1,12 +1,7 @@
-﻿using MonolithEngine.Engine.Source.Components;
-using MonolithEngine.Engine.Source.Physics.Interface;
-using MonolithEngine.Entities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Physics.Collision
+namespace MonolithEngine
 {
     public abstract class AbstractCollisionComponent : ICollisionComponent
     {

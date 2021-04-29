@@ -1,16 +1,7 @@
-﻿using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Source;
-using MonolithEngine.Source.GridCollision;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
 
-namespace MonolithEngine.Engine.Source.Graphics.Primitives
+namespace MonolithEngine
 {
     public class Circle : Entity
     {

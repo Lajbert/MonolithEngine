@@ -1,30 +1,9 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using ForestPlatformerExample.Source.Entities.Interfaces;
-using ForestPlatformerExample.Source.Items;
-using ForestPlatformerExample.Source.PlayerCharacter;
-using MonolithEngine;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Interface;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Entities;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
+﻿using MonolithEngine;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Audio;
-using ForestPlatformerExample.Source.Entities.Enemies;
 
-namespace ForestPlatformerExample.Source.Entities.Items
+namespace ForestPlatformerExample
 {
     class Box : AbstractInteractive, IAttackable, IMovableItem
     {

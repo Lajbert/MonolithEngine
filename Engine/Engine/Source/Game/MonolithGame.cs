@@ -1,22 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.Physics;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.GridCollision;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Camera2D;
 
-namespace MonolithEngine.Engine.Source.MyGame
+namespace MonolithEngine
 {
     public abstract class MonolithGame : Game
     {

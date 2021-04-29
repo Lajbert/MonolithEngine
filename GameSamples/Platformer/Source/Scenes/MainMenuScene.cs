@@ -1,16 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.MyGame;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Scene.Transition;
-using MonolithEngine.Engine.Source.UI;
-using MonolithEngine.Global;
-using System;
+using MonolithEngine;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Scenes
+namespace ForestPlatformerExample
 {
     // UI text generated with: https://fontmeme.com/pixel-fonts/
     // font: KA1

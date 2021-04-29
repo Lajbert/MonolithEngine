@@ -1,10 +1,7 @@
-﻿using MonolithEngine.Entities;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Interfaces
+namespace ForestPlatformerExample
 {
     interface IMovableItem
     {

@@ -1,22 +1,7 @@
-﻿using ForestPlatformerExample.Source.PlayerCharacter;
-using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.AI;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Audio;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Entities;
-using MonolithEngine.Source.Util;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
+namespace ForestPlatformerExample
 {
     class IceCream : AbstractEnemy
     {

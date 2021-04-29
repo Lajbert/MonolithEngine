@@ -1,9 +1,4 @@
-﻿using MonolithEngine.Engine.Source.MyGame;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MonolithEngine.Engine.Source.MyGame
+﻿namespace MonolithEngine
 {
     public class VideoConfiguration
     {

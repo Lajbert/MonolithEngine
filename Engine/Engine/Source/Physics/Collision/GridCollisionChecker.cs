@@ -1,16 +1,8 @@
-﻿using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Interfaces;
-using MonolithEngine.Engine.Source.Level.Collision;
-using MonolithEngine.Entities;
-using MonolithEngine.Entities.Interfaces;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Physics.Collision
+namespace MonolithEngine
 {
     public class GridCollisionChecker
     {

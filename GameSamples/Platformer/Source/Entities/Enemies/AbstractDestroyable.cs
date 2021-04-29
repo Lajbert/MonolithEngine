@@ -1,15 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonolithEngine;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Source.Entities.Animation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies
+namespace ForestPlatformerExample
 {
     class AbstractDestroyable : PhysicalEntity
     {

@@ -1,13 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Traps
+namespace ForestPlatformerExample
 {
     class SawPath : Entity
     {

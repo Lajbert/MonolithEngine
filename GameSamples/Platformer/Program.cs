@@ -1,5 +1,4 @@
-﻿using ForestPlatformerExample.Source;
-using System;
+﻿using System;
 
 namespace ForestPlatformerExample
 {

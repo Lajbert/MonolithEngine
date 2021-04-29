@@ -1,15 +1,9 @@
-﻿using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Asset;
 
-namespace MonolithEngine.Source.Entities.Animation
+namespace MonolithEngine
 {
     public class SpriteGroupAnimation : AbstractAnimation
     {

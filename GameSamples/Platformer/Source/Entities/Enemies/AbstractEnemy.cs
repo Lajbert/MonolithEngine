@@ -1,17 +1,7 @@
-﻿using ForestPlatformerExample.Source.Entities.Interfaces;
-using MonolithEngine;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Entities;
+﻿using MonolithEngine;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Source.Entities.Animation;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies
+namespace ForestPlatformerExample
 {
     abstract class AbstractEnemy : AbstractDestroyable, IAttackable
     {

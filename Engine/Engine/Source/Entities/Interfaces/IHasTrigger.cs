@@ -1,10 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace MonolithEngine.Engine.Source.Entities.Interfaces
+namespace MonolithEngine
 {
     public interface IHasTrigger : IGameObject
     {

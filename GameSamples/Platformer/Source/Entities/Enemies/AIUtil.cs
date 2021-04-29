@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.Level.Collision;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Util;
+using MonolithEngine;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies
+namespace ForestPlatformerExample
 {
     class AIUtil
     {

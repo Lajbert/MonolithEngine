@@ -1,13 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Graphics.Primitives;
-using MonolithEngine.Entities;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 
-namespace MonolithEngine.Engine.Source.Physics.Trigger
+namespace MonolithEngine
 {
     public class BoxTrigger : AbstractTrigger
     {

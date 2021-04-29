@@ -1,10 +1,4 @@
-﻿using MonolithEngine.Engine.Source.Entities.Abstract;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MonolithEngine.Engine.AI
+﻿namespace MonolithEngine
 {
     public abstract class AIState<T> where T : IGameObject
     {

@@ -1,10 +1,8 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using MonolithEngine.Engine.AI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using ForestPlatformerExample;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
+namespace ForestPlatformerExampl
 {
     class CarrotAIStateMachine : AIStateMachine<Carrot>
     {

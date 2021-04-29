@@ -1,10 +1,6 @@
-﻿using MonolithEngine.Engine.Source.Entities.Abstract;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 
-namespace MonolithEngine.Engine.Source.Entities.Transform
+namespace MonolithEngine
 {
     class DynamicTransform : StaticTransform
     {

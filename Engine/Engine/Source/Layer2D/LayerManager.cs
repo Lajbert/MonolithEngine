@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Entities;
-using MonolithEngine.Entities.Interfaces;
-using MonolithEngine.Global;
-using MonolithEngine.Source.GridCollision;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonolithEngine.Engine.Source.Scene;
 
-namespace MonolithEngine.Entities
+namespace MonolithEngine
 {
     public class LayerManager
     {

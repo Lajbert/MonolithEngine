@@ -1,13 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using MonolithEngine.Engine.Source.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-using MonolithEngine.Engine.Source.Util;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Asset
+namespace MonolithEngine
 {
     public class Assets
     {

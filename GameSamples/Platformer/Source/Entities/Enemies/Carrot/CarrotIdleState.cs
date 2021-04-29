@@ -1,11 +1,7 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using MonolithEngine.Engine.AI;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
+using MonolithEngine;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
+namespace ForestPlatformerExample
 {
     class CarrotIdleState : AIState<Carrot>
     {

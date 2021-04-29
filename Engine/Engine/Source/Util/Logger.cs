@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Util
+namespace MonolithEngine
 {
     public class Logger
     {

@@ -1,17 +1,7 @@
-﻿using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Interfaces;
-using MonolithEngine.Engine.Source.Level.Collision;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Interface;
-using MonolithEngine.Engine.Source.Physics.Trigger;
-using MonolithEngine.Util;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using MonolithEngine.Entities;
 
-namespace MonolithEngine.Engine.Source.Physics
+namespace MonolithEngine
 {
     public class CollisionEngine
     {

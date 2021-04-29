@@ -1,19 +1,9 @@
-﻿#if DEBUG
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-#endif
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
 
-namespace MonolithEngine.Engine.Source.Physics.Bresenham
+namespace MonolithEngine
 {
 
     public class Bresenham

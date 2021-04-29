@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Util
+namespace MonolithEngine
 {
     public interface GridUtil
     {

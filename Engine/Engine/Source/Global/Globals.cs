@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MonolithEngine.Engine.Source.Global
+namespace MonolithEngine
 {
     public class Globals
     {

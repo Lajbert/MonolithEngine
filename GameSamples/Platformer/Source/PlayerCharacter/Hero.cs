@@ -1,42 +1,11 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using ForestPlatformerExample.Source.Entities.Enemies;
-using ForestPlatformerExample.Source.Entities.Interfaces;
-using ForestPlatformerExample.Source.Entities.Items;
-using ForestPlatformerExample.Source.Environment;
-using ForestPlatformerExample.Source.Items;
-using ForestPlatformerExample.Source.Weapons;
-using MonolithEngine;
-using MonolithEngine.Engine.Source.Entities;
-using MonolithEngine.Engine.Source.Entities.Abstract;
-using MonolithEngine.Engine.Source.Entities.Animations;
-using MonolithEngine.Engine.Source.Entities.Controller;
-using MonolithEngine.Engine.Source.Global;
-using MonolithEngine.Engine.Source.Graphics.Primitives;
-using MonolithEngine.Engine.Source.Level.Collision;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Physics.Interface;
-using MonolithEngine.Engine.Source.Physics.Raycast;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Entities;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Entities;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
+﻿using MonolithEngine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Asset;
-using ForestPlatformerExample.Source.Entities.Enemies.Trunk;
-using MonolithEngine.Engine.Source.Audio;
-using ForestPlatformerExample.Source.Entities.Enemies.SpikedTurtle;
-using ForestPlatformerExample.Source.Entities.Enemies.IceCream;
-using ForestPlatformerExample.Source.Entities.Traps;
 
-namespace ForestPlatformerExample.Source.PlayerCharacter
+namespace ForestPlatformerExample
 {
     class Hero : PhysicalEntity
     {

@@ -1,10 +1,4 @@
-﻿using ForestPlatformerExample.Source.Enemies;
-using ForestPlatformerExample.Source.Entities.Enemies.CarrotAI;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ForestPlatformerExample.Source.Entities.Enemies.CarrotAI
+﻿namespace ForestPlatformerExample
 {
     class CarrotChaseState : CarrotPatrolState
     {

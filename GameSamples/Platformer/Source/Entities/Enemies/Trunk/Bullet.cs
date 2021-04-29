@@ -1,19 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonolithEngine;
-using MonolithEngine.Engine.Source.Asset;
-using MonolithEngine.Engine.Source.Graphics;
-using MonolithEngine.Engine.Source.Physics.Collision;
-using MonolithEngine.Engine.Source.Scene;
-using MonolithEngine.Engine.Source.Util;
-using MonolithEngine.Global;
-using MonolithEngine.Source.Util;
-using MonolithEngine.Util;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ForestPlatformerExample.Source.Entities.Enemies.Trunk
+namespace ForestPlatformerExample
 {
     class Bullet : PhysicalEntity
     {
