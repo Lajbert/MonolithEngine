@@ -1,4 +1,8 @@
 # Monolith Engine
+
+# Game demo:
+https://lajbert.itch.io/platformer-demo
+
 # Oh no, not another game engine!
 There are so many game engines out there already, why making another one?
 First of all, it exists because I love coding and video games! I have a couple of 2D game ideas in my head and the possible choices of engines was narrowed down to Unity only.
@@ -49,7 +53,7 @@ Being an axis-aligned engine in itself has some limitations. There is no complex
 The more coding experience you have, the better. It doesn't matter if it's Java, C++ or any other OO language as C# will be easy to pick up if you have programming knowledge. Some MonoGame knowledge helps too, but not required. Many of MonoGame's functionalities are already encapsulated in the engine, so unless you're planning to make changes in the engine itself, you're covered. What could be really helpful is understanding code performance, algorithms and data structures.
 
 # How can I use the engine? Any learning materials or tutorials?
-Right now there is one platformer game example included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
+Right now there is one [platformer game example](https://lajbert.itch.io/platformer-demo) included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
 Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed.
 
 # Why should I chose this engine over other major commercial engines out there?
@@ -62,7 +66,12 @@ It depends. There is definitely a huge amount of transferable knowledge in the g
 Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware.
 
 # What games have been released with it?
-None yet, hopefully the first will be released in Q3-Q4 2021.
+None commercial yet, hopefully the first will be released in Q3-Q4 2021.
+A platformer demo can be found here:
+https://lajbert.itch.io/platformer-demo
+I also used the engine for Ludum Dare 48:
+https://lajbert.itch.io/mullettime - please not that I had 48 hours to make a game alone, including graphics and audio, so this doesn't represent the capabilities of the engine :)
+
 
 # Am I free to use the engine to make games?
 Yes, any way you want, including commercially. The only thing you cannot do is selling the engine itself as it is, but you're free to use it (partially or entirely) to make your own game or game engine, including commercial use. Free means free: no royalties, fees, or any other hidden costs. I'm grateful if you give me credits in your preferred way, but it's also not mandatory. Please keep in mind that by using the engine, you accept that you are using it "as it is" and the creator of the engine is not liable for any damages, losses or any other harm (including, but not limited to financial, personal or any other type of damage) that is coming from using the engine. The user of this engine takes all the risks and responsibilities.
