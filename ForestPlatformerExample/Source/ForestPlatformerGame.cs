@@ -225,7 +225,8 @@ namespace ForestPlatformerExample.Source
 
             // Sounds
 
-            AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC);
+            AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC); 
+            AudioEngine.AddSound("Level2Music", "IcySkies/Audio/level_2_bg_2", true, AudioTag.MUSIC);
             AudioEngine.AddSound("HeroPunch", "ForestAssets/Audio/hero_punch");
             AudioEngine.AddSound("SpringBounceSound", "ForestAssets/Audio/spring");
             AudioEngine.AddSound("JumpSound", "ForestAssets/Audio/jump2", maxVolume: 0.5f);

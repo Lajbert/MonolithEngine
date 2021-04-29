@@ -199,6 +199,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             //gameTime = new GameTime(gameTime.TotalGameTime / 5, gameTime.ElapsedGameTime / 5);
             SceneManager.Draw(spriteBatch);
 
+#if DEBUG
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastPrint += gameTime.ElapsedGameTime.Milliseconds;
             frameCounter.Update(deltaTime);
@@ -213,6 +214,7 @@ namespace MonolithEngine.Engine.Source.MyGame
             spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red);
             spriteBatch.End();
 
+#endif
 
             // TODO: Add your drawing code here
 

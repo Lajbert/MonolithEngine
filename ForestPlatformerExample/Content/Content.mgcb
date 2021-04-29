@@ -1237,6 +1237,12 @@
 /processorParam:TextureFormat=Color
 /build:ForestAssets/UI/windowed.png
 
+#begin IcySkies/Audio/level_2_bg_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:IcySkies/Audio/level_2_bg_2.wav
+
 #begin IcySkies/Characters/Ghost/Appear (44x30).png
 /importer:TextureImporter
 /processor:TextureProcessor

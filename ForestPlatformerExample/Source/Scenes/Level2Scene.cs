@@ -73,7 +73,7 @@ namespace ForestPlatformerExample.Source.Scenes
 
         public override void OnEnd()
         {
-            AudioEngine.Pause("Level1Music");
+            AudioEngine.Pause("Level2Music");
         }
 
         public override void OnStart()
@@ -81,7 +81,7 @@ namespace ForestPlatformerExample.Source.Scenes
             Camera.TrackTarget(hero, true);
             ForestPlatformerGame.Paused = false;
             ForestPlatformerGame.WasGameStarted = true;
-            AudioEngine.Play("Level1Music");
+            AudioEngine.Play("Level2Music");
             ForestPlatformerGame.CurrentScene = SceneName;
         }
 
