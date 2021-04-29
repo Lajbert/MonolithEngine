@@ -15,7 +15,7 @@ This is a simple, [axis aligned](https://en.wikipedia.org/wiki/Axis-aligned_obje
 
 Already working features:
 * 2D Animations with state machines
-* Automatic sprite/spritehseet importer and texture caching and bounding box (circle and rectangle) generator
+* Automatic sprite/spritehseet importer with texture caching and bounding box (circle and rectangle) generator
 * AI with state machines (behavior trees coming soon)
 * TileGroups with automatic texture merging (very useful for external map editors!)
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
