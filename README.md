@@ -20,6 +20,7 @@ Already working features:
 * TileGroups with automatic texture merging (very useful for external map editors!)
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
+* Fixed timestep for game logic updates, interpolation for in-between frames (makes the physics predictable and easy on the CPU, while still having butter smooth movements)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
 * 2D grid based static environmental collisions (for dynamic objects colliding with static objects like ground, walls and other static environment colliders)
 * dynamic circle and box collisions (for dynamic objects colliding with each other, like the hero character colliding with enemies, pickups, traps, etc.)
@@ -27,7 +28,6 @@ Already working features:
 * Raycasting with 2 different implementation: Bresenham line and line-line intersection (for various purposes like AI, graphics effects, etc)
 * Keyboard and controller input handling
 * Utilities like Timer, math, primitives, etc.
-* Fixed timestep for game logic updates, interpolation for in-between frames
 * Basic audio support
 * Asset management
 * Scene management
