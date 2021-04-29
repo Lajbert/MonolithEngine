@@ -47,6 +47,7 @@ namespace ForestPlatformerExample.Source.Scenes
             foreach (EntityInstance entity in world.ParseLevel(scene, levelID))
             {
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
+                Vector2 pivot = new Vector2((float)entity.Pivot[0], (float)entity.Pivot[1]);
                 if (entity.Identifier.Equals("Hero"))
                 {
                     heroPosition = position;
@@ -166,7 +167,7 @@ namespace ForestPlatformerExample.Source.Scenes
                             horizontal = field.Value;
                         }
                     }
-                    new Saw(scene, position, horizontal);
+                    new Saw(scene, position, horizontal, pivot);
                 }
                 else if (entity.Identifier.Equals("SawPath"))
                 {
@@ -204,7 +205,7 @@ namespace ForestPlatformerExample.Source.Scenes
                 }
                 else if (entity.Identifier.Equals("GameFinishedTrophy"))
                 {
-                    new GameFinishTrophy(scene, position);
+                    new GameFinishTrophy(scene, position, pivot);
                 }
                 else if (entity.Identifier.Equals("PopupTextTrigger"))
                 {

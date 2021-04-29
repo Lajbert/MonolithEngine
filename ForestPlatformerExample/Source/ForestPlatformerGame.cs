@@ -234,7 +234,7 @@ namespace ForestPlatformerExample.Source
             AudioEngine.AddSound("HeroHurtSound", "ForestAssets/Audio/hero_hurt");
             AudioEngine.AddSound("CarrotJumpHurtSound", "ForestAssets/Audio/carrot_jump_hurt");
             AudioEngine.AddSound("BoxExplosionSound", "ForestAssets/Audio/box_explosion");
-            AudioEngine.AddSound("FastFootstepsSound", "ForestAssets/Audio/footsteps", true);
+            AudioEngine.AddSound("FastFootstepsSound", "ForestAssets/Audio/footsteps");
             AudioEngine.AddSound("SlowFootstepsSound", "ForestAssets/Audio/footsteps_slow", true);
             AudioEngine.AddSound("CarrotExplodeSound", "ForestAssets/Audio/carrot_explode");
             AudioEngine.AddSound("MenuHover", "ForestAssets/Audio/menu_hover");
@@ -242,9 +242,15 @@ namespace ForestPlatformerExample.Source
             AudioEngine.AddSound("TrunkHit", "ForestAssets/Audio/trunk_damage");
             AudioEngine.AddSound("TrunkShoot", "ForestAssets/Audio/trunk_shoot");
             AudioEngine.AddSound("TrunkDeath", "ForestAssets/Audio/trunk_death");
-            AudioEngine.MuteAll();
+            AudioEngine.AddSound("LadderClimb", "ForestAssets/Audio/sfx_movement_ladder5loop", true);
+            AudioEngine.AddSound("BoxPickup", "ForestAssets/Audio/sfx_sounds_interaction19");
+            AudioEngine.AddSound("IceCreamExplode", "ForestAssets/Audio/sfx_weapon_singleshot3"); 
+            AudioEngine.AddSound("GostDisappear", "ForestAssets/Audio/sfx_wpn_laser11");
+            AudioEngine.AddSound("GostAppear", "ForestAssets/Audio/sfx_wpn_laser11"); 
+            AudioEngine.AddSound("RockSplit", "ForestAssets/Audio/sfx_sounds_impact10"); 
+            //AudioEngine.MuteAll();
 
-            MainMenuScene mainMenuScene = new MainMenuScene();
+             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
             Level1Scene level1 = new Level1Scene(world, font);
             SettingsScene settings = new SettingsScene();

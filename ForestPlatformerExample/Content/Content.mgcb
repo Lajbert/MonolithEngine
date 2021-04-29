@@ -97,6 +97,42 @@
 /processorParam:Quality=Best
 /build:ForestAssets/Audio/POL-chubby-cat-long.wav
 
+#begin ForestAssets/Audio/sfx_movement_ladder5loop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/sfx_movement_ladder5loop.wav
+
+#begin ForestAssets/Audio/sfx_sounds_impact10.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/sfx_sounds_impact10.wav
+
+#begin ForestAssets/Audio/sfx_sounds_interaction19.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/sfx_sounds_interaction19.wav
+
+#begin ForestAssets/Audio/sfx_weapon_singleshot3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/sfx_weapon_singleshot3.wav
+
+#begin ForestAssets/Audio/sfx_wpn_laser11.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/sfx_wpn_laser11.wav
+
+#begin ForestAssets/Audio/sfx_wpn_laser3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ForestAssets/Audio/sfx_wpn_laser3.wav
+
 #begin ForestAssets/Audio/spring.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

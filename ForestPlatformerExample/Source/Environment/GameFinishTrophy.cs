@@ -17,20 +17,22 @@ namespace ForestPlatformerExample.Source.Environment
 {
     class GameFinishTrophy : PhysicalEntity
     {
-        public GameFinishTrophy(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
+        public GameFinishTrophy(AbstractScene scene, Vector2 position, Vector2 pivot) : base(scene.LayerManager.EntityLayer, null, position)
         {
             AddTag("FinishTropy");
 
+            HasGravity = false;
+
             DrawPriority = 5;
 
-            Pivot = new Vector2(0.5f, 1f);
+            Pivot = pivot;
 
             CollisionOffsetBottom = 1f;
 
             AddComponent(new Sprite(this, Assets.GetTexture("FinishedTrophy")));
             Rectangle SourceRectangle = GetComponent<Sprite>().SourceRectangle;
-            Vector2 offset = new Vector2(SourceRectangle.Width * Pivot.X, SourceRectangle.Height * Pivot.Y);
-            AddComponent(new BoxCollisionComponent(this, SourceRectangle.Width, SourceRectangle.Height, -offset));
+            Vector2 offset = new Vector2(SourceRectangle.Width * -Pivot.X, SourceRectangle.Height * -Pivot.Y);
+            AddComponent(new BoxCollisionComponent(this, SourceRectangle.Width, SourceRectangle.Height, offset));
             Active = true;
             Visible = true;
 #if DEBUG

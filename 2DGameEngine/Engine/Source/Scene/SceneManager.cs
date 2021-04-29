@@ -79,6 +79,7 @@ namespace MonolithEngine.Engine.Source.Scene
             ICollection<object> data = null;
             if (currentScene != null)
             {
+                AudioEngine.StopSoundEffects();
                 data = currentScene.ExportData();
                 currentScene.OnEnd();
                 currentScene.Unload();
@@ -107,6 +108,7 @@ namespace MonolithEngine.Engine.Source.Scene
             ICollection<object> data = null;
             if (currentScene != null)
             {
+                AudioEngine.StopSoundEffects();
                 data = currentScene.ExportData();
                 currentScene.OnEnd();
                 if (!currentScene.AlwaysActive)

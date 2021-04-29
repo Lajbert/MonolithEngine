@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Entities.Animations;
 using MonolithEngine.Engine.Source.Physics.Collision;
@@ -143,7 +144,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
                     r1.Velocity += new Vector2(-1, -0.5f);
                     Rock r2 = new Rock(Scene, Transform.Position, RockSize.MEDIUM, Direction.EAST);
                     r2.Velocity += new Vector2(1, -0.5f);
-
+                    AudioEngine.Play("RockSplit");
                     Destroy();
                 }
                 else if (size == RockSize.MEDIUM)
@@ -152,11 +153,12 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
                     r1.Velocity += new Vector2(-1, -0.5f);
                     Rock r2 = new Rock(Scene, Transform.Position, RockSize.SMALL, Direction.EAST);
                     r2.Velocity += new Vector2(1, -0.5f);
-
+                    AudioEngine.Play("RockSplit");
                     Destroy();
                 }
                 else
                 {
+                    AudioEngine.Play("TrunkHit");
                     Velocity /= 3;
                     CurrentSpeed = DefaultSpeed;
                     Die();
@@ -175,7 +177,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Rock
             {
                 GetComponent<AnimationStateMachine>().PlayAnimation("HitRight");
             }
-
+            AudioEngine.Play("TrunkHit");
             base.Hit(impactDirection);
         }
     }

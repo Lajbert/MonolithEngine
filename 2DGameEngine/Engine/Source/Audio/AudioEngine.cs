@@ -101,6 +101,17 @@ namespace MonolithEngine.Engine.Source.Audio
             }
         }
 
+        public static void StopSoundEffects()
+        {
+            foreach (AudioEntry audioEntry in audioCache.Values)
+            {
+                if (audioEntry.Tag == AudioTag.SOUND_EFFECT)
+                {
+                    audioEntry.SoundEffect.Stop();
+                }
+            }
+        }
+
         private class AudioEntry
         {
 

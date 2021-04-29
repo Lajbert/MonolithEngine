@@ -255,14 +255,12 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("IdleCarryLeft", idleCarryLeft, isIdleCarryLeft);
 
             SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 40);
-            runningRight.StartedCallback = () =>
+            runningRight.EveryFrameAction = (frame) =>
             {
-                AudioEngine.Play("FastFootstepsSound");
-            };
-
-            runningRight.StoppedCallback = () =>
-            {
-                AudioEngine.Stop("FastFootstepsSound");
+                if (frame == 1 || frame == 6)
+                {
+                    AudioEngine.Play("FastFootstepsSound");
+                }
             };
 
             bool isRunningRight() => UserInput.IsKeyPressed(Keys.Right) && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
@@ -273,7 +271,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
-            walkingLeft.StartedCallback = () =>
+            /*walkingLeft.StartedCallback = () =>
             {
                 AudioEngine.Play("SlowFootstepsSound");
             };
@@ -281,7 +279,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             walkingLeft.StoppedCallback = () =>
             {
                 AudioEngine.Stop("SlowFootstepsSound");
-            };
+            };*/
             bool isWalkingLeft() => UserInput.IsKeyPressed(Keys.Right) && VelocityX > -0.5f && VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
@@ -294,15 +292,6 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 24)
             {
-                StartedCallback = () =>
-                {
-                    AudioEngine.Play("FastFootstepsSound");
-                },
-
-                StoppedCallback = () =>
-                {
-                    AudioEngine.Stop("FastFootstepsSound");
-                },
                 AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; },
                 EveryFrameAction = (frame) =>
                 {
@@ -322,6 +311,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 },
             };
 
+            runningCarryRight.EveryFrameAction = (frame) =>
+            {
+                if (frame == 1 || frame == 6)
+                {
+                    AudioEngine.Play("FastFootstepsSound");
+                }
+            };
+
             bool isRunningCarryRight() => VelocityX >= 0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryRight", runningCarryRight, isRunningCarryRight, 1);
 
@@ -330,7 +327,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             Animations.RegisterAnimation("RunningCarryLeft", runningCarryLeft, isRunningCarryLeft, 1);
 
             SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 12, SpriteEffects.FlipHorizontally);
-            walkingCarryLeft.StartedCallback = () =>
+            /*walkingCarryLeft.StartedCallback = () =>
             {
                 AudioEngine.Play("SlowFootstepsSound");
             };
@@ -338,7 +335,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             walkingCarryLeft.StoppedCallback = () =>
             {
                 AudioEngine.Stop("SlowFootstepsSound");
-            };
+            };*/
             bool isCarryWalkingLeft() => VelocityX > -0.1f && VelocityX < 0 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
 
@@ -401,6 +398,14 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
             SpriteSheetAnimation climb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 40);
 
+            climb.EveryFrameAction = (frame) =>
+            {
+                if (frame == 1 || frame == 7)
+                {
+                    AudioEngine.Play("FastFootstepsSound");
+                }
+            };
+
             void climbResetAction()
             {
                 if (Ladder != null)
@@ -432,6 +437,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
             //bool isHangingOnLadder() => (Math.Abs(VelocityX) <= 0.1f && Math.Abs(VelocityY) <= 0.1f);
             bool isHangingOnLadder() => Velocity == Vector2.Zero;
             climb.AnimationPauseCondition = isHangingOnLadder;
+
             Animations.RegisterAnimation("ClimbingLadder", climb, isClimbing, 6);
 
             /*SpriteSheetAnimation slowClimb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 15);
@@ -484,7 +490,10 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
                 StartedCallback = () => UserInput.ControlsDisabled = true,
                 StoppedCallback = () => UserInput.ControlsDisabled = false
             };
-            pickupRight.AddFrameAction(15, (frame) => carriedItem.Lift(this, new Vector2(0, -20)));
+            pickupRight.AddFrameAction(15, (frame) => { 
+                carriedItem.Lift(this, new Vector2(0, -20));
+                AudioEngine.Play("BoxPickup");
+            });
             Animations.RegisterAnimation("PickupRight", pickupRight, () => false);
 
             SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
@@ -825,7 +834,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         private void DropCurrentItem()
         {
-            ThrowCurrentItem(Vector2.Zero);
+            ThrowCurrentItem(new Vector2(0, -0.5f));
         }
 
         private void Attack()
@@ -838,6 +847,7 @@ namespace ForestPlatformerExample.Source.PlayerCharacter
 
         public override void FixedUpdate()
         {
+
             if (LevelEndReached && Ladder != null)
             {
                 Velocity += autoMovementSpeed;

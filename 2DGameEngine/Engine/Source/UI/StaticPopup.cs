@@ -24,28 +24,20 @@ namespace MonolithEngine.Engine.Source.UI
 
         private Color textColor;
 
+        private float timeout;
+
+        private Keys continueButton;
+
         public StaticPopup(AbstractScene scene, Vector2 position, float timeout = 0, Keys continueButton = Keys.Space) : base(scene.LayerManager.UILayer, null, position)
         {
             input = new UserInputController();
 
-            if (timeout == 0)
-            {
-                Scene.LayerManager.Paused = true;
-                input.RegisterKeyPressAction(continueButton, (thumbstickPos) =>
-                {
-                    Scene.LayerManager.Paused = false;
-                    Destroy();
-                });
-            }
-            else
-            {
-                Timer.TriggerAfter(timeout, () => {
-                    Destroy();
-                });
-            }
+            this.timeout = timeout;
 
-            Active = true;
-            Visible = true;
+            this.continueButton = continueButton;
+
+            Visible = false;
+
         }
 
         public void SetSprite(Texture2D texture, float scale)
@@ -82,6 +74,28 @@ namespace MonolithEngine.Engine.Source.UI
             if (text != null)
             {
                 spriteBatch.DrawString(font, text, Transform.Position, textColor);
+            }
+        }
+
+        public void Display()
+        {
+            Active = true;
+            Visible = true;
+
+            if (timeout == 0)
+            {
+                Scene.LayerManager.Paused = true;
+                input.RegisterKeyPressAction(continueButton, (thumbstickPos) =>
+                {
+                    Scene.LayerManager.Paused = false;
+                    Destroy();
+                });
+            }
+            else
+            {
+                Timer.TriggerAfter(timeout, () => {
+                    Destroy();
+                });
             }
         }
 

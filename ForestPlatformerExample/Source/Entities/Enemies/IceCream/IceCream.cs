@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using MonolithEngine.Engine.AI;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Entities.Abstract;
 using MonolithEngine.Engine.Source.Entities.Animations;
@@ -160,6 +161,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
 
         private void SpawnProjectiles()
         {
+            AudioEngine.Play("IceCreamExplode");
             IceCreamProjectile p1 = new IceCreamProjectile(Scene, Transform.Position + new Vector2(0, -40));
             p1.AddForce(new Vector2(-0.2f, -0.3f));
             IceCreamProjectile p2 = new IceCreamProjectile(Scene, Transform.Position + new Vector2(0, -40));
@@ -170,6 +172,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
         {
             if (health == 0)
             {
+                AudioEngine.Play("CarrotExplodeSound");
                 CurrentSpeed = 0;
                 AI.Enabled = false;
                 Die();
@@ -185,7 +188,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.IceCream
                 GetComponent<AnimationStateMachine>().PlayAnimation("HurtRight");
             }
             health--;
-
+            AudioEngine.Play("TrunkHit");
             base.Hit(impactDirection);
         }
 

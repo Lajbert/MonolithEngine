@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonolithEngine.Engine.Source.Asset;
+using MonolithEngine.Engine.Source.Audio;
 using MonolithEngine.Engine.Source.Entities;
 using MonolithEngine.Engine.Source.Entities.Animations;
 using MonolithEngine.Engine.Source.Physics.Collision;
@@ -75,6 +76,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
         private void Appear()
         {
+            //AudioEngine.Play("GostAppear");
             if (RotationRate != 0 || Destroyed || BeingDestroyed)
             {
                 return;
@@ -94,6 +96,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
         private void Disappear()
         {
+            //AudioEngine.Play("GostDisappear");
             if (RotationRate != 0 || beingHit || Destroyed || BeingDestroyed)
             {
                 return;
@@ -111,6 +114,7 @@ namespace ForestPlatformerExample.Source.Entities.Enemies.Ghost
 
         public override void Hit(Direction impactDirection)
         {
+            AudioEngine.Play("TrunkHit");
             if (health == 0)
             {
                 Die();

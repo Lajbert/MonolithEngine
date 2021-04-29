@@ -69,7 +69,7 @@ namespace ForestPlatformerExample.Source.Scenes
             };
 
             UI.AddUIElement(videoSettings);
-            UI.AddUIElement(audioSettings);
+            //UI.AddUIElement(audioSettings);
             UI.AddUIElement(back);
         }
 
