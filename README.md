@@ -14,9 +14,10 @@ This means features will come according to my needs (or interests :) ) and chang
 This is a simple, [axis aligned](https://en.wikipedia.org/wiki/Axis-aligned_object) 2D game engine that encapsulates the common functionalities that most 2D games need. Is it as comprehensive as other major engines out there? Definitely not. Is it small, fast, lightweight, free and easy to understand? Yes! 
 
 Already working features:
-* 2D Animations with state machines, automatic spritehseet importer and texture caching
+* 2D Animations with state machines
+* Automatic sprite/spritehseet importer and texture caching and bounding box (circle and rectangle) generator
 * AI with state machines (behavior trees coming soon)
-* TileGroups with automatic texture merging
+* TileGroups with automatic texture merging (very useful for external map editors!)
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
 * 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
