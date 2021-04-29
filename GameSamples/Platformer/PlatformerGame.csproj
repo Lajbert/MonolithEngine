@@ -19,7 +19,7 @@
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\2DGameEngine\MonolithEngine.csproj" />
+    <ProjectReference Include="..\..\Engine\Engine.csproj" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

@@ -5,10 +5,12 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonolithEngine", "2DGameEngine\MonolithEngine.csproj", "{2110518F-0A53-4857-AAF6-EE83E78BB6CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForestPlatformerExample", "ForestPlatformerExample\ForestPlatformerExample.csproj", "{FCB53008-141A-414D-A271-391F863FE58B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformerGame", "ForestPlatformerExample\PlatformerGame.csproj", "{FCB53008-141A-414D-A271-391F863FE58B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameExamples", "GameExamples", "{97082E50-CFF9-4FA4-A382-6F0C14C5B9A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCB53008-141A-414D-A271-391F863FE58B} = {97082E50-CFF9-4FA4-A382-6F0C14C5B9A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5263C0D5-7BDB-4C50-BA7F-92C5C27369D1}
