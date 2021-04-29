@@ -1,6 +1,6 @@
 # Monolith Engine
 
-# Game demo:
+# Sample platformer game:
 https://lajbert.itch.io/platformer-demo
 
 # Oh no, not another game engine!
@@ -67,8 +67,10 @@ Whatever MonoGame supports, the rest depends on you and your code :) The engine 
 
 # What games have been released with it?
 None commercial yet, hopefully the first will be released in Q3-Q4 2021.
-A platformer demo can be found here:
+
+A platformer game sample can be found here:
 https://lajbert.itch.io/platformer-demo
+
 I also used the engine for Ludum Dare 48:
 https://lajbert.itch.io/mullettime - please not that I had 48 hours to make a game alone, including graphics and audio, so this doesn't represent the capabilities of the engine :)
 
