@@ -32,10 +32,6 @@ namespace MonolithEngine
 
         public void InitLayers()
         {
-            if (EntityLayer != null)
-            {
-                throw new Exception("Root already initialized!");
-            }
             EntityLayer = new Layer(scene, 10);
 
             UILayer = new Layer(scene, 10);

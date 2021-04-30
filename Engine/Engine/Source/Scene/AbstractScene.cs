@@ -43,7 +43,6 @@ namespace MonolithEngine
             UI = new UserInterface();
 
             LayerManager = new LayerManager(this);
-            LayerManager.InitLayers();
 
             CollisionEngine = new CollisionEngine();
 
@@ -53,6 +52,7 @@ namespace MonolithEngine
 
         internal void InternalLoad()
         {
+            LayerManager.InitLayers();
             Load();
             UI.HandleNewElements();
         }
@@ -70,6 +70,7 @@ namespace MonolithEngine
             LayerManager.Destroy();
             CollisionEngine.Destroy();
             GridCollisionChecker.Destroy();
+            UI.Clear();
             Timer.Clear();
         }
 

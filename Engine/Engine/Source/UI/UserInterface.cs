@@ -106,5 +106,12 @@ namespace MonolithEngine
                 removedElements.Clear();
             }
         }
+
+        public void Clear()
+        {
+            elements.Clear();
+            newElements.Clear();
+            removedElements.Clear();
+        }
     }
 }

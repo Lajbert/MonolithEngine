@@ -36,6 +36,7 @@ namespace ForestPlatformerExample
         public override void Load()
         {
             LoadData();
+            Camera.SetScale();
             Camera.Zoom += 0.5f;
         }
 

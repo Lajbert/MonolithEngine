@@ -42,10 +42,10 @@ namespace MonolithEngine
             Position = Vector2.Zero;
             direction = Vector2.Zero;
             Zoom = Config.SCALE;
-            ResolutionUpdated();
+            SetScale();
         }
 
-        public void ResolutionUpdated()
+        public void SetScale()
         {
             _viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
             _origin = new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);

@@ -256,7 +256,7 @@ namespace ForestPlatformerExample
 
             VideoConfiguration.Apply();
 
-            Camera.ResolutionUpdated();
+            Camera.SetScale();
 
             SceneManager.OnResolutionChanged();
         }

@@ -53,15 +53,7 @@ namespace ForestPlatformerExample
 
             back.OnClick = () =>
             {
-                if (ForestPlatformerGame.WasGameStarted)
-                {
-                    SceneManager.StartScene("PauseMenu");
-                }
-                else
-                {
-                    SceneManager.StartScene("MainMenu");
-                }
-
+                SceneManager.LoadScene("MainMenu");
             };
 
             UI.AddUIElement(videoSettings);

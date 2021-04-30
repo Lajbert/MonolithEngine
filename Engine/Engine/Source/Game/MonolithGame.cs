@@ -72,7 +72,6 @@ namespace MonolithEngine
 
         protected sealed override void Initialize()
         {
-            // TODO: Add your initialization logic here
             AssetUtil.Content = Content;
             AssetUtil.GraphicsDeviceManager = graphics;
             Layer.GraphicsDeviceManager = graphics;
