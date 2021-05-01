@@ -48,6 +48,9 @@ namespace MonolithEngine
         public void SetScale()
         {
             _viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
+
+            Logger.Info("Configuring camera, viewport: " + _viewport.ToString());
+
             _origin = new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
             Zoom = Config.SCALE;
             if (target != null)

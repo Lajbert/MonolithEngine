@@ -23,6 +23,9 @@ namespace ForestPlatformerExample
 
             foreach (EntityInstance entity in world.ParseLevel(scene, levelID))
             {
+
+                Logger.Debug("Parsing entity: " + entity.Identifier);
+
                 Vector2 position = new Vector2(entity.Px[0], entity.Px[1]);
                 Vector2 pivot = new Vector2((float)entity.Pivot[0], (float)entity.Pivot[1]);
                 if (entity.Identifier.Equals("Hero"))

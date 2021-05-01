@@ -208,14 +208,7 @@ namespace MonolithEngine
                 entity.Destroy();
             }
 
-            //changedObjects.Clear();
-
             HandleChangedObjects();
-
-            Logger.Info("Layers data:");
-            Logger.Info("Active: " + string.Join(", ", activeObjects));
-            Logger.Info("VisibleObjects: " + string.Join(", ", visibleObjects));
-            Logger.Info("Changed: " + string.Join(", ", changedObjects));
         }
 
     }

@@ -134,9 +134,6 @@ namespace MonolithEngine
                             {
                                 if (!toCheckAgainst.Contains(changed))
                                 {
-                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                    Logger.Warn("ONLY ADD THIS IF THERE IS ANYTHING COLLIDING WITH IT, USE CENTRAL COLLISION REGISTRATION");
-                                    Logger.Warn("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                                     toCheckAgainst.Add(changed);
                                 }
                             }
@@ -316,9 +313,6 @@ namespace MonolithEngine
         public void Destroy()
         {
             HandleChangedObjects();
-            Logger.Info("Collision engine data:");
-            Logger.Info("Entities: " + string.Join(", ", entities));
-            Logger.Info("To check against: " + string.Join(", ", toCheckAgainst));
         }
     }
 }

@@ -45,6 +45,7 @@ namespace MonolithEngine
 
         public HashSet<EntityInstance> ParseLevel(AbstractScene scene, string levelID)
         {
+            Logger.Debug("Parsing level...");
             HashSet<EntityInstance> entities = new HashSet<EntityInstance>();
             mergedBackgroundTileGroup = new TileGroup();
             mergedForegroundTileGroup = new TileGroup();
@@ -57,10 +58,14 @@ namespace MonolithEngine
                 {
                     continue;
                 }
+                Logger.Debug("Parsing level: " + level.Identifier);
                 float scrollSpeedModifier = 0f;
                 Array.Reverse(level.LayerInstances);
                 foreach (LayerInstance layerInstance in level.LayerInstances)
                 {
+
+                    Logger.Debug("Parsing layer: " + layerInstance.Identifier);
+
                     foreach (EntityInstance entity in layerInstance.EntityInstances)
                     {
                         entities.Add(entity);
@@ -100,6 +105,9 @@ namespace MonolithEngine
 
                     if (layerInstance.Identifier.StartsWith(COLLIDERS))
                     {
+
+                        Logger.Debug("Loading colliders...");
+
                         currentLayer = null;
                         //public Dictionary<string, dynamic>[] IntGrid { get; set; }
                         foreach (IntGridValueInstance grid in layerInstance.IntGrid)
@@ -144,6 +152,9 @@ namespace MonolithEngine
                     }
                     else
                     {
+
+                        Logger.Debug("Loading grid tiles...");
+
                         foreach (TileInstance tile in layerInstance.GridTiles)
                         {
                             TileGroup currentTileGroup; 
@@ -219,10 +230,13 @@ namespace MonolithEngine
                         }
                     }
                 }
+                Logger.Debug("Starting texture merging...");
+                Logger.Debug("Merging background layers into one texture: " + mergedBackgroundTileGroup.GetTexture().Bounds);
                 Entity mergedBG = new Entity(mergedBackgroundLayer, null, new Vector2(0, 0));
                 mergedBG.SetSprite(mergedBackgroundTileGroup.GetTexture());
                 mergedBG.GetComponent<Sprite>().DrawOffset = pivot;
 
+                Logger.Debug("Merging foreground layers into one texture: " + mergedForegroundTileGroup.GetTexture().Bounds);
                 Entity mergedFG = new Entity(mergedForegroundLayer, null, new Vector2(0, 0));
                 mergedFG.SetSprite(mergedForegroundTileGroup.GetTexture());
                 mergedFG.GetComponent<Sprite>().DrawOffset = pivot;

@@ -44,7 +44,7 @@ namespace ForestPlatformerExample
         {
 
             UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(5, 5), scale: 2));
-            UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale: 0.2f));
+            UI.AddUIElement(new TextField(font, () => PlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale: 0.2f));
 
             EntityParser parser = new EntityParser(world);
 
@@ -62,10 +62,10 @@ namespace ForestPlatformerExample
         public override void OnStart()
         {
             Camera.TrackTarget(hero, true);
-            ForestPlatformerGame.Paused = false;
-            ForestPlatformerGame.WasGameStarted = true;
+            PlatformerGame.Paused = false;
+            PlatformerGame.WasGameStarted = true;
             AudioEngine.Play("Level2Music");
-            ForestPlatformerGame.CurrentScene = SceneName;
+            PlatformerGame.CurrentScene = SceneName;
         }
 
         public override void OnFinished()

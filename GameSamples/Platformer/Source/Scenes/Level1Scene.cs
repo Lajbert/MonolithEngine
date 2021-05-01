@@ -35,18 +35,27 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
+            Logger.Debug("Loading LEVEL 1: assets");
             LoadData();
+
+            Logger.Debug("Loading LEVEL 1: adjusting camera");
             Camera.SetScale();
             Camera.Zoom += 0.5f;
         }
 
         private void LoadData()
         {
+            Logger.Debug("Loading LEVEL 1: UI");
+
             UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(5, 5), scale: 2));
-            UI.AddUIElement(new TextField(font, () => ForestPlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale:0.2f));
+            UI.AddUIElement(new TextField(font, () => PlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale:0.2f));
+
+
+            Logger.Debug("Loading LEVEL 1: creating entity parser...");
 
             EntityParser parser = new EntityParser(world);
 
+            Logger.Debug("Loading LEVEL 1: loading entities...");
             parser.LoadEntities(this, SceneName);
 
             hero = parser.GetHero();
@@ -60,10 +69,10 @@ namespace ForestPlatformerExample
         public override void OnStart()
         {
             Camera.TrackTarget(hero, true);
-            ForestPlatformerGame.Paused = false;
-            ForestPlatformerGame.WasGameStarted = true;
+            PlatformerGame.Paused = false;
+            PlatformerGame.WasGameStarted = true;
             AudioEngine.Play("Level1Music");
-            ForestPlatformerGame.CurrentScene = SceneName;
+            PlatformerGame.CurrentScene = SceneName;
         }
 
         public override void OnFinished()

@@ -38,11 +38,6 @@ namespace MonolithEngine
             }
 
             OnResolutionChanged();
-
-            OnClick = () =>
-            {
-                Logger.Info("------------- CLICK -----------");
-            };
         }
 
         public void OnResolutionChanged()

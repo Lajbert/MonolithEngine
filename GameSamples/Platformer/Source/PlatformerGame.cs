@@ -5,7 +5,7 @@ using MonolithEngine;
 
 namespace ForestPlatformerExample
 {
-    class ForestPlatformerGame : MonolithGame
+    class PlatformerGame : MonolithGame
     {
 
         public static int CoinCount = 0;
@@ -23,8 +23,13 @@ namespace ForestPlatformerExample
 
         protected override void Init()
         {
-            font = Content.Load<SpriteFont>("DefaultFont");
 
+            Logger.Info("Launching game...");
+
+            font = Content.Load<SpriteFont>("DefaultFont");
+            Logger.LogToFile = true;
+
+            Logger.Info("Graphics adapter: " + GraphicsAdapter.DefaultAdapter.Description);
 
             int desktopWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             int desktopHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -48,6 +53,14 @@ namespace ForestPlatformerExample
                 VideoConfiguration.RESOLUTION_HEIGHT = 720;
                 VideoConfiguration.FULLSCREEN = false;
             }
+
+            Logger.Info("Display resolution: " + VideoConfiguration.RESOLUTION_WIDTH +  "x" + VideoConfiguration.RESOLUTION_HEIGHT);
+            Logger.Info("Supported display modes: ");
+            foreach (DisplayMode displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            {
+                Logger.Info("\t"+ displayMode.ToString());
+            }
+
             VideoConfiguration.FRAME_LIMIT = 0;
             VideoConfiguration.VSYNC = true;
         }
@@ -69,6 +82,8 @@ namespace ForestPlatformerExample
         protected override void LoadGameContent()
         {
 
+            Logger.Debug("Loading map from json...");
+
             MapSerializer mapSerializer = new LDTKJsonMapParser();
             world = mapSerializer.Load("Content/Map/level.json");
 
@@ -76,6 +91,9 @@ namespace ForestPlatformerExample
             // font: KA1
             // base color: 2A2A57
             // selected color: FF0000
+
+            Logger.Debug("Loading assets: HUD texts...");
+
             Assets.LoadTexture("HUDNewGameBase", "ForestAssets/UI/new_game_base");
             Assets.LoadTexture("HUDNewGameSelected", "ForestAssets/UI/new_game_selected");
             Assets.LoadTexture("HUDSettingsBase", "ForestAssets/UI/settings_base");
@@ -122,10 +140,11 @@ namespace ForestPlatformerExample
             Assets.LoadTexture("RestartBase", "ForestAssets/UI/restart_base");
             Assets.LoadTexture("RestartSelected", "ForestAssets/UI/restart_selected");
             Assets.LoadTexture("FinishedText", "ForestAssets/UI/finish");
+            Assets.LoadTexture("HUDCointCount", "ForestAssets/UI/HUD-coin-count");
 
             // Entities
 
-            Assets.LoadTexture("HUDCointCount", "ForestAssets/UI/HUD-coin-count");
+            Logger.Debug("Loading assets: entities...");
 
             Assets.LoadTexture("CarrotMove", "ForestAssets/Characters/Carrot/carrot@move-sheet");
             Assets.LoadTexture("CarrotHurt", "ForestAssets/Characters/Carrot/carrot@hurt-sheet");
@@ -182,6 +201,8 @@ namespace ForestPlatformerExample
             Assets.LoadTexture("GhostHit", "IcySkies/Characters/Ghost/Hit (44x30)");
             Assets.LoadTexture("GhostIdle", "IcySkies/Characters/Ghost/Idle (44x30)");
 
+            Logger.Debug("Loading assets: traps and items...");
+
             // Traps
             Assets.LoadTexture("Saw", "IcySkies/Traps/Saw/saw");
 
@@ -201,9 +222,12 @@ namespace ForestPlatformerExample
 
             Assets.LoadTexture("FinishedTrophy", "IcySkies/Items/POI/End (Idle)");
 
+            Logger.Debug("Loading assets: fonts...");
             Assets.AddFont("InGameText", Content.Load<SpriteFont>("Text/InGameText"));
 
             // Sounds
+
+            Logger.Debug("Loading assets: sounds...");
 
             AudioEngine.AddSound("Level1Music", "ForestAssets/Audio/POL-chubby-cat-long", true, AudioTag.MUSIC); 
             AudioEngine.AddSound("Level2Music", "IcySkies/Audio/level_2_bg_2", true, AudioTag.MUSIC);
@@ -228,10 +252,12 @@ namespace ForestPlatformerExample
             AudioEngine.AddSound("IceCreamExplode", "ForestAssets/Audio/sfx_weapon_singleshot3"); 
             AudioEngine.AddSound("GostDisappear", "ForestAssets/Audio/sfx_wpn_laser11");
             AudioEngine.AddSound("GostAppear", "ForestAssets/Audio/sfx_wpn_laser11"); 
-            AudioEngine.AddSound("RockSplit", "ForestAssets/Audio/sfx_sounds_impact10"); 
+            AudioEngine.AddSound("RockSplit", "ForestAssets/Audio/sfx_sounds_impact10");
             //AudioEngine.MuteAll();
 
-             MainMenuScene mainMenuScene = new MainMenuScene();
+            Logger.Debug("Loading scenes...");
+
+            MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
             Level1Scene level1 = new Level1Scene(world, font);
             SettingsScene settings = new SettingsScene();
@@ -251,8 +277,10 @@ namespace ForestPlatformerExample
             SceneManager.AddScene(levelSelectScreen);
             SceneManager.AddScene(endScene);
 
-            SceneManager.LoadScene(mainMenuScene);
+
+            Logger.Debug("Starting main menu...");
             SceneManager.SetLoadingScene(loadingScreen);
+            SceneManager.LoadScene(mainMenuScene);
         }
 
         protected override void Update(GameTime gameTime)

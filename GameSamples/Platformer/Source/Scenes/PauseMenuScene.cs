@@ -34,7 +34,7 @@ namespace ForestPlatformerExample
 
             continueGame.OnClick = () =>
             {
-                SceneManager.StartScene(ForestPlatformerGame.CurrentScene);
+                SceneManager.StartScene(PlatformerGame.CurrentScene);
             };
 
             SelectableImage settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
@@ -64,7 +64,7 @@ namespace ForestPlatformerExample
 
         public override void OnStart()
         {
-            ForestPlatformerGame.Paused = true;
+            PlatformerGame.Paused = true;
         }
 
         public override void OnFinished()

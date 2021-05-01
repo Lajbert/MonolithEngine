@@ -1060,7 +1060,7 @@ namespace ForestPlatformerExample
             {
                 AudioEngine.Play("CoinPickupSound");
                 (otherCollider as Coin).Die();
-                ForestPlatformerGame.CoinCount++;
+                PlatformerGame.CoinCount++;
             }
             else if (otherCollider is Box && (otherCollider as Box).Velocity == Vector2.Zero && Transform.Y < otherCollider.Transform.Y)
             {

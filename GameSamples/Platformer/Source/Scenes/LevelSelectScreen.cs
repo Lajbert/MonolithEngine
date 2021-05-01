@@ -28,7 +28,7 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
-
+            Logger.Debug("Loading level select scene UI...");
             SelectableImage videoSettings = new SelectableImage(Assets.GetTexture("Level1Base"), Assets.GetTexture("Level1Selected"), new Vector2(150, 150), scale: 0.25f);
             videoSettings.HoverSoundEffectName = "MenuHover";
             videoSettings.SelectSoundEffectName = "MenuSelect";
@@ -68,7 +68,7 @@ namespace ForestPlatformerExample
 
         public override void OnStart()
         {
-            ForestPlatformerGame.Paused = true;
+            PlatformerGame.Paused = true;
         }
 
         public override void OnFinished()

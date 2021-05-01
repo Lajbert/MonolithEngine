@@ -1,48 +1,74 @@
 ﻿using System;
+using System.IO;
 
 namespace MonolithEngine
 {
     public class Logger
     {
 
+        private static string ERROR = "ERROR";
+        private static string INFO = "INFO";
+        private static string DEBUG = "DEBUG";
+        private static string WARNING = "WARNING";
+
+        private static StreamWriter file;
+
+        static Logger()
+        {
+            file = new StreamWriter("Debug.log", append: true);
+        }
+
+        public static bool LogToFile = false;
+
         public static void Info(string message)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [INFO]: " + message);
+            Log(INFO, message);
         }
 
         public static void Debug(string message)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [DEBUG]: " + message);
+            Log(DEBUG, message);
         }
 
         public static void Warn(string message)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [WARNING]: " + message);
+            Log(WARNING, message);
         }
 
         public static void Error(string message)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [ERROR]: " + message);
+            Log(ERROR, message);
         }
 
         public static void Info(object toLog)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [INFO]: " + toLog.ToString());
+            Log(INFO, toLog.ToString());
         }
 
         public static void Debug(object toLog)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [DEBUG]: " + toLog.ToString());
+            Log(DEBUG, toLog.ToString());
         }
 
         public static void Warn(object toLog)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [WARNING]: " + toLog.ToString());
+            Log(WARNING, toLog.ToString());
         }
 
         public static void Error(object toLog)
         {
-            System.Diagnostics.Debug.WriteLine(DateTime.Now + " [ERROR]: " + toLog.ToString());
+            Log(ERROR, toLog.ToString());
+        }
+
+        private static void Log(string level, string message)
+        {
+            string logMessage = DateTime.Now + " [" + level + "]: " + message;
+            System.Diagnostics.Debug.WriteLine(logMessage);
+            if (LogToFile)
+            {
+                file.WriteLine(logMessage);
+                file.Flush();
+            }
         }
     }
 }

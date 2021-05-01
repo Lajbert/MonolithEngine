@@ -53,7 +53,7 @@ namespace ForestPlatformerExample
 
             back.OnClick = () =>
             {
-                if (ForestPlatformerGame.WasGameStarted)
+                if (PlatformerGame.WasGameStarted)
                 {
                     SceneManager.StartScene("PauseMenu");
                 } else
@@ -75,7 +75,7 @@ namespace ForestPlatformerExample
 
         public override void OnStart()
         {
-            ForestPlatformerGame.Paused = true;
+            PlatformerGame.Paused = true;
         }
 
         public override void OnFinished()

@@ -268,7 +268,7 @@ namespace ForestPlatformerExample
 
         public override void OnStart()
         {
-            ForestPlatformerGame.Paused = true;
+            PlatformerGame.Paused = true;
             SetCurrentVideoSettings();
         }
 
