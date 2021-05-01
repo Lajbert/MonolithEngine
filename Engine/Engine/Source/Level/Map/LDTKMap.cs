@@ -43,6 +43,11 @@ namespace MonolithEngine
             }
         }
 
+        private static int CompareLayerInstances(LayerInstance li1, LayerInstance li2)
+        {
+            return li1.Identifier.CompareTo(li2.Identifier);
+        }
+
         public HashSet<EntityInstance> ParseLevel(AbstractScene scene, string levelID)
         {
             Logger.Debug("Parsing level...");
@@ -60,7 +65,9 @@ namespace MonolithEngine
                 }
                 Logger.Debug("Parsing level: " + level.Identifier);
                 float scrollSpeedModifier = 0f;
-                Array.Reverse(level.LayerInstances);
+
+                Array.Sort(level.LayerInstances, CompareLayerInstances);
+
                 foreach (LayerInstance layerInstance in level.LayerInstances)
                 {
 
