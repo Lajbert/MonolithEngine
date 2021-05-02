@@ -21,7 +21,6 @@ namespace MonolithEngine
             set {
                 if (value != null)
                 {
-                    //Transform.Position = position;
                     if (parent != null)
                     {
                         parent.RemoveChild(this);
@@ -34,16 +33,10 @@ namespace MonolithEngine
                     if (parent != null)
                     {
                         Transform.DetachFromParent();
-                        //Transform.GridCoordinates = CalculateGridCoord();
                         parent.RemoveChild(this);
-                    }
-                    else
-                    {
-                        //Transform.Position = position;
                     }
                     parent = null;
                 }
-                //Transform.GridCoordinates = CalculateGridCoord();
             }
         }
 

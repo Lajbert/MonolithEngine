@@ -8,12 +8,12 @@ namespace MonolithEngine
     {
         private const float MinZoom = 0.01f;
 
-        private Viewport _viewport;
-        private Vector2 _origin;
+        private Viewport viewport;
+        private Vector2 origin;
 
-        private Vector2 _position;
-        private float _zoom = 1f;
-        private Rectangle? _limits;
+        private Vector2 position;
+        private float zoom = 1f;
+        private Rectangle? limits;
 
         public static Entity target;
         private Vector2 targetTracingOffset = Vector2.Zero;
@@ -47,11 +47,11 @@ namespace MonolithEngine
 
         public void SetScale()
         {
-            _viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
+            viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
 
-            Logger.Info("Configuring camera, viewport: " + _viewport.ToString());
+            Logger.Info("Configuring camera, viewport: " + viewport.ToString());
 
-            _origin = new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
+            origin = new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f);
             Zoom = Config.SCALE;
             if (target != null)
             {
@@ -80,7 +80,7 @@ namespace MonolithEngine
             // Follow target entity
             if (target != null)
             {
-                Vector2 targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(_viewport.Width / 2.0f, _viewport.Height / 2.0f);
+                Vector2 targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f);
 
                 float targetCameraDistance = Vector2.Distance(Position, targetPosition);
                 if (targetCameraDistance >= deadzone)
@@ -147,11 +147,11 @@ namespace MonolithEngine
         {
             get
             {
-                return _position;
+                return position;
             }
             set
             {
-                _position = value;
+                position = value;
                 ValidatePosition();
             }
         }
@@ -160,11 +160,11 @@ namespace MonolithEngine
         {
             get
             {
-                return _zoom;
+                return zoom;
             }
             set
             {
-                _zoom = MathHelper.Max(value, MinZoom);
+                zoom = MathHelper.Max(value, MinZoom);
                 ValidateZoom();
                 ValidatePosition();
             }
@@ -174,7 +174,7 @@ namespace MonolithEngine
         {
             set
             {
-                _limits = value;
+                limits = value;
                 ValidateZoom();
                 ValidatePosition();
             }
@@ -184,33 +184,33 @@ namespace MonolithEngine
         {
             get
             {
-                return Matrix.CreateTranslation(new Vector3(-new Vector2(_position.X * scrollSpeedModifier, _position.Y), 0f)) *
-                       Matrix.CreateTranslation(new Vector3(-_origin, 0f)) *
-                       Matrix.CreateScale(_zoom, _zoom, 1f) *
-                       Matrix.CreateTranslation(new Vector3(_origin, 0f));
+                return Matrix.CreateTranslation(new Vector3(-new Vector2(position.X * scrollSpeedModifier, position.Y), 0f)) *
+                       Matrix.CreateTranslation(new Vector3(-origin, 0f)) *
+                       Matrix.CreateScale(zoom, zoom, 1f) *
+                       Matrix.CreateTranslation(new Vector3(origin, 0f));
             }
         }
 
         private void ValidatePosition()
         {
-            if (_limits.HasValue)
+            if (limits.HasValue)
             {
                 Vector2 cameraWorldMin = Vector2.Transform(Vector2.Zero, Matrix.Invert(ViewMatrix));
-                Vector2 cameraSize = new Vector2(_viewport.Width, _viewport.Height) / _zoom;
-                Vector2 limitWorldMin = new Vector2(_limits.Value.Left, _limits.Value.Top);
-                Vector2 limitWorldMax = new Vector2(_limits.Value.Right, _limits.Value.Bottom);
-                Vector2 positionOffset = _position - cameraWorldMin;
-                _position = Vector2.Clamp(cameraWorldMin, limitWorldMin, limitWorldMax - cameraSize) + positionOffset;
+                Vector2 cameraSize = new Vector2(viewport.Width, viewport.Height) / zoom;
+                Vector2 limitWorldMin = new Vector2(limits.Value.Left, limits.Value.Top);
+                Vector2 limitWorldMax = new Vector2(limits.Value.Right, limits.Value.Bottom);
+                Vector2 positionOffset = position - cameraWorldMin;
+                position = Vector2.Clamp(cameraWorldMin, limitWorldMin, limitWorldMax - cameraSize) + positionOffset;
             }
         }
 
         private void ValidateZoom()
         {
-            if (_limits.HasValue)
+            if (limits.HasValue)
             {
-                float minZoomX = (float)_viewport.Width / _limits.Value.Width;
-                float minZoomY = (float)_viewport.Height / _limits.Value.Height;
-                _zoom = MathHelper.Max(_zoom, MathHelper.Max(minZoomX, minZoomY));
+                float minZoomX = (float)viewport.Width / limits.Value.Width;
+                float minZoomY = (float)viewport.Height / limits.Value.Height;
+                zoom = MathHelper.Max(zoom, MathHelper.Max(minZoomX, minZoomY));
             }
         }
 

@@ -1,5 +1,9 @@
 ﻿namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents a given AI state.
+    /// </summary>
+    /// <typeparam name="T">The entity the state controls</typeparam>
     public abstract class AIState<T> where T : IGameObject
     {
         protected T controlledEntity;
