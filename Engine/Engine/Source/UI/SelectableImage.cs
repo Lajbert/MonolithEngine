@@ -4,6 +4,9 @@ using System;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// An image that can be selected and deselected.
+    /// </summary>
     public class SelectableImage : Image, SelectableUIElement
     {
         public bool IsHoveredOver = false;

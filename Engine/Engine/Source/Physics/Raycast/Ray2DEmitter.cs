@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace MonolithEngine
+namespace MonolithEngine.Experimental
 {
+    /// <summary>
+    /// A class that emits rays to do raycasting.
+    /// </summary>
     public class Ray2DEmitter
     {
 
@@ -29,6 +32,10 @@ namespace MonolithEngine
             }
             this.delay = delayMs;
         }
+
+        /// <summary>
+        /// Updating the rays: checking whether the rays are intersecting with other lines on the map.
+        /// </summary>
         public void UpdateRays()
         {
             foreach (Ray2D ray in rays)

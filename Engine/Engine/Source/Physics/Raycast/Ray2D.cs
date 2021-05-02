@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace MonolithEngine
+namespace MonolithEngine.Experimental
 {
+    /// <summary>
+    /// Class to represent a ray for raycasting.
+    /// </summary>
     public class Ray2D
     {
         public Vector2 Position;
@@ -45,6 +48,11 @@ namespace MonolithEngine
 #endif
         }
 
+        /// <summary>
+        /// Casts a ray toa given direction.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="result"></param>
         public void Cast((Vector2 from, Vector2 to) target, ref Vector2 result)
         {
             x4 = Position.X + direction.X;

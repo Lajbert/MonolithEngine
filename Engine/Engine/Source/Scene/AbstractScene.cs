@@ -5,6 +5,18 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Base class representing a scene (level, area, menu, etc). 
+    /// Automatically loads and unloads components,
+    /// makes organizing the game much easier.
+    /// There is always one active scene in the game (called CurrentScene),
+    /// but other scenes might also be updated in the background
+    /// even when they are not the active one.
+    /// For example, in a platformer game, you don't need the other scenes to be updated
+    /// but the active one, while in a top-down RPG, when you are in a tavern which is the
+    /// active scene, you might still want the rest of the town to be updated with the 
+    /// NPCs doing their daily routine, day-night cycle, etc.
+    /// </summary>
     public abstract class AbstractScene : IScene
     {
 
@@ -12,8 +24,12 @@ namespace MonolithEngine
 
         protected string SceneName;
 
+        // true: we load the scene at the game's startup
+        // false: we load the scene only we load it
         internal bool Preload = false;
 
+        // true: the scene is being updated even when it's not the current scene
+        // false: the scene is not upated when it's not the current scene
         internal bool AlwaysActive;
 
         protected UserInterface UI;
@@ -26,6 +42,8 @@ namespace MonolithEngine
 
         public Camera Camera;
 
+        // true: when loading the scene, a static, preconfigured loading screen appears
+        // false; we load the scene without a loading screen
         public bool UseLoadingScreen;
 
         public Color BackgroundColor = Color.White;
@@ -57,12 +75,31 @@ namespace MonolithEngine
             UI.HandleNewElements();
         }
 
+        /// <summary>
+        /// Called once when current scene is loaded. Do all your hardware heavy loading 
+        /// stuff here: assets (textures, entities, etc). Loading screens can be displayed here.
+        /// </summary>
         public abstract void Load();
 
+        /// <summary>
+        /// Called when the scene is ended during scene transitions.
+        /// Called every time when the scene is not the active scene anymore.
+        /// Only do lighweight operations here, that is absolutely necessary
+        /// when transitioning away from this scene.
+        /// </summary>
         public abstract void OnEnd();
 
+        /// <summary>
+        /// Called when the scene is started during scene transitions.
+        /// Called every time when the scene is the active scene again.
+        /// Only do lighweight operations here, that is absolutely necessary
+        /// when the scene becomes the active scene again.
+        /// </summary>
         public abstract void OnStart();
 
+        /// <summary>
+        /// Called once when the scene is finished.
+        /// </summary>
         public abstract void OnFinished();
 
         public virtual void Unload()
@@ -78,7 +115,6 @@ namespace MonolithEngine
 
         public void Finish()
         {
-            SceneManager.OnSceneFinished(this);
             OnFinished();
         }
 
@@ -110,14 +146,12 @@ namespace MonolithEngine
         public void FixedUpdate()
         {
             LayerManager.FixedUpdateAll();
-            //CollisionEngine.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             LayerManager.DrawAll(spriteBatch);
 
-            //spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.GetUITransformMatrix());
             UI.Draw(spriteBatch);
             spriteBatch.End();

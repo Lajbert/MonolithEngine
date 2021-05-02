@@ -3,6 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Popus are special game entities. They represent any text or image
+    /// that you want to see in your game, like a text fot tutorials, 
+    /// subtitles for conversations, etc...
+    /// Doesn't move with the camera view and affected by the zoom level,
+    /// can follow a target entity and can disappear after a delay.
+    /// </summary>
     class DynamicPopup : Entity
     {
 

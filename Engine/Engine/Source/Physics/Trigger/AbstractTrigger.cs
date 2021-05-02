@@ -1,11 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
+/// <summary>
+/// Base class representing abstract triggers. 
+/// The detection is simple: checks whether an entity's Position
+/// is inside the trigger or not. In other words, it detects whether
+/// a single point is inside the shape.
+/// </summary>
 namespace MonolithEngine
 {
     public abstract class AbstractTrigger : ITrigger
     {
         protected Entity owner;
+
+        // multiple triggers can be assigned to one entity,
+        // and tags help differentiating between them
         private string tag = "";
         protected Vector2 PositionOffset;
 
@@ -40,6 +49,11 @@ namespace MonolithEngine
             UniquePerEntity = false;
         }
 
+        /// <summary>
+        /// Returns whether an entity's pivot is inside the trigger.
+        /// </summary>
+        /// <param name="otherObject"></param>
+        /// <returns></returns>
         public abstract bool IsInsideTrigger(IGameObject otherObject);
 
         public string GetTag()

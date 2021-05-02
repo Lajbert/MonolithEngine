@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonolithEngine
 {
+
+    /// <summary>
+    /// Represents a sprite (drawable texture) that can be assigned to an entity.
+    /// </summary>
     public class Sprite : IComponent, IDrawableComponent
     {
         public bool UniquePerEntity { get; set; }
@@ -39,7 +43,6 @@ namespace MonolithEngine
             }
             else
             {
-                //SourceRectangle = new Rectangle(0, 0, Config.GRID, Config.GRID);
                 SourceRectangle = AssetUtil.AutoBoundingBox(this);
             }
 

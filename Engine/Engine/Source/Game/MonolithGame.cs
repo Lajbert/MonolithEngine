@@ -2,6 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
+/// <summary>
+/// Base class for a game instance. Any new Monolith game should extends
+/// this class as an entry point for the game.
+/// </summary>
 namespace MonolithEngine
 {
     public abstract class MonolithGame : Game

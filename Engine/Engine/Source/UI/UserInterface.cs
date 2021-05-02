@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Class for updating and drawing UI elements for a given scene.
+    /// </summary>
     public class UserInterface
     {
         private List<IUIElement> elements = new List<IUIElement>();

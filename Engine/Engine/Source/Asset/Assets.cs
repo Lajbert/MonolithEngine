@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Simple helper class to load, cache and access various assets.
+    /// </summary>
     public class Assets
     {
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();

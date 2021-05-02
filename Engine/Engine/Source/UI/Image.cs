@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// An image to disply on the UI.
+    /// </summary>
     public class Image : AbstractUIElement
     {
         public Rectangle SourceRectangle;

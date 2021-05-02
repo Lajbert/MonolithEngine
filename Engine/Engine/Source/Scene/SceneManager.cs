@@ -4,14 +4,26 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Class to handle scenes.
+    /// </summary>
     public class SceneManager
     {
+        // all the scenes the game has
         private Dictionary<string, AbstractScene> scenes = new Dictionary<string, AbstractScene>();
+
+        // all the scenes that are being updated
         private HashSet<AbstractScene> activeScenes = new HashSet<AbstractScene>();
+
+        // the scene that is currently running and visible on the display
         private AbstractScene currentScene;
+
+        // static loading screen cene
         private AbstractScene loadingScreen;
+
         private AbstractScene nextSceneToLoad;
         private AbstractScene nextSceneToStart;
+
         private Camera camera;
 
         private GraphicsDevice graphicsDevice;
@@ -26,6 +38,10 @@ namespace MonolithEngine
             this.graphicsDevice = graphicsDevice;
         }
 
+        /// <summary>
+        /// Adds a new scene to the game.
+        /// </summary>
+        /// <param name="scene"></param>
         public void AddScene(AbstractScene scene)
         {
             if (scenes.ContainsKey(scene.GetName()))
@@ -41,11 +57,18 @@ namespace MonolithEngine
             }
         }
 
+        /// <summary>
+        /// The loading scene to use for where 'useLoadingScreen' is true.
+        /// </summary>
+        /// <param name="loadingScene"></param>
         public void SetLoadingScene(AbstractScene loadingScene)
         {
             this.loadingScreen = loadingScene;
         }
 
+        /// <summary>
+        /// Called when the user changes resolutions.
+        /// </summary>
         public void OnResolutionChanged()
         {
             foreach (AbstractScene scene in scenes.Values)
@@ -54,15 +77,15 @@ namespace MonolithEngine
             }
         }
 
-        internal void OnSceneFinished(IScene scene)
-        {
-        }
-
         public void RemoveScene(AbstractScene scene)
         {
             scenes.Remove(scene.GetName());
         }
 
+        /// <summary>
+        /// Fully loads the scene, called only once for every scene.
+        /// </summary>
+        /// <param name="sceneName"></param>
         public void LoadScene(string sceneName)
         {
             nextSceneToLoad = scenes[sceneName];
@@ -92,6 +115,11 @@ namespace MonolithEngine
             useLoadingScreen = false;
         }
 
+        /// <summary>
+        /// Starts the current scene. Called every time when the 
+        /// scene is becoming the "CurrentScene".
+        /// </summary>
+        /// <param name="sceneName"></param>
         public void StartScene(string sceneName)
         {
             nextSceneToStart = scenes[sceneName];
@@ -119,11 +147,20 @@ namespace MonolithEngine
             useLoadingScreen = false;
         }
 
+        /// <summary>
+        /// Starts the current scene. Called every time when the 
+        /// scene is becoming the "CurrentScene".
+        /// </summary>
+        /// <param name="scene"></param>
         public void StartScene(AbstractScene scene)
         {
             StartScene(scene.GetName());
         }
 
+        /// <summary>
+        /// Fully loads the scene, called only once for every scene.
+        /// </summary>
+        /// <param name="scene"></param>
         public void LoadScene(AbstractScene scene)
         {
             LoadScene(scene.GetName());

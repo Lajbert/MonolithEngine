@@ -5,6 +5,14 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Animation class representing an animation where the frames are 
+    /// drawn on one spritesheet image file.
+    /// Each frame points to the same texture with different source
+    /// rectangle (the position of the current frame in the spritesheet).
+    /// It automatically creates the texture and source rectangles based on
+    /// the sprite sheet with ignoring empty frames.
+    /// </summary>
     public class SpriteSheetAnimation : AbstractAnimation
     {
         private Texture2D texture;
@@ -123,6 +131,8 @@ namespace MonolithEngine
             return biggestFrame;
         }
 
+        // Automatically determines the frame count in the sprite sheet.
+        // Smart enough not to count empty frames at the end.
         private int GetFrameCount()
         {
             int frameCount = 0;

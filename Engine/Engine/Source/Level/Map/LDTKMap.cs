@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A sample implementation of LDtk level editor software.
+    /// By following the naming conventions in the software, the parser
+    /// will be able to automatically parse and handle foreground,
+    /// background and parallax layers.
+    /// </summary>
     public class LDTKMap
     {
 
@@ -242,11 +248,13 @@ namespace MonolithEngine
                 Entity mergedBG = new Entity(mergedBackgroundLayer, null, new Vector2(0, 0));
                 mergedBG.SetSprite(mergedBackgroundTileGroup.GetTexture());
                 mergedBG.GetComponent<Sprite>().DrawOffset = pivot;
+                mergedBG.Active = false;
 
                 Logger.Debug("Merging foreground layers into one texture: " + mergedForegroundTileGroup.GetTexture().Bounds);
                 Entity mergedFG = new Entity(mergedForegroundLayer, null, new Vector2(0, 0));
                 mergedFG.SetSprite(mergedForegroundTileGroup.GetTexture());
                 mergedFG.GetComponent<Sprite>().DrawOffset = pivot;
+                mergedFG.Active = false;
             }
             return entities;
         }

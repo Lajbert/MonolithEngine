@@ -2,6 +2,9 @@
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Interface for Scenes.
+    /// </summary>
     public interface IScene
     {
         public abstract void Load();

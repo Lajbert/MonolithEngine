@@ -6,6 +6,11 @@ using System.Linq;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A class to handle user inputs.
+    /// Basically just invokes different callbacks registered to
+    /// key/button actions.
+    /// </summary>
     public class UserInputController
     {
 

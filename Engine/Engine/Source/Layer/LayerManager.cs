@@ -4,6 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A class contain the layer instances of a game.
+    /// Updates and draws layer in the right order to create foreground,
+    /// background and parallax effects.
+    /// </summary>
     public class LayerManager
     {
         private List<Layer> parallaxLayers = new List<Layer>();

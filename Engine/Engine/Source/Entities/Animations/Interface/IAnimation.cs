@@ -2,6 +2,9 @@
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Interface to represent an animation
+    /// </summary>
     public interface IAnimation
     {
         public void Update();

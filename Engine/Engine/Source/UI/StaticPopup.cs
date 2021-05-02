@@ -4,6 +4,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Popus are special game entities. They represent any text or image
+    /// that you want to see in your game, like a text fot tutorials, 
+    /// subtitles for conversations, etc...
+    /// Static popup class doens't follow any entities, they stick to one position,
+    /// move with the camera and can pause the game while on screen waiting for a key
+    /// input to continue or automatically disappear after a delay.
+    /// </summary>
     public class StaticPopup : Entity
     {
         

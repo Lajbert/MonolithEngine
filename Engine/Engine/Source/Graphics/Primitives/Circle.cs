@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents a circle. 
+    /// WARNING: ugly and bad performance, only for debugging purposes!
+    /// </summary>
     public class Circle : Entity
     {
         private Vector2 center;

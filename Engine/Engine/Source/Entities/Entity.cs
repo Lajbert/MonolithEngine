@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Class to represent static game entities.
+    /// Objects created from this class has no Velocity.
+    /// </summary>
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {
 
@@ -70,7 +74,7 @@ namespace MonolithEngine
         public Direction CurrentFaceDirection { get; set; } = Direction.CENTER;
 
         private bool visible = true;
-        private bool active = false;
+        private bool active = true;
 
         public bool Visible {
             get => visible;
@@ -123,7 +127,7 @@ namespace MonolithEngine
         public Func<string> DebugFunction = null;
 #endif
 
-        protected Ray2DEmitter RayEmitter { get; set; }
+        //protected Ray2DEmitter RayEmitter { get; set; }
 
         private Texture2D pivotMarker;
 
@@ -276,7 +280,7 @@ namespace MonolithEngine
 
             if (!IsCollisionCheckedInCurrentLoop)
             {
-                Scene.CollisionEngine.Update(this);
+                Scene.CollisionEngine.CheckCollisions(this);
             }
 
             componentList.UpdateAll();
@@ -303,10 +307,10 @@ namespace MonolithEngine
 
         public virtual void PostUpdate()
         {
-            if (RayEmitter != null)
+            /*if (RayEmitter != null)
             {
                 RayEmitter.UpdateRays();
-            }
+            }*/
 
             foreach (Entity child in Children)
             {
@@ -369,7 +373,7 @@ namespace MonolithEngine
             CollidesAgainst.Clear();
             CanFireTriggers = false;
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
-            RayEmitter = null;
+            //RayEmitter = null;
             BlocksRay = false;
         }
 

@@ -5,16 +5,23 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+
+    /// <summary>
+    /// A state machine to play animations automatically based on the state of entity it's assigned to.
+    /// </summary>
     public class AnimationStateMachine : IComponent, IUpdatableComponent, IDrawableComponent
     {
         private List<StateAnimation> animations;
 
+        // Frame transition between animations: having a transition defined means
+        // that the new animation will start on the same frame the previous one ended.
         private HashSet<(string, string)> transitions = new HashSet<(string, string)>();
 
         private StateAnimation currentAnimation = null;
 
         private Vector2 offset = Vector2.Zero;
 
+        // animation to play regardless of the object's current state
         private StateAnimation animationOverride = null;
 
         private int? transitionFrame = null;
@@ -36,26 +43,33 @@ namespace MonolithEngine
             UniquePerEntity = true;
         }
 
-        public void RegisterAnimation(string state, AbstractAnimation animation, Func<bool> function = null, int priority = 0)
+        /// <summary>
+        /// Adds an animation to the state machine.
+        /// </summary>
+        /// <param name="stateName">Name of the state.</param>
+        /// <param name="animation">The animation itself.</param>
+        /// <param name="playCondition">The condition to play the given animation</param>
+        /// <param name="priority">Priority over other animations with when we could play multiple based on their condition.</param>
+        public void RegisterAnimation(string stateName, AbstractAnimation animation, Func<bool> playCondition = null, int priority = 0)
         {
-            if (function == null)
+            if (playCondition == null)
             {
-                function = () => (true);
+                playCondition = () => (true);
             }
             if (animation.Offset == Vector2.Zero)
             {
                 animation.Offset = Offset;
             }
-            StateAnimation anim = new StateAnimation(state, animation, function, priority);
+            StateAnimation anim = new StateAnimation(stateName, animation, playCondition, priority);
             animations.Add(anim);
             animations.Sort((a, b) => a.priority.CompareTo(b.priority) * -1);
         }
 
-        public void PlayAnimation(string state)
+        public void PlayAnimation(string stateName)
         {
             foreach (StateAnimation anim in animations)
             {
-                if (anim.state.Equals(state))
+                if (anim.state.Equals(stateName))
                 {
                     animationOverride = anim;
                     animationOverride.animation.Init();
@@ -65,6 +79,9 @@ namespace MonolithEngine
             throw new Exception("Requested animation not found");
         }
 
+        /// <summary>
+        /// Internal helper class to store animation states.
+        /// </summary>
         private class StateAnimation
         {
 
@@ -132,6 +149,10 @@ namespace MonolithEngine
             Play(spriteBatch);
         }
 
+        /// <summary>
+        /// Plays the current animations and calls callbacks (if any).
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         private void Play(SpriteBatch spriteBatch)
         {
             transitionFrame = null;
@@ -162,12 +183,20 @@ namespace MonolithEngine
             currentAnimation.animation.Play(spriteBatch);
         }
 
+        /// <summary>
+        /// Registers a frame transition between 2 animations.
+        /// </summary>
+        /// <param name="anim1"></param>
+        /// <param name="anim2"></param>
         public void AddFrameTransition(string anim1, string anim2)
         {
             transitions.Add((anim1, anim2));
             transitions.Add((anim2, anim1));
         }
 
+        /// <summary>
+        /// Updates the current animation.
+        /// </summary>
         public void Update()
         {
             if (animations.Count == 0 || currentAnimation == null)
@@ -178,6 +207,11 @@ namespace MonolithEngine
             currentAnimation.animation.Update();
         }
 
+        /// <summary>
+        /// Returns the next animation to play or the animation
+        /// override.
+        /// </summary>
+        /// <returns></returns>
         private StateAnimation Pop()
         {
             if (animationOverride != null)

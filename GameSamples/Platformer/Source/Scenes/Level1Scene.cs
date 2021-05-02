@@ -39,7 +39,7 @@ namespace ForestPlatformerExample
             LoadData();
 
             Logger.Debug("Loading LEVEL 1: adjusting camera");
-            Camera.SetScale();
+            Camera.Initialize();
             Camera.Zoom += 0.5f;
         }
 

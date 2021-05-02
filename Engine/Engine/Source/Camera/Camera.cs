@@ -4,6 +4,9 @@ using System;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Camera class abstraction.
+    /// </summary>
     public class Camera
     {
         private const float MinZoom = 0.01f;
@@ -42,10 +45,13 @@ namespace MonolithEngine
             Position = Vector2.Zero;
             direction = Vector2.Zero;
             Zoom = Config.SCALE;
-            SetScale();
+            Initialize();
         }
 
-        public void SetScale()
+        /// <summary>
+        /// Initializing the camera based on the screen resolution.
+        /// </summary>
+        public void Initialize()
         {
             viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
 
@@ -60,6 +66,12 @@ namespace MonolithEngine
             uiTransofrmMatrix = Matrix.Identity * Matrix.CreateScale(Config.SCALE, Config.SCALE, 1);
         }
 
+        /// <summary>
+        /// Shakes the camera
+        /// </summary>
+        /// <param name="power"></param>
+        /// <param name="duration"></param>
+        /// <param name="easeOut"></param>
         public void Shake(float power = 5, float duration = 300, bool easeOut = true)
         {
             shakePower = power;
@@ -68,6 +80,9 @@ namespace MonolithEngine
             easedStop = easeOut;
         }
 
+        /// <summary>
+        /// Updating the camera. If there is a target entity, we have to follow it.
+        /// </summary>
         public void Update()
         {
             if (!SCROLL)
@@ -98,6 +113,9 @@ namespace MonolithEngine
             PostUpdate();
         }
 
+        /// <summary>
+        /// Let's shake it!
+        /// </summary>
         private void PostUpdate()
         {
             // Shakes
@@ -143,6 +161,10 @@ namespace MonolithEngine
             }
         }
 
+        /// <summary>
+        /// We need to validate the camera's position and ZOOM whenever we
+        /// change these values.
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -180,6 +202,9 @@ namespace MonolithEngine
             }
         }
 
+        /// <summary>
+        /// The default ViewMatrix of the camera based on the position and zoom. 
+        /// </summary>
         public Matrix ViewMatrix
         {
             get
@@ -214,11 +239,23 @@ namespace MonolithEngine
             }
         }
 
+        /// <summary>
+        /// A static transformation matrix for the UI. This The position and 
+        /// zoom are fixed (we don't scroll and zoom in/out into UI elements)
+        /// </summary>
+        /// <returns></returns>
         public Matrix GetUITransformMatrix()
         {
             return uiTransofrmMatrix;
         }
 
+        /// <summary>
+        /// Getter for the transformation matrix. It takes scrollSpeedModifier
+        /// into account for parallax scrolling.
+        /// </summary>
+        /// <param name="scrollSpeedModifier">The scroll speed modifier for parallax backgrounds</param>
+        /// <param name="lockY">'true' if we want to lock the scrolling of the Y axis</param>
+        /// <returns></returns>
         public Matrix GetTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)
         {
             this.scrollSpeedModifier = scrollSpeedModifier;

@@ -2,6 +2,10 @@
 
 namespace MonolithEngine
 {
+
+    /// <summary>
+    /// Interface for game objects
+    /// </summary>
     public interface IGameObject
     {
         public AbstractTransform Transform { get; set; }

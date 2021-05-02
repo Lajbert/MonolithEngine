@@ -6,6 +6,12 @@ using System.Collections.Generic;
 namespace MonolithEngine
 {
 
+	/// <summary>
+	/// A class do make a Bresenham line.
+	/// It can create a pixel perfect line between 2 points using only integers,
+	/// which makes it fast and very effective.
+	/// It can be used for various purpose: graphical effects, AI (visibility), etc.
+	/// </summary>
     public class Bresenham
     {
 		public static void GetLine(Vector2 a, Vector2 b, List<Vector2> result)

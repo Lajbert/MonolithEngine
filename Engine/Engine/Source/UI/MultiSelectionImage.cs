@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A UI element that holds multiple values and they can be scrolled through.
+    /// </summary>
     public class MultiSelectionImage : Image
     {
 

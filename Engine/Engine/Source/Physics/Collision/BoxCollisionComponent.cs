@@ -4,6 +4,9 @@ using System;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents a box collision components.
+    /// </summary>
     public class BoxCollisionComponent : AbstractCollisionComponent
     {
 

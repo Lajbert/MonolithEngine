@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents that the entity blocks rays while raycasting.
+    /// </summary>
     public interface IRayBlocker
     {
         public bool BlocksRay { get; set; }

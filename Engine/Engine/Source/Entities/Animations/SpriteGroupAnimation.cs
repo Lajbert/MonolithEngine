@@ -5,8 +5,15 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Animation class representing an animation where the frames are 
+    /// drawn on separate image files.
+    /// Each frame points to it's own texture and returns the same source
+    /// rectangle (size of the frame).
+    /// </summary>
     public class SpriteGroupAnimation : AbstractAnimation
     {
+        // frames of the animation
         public List<Texture2D> Textures;
 
         public SpriteGroupAnimation(Entity parent, List<Texture2D> textures, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, textures.Count, framerate, spriteEffect)

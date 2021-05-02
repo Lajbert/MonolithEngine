@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A simple collection of components that can be assigned to an entity.
+    /// </summary>
     public class ComponentList
     {
         private Dictionary<Type, List<IComponent>> components = new Dictionary<Type, List<IComponent>>();
@@ -75,6 +78,10 @@ namespace MonolithEngine
             components.Clear();
         }
 
+        /// <summary>
+        /// Drawing all the drawable components of an entity (Sprite, Animations...)
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void DrawAll(SpriteBatch spriteBatch)
         {
             foreach (List<IComponent> list in components.Values)
@@ -93,6 +100,9 @@ namespace MonolithEngine
             }
         }
 
+        /// <summary>
+        /// Updating all the updatable components of an entity (colliders, etc)
+        /// </summary>
         public void UpdateAll()
         {
             foreach (List<IComponent> list in components.Values)

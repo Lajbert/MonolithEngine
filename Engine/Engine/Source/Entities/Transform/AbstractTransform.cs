@@ -2,6 +2,10 @@
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Base class to represent entities' transform:
+    /// Position, Rotation and Velocity
+    /// </summary>
     public abstract class AbstractTransform : ITransform
     {
         protected IGameObject owner;

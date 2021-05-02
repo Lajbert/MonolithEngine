@@ -2,6 +2,9 @@
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Interface representing a collision component.
+    /// </summary>
     public interface ICollisionComponent : IComponent
     {
         public bool CollidesWith(IColliderEntity otherCollider);

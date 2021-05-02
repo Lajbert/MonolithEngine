@@ -2,6 +2,9 @@
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents that an entity has a Trigger component.
+    /// </summary>
     public interface IHasTrigger : IGameObject
     {
         public bool IsDestroyed { get; }

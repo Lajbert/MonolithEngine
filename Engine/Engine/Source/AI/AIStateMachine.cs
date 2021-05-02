@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A simple state machine to change and run AI states
+    /// </summary>
+    /// <typeparam name="T">The type of the entity the state machine belongs to.</typeparam>
     public class AIStateMachine<T> : IComponent, IUpdatableComponent where T : IGameObject
     {
         public Dictionary<Type, AIState<T>> states = new Dictionary<Type, AIState<T>>();

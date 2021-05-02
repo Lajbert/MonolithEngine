@@ -3,6 +3,9 @@ using System;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents a circle collision components
+    /// </summary>
     public class CircleCollisionComponent : AbstractCollisionComponent
     {
         public float Radius;

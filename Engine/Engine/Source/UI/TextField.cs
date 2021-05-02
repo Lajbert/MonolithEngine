@@ -4,6 +4,9 @@ using System;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Displays text on the UI.
+    /// </summary>
     public class TextField : AbstractUIElement
     {
         public SpriteFont Font;

@@ -2,6 +2,11 @@
 
 namespace MonolithEngine
 {
+
+    /// <summary>
+    /// Box trigger implementation: checks whether a point
+    /// is inside the rectangle it defines.
+    /// </summary>
     public class BoxTrigger : AbstractTrigger
     {
         private int x1;

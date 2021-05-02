@@ -2,6 +2,9 @@
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A Transform that has Velocity
+    /// </summary>
     class DynamicTransform : StaticTransform
     {
         public DynamicTransform(IGameObject owner, Vector2 position = default) : base(owner, position)

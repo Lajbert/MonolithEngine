@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents a collection of entities in a game instance. Layers can have entities assigned,
+    /// each layer is updated separately from the other and drawn using it's own SpriteBatch. 
+    /// Layers can be used to display foregroun, background, parallax graphical layers, or to handle
+    /// entities that can logically be grouped together.
+    /// </summary>
     public class Layer
     {
         private List<Entity> activeObjects = new List<Entity>();
@@ -56,13 +62,12 @@ namespace MonolithEngine
             visibleObjects.Sort((a, b) => a.DrawPriority.CompareTo(b.DrawPriority));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void DrawAll(SpriteBatch spriteBatch)
         {
-
-            /*if (!Visible)
-            {
-                return;
-            }*/
 
             if (Visible)
             {

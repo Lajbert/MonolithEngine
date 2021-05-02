@@ -5,6 +5,15 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A class to merge small, individual static textute into one spritemap.
+    /// Extremely useful when a level is imported from a level editor where hundreds or
+    /// thousands of individual texture are assigned to different positions of the map.
+    /// Instead of drawing hundreds or thousands of separate textures, this class merges them
+    /// into one texture and only one Draw() call will be called.
+    /// Also useful when having any entity where the texture is repeated or constructed 
+    /// from several other textures.
+    /// </summary>
     public class TileGroup
     {
 
@@ -21,7 +30,12 @@ namespace MonolithEngine
         {
         }
 
-        public void AddTile(Texture2D texture, Vector2 position)
+        /// <summary>
+        /// Adds a new texture to a specific tile.
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="position"></param>
+        private void AddTile(Texture2D texture, Vector2 position)
         {
             Color[] data = new Color[texture.Width * texture.Height];
             texture.GetData(data);
@@ -30,6 +44,11 @@ namespace MonolithEngine
             height = Math.Max(height, (int)position.Y + Config.GRID);
         }
 
+        /// <summary>
+        /// Adds a new texture (as Color[]) to a specific tile.
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="position"></param>
         public void AddColorData(Color[] data, Vector2 position, BlendMode blendMode = BlendMode.MERGE)
         {
             if (blendMode == BlendMode.MERGE)
@@ -57,6 +76,16 @@ namespace MonolithEngine
             height = Math.Max(height, (int)position.Y + Config.GRID);
         }
 
+        /// <summary>
+        /// When using BlendMode.MERGE, we want the new tile to be on top of the
+        /// existing tile. It basically takes every non-transparent pixel from the new image
+        /// and overwrites the existing pixel on the same position in the existing image.
+        /// Similar to opening 2 images in a text editor, putting one 
+        /// image on top of the other and saving the result as one single image.
+        /// </summary>
+        /// <param name="data1"></param>
+        /// <param name="data2"></param>
+        /// <returns></returns>
         private Color[] MergeTile(Color[] data1, Color[] data2)
         {
             if (data1.Length != data2.Length)
@@ -81,6 +110,10 @@ namespace MonolithEngine
             return result;
         }
 
+        /// <summary>
+        /// Merges and returns the merge texture.
+        /// </summary>
+        /// <returns></returns>
         public Texture2D GetTexture()
         {
             if (texture == null)
@@ -91,6 +124,9 @@ namespace MonolithEngine
             return texture;
         }
 
+        /// <summary>
+        /// Creates the new merged texture from the individual small textures.
+        /// </summary>
         private void Build()
         {
             if (width == 0 || height == 0)
@@ -105,6 +141,11 @@ namespace MonolithEngine
                 texture.SetData(0, new Rectangle((int)tile.Key.X, (int)tile.Key.Y, Config.GRID, Config.GRID), tile.Value, 0, tile.Value.Length);
             }
         }
+
+        /// <summary>
+        /// Defines what we want to do when adding a new texture to an 
+        /// existing position.
+        /// </summary>
         public enum BlendMode
         {
             OVERWRITE,

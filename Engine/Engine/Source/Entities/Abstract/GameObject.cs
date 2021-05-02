@@ -2,6 +2,13 @@
 
 namespace MonolithEngine
 {
+
+    /// <summary>
+    /// Base class for all game entities.
+    /// Each object has a unique ID to make debugging easier
+    /// and make comparisons fast.
+    /// Also, it contains parent-child relationship between objects.
+    /// </summary>
     public abstract class GameObject : IGameObject
     {
         private static int GLOBAL_ID = 0;

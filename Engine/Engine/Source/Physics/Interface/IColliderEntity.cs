@@ -2,6 +2,9 @@
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Interface representing that entity is a collider
+    /// </summary>
     public interface IColliderEntity : IHasTrigger
     {
 

@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Represents a line. 
+    /// WARNING: bad performance, only for debugging purposes!
+    /// </summary>
     public class Line : Entity
     {
         private Vector2 Origin;

@@ -4,6 +4,10 @@ using System;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// An entity class with Velocity, which provides 
+    /// lots of opportunities for physical interactions.
+    /// </summary>
     public class PhysicalEntity : Entity
     {
 
@@ -31,11 +35,6 @@ namespace MonolithEngine
         public float VelocityX {
             get
             {
-                /*if (MountedOn == null)
-                {
-                    return velocity.X;
-                }
-                return MountedOn.Velocity.X + velocity.X;*/
                 return velocity.X;
             }
 
@@ -46,11 +45,6 @@ namespace MonolithEngine
         {
             get
             {
-                /*if (MountedOn == null)
-                {
-                    return velocity.Y;
-                }
-                return MountedOn.Velocity.Y + velocity.Y;*/
                 return velocity.Y;
             }
 
@@ -298,7 +292,7 @@ namespace MonolithEngine
                     }
 
                     SetPosition();
-                    Scene.CollisionEngine.Update(this);
+                    Scene.CollisionEngine.CheckCollisions(this);
 
                     steps--;
 

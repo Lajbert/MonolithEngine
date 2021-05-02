@@ -5,6 +5,14 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+
+    /// <summary>
+    /// Abstract base class of different animation types.
+    /// The core logic of playing animations here, the child
+    /// classes are only responsible to parse different animation
+    /// inputs (spritesheet or sprite from separate image) and to
+    /// provide the next frame and source rectangle.
+    /// </summary>
     public abstract class AbstractAnimation : IAnimation
     {
 
@@ -16,17 +24,29 @@ namespace MonolithEngine
         public float Scale = 1f;
         public Vector2 Offset = Vector2.Zero;
         protected SpriteEffects SpriteEffect { get; set; }
+
         public bool Looping = true;
         public bool Running = false;
+
+        // action to call when the animations ends
         public Action StoppedCallback;
+        // action to call when the animation is starrted
         public Action StartedCallback;
+        // action to call when we switch from one animation to another
+        // (the animation might not be finished before switch to a new one)
         public Action AnimationSwitchCallback;
 
         private bool stopActionCalled = false;
         private bool startActionCalled = false;
 
+        // we will pause the current animation in the current frame when this
+        // condition is true
         public Func<bool> AnimationPauseCondition;
+
+        // this action will be called at every frame of the animation
         public Action<int> EveryFrameAction;
+
+        // actions defined to be called on specific frames
         private Dictionary<int, Action<int>> frameActions = new Dictionary<int, Action<int>>();
 
         public Vector2 Origin;
@@ -62,6 +82,10 @@ namespace MonolithEngine
             return !Running;
         }
 
+        /// <summary>
+        /// Makes a copy of an animation.
+        /// </summary>
+        /// <param name="anim"></param>
         protected void Copy(AbstractAnimation anim)
         {
             anim.Looping = Looping;
@@ -79,6 +103,10 @@ namespace MonolithEngine
             anim.AnimationSwitchCallback = AnimationSwitchCallback;
         }
 
+        /// <summary>
+        /// Drawing the current frame.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public virtual void Play(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(GetTexture(), (Parent.DrawPosition + Offset), SourceRectangle, Color.White, Parent.DrawRotation, Origin, Scale, SpriteEffect, 0f);
@@ -86,6 +114,9 @@ namespace MonolithEngine
 
         internal abstract Texture2D GetTexture();
 
+        /// <summary>
+        /// Determining the next frame, calling different callbacks when needed.
+        /// </summary>
         public void Update()
         {
             if (!Running)

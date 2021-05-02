@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Class to check simple static grid collisions (environmental collisions).
+    /// </summary>
     public class GridCollisionChecker
     {
         private Dictionary<Vector2, StaticCollider> objects = new Dictionary<Vector2, StaticCollider>();
@@ -21,12 +24,21 @@ namespace MonolithEngine
 
         }
 
+        /// <summary>
+        /// Adds a new collider to the grid
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void Add(StaticCollider gameObject)
         {
             objectPositions[gameObject] = gameObject.Transform.GridCoordinates;
             objects.Add(gameObject.Transform.GridCoordinates, gameObject);
         }
 
+        /// <summary>
+        /// Returns the collider from the grid on the current position.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public StaticCollider GetColliderAt(Vector2 position)
         {
             if (!objects.ContainsKey(position))
@@ -47,7 +59,6 @@ namespace MonolithEngine
             {
                 if (objects.ContainsKey(GetGridCoord(entity.Transform.GridCoordinates, direction)) && objects[GetGridCoord(entity.Transform.GridCoordinates, direction)].HasTag(tag)
                     && IsExactCollision(entity, direction))
-                    //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
                      tagCollisionResult.Add(direction);
                 }
@@ -67,7 +78,6 @@ namespace MonolithEngine
             {
                 if (objects.ContainsKey(GetGridCoord(entity.Transform.GridCoordinates, direction))
                     && IsExactCollision(entity, direction))
-                    //&& !objects[GetGridCoord(gridCoord, direction)].IsBlockedFrom(direction))
                 {
                     allCollisionsResult.Add((objects[GetGridCoord(entity.Transform.GridCoordinates, direction)], direction));
                 }
@@ -76,12 +86,15 @@ namespace MonolithEngine
             
         }
 
+        /// <summary>
+        /// Exact collision: whether the next grid coordinate has a collider AND the entity's grid coordinates is greater/small than the 
+        /// configured collision offset.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         private bool IsExactCollision(IGameObject entity, Direction direction)
         {
-            //TODO
-            /*Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Logger.Error("!!!!!!!!!!!!!!!!!!!!! FIX THIS, REMOVE THE CASTING AND CREATE A GRID COLLISION COMPONENT FOR WHATEVER IS COLLIDER ON THE GRID!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Logger.Error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");*/
             if (direction == Direction.WEST)
             {
                 return entity.Transform.InCellLocation.X <= (entity as Entity).GetCollisionOffset(direction);
@@ -135,6 +148,13 @@ namespace MonolithEngine
             throw new Exception("Unknown direction!");
         }
 
+        /// <summary>
+        /// Returns whether this block contains a collider that blocks movement from
+        /// the given direction.
+        /// </summary>
+        /// <param name="gridCoord"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public bool HasBlockingColliderAt(Vector2 gridCoord, Direction direction)
         {
             Vector2 coord = GetGridCoord(gridCoord, direction);

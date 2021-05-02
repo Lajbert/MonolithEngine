@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A class to represent static (environmental) collisions on a level.
+    /// These colliders and not changing their position throughout the game and
+    /// therefore part of a 2D collision grid.
+    /// </summary>
     public class StaticCollider : GameObject
     {
 

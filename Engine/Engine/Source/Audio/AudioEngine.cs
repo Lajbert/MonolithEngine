@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// A very simple audio playback class.
+    /// </summary>
     public class AudioEngine
     {
 

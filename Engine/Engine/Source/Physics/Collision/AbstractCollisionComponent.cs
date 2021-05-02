@@ -3,6 +3,13 @@ using System;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Abstract base class for dynamic collision components that can be
+    /// assigned to entities. It can be used to detect collisions between
+    /// moving objects.
+    /// The collision detection is accurate: checks if the collier shapes
+    /// themselves are intersecting or not.
+    /// </summary>
     public abstract class AbstractCollisionComponent : ICollisionComponent
     {
         protected Vector2 PositionOffset;
@@ -27,7 +34,6 @@ namespace MonolithEngine
 
         public Vector2 Position
         {
-            //get => PositionOffset + (owner as Entity).DrawPosition;
             get => PositionOffset + owner.Transform.Position;
         }
         public bool UniquePerEntity { get; set; }
@@ -42,6 +48,11 @@ namespace MonolithEngine
             UniquePerEntity = true;
         }
 
+        /// <summary>
+        /// Returns whether the 2 collisions components are intersecting or not.
+        /// </summary>
+        /// <param name="otherCollider"></param>
+        /// <returns></returns>
         public abstract bool CollidesWith(IColliderEntity otherCollider);
 
         ColliderType ICollisionComponent.GetType()

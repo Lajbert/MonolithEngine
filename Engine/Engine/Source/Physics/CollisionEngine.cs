@@ -3,6 +3,13 @@ using System.Linq;
 
 namespace MonolithEngine
 {
+
+    /// <summary>
+    /// A class responsible for checking collisions and keeping track of
+    /// the entities' states from collision perspective.
+    /// Does not run on it's own, each entity calls it when it needs collision
+    /// information in it's own loop.
+    /// </summary>
     public class CollisionEngine
     {
 
@@ -22,6 +29,12 @@ namespace MonolithEngine
 
         }
 
+        /// <summary>
+        /// Call this when object's state is changed from collision perspective:
+        /// trigger/collider added/removed, tag added/removed, collision setting
+        /// updated/removed, etc...
+        /// </summary>
+        /// <param name="entity"></param>
         public void OnCollisionProfileChanged(IGameObject entity)
         {
             if (!(entity is IHasTrigger) && !(entity is IColliderEntity))
@@ -34,7 +47,7 @@ namespace MonolithEngine
             }
         }
 
-        public void Update(IColliderEntity thisEntity = null)
+        public void CheckCollisions(IColliderEntity thisEntity = null)
         {
             if (changedObjects.Count == 0 && (entities.Count == 0 || toCheckAgainst.Count == 0 ))
             {

@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonolithEngine
 {
+    /// <summary>
+    /// Base class representing UI elements.
+    /// UI elements move with the camera and are unaffected by the zoom level.
+    /// </summary>
     public abstract class AbstractUIElement : IUIElement
     {
         public IUIElement Parent;
