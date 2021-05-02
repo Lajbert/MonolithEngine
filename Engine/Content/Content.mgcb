@@ -13,19 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin DefaultFont.spritefont
+#begin Fonts/DefaultFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:DefaultFont.spritefont
-
-#begin Fonts/DebugFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Fonts/DebugFont.spritefont
+/build:Fonts/DefaultFont.spritefont
 
 #begin Shaders/Effects/Tutorial.fx
 /importer:EffectImporter

@@ -253,7 +253,9 @@ namespace ForestPlatformerExample
             AudioEngine.AddSound("GostDisappear", "ForestAssets/Audio/sfx_wpn_laser11");
             AudioEngine.AddSound("GostAppear", "ForestAssets/Audio/sfx_wpn_laser11"); 
             AudioEngine.AddSound("RockSplit", "ForestAssets/Audio/sfx_sounds_impact10");
-            //AudioEngine.MuteAll();
+#if DEBUG
+            AudioEngine.MuteAll();
+#endif
 
             Logger.Debug("Loading scenes...");
 
