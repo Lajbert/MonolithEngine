@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace MonolithEngine
 {
@@ -8,7 +9,7 @@ namespace MonolithEngine
     class DynamicTransform : StaticTransform
     {
 
-        PhysicalEntity entity;
+        private PhysicalEntity entity;
 
         public DynamicTransform(IGameObject owner, Vector2 position = default) : base(owner, position)
         {
@@ -19,6 +20,27 @@ namespace MonolithEngine
 
         public override Vector2 Velocity
         {
+            get => velocity;
+
+            set => velocity = value;
+        }
+
+        public override float VelocityX
+        {
+            get => velocity.X;
+
+            set => velocity.X = value;
+        }
+
+        public override float VelocityY
+        {
+            get => velocity.Y;
+
+            set => velocity.Y = value;
+        }
+
+        internal Vector2 InternalVelocity
+        {
             get
             {
                 if (entity.MountedOn == null)
@@ -28,24 +50,32 @@ namespace MonolithEngine
                 return entity.MountedOn.Transform.Velocity + velocity;
             }
 
-            set => velocity= value;
+            set => velocity = value;
         }
 
-        public override float VelocityX
+        internal float InternalVelocityX
         {
             get
             {
-                return velocity.X;
+                if (entity.MountedOn == null)
+                {
+                    return velocity.X;
+                }
+                return entity.MountedOn.Transform.Velocity.X + velocity.X;
             }
 
             set => velocity.X = value;
         }
 
-        public override float VelocityY
+        internal float InternalVelocityY
         {
             get
             {
-                return velocity.Y;
+                if (entity.MountedOn == null)
+                {
+                    return velocity.Y;
+                }
+                return entity.MountedOn.Transform.Velocity.Y + velocity.Y;
             }
 
             set => velocity.Y = value;
