@@ -56,7 +56,7 @@ namespace ForestPlatformerExample
             Animations.Offset = new Vector2(3, -33);
 
             SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotMove"), 12);
-            Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Velocity.X != 0);
+            Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Transform.VelocityX != 0);
 
             void setSpeed(int frame)
             {
@@ -72,7 +72,7 @@ namespace ForestPlatformerExample
             moveLeft.EveryFrameAction = setSpeed;
 
             SpriteSheetAnimation moveRight = moveLeft.CopyFlipped();
-            Animations.RegisterAnimation("MoveRight", moveRight, () => CurrentFaceDirection == Direction.EAST && Velocity.X != 0);
+            Animations.RegisterAnimation("MoveRight", moveRight, () => CurrentFaceDirection == Direction.EAST && Transform.VelocityX != 0);
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
@@ -99,19 +99,19 @@ namespace ForestPlatformerExample
             Animations.RegisterAnimation("DeathRight", deathRight, () => false);
 
             SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotIdle"), 24);
-            Animations.RegisterAnimation("IdleLeft", idleLeft, () => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST);
+            Animations.RegisterAnimation("IdleLeft", idleLeft, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
-            Animations.RegisterAnimation("IdleRight", idleRight, () => Velocity.X == 0 && CurrentFaceDirection == Direction.EAST);
+            Animations.RegisterAnimation("IdleRight", idleRight, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.EAST);
 
             SpriteSheetAnimation fallLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotMove"), 2);
             fallLeft.Looping = true;
             fallLeft.StartFrame = 5;
             fallLeft.EndFrame = 6;
-            Animations.RegisterAnimation("FallLeft", fallLeft, () => Velocity.Y > 0 && !IsOnGround && CurrentFaceDirection == Direction.WEST, 2);
+            Animations.RegisterAnimation("FallLeft", fallLeft, () => Transform.VelocityY > 0 && !IsOnGround && CurrentFaceDirection == Direction.WEST, 2);
 
             SpriteSheetAnimation fallRight = fallLeft.CopyFlipped();
-            Animations.RegisterAnimation("FallRight", fallRight, () => Velocity.Y > 0 && !IsOnGround && CurrentFaceDirection == Direction.EAST, 2);
+            Animations.RegisterAnimation("FallRight", fallRight, () => Transform.VelocityY > 0 && !IsOnGround && CurrentFaceDirection == Direction.EAST, 2);
 
             SetDestroyAnimation(deathRight, Direction.EAST);
             SetDestroyAnimation(deathLeft, Direction.WEST);

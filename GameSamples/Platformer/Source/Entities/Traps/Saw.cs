@@ -39,11 +39,11 @@ namespace ForestPlatformerExample
 
             if (horizontalMovement)
             {
-                VelocityX = Speed;
+                Transform.VelocityX = Speed;
             }
             else
             {
-                VelocityY = Speed;
+                Transform.VelocityY = Speed;
             }
 
             AddComponent(new CircleCollisionComponent(this, 19, new Vector2(sprite.SourceRectangle.Width, sprite.SourceRectangle.Height) * -Pivot));
@@ -60,7 +60,7 @@ namespace ForestPlatformerExample
 
         public void ChangeDirection()
         {
-            Velocity *= -1;
+            Transform.Velocity *= -1;
         }
     }
 }

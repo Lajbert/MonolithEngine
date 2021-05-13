@@ -102,8 +102,8 @@ namespace ForestPlatformerExample
 
         public void Throw(Entity entity, Vector2 force)
         {
-            Velocity = Vector2.Zero;
-            Velocity += force;
+            Transform.Velocity = Vector2.Zero;
+            Transform.Velocity += force;
             Parent = null;
             EnablePhysics();
             FallSpeed = 0;
@@ -129,7 +129,7 @@ namespace ForestPlatformerExample
                 c.Parent = null;
                 c.Active = true;
                 c.Visible = true;
-                c.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1) * 0.3f);
+                c.Transform.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1) * 0.3f);
                 c.SetBump(new Vector2(0, -0.5f));
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
@@ -168,7 +168,7 @@ namespace ForestPlatformerExample
 
         private void Explode()
         {
-            Velocity = Vector2.Zero;
+            Transform.Velocity = Vector2.Zero;
             GravityValue = 0;
             Die();
         }

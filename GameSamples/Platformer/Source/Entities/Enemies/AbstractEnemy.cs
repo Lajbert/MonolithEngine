@@ -35,16 +35,16 @@ namespace ForestPlatformerExample
 
         public virtual void Hit(Direction impactDirection)
         {
-            Velocity = Vector2.Zero;
+            Transform.Velocity = Vector2.Zero;
             Vector2 attackForce = new Vector2(1, -1);
             if (impactDirection == Direction.WEST)
             {
                 attackForce.X *= -1;
-                Velocity += attackForce;
+                Transform.Velocity += attackForce;
             }
             else if (impactDirection == Direction.EAST)
             {
-                Velocity += attackForce;
+                Transform.Velocity += attackForce;
             }
             FallSpeed = 0;
         }

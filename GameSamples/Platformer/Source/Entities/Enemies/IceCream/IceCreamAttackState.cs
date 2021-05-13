@@ -12,7 +12,7 @@ namespace ForestPlatformerExample
 
         public override void Begin()
         {
-            controlledEntity.Velocity = Vector2.Zero;
+            controlledEntity.Transform.Velocity = Vector2.Zero;
         }
 
         public override void End()

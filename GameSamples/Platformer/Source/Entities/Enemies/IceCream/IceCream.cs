@@ -42,10 +42,10 @@ namespace ForestPlatformerExample
             Animations.Offset = new Vector2(3, -33);
 
             SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamIdle"), 23);
-            Animations.RegisterAnimation("IdleLeft", idleLeft, () => CurrentFaceDirection == Direction.WEST && Velocity.X == 0);
+            Animations.RegisterAnimation("IdleLeft", idleLeft, () => CurrentFaceDirection == Direction.WEST && Transform.VelocityX == 0);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
-            Animations.RegisterAnimation("IdleRight", idleRight, () => CurrentFaceDirection == Direction.EAST && Velocity.X == 0);
+            Animations.RegisterAnimation("IdleRight", idleRight, () => CurrentFaceDirection == Direction.EAST && Transform.VelocityX == 0);
 
             SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamHurt"), 24);
             hurtLeft.Looping = false;
@@ -76,10 +76,10 @@ namespace ForestPlatformerExample
                     CurrentSpeed = 0.001f;
                 }
             };
-            Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Velocity.X != 0);
+            Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Transform.VelocityX != 0);
 
             SpriteSheetAnimation moveRight = moveLeft.CopyFlipped();
-            Animations.RegisterAnimation("MoveRight", moveRight, () => CurrentFaceDirection == Direction.EAST && Velocity.X != 0);
+            Animations.RegisterAnimation("MoveRight", moveRight, () => CurrentFaceDirection == Direction.EAST && Transform.VelocityX != 0);
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 

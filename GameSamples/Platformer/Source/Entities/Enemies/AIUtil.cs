@@ -26,7 +26,7 @@ namespace ForestPlatformerExample
 
         public static void Patrol(bool checkCollisions, AbstractEnemy enemy, float waitingTime = 0f)
         {
-            if (enemy.Velocity.Y > 0)
+            if (enemy.Transform.VelocityY > 0)
             {
                 return;
             }
@@ -36,7 +36,7 @@ namespace ForestPlatformerExample
                 if (waitingTime > 0 && !changeDirectionAllowed)
                 {
                     Timer.SetTimer("CARROT_WAIT" + enemy.GetID(), waitingTime);
-                    enemy.Velocity = Vector2.Zero;
+                    enemy.Transform.Velocity = Vector2.Zero;
                     changeDirectionAllowed = true;
                 }
                 if (enemy.CurrentFaceDirection == Direction.WEST)
@@ -61,7 +61,7 @@ namespace ForestPlatformerExample
             if (!Timer.IsSet("CARROT_WAIT" + enemy.GetID()))
             {
                 enemy.CurrentFaceDirection = newFaceDirection;
-                enemy.VelocityX += enemy.CurrentSpeed * enemy.MoveDirection * Globals.FixedUpdateMultiplier;
+                enemy.Transform.VelocityX += enemy.CurrentSpeed * enemy.MoveDirection * Globals.FixedUpdateMultiplier;
                 changeDirectionAllowed = false;
             }
         }

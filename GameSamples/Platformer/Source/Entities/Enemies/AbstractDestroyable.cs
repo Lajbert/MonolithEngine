@@ -33,7 +33,7 @@ namespace ForestPlatformerExample
                 }
                 CheckGridCollisions = false;
                 RemoveCollisions();
-                Velocity += bump;
+                Transform.Velocity += bump;
                 Timer.TriggerAfter(3000, Destroy);
             }
             else

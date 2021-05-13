@@ -17,5 +17,7 @@ namespace MonolithEngine
         {
             get => throw new NotImplementedException(); set => throw new NotImplementedException();
         }
+        public override float VelocityX { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override float VelocityY { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

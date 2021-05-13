@@ -17,6 +17,10 @@ namespace MonolithEngine
 
         public abstract Vector2 Velocity { get; set; }
 
+        public abstract float VelocityX { get; set; }
+
+        public abstract float VelocityY { get; set; }
+
         public float Rotation { get; set; }
 
         internal Vector2 PositionWithoutParent;

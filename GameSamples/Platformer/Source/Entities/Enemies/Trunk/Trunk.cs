@@ -43,16 +43,16 @@ namespace ForestPlatformerExample
 
             SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkIdle"), 64, 32, 24);
             idleLeft.Looping = true;
-            Animations.RegisterAnimation("IdleLeft", idleLeft, () => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST);
+            Animations.RegisterAnimation("IdleLeft", idleLeft, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
-            Animations.RegisterAnimation("IdleRight", idleRight, () => Velocity.X == 0 && CurrentFaceDirection == Direction.EAST);
+            Animations.RegisterAnimation("IdleRight", idleRight, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.EAST);
 
             SpriteSheetAnimation runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkRun"), 64, 32, 24);
-            Animations.RegisterAnimation("RunLeft", runLeft, () => Velocity.X < 0);
+            Animations.RegisterAnimation("RunLeft", runLeft, () => Transform.VelocityX < 0);
 
             SpriteSheetAnimation runRight = runLeft.CopyFlipped();
-            Animations.RegisterAnimation("RunRight", runRight, () => Velocity.X > 0);
+            Animations.RegisterAnimation("RunRight", runRight, () => Transform.VelocityX > 0);
 
             SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkAttack"),  64, 32, 24);
             attackLeft.AddFrameAction(8, (frame) => {

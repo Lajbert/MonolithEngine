@@ -25,7 +25,7 @@ namespace ForestPlatformerExample
             HorizontalFriction = 0;
             VerticalFriction = 0;
             HasGravity = false;
-            Velocity = speed;
+            Transform.Velocity = speed;
             Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(position);
             Transform.InCellLocation = MathUtil.CalculateInCellLocation(position);
 

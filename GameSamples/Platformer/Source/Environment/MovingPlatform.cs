@@ -22,8 +22,8 @@ namespace ForestPlatformerExample
             HorizontalFriction = 0f;
             VerticalFriction = 0f;
             BumpFriction = 0f;
-            VelocityX = speedX * directionX;
-            VelocityY = speedY * directionY;
+            Transform.VelocityX = speedX * directionX;
+            Transform.VelocityY = speedY * directionY;
             //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
             //new Sprite(this, Assets.GetTexture("ForestTileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
             AddComponent(new BoxCollisionComponent(this, width, height));
@@ -73,8 +73,8 @@ namespace ForestPlatformerExample
                     speedX = 0;
                     speedY = SPEED;
                 }
-                VelocityX = speedX * directionX;
-                VelocityY = speedY * directionY;
+                Transform.VelocityX = speedX * directionX;
+                Transform.VelocityY = speedY * directionY;
             }
             
             base.OnCollisionStart(otherCollider);

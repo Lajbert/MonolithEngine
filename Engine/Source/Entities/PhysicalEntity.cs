@@ -5,7 +5,7 @@ using System;
 namespace MonolithEngine
 {
     /// <summary>
-    /// An entity class with Velocity, which provides 
+    /// An entity class with velocity, which provides 
     /// lots of opportunities for physical interactions.
     /// </summary>
     public class PhysicalEntity : Entity
@@ -16,40 +16,6 @@ namespace MonolithEngine
         private bool keepBouncing = false;
 
         protected UserInputController UserInput;
-
-        private Vector2 velocity = Vector2.Zero;
-
-        public Vector2 Velocity
-        {
-            get {
-                if (mountedOn == null)
-                {
-                    return velocity;
-                }
-                return mountedOn.Velocity + velocity;
-            }
-
-            set => velocity = value;
-        }
-
-        public float VelocityX {
-            get
-            {
-                return velocity.X;
-            }
-
-            set => velocity.X = value;
-        }
-
-        public float VelocityY
-        {
-            get
-            {
-                return velocity.Y;
-            }
-
-            set => velocity.Y = value;
-        }
 
         public bool IsOnGround;
 
@@ -67,7 +33,7 @@ namespace MonolithEngine
 
         private Texture2D colliderMarker;
 
-        private PhysicalEntity mountedOn = null;
+        internal PhysicalEntity MountedOn = null;
 
         private PhysicalEntity leftCollider = null;
         private PhysicalEntity rightCollider = null;
@@ -98,7 +64,7 @@ namespace MonolithEngine
             ICollisionComponent collisionComponent = GetComponent<ICollisionComponent>();
             if (DEBUG_SHOW_PIVOT)
             {
-                //spriteBatch.DrawString(font, "Y: " + Velocity.Y, DrawPosition, Color.White);
+                //spriteBatch.DrawString(font, "Y: " + Transform.VelocityY, DrawPosition, Color.White);
             }
 
             if (DEBUG_SHOW_COLLIDER && collisionComponent != null)
@@ -162,9 +128,9 @@ namespace MonolithEngine
         {
             CollidesOnGrid = false;
 
-            if (Velocity != Vector2.Zero)
+            if (Transform.Velocity != Vector2.Zero)
             {
-                Velocity.Normalize();
+                Transform.Velocity.Normalize();
             }
 
             previousPosition = Transform.Position;
@@ -173,31 +139,31 @@ namespace MonolithEngine
 
             if (leftCollider != null)
             {
-                if (leftCollider.Velocity.X != 0)
+                if (leftCollider.Transform.VelocityX != 0)
                 {
-                    if (Velocity.X >= 0)
+                    if (Transform.VelocityX >= 0)
                     {
-                        VelocityX = leftCollider.Velocity.X * (float)(1 / Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier));
+                        Transform.VelocityX = leftCollider.Transform.VelocityX * (float)(1 / Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier));
                     }
                 }
-                else if (Velocity.X < 0)
+                else if (Transform.VelocityX < 0)
                 {
-                    VelocityX = 0;
+                    Transform.VelocityX = 0;
                 }
             }
 
             if (rightCollider != null)
             {
-                if (rightCollider.Velocity.X != 0)
+                if (rightCollider.Transform.VelocityX != 0)
                 {
-                    if (Velocity.X <= 0)
+                    if (Transform.VelocityX <= 0)
                     {
-                        VelocityX = rightCollider.Velocity.X * (float)(1 / Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier));
+                        Transform.VelocityX = rightCollider.Transform.VelocityX * (float)(1 / Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier));
                     }
                 }
-                else if (Velocity.X > 0)
+                else if (Transform.VelocityX > 0)
                 {
-                    VelocityX = 0;
+                    Transform.VelocityX = 0;
                 }
             }
 
@@ -215,12 +181,12 @@ namespace MonolithEngine
                 FallSpeed = 0;
             }
 
-            float steps = (float)(Math.Ceiling(Math.Abs((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) + (Math.Abs((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier))) / Config.DYNAMIC_COLLISION_CHECK_FREQUENCY);
+            float steps = (float)(Math.Ceiling(Math.Abs((Transform.VelocityX + bump.X) * Globals.FixedUpdateMultiplier) + (Math.Abs((Transform.VelocityY + bump.Y) * Globals.FixedUpdateMultiplier))) / Config.DYNAMIC_COLLISION_CHECK_FREQUENCY);
             IsCollisionCheckedInCurrentLoop = steps > 0;
             if (steps > 0)
             {
-                stepX = (float)((Velocity.X + bump.X) * Globals.FixedUpdateMultiplier) / steps;
-                stepY = (float)((Velocity.Y + bump.Y) * Globals.FixedUpdateMultiplier) / steps;
+                stepX = (float)((Transform.VelocityX + bump.X) * Globals.FixedUpdateMultiplier) / steps;
+                stepY = (float)((Transform.VelocityY + bump.Y) * Globals.FixedUpdateMultiplier) / steps;
 
                 while (steps > 0)
                 {
@@ -253,16 +219,16 @@ namespace MonolithEngine
 
                     Transform.InCellLocation.Y += stepY;
 
-                    if (mountedOn == null && CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Velocity.Y > 0*/)
+                    if (MountedOn == null && CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Transform.VelocityY > 0*/)
                     {
                         //if (HasGravity)
                         {
-                            if (Velocity.Y > 0)
+                            if (Transform.VelocityY > 0)
                             {
-                                OnLand(Velocity);
+                                OnLand(Transform.Velocity);
                             }
 
-                            velocity.Y = 0;
+                            Transform.VelocityY = 0;
                             if (!keepBouncing)
                             {
                                 bump.Y = 0;
@@ -274,7 +240,7 @@ namespace MonolithEngine
 
                     if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
                     {
-                        velocity.Y = 0;
+                        Transform.VelocityY = 0;
                         bump.Y = 0;
                         Transform.InCellLocation.Y = CollisionOffsetTop;
                         CollidesOnGrid = true;
@@ -306,7 +272,7 @@ namespace MonolithEngine
 
             if (HorizontalFriction > 0)
             {
-                velocity.X *= (float)Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier);
+                Transform.VelocityX *= (float)Math.Pow(HorizontalFriction, Globals.FixedUpdateMultiplier);
             }
 
             if (BumpFriction > 0)
@@ -316,12 +282,12 @@ namespace MonolithEngine
 
 
             //rounding stuff
-            if (Math.Abs(Velocity.X) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.X = 0;
+            if (Math.Abs(Transform.VelocityX) <= 0.0005 * Globals.FixedUpdateMultiplier) Transform.VelocityX = 0;
             if (Math.Abs(bump.X) <= 0.0005 * Globals.FixedUpdateMultiplier) bump.X = 0;
 
             if (VerticalFriction > 0)
             {
-                velocity.Y *= (float)Math.Pow(VerticalFriction, Globals.FixedUpdateMultiplier);
+                Transform.VelocityY *= (float)Math.Pow(VerticalFriction, Globals.FixedUpdateMultiplier);
             }
             if (BumpFriction > 0)
             {
@@ -329,7 +295,7 @@ namespace MonolithEngine
             }
 
             //rounding stuff
-            if (Math.Abs(Velocity.Y) <= 0.0005 * Globals.FixedUpdateMultiplier) velocity.Y = 0;
+            if (Math.Abs(Transform.VelocityY) <= 0.0005 * Globals.FixedUpdateMultiplier) Transform.VelocityY = 0;
             if (Math.Abs(bump.Y) <= 0.1 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
             SetPosition();
@@ -350,11 +316,11 @@ namespace MonolithEngine
             if (Config.INCREASING_GRAVITY)
             {
                 float t = (float)(Globals.GameTime.TotalGameTime.TotalSeconds - FallSpeed) * Config.GRAVITY_T_MULTIPLIER;
-                velocity.Y += GravityValue * t * Globals.FixedUpdateMultiplier;
+                Transform.VelocityY += GravityValue * t * Globals.FixedUpdateMultiplier;
             }
             else
             {
-                velocity.Y += GravityValue * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                Transform.VelocityY += GravityValue * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
             }
         }
 
@@ -367,7 +333,7 @@ namespace MonolithEngine
 
         private bool OnGround()
         {
-            bool onGround = mountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Velocity.Y >= 0;
+            bool onGround = MountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Transform.VelocityY >= 0;
             if (!onGround && IsOnGround)
             {
                 OnLeaveGround();
@@ -414,12 +380,12 @@ namespace MonolithEngine
 
                     if (yOverlap != 0 && yOverlap < xOverlap && thisBox.Position.Y < otherBox.Position.Y)
                     {
-                        if (yOverlap > 0 && !OnGround() && velocity.Y > 0)
+                        if (yOverlap > 0 && !OnGround() && Transform.VelocityY > 0)
                         {
                             stepY = 0;
-                            OnLand(Velocity);
-                            VelocityY = 0;
-                            mountedOn = otherCollider as PhysicalEntity;
+                            OnLand(Transform.Velocity);
+                            Transform.VelocityY = 0;
+                            MountedOn = otherCollider as PhysicalEntity;
                             bump = Vector2.Zero;
                             FallSpeed = 0;
                             Transform.Y -= yOverlap;
@@ -429,20 +395,20 @@ namespace MonolithEngine
                     } 
                     else if (xOverlap > 0 && xOverlap < yOverlap)
                     {
-                        if (Velocity.X > 0)
+                        if (Transform.VelocityX > 0)
                         {
                             stepX = 0;
-                            VelocityX = 0;
+                            Transform.VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
                             Transform.X -= xOverlap;
                             Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
                             Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
                         }
 
-                        if (Velocity.X < 0)
+                        if (Transform.VelocityX < 0)
                         {
                             stepX = 0;
-                            VelocityX = 0;
+                            Transform.VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
                             Transform.X += xOverlap;
                             Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
@@ -463,10 +429,10 @@ namespace MonolithEngine
 
         internal sealed override void HandleCollisionEnd(IGameObject otherCollider)
         {
-            if (mountedOn != null && otherCollider.Equals(mountedOn))
+            if (MountedOn != null && otherCollider.Equals(MountedOn))
             {
-                Velocity += mountedOn.Velocity;
-                mountedOn = null;
+                Transform.Velocity += MountedOn.Transform.Velocity;
+                MountedOn = null;
             }
 
             if (leftCollider != null && otherCollider.Equals(leftCollider)) {
@@ -500,45 +466,45 @@ namespace MonolithEngine
         public override void Destroy()
         {
             CheckGridCollisions = false;
-            Velocity = Vector2.Zero;
+            Transform.Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             base.Destroy();
         }
 
         public bool IsMovingAtLeast(float speed)
         {
-            return Math.Abs(Velocity.X) >= speed || Math.Abs(Velocity.Y) >= speed;
+            return Math.Abs(Transform.VelocityX) >= speed || Math.Abs(Transform.VelocityY) >= speed;
         }
 
         public Vector2 GetVelocity()
         {
-            return Velocity;
+            return Transform.Velocity;
         }
 
         public void AddForce(Vector2 force)
         {
-            Velocity += force;
+            Transform.Velocity += force;
         }
         
 
         public void SetVelocity(Vector2 velocity)
         {
-            Velocity = velocity;
+            Transform.Velocity = velocity;
         }
 
         public void AddVelocity(Vector2 velocity)
         {
-            Velocity += velocity;
+            Transform.Velocity += velocity;
         }
 
         public bool IsAtRest()
         {
-            return Velocity == Vector2.Zero && bump == Vector2.Zero;
+            return Transform.Velocity == Vector2.Zero && bump == Vector2.Zero;
         }
 
         public void CancelVelocities()
         {
-            Velocity = Vector2.Zero;
+            Transform.Velocity = Vector2.Zero;
             bump = Vector2.Zero;
             stepX = 0;
             stepY = 0;

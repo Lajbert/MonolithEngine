@@ -88,10 +88,10 @@ namespace ForestPlatformerExample
                 collisionComponent = new CircleCollisionComponent(this, 8, drawOffset + collisionOffset);
             }
 
-            bool isRunningLeft() => Velocity.X != 0 && CurrentFaceDirection == Direction.WEST;
-            bool isRunningRight() => Velocity.X != 0 && CurrentFaceDirection == Direction.EAST;
-            bool isIdleLeft() => Velocity.X == 0 && CurrentFaceDirection == Direction.WEST;
-            bool isIdleRight() => Velocity.X == 0 && CurrentFaceDirection == Direction.EAST;
+            bool isRunningLeft() => Transform.VelocityX != 0 && CurrentFaceDirection == Direction.WEST;
+            bool isRunningRight() => Transform.VelocityX != 0 && CurrentFaceDirection == Direction.EAST;
+            bool isIdleLeft() => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.WEST;
+            bool isIdleRight() => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.EAST;
 
             hitLeft.Looping = false;
             hitRight.Looping = false;
@@ -131,25 +131,25 @@ namespace ForestPlatformerExample
                 if (size == RockSize.BIG)
                 {
                     Rock r1 = new Rock(Scene, Transform.Position, RockSize.MEDIUM, Direction.WEST);
-                    r1.Velocity += new Vector2(-1, -0.5f);
+                    r1.Transform.Velocity += new Vector2(-1, -0.5f);
                     Rock r2 = new Rock(Scene, Transform.Position, RockSize.MEDIUM, Direction.EAST);
-                    r2.Velocity += new Vector2(1, -0.5f);
+                    r2.Transform.Velocity += new Vector2(1, -0.5f);
                     AudioEngine.Play("RockSplit");
                     Destroy();
                 }
                 else if (size == RockSize.MEDIUM)
                 {
                     Rock r1 = new Rock(Scene, Transform.Position, RockSize.SMALL, Direction.WEST);
-                    r1.Velocity += new Vector2(-1, -0.5f);
+                    r1.Transform.Velocity += new Vector2(-1, -0.5f);
                     Rock r2 = new Rock(Scene, Transform.Position, RockSize.SMALL, Direction.EAST);
-                    r2.Velocity += new Vector2(1, -0.5f);
+                    r2.Transform.Velocity += new Vector2(1, -0.5f);
                     AudioEngine.Play("RockSplit");
                     Destroy();
                 }
                 else
                 {
                     AudioEngine.Play("TrunkHit");
-                    Velocity /= 3;
+                    Transform.Velocity /= 3;
                     CurrentSpeed = DefaultSpeed;
                     Die();
                 }
