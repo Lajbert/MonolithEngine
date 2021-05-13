@@ -56,6 +56,8 @@ namespace ForestPlatformerExample
 
         private bool levelEndReached = false;
 
+        private Random random;
+
         public bool LevelEndReached
         {
             get
@@ -109,6 +111,8 @@ namespace ForestPlatformerExample
             DrawPriority = 0;
 
             LastSpawnPoint = position;
+
+            random = new Random();
 
             AddCollisionAgainst("Interactive");
             AddCollisionAgainst("Enemy");
@@ -828,7 +832,7 @@ namespace ForestPlatformerExample
                 FallSpeed = 0f;
                 float posDiff = fan.Transform.Y - Transform.Y;
                 float updraft = MathHelper.Lerp(0.5f, 0, (float)(posDiff / fan.ForceFieldHeight));
-                if (MyRandom.Between(0, 10) % 2 == 0)
+                if (random.Next(0, 11) % 2 == 0)
                 {
                     updraft = 0;
                 }

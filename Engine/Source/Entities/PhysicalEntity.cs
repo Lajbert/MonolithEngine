@@ -19,8 +19,8 @@ namespace MonolithEngine
 
         public bool IsOnGround;
 
-        protected float HorizontalFriction = Config.HORIZONTAL_FRICTION;
-        protected float VerticalFriction = Config.VERTICAL_FRICTION;
+        public float HorizontalFriction = Config.HORIZONTAL_FRICTION;
+        public float VerticalFriction = Config.VERTICAL_FRICTION;
         protected float BumpFriction = Config.BUMP_FRICTION;
 
         protected float MovementSpeed = Config.CHARACTER_SPEED;

@@ -58,11 +58,11 @@ namespace ForestPlatformerExample
             boxDestroy.Looping = false;
             SetDestroyAnimation(boxDestroy);
 
-            int numOfCoins = MyRandom.Between(3, 6);
+            int numOfCoins = random.Next(3, 7);
             for (int i = 0; i < numOfCoins; i++)
             {
 
-                Coin c = new Coin(Scene, new Vector2(-8, -20), 3, friction: (float)MyRandom.Between(57, 63) / (float)100)
+                Coin c = new Coin(Scene, new Vector2(-8, -20), 3, friction: (float)random.Next(57, 64) / (float)100)
                 {
                     Parent = this,
                     Visible = false,
@@ -129,7 +129,7 @@ namespace ForestPlatformerExample
                 c.Parent = null;
                 c.Active = true;
                 c.Visible = true;
-                c.Transform.Velocity += new Vector2(MyRandom.Between(-2, 2), MyRandom.Between(-5, -1) * 0.3f);
+                c.Transform.Velocity += new Vector2(random.Next(-2, 4), random.Next(-5, 0) * 0.3f);
                 c.SetBump(new Vector2(0, -0.5f));
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }

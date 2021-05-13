@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonolithEngine;
+using System;
 
 namespace ForestPlatformerExample
 {
@@ -12,9 +13,11 @@ namespace ForestPlatformerExample
 
         private bool hasDestroyAnimation = false;
 
+        protected Random random;
+
         public AbstractDestroyable(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
-
+            random = new Random();
         }
 
         public virtual void Die()
@@ -23,7 +26,7 @@ namespace ForestPlatformerExample
             {
                 HorizontalFriction = .99f;
                 VerticalFriction = .99f;
-                int rand = MyRandom.Between(0, 10);
+                int rand = random.Next(0, 11);
                 Vector2 bump = new Vector2(0.1f, -0.1f);
                 RotationRate = 0.1f;
                 if (rand % 2 == 0)

@@ -53,7 +53,7 @@ namespace ForestPlatformerExample
 
                 health = 1;
 
-                CurrentSpeed = (float)MyRandom.Between(8, 10) / 100f;
+                CurrentSpeed = (float)random.Next(8, 11) / 100f;
 
                 runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock2Run"), 32, 28, 24);
                 runRight = runLeft.CopyFlipped();
@@ -72,7 +72,7 @@ namespace ForestPlatformerExample
             {
                 health = 0;
 
-                CurrentSpeed = (float)MyRandom.Between(12, 15) / 100f;
+                CurrentSpeed = (float)random.Next(12, 16) / 100f;
 
                 runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock3Run"), 22, 18, 24);
                 runRight = runLeft.CopyFlipped();

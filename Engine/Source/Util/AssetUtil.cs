@@ -16,6 +16,8 @@ namespace MonolithEngine
 
         private static Dictionary<RectangleKey, Texture2D> rectangleCache = new Dictionary<RectangleKey, Texture2D>();
 
+        private static Random random = new Random();
+
         public static Texture2D CreateCircle(int diameter, Color color, bool filled = false)
         {
             Texture2D texture = new Texture2D(GraphicsDeviceManager.GraphicsDevice, diameter, diameter);
@@ -181,7 +183,7 @@ namespace MonolithEngine
 
         public static  Color GetRandomColor()
         {
-            return Color.FromNonPremultiplied(MyRandom.Between(0, 256), MyRandom.Between(0, 256), MyRandom.Between(0, 256), 256);
+            return Color.FromNonPremultiplied(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256), 256);
         }
 
         private class RectangleKey

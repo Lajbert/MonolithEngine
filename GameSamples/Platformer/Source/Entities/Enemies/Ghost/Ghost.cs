@@ -61,7 +61,7 @@ namespace ForestPlatformerExample
 
             AddComponent(new BoxCollisionComponent(this, 25, 25, new Vector2(-12, -12)));
 
-            Timer.TriggerAfter(MyRandom.Between(0, APPEAR_DISAPPEAR_TIMEOUT), Disappear);
+            Timer.TriggerAfter(random.Next(0, APPEAR_DISAPPEAR_TIMEOUT), Disappear);
         }
 
         private void Appear()
