@@ -92,7 +92,7 @@ If there will be a community around the engine, I will make it possible to reque
 
 # Any chances of 3D support?
 Unlikely. This engine was designed specifically for 2D development and making it 3D would be such a big work that I'd rather write a new engine from scratch.
-I am aware 2D and 3D development are similar in many ways, but also different enough that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use. 2.5D support may not be completely out of question, but not in the near future.
+I am aware 2D and 3D development are similar in many ways, but also different enough that I decide to design my engine specifically for 2D to get the best possible 2D performance and easy, logical use.
 
 # Do you provide support for the engine?
 I can't. It's a hobby project currently and I don't have the means to do it. If something is seriously broken, or could be done better than I do, please contact me as it's also in my best interest to get it fixed.
