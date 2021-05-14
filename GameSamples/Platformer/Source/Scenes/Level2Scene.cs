@@ -70,7 +70,7 @@ namespace ForestPlatformerExample
 
         public override void OnFinished()
         {
-            SceneManager.StartScene("EndScene");
+            SceneManager.LoadScene("EndScene");
         }
     }
 }
