@@ -99,7 +99,10 @@ namespace MonolithEngine
 
         public override void Update()
         {
-
+            if (MountedOn != null)
+            {
+                PositionEntity(MountedOn, false);
+            }
             if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == VideoConfiguration.FRAME_LIMIT || Config.FIXED_UPDATE_FPS == 0)
             {
                 DrawPosition = Transform.Position;

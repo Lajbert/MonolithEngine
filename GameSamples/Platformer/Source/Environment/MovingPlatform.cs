@@ -17,6 +17,7 @@ namespace ForestPlatformerExample
 
         public MovingPlatform(AbstractScene scene, Vector2 startPosition, int width, int height) : base(scene.LayerManager.EntityLayer, null, startPosition)
         {
+            CheckGridCollisions = false;
             HasGravity = false;
             Active = true;
             HorizontalFriction = 0f;

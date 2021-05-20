@@ -19,7 +19,7 @@ namespace ForestPlatformerExample
         public void LoadEntities(AbstractScene scene, string levelID)
         {
             Vector2 heroPosition = Vector2.Zero;
-            List<(Vector2, Direction)> movingPlatforms = new List<(Vector2, Direction)>();
+            List<(Vector2, int, int)> movingPlatforms = new List<(Vector2, int, int)>();
 
             foreach (EntityInstance entity in world.ParseLevel(scene, levelID))
             {
@@ -31,6 +31,7 @@ namespace ForestPlatformerExample
                 if (entity.Identifier.Equals("Hero"))
                 {
                     heroPosition = position;
+                    hero = new Hero(scene, heroPosition);
                 }
                 else if (entity.Identifier.Equals("Coin"))
                 {
@@ -47,7 +48,7 @@ namespace ForestPlatformerExample
                 }
                 else if (entity.Identifier.Equals("MovingPlatform"))
                 {
-                    new MovingPlatform(scene, position, (int)entity.Width, (int)entity.Height);
+                    movingPlatforms.Add((position, (int)entity.Width, (int)entity.Height));
                 }
                 else if (entity.Identifier.Equals("Spring"))
                 {
@@ -79,8 +80,9 @@ namespace ForestPlatformerExample
                         {
                             dir = Enum.Parse(typeof(Direction), field.Value);
                         }
+
+                        new MovingPlatformTurner(scene, position, dir);
                     }
-                    movingPlatforms.Add((position, dir));
                 }
                 else if (entity.Identifier.Equals("SlideWall"))
                 {
@@ -202,6 +204,11 @@ namespace ForestPlatformerExample
                 }
             }
 
+            foreach ((Vector2, int, int) mp in movingPlatforms)
+            {
+                new MovingPlatform(scene, mp.Item1, mp.Item2, mp.Item3);
+            }
+
 #if DEBUG
            /* PhysicalEntity collisionTest = new PhysicalEntity(scene.LayerManager.EntityLayer, null, new Vector2(17, 37) * Config.GRID)
             {
@@ -213,12 +220,6 @@ namespace ForestPlatformerExample
             collisionTest.AddComponent(new BoxCollisionComponent(collisionTest, 64, 64, Vector2.Zero));
             (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;*/
 #endif
-
-            hero = new Hero(scene, heroPosition);
-            foreach ((Vector2, Direction) prop in movingPlatforms)
-            {
-                new MovingPlatformTurner(scene, prop.Item1, prop.Item2);
-            }
 
         }
 

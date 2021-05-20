@@ -205,7 +205,7 @@ namespace MonolithEngine
         /// <summary>
         /// The default ViewMatrix of the camera based on the position and zoom. 
         /// </summary>
-        public Matrix ViewMatrix
+        public Matrix WorldTranformMatrix
         {
             get
             {
@@ -220,7 +220,7 @@ namespace MonolithEngine
         {
             if (limits.HasValue)
             {
-                Vector2 cameraWorldMin = Vector2.Transform(Vector2.Zero, Matrix.Invert(ViewMatrix));
+                Vector2 cameraWorldMin = Vector2.Transform(Vector2.Zero, Matrix.Invert(WorldTranformMatrix));
                 Vector2 cameraSize = new Vector2(viewport.Width, viewport.Height) / zoom;
                 Vector2 limitWorldMin = new Vector2(limits.Value.Left, limits.Value.Top);
                 Vector2 limitWorldMax = new Vector2(limits.Value.Right, limits.Value.Bottom);
@@ -256,10 +256,10 @@ namespace MonolithEngine
         /// <param name="scrollSpeedModifier">The scroll speed modifier for parallax backgrounds</param>
         /// <param name="lockY">'true' if we want to lock the scrolling of the Y axis</param>
         /// <returns></returns>
-        public Matrix GetTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)
+        public Matrix GetWorldTransformMatrix(float scrollSpeedModifier = 1f, bool lockY = false)
         {
             this.scrollSpeedModifier = scrollSpeedModifier;
-            return ViewMatrix;
+            return WorldTranformMatrix;
         }
     }
 }

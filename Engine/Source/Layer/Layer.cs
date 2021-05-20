@@ -80,7 +80,7 @@ namespace MonolithEngine
                     });
                 }
 
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Scene.Camera.GetTransformMatrix(scrollSpeedModifier, lockY));
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Scene.Camera.GetWorldTransformMatrix(scrollSpeedModifier, lockY));
 
                 foreach (Entity entity in visibleObjects)
                 {
