@@ -191,7 +191,7 @@ namespace MonolithEngine
 			line.Clear();
 			Bresenham.GetLine(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), line);
 			canRayPass = Bresenham.CanLinePass(Parent.Transform.Position + new Vector2(0, -16), other.Transform.Position + new Vector2(0, -16), (x, y) => {
-				return Scene.GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID), Direction.CENTER);
+				return Scene.GridCollisionChecker.HasBlockingColliderAt(new Vector2(x / Config.GRID, y / Config.GRID));
 			});
 		}
 

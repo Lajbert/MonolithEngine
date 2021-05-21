@@ -13,13 +13,13 @@ namespace ForestPlatformerExample
         {
             if (enemy.CurrentFaceDirection == Direction.WEST)
             {
-                StaticCollider southWestCollider = enemy.Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetLeftBelowGrid(enemy.Transform.GridCoordinates));
-                return enemy.Scene.GridCollisionChecker.HasBlockingColliderAt(enemy.Transform.GridCoordinates, Direction.WEST) || southWestCollider == null || !southWestCollider.BlocksMovementFrom(Direction.SOUTH);
+                StaticCollider southWestCollider = enemy.Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetLeftBelowGrid(enemy));
+                return enemy.Scene.GridCollisionChecker.HasBlockingColliderAt(enemy, Direction.WEST) || southWestCollider == null || !southWestCollider.BlocksMovementFrom(Direction.SOUTH);
             }
             else if (enemy.CurrentFaceDirection == Direction.EAST)
             {
-                StaticCollider southEastCollider = enemy.Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetRightBelowGrid(enemy.Transform.GridCoordinates));
-                return enemy.Scene.GridCollisionChecker.HasBlockingColliderAt(enemy.Transform.GridCoordinates, Direction.EAST) || southEastCollider == null || !southEastCollider.BlocksMovementFrom(Direction.SOUTH);
+                StaticCollider southEastCollider = enemy.Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetRightBelowGrid(enemy));
+                return enemy.Scene.GridCollisionChecker.HasBlockingColliderAt(enemy, Direction.EAST) || southEastCollider == null || !southEastCollider.BlocksMovementFrom(Direction.SOUTH);
             }
             throw new Exception("Wrong CurrentFaceDirection for enemy!");
         }

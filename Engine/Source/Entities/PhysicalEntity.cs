@@ -45,7 +45,7 @@ namespace MonolithEngine
         private float stepX;
         private float stepY;
 
-        protected bool CollidesOnGrid = false;
+        protected bool CollidesOnGrid { get; private set; }
 
         private new DynamicTransform Transform;
 
@@ -99,10 +99,6 @@ namespace MonolithEngine
 
         public override void Update()
         {
-            if (MountedOn != null)
-            {
-                PositionEntity(MountedOn, false);
-            }
             if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == VideoConfiguration.FRAME_LIMIT || Config.FIXED_UPDATE_FPS == 0)
             {
                 DrawPosition = Transform.Position;
@@ -139,7 +135,14 @@ namespace MonolithEngine
                 Transform.InternalVelocity.Normalize();
             }
 
-            previousPosition = Transform.Position;
+            if (Parent == null)
+            {
+                previousPosition = Transform.Position;
+            }
+            else
+            {
+                previousPosition = (Parent as PhysicalEntity).previousPosition + Transform.PositionWithoutParent;
+            }
 
             previousRotation = Transform.Rotation;
 
@@ -196,15 +199,16 @@ namespace MonolithEngine
 
                 while (steps > 0)
                 {
+
                     Transform.InCellLocation.X += stepX;
 
-                    if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST))
+                    if (CheckGridCollisions && Transform.InCellLocation.X > CollisionOffsetLeft && Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST))
                     {
                         Transform.InCellLocation.X = CollisionOffsetLeft;
                         CollidesOnGrid = true;
                     }
 
-                    if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST))
+                    if (CheckGridCollisions && Transform.InCellLocation.X < CollisionOffsetRight && Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST))
                     {
                         Transform.InCellLocation.X = CollisionOffsetRight;
                         CollidesOnGrid = true;
@@ -225,7 +229,7 @@ namespace MonolithEngine
 
                     Transform.InCellLocation.Y += stepY;
 
-                    if (MountedOn == null && CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH)/* && Transform.InternalVelocityY > 0*/)
+                    if (MountedOn == null && CheckGridCollisions && Transform.InCellLocation.Y > CollisionOffsetBottom && Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.SOUTH)/* && Transform.InternalVelocityY > 0*/)
                     {
                         //if (HasGravity)
                         {
@@ -244,7 +248,7 @@ namespace MonolithEngine
                         }
                     }
 
-                    if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.NORTH))
+                    if (CheckGridCollisions && Transform.InCellLocation.Y < CollisionOffsetTop && Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.NORTH))
                     {
                         Transform.InternalVelocityY = 0;
                         bump.Y = 0;
@@ -304,17 +308,18 @@ namespace MonolithEngine
             if (Math.Abs(Transform.InternalVelocityY) <= 0.0005 * Globals.FixedUpdateMultiplier) Transform.InternalVelocityY = 0;
             if (Math.Abs(bump.Y) <= 0.1 * Globals.FixedUpdateMultiplier) bump.Y = 0;
 
-            SetPosition();
+            if (Parent == null)
+            {
+                SetPosition();
+            }
+
 
             base.FixedUpdate();
         }
 
         private void SetPosition()
         {
-            if (Parent == null)
-            {
-                Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
-            }
+            Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
         }
 
         private void ApplyGravity()
@@ -339,7 +344,7 @@ namespace MonolithEngine
 
         private bool OnGround()
         {
-            bool onGround = MountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Transform.InternalVelocityY >= 0;
+            bool onGround = MountedOn != null || Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.SOUTH) && Transform.InCellLocation.Y == CollisionOffsetBottom && Transform.InternalVelocityY >= 0;
             if (!onGround && IsOnGround)
             {
                 OnLeaveGround();
@@ -392,11 +397,17 @@ namespace MonolithEngine
                             OnLand(Transform.Velocity);
                             Transform.InternalVelocityY = 0;
                             MountedOn = otherCollider as PhysicalEntity;
+                            float tmp = Transform.Position.X - MountedOn.Transform.Position.X;
+                            Transform.Position = Vector2.Zero;
+                            Transform.InCellLocation = Vector2.Zero;
+                            Transform.GridCoordinates = Vector2.Zero;
+                            Parent = MountedOn;
+                            Transform.Position = new Vector2(tmp, 0);
                             bump = Vector2.Zero;
                             FallSpeed = 0;
-                            Transform.Y -= yOverlap;
-                            Transform.InCellLocation.Y = MathUtil.CalculateInCellLocation(Transform.Position).Y;
-                            Transform.GridCoordinates.Y = (int)(Transform.Position.Y / Config.GRID);
+                            //Transform.Y -= yOverlap;
+                            //Transform.InCellLocation.Y = MathUtil.CalculateInCellLocation(Transform.Position).Y;
+                            //Transform.GridCoordinates.Y = (int)(Transform.Position.Y / Config.GRID);
                         }
                     } 
                     else if (xOverlap > 0 && xOverlap < yOverlap)
@@ -439,6 +450,7 @@ namespace MonolithEngine
             {
                 Transform.Velocity += MountedOn.Transform.Velocity;
                 MountedOn = null;
+                Parent = null;
             }
 
             if (leftCollider != null && otherCollider.Equals(leftCollider)) {

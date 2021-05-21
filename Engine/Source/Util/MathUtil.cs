@@ -52,12 +52,12 @@ namespace MonolithEngine
 			return (x < min) ? min : (x > max) ? max : x;
 		}
 
-		public static Vector2 CalculateGridCoordintes(Vector2 position)
+		internal static Vector2 CalculateGridCoordintes(Vector2 position)
         {
 			return new Vector2((int)Math.Floor(position.X / Config.GRID), (int)Math.Floor(position.Y / Config.GRID));
 		}
 
-        public static Vector2 CalculateInCellLocation(Vector2 position)
+        internal static Vector2 CalculateInCellLocation(Vector2 position)
         {
             Vector2 pos = position / Config.GRID;
             return new Vector2(pos.X - (float)Math.Truncate(pos.X), pos.Y - (float)Math.Truncate(pos.Y));

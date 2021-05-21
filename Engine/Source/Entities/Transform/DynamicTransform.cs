@@ -43,6 +43,37 @@ namespace MonolithEngine
         {
             get
             {
+
+                    return velocity;
+            }
+
+            set => velocity = value;
+        }
+
+        internal float InternalVelocityX
+        {
+            get
+            {
+                    return velocity.X;
+            }
+
+            set => velocity.X = value;
+        }
+
+        internal float InternalVelocityY
+        {
+            get
+            {
+                    return velocity.Y;
+            }
+
+            set => velocity.Y = value;
+        }
+
+        /*internal Vector2 InternalVelocity
+        {
+            get
+            {
                 if (entity.MountedOn == null)
                 {
                     return velocity;
@@ -79,6 +110,6 @@ namespace MonolithEngine
             }
 
             set => velocity.Y = value;
-        }
+        }*/
     }
 }

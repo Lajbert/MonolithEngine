@@ -6,14 +6,16 @@ namespace MonolithEngine
     {
         public Vector2 Position { get; set; }
 
-        public float X { get; set; }
+        public float X { get; }
         
-        public float Y { get; set; }
+        public float Y { get; }
 
         public Vector2 Velocity { get; set; }
 
         public float Rotation { get; set; }
 
         public void OverridePositionOffset(Vector2 newPositionOffset);
+
+        public void Reposition(Vector2 position);
     }
 }

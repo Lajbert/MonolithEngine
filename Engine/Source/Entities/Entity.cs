@@ -24,17 +24,7 @@ namespace MonolithEngine
             } 
         }
 
-        public Vector2 DrawPosition {
-            get {
-                if (Parent == null)
-                {
-                    return drawPosition;
-                }
-                return (Parent as Entity).DrawPosition + Transform.PositionWithoutParent;
-            }
-
-            set => drawPosition = value;
-        }
+        public Vector2 DrawPosition;
 
         protected float CollisionOffsetLeft = 0f;
         protected float CollisionOffsetRight = 0f;
