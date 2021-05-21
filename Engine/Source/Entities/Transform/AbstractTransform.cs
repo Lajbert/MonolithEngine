@@ -10,22 +10,58 @@ namespace MonolithEngine
     {
         protected IGameObject owner;
 
-        internal Vector2 GridCoordinates;
+        internal Vector2 gridCoordinates;
 
-        //between 0 and 1: where the object is inside the grid cell
-        internal Vector2 InCellLocation;
-        /*public Vector2 InCellLocation
+        internal Vector2 GridCoordinates
         {
             get
             {
-                return inCellLocation;
+                if (owner.Parent == null)
+                {
+                    return gridCoordinates;
+                }
+                return owner.Parent.Transform.GridCoordinates + gridCoordinates;
             }
-
             set
             {
-                inCellLocation = value;
+                gridCoordinates = value;
             }
-        }*/
+        }
+
+        internal float GridCoordinatesX
+        {
+            get
+            {
+                if (owner.Parent == null)
+                {
+                    return gridCoordinates.X;
+                }
+                return owner.Parent.Transform.GridCoordinates.X + gridCoordinates.X;
+            }
+            set
+            {
+                gridCoordinates.X = value;
+            }
+        }
+
+        internal float GridCoordinatesY
+        {
+            get
+            {
+                if (owner.Parent == null)
+                {
+                    return gridCoordinates.Y;
+                }
+                return owner.Parent.Transform.GridCoordinates.Y + gridCoordinates.Y;
+            }
+            set
+            {
+                gridCoordinates.Y = value;
+            }
+        }
+
+        //between 0 and 1: where the object is inside the grid cell
+        internal Vector2 InCellLocation;
 
         public abstract Vector2 Velocity { get; set; }
 

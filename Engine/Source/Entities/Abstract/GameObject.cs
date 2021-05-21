@@ -14,8 +14,6 @@ namespace MonolithEngine
         private static int GLOBAL_ID = 0;
         private int ID { get; set; } = 0 ;
 
-        protected HashSet<IGameObject> Children;
-
         protected HashSet<string> Tags = new HashSet<string>();
 
         public AbstractTransform Transform { get; set; }
@@ -54,7 +52,6 @@ namespace MonolithEngine
                 Parent = parent;
             }
             ID = GLOBAL_ID++;
-            Children = new HashSet<IGameObject>();
         }
 
         public abstract void Destroy();
@@ -81,16 +78,6 @@ namespace MonolithEngine
         public static int GetObjectCount()
         {
             return GLOBAL_ID;
-        }
-
-        public void AddChild(IGameObject gameObject)
-        {
-            Children.Add(gameObject);
-        }
-
-        public void RemoveChild(IGameObject gameObject)
-        {
-            Children.Remove(gameObject);
         }
 
         public ICollection<string> GetTags()
@@ -126,5 +113,7 @@ namespace MonolithEngine
         }
 
         public abstract bool IsAlive();
+        public abstract void AddChild(IGameObject gameObject);
+        public abstract void RemoveChild(IGameObject gameObject);
     }
 }

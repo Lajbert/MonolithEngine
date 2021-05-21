@@ -57,5 +57,15 @@ namespace MonolithEngine
         {
             throw new NotImplementedException();
         }
+
+        public override void AddChild(IGameObject gameObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RemoveChild(IGameObject gameObject)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

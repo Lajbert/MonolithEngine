@@ -217,12 +217,12 @@ namespace MonolithEngine
                     while (Transform.InCellLocation.X > 1)
                     {
                         Transform.InCellLocation.X--;
-                        Transform.GridCoordinates.X++;
+                        Transform.gridCoordinates.X++;
                     }
                     while (Transform.InCellLocation.X < 0)
                     {
                         Transform.InCellLocation.X++;
-                        Transform.GridCoordinates.X--;
+                        Transform.gridCoordinates.X--;
                     }
 
                     // Y
@@ -259,12 +259,12 @@ namespace MonolithEngine
                     while (Transform.InCellLocation.Y > 1)
                     {
                         Transform.InCellLocation.Y--;
-                        Transform.GridCoordinates.Y++;
+                        Transform.gridCoordinates.Y++;
                     }
                     while (Transform.InCellLocation.Y < 0)
                     {
                         Transform.InCellLocation.Y++;
-                        Transform.GridCoordinates.Y--;
+                        Transform.gridCoordinates.Y--;
                     }
 
                     SetPosition();
@@ -319,7 +319,14 @@ namespace MonolithEngine
 
         private void SetPosition()
         {
-            Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
+            if (Parent == null)
+            {
+                Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
+            }
+            else
+            {
+                Transform.PositionWithoutParent = (Transform.gridCoordinates + Transform.InCellLocation) * Config.GRID;
+            }
         }
 
         private void ApplyGravity()
@@ -403,11 +410,10 @@ namespace MonolithEngine
                             Transform.GridCoordinates = Vector2.Zero;
                             Parent = MountedOn;
                             Transform.Position = new Vector2(tmp, 0);
+                            Transform.InCellLocation = MathUtil.CalculateInCellLocation(Transform.PositionWithoutParent);
+                            Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(Transform.PositionWithoutParent);
                             bump = Vector2.Zero;
                             FallSpeed = 0;
-                            //Transform.Y -= yOverlap;
-                            //Transform.InCellLocation.Y = MathUtil.CalculateInCellLocation(Transform.Position).Y;
-                            //Transform.GridCoordinates.Y = (int)(Transform.Position.Y / Config.GRID);
                         }
                     } 
                     else if (xOverlap > 0 && xOverlap < yOverlap)
@@ -419,7 +425,7 @@ namespace MonolithEngine
                             rightCollider = otherCollider as PhysicalEntity;
                             Transform.X -= xOverlap;
                             Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
-                            Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
+                            Transform.GridCoordinatesX = (int)(Transform.Position.X / Config.GRID);
                         }
 
                         if (Transform.InternalVelocityX < 0)
@@ -429,7 +435,7 @@ namespace MonolithEngine
                             leftCollider = otherCollider as PhysicalEntity;
                             Transform.X += xOverlap;
                             Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
-                            Transform.GridCoordinates.X = (int)(Transform.Position.X / Config.GRID);
+                            Transform.GridCoordinatesX = (int)(Transform.Position.X / Config.GRID);
                         }
                     }
                 }
