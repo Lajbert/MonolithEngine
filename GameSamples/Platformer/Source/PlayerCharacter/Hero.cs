@@ -106,8 +106,6 @@ namespace ForestPlatformerExample
             //DEBUG_SHOW_PIVOT = true;
             //DEBUG_SHOW_RAYCAST = true;
 
-            Transform.InCellLocation = new Vector2(0.5f, 1f);
-
             DrawPriority = 0;
 
             LastSpawnPoint = position;
@@ -236,11 +234,11 @@ namespace ForestPlatformerExample
                 }
             };
 
-            bool isRunningRight() => UserInput.IsKeyPressed(Keys.Right) && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
+            bool isRunningRight() => UserInput.IsKeyPressed(Keys.Right) && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
-            bool isRunningLeft() => UserInput.IsKeyPressed(Keys.Left) && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
+            bool isRunningLeft() => UserInput.IsKeyPressed(Keys.Left) && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
@@ -253,11 +251,11 @@ namespace ForestPlatformerExample
             {
                 AudioEngine.Stop("SlowFootstepsSound");
             };*/
-            bool isWalkingLeft() => UserInput.IsKeyPressed(Keys.Right) && Transform.VelocityX > -0.5f && Transform.VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && !isCarryingItem;
+            bool isWalkingLeft() => UserInput.IsKeyPressed(Keys.Right) && Transform.VelocityX > -0.5f && Transform.VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            bool isWalkingRight() => UserInput.IsKeyPressed(Keys.Left) && Transform.VelocityX > 0.01 && Transform.VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && !isCarryingItem;
+            bool isWalkingRight() => UserInput.IsKeyPressed(Keys.Left) && Transform.VelocityX > 0.01 && Transform.VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
@@ -284,7 +282,7 @@ namespace ForestPlatformerExample
                 },
             };
 
-            runningCarryRight.EveryFrameAction = (frame) =>
+            runningCarryRight.EveryFrameAction += (frame) =>
             {
                 if (frame == 1 || frame == 6)
                 {
@@ -292,15 +290,15 @@ namespace ForestPlatformerExample
                 }
             };
 
-            bool isRunningCarryRight() => Transform.VelocityX >= 0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
+            bool isRunningCarryRight() => Transform.VelocityX >= 0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryRight", runningCarryRight, isRunningCarryRight, 1);
 
             SpriteSheetAnimation runningCarryLeft = runningCarryRight.CopyFlipped();
-            bool isRunningCarryLeft() => Transform.VelocityX <= -0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
+            bool isRunningCarryLeft() => Transform.VelocityX <= -0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("RunningCarryLeft", runningCarryLeft, isRunningCarryLeft, 1);
 
-            SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 12, SpriteEffects.FlipHorizontally);
-            /*walkingCarryLeft.StartedCallback = () =>
+            /*SpriteSheetAnimation walkingCarryLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 12, SpriteEffects.FlipHorizontally);
+            walkingCarryLeft.StartedCallback = () =>
             {
                 AudioEngine.Play("SlowFootstepsSound");
             };
@@ -309,15 +307,15 @@ namespace ForestPlatformerExample
             {
                 AudioEngine.Stop("SlowFootstepsSound");
             };*/
-            bool isCarryWalkingLeft() => Transform.VelocityX > -0.1f && Transform.VelocityX < 0 && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.WEST) && isCarryingItem;
+            /*bool isCarryWalkingLeft() => Transform.VelocityX > -0.1f && Transform.VelocityX < 0 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryLeft", walkingCarryLeft, isCarryWalkingLeft, 1);
 
             SpriteSheetAnimation walkingCarryRight = walkingCarryLeft.CopyFlipped();
-            bool isCarryWalkingRight() => Transform.VelocityX > 0 && Transform.VelocityX < 0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(Transform.GridCoordinates, Direction.EAST) && isCarryingItem;
+            bool isCarryWalkingRight() => Transform.VelocityX > 0 && Transform.VelocityX < 0.1f && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && isCarryingItem;
             Animations.RegisterAnimation("WalkingCarryRight", walkingCarryRight, isCarryWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningCarryRight", "WalkingCarryRight");
-            Animations.AddFrameTransition("RunningCarryLeft", "WalkingCarryLeft");
+            Animations.AddFrameTransition("RunningCarryLeft", "WalkingCarryLeft");*/
 
             SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroJump"), 24)
             {
@@ -654,7 +652,7 @@ namespace ForestPlatformerExample
             {
                 if (HasGravity)
                 {
-                    StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(Transform.GridCoordinates));
+                    StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(this));
                     if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement)
                     {
                         collider.BlocksMovement = false;

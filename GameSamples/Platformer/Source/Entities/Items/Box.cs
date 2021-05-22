@@ -92,7 +92,7 @@ namespace ForestPlatformerExample
             currentBump = bumps;
             DisablePysics();
             Parent = entity;
-            Transform.Position = newPosition;
+            Transform.Reposition(newPosition);
         }
 
         public void PutDown(Entity entity, Vector2 newPosition)
@@ -111,7 +111,6 @@ namespace ForestPlatformerExample
 
         private void EnablePhysics()
         {
-            Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(Transform.Position);
             HasGravity = true;
             Active = true;
         }

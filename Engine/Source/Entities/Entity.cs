@@ -13,6 +13,10 @@ namespace MonolithEngine
     public class Entity : GameObject, IColliderEntity, IRayBlocker
     {
 
+        protected List<IGameObject> Children = new List<IGameObject>();
+        private List<IGameObject> childrenToAdd = new List<IGameObject>();
+        private List<IGameObject> childrenToRemove = new List<IGameObject>();
+
         public AbstractScene Scene;
 
         private Vector2 drawPosition = Vector2.Zero;
@@ -24,17 +28,7 @@ namespace MonolithEngine
             } 
         }
 
-        public Vector2 DrawPosition {
-            get {
-                if (Parent == null)
-                {
-                    return drawPosition;
-                }
-                return (Parent as Entity).DrawPosition + Transform.PositionWithoutParent;
-            }
-
-            set => drawPosition = value;
-        }
+        public Vector2 DrawPosition;
 
         protected float CollisionOffsetLeft = 0f;
         protected float CollisionOffsetRight = 0f;
@@ -245,6 +239,8 @@ namespace MonolithEngine
                     }
                 }
             }
+
+            HandleChangedChildrenChildren();
             
         }
 
@@ -268,6 +264,8 @@ namespace MonolithEngine
                     child.PreFixedUpdate();
                 }
             }
+
+            HandleChangedChildrenChildren();
         }
 
         public virtual void FixedUpdate()
@@ -292,6 +290,8 @@ namespace MonolithEngine
                     child.FixedUpdate();
                 }
             }
+
+            HandleChangedChildrenChildren();
         }
 
         public virtual void Update()
@@ -303,6 +303,8 @@ namespace MonolithEngine
                     child.Update();
                 }
             }
+
+            HandleChangedChildrenChildren();
         }
 
         public virtual void PostUpdate()
@@ -319,6 +321,8 @@ namespace MonolithEngine
                     child.PostUpdate();
                 }
             }
+
+            HandleChangedChildrenChildren();
         }
 
         public override void Destroy()
@@ -529,6 +533,39 @@ namespace MonolithEngine
         public override bool IsAlive()
         {
             return !IsDestroyed && !BeingDestroyed;
+        }
+
+        public override void AddChild(IGameObject gameObject)
+        {
+            childrenToAdd.Add(gameObject);
+        }
+
+        public override void RemoveChild(IGameObject gameObject)
+        {
+            childrenToRemove.Add(gameObject);
+        }
+
+        private void HandleChangedChildrenChildren()
+        {
+            if (childrenToAdd.Count > 0)
+            {
+                foreach (IGameObject child in childrenToAdd)
+                {
+                    Children.Add(child);
+                }
+
+                childrenToAdd.Clear();
+            }
+
+            if (childrenToRemove.Count > 0)
+            {
+                foreach (IGameObject child in childrenToRemove)
+                {
+                    Children.Remove(child);
+                }
+
+                childrenToRemove.Clear();
+            }
         }
     }
 }

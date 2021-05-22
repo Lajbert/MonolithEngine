@@ -57,7 +57,7 @@ namespace MonolithEngine
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(entity.Transform.GridCoordinates, direction)) && objects[GetGridCoord(entity.Transform.GridCoordinates, direction)].HasTag(tag)
+                if (objects.ContainsKey(GetGridCoord(entity, direction)) && objects[GetGridCoord(entity, direction)].HasTag(tag)
                     && IsExactCollision(entity, direction))
                 {
                      tagCollisionResult.Add(direction);
@@ -76,10 +76,10 @@ namespace MonolithEngine
 
             foreach (Direction direction in whereToCheck)
             {
-                if (objects.ContainsKey(GetGridCoord(entity.Transform.GridCoordinates, direction))
+                if (objects.ContainsKey(GetGridCoord(entity, direction))
                     && IsExactCollision(entity, direction))
                 {
-                    allCollisionsResult.Add((objects[GetGridCoord(entity.Transform.GridCoordinates, direction)], direction));
+                    allCollisionsResult.Add((objects[GetGridCoord(entity, direction)], direction));
                 }
             }
             return allCollisionsResult;
@@ -133,17 +133,17 @@ namespace MonolithEngine
             throw new Exception("Uknown direction");
         }
 
-        protected Vector2 GetGridCoord(Vector2 gridCoord, Direction direction)
+        protected Vector2 GetGridCoord(IGameObject entity, Direction direction)
         {
-            if (direction == Direction.CENTER) return gridCoord;
-            if (direction == Direction.WEST) return GridUtil.GetLeftGrid(gridCoord);
-            if (direction == Direction.EAST) return GridUtil.GetRightGrid(gridCoord);
-            if (direction == Direction.NORTH) return GridUtil.GetUpperGrid(gridCoord);
-            if (direction == Direction.SOUTH) return GridUtil.GetBelowGrid(gridCoord);
-            if (direction == Direction.SOUTHEAST) return GridUtil.GetRightBelowGrid(gridCoord);
-            if (direction == Direction.SOUTHWEST) return GridUtil.GetLeftBelowGrid(gridCoord);
-            if (direction == Direction.NORTHWEST) return GridUtil.GetUpperLeftGrid(gridCoord);
-            if (direction == Direction.NORTHEAST) return GridUtil.GetUpperRightGrid(gridCoord);
+            if (direction == Direction.CENTER) return entity.Transform.GridCoordinates;
+            if (direction == Direction.WEST) return GridUtil.GetLeftGrid(entity);
+            if (direction == Direction.EAST) return GridUtil.GetRightGrid(entity);
+            if (direction == Direction.NORTH) return GridUtil.GetUpperGrid(entity);
+            if (direction == Direction.SOUTH) return GridUtil.GetBelowGrid(entity);
+            if (direction == Direction.SOUTHEAST) return GridUtil.GetRightBelowGrid(entity);
+            if (direction == Direction.SOUTHWEST) return GridUtil.GetLeftBelowGrid(entity);
+            if (direction == Direction.NORTHWEST) return GridUtil.GetUpperLeftGrid(entity);
+            if (direction == Direction.NORTHEAST) return GridUtil.GetUpperRightGrid(entity);
 
             throw new Exception("Unknown direction!");
         }
@@ -155,10 +155,15 @@ namespace MonolithEngine
         /// <param name="gridCoord"></param>
         /// <param name="direction"></param>
         /// <returns></returns>
-        public bool HasBlockingColliderAt(Vector2 gridCoord, Direction direction)
+        public bool HasBlockingColliderAt(IGameObject entity, Direction direction)
         {
-            Vector2 coord = GetGridCoord(gridCoord, direction);
+            Vector2 coord = GetGridCoord(entity, direction);
             return objects.ContainsKey(coord) && objects[coord].BlocksMovementFrom(direction);
+        }
+
+        public bool HasBlockingColliderAt(Vector2 gridCoord)
+        {
+            return objects.ContainsKey(gridCoord) && objects[gridCoord].BlocksMovementFrom(Direction.CENTER);
         }
 
         public void Remove(StaticCollider gameObject)

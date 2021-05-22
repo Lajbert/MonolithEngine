@@ -13,6 +13,8 @@ namespace ForestPlatformerExample
         public Fist(AbstractScene scene, Entity parent, Vector2 positionOffset) : base(scene.LayerManager.EntityLayer, parent, positionOffset)
         {
             AddComponent(new CircleCollisionComponent(this, 10));
+            CheckGridCollisions = false;
+            HasGravity = false;
             hero = parent as PhysicalEntity;
             CurrentFaceDirection = parent.CurrentFaceDirection;
 
@@ -75,8 +77,13 @@ namespace ForestPlatformerExample
         {
             if (CurrentFaceDirection != (Parent as Entity).CurrentFaceDirection)
             {
-                Transform.X = (Transform.X - Parent.Transform.X) * -1;
                 CurrentFaceDirection = (Parent as Entity).CurrentFaceDirection;
+                int mul = 1;
+                if (CurrentFaceDirection == Direction.WEST)
+                {
+                    mul = -1;
+                }
+                Transform.Position = new Vector2(mul * 20, -10);
             }
         }
     }

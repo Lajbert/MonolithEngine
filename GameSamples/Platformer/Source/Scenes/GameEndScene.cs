@@ -58,6 +58,7 @@ namespace ForestPlatformerExample
         public override void OnStart()
         {
             PlatformerGame.Paused = true;
+            PlatformerGame.WasGameStarted = false;
         }
 
         public override void OnFinished()

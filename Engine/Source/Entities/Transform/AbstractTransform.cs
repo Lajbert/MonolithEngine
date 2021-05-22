@@ -10,10 +10,58 @@ namespace MonolithEngine
     {
         protected IGameObject owner;
 
-        public Vector2 GridCoordinates;
+        internal Vector2 gridCoordinates;
+
+        internal Vector2 GridCoordinates
+        {
+            get
+            {
+                if (owner.Parent == null)
+                {
+                    return gridCoordinates;
+                }
+                return owner.Parent.Transform.GridCoordinates + gridCoordinates;
+            }
+            set
+            {
+                gridCoordinates = value;
+            }
+        }
+
+        internal float GridCoordinatesX
+        {
+            get
+            {
+                if (owner.Parent == null)
+                {
+                    return gridCoordinates.X;
+                }
+                return owner.Parent.Transform.GridCoordinates.X + gridCoordinates.X;
+            }
+            set
+            {
+                gridCoordinates.X = value;
+            }
+        }
+
+        internal float GridCoordinatesY
+        {
+            get
+            {
+                if (owner.Parent == null)
+                {
+                    return gridCoordinates.Y;
+                }
+                return owner.Parent.Transform.GridCoordinates.Y + gridCoordinates.Y;
+            }
+            set
+            {
+                gridCoordinates.Y = value;
+            }
+        }
 
         //between 0 and 1: where the object is inside the grid cell
-        public Vector2 InCellLocation;
+        internal Vector2 InCellLocation;
 
         public abstract Vector2 Velocity { get; set; }
 
@@ -51,7 +99,7 @@ namespace MonolithEngine
                 }
                 return owner.Parent.Transform.Position.X + PositionWithoutParent.X;
             }
-            set
+            internal set
             {
                 PositionWithoutParent.X = value;
             }
@@ -67,7 +115,7 @@ namespace MonolithEngine
                 }
                 return owner.Parent.Transform.Position.Y + PositionWithoutParent.Y;
             }
-            set
+            internal set
             {
                 PositionWithoutParent.Y = value;
             }
@@ -76,20 +124,25 @@ namespace MonolithEngine
         public AbstractTransform(IGameObject owner, Vector2 position = default)
         {
             this.owner = owner;
-            InCellLocation = MathUtil.CalculateInCellLocation(position);
-            Position = position;
-            GridCoordinates = MathUtil.CalculateGridCoordintes(position);
+            Reposition(position);
         }
 
         public void OverridePositionOffset(Vector2 newPositionOffset)
         {
-            this.PositionWithoutParent = newPositionOffset;
+            PositionWithoutParent = newPositionOffset;
         }
 
         public void DetachFromParent()
         {
-            GridCoordinates = MathUtil.CalculateGridCoordintes(Position);
             PositionWithoutParent = owner.Transform.Position;
+            Reposition(PositionWithoutParent);
+        }
+
+        public void Reposition(Vector2 position)
+        {
+            Position = position;
+            GridCoordinates = MathUtil.CalculateGridCoordintes(position);
+            InCellLocation = MathUtil.CalculateInCellLocation(position);
         }
     }
 }
