@@ -26,7 +26,7 @@ namespace ForestPlatformerExample
             VerticalFriction = 0;
             HasGravity = false;
             Transform.Velocity = speed;
-            Transform.Reposition(position);
+            Transform.Position = position;
 
             Timer.TriggerAfter(5000, Destroy);
         }

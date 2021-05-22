@@ -319,14 +319,7 @@ namespace MonolithEngine
 
         private void SetPosition()
         {
-            if (Parent == null)
-            {
-                Transform.Position = (Transform.GridCoordinates + Transform.InCellLocation) * Config.GRID;
-            }
-            else
-            {
-                Transform.PositionWithoutParent = (Transform.gridCoordinates + Transform.InCellLocation) * Config.GRID;
-            }
+            Transform.PositionWithoutParent = (Transform.gridCoordinates + Transform.InCellLocation) * Config.GRID;
         }
 
         private void ApplyGravity()
@@ -405,13 +398,8 @@ namespace MonolithEngine
                             Transform.VelocityY = 0;
                             MountedOn = otherCollider as PhysicalEntity;
                             float tmp = Transform.Position.X - MountedOn.Transform.Position.X;
-                            Transform.Position = Vector2.Zero;
-                            Transform.InCellLocation = Vector2.Zero;
-                            Transform.GridCoordinates = Vector2.Zero;
                             Parent = MountedOn;
                             Transform.Position = new Vector2(tmp, 0);
-                            Transform.InCellLocation = MathUtil.CalculateInCellLocation(Transform.PositionWithoutParent);
-                            Transform.GridCoordinates = MathUtil.CalculateGridCoordintes(Transform.PositionWithoutParent);
                             bump = Vector2.Zero;
                             FallSpeed = 0;
                         }
@@ -424,8 +412,6 @@ namespace MonolithEngine
                             Transform.VelocityX = 0;
                             rightCollider = otherCollider as PhysicalEntity;
                             Transform.X -= xOverlap;
-                            Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
-                            Transform.GridCoordinatesX = (int)(Transform.Position.X / Config.GRID);
                         }
 
                         if (Transform.VelocityX < 0)
@@ -434,8 +420,6 @@ namespace MonolithEngine
                             Transform.VelocityX = 0;
                             leftCollider = otherCollider as PhysicalEntity;
                             Transform.X += xOverlap;
-                            Transform.InCellLocation.X = MathUtil.CalculateInCellLocation(Transform.Position).X;
-                            Transform.GridCoordinatesX = (int)(Transform.Position.X / Config.GRID);
                         }
                     }
                 }

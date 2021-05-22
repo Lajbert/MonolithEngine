@@ -86,6 +86,7 @@ namespace MonolithEngine
             set
             {
                 PositionWithoutParent = value;
+                Reposition(value);
             }
         }
 
@@ -102,6 +103,8 @@ namespace MonolithEngine
             internal set
             {
                 PositionWithoutParent.X = value;
+                InCellLocation.X = MathUtil.CalculateInCellLocation(PositionWithoutParent).X;
+                gridCoordinates.X = (int)(PositionWithoutParent.X / Config.GRID);
             }
         }
 
@@ -118,13 +121,15 @@ namespace MonolithEngine
             internal set
             {
                 PositionWithoutParent.Y = value;
+                InCellLocation.Y = MathUtil.CalculateInCellLocation(PositionWithoutParent).Y;
+                gridCoordinates.Y = (int)(PositionWithoutParent.Y / Config.GRID);
             }
         }
 
         public AbstractTransform(IGameObject owner, Vector2 position = default)
         {
             this.owner = owner;
-            Reposition(position);
+            Position = position;
         }
 
         public void OverridePositionOffset(Vector2 newPositionOffset)
@@ -138,9 +143,8 @@ namespace MonolithEngine
             Reposition(PositionWithoutParent);
         }
 
-        public void Reposition(Vector2 position)
+        private void Reposition(Vector2 position)
         {
-            Position = position;
             GridCoordinates = MathUtil.CalculateGridCoordintes(position);
             InCellLocation = MathUtil.CalculateInCellLocation(position);
         }

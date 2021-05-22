@@ -19,8 +19,6 @@ namespace MonolithEngine
 
         public AbstractScene Scene;
 
-        private Vector2 drawPosition = Vector2.Zero;
-
         internal bool IsCollisionCheckedInCurrentLoop = false;
 
         public bool IsDestroyed { get {

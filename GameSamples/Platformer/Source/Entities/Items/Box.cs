@@ -92,7 +92,7 @@ namespace ForestPlatformerExample
             currentBump = bumps;
             DisablePysics();
             Parent = entity;
-            Transform.Reposition(newPosition);
+            Transform.Position = newPosition;
         }
 
         public void PutDown(Entity entity, Vector2 newPosition)

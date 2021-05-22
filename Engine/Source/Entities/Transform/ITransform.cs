@@ -15,7 +15,5 @@ namespace MonolithEngine
         public float Rotation { get; set; }
 
         public void OverridePositionOffset(Vector2 newPositionOffset);
-
-        public void Reposition(Vector2 position);
     }
 }

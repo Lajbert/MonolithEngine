@@ -58,6 +58,8 @@ namespace ForestPlatformerExample
 
         private Random random;
 
+        private float horizFrictBackup;
+
         public bool LevelEndReached
         {
             get
@@ -478,13 +480,13 @@ namespace ForestPlatformerExample
             {
                 slideDirection = default;
                 canAttack = true;
-                HorizontalFriction = Config.HORIZONTAL_FRICTION;
+                HorizontalFriction = horizFrictBackup;
             };
             slideRight.AnimationSwitchCallback = () =>
             {
                 slideDirection = default;
                 canAttack = true;
-                HorizontalFriction = Config.HORIZONTAL_FRICTION;
+                HorizontalFriction = horizFrictBackup;
             };
             bool isSlidingRight() => IsOnGround && isSliding && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("SlideRight", slideRight, isSlidingRight, 7);
@@ -753,6 +755,7 @@ namespace ForestPlatformerExample
             }
             slideDirection = CurrentFaceDirection;
             canAttack = false;
+            horizFrictBackup = HorizontalFriction;
             HorizontalFriction = 0.9f;
             if (CurrentFaceDirection == Direction.EAST)
             {
