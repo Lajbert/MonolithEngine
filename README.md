@@ -63,7 +63,7 @@ Since the engine is built on top of MonoGame, you'll have to follow the [MonoGam
 I can't really come up with any catchy selling point apart from the things I already listed above :) It's there if you'd like to try something new and simple, maybe you'll like it, maybe not, maybe you'll just see one or two tricks you like and add it to your toolbox.
 
 # I have a little experience with Unity (or any other game engine), is that going to help me?
-It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
+It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools, and some things in Monolith engine are done similarly to Unity, so some things might be familiar, but Monolith being a pure 2D engine without it's own UI, most things are done differently. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
 # What are the supported platforms?
 Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware.
