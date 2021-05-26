@@ -60,6 +60,20 @@ namespace MonolithEngine
             return result;
         }
 
+        public Vector2 GetLevelSize(string levelID)
+        {
+            List<string> result = new List<string>();
+            foreach (Level level in world.Levels)
+            {
+                if (level.Identifier.Equals(levelID))
+                {
+                    return new Vector2(level.PxWid, level.PxHei);
+                }
+            }
+
+            throw new Exception("Level not found.");
+        }
+
         private static int CompareLayerInstances(LayerInstance li1, LayerInstance li2)
         {
             return li1.Identifier.CompareTo(li2.Identifier);

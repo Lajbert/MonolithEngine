@@ -105,10 +105,7 @@ namespace MonolithEngine
 
             Config.ExitAction = Exit;
 
-            Camera = new Camera(graphics)
-            {
-                Limits = new Rectangle(0, 50, 5470, 700)
-            };
+            Camera = new Camera(graphics);
 
             SceneManager = new SceneManager(Camera, graphics.GraphicsDevice);
 

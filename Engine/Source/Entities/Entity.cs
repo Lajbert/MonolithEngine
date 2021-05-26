@@ -151,7 +151,7 @@ namespace MonolithEngine
             }
         }
 
-        public Entity(Layer layer, Entity parent, Vector2 startPosition) : base()
+        public Entity(Layer layer, Entity parent = null, Vector2 startPosition = default) : base()
         {
             DrawPosition = startPosition;
             Transform = new StaticTransform(this, startPosition);

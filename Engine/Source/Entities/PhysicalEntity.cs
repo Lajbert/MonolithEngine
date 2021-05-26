@@ -49,7 +49,7 @@ namespace MonolithEngine
 
         private new DynamicTransform Transform;
 
-        public PhysicalEntity(Layer layer, Entity parent, Vector2 startPosition) : base(layer, parent, startPosition)
+        public PhysicalEntity(Layer layer, Entity parent = null, Vector2 startPosition = default) : base(layer, parent, startPosition)
         {
             Transform = new DynamicTransform(this, startPosition);
             base.Transform = Transform;
