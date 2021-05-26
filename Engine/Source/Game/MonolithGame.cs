@@ -120,7 +120,7 @@ namespace MonolithEngine
 
             LoadGameContent();
 
-            if (SceneManager.CurrentScene == null)
+            if (SceneManager.IsEmpty())
             {
                 throw new Exception("No scene added to the game!");
             }
