@@ -66,7 +66,7 @@ I can't really come up with any catchy selling point apart from the things I alr
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools, and some things in Monolith engine are done similarly to Unity that might be familiar, but Monolith being a pure 2D engine without it's own UI, most things are done differently. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
 # What are the supported platforms?
-Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware.
+Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware. Please note that for consoles, you have to be a licenced developer to acquire the respective binaries from the MonoGame team.
 
 # What games have been released with it?
 None commercial yet, hopefully the first will be released in Q3-Q4 2021.
