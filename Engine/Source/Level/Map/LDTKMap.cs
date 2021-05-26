@@ -49,6 +49,17 @@ namespace MonolithEngine
             }
         }
 
+        public List<string> GetLevelNames()
+        {
+            List<string> result = new List<string>();
+            foreach (Level level in world.Levels)
+            {
+                result.Add(level.Identifier);
+            }
+            result.Sort();
+            return result;
+        }
+
         private static int CompareLayerInstances(LayerInstance li1, LayerInstance li2)
         {
             return li1.Identifier.CompareTo(li2.Identifier);
