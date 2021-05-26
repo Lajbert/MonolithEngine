@@ -152,5 +152,10 @@ namespace MonolithEngine
             MERGE,
             NONE
         }
+
+        public bool IsEmpty()
+        {
+            return width == 0 && height == 0;
+        }
     }
 }

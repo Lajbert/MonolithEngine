@@ -119,6 +119,11 @@ namespace MonolithEngine
             frameCounter = new FrameCounter();
 
             LoadGameContent();
+
+            if (SceneManager.CurrentScene == null)
+            {
+                throw new Exception("No scene added to the game!");
+            }
         }
 
         protected abstract void LoadGameContent();

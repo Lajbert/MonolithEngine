@@ -254,18 +254,25 @@ namespace MonolithEngine
                         }
                     }
                 }
-                Logger.Debug("Starting texture merging...");
-                Logger.Debug("Merging background layers into one texture: " + mergedBackgroundTileGroup.GetTexture().Bounds);
-                Entity mergedBG = new Entity(mergedBackgroundLayer, null, new Vector2(0, 0));
-                mergedBG.SetSprite(mergedBackgroundTileGroup.GetTexture());
-                mergedBG.GetComponent<Sprite>().DrawOffset = pivot;
-                mergedBG.Active = false;
+                if (!mergedBackgroundTileGroup.IsEmpty())
+                {
+                    Logger.Debug("Starting texture merging...");
+                    Logger.Debug("Merging background layers into one texture: " + mergedBackgroundTileGroup.GetTexture().Bounds);
+                    Entity mergedBG = new Entity(mergedBackgroundLayer, null, new Vector2(0, 0));
+                    mergedBG.SetSprite(mergedBackgroundTileGroup.GetTexture());
+                    mergedBG.GetComponent<Sprite>().DrawOffset = pivot;
+                    mergedBG.Active = false;
+                }
 
-                Logger.Debug("Merging foreground layers into one texture: " + mergedForegroundTileGroup.GetTexture().Bounds);
-                Entity mergedFG = new Entity(mergedForegroundLayer, null, new Vector2(0, 0));
-                mergedFG.SetSprite(mergedForegroundTileGroup.GetTexture());
-                mergedFG.GetComponent<Sprite>().DrawOffset = pivot;
-                mergedFG.Active = false;
+                if (!mergedForegroundTileGroup.IsEmpty())
+                {
+                    Logger.Debug("Merging foreground layers into one texture: " + mergedForegroundTileGroup.GetTexture().Bounds);
+                    Entity mergedFG = new Entity(mergedForegroundLayer, null, new Vector2(0, 0));
+                    mergedFG.SetSprite(mergedForegroundTileGroup.GetTexture());
+                    mergedFG.GetComponent<Sprite>().DrawOffset = pivot;
+                    mergedFG.Active = false;
+                }
+
             }
             return entities;
         }

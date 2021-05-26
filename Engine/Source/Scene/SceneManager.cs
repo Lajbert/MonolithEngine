@@ -16,7 +16,7 @@ namespace MonolithEngine
         private HashSet<AbstractScene> activeScenes = new HashSet<AbstractScene>();
 
         // the scene that is currently running and visible on the display
-        private AbstractScene currentScene;
+        internal AbstractScene CurrentScene;
 
         // static loading screen cene
         private AbstractScene loadingScreen;
@@ -94,23 +94,23 @@ namespace MonolithEngine
         private void LoadNextScene()
         {
             ICollection<object> data = null;
-            if (currentScene != null)
+            if (CurrentScene != null)
             {
                 AudioEngine.StopSoundEffects();
-                data = currentScene.ExportData();
-                currentScene.OnEnd();
-                currentScene.Unload();
-                if (!currentScene.AlwaysActive)
+                data = CurrentScene.ExportData();
+                CurrentScene.OnEnd();
+                CurrentScene.Unload();
+                if (!CurrentScene.AlwaysActive)
                 {
-                    activeScenes.RemoveIfExists(currentScene);
+                    activeScenes.RemoveIfExists(CurrentScene);
                 }
             }
-            currentScene = nextSceneToLoad;
+            CurrentScene = nextSceneToLoad;
             nextSceneToLoad = null;
-            activeScenes.AddIfMissing(currentScene);
-            currentScene.InternalLoad();
-            currentScene.ImportData(data);
-            currentScene.OnStart();
+            activeScenes.AddIfMissing(CurrentScene);
+            CurrentScene.InternalLoad();
+            CurrentScene.ImportData(data);
+            CurrentScene.OnStart();
             isLoading = false;
             useLoadingScreen = false;
         }
@@ -128,21 +128,21 @@ namespace MonolithEngine
         private void StartNextScene()
         {
             ICollection<object> data = null;
-            if (currentScene != null)
+            if (CurrentScene != null)
             {
                 AudioEngine.StopSoundEffects();
-                data = currentScene.ExportData();
-                currentScene.OnEnd();
-                if (!currentScene.AlwaysActive)
+                data = CurrentScene.ExportData();
+                CurrentScene.OnEnd();
+                if (!CurrentScene.AlwaysActive)
                 {
-                    activeScenes.RemoveIfExists(currentScene);
+                    activeScenes.RemoveIfExists(CurrentScene);
                 }
             }
-            currentScene = nextSceneToStart;
+            CurrentScene = nextSceneToStart;
             nextSceneToStart = null;
-            activeScenes.AddIfMissing(currentScene);
-            currentScene.ImportData(data);
-            currentScene.OnStart();
+            activeScenes.AddIfMissing(CurrentScene);
+            CurrentScene.ImportData(data);
+            CurrentScene.OnStart();
             isLoading = false;
             useLoadingScreen = false;
         }
@@ -210,14 +210,14 @@ namespace MonolithEngine
 
         internal void Draw(SpriteBatch spriteBatch)
         {
-            graphicsDevice.Clear(currentScene.BackgroundColor);
+            graphicsDevice.Clear(CurrentScene.BackgroundColor);
             if (useLoadingScreen && loadingScreen != null)
             {
                 isLoading = true;
                 loadingScreen.Draw(spriteBatch);
             } else
             {
-                currentScene.Draw(spriteBatch);
+                CurrentScene.Draw(spriteBatch);
             }
         }
 
