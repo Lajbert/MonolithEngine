@@ -87,5 +87,15 @@ namespace MonolithEngine
             double sinTheta = Math.Sin(theta);
             return (float)(Math.Sin((1 - alpha) * theta) / sinTheta) * from + (float)(Math.Sin(alpha * theta) / sinTheta) * to;
         }
+
+        public static Vector2 IsoTo2D(Vector2 pt)
+        {
+            return new Vector2((2 * pt.Y + pt.X) / 2, (2 * pt.Y - pt.X) / 2);
+        }
+
+        public static Vector2 IsoFrom2D(Vector2 pt)
+        {
+            return new Vector2(pt.X - pt.Y, (pt.X + pt.Y) / 2);
+        }
     }
 }

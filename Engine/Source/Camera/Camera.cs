@@ -39,6 +39,8 @@ namespace MonolithEngine
 
         private GraphicsDeviceManager graphicsDeviceManager;
 
+        private float rotation = MathUtil.DegreesToRad(0);
+
         public Camera(GraphicsDeviceManager graphicsDeviceManager)
         {
             this.graphicsDeviceManager = graphicsDeviceManager;
@@ -211,8 +213,10 @@ namespace MonolithEngine
             {
                 return Matrix.CreateTranslation(new Vector3(-new Vector2(position.X * scrollSpeedModifier, position.Y), 0f)) *
                        Matrix.CreateTranslation(new Vector3(-origin, 0f)) *
+                       Matrix.CreateRotationZ(rotation) *
                        Matrix.CreateScale(zoom, zoom, 1f) *
-                       Matrix.CreateTranslation(new Vector3(origin, 0f));
+                       Matrix.CreateTranslation(new Vector3(origin, 0f))
+                       ;
             }
         }
 
