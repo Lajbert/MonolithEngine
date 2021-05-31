@@ -44,7 +44,8 @@ Features so far:
 Many more features are coming including object pooling, particle system, pathfinding, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, native Aseprite support, basic shaders and other juicy stuff, stay tuned!
 
 # How stable is the engine?
-It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, cleanups, unit tests, etc. I'd say it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
+It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, cleanups, unit tests, etc. I it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
+Once I've released successfully released my first game with it, I will declare it stable and make the first release version.
 
 # Who should use this engine?
 Although I'm striving for simplicity, this engine is not made for beginners, especially not for people who rely on user interfaces like the one Unity has. It's for people who don't mind adjusting pivots and offsets from the code and prefers checking out the source to reading endless documentations.
