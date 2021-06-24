@@ -151,6 +151,8 @@ namespace MonolithEngine
             }
         }
 
+        private UserInputController UserInput;
+
         public Entity(Layer layer, Entity parent = null, Vector2 startPosition = default) : base()
         {
             DrawPosition = startPosition;
@@ -188,6 +190,11 @@ namespace MonolithEngine
             if (newComponent is ICollisionComponent || newComponent is ITrigger)
             {
                 Scene.CollisionEngine.OnCollisionProfileChanged(this);
+            }
+
+            if (newComponent is UserInputController)
+            {
+                UserInput = newComponent as UserInputController;
             }
         }
 
@@ -244,6 +251,8 @@ namespace MonolithEngine
 
         public virtual void PreUpdate()
         {
+            componentList.PreUpdateAll();
+
             foreach (Entity child in Children)
             {
                 if (child.Active)
@@ -311,6 +320,8 @@ namespace MonolithEngine
             {
                 RayEmitter.UpdateRays();
             }*/
+
+            componentList.PostUpdateAll();
 
             foreach (Entity child in Children)
             {

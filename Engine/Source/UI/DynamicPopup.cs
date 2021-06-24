@@ -12,12 +12,9 @@ namespace MonolithEngine
     /// </summary>
     class DynamicPopup : Entity
     {
-
-        private UserInputController input;
-
         public DynamicPopup(AbstractScene scene, Texture2D texture, Vector2 position, Entity follow, float scale = 1, float timeout = 0) : base(scene.LayerManager.EntityLayer, follow, position)
         {
-            input = new UserInputController();
+            AddComponent(new UserInputController());
 
             Timer.TriggerAfter(timeout, () => {
                 Destroy();
@@ -29,14 +26,6 @@ namespace MonolithEngine
 
             Active = true;
             Visible = true;
-        }
-
-
-
-        public override void FixedUpdate()
-        {
-            input.Update();
-            base.FixedUpdate();
         }
 
     }

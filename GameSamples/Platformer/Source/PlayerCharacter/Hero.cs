@@ -102,6 +102,8 @@ namespace ForestPlatformerExample
 
         private Fan fan;
 
+        UserInputController UserInput;
+
         public Hero(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
 
@@ -502,6 +504,7 @@ namespace ForestPlatformerExample
         private void SetupController()
         {
             UserInput = new UserInputController();
+            AddComponent(UserInput);
 
             UserInput.RegisterKeyPressAction(Keys.R, (Vector2 thumbStickPosition) =>
             {
@@ -514,7 +517,7 @@ namespace ForestPlatformerExample
                 {
                     if (slideDirection != Direction.EAST)
                     {
-                        Transform.VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                        Transform.VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     }
                     if (Transform.VelocityX > 0.1)
                     {
@@ -525,7 +528,7 @@ namespace ForestPlatformerExample
                 {
                     if (slideDirection != Direction.EAST)
                     {
-                        Transform.VelocityX += MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                        Transform.VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     }
                     CurrentFaceDirection = Direction.EAST;
                 }
@@ -547,7 +550,7 @@ namespace ForestPlatformerExample
                 {
                     if (slideDirection != Direction.WEST)
                     {
-                        Transform.VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                        Transform.VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     }
                     if (Transform.VelocityX < -0.1)
                     {
@@ -558,7 +561,7 @@ namespace ForestPlatformerExample
                 {
                     if (slideDirection != Direction.WEST)
                     {
-                        Transform.VelocityX -= MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                        Transform.VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                     }
                     CurrentFaceDirection = Direction.WEST;
                 }
@@ -677,11 +680,11 @@ namespace ForestPlatformerExample
                 }
                 if (thumbStickPosition.Y != 0)
                 {
-                    Transform.VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                    Transform.VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 }
                 else
                 {
-                    Transform.VelocityY += MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                    Transform.VelocityY += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 }
                 //CurrentFaceDirection = GridDirection.DOWN;
             });
@@ -695,11 +698,11 @@ namespace ForestPlatformerExample
 
                 if (thumbStickPosition.Y != 0)
                 {
-                    Transform.VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                    Transform.VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 }
                 else
                 {
-                    Transform.VelocityY -= MovementSpeed * Globals.FixedUpdateMultiplier * Config.TIME_OFFSET;
+                    Transform.VelocityY -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
                 }
                 //CurrentFaceDirection = GridDirection.UP;
             });

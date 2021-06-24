@@ -34,7 +34,6 @@ namespace MonolithEngine
             Config.GRAVITY_ON = true;
             Config.GRAVITY_FORCE = 0.3f;
             //Config.ZOOM = 2f;
-            Config.CHARACTER_SPEED = 2f;
             Config.JUMP_FORCE = 1f;
             Config.INCREASING_GRAVITY = true;
 

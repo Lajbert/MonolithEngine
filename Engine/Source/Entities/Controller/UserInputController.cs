@@ -11,7 +11,7 @@ namespace MonolithEngine
     /// Basically just invokes different callbacks registered to
     /// key/button actions.
     /// </summary>
-    public class UserInputController
+    public class UserInputController : IUpdatableComponent, IComponent
     {
 
         private Dictionary<Keys, bool> pressedKeys = new Dictionary<Keys, bool>();
@@ -34,6 +34,13 @@ namespace MonolithEngine
         private Vector2 rightThumbStick = Vector2.Zero;
 
         public bool ControlsDisabled = false;
+
+        public bool UniquePerEntity { get; set; }
+
+        public UserInputController()
+        {
+            UniquePerEntity = true;
+        }
 
         public void RegisterKeyPressAction(Keys key, Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false, int pressCooldown = 0)
         {
@@ -71,7 +78,7 @@ namespace MonolithEngine
             return pressedKeys[key];
         }
 
-        public void Update()
+        public void PreUpdate()
         {
             if (ControlsDisabled)
             {
@@ -199,6 +206,14 @@ namespace MonolithEngine
                     prevMouseScrollWheelValue = mouseState.ScrollWheelValue;
                 }
             }
+        }
+
+        public void Update()
+        {
+        }
+
+        public void PostUpdate()
+        {
         }
 
         private class KeyMapping

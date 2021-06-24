@@ -15,8 +15,6 @@ namespace MonolithEngine
 
         private bool keepBouncing = false;
 
-        protected UserInputController UserInput;
-
         public bool IsOnGround;
 
         public float HorizontalFriction = Config.HORIZONTAL_FRICTION;
@@ -102,10 +100,12 @@ namespace MonolithEngine
             if (previousPosition == Transform.Position || Config.FIXED_UPDATE_FPS == VideoConfiguration.FRAME_LIMIT || Config.FIXED_UPDATE_FPS == 0)
             {
                 DrawPosition = Transform.Position;
+                //DrawPosition = MathUtil.IsoFrom2D(Transform.Position);
             }
             else
             {
                 DrawPosition = Vector2.Lerp(previousPosition, Transform.Position, Globals.FixedUpdateAlpha);
+                //DrawPosition = Vector2.Lerp(MathUtil.IsoFrom2D(previousPosition), MathUtil.IsoFrom2D(Transform.Position), Globals.FixedUpdateAlpha);
             }
 
             if (previousRotation != Transform.Rotation)
@@ -118,11 +118,6 @@ namespace MonolithEngine
 
         public override void PreFixedUpdate()
         {
-            if (UserInput != null)
-            {
-                UserInput.Update();
-            }
-
             base.PreFixedUpdate();
         }
 

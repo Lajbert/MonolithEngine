@@ -120,5 +120,47 @@ namespace MonolithEngine
                 }
             }
         }
+
+        /// <summary>
+        /// PreUpdating all the updatable components of an entity (colliders, etc)
+        /// </summary>
+        public void PreUpdateAll()
+        {
+            foreach (List<IComponent> list in components.Values)
+            {
+                if (list.Count == 0)
+                {
+                    continue;
+                }
+                foreach (IComponent component in list)
+                {
+                    if (component is IUpdatableComponent)
+                    {
+                        (component as IUpdatableComponent).PreUpdate();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// PreUpdating all the updatable components of an entity (colliders, etc)
+        /// </summary>
+        public void PostUpdateAll()
+        {
+            foreach (List<IComponent> list in components.Values)
+            {
+                if (list.Count == 0)
+                {
+                    continue;
+                }
+                foreach (IComponent component in list)
+                {
+                    if (component is IUpdatableComponent)
+                    {
+                        (component as IUpdatableComponent).PostUpdate();
+                    }
+                }
+            }
+        }
     }
 }

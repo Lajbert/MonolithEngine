@@ -15,8 +15,6 @@ namespace MonolithEngine
     public class StaticPopup : Entity
     {
         
-        private UserInputController input;
-
         private SpriteFont font;
 
         private string text;
@@ -29,7 +27,7 @@ namespace MonolithEngine
 
         public StaticPopup(AbstractScene scene, Vector2 position, float timeout = 0, Keys continueButton = Keys.Space) : base(scene.LayerManager.UILayer, null, position)
         {
-            input = new UserInputController();
+            AddComponent(new UserInputController());
 
             this.timeout = timeout;
 
@@ -62,7 +60,6 @@ namespace MonolithEngine
 
         public override void FixedUpdate()
         {
-            input.Update();
             base.FixedUpdate();
         }
 
@@ -84,7 +81,7 @@ namespace MonolithEngine
             if (timeout == 0)
             {
                 Scene.LayerManager.Paused = true;
-                input.RegisterKeyPressAction(continueButton, (thumbstickPos) =>
+                GetComponent<UserInputController>().RegisterKeyPressAction(continueButton, (thumbstickPos) =>
                 {
                     Scene.LayerManager.Paused = false;
                     Destroy();

@@ -78,5 +78,13 @@ namespace MonolithEngine
         {
             return currentState;
         }
+
+        public void PreUpdate()
+        {
+        }
+
+        public void PostUpdate()
+        {
+        }
     }
 }

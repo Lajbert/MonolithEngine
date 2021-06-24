@@ -244,5 +244,13 @@ namespace MonolithEngine
             }
             return currentAnimation.state;
         }
+
+        public void PreUpdate()
+        {
+        }
+
+        public void PostUpdate()
+        {
+        }
     }
 }
