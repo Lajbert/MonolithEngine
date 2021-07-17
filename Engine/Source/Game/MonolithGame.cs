@@ -39,10 +39,6 @@ namespace MonolithEngine
 
             Config.FIXED_UPDATE_FPS = 30;
             Globals.FixedUpdateMultiplier = 1;
-
-            fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
-            Globals.FixedUpdateRate = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS));
-            //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
         }
 
         public void ApplyVideoConfiguration()
@@ -85,6 +81,9 @@ namespace MonolithEngine
 #endif
             VideoConfiguration.GameInstance = this;
             Init();
+            fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
+            Globals.FixedUpdateRate = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS));
+            //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
             base.Initialize();
         }
 

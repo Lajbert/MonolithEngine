@@ -631,11 +631,11 @@ namespace ForestPlatformerExample
                     Vector2 force;
                     if (CurrentFaceDirection == Direction.WEST)
                     {
-                        force = new Vector2(-5, 0);
+                        force = new Vector2(-2.5f, 0);
                     }
                     else
                     {
-                        force = new Vector2(5, 0);
+                        force = new Vector2(2.5f, 0);
                     }
                     ThrowCurrentItem(force);
                     return;

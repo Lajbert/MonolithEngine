@@ -24,6 +24,9 @@ namespace ForestPlatformerExample
         protected override void Init()
         {
 
+            Config.FIXED_UPDATE_FPS = 60;
+            Globals.FixedUpdateMultiplier = 0.5f;
+
             Logger.Info("Launching game...");
 
             font = Content.Load<SpriteFont>("DefaultFont");
@@ -256,7 +259,7 @@ namespace ForestPlatformerExample
             AudioEngine.AddSound("GostAppear", "ForestAssets/Audio/sfx_wpn_laser11"); 
             AudioEngine.AddSound("RockSplit", "ForestAssets/Audio/sfx_sounds_impact10");
 #if DEBUG
-            AudioEngine.MuteAll();
+            //AudioEngine.MuteAll();
 #endif
 
             Logger.Debug("Loading scenes...");

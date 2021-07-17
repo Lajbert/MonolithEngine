@@ -4,7 +4,7 @@ namespace MonolithEngine
 {
     public class Config
     {
-        public static float CHARACTER_SPEED = 60f;
+        public static float CHARACTER_SPEED = 80f;
         public static int   GRID = 16;
         public static float HORIZONTAL_FRICTION = 0.4f;
         public static float VERTICAL_FRICTION = 0.8f;

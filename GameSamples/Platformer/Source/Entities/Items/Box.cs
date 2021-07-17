@@ -36,7 +36,7 @@ namespace ForestPlatformerExample
             CollisionOffsetRight = 0.5f;
 
             GravityValue /= 2;
-            HorizontalFriction = 0.6f;
+            HorizontalFriction = 0.8f;
 
             //DEBUG_SHOW_PIVOT = true;
 
@@ -62,7 +62,7 @@ namespace ForestPlatformerExample
             for (int i = 0; i < numOfCoins; i++)
             {
 
-                Coin c = new Coin(Scene, new Vector2(-8, -20), 3, friction: (float)random.Next(57, 64) / (float)100)
+                Coin c = new Coin(Scene, new Vector2(-8, -20), 3, friction: (float)random.Next(95, 99) / (float)100)
                 {
                     Parent = this,
                     Visible = false,
@@ -128,7 +128,8 @@ namespace ForestPlatformerExample
                 c.Parent = null;
                 c.Active = true;
                 c.Visible = true;
-                c.Transform.Velocity += new Vector2(random.Next(-2, 4), random.Next(-5, 0) * 0.3f);
+                float forceMult = 0.003f;
+                c.Transform.Velocity += new Vector2(random.Next(-2, 4) * 0.1f, random.Next(-5, 0) * 0.01f);
                 c.SetBump(new Vector2(0, -0.5f));
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
