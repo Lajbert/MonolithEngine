@@ -216,6 +216,11 @@ namespace MonolithEngine
         {
         }
 
+        public Type GetComponentType()
+        {
+            return GetType();
+        }
+
         private class KeyMapping
         {
             public Keys? Key;

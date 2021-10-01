@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ForestPlatformerExample;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -66,6 +67,7 @@ namespace MonolithEngine
             graphics.PreferredBackBufferHeight = VideoConfiguration.RESOLUTION_HEIGHT;
             graphics.IsFullScreen = VideoConfiguration.FULLSCREEN;
             Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
+            //graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.PortraitDown;
             graphics.ApplyChanges();
         }
 
@@ -76,8 +78,11 @@ namespace MonolithEngine
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
 #if DEBUG
-            debugFont = Content.Load<SpriteFont>("Fonts/DebugFont");
-            Entity.DebugFont = debugFont;
+            if (!PlatformerGame.ANDROID)
+            {
+                debugFont = Content.Load<SpriteFont>("Fonts/DebugFont");
+                Entity.DebugFont = debugFont;
+            }
 #endif
             VideoConfiguration.GameInstance = this;
             Init();
@@ -107,7 +112,10 @@ namespace MonolithEngine
 
             SceneManager = new SceneManager(Camera, graphics.GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("DefaultFont");
+            if (!PlatformerGame.ANDROID)
+            {
+                font = Content.Load<SpriteFont>("DefaultFont");
+            }
 
             //TODO: use this.Content to load your game content here
 
@@ -199,9 +207,12 @@ namespace MonolithEngine
                 lastPrint = 0;
             }
 
-            spriteBatch.Begin();
-            spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red);
-            spriteBatch.End();
+            if (!PlatformerGame.ANDROID)
+            {
+                spriteBatch.Begin();
+                spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red);
+                spriteBatch.End();
+            }
 
 #endif
 
