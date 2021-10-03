@@ -68,11 +68,13 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\ContentAndroid.mgcb" />
+    <!--None Include="Content\ContentAndroid.mgcb" /-->
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Content\ContentAndroid.mgcb" Visible="false" />
+    <MonoGameContentReference Include="..\PlatformerNetStandard\Content\Content.mgcb">
+      <Link>Content\Content.mgcb</Link>
+    </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
