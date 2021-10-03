@@ -31,10 +31,7 @@ namespace ForestPlatformerExample
 
             Logger.Info("Launching game...");
 
-            if (!ANDROID)
-            {
-                font = Content.Load<SpriteFont>("DefaultFont");
-            }
+            font = Content.Load<SpriteFont>("Fonts/DefaultFont");
 
             Logger.LogToFile = true;
 

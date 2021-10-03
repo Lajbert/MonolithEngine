@@ -32,17 +32,14 @@ namespace MonolithEngine
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!PlatformerGame.ANDROID)
+            //public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
+            if (Parent == null)
             {
-                //public void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
-                if (Parent == null)
-                {
-                    spriteBatch.DrawString(Font, DataSource.Invoke(), GetPosition(), Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
-                }
-                else
-                {
-                    spriteBatch.DrawString(Font, DataSource.Invoke(), GetPosition(), Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
-                }
+                spriteBatch.DrawString(Font, DataSource.Invoke(), GetPosition(), Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
+            }
+            else
+            {
+                spriteBatch.DrawString(Font, DataSource.Invoke(), GetPosition(), Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
             }
         }
     }
