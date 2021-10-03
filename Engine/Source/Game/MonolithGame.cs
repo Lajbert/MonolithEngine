@@ -78,11 +78,8 @@ namespace MonolithEngine
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
 #if DEBUG
-            if (!PlatformerGame.ANDROID)
-            {
-                debugFont = Content.Load<SpriteFont>("Fonts/DebugFont");
-                Entity.DebugFont = debugFont;
-            }
+            debugFont = Content.Load<SpriteFont>("Fonts/DefaultFont");
+            Entity.DebugFont = debugFont;
 #endif
             VideoConfiguration.GameInstance = this;
             Init();
@@ -112,10 +109,7 @@ namespace MonolithEngine
 
             SceneManager = new SceneManager(Camera, graphics.GraphicsDevice);
 
-            if (!PlatformerGame.ANDROID)
-            {
-                font = Content.Load<SpriteFont>("DefaultFont");
-            }
+            font = Content.Load<SpriteFont>("Fonts/DefaultFont");
 
             //TODO: use this.Content to load your game content here
 
@@ -207,12 +201,9 @@ namespace MonolithEngine
                 lastPrint = 0;
             }
 
-            if (!PlatformerGame.ANDROID)
-            {
-                spriteBatch.Begin();
-                spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red);
-                spriteBatch.End();
-            }
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red, 0f, default, 3, SpriteEffects.None, 0);
+            spriteBatch.End();
 
 #endif
 
