@@ -41,7 +41,7 @@ namespace ForestPlatformerExample
             }
             AddComponent(new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, width, height)));
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-            AddCollisionAgainst("PlatformTurner");
+            AddCollisionAgainst(typeof(MovingPlatformTurner));
             AddTag("Mountable");
             AddTag("MovingPlatform");
         }

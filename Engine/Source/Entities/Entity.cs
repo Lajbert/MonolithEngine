@@ -35,7 +35,7 @@ namespace MonolithEngine
 
         private ComponentList componentList = new ComponentList();
 
-        private Dictionary<string, bool> CollidesAgainst = new Dictionary<string, bool>();
+        private Dictionary<Type, bool> CollidesAgainst = new Dictionary<Type, bool>();
 
         private bool checkGridCollisions = false;
 
@@ -479,20 +479,20 @@ namespace MonolithEngine
             OnCollisionEnd(otherCollider);
         }*/
 
-        public Dictionary<string, bool> GetCollidesAgainst()
+        public Dictionary<Type, bool> GetCollidesAgainst()
         {
             return CollidesAgainst;
         }
 
-        public void AddCollisionAgainst(string tag, bool allowOverlap = true)
+        public void AddCollisionAgainst(Type type, bool allowOverlap = true)
         {
-            CollidesAgainst[tag] = allowOverlap;
+            CollidesAgainst[type] = allowOverlap;
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
-        public void RemoveCollisionAgainst(string tag)
+        public void RemoveCollisionAgainst(Type type)
         {
-            CollidesAgainst.Remove(tag);
+            CollidesAgainst.Remove(type);
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 

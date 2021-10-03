@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MonolithEngine
 {
@@ -16,7 +17,7 @@ namespace MonolithEngine
 
         internal void CollisionEnded(IGameObject otherCollider);
 
-        public Dictionary<string, bool> GetCollidesAgainst();
+        public Dictionary<Type, bool> GetCollidesAgainst();
 
         public bool CheckGridCollisions { get; set; }
     }

@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Views;
 using ForestPlatformerExample;
 using Microsoft.Xna.Framework;
+using MonolithEngine;
 
 namespace PlatformerAndroid
 {
@@ -13,7 +14,7 @@ namespace PlatformerAndroid
         Icon = "@drawable/icon",
         AlwaysRetainTaskState = true,
         LaunchMode = LaunchMode.SingleInstance,
-        ScreenOrientation = ScreenOrientation.FullUser,
+        ScreenOrientation = ScreenOrientation.ReverseLandscape,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize
     )]
     public class Activity1 : AndroidGameActivity
@@ -26,6 +27,7 @@ namespace PlatformerAndroid
             base.OnCreate(bundle);
 
             PlatformerGame.ANDROID = true;
+            Config.ANDROID = true;
             _game = new PlatformerGame();
             _view = _game.Services.GetService(typeof(View)) as View;
 

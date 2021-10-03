@@ -43,14 +43,19 @@ namespace ForestPlatformerExample
                 SceneManager.LoadScene("LevelSelect");
             };
 
-            SelectableImage settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
-            settings.HoverSoundEffectName = "MenuHover";
-            settings.SelectSoundEffectName = "MenuSelect";
-            
-            settings.OnClick = () =>
+            SelectableImage settings = null;
+            if (!PlatformerGame.ANDROID)
             {
-                SceneManager.StartScene("Settings");
-            };
+                settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
+                settings.HoverSoundEffectName = "MenuHover";
+                settings.SelectSoundEffectName = "MenuSelect";
+
+                settings.OnClick = () =>
+                {
+                    SceneManager.StartScene("Settings");
+                };
+            }
+
 
             SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(150, 250), scale: 0.25f);
             quit.HoverSoundEffectName = "MenuHover";
@@ -59,7 +64,11 @@ namespace ForestPlatformerExample
             quit.OnClick = Config.ExitAction;
 
             UI.AddUIElement(quit);
-            UI.AddUIElement(settings);
+            if (!PlatformerGame.ANDROID)
+            {
+                UI.AddUIElement(settings);
+            }
+
             UI.AddUIElement(newGame);
         }
 

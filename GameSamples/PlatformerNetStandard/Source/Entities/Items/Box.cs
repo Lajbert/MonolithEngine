@@ -23,7 +23,7 @@ namespace ForestPlatformerExample
 
             DrawPriority = 2;
 
-            AddCollisionAgainst("Enemy");
+            AddCollisionAgainst(typeof(AbstractEnemy));
             AddTag("Box");
 
             this.bumps = currentBump = bumps;

@@ -26,8 +26,8 @@ namespace ForestPlatformerExample
         protected override void Init()
         {
 
-            Config.FIXED_UPDATE_FPS = 30;
-            Globals.FixedUpdateMultiplier = 1f;
+            Config.FIXED_UPDATE_FPS = 60;
+            Globals.FixedUpdateMultiplier = 0.5f;
 
             Logger.Info("Launching game...");
 
@@ -42,26 +42,36 @@ namespace ForestPlatformerExample
 
             int desktopWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             int desktopHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            int gdc = GDC(desktopWidth, desktopHeight);
-
-            if (desktopWidth / gdc == 16 && desktopHeight / gdc == 9)
+            
+            if (ANDROID)
             {
+                VideoConfiguration.RESOLUTION_WIDTH = 1440;
+                VideoConfiguration.RESOLUTION_HEIGHT = 2560;
+            } 
+            else
+            {
+                int gdc = GDC(desktopWidth, desktopHeight);
+
+                if (desktopWidth / gdc == 16 && desktopHeight / gdc == 9)
+                {
 #if DEBUG
-                VideoConfiguration.RESOLUTION_WIDTH = 2560;
-                VideoConfiguration.RESOLUTION_HEIGHT = 1440;
-                VideoConfiguration.FULLSCREEN = false;
+                    VideoConfiguration.RESOLUTION_WIDTH = 2560;
+                    VideoConfiguration.RESOLUTION_HEIGHT = 1440;
+                    VideoConfiguration.FULLSCREEN = false;
 #else
                 VideoConfiguration.RESOLUTION_WIDTH = desktopWidth;
                 VideoConfiguration.RESOLUTION_HEIGHT = desktopHeight;
                 VideoConfiguration.FULLSCREEN = true;
 #endif
+                }
+                else
+                {
+                    VideoConfiguration.RESOLUTION_WIDTH = 1440;
+                    VideoConfiguration.RESOLUTION_HEIGHT = 2560;
+                    VideoConfiguration.FULLSCREEN = true;
+                }
             }
-            else
-            {
-                VideoConfiguration.RESOLUTION_WIDTH = 1440;
-                VideoConfiguration.RESOLUTION_HEIGHT = 2560;
-                VideoConfiguration.FULLSCREEN = true;
-            }
+
 
             Logger.Info("Display resolution: " + VideoConfiguration.RESOLUTION_WIDTH +  "x" + VideoConfiguration.RESOLUTION_HEIGHT);
             Logger.Info("Supported display modes: ");
@@ -264,6 +274,16 @@ namespace ForestPlatformerExample
             AudioEngine.AddSound("GostDisappear", "ForestAssets/Audio/sfx_wpn_laser11");
             AudioEngine.AddSound("GostAppear", "ForestAssets/Audio/sfx_wpn_laser11"); 
             AudioEngine.AddSound("RockSplit", "ForestAssets/Audio/sfx_sounds_impact10");
+
+            if (ANDROID)
+            {
+                Assets.LoadTexture("LeftArrow", "MobileButtons/left_arrow");
+                Assets.LoadTexture("RightArrow", "MobileButtons/right_arrow");
+                Assets.LoadTexture("UpArrow", "MobileButtons/up_arrow");
+                Assets.LoadTexture("DownArrow", "MobileButtons/down_arrow");
+                Assets.LoadTexture("XButton", "MobileButtons/x_button");
+            }
+
 #if DEBUG
             //AudioEngine.MuteAll();
 #endif
@@ -273,17 +293,20 @@ namespace ForestPlatformerExample
             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
             Level1Scene level1 = new Level1Scene(world, font);
-            SettingsScene settings = new SettingsScene();
             VideoSettingsScene videoSettings = new VideoSettingsScene();
             LoadingScreenScene loadingScreen = new LoadingScreenScene();
             Level2Scene level2 = new Level2Scene(world, font);
             LevelSelectScreen levelSelectScreen = new LevelSelectScreen();
             GameEndScene endScene = new GameEndScene();
+            if (!ANDROID)
+            {
+                SettingsScene settings = new SettingsScene();
+                SceneManager.AddScene(settings);
+            }
 
             world = null;
 
             SceneManager.AddScene(mainMenuScene);
-            SceneManager.AddScene(settings);
             SceneManager.AddScene(pauseMenuScene);
             SceneManager.AddScene(level1);
             SceneManager.AddScene(videoSettings);
@@ -294,15 +317,8 @@ namespace ForestPlatformerExample
 
 
             Logger.Debug("Starting main menu...");
-            if (ANDROID)
-            {
-                SceneManager.LoadScene(level1);
-            } 
-            else
-            {
-                SceneManager.SetLoadingScene(loadingScreen);
-                SceneManager.LoadScene(mainMenuScene);
-            }
+            SceneManager.SetLoadingScene(loadingScreen);
+            SceneManager.LoadScene(mainMenuScene);
 
         }
 

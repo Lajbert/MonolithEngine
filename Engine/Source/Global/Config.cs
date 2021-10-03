@@ -4,6 +4,8 @@ namespace MonolithEngine
 {
     public class Config
     {
+        public static bool ANDROID = false;
+
         public static float CHARACTER_SPEED = 80f;
         public static int   GRID = 16;
         public static float HORIZONTAL_FRICTION = 0.4f;

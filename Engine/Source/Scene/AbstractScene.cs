@@ -146,6 +146,7 @@ namespace MonolithEngine
         public void FixedUpdate()
         {
             LayerManager.FixedUpdateAll();
+            CollisionEngine.PostUpdate();
         }
 
         public void Draw(SpriteBatch spriteBatch)

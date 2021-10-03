@@ -200,7 +200,10 @@ namespace ForestPlatformerExample
                             textName = field.Value;
                         }
                     }
-                    //new PopupTrigger(scene, position, (int)entity.Width, (int)entity.Height, textName);
+                    if (!PlatformerGame.ANDROID)
+                    {
+                        new PopupTrigger(scene, position, (int)entity.Width, (int)entity.Height, textName);
+                    }
                 }
             }
 

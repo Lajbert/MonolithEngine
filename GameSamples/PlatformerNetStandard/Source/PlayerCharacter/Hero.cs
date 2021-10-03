@@ -116,17 +116,28 @@ namespace ForestPlatformerExample
 
             random = new Random();
 
-            AddCollisionAgainst("Interactive");
-            AddCollisionAgainst("Enemy");
-            AddCollisionAgainst("Mountable", false);
-            AddCollisionAgainst("Environment");
-            AddCollisionAgainst("Projectile");
-            AddCollisionAgainst("Box");
-            AddCollisionAgainst("Spikes");
-            AddCollisionAgainst("IceCreamProjectile");
-            AddCollisionAgainst("Saw");
-            AddCollisionAgainst("Fan");
-            AddCollisionAgainst("FinishTropy");
+            AddCollisionAgainst(typeof(Coin));
+            AddCollisionAgainst(typeof(Box));
+            AddCollisionAgainst(typeof(Spring));
+            AddCollisionAgainst(typeof(Carrot));
+            AddCollisionAgainst(typeof(Ghost));
+            AddCollisionAgainst(typeof(IceCream));
+            AddCollisionAgainst(typeof(Rock));
+            AddCollisionAgainst(typeof(SpikedTurtle));
+            AddCollisionAgainst(typeof(Trunk));
+            AddCollisionAgainst(typeof(MovingPlatform), false);
+            AddCollisionAgainst(typeof(Ladder));
+            AddCollisionAgainst(typeof(IceTrigger));
+            AddCollisionAgainst(typeof(NextLevelTrigger));
+            AddCollisionAgainst(typeof(PopupTrigger));
+            AddCollisionAgainst(typeof(RespawnPoint));
+            AddCollisionAgainst(typeof(SlideWall));
+            AddCollisionAgainst(typeof(Bullet));
+            AddCollisionAgainst(typeof(Spikes));
+            AddCollisionAgainst(typeof(IceCreamProjectile));
+            AddCollisionAgainst(typeof(Saw));
+            AddCollisionAgainst(typeof(Fan));
+            AddCollisionAgainst(typeof(GameFinishTrophy));
             AddTag("Hero");
             CanFireTriggers = true;
 
@@ -748,6 +759,71 @@ namespace ForestPlatformerExample
                     });
                 }
             );
+        }
+
+        public void MoveLeft()
+        {
+            if (slideDirection != Direction.WEST)
+            {
+                Transform.VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+            }
+            CurrentFaceDirection = Direction.WEST;
+            fist.ChangeDirection();
+        }
+
+        public void MoveRight()
+        {
+            if (slideDirection != Direction.EAST)
+            {
+                Transform.VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+            }
+            CurrentFaceDirection = Direction.EAST;
+            fist.ChangeDirection();
+        }
+
+        public void Jump()
+        {
+            if (Ladder != null || (!canJump && !canDoubleJump))
+            {
+                return;
+            }
+            if (canJump)
+            {
+                if (!isCarryingItem)
+                {
+                    canDoubleJump = true;
+                }
+                canJump = false;
+            }
+            else
+            {
+                if (lastJump < JUMP_RATE)
+                {
+                    return;
+                }
+                lastJump = 0f;
+                canDoubleJump = false;
+                doubleJumping = true;
+            }
+
+            if (DECREASED_AIR_MOBILITY && Math.Abs(Transform.VelocityX) < 0.1 && MovementSpeed == Config.CHARACTER_SPEED)
+            {
+                MovementSpeed /= 2;
+            }
+
+            Transform.VelocityY -= Config.JUMP_FORCE + jumpModifier.Y;
+            Transform.VelocityX += jumpModifier.X;
+            if (jumpModifier.X < 0)
+            {
+                CurrentFaceDirection = Direction.WEST;
+            }
+            else if (jumpModifier.X > 0)
+            {
+                CurrentFaceDirection = Direction.EAST;
+            }
+            jumpModifier = Vector2.Zero;
+            FallSpeed = (float)Globals.GameTime.TotalGameTime.TotalSeconds;
+            AudioEngine.Play("JumpSound");
         }
 
         private void Slide()

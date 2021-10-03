@@ -18,8 +18,8 @@ namespace ForestPlatformerExample
             hero = parent as PhysicalEntity;
             CurrentFaceDirection = parent.CurrentFaceDirection;
 
-            AddCollisionAgainst("Enemy");
-            AddCollisionAgainst("Box");
+            AddCollisionAgainst(typeof(AbstractEnemy));
+            AddCollisionAgainst(typeof(Box));
 
             //DEBUG_SHOW_COLLIDER = true;
         }

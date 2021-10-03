@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ForestPlatformerExample;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MonolithEngine
@@ -13,8 +15,8 @@ namespace MonolithEngine
     public class CollisionEngine
     {
 
-        private HashSet<IColliderEntity> toCheckAgainst = new HashSet<IColliderEntity>();
-        private HashSet<IColliderEntity> entities = new HashSet<IColliderEntity>();
+        private Dictionary<IColliderEntity, HashSet<IColliderEntity>> toCheckAgainst = new Dictionary<IColliderEntity, HashSet<IColliderEntity>>();
+        //private HashSet<IColliderEntity> entities = new HashSet<IColliderEntity>();
 
         private Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>> collisions = new Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>>();
 
@@ -49,7 +51,7 @@ namespace MonolithEngine
 
         public void CheckCollisions(IColliderEntity thisEntity = null)
         {
-            if (changedObjects.Count == 0 && (entities.Count == 0 || toCheckAgainst.Count == 0 ))
+            if (changedObjects.Count == 0 && toCheckAgainst.Count == 0)
             {
                 return;
             }
@@ -62,24 +64,32 @@ namespace MonolithEngine
                 return;
             }
 
-            foreach (IColliderEntity otherEntity in toCheckAgainst)
+            if (!toCheckAgainst.ContainsKey(thisEntity))
+            {
+                return;
+            }
+
+            foreach (IColliderEntity otherEntity in toCheckAgainst[thisEntity])
             {
                 if (thisEntity.Equals(otherEntity))
                 {
                     continue;
                 }
 
-                if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
+                if (!PlatformerGame.ANDROID)
                 {
-                    CheckTriggers(thisEntity, otherEntity);
+                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
+                    {
+                        CheckTriggers(thisEntity, otherEntity);
+                    }
                 }
 
-                if (otherEntity.GetTags().Count == 0 || !otherEntity.CollisionsEnabled)
+                if (!otherEntity.CollisionsEnabled)
                 {
                     continue;
                 }
 
-                bool possibleCollision = false;
+                /*bool possibleCollision = false;
                 bool allowOverlap = false;
                 foreach(string tag in otherEntity.GetTags()) {
                     if (thisEntity.GetCollidesAgainst().ContainsKey(tag)) {
@@ -92,12 +102,13 @@ namespace MonolithEngine
                 if (!possibleCollision)
                 {
                     continue;
-                }
+                }*/
 
                 if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
                 {
-                    CheckCollision(thisEntity, otherEntity, allowOverlap);
+                    CheckCollision(thisEntity, otherEntity, thisEntity.GetCollidesAgainst()[otherEntity.GetType()]);
                 }
+                
                     
                 /*if (thisEntity.CheckGridCollisions)
                 {
@@ -112,60 +123,91 @@ namespace MonolithEngine
         {
             if (changedObjects.Count > 0)
             {
-                foreach (IColliderEntity changed in changedObjects)
+                if (toCheckAgainst.Count == 0)
                 {
-                    if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0)
+                    foreach (IColliderEntity changed in changedObjects)
                     {
-                        entities.Remove(changed);
-                        if (!changed.CanFireTriggers)
+                        foreach (IColliderEntity changed2 in changedObjects)
                         {
-                            toCheckAgainst.Remove(changed);
-                        }
-                    }
-                    else
-                    {
-                        if (changed.GetCollisionComponent() != null)
-                        {
-                            if (changed.GetCollidesAgainst().Count > 0)
+                            if (changed.Equals(changed2))
                             {
+                                continue;
+                            }
+                            if (changed.GetCollidesAgainst().Count != 0 && changed.GetCollidesAgainst().ContainsKey(changed2.GetType()))
+                            {
+                                if (!toCheckAgainst.ContainsKey(changed))
+                                {
+                                    toCheckAgainst[changed] = new HashSet<IColliderEntity>();
+                                }
                                 if (!collisions.ContainsKey(changed))
                                 {
                                     collisions[changed] = new Dictionary<IColliderEntity, bool>();
                                 }
-                                if (!entities.Contains(changed))
-                                {
-                                    entities.Add(changed);
-                                }
+                                toCheckAgainst[changed].Add(changed2);
                             }
-                            else
+                        }
+                        if (changed.GetTriggers().Count > 0)
+                        {
+                            triggers[changed] = new Dictionary<string, Dictionary<IGameObject, bool>>();
+                            foreach (ITrigger trigger in changed.GetTriggers())
                             {
-                                collisions.Remove(changed);
-                                entities.Remove(changed);
+                                triggers[changed][trigger.GetTag()] = new Dictionary<IGameObject, bool>();
                             }
-
-                            if (changed.GetTags().Count > 0)
-                            {
-                                if (!toCheckAgainst.Contains(changed))
-                                {
-                                    toCheckAgainst.Add(changed);
-                                }
-                            }
-                            else
+                        }
+                    }
+                
+                        /*if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0)
+                        {
+                            entities.Remove(changed);
+                            if (!changed.CanFireTriggers)
                             {
                                 toCheckAgainst.Remove(changed);
                             }
                         }
-
-                        /*if (changed.CheckGridCollisions)
+                        else
                         {
-                            gridCollisions[changed] = new Dictionary<StaticCollider, bool>();
-                            if (!entities.Contains(changed))
+                            if (changed.GetCollisionComponent() != null)
                             {
-                                entities.Add(changed);
-                            }
-                        }*/
+                                if (changed.GetCollidesAgainst().Count > 0)
+                                {
+                                    if (!collisions.ContainsKey(changed))
+                                    {
+                                        collisions[changed] = new Dictionary<IColliderEntity, bool>();
+                                    }
+                                    if (!entities.Contains(changed))
+                                    {
+                                        entities.Add(changed);
+                                    }
+                                }
+                                else
+                                {
+                                    collisions.Remove(changed);
+                                    entities.Remove(changed);
+                                }
 
-                        if (changed.GetTriggers().Count > 0)
+                                if (changed.GetTags().Count > 0)
+                                {
+                                    if (!toCheckAgainst.Contains(changed))
+                                    {
+                                        toCheckAgainst.Add(changed);
+                                    }
+                                }
+                                else
+                                {
+                                    toCheckAgainst.Remove(changed);
+                                }
+                            }
+
+                            /*if (changed.CheckGridCollisions)
+                            {
+                                gridCollisions[changed] = new Dictionary<StaticCollider, bool>();
+                                if (!entities.Contains(changed))
+                                {
+                                    entities.Add(changed);
+                                }
+                            }*/
+
+                        /*if (changed.GetTriggers().Count > 0)
                         {
                             if (!entities.Contains(changed))
                             {
@@ -183,11 +225,10 @@ namespace MonolithEngine
                         {
                             toCheckAgainst.Add(changed);
                         }
+                    }*/
                     }
-                }
+                    changedObjects.Clear();
             }
-
-            changedObjects.Clear();
         }
 
         /*private void CheckGridCollisions(IColliderEntity thisEntity)
@@ -320,6 +361,12 @@ namespace MonolithEngine
                     }
                 }
             }*/
+
+        }
+
+
+        public void PostUpdate()
+        {
 
         }
 

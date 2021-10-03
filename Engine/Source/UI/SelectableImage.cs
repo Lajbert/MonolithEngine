@@ -66,27 +66,36 @@ namespace MonolithEngine
 
         public override void Update(Point mousePosition = default)
         {
-            if (mousePosition != default && IsMouseOver(mousePosition))
+            if (Config.ANDROID)
             {
-                if (!IsHoveredOver)
-                {
-                    if (HoverSoundEffectName != null)
-                    {
-                        AudioEngine.Play(HoverSoundEffectName);
-                    }
-                    HoverStartedAction?.Invoke();
+                if (IsMouseOver(mousePosition)) {
+                    OnClick();
                 }
-                IsHoveredOver = true;
-                userInterface.SelectElement(this);
-            } 
+            }
             else
             {
-                if (IsHoveredOver)
+                if (mousePosition != default && IsMouseOver(mousePosition))
                 {
-                    HoverStoppedAction?.Invoke();
+                    if (!IsHoveredOver)
+                    {
+                        if (HoverSoundEffectName != null)
+                        {
+                            AudioEngine.Play(HoverSoundEffectName);
+                        }
+                        HoverStartedAction?.Invoke();
+                    }
+                    IsHoveredOver = true;
+                    userInterface.SelectElement(this);
                 }
-                IsHoveredOver = false;
-                userInterface.DeselectElement(this);
+                else
+                {
+                    if (IsHoveredOver)
+                    {
+                        HoverStoppedAction?.Invoke();
+                    }
+                    IsHoveredOver = false;
+                    userInterface.DeselectElement(this);
+                }
             }
         }
 

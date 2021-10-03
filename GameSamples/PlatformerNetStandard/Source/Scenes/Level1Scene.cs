@@ -50,7 +50,6 @@ namespace ForestPlatformerExample
             UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(5, 5), scale: 2));
             UI.AddUIElement(new TextField(font, () => PlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale:0.2f));
 
-
             Logger.Debug("Loading LEVEL 1: creating entity parser...");
 
             EntityParser parser = new EntityParser(world);
@@ -59,6 +58,15 @@ namespace ForestPlatformerExample
             parser.LoadEntities(this, SceneName);
 
             hero = parser.GetHero();
+
+            if (PlatformerGame.ANDROID)
+            {
+                MobileButtonPanel controlButtons = new MobileButtonPanel(hero);
+                foreach (SelectableImage button in controlButtons.GetButtons())
+                {
+                    UI.AddUIElement(button);
+                }
+            }
 
             world = null;
         }
