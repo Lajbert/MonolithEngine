@@ -24,6 +24,10 @@ namespace ForestPlatformerExample
             SelectableImage jumpButton = new SelectableImage(Assets.GetTexture("XButton"), null, new Vector2(1050, 600), default, 9);
             jumpButton.OnClick = hero.Jump;
             buttons.Add(jumpButton);
+
+            /*SelectableImage menuButton = new SelectableImage(Assets.GetTexture("MenuButton"), null, new Vector2(150, 50), default, 4);
+            menuButton.OnClick = hero.Jump;
+            buttons.Add(menuButton);*/
         }
 
         public List<SelectableImage> GetButtons()

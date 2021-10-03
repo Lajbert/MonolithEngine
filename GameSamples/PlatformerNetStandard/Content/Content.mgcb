@@ -1733,3 +1733,15 @@
 /processorParam:TextureFormat=Color
 /build:MobileButtons/x_button.png
 
+#begin MobileButtons/menu_button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MobileButtons/menu_button.png
+

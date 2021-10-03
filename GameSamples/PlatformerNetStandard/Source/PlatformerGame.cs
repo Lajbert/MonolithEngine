@@ -282,6 +282,10 @@ namespace ForestPlatformerExample
                 Assets.LoadTexture("UpArrow", "MobileButtons/up_arrow");
                 Assets.LoadTexture("DownArrow", "MobileButtons/down_arrow");
                 Assets.LoadTexture("XButton", "MobileButtons/x_button");
+                Assets.LoadTexture("SquareButton", "MobileButtons/square_button");
+                Assets.LoadTexture("CircleButton", "MobileButtons/circle_button");
+                Assets.LoadTexture("TriangleButton", "MobileButtons/triangle_button");
+                Assets.LoadTexture("MenuButton", "MobileButtons/menu_button");
             }
 
 #if DEBUG
