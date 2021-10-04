@@ -13,11 +13,11 @@ namespace ForestPlatformerExample
 
         public MobileButtonPanel(Hero hero)
         {
-            SelectableImage moveLeftButton = new SelectableImage(Assets.GetTexture("LeftArrow"), null, new Vector2(100, 600), default, 9);
+            SelectableImage moveLeftButton = new SelectableImage(Assets.GetTexture("LeftArrow"), null, new Vector2(100, 600), default, 9, fireOnHold: true);
             moveLeftButton.OnClick = hero.MoveLeft;
             buttons.Add(moveLeftButton);
 
-            SelectableImage moveRightButton = new SelectableImage(Assets.GetTexture("RightArrow"), null, new Vector2(250, 600), default, 9);
+            SelectableImage moveRightButton = new SelectableImage(Assets.GetTexture("RightArrow"), null, new Vector2(250, 600), default, 9, fireOnHold: true);
             moveRightButton.OnClick = hero.MoveRight;
             buttons.Add(moveRightButton);
 

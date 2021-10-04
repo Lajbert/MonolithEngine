@@ -74,10 +74,7 @@ namespace MonolithEngine
                 foreach (IUIElement element in elements)
                 {
                     TouchCollection state = TouchPanel.GetState();
-                    foreach (TouchLocation loc in state)
-                    {
-                        element.Update(loc.Position.ToPoint());
-                    }
+                    element.Update(state);
                 }
             }
             else

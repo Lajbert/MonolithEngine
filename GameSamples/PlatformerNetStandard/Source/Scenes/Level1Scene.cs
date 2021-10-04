@@ -40,7 +40,16 @@ namespace ForestPlatformerExample
 
             Logger.Debug("Loading LEVEL 1: adjusting camera");
             Camera.Initialize();
-            Camera.Zoom += 0.5f;
+            if (PlatformerGame.ANDROID)
+            {
+                Camera.Zoom += 0.5f;
+                Camera.Zoom *= 2;
+            }
+            else
+            {
+                Camera.Zoom += 0.5f;
+            }
+
         }
 
         private void LoadData()

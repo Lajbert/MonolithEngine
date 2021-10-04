@@ -76,33 +76,15 @@ namespace MonolithEngine
                     continue;
                 }
 
-                if (!PlatformerGame.ANDROID)
+                if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
                 {
-                    if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
-                    {
-                        CheckTriggers(thisEntity, otherEntity);
-                    }
+                    CheckTriggers(thisEntity, otherEntity);
                 }
 
                 if (!otherEntity.CollisionsEnabled)
                 {
                     continue;
                 }
-
-                /*bool possibleCollision = false;
-                bool allowOverlap = false;
-                foreach(string tag in otherEntity.GetTags()) {
-                    if (thisEntity.GetCollidesAgainst().ContainsKey(tag)) {
-                        possibleCollision = true;
-                        allowOverlap = thisEntity.GetCollidesAgainst()[tag];
-                        break;
-                    }
-                }
-
-                if (!possibleCollision)
-                {
-                    continue;
-                }*/
 
                 if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
                 {
