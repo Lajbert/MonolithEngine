@@ -40,7 +40,7 @@ Features so far:
 * Basic audio support
 * Asset management
 * Scene management
-* Basic UI capabilites
+* Basic UI capabilites (text boxes and interactive UI elements that reacts to mouse/keyboard or touch input)
 * Gravity for platformer-type games (can be turned off to make a top-down game)
 
 Many more features are coming including object pooling, particle system, pathfinding, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, native Aseprite support, basic shaders and other juicy stuff, stay tuned!
