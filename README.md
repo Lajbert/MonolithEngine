@@ -5,7 +5,7 @@ The engine is very young and I have a lot of documentation, cleanup and refactor
 
 # Sample platformer game:
 Windows executable: https://lajbert.itch.io/platformer-demo  
-Android version: coming soon!  
+Android version: coming soon! For more information, head over the [project page](https://github.com/Lajbert/MonolithEngine/projects/1) or the [Wiki](https://github.com/Lajbert/MonolithEngine/wiki/Monolith-Engine-on-mobile).
 Source code: in this repo under GameSamples/Platformer/
 
 # Oh no, not another game engine!
@@ -71,8 +71,6 @@ It depends. There is definitely a huge amount of transferable knowledge in the g
 
 # What are the supported platforms?
 Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware. Please note that for consoles, you have to be a licenced developer to acquire the respective binaries from the MonoGame team.  
-2021.10.8 update:  
-The [mobile platformer example](https://lajbert.itch.io/platformer-demo) is currently being ported to Android, the work will soon be finished and the source code will provided. For the WIP code, check android_test_2 the branch. Once all work is done, it will be merged into master.
 
 # What games have been released with it?
 None commercial yet, hopefully the first will be released in Q3-Q4 2021.
