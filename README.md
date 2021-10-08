@@ -17,7 +17,7 @@ with the feature set that I will actually use. During the first hours of the dev
 working on a specific game. I've chosen to utilize [MonoGame](https://www.monogame.net/) framework to ensure that the engine is cross-platform and low level enough for my needs.
 
 Let me get this out of the way: I shared this engine with the public because I'd be happy to see other people use it, learn from it or maybe even help me to improve it, but this engine is not designed specifically for the public, but rather for myself to release my games with it.  
-This means features will come according to my needs (or interests :) ) and changes might (and probably will) happen as the engine evolves. 
+This means features will come according to my needs (or interests :) ) and changes might (and probably will) happen as the engine evolves. Even though it's a "take it or leave it" kind of thing, I will still provide a few game sample games for desktop and Android to showcase what the engine can do and how to make games with it.
 
 # What is this exactly?
 This is a simple, [axis aligned](https://en.wikipedia.org/wiki/Axis-aligned_object) 2D game engine that encapsulates the common functionalities that most 2D games need. Is it as comprehensive as other major engines out there? Definitely not. Is it small, fast, lightweight, free and easy to understand? Yes! 
