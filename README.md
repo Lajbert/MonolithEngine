@@ -5,8 +5,8 @@ The engine is very young and I have a lot of documentation, cleanup and refactor
 
 # Sample platformer game:
 Windows executable: https://lajbert.itch.io/platformer-demo  
-Source code: in this repo  
 Android version: coming soon!  
+Source code: in this repo
 
 # Oh no, not another game engine!
 There are so many game engines out there already, why making another one?  
