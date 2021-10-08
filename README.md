@@ -7,14 +7,14 @@ The engine is very young and I have a lot of documentation, cleanup and refactor
 https://lajbert.itch.io/platformer-demo
 
 # Oh no, not another game engine!
-There are so many game engines out there already, why making another one?
+There are so many game engines out there already, why making another one?  
 First of all, it exists because I love coding and video games! I have a couple of 2D game ideas in my head and the possible choices of engines was narrowed down to Unity only.
 The rest were either "too much" (like UE4), not entirely cross-platform or simply expensive :) . When I was playing around with Unity, I quickly realized that
 since I'm the type of person who rather goes to the source code than the documentation, this will not be my preferred choice, so I decided to code my own engine
 with the feature set that I will actually use. During the first hours of the development, I already realized that for me, working on the engine is at least as fun as 
 working on a specific game. I've chosen to utilize [MonoGame](https://www.monogame.net/) framework to ensure that the engine is cross-platform and low level enough for my needs.
 
-Let me get this out of the way: I shared this engine with the public because I'd be happy to see other people use it, learn from it or maybe even help me to improve it, but this engine is not designed specifically for the public, but rather for myself to release my games with it. 
+Let me get this out of the way: I shared this engine with the public because I'd be happy to see other people use it, learn from it or maybe even help me to improve it, but this engine is not designed specifically for the public, but rather for myself to release my games with it.  
 This means features will come according to my needs (or interests :) ) and changes might (and probably will) happen as the engine evolves. 
 
 # What is this exactly?
@@ -44,7 +44,7 @@ Features so far:
 Many more features are coming including object pooling, particle system, pathfinding, ease functions, automatic raycast collision optimization (merging smaller lines into 1 big line), more advanced map editor support, native Aseprite support, basic shaders and other juicy stuff, stay tuned!
 
 # How stable is the engine?
-It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, cleanups, unit tests, etc. I it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.
+It's very young and there are lots of things still to be done, including important features, fixes, some refactoring, cleanups, unit tests, etc. I it's still in alpha version, but thanks to the lockdown, I'm making a good progress with it :). I always finish one feature fully to the best of my knowledge before starting a new one, so whatever is there is usable, but everything is still subjected to changes and improvements as the engine evolves and bugs uncovered.  
 Once I've released successfully released my first game with it, I will declare it stable and make the first release version.
 
 # Who should use this engine?
@@ -58,7 +58,7 @@ The more coding experience you have, the better. It doesn't matter if it's Java,
 
 # How can I use the engine? Any learning materials or tutorials?
 Right now there is one [platformer game example](https://lajbert.itch.io/platformer-demo) included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
-Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed. 
+Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed.  
 The project itself if a shared MonoGame project, so you can include it in yours, regardless of the target.
 
 # Why should I chose this engine over other major commercial engines out there?
@@ -68,8 +68,8 @@ I can't really come up with any catchy selling point apart from the things I alr
 It depends. There is definitely a huge amount of transferable knowledge in the game developer industry regardless of the tools, and some things in Monolith engine are done similarly to Unity that might be familiar, but Monolith being a pure 2D engine without it's own UI, most things are done differently. Writing performant code, good level design and "game feel" are universal, but user interface knowledge of different engines will not be helpful, as you have to rely on the code here (except for editing the map, for which you have an [awesome open source](https://ldtk.io/) supported tool).
 
 # What are the supported platforms?
-Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware. Please note that for consoles, you have to be a licenced developer to acquire the respective binaries from the MonoGame team.
-2021.10.8 update:
+Whatever MonoGame supports, the rest depends on you and your code :) The engine itself is pretty lighweight without any platform-specific code, so runs well on any low-end hardware. Please note that for consoles, you have to be a licenced developer to acquire the respective binaries from the MonoGame team.  
+2021.10.8 update:  
 The [mobile platformer example](https://lajbert.itch.io/platformer-demo) is currently being ported to Android, the work will soon be finished and the source code will provided. For the WIP code, check android_test_2 the branch. Once all work is done, it will be merged into master.
 
 # What games have been released with it?
