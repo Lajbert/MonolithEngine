@@ -79,7 +79,7 @@ A platformer game sample can be found here:
 https://lajbert.itch.io/platformer-demo
 
 I also used the engine for Ludum Dare 48:
-https://lajbert.itch.io/mullettime - please note that I only had 48 hours to make a game alone, including graphics and audio, so this doesn't represent the capabilities of the engine :)
+https://lajbert.itch.io/mullettime - please note that I only had 48 hours to make a game alone, including graphics and audio, so this doesn't represent the capabilities of the engine :) Please note that the engine's source is packaged next to the game code, so it's basically a snapshot of the engine's status at that time. Please do not use that version of the engine to make games, but the latest version from this Github repo, otherwise you will miss all the developments that happened to the engine since then.
 
 
 # Am I free to use the engine to make games?
