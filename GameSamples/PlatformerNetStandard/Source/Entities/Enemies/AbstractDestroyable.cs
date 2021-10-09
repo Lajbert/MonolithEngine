@@ -35,7 +35,7 @@ namespace ForestPlatformerExample
                     RotationRate *= -1;
                 }
                 CheckGridCollisions = false;
-                RemoveCollisions();
+                CollisionsEnabled = false;
                 Transform.Velocity += bump;
                 Timer.TriggerAfter(3000, Destroy);
             }
@@ -55,10 +55,16 @@ namespace ForestPlatformerExample
             {
                 AddComponent(new AnimationStateMachine());
             }
-            destroyAnimation.StartedCallback += () => RemoveCollisions();
+            destroyAnimation.StartedCallback += () => DisableCollisions();
             destroyAnimation.StoppedCallback += Destroy;
             destroyAnimation.Looping = false;
             GetComponent<AnimationStateMachine>().RegisterAnimation(DESTROY_AMINATION + direction.ToString(), destroyAnimation, () => false);
+        }
+
+        private void DisableCollisions()
+        {
+            CollisionsEnabled = false;
+            CanFireTriggers = false;
         }
     }
 }

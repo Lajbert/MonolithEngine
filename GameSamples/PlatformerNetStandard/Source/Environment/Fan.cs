@@ -29,6 +29,7 @@ namespace ForestPlatformerExample
             Vector2 offset = new Vector2(-32, -ForceFieldHeight);
 
             AddComponent(new BoxTrigger(this, 64, ForceFieldHeight, positionOffset: offset + drawOffset, tag: ""));
+            AddTriggeredAgainst(typeof(Hero));
 
             AddComponent(new BoxCollisionComponent(this, 46, 8, new Vector2(-14, 0)));
 

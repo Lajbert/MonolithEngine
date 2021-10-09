@@ -17,6 +17,7 @@ namespace ForestPlatformerExample
             Active = true;
             AddTag("Environment");
             AddComponent(new BoxTrigger(this, width, height, Vector2.Zero, tag: ""));
+            AddTriggeredAgainst(typeof(Hero));
 #if DEBUG
             Visible = true;
             (GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;
@@ -24,7 +25,7 @@ namespace ForestPlatformerExample
 
             if (textName == "Controls")
             {
-                popup = new StaticPopup(Scene, Transform.Position + new Vector2(0, -120), continueButton: Keys.Enter);
+                popup = new StaticPopup(Scene, Transform.Position + new Vector2(0, -120), 6000, continueButton: Keys.Enter);
                 string text = " Controls:\n LEFT/RIGHT Arrows: Walk\n UP Arrow: Jump\n DOWN Arrow: Descend from platform\n SPACE: Punch/Throw box" +
                     "\n Left/Right SHIFT: Pick up/Put down box\n Left/Right CONTROL: Slide\n Mouse Wheel Up/Down: Zoom In/Out" +
                     "\n\n Kill enemies by jumping on their heads,\n punching them or throwing boxes at them." +
@@ -35,7 +36,7 @@ namespace ForestPlatformerExample
             }
             else if (textName == "BoxThrow")
             {
-                popup = new StaticPopup(Scene, Transform.Position + new Vector2(0, -50), continueButton: Keys.Enter);
+                popup = new StaticPopup(Scene, Transform.Position + new Vector2(0, -50), 6000, continueButton: Keys.Enter);
                 string text = " Reminder: you can pick up boxes with SHIFT,\n then press SPACE to throw them at enemies.\n You can jump while holding a box!" +
                 "\n\n [PRESS ENTER TO CONTINUE]";
                 popup.SetText(Assets.GetFont("InGameText"), text, Color.White);

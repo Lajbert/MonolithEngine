@@ -35,6 +35,7 @@ namespace ForestPlatformerExample
 
             AddComponent(new BoxCollisionComponent(this, 20, 20, new Vector2(-10, -24)));
             AddComponent(new BoxTrigger(this, 512, 256, new Vector2(-256, -144), tag: ""));
+            AddTriggeredAgainst(typeof(Hero));
 
             /*
             Assets.LoadTexture("TrunkBulletPieces", "ForestAssets/Characters/Trunk/Bullet Pieces");

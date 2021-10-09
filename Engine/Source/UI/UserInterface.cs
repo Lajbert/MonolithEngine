@@ -76,6 +76,8 @@ namespace MonolithEngine
                     TouchCollection state = TouchPanel.GetState();
                     element.Update(state);
                 }
+
+                HandleNewElements();
             }
             else
             {

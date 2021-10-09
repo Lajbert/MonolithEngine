@@ -286,7 +286,7 @@ namespace ForestPlatformerExample
             }
 
 #if DEBUG
-            //AudioEngine.MuteAll();
+            AudioEngine.MuteAll();
 #endif
 
             Logger.Debug("Loading scenes...");
@@ -318,9 +318,15 @@ namespace ForestPlatformerExample
 
 
             Logger.Debug("Starting main menu...");
-            SceneManager.SetLoadingScene(loadingScreen);
-            SceneManager.LoadScene(mainMenuScene);
-
+            /*if (ANDROID)
+            {
+                SceneManager.LoadScene(level1);
+            }
+            else*/
+            {
+                SceneManager.SetLoadingScene(loadingScreen);
+                SceneManager.LoadScene(mainMenuScene);
+            }
         }
 
         protected override void Update(GameTime gameTime)

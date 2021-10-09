@@ -39,6 +39,7 @@ namespace ForestPlatformerExample
             //RayEmitter = new Ray2DEmitter(this, 0, 360, 5, 100);
 
             AddComponent(new BoxTrigger(this, 300, 300, new Vector2(-150, -150), "vision"));
+            AddTriggeredAgainst(typeof(Hero));
 
 #if DEBUG
             //(GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;

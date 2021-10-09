@@ -28,8 +28,9 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
+            float scale = PlatformerGame.ANDROID ? 0.5f : 0.25f;
             Logger.Debug("Loading level select scene UI...");
-            SelectableImage videoSettings = new SelectableImage(Assets.GetTexture("Level1Base"), Assets.GetTexture("Level1Selected"), new Vector2(150, 150), scale: 0.25f);
+            SelectableImage videoSettings = new SelectableImage(Assets.GetTexture("Level1Base"), Assets.GetTexture("Level1Selected"), new Vector2(150, 150), scale: scale);
             videoSettings.HoverSoundEffectName = "MenuHover";
             videoSettings.SelectSoundEffectName = "MenuSelect";
 
@@ -38,7 +39,7 @@ namespace ForestPlatformerExample
                 SceneManager.LoadScene("Level_1");
             };
 
-            SelectableImage audioSettings = new SelectableImage(Assets.GetTexture("Level2Base"), Assets.GetTexture("Level2Selected"), new Vector2(150, 200), scale: 0.25f);
+            SelectableImage audioSettings = new SelectableImage(Assets.GetTexture("Level2Base"), Assets.GetTexture("Level2Selected"), new Vector2(150, 250), scale: scale);
             audioSettings.HoverSoundEffectName = "MenuHover";
             audioSettings.SelectSoundEffectName = "MenuSelect";
 
@@ -47,7 +48,7 @@ namespace ForestPlatformerExample
                 SceneManager.LoadScene("Level_2");
             };
 
-            SelectableImage back = new SelectableImage(Assets.GetTexture("HUDBackBase"), Assets.GetTexture("HUDBackSelected"), new Vector2(150, 250), scale: 0.25f);
+            SelectableImage back = new SelectableImage(Assets.GetTexture("HUDBackBase"), Assets.GetTexture("HUDBackSelected"), new Vector2(150, 350), scale: scale);
             back.HoverSoundEffectName = "MenuHover";
             back.SelectSoundEffectName = "MenuSelect";
 

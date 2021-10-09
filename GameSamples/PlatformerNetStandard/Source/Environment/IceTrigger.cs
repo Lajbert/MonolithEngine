@@ -16,6 +16,7 @@ namespace ForestPlatformerExample
             Active = true;
             AddTag("Environment");
             AddComponent(new BoxTrigger(this, width, height, Vector2.Zero, tag: ""));
+            AddTriggeredAgainst(typeof(Hero));
 #if DEBUG
             Visible = true;
             (GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;

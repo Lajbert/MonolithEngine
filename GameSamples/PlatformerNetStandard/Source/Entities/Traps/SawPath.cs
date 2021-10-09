@@ -10,6 +10,7 @@ namespace ForestPlatformerExample
             Visible = false;
             Active = true;
             AddComponent(new BoxTrigger(this, width, height, Vector2.Zero, tag: ""));
+            AddTriggeredAgainst(typeof(Saw));
 #if DEBUG
             Visible = true;
             (GetComponent<ITrigger>() as AbstractTrigger).DEBUG_DISPLAY_TRIGGER = true;

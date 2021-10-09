@@ -33,8 +33,9 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
+            float scale = PlatformerGame.ANDROID ? 1f : 0.25f;
             Logger.Debug("Loading main menu UI elements...");
-            SelectableImage newGame = new SelectableImage(Assets.GetTexture("HUDNewGameBase"), Assets.GetTexture("HUDNewGameSelected"), new Vector2(150, 150), scale: 0.25f);
+            SelectableImage newGame = new SelectableImage(Assets.GetTexture("HUDNewGameBase"), Assets.GetTexture("HUDNewGameSelected"), new Vector2(150, 150), scale: scale);
             newGame.HoverSoundEffectName = "MenuHover";
             newGame.SelectSoundEffectName = "MenuSelect";
 
@@ -46,7 +47,7 @@ namespace ForestPlatformerExample
             SelectableImage settings = null;
             if (!PlatformerGame.ANDROID)
             {
-                settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
+                settings = new SelectableImage(Assets.GetTexture("HUDSettingsBase"), Assets.GetTexture("HUDSettingsSelected"), new Vector2(150, 200), scale: scale);
                 settings.HoverSoundEffectName = "MenuHover";
                 settings.SelectSoundEffectName = "MenuSelect";
 
@@ -57,7 +58,7 @@ namespace ForestPlatformerExample
             }
 
 
-            SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(150, 250), scale: 0.25f);
+            SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(150, 250), scale: scale);
             quit.HoverSoundEffectName = "MenuHover";
             quit.SelectSoundEffectName = "MenuSelect";
 

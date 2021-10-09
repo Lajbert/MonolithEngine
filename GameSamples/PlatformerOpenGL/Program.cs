@@ -1,5 +1,6 @@
 ﻿using System;
 using ForestPlatformerExample;
+using MonolithEngine;
 
 namespace PlatformerOpenGL
 {
@@ -8,8 +9,10 @@ namespace PlatformerOpenGL
         [STAThread]
         static void Main()
         {
-            using (var game = new PlatformerGame())
+            using (PlatformerGame game = new PlatformerGame())
+            {
                 game.Run();
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace ForestPlatformerExample
             AddComponent(new CircleCollisionComponent(this, 12, new Vector2(3, -20)));
 
             AddComponent(new BoxTrigger(this, 300, 300, new Vector2(-150, -150), "vision"));
+            AddTriggeredAgainst(typeof(Hero));
 
 #if DEBUG
             /*DEBUG_SHOW_COLLIDER = true;

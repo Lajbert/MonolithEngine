@@ -33,9 +33,10 @@ namespace MonolithEngine
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        private ComponentList componentList = new ComponentList();
+        private ComponentList componentList;
 
-        private Dictionary<Type, bool> CollidesAgainst = new Dictionary<Type, bool>();
+        private Dictionary<Type, bool> collidesAgainst = new Dictionary<Type, bool>();
+        private HashSet<Type> triggeredAgainst = new HashSet<Type>();
 
         private bool checkGridCollisions = false;
 
@@ -155,6 +156,7 @@ namespace MonolithEngine
 
         public Entity(Layer layer, Entity parent = null, Vector2 startPosition = default) : base()
         {
+            componentList = new ComponentList(this);
             DrawPosition = startPosition;
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
@@ -383,8 +385,9 @@ namespace MonolithEngine
         {
             componentList.Clear<ICollisionComponent>();
             componentList.Clear<ITrigger>();
-            CollidesAgainst.Clear();
+            collidesAgainst.Clear();
             CanFireTriggers = false;
+            CollisionsEnabled = false;
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
             //RayEmitter = null;
             BlocksRay = false;
@@ -479,20 +482,37 @@ namespace MonolithEngine
             OnCollisionEnd(otherCollider);
         }*/
 
-        public Dictionary<Type, bool> GetCollidesAgainst()
+        Dictionary<Type, bool> IColliderEntity.GetCollidesAgainst()
         {
-            return CollidesAgainst;
+            return collidesAgainst;
+        }
+
+        HashSet<Type> IColliderEntity.GetTriggeredAgainst()
+        {
+            return triggeredAgainst;
         }
 
         public void AddCollisionAgainst(Type type, bool allowOverlap = true)
         {
-            CollidesAgainst[type] = allowOverlap;
+            collidesAgainst[type] = allowOverlap;
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
+        }
+
+        public void AddTriggeredAgainst(Type type, bool allowOverlap = true)
+        {
+            triggeredAgainst.Add(type);
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public void RemoveCollisionAgainst(Type type)
         {
-            CollidesAgainst.Remove(type);
+            collidesAgainst.Remove(type);
+            Scene.CollisionEngine.OnCollisionProfileChanged(this);
+        }
+
+        public void RemoveTriggeredAgainst(Type type)
+        {
+            triggeredAgainst.Remove(type);
             Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 

@@ -17,6 +17,7 @@ namespace ForestPlatformerExample
             Active = true;
 
             AddComponent(new BoxTrigger(this, width, height, Vector2.Zero, "Ladder"));
+            AddTriggeredAgainst(typeof(Hero));
 
         }
 

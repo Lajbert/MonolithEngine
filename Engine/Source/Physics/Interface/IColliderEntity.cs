@@ -17,7 +17,9 @@ namespace MonolithEngine
 
         internal void CollisionEnded(IGameObject otherCollider);
 
-        public Dictionary<Type, bool> GetCollidesAgainst();
+        internal Dictionary<Type, bool> GetCollidesAgainst();
+
+        internal HashSet<Type> GetTriggeredAgainst();
 
         public bool CheckGridCollisions { get; set; }
     }

@@ -16,7 +16,7 @@ namespace MonolithEngine
     {
 
         private Dictionary<IColliderEntity, HashSet<IColliderEntity>> toCheckAgainst = new Dictionary<IColliderEntity, HashSet<IColliderEntity>>();
-        //private HashSet<IColliderEntity> entities = new HashSet<IColliderEntity>();
+        private Dictionary<Type, List<IColliderEntity>> allColliders = new Dictionary<Type, List<IColliderEntity>>();
 
         private Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>> collisions = new Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>>();
 
@@ -58,8 +58,8 @@ namespace MonolithEngine
 
             HandleChangedObjects();
 
-
-            if (!thisEntity.CollisionsEnabled && thisEntity.GetTriggers().Count == 0)
+             
+            if (!thisEntity.CollisionsEnabled)
             {
                 return;
             }
@@ -76,7 +76,15 @@ namespace MonolithEngine
                     continue;
                 }
 
-                if (thisEntity.GetTriggers().Count > 0 && otherEntity.CanFireTriggers)
+#if DEBUG
+                if (otherEntity.IsDestroyed)
+                {
+                    //Logger.Error(thisEntity + " collisions was checked against a destroyed entity: " + otherEntity);
+                    continue;
+                }
+#endif
+
+                if (otherEntity.CanFireTriggers && thisEntity.GetTriggeredAgainst().Contains(otherEntity.GetType()))
                 {
                     CheckTriggers(thisEntity, otherEntity);
                 }
@@ -86,7 +94,7 @@ namespace MonolithEngine
                     continue;
                 }
 
-                if (thisEntity.GetCollisionComponent() != null && otherEntity.GetCollisionComponent() != null)
+                if (thisEntity.GetCollisionComponent() != null && thisEntity.GetCollidesAgainst().ContainsKey(otherEntity.GetType()) && otherEntity.GetCollisionComponent() != null)
                 {
                     CheckCollision(thisEntity, otherEntity, thisEntity.GetCollidesAgainst()[otherEntity.GetType()]);
                 }
@@ -115,7 +123,7 @@ namespace MonolithEngine
                             {
                                 continue;
                             }
-                            if (changed.GetCollidesAgainst().Count != 0 && changed.GetCollidesAgainst().ContainsKey(changed2.GetType()))
+                            if (changed.GetCollidesAgainst().ContainsKey(changed2.GetType()) || changed.GetTriggeredAgainst().Contains(changed2.GetType()))
                             {
                                 if (!toCheckAgainst.ContainsKey(changed))
                                 {
@@ -137,79 +145,18 @@ namespace MonolithEngine
                             }
                         }
                     }
-                
-                        /*if (changed.GetCollisionComponent() == null && changed.GetTriggers().Count == 0)
+                } 
+                else
+                {
+                    foreach (IColliderEntity changed in changedObjects)
+                    {
+                        if (changed.GetCollidesAgainst().Count == 0)
                         {
-                            entities.Remove(changed);
-                            if (!changed.CanFireTriggers)
-                            {
-                                toCheckAgainst.Remove(changed);
-                            }
+                            toCheckAgainst.Remove(changed);
                         }
-                        else
-                        {
-                            if (changed.GetCollisionComponent() != null)
-                            {
-                                if (changed.GetCollidesAgainst().Count > 0)
-                                {
-                                    if (!collisions.ContainsKey(changed))
-                                    {
-                                        collisions[changed] = new Dictionary<IColliderEntity, bool>();
-                                    }
-                                    if (!entities.Contains(changed))
-                                    {
-                                        entities.Add(changed);
-                                    }
-                                }
-                                else
-                                {
-                                    collisions.Remove(changed);
-                                    entities.Remove(changed);
-                                }
-
-                                if (changed.GetTags().Count > 0)
-                                {
-                                    if (!toCheckAgainst.Contains(changed))
-                                    {
-                                        toCheckAgainst.Add(changed);
-                                    }
-                                }
-                                else
-                                {
-                                    toCheckAgainst.Remove(changed);
-                                }
-                            }
-
-                            /*if (changed.CheckGridCollisions)
-                            {
-                                gridCollisions[changed] = new Dictionary<StaticCollider, bool>();
-                                if (!entities.Contains(changed))
-                                {
-                                    entities.Add(changed);
-                                }
-                            }*/
-
-                        /*if (changed.GetTriggers().Count > 0)
-                        {
-                            if (!entities.Contains(changed))
-                            {
-                                entities.Add(changed);
-                            }
-
-                            triggers[changed] = new Dictionary<string, Dictionary<IGameObject, bool>>();
-                            foreach (ITrigger trigger in changed.GetTriggers())
-                            {
-                                triggers[changed][trigger.GetTag()] = new Dictionary<IGameObject, bool>();
-                            }
-                        }
-
-                        if (changed.CanFireTriggers && !toCheckAgainst.Contains(changed))
-                        {
-                            toCheckAgainst.Add(changed);
-                        }
-                    }*/
                     }
-                    changedObjects.Clear();
+                }
+                changedObjects.Clear();
             }
         }
 

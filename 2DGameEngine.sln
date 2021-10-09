@@ -1,39 +1,49 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonolithEngine", "2DGameEngine\Engine.shproj", "{2110518F-0A53-4857-AAF6-EE83E78BB6CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformerGame", "ForestPlatformerExample\PlatformerGame.csproj", "{FCB53008-141A-414D-A271-391F863FE58B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2110518F-0A53-4857-AAF6-EE83E78BB6CE} = {2110518F-0A53-4857-AAF6-EE83E78BB6CE}
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformerNetStandard", "GameSamples\PlatformerNetStandard\PlatformerNetStandard.csproj", "{4A6DCF8E-3219-4981-BB60-BAF7C032D545}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameExamples", "GameExamples", "{97082E50-CFF9-4FA4-A382-6F0C14C5B9A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformerOpenGL", "GameSamples\PlatformerOpenGL\PlatformerOpenGL.csproj", "{0AF471B9-D571-41D7-8628-40FB735A2BC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlatformerAndroid", "GameSamples\PlatformerAndroid\PlatformerAndroid.csproj", "{1B37F91C-DC9B-4F6F-9EC6-8FFE8B119C67}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Engine\Engine.projitems*{4a6dcf8e-3219-4981-bb60-baf7c032d545}*SharedItemsImports = 5
+		Engine\Engine.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2110518F-0A53-4857-AAF6-EE83E78BB6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2110518F-0A53-4857-AAF6-EE83E78BB6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2110518F-0A53-4857-AAF6-EE83E78BB6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2110518F-0A53-4857-AAF6-EE83E78BB6CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCB53008-141A-414D-A271-391F863FE58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCB53008-141A-414D-A271-391F863FE58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCB53008-141A-414D-A271-391F863FE58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCB53008-141A-414D-A271-391F863FE58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A6DCF8E-3219-4981-BB60-BAF7C032D545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A6DCF8E-3219-4981-BB60-BAF7C032D545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A6DCF8E-3219-4981-BB60-BAF7C032D545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A6DCF8E-3219-4981-BB60-BAF7C032D545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF471B9-D571-41D7-8628-40FB735A2BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF471B9-D571-41D7-8628-40FB735A2BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF471B9-D571-41D7-8628-40FB735A2BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF471B9-D571-41D7-8628-40FB735A2BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B37F91C-DC9B-4F6F-9EC6-8FFE8B119C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B37F91C-DC9B-4F6F-9EC6-8FFE8B119C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B37F91C-DC9B-4F6F-9EC6-8FFE8B119C67}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1B37F91C-DC9B-4F6F-9EC6-8FFE8B119C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B37F91C-DC9B-4F6F-9EC6-8FFE8B119C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B37F91C-DC9B-4F6F-9EC6-8FFE8B119C67}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{FCB53008-141A-414D-A271-391F863FE58B} = {97082E50-CFF9-4FA4-A382-6F0C14C5B9A1}
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5263C0D5-7BDB-4C50-BA7F-92C5C27369D1}
+		SolutionGuid = {99C4E407-0EDB-4487-836D-CA6C4BB4A64C}
 	EndGlobalSection
 EndGlobal
