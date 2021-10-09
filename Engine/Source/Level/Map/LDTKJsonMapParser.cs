@@ -17,5 +17,10 @@ namespace MonolithEngine
             }*/
             return new LDTKMap(LDTKJson.FromJson(File.ReadAllText(filePath)));
         }
+
+        LDTKMap MapSerializer.Load(Stream stream)
+        {
+            return new LDTKMap(LDTKJson.FromJson(new StreamReader(stream).ReadToEnd()));
+        }
     }
 }

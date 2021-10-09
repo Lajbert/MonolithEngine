@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonolithEngine;
+using System.IO;
 
 namespace ForestPlatformerExample
 {
@@ -103,7 +104,11 @@ namespace ForestPlatformerExample
             Logger.Debug("Loading map from json...");
 
             MapSerializer mapSerializer = new LDTKJsonMapParser();
-            world = mapSerializer.Load("Content/Map/level.json");
+            var filePath = Path.Combine(Content.RootDirectory, "Map/level.json");
+            using (Stream stream = TitleContainer.OpenStream(filePath))
+            {
+                world = mapSerializer.Load(stream);
+            }
 
             // UI text generated with: https://fontmeme.com/pixel-fonts/
             // font: KA1
@@ -318,15 +323,8 @@ namespace ForestPlatformerExample
 
 
             Logger.Debug("Starting main menu...");
-            /*if (ANDROID)
-            {
-                SceneManager.LoadScene(level1);
-            }
-            else*/
-            {
-                SceneManager.SetLoadingScene(loadingScreen);
-                SceneManager.LoadScene(mainMenuScene);
-            }
+            SceneManager.SetLoadingScene(loadingScreen);
+            SceneManager.LoadScene(mainMenuScene);
         }
 
         protected override void Update(GameTime gameTime)

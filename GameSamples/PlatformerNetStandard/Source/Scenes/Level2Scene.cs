@@ -60,6 +60,15 @@ namespace ForestPlatformerExample
 
             hero = parser.GetHero();
 
+            if (PlatformerGame.ANDROID)
+            {
+                MobileButtonPanel controlButtons = new MobileButtonPanel(hero);
+                foreach (SelectableImage button in controlButtons.GetButtons())
+                {
+                    UI.AddUIElement(button);
+                }
+            }
+
         }
 
         public override void OnEnd()
