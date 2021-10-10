@@ -12,7 +12,6 @@ namespace ForestPlatformerExample
 
         private readonly float JUMP_RATE = 0.1f;
         private readonly float SLIDE_FORCE = 1f;
-        private readonly bool DECREASED_AIR_MOBILITY = false;
 
         private static double lastJump = 0f;
         private bool doubleJumping = false;
@@ -517,231 +516,32 @@ namespace ForestPlatformerExample
             UserInput = new UserInputController();
             AddComponent(UserInput);
 
-            UserInput.RegisterKeyPressAction(Keys.R, (Vector2 thumbStickPosition) =>
+            UserInput.RegisterKeyPressAction(Keys.R, () =>
             {
                 ResetPosition(new Vector2(12 * Config.GRID, 12 * Config.GRID));
             }, true);
 
-            UserInput.RegisterKeyPressAction(Keys.Right, Buttons.LeftThumbstickRight, (Vector2 thumbStickPosition) =>
-            {
-                if (thumbStickPosition.X > 0)
-                {
-                    if (slideDirection != Direction.EAST)
-                    {
-                        Transform.VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                    }
-                    if (Transform.VelocityX > 0.1)
-                    {
-                        CurrentFaceDirection = Direction.EAST;
-                    }
-                }
-                else if (thumbStickPosition.X == 0)
-                {
-                    if (slideDirection != Direction.EAST)
-                    {
-                        Transform.VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                    }
-                    CurrentFaceDirection = Direction.EAST;
-                }
-                fist.ChangeDirection();
-                //CurrentFaceDirection = Direction.RIGHT;
-            });
+            UserInput.RegisterKeyPressAction(Keys.Right, MoveRight);
 
-            UserInput.RegisterKeyReleaseAction(Keys.Right, Buttons.LeftThumbstickRight, () =>
-            {
-                if (DECREASED_AIR_MOBILITY && jumpDirection == Direction.EAST && MovementSpeed == Config.CHARACTER_SPEED)
-                {
-                    MovementSpeed /= 2;
-                }
-            });
+            UserInput.RegisterKeyPressAction(Keys.Left, MoveLeft);
 
-            UserInput.RegisterKeyPressAction(Keys.Left, Buttons.LeftThumbstickLeft, (Vector2 thumbStickPosition) =>
-            {
-                if (thumbStickPosition.X < -0)
-                {
-                    if (slideDirection != Direction.WEST)
-                    {
-                        Transform.VelocityX += GetVelocity(thumbStickPosition.X, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                    }
-                    if (Transform.VelocityX < -0.1)
-                    {
-                        CurrentFaceDirection = Direction.WEST;
-                    }
-                }
-                else if (thumbStickPosition.X == 0)
-                {
-                    if (slideDirection != Direction.WEST)
-                    {
-                        Transform.VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                    }
-                    CurrentFaceDirection = Direction.WEST;
-                }
-                fist.ChangeDirection();
-                //CurrentFaceDirection = Direction.LEFT;
-            });
+            UserInput.RegisterKeyPressAction(Keys.Up, Jump, true);
 
-            UserInput.RegisterKeyReleaseAction(Keys.Left, Buttons.LeftThumbstickLeft, () =>
-            {
-                if (DECREASED_AIR_MOBILITY && jumpDirection == Direction.WEST && MovementSpeed == Config.CHARACTER_SPEED)
-                {
-                    MovementSpeed /= 2;
-                }
-            });
+            UserInput.RegisterKeyPressAction(Keys.Space, AttackOrThrow, true);
 
-            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.A, (Vector2 thumbStickPosition) =>
-            {
-                if (Ladder != null || (!canJump && !canDoubleJump))
-                {
-                    return;
-                }
-                if (canJump)
-                {
-                    if (!isCarryingItem)
-                    {
-                        canDoubleJump = true;
-                    }
-                    canJump = false;
-                }
-                else
-                {
-                    if (lastJump < JUMP_RATE)
-                    {
-                        return;
-                    }
-                    lastJump = 0f;
-                    canDoubleJump = false;
-                    doubleJumping = true;
-                }
+            UserInput.RegisterKeyPressAction(Keys.RightControl, Slide, true);
 
-                if (DECREASED_AIR_MOBILITY && Math.Abs(Transform.VelocityX) < 0.1 && MovementSpeed == Config.CHARACTER_SPEED)
-                {
-                    MovementSpeed /= 2;
-                }
+            UserInput.RegisterKeyPressAction(Keys.LeftControl, Slide, true);
 
-                Transform.VelocityY -= Config.JUMP_FORCE + jumpModifier.Y;
-                Transform.VelocityX += jumpModifier.X;
-                if (jumpModifier.X < 0)
-                {
-                    CurrentFaceDirection = Direction.WEST;
-                }
-                else if (jumpModifier.X > 0)
-                {
-                    CurrentFaceDirection = Direction.EAST;
-                }
-                jumpModifier = Vector2.Zero;
-                FallSpeed = (float)Globals.GameTime.TotalGameTime.TotalSeconds;
-                AudioEngine.Play("JumpSound");
+            UserInput.RegisterKeyPressAction(Keys.Down, DescendPlatform, true);
 
-            }, true);
+            UserInput.RegisterKeyPressAction(Keys.Down, ClimbDownOnLadder);
 
-            UserInput.RegisterKeyPressAction(Keys.Space, Buttons.X, (Vector2 thumbStickPosition) =>
-            {
-                if (isCarryingItem)
-                {
-                    (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset;
-                    Vector2 force;
-                    if (CurrentFaceDirection == Direction.WEST)
-                    {
-                        force = new Vector2(-2.5f, 0);
-                    }
-                    else
-                    {
-                        force = new Vector2(2.5f, 0);
-                    }
-                    ThrowCurrentItem(force);
-                    return;
-                }
-                Attack();
-            }, true);
+            UserInput.RegisterKeyPressAction(Keys.Up, ClimbUpOnLadder);
 
-            UserInput.RegisterKeyPressAction(Keys.RightControl, Buttons.B, (Vector2 thumbStickPosition) =>
-            {
-                Slide();
-            }, true);
+            UserInput.RegisterKeyPressAction(Keys.LeftShift, InteractWithItem, true);
 
-            UserInput.RegisterKeyPressAction(Keys.LeftControl, (Vector2 thumbStickPosition) =>
-            {
-                Slide();
-            }, true);
-
-            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) =>
-            {
-                if (HasGravity)
-                {
-                    StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(this));
-                    if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement)
-                    {
-                        collider.BlocksMovement = false;
-                        Timer.TriggerAfter(500, () => collider.BlocksMovement = true);
-                    }
-                }
-                //CurrentFaceDirection = GridDirection.DOWN;
-            }, true);
-
-            UserInput.RegisterKeyPressAction(Keys.Down, Buttons.LeftThumbstickDown, (Vector2 thumbStickPosition) =>
-            {
-                if (Ladder == null)
-                {
-                    return;
-                }
-                if (IsOnGround)
-                {
-                    LeaveLadder();
-                    return;
-                }
-                if (thumbStickPosition.Y != 0)
-                {
-                    Transform.VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                }
-                else
-                {
-                    Transform.VelocityY += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                }
-                //CurrentFaceDirection = GridDirection.DOWN;
-            });
-
-            UserInput.RegisterKeyPressAction(Keys.Up, Buttons.LeftThumbstickUp, (Vector2 thumbStickPosition) =>
-            {
-                if (Ladder == null)
-                {
-                    return;
-                }
-
-                if (thumbStickPosition.Y != 0)
-                {
-                    Transform.VelocityY -= GetVelocity(thumbStickPosition.Y, MovementSpeed) * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                }
-                else
-                {
-                    Transform.VelocityY -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-                }
-                //CurrentFaceDirection = GridDirection.UP;
-            });
-
-            UserInput.RegisterKeyPressAction(Keys.LeftShift, Buttons.Y, (Vector2 thumbStickPosition) =>
-            {
-                if (isCarryingItem && carriedItem != null)
-                {
-                    DropCurrentItem();
-                }
-                else
-                {
-                    PickupItem();
-                }
-
-            }, true);
-
-            UserInput.RegisterKeyPressAction(Keys.RightShift, (Vector2 thumbStickPosition) =>
-            {
-                if (isCarryingItem && carriedItem != null)
-                {
-                    DropCurrentItem();
-                }
-                else
-                {
-                    PickupItem();
-                }
-            }, true);
+            UserInput.RegisterKeyPressAction(Keys.RightShift,InteractWithItem, true);
 
             UserInput.RegisterMouseActions(
                 () =>
@@ -806,11 +606,6 @@ namespace ForestPlatformerExample
                 doubleJumping = true;
             }
 
-            if (DECREASED_AIR_MOBILITY && Math.Abs(Transform.VelocityX) < 0.1 && MovementSpeed == Config.CHARACTER_SPEED)
-            {
-                MovementSpeed /= 2;
-            }
-
             Transform.VelocityY -= Config.JUMP_FORCE + jumpModifier.Y;
             Transform.VelocityX += jumpModifier.X;
             if (jumpModifier.X < 0)
@@ -824,6 +619,75 @@ namespace ForestPlatformerExample
             jumpModifier = Vector2.Zero;
             FallSpeed = (float)Globals.GameTime.TotalGameTime.TotalSeconds;
             AudioEngine.Play("JumpSound");
+        }
+
+        public void ClimbUpOnLadder()
+        {
+            if (Ladder == null)
+            {
+                return;
+            }
+
+            Transform.VelocityY -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+        }
+
+        public void ClimbDownOnLadder()
+        {
+            if (Ladder == null)
+            {
+                return;
+            }
+            if (IsOnGround)
+            {
+                LeaveLadder();
+                return;
+            }
+            Transform.VelocityY += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+        }
+
+        public void InteractWithItem()
+        {
+            if (isCarryingItem && carriedItem != null)
+            {
+                DropCurrentItem();
+            }
+            else
+            {
+                PickupItem();
+            }
+        }
+
+        public void DescendPlatform()
+        {
+            if (HasGravity)
+            {
+                StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(this));
+                if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement)
+                {
+                    collider.BlocksMovement = false;
+                    Timer.TriggerAfter(500, () => collider.BlocksMovement = true);
+                }
+            }
+        }
+
+        public void AttackOrThrow()
+        {
+            if (isCarryingItem)
+            {
+                (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset;
+                Vector2 force;
+                if (CurrentFaceDirection == Direction.WEST)
+                {
+                    force = new Vector2(-2.5f, 0);
+                }
+                else
+                {
+                    force = new Vector2(2.5f, 0);
+                }
+                ThrowCurrentItem(force);
+                return;
+            }
+            Attack();
         }
 
         private void Slide()
@@ -854,14 +718,14 @@ namespace ForestPlatformerExample
                 return;
             }
             Entity e = (overlappingItem as Entity);
-            if (e.Transform.X < Transform.X && CurrentFaceDirection != Direction.WEST)
+            /*if (e.Transform.X < Transform.X && CurrentFaceDirection != Direction.WEST)
             {
                 return;
             }
             if (e.Transform.X > Transform.X && CurrentFaceDirection != Direction.EAST)
             {
                 return;
-            }
+            }*/
             if (CurrentFaceDirection == Direction.WEST)
             {
                 Animations.PlayAnimation("PickupLeft");
@@ -949,23 +813,6 @@ namespace ForestPlatformerExample
             }
 
             base.FixedUpdate();
-        }
-
-        protected override void OnLeaveGround()
-        {
-            if (DECREASED_AIR_MOBILITY)
-            {
-                jumpDirection = Transform.VelocityX < 0 ? Direction.WEST : Direction.EAST;
-            }
-        }
-
-        protected override void OnLand(Vector2 velocity)
-        {
-            if (DECREASED_AIR_MOBILITY)
-            {
-                jumpDirection = default;
-                MovementSpeed = Config.CHARACTER_SPEED;
-            }
         }
 
         public override void Update()

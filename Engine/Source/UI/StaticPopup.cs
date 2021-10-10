@@ -81,7 +81,7 @@ namespace MonolithEngine
             if (timeout == 0)
             {
                 Scene.LayerManager.Paused = true;
-                GetComponent<UserInputController>().RegisterKeyPressAction(continueButton, (thumbstickPos) =>
+                GetComponent<UserInputController>().RegisterKeyPressAction(continueButton, () =>
                 {
                     Scene.LayerManager.Paused = false;
                     Destroy();
