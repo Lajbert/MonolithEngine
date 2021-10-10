@@ -22,6 +22,8 @@ namespace MonolithEngine
 
         public Action OnClick;
 
+        public Action OnRelease;
+
         public Action HoverStartedAction;
 
         public Action HoverStoppedAction;
@@ -124,8 +126,9 @@ namespace MonolithEngine
                     break;
                 }
             }
-            if (!wasTouched)
+            if (!wasTouched && isBeingFired)
             {
+                OnRelease?.Invoke();
                 isBeingFired = false;
             }
         }
