@@ -92,6 +92,10 @@ namespace MonolithEngine
         /// <param name="spriteBatch"></param>
         public void DrawAll(SpriteBatch spriteBatch)
         {
+            if (!owner.IsAlive())
+            {
+                return;
+            }
             foreach (List<IComponent> list in components.Values)
             {
                 if (list.Count == 0)

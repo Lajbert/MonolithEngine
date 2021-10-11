@@ -55,7 +55,6 @@ namespace MonolithEngine
             CheckGridCollisions = true;
             Active = true;
             ResetPosition(startPosition);
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         override public void Draw(SpriteBatch spriteBatch)

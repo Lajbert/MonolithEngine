@@ -30,6 +30,15 @@ namespace MonolithEngine
             }
         }
 
+        public static V GetOrDefault<T, V>(this Dictionary<T, V> map, T key, V defaultValue)
+        {
+            if (map.ContainsKey(key))
+            {
+                return map[key];
+            }
+            return defaultValue;
+        }
+
         public static IEnumerable<T> GetValues<T>()
         {
             return Enum.GetValues(typeof(T)).Cast<T>();
