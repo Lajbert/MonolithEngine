@@ -690,7 +690,7 @@ namespace ForestPlatformerExample
             Attack();
         }
 
-        private void Slide()
+        public void Slide()
         {
             if (isSliding || !IsOnGround || isCarryingItem || isWallSliding || Ladder != null)
             {

@@ -25,7 +25,7 @@ namespace ForestPlatformerExample
             upButton.OnClick = AddButtonAction(hero, hero.ClimbUpOnLadder);
             buttons.Add(upButton);
 
-            SelectableImage moveRightButton = new SelectableImage(Assets.GetTexture("RightArrow"), null, new Vector2(270, 600), default, 9, fireOnHold: true);
+            SelectableImage moveRightButton = new SelectableImage(Assets.GetTexture("RightArrow"), null, new Vector2(265, 600), default, 9, fireOnHold: true);
             moveRightButton.OnClick = AddButtonAction(hero, hero.MoveRight);
             buttons.Add(moveRightButton);
 
@@ -40,6 +40,10 @@ namespace ForestPlatformerExample
             SelectableImage interactButton = new SelectableImage(Assets.GetTexture("TriangleButton"), null, new Vector2(1025, 500), default, 9);
             interactButton.OnClick = AddButtonAction(hero, hero.InteractWithItem);
             buttons.Add(interactButton);
+
+            SelectableImage slideButton = new SelectableImage(Assets.GetTexture("CircleButton"), null, new Vector2(1175, 500), default, 9);
+            slideButton.OnClick = AddButtonAction(hero, hero.Slide);
+            buttons.Add(slideButton);
 
             /*
              *   Assets.LoadTexture("LeftArrow", "MobileButtons/left_arrow");
