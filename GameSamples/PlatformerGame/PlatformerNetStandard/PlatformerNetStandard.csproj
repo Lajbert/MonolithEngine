@@ -18,5 +18,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Import Project="..\..\Engine\Engine.projitems" Label="Shared" />
+  <Import Project="..\..\..\Engine\Engine.projitems" Label="Shared" />
 </Project>
