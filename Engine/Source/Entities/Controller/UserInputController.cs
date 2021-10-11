@@ -16,7 +16,7 @@ namespace MonolithEngine
 
         private Dictionary<Keys, bool> pressedKeys = new Dictionary<Keys, bool>();
         private Dictionary<Buttons, bool> pressedButtons = new Dictionary<Buttons, bool>();
-        private Dictionary<KeyMapping, Action<Vector2>> keyPressActions = new Dictionary<KeyMapping, Action<Vector2>>();
+        private Dictionary<KeyMapping, Action> keyPressActions = new Dictionary<KeyMapping, Action>();
         private Dictionary<Keys, Action> keyReleaseActions = new Dictionary<Keys, Action>();
         private Dictionary<Buttons, Action> buttonReleaseActions = new Dictionary<Buttons, Action>();
         private KeyboardState currentKeyboardState;
@@ -42,7 +42,7 @@ namespace MonolithEngine
             UniquePerEntity = true;
         }
 
-        public void RegisterKeyPressAction(Keys key, Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false, int pressCooldown = 0)
+        public void RegisterKeyPressAction(Keys key, Buttons controllerButton, Action action, bool singlePressOnly = false, int pressCooldown = 0)
         {
             keyPressActions.Add(new KeyMapping(key, controllerButton, singlePressOnly, pressCooldown), action);
             pressedKeys[key] = false;
@@ -55,13 +55,18 @@ namespace MonolithEngine
             buttonReleaseActions.Add(controllerButton, action);
         }
 
-        public void RegisterKeyPressAction(Buttons controllerButton, Action<Vector2> action, bool singlePressOnly = false, int pressCooldown = 0)
+        public void RegisterKeyReleaseAction(Keys key, Action action)
+        {
+            keyReleaseActions.Add(key, action);
+        }
+
+        public void RegisterKeyPressAction(Buttons controllerButton, Action action, bool singlePressOnly = false, int pressCooldown = 0)
         {
             keyPressActions.Add(new KeyMapping(null, controllerButton, singlePressOnly, pressCooldown), action);
             pressedButtons[controllerButton] = false;
         }
 
-        public void RegisterKeyPressAction(Keys key, Action<Vector2> action, bool singlePressOnly = false, int pressCooldown = 0) {
+        public void RegisterKeyPressAction(Keys key, Action action, bool singlePressOnly = false, int pressCooldown = 0) {
             keyPressActions.Add(new KeyMapping(key, null, singlePressOnly), action);
             pressedKeys[key] = false;
         }
@@ -101,7 +106,7 @@ namespace MonolithEngine
             mouseState = Mouse.GetState();
             currentGamepadState = GamePad.GetState(PlayerIndex.One);
 
-            foreach (KeyValuePair<KeyMapping, Action<Vector2>> mapping in keyPressActions)
+            foreach (KeyValuePair<KeyMapping, Action> mapping in keyPressActions)
             {
                 Keys? key = mapping.Key.Key;
                 if (key.HasValue)
@@ -120,7 +125,7 @@ namespace MonolithEngine
                             continue;
                         }
                         pressedKeys[key.Value] = true;
-                        mapping.Value.Invoke(Vector2.Zero);
+                        mapping.Value.Invoke();
                     }
                     else
                     {
@@ -150,7 +155,7 @@ namespace MonolithEngine
                             Timer.SetTimer("INPUTPRESSED_" + button.Value.ToString(), mapping.Key.PressCooldown);
                         }
                         pressedButtons[button.Value] = true;
-                        if (button.Value == Buttons.LeftThumbstickLeft || button.Value == Buttons.LeftThumbstickRight)
+                        /*if (button.Value == Buttons.LeftThumbstickLeft || button.Value == Buttons.LeftThumbstickRight)
                         {
                             leftThumbstick.X = currentGamepadState.ThumbSticks.Left.X;
                             mapping.Value.Invoke(leftThumbstick);
@@ -169,9 +174,9 @@ namespace MonolithEngine
                             rightThumbStick.Y = currentGamepadState.ThumbSticks.Right.Y;
                             mapping.Value.Invoke(rightThumbStick);
                         }
-                        else
+                        else*/
                         {
-                            mapping.Value.Invoke(Vector2.Zero);
+                            mapping.Value.Invoke();
                         }
 
 
@@ -214,6 +219,11 @@ namespace MonolithEngine
 
         public void PostUpdate()
         {
+        }
+
+        public Type GetComponentType()
+        {
+            return GetType();
         }
 
         private class KeyMapping

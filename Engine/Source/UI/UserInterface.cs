@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 
 namespace MonolithEngine
@@ -67,24 +69,38 @@ namespace MonolithEngine
 
         public void Update()
         {
-            currentMouseState = Mouse.GetState();
-            
-            if (selectedElement != null && currentMouseState.LeftButton == ButtonState.Pressed && (prevMouseState == null || prevMouseState.LeftButton != ButtonState.Pressed))
+            if (Config.ANDROID)
             {
-                if (selectedElement is SelectableUIElement)
+                foreach (IUIElement element in elements)
                 {
-                    (selectedElement as SelectableUIElement).OnClick();
+                    TouchCollection state = TouchPanel.GetState();
+                    element.Update(state);
                 }
-            }
 
-            foreach (IUIElement element in elements)
+                HandleNewElements();
+            }
+            else
             {
-                element.Update(currentMouseState.Position);
+                currentMouseState = Mouse.GetState();
+
+                if (selectedElement != null && currentMouseState.LeftButton == ButtonState.Pressed && (prevMouseState == null || prevMouseState.LeftButton != ButtonState.Pressed))
+                {
+                    if (selectedElement is SelectableUIElement)
+                    {
+                        (selectedElement as SelectableUIElement).OnClick();
+                    }
+                }
+
+                foreach (IUIElement element in elements)
+                {
+                    element.Update(currentMouseState.Position);
+                }
+
+                HandleNewElements();
+
+                prevMouseState = currentMouseState;
             }
 
-            HandleNewElements();
-
-            prevMouseState = currentMouseState;
         }
 
         internal void HandleNewElements()

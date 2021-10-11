@@ -384,7 +384,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Source\Level\Map\LDTKMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Source\Level\Map\MapSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Source\Physics\Bresenham\Bresenham.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Source\Physics\CollisionEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Source\Physics\Collision\CollisionEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Source\Physics\Collision\AbstractCollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Source\Physics\Collision\BoxCollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Source\Physics\Collision\CircleCollisionComponent.cs" />

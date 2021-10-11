@@ -2,7 +2,7 @@
 
 namespace MonolithEngine
 {
-    public interface GridUtil
+    public class GridUtil
     {
         public static Vector2 GetRightGrid(IGameObject entity)
         {

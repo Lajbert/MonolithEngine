@@ -33,9 +33,10 @@ namespace MonolithEngine
         protected float CollisionOffsetBottom = 0f;
         protected float CollisionOffsetTop = 0f;
 
-        private ComponentList componentList = new ComponentList();
+        private ComponentList componentList;
 
-        private Dictionary<string, bool> CollidesAgainst = new Dictionary<string, bool>();
+        private Dictionary<Type, bool> collidesAgainst = new Dictionary<Type, bool>();
+        private HashSet<Type> triggeredAgainst = new HashSet<Type>();
 
         private bool checkGridCollisions = false;
 
@@ -46,7 +47,7 @@ namespace MonolithEngine
                 if ( value != checkGridCollisions )
                 {
                     checkGridCollisions = value;
-                    Scene.CollisionEngine.OnCollisionProfileChanged(this);
+                    Scene.CollisionEngine.ObjectChanged(this);
                 }
             }
         }
@@ -59,7 +60,7 @@ namespace MonolithEngine
             set
             {
                 canFireTriggers = value;
-                Scene.CollisionEngine.OnCollisionProfileChanged(this);
+                Scene.CollisionEngine.ObjectChanged(this);
             }
         }
 
@@ -155,6 +156,7 @@ namespace MonolithEngine
 
         public Entity(Layer layer, Entity parent = null, Vector2 startPosition = default) : base()
         {
+            componentList = new ComponentList(this);
             DrawPosition = startPosition;
             Transform = new StaticTransform(this, startPosition);
             Layer = layer;
@@ -189,7 +191,7 @@ namespace MonolithEngine
 
             if (newComponent is ICollisionComponent || newComponent is ITrigger)
             {
-                Scene.CollisionEngine.OnCollisionProfileChanged(this);
+                Scene.CollisionEngine.ObjectChanged(this);
             }
 
             if (newComponent is UserInputController)
@@ -202,7 +204,7 @@ namespace MonolithEngine
         {
             if (component is ICollisionComponent || component is ITrigger)
             {
-                Scene.CollisionEngine.OnCollisionProfileChanged(this);
+                Scene.CollisionEngine.ObjectChanged(this);
             }
         }
 
@@ -383,9 +385,10 @@ namespace MonolithEngine
         {
             componentList.Clear<ICollisionComponent>();
             componentList.Clear<ITrigger>();
-            CollidesAgainst.Clear();
+            collidesAgainst.Clear();
             CanFireTriggers = false;
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
+            CollisionsEnabled = false;
+            Scene.CollisionEngine.ObjectChanged(this);
             //RayEmitter = null;
             BlocksRay = false;
         }
@@ -479,22 +482,39 @@ namespace MonolithEngine
             OnCollisionEnd(otherCollider);
         }*/
 
-        public Dictionary<string, bool> GetCollidesAgainst()
+        Dictionary<Type, bool> IColliderEntity.GetCollidesAgainst()
         {
-            return CollidesAgainst;
+            return collidesAgainst;
         }
 
-        public void AddCollisionAgainst(string tag, bool allowOverlap = true)
+        HashSet<Type> IColliderEntity.GetTriggeredAgainst()
         {
-            CollidesAgainst[tag] = allowOverlap;
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
+            return triggeredAgainst;
         }
 
-        public void RemoveCollisionAgainst(string tag)
+        public void AddCollisionAgainst(Type type, bool allowOverlap = true)
         {
-            CollidesAgainst.Remove(tag);
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
+            collidesAgainst[type] = allowOverlap;
+            Scene.CollisionEngine.ObjectChanged(this);
         }
+
+        public void AddTriggeredAgainst(Type type, bool allowOverlap = true)
+        {
+            triggeredAgainst.Add(type);
+            Scene.CollisionEngine.ObjectChanged(this);
+        }
+
+        /*public void RemoveCollisionAgainst(Type type)
+        {
+            collidesAgainst.Remove(type);
+            Scene.CollisionEngine.ObjectChanged(this);
+        }
+
+        public void RemoveTriggeredAgainst(Type type)
+        {
+            triggeredAgainst.Remove(type);
+            Scene.CollisionEngine.ObjectChanged(this);
+        }*/
 
         public ICollection<ITrigger> GetTriggers()
         {
@@ -516,7 +536,7 @@ namespace MonolithEngine
         public void RemoveTrigger(ITrigger trigger)
         {
             componentList.RemoveComponent(trigger);
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
+            Scene.CollisionEngine.ObjectChanged(this);
         }
 
         public virtual void OnEnterTrigger(string triggerTag, IGameObject otherEntity)
@@ -530,13 +550,11 @@ namespace MonolithEngine
         public override void AddTag(string tag)
         {
             base.AddTag(tag);
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public override void RemoveTag(string tag)
         {
             base.RemoveTag(tag);
-            Scene.CollisionEngine.OnCollisionProfileChanged(this);
         }
 
         public override bool IsAlive()

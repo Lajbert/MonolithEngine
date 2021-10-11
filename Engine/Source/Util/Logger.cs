@@ -11,11 +11,11 @@ namespace MonolithEngine
         private static string DEBUG = "DEBUG";
         private static string WARNING = "WARNING";
 
-        private static StreamWriter file;
+        //private static StreamWriter file;
 
         static Logger()
         {
-            file = new StreamWriter("Debug.log", append: true);
+            //file = new StreamWriter("Debug.log", append: true);
         }
 
         public static bool LogToFile = false;
@@ -64,11 +64,11 @@ namespace MonolithEngine
         {
             string logMessage = DateTime.Now + " [" + level + "]: " + message;
             System.Diagnostics.Debug.WriteLine(logMessage);
-            if (LogToFile)
+            /*if (LogToFile)
             {
                 file.WriteLine(logMessage);
                 file.Flush();
-            }
+            }*/
         }
     }
 }

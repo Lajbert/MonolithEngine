@@ -9,6 +9,14 @@ namespace MonolithEngine
     /// </summary>
     public class ComponentList
     {
+
+        private IGameObject owner;
+
+        public ComponentList(IGameObject owner)
+        {
+            this.owner = owner;
+        }
+
         private Dictionary<Type, List<IComponent>> components = new Dictionary<Type, List<IComponent>>();
 
         public T GetComponent<T>() where T : IComponent
@@ -84,6 +92,10 @@ namespace MonolithEngine
         /// <param name="spriteBatch"></param>
         public void DrawAll(SpriteBatch spriteBatch)
         {
+            if (!owner.IsAlive())
+            {
+                return;
+            }
             foreach (List<IComponent> list in components.Values)
             {
                 if (list.Count == 0)
@@ -95,6 +107,10 @@ namespace MonolithEngine
                     if (component is IDrawableComponent)
                     {
                         (component as IDrawableComponent).Draw(spriteBatch);
+                        if (!owner.IsAlive())
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -105,6 +121,10 @@ namespace MonolithEngine
         /// </summary>
         public void UpdateAll()
         {
+            if (!owner.IsAlive())
+            {
+                return;
+            }
             foreach (List<IComponent> list in components.Values)
             {
                 if (list.Count == 0)
@@ -116,6 +136,10 @@ namespace MonolithEngine
                     if (component is IUpdatableComponent)
                     {
                         (component as IUpdatableComponent).Update();
+                        if (!owner.IsAlive())
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -126,6 +150,10 @@ namespace MonolithEngine
         /// </summary>
         public void PreUpdateAll()
         {
+            if (!owner.IsAlive())
+            {
+                return;
+            }
             foreach (List<IComponent> list in components.Values)
             {
                 if (list.Count == 0)
@@ -137,6 +165,10 @@ namespace MonolithEngine
                     if (component is IUpdatableComponent)
                     {
                         (component as IUpdatableComponent).PreUpdate();
+                        if (!owner.IsAlive())
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -147,6 +179,10 @@ namespace MonolithEngine
         /// </summary>
         public void PostUpdateAll()
         {
+            if (!owner.IsAlive())
+            {
+                return;
+            }
             foreach (List<IComponent> list in components.Values)
             {
                 if (list.Count == 0)
@@ -158,6 +194,10 @@ namespace MonolithEngine
                     if (component is IUpdatableComponent)
                     {
                         (component as IUpdatableComponent).PostUpdate();
+                        if (!owner.IsAlive())
+                        {
+                            return;
+                        }
                     }
                 }
             }

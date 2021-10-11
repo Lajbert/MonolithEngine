@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
+using System.Collections.Generic;
 
 namespace MonolithEngine
 {
@@ -37,6 +39,11 @@ namespace MonolithEngine
         }
 
         public virtual void Update(Point mousePosition = default)
+        {
+            
+        }
+
+        public virtual void Update(TouchCollection touchLocations)
         {
             
         }

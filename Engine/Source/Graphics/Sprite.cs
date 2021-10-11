@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace MonolithEngine
 {
@@ -60,6 +61,11 @@ namespace MonolithEngine
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Owner.DrawPosition - offset, SourceRectangle, Color.White, Rotation, Origin, Scale, SpriteEffect, Owner.Depth);
+        }
+
+        public Type GetComponentType()
+        {
+            return GetType();
         }
     }
 }

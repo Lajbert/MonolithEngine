@@ -252,5 +252,10 @@ namespace MonolithEngine
         public void PostUpdate()
         {
         }
+
+        public Type GetComponentType()
+        {
+            return GetType();
+        }
     }
 }
