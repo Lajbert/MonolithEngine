@@ -150,9 +150,31 @@ namespace MonolithEngine
                 {
                     foreach (IColliderEntity changed in changedObjects)
                     {
-                        if (changed.GetCollidesAgainst().Count == 0)
+                        if (changed.IsDestroyed)
                         {
-                            toCheckAgainst.Remove(changed);
+                            foreach (IColliderEntity collider in toCheckAgainst.Keys)
+                            {
+                                if (collider.GetCollidesAgainst().ContainsKey(changed.GetType()))
+                                {
+                                    toCheckAgainst[collider].RemoveIfExists(collider);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (changed.GetCollidesAgainst().Count == 0) {
+                                toCheckAgainst.Remove(changed);
+                            }
+                            if (changed.GetCollisionComponent() != null)
+                            {
+                                foreach (IColliderEntity collider in toCheckAgainst.Keys)
+                                {
+                                    if (collider.GetCollidesAgainst().ContainsKey(changed.GetType()))
+                                    {
+                                        toCheckAgainst[collider].Add(changed);
+                                    }
+                                }
+                            }
                         }
                     }
                 }

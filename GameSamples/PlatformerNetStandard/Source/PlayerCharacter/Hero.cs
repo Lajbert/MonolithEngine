@@ -968,7 +968,7 @@ namespace ForestPlatformerExample
                     }
                 }
             }
-            else if (otherCollider.HasTag("Projectile"))
+            else if (otherCollider is Bullet)
             {
                 if (!isSliding)
                 {
