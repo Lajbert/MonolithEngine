@@ -9,7 +9,7 @@ The engine is very young and I have a lot of documentation, cleanup and refactor
 
 # Sample platformer game:
 Windows executable: https://lajbert.itch.io/platformer-demo  
-Android version: PlayStore url coming soon! For more information, head over the [project page](https://github.com/Lajbert/MonolithEngine/projects/1).
+Android version: PlayStore url coming soon! For more information, head over the [project page](https://github.com/Lajbert/MonolithEngine/projects/1).  
 The shared source code of the game can be found under: GameSamples\PlatformerGame\PlatformerNetStandard  
 To run on desktop, use the project under GameSamples\PlatformerGame\PlatformerOpenGL  
 To run on Android, use the project under GameSamples\PlatformerGame\PlatformerAndroid  
