@@ -79,7 +79,7 @@ namespace MonolithEngine
 #if DEBUG
                 if (otherEntity.IsDestroyed)
                 {
-                    //Logger.Error(thisEntity + " collisions was checked against a destroyed entity: " + otherEntity);
+                    Logger.Error(thisEntity + " collisions was checked against a destroyed entity: " + otherEntity);
                     continue;
                 }
 #endif
@@ -156,7 +156,7 @@ namespace MonolithEngine
                             {
                                 if (collider.GetCollidesAgainst().ContainsKey(changed.GetType()))
                                 {
-                                    toCheckAgainst[collider].RemoveIfExists(collider);
+                                    toCheckAgainst[collider].RemoveIfExists(changed);
                                 }
                             }
                         }
