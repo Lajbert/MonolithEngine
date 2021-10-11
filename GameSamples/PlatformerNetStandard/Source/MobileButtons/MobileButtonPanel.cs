@@ -18,7 +18,8 @@ namespace ForestPlatformerExample
             buttons.Add(moveLeftButton);
 
             SelectableImage downButton = new SelectableImage(Assets.GetTexture("DownArrow"), null, new Vector2(150, 600), default, 9, fireOnHold: true);
-            downButton.OnClick = AddButtonAction(hero, hero.ClimbDownOnLadder);
+            downButton.OnClick = AddButtonAction(hero, hero.ClimbDownOrDescend);
+            downButton.OnRelease = AddButtonAction(hero, hero.ClimbDescendRelease);
             buttons.Add(downButton);
 
             SelectableImage upButton = new SelectableImage(Assets.GetTexture("UpArrow"), null, new Vector2(150, 475), default, 9, fireOnHold: true);

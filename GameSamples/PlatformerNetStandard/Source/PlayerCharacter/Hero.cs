@@ -533,9 +533,9 @@ namespace ForestPlatformerExample
 
             UserInput.RegisterKeyPressAction(Keys.LeftControl, Slide, true);
 
-            UserInput.RegisterKeyPressAction(Keys.Down, DescendPlatform, true);
+            UserInput.RegisterKeyPressAction(Keys.Down, ClimbDownOrDescend);
 
-            UserInput.RegisterKeyPressAction(Keys.Down, ClimbDownOnLadder);
+            UserInput.RegisterKeyReleaseAction(Keys.Down, ClimbDescendRelease);
 
             UserInput.RegisterKeyPressAction(Keys.Up, ClimbUpOnLadder);
 
@@ -631,18 +631,37 @@ namespace ForestPlatformerExample
             Transform.VelocityY -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
         }
 
-        public void ClimbDownOnLadder()
+        private bool descended = false;
+        public void ClimbDownOrDescend()
         {
             if (Ladder == null)
             {
+                if (HasGravity && !descended)
+                {
+                    StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(this));
+                    if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement)
+                    {
+                        collider.BlocksMovement = false;
+                        Timer.TriggerAfter(500, () => collider.BlocksMovement = true);
+                        descended = true;
+                    }
+                }
                 return;
-            }
-            if (IsOnGround)
+            } 
+            else 
             {
-                LeaveLadder();
-                return;
+                if (IsOnGround)
+                {
+                    LeaveLadder();
+                    return;
+                }
+                Transform.VelocityY += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
             }
-            Transform.VelocityY += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+        }
+
+        public void ClimbDescendRelease()
+        {
+            descended = false;
         }
 
         public void InteractWithItem()
@@ -654,19 +673,6 @@ namespace ForestPlatformerExample
             else
             {
                 PickupItem();
-            }
-        }
-
-        public void DescendPlatform()
-        {
-            if (HasGravity)
-            {
-                StaticCollider collider = Scene.GridCollisionChecker.GetColliderAt(GridUtil.GetBelowGrid(this));
-                if (collider != null && collider.HasTag("Platform") && collider.BlocksMovement)
-                {
-                    collider.BlocksMovement = false;
-                    Timer.TriggerAfter(500, () => collider.BlocksMovement = true);
-                }
             }
         }
 
