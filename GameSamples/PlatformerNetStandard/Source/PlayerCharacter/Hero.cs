@@ -142,12 +142,8 @@ namespace ForestPlatformerExample
 
             BlocksRay = true;
 
-            //AddComponent(new CircleCollisionComponent(this, 10, new Vector2(0, -10)));
             AddComponent(new BoxCollisionComponent(this, 16, 25, new Vector2(-8, -24)));
-            //AddComponent(new BoxCollisionComponent(this, 16, 24, Vector2.Zero));
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
-
-            //ColliderOnGrid = true;
 
             //RayEmitter = new Ray2DEmitter(this);
 
@@ -173,17 +169,12 @@ namespace ForestPlatformerExample
                 l.SetParent(this, new Vector2(0, -Config.GRID / 2 - 15));*/
             }
 #endif
-
-            /*SetSprite(SpriteUtil.CreateRectangle(16, Color.Blue));
-            DrawOffset = new Vector2(-8, -16);
-            CollisionOffsetBottom = 1f;*/
         }
 
         private void SetupAnimations()
         {
             Animations = new AnimationStateMachine();
             AddComponent(Animations);
-            //Animations.Offset = new Vector2(3, -20);
             Animations.Offset = new Vector2(0, -32);
 
             CollisionOffsetRight = 0.45f;
@@ -248,11 +239,11 @@ namespace ForestPlatformerExample
                 }
             };
 
-            bool isRunningRight() => UserInput.IsKeyPressed(Keys.Right) && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
+            bool isRunningRight() => Transform.VelocityX > 0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
-            bool isRunningLeft() => UserInput.IsKeyPressed(Keys.Left) && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
+            bool isRunningLeft() => Transform.VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
@@ -265,15 +256,15 @@ namespace ForestPlatformerExample
             {
                 AudioEngine.Stop("SlowFootstepsSound");
             };*/
-            bool isWalkingLeft() => UserInput.IsKeyPressed(Keys.Right) && Transform.VelocityX > -0.5f && Transform.VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
+            /*bool isWalkingLeft() => Transform.VelocityX > -0.5f && Transform.VelocityX < -0.01 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingLeft", walkingLeft, isWalkingLeft, 1);
 
             SpriteSheetAnimation walkingRight = walkingLeft.CopyFlipped();
-            bool isWalkingRight() => UserInput.IsKeyPressed(Keys.Left) && Transform.VelocityX > 0.01 && Transform.VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
+            bool isWalkingRight() => Transform.VelocityX > 0.01 && Transform.VelocityX < 0.5f && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("WalkingRight", walkingRight, isWalkingRight, 1);
 
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
-            Animations.AddFrameTransition("RunningLeft", "WalkingLeft");
+            Animations.AddFrameTransition("RunningLeft", "WalkingLeft");*/
 
             SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 24)
             {
@@ -847,15 +838,6 @@ namespace ForestPlatformerExample
             }
 
             base.Update();
-        }
-
-        private float GetVelocity(float thumbStickPosition, float maxVelocity)
-        {
-            if (thumbStickPosition == 0)
-            {
-                return 0;
-            }
-            return thumbStickPosition / 1 * maxVelocity;
         }
 
         protected override void SetRayBlockers()
