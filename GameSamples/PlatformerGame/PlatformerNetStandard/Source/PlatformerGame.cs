@@ -43,8 +43,8 @@ namespace ForestPlatformerExample
             
             if (ANDROID)
             {
-                VideoConfiguration.RESOLUTION_WIDTH = 1440;
-                VideoConfiguration.RESOLUTION_HEIGHT = 2560;
+                VideoConfiguration.RESOLUTION_WIDTH = Window.ClientBounds.Width;
+                VideoConfiguration.RESOLUTION_HEIGHT = Window.ClientBounds.Height;
             } 
             else
             {

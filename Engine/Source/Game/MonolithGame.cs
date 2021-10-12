@@ -66,8 +66,15 @@ namespace MonolithEngine
             graphics.PreferredBackBufferWidth = VideoConfiguration.RESOLUTION_WIDTH;
             graphics.PreferredBackBufferHeight = VideoConfiguration.RESOLUTION_HEIGHT;
             graphics.IsFullScreen = VideoConfiguration.FULLSCREEN;
-            Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
-            //graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.PortraitDown;
+            if (Config.ANDROID)
+            {
+                Config.SCALE = ((float)VideoConfiguration.RESOLUTION_HEIGHT / 1920) * 2.8f;
+            }
+            else
+            {
+                Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
+            }
+            //Config.SCALE = ((float)VideoConfiguration.RESOLUTION_WIDTH / 1920) * 2;
             graphics.ApplyChanges();
         }
 
