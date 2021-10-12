@@ -9,8 +9,10 @@ The engine is very young and I have a lot of documentation, cleanup and refactor
 
 # Sample platformer game:
 Windows executable: https://lajbert.itch.io/platformer-demo  
-Android version: coming soon! For more information, head over the [project page](https://github.com/Lajbert/MonolithEngine/projects/1).  
-Source code: in this repo under GameSamples/Platformer/
+Android version: PlayStore url coming soon! For more information, head over the [project page](https://github.com/Lajbert/MonolithEngine/projects).  
+The shared source code of the game can be found under: GameSamples\PlatformerGame\PlatformerNetStandard  
+To run on desktop, use the project under GameSamples\PlatformerGame\PlatformerOpenGL  
+To run on Android, use the project under GameSamples\PlatformerGame\PlatformerAndroid  
 
 # Oh no, not another game engine!
 There are so many game engines out there already, why making another one?  
@@ -65,7 +67,7 @@ The more coding experience you have, the better. It doesn't matter if it's Java,
 # How can I use the engine? Any learning materials or tutorials?
 Right now there is one [platformer game example](https://lajbert.itch.io/platformer-demo) included in project to get you started, but more examples will be added later for the most typical scenarios and genres. Written and/or youtube tutorials are also planned to make the start easier.
 Since the engine is built on top of MonoGame, you'll have to follow the [MonoGame's 'Getting Started' documentation](https://docs.monogame.net/index.html) to setup your environment. Nothing else is needed.  
-The project itself if a shared MonoGame project, so you can include it in yours, regardless of the target. Head over to GameSamples/Platformer to see an example game for PC and mobile.
+The project itself if a shared MonoGame project, so you can include it in yours, regardless of the target. Head over to GameSamples\PlatformerGame\ to see the example platformer game for PC and mobile.
 
 # Why should I chose this engine over other major commercial engines out there?
 I can't really come up with any catchy selling point apart from the things I already listed above :) It's there if you'd like to try something new and simple, maybe you'll like it, maybe not, maybe you'll just see one or two tricks you like and add it to your toolbox.
