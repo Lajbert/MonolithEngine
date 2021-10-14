@@ -396,6 +396,13 @@ namespace MonolithEngine
             return color;
         }
 
+        public static Texture2D TextureFromColor(Color[] input, int width, int height)
+        {
+            Texture2D result = new Texture2D(GraphicsDeviceManager.GraphicsDevice, width, height);
+            result.SetData(input);
+            return result;
+        }
+
         public enum BoundCalculationMode
         {
             MAX,

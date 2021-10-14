@@ -67,5 +67,25 @@ namespace MonolithEngine
         {
             return GetType();
         }
+
+        public static Texture2D Rectangle(int width, int height, Color color)
+        {
+            return AssetUtil.CreateRectangle(width, height, color);
+        }
+
+        public static Texture2D Square(int size, Color color)
+        {
+            return AssetUtil.CreateRectangle(size, size, color);
+        }
+
+        public static Texture2D Rectangle(int width, int height, Color[] color)
+        {
+            return AssetUtil.TextureFromColor(color, width, height);
+        }
+
+        public static Texture2D Square(int size, Color[] color)
+        {
+            return AssetUtil.TextureFromColor(color, size, size);
+        }
     }
 }
