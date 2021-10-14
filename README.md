@@ -2,7 +2,7 @@
 
 # My website
 Mostly focusing on MonoGame in general and my personal developer experiences:  
-https://lajbert.com/
+https://lajbert.github.io/
 
 # Disclaimer: 
 The engine is very young and I have a lot of documentation, cleanup and refactoring work ahead of me to make it community-friendly. At this point, most commits go directly to the master so it changes frequently. If there will be a community around the engine, this will change. Originally I wasn't planning to open up the source code just yet, but I did it because of Ludum Dare 48, where I have to provide the source code of my submission. The code will undergo several improvements and cleanups in the next weeks/months. I am a beginner in video game development and this is my learning project, so if you find anything that could be improved or should be done better/differently, I am very happy to hear about it. Also, I am happy to recieve any feedback in general.
