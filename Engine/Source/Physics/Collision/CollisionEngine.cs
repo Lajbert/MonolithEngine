@@ -14,10 +14,9 @@ namespace MonolithEngine
     public class CollisionEngine
     {
 
-        //private Dictionary<IColliderEntity, HashSet<IColliderEntity>> toCheckAgainst = new Dictionary<IColliderEntity, HashSet<IColliderEntity>>();
         private Dictionary<Type, HashSet<IColliderEntity>> allColliders = new Dictionary<Type, HashSet<IColliderEntity>>();
         private Dictionary<Type, HashSet<Type>> collisionTypeCache = new Dictionary<Type, HashSet<Type>>();
-        private Dictionary<Type, HashSet<Type>> reversedCollisionTypeCache = new Dictionary<Type, HashSet<Type>>();
+        //private Dictionary<Type, HashSet<Type>> reversedCollisionTypeCache = new Dictionary<Type, HashSet<Type>>();
 
         private Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>> collisions = new Dictionary<IColliderEntity, Dictionary<IColliderEntity, bool>>();
 
@@ -136,9 +135,9 @@ namespace MonolithEngine
                                 collisions.Add(t);
                                 collisionTypeCache[changed.GetType()] = collisions;
 
-                                collisions = reversedCollisionTypeCache.GetOrDefault(t, new HashSet<Type>());
+                                /*collisions = reversedCollisionTypeCache.GetOrDefault(t, new HashSet<Type>());
                                 collisions.Add(changed.GetType());
-                                reversedCollisionTypeCache[t] = collisions;
+                                reversedCollisionTypeCache[t] = collisions;*/
                             }
                         }
 
@@ -157,9 +156,9 @@ namespace MonolithEngine
                             collisions.Add(t);
                             collisionTypeCache[changed.GetType()] = collisions;
 
-                            collisions = reversedCollisionTypeCache.GetOrDefault(t, new HashSet<Type>());
+                            /*collisions = reversedCollisionTypeCache.GetOrDefault(t, new HashSet<Type>());
                             collisions.Add(changed.GetType());
-                            reversedCollisionTypeCache[t] = collisions;
+                            reversedCollisionTypeCache[t] = collisions;*/
                         }
                     }
                 }
