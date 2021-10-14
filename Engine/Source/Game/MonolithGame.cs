@@ -27,6 +27,8 @@ namespace MonolithEngine
         private SpriteFont debugFont;
 #endif
 
+        private readonly int DEFAULT_FIXED_UPDATE_RATE = 60;
+
         public MonolithGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -90,8 +92,10 @@ namespace MonolithEngine
 #endif
             VideoConfiguration.GameInstance = this;
             Init();
+            Logger.Info("Engine initialized with " + Config.FIXED_UPDATE_FPS + " FPS");
             fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
             Globals.FixedUpdateRate = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS));
+            Globals.FixedUpdateMultiplier = ((float)Config.FIXED_UPDATE_FPS / DEFAULT_FIXED_UPDATE_RATE);
             //fixedUpdateRate = Config.FIXED_UPDATE_FPS == 0 ? 0 : (float)TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / Config.FIXED_UPDATE_FPS)).TotalMilliseconds;
             base.Initialize();
         }

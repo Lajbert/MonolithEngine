@@ -63,7 +63,15 @@ namespace MonolithEngine
         private static void Log(string level, string message)
         {
             string logMessage = DateTime.Now + " [" + level + "]: " + message;
-            System.Diagnostics.Debug.WriteLine(logMessage);
+            if (level == DEBUG)
+            {
+                System.Diagnostics.Debug.WriteLine(logMessage);
+            }
+            else
+            {
+                System.Diagnostics.Trace.WriteLine(logMessage);
+            }
+
             /*if (LogToFile)
             {
                 file.WriteLine(logMessage);

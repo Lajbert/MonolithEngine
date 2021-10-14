@@ -27,8 +27,11 @@ namespace ForestPlatformerExample
         protected override void Init()
         {
 
+#if DEBUG
             Config.FIXED_UPDATE_FPS = 60;
-            Globals.FixedUpdateMultiplier = 0.5f;
+#else
+            Config.FIXED_UPDATE_FPS = 30;
+#endif
 
             Logger.Info("Launching game...");
 
