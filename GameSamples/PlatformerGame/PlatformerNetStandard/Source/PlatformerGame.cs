@@ -56,8 +56,16 @@ namespace ForestPlatformerExample
                 if (desktopWidth / gdc == 16 && desktopHeight / gdc == 9)
                 {
 #if DEBUG
-                    VideoConfiguration.RESOLUTION_WIDTH = 2560;
-                    VideoConfiguration.RESOLUTION_HEIGHT = 1440;
+                    if (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width > 1080)
+                    {
+                        VideoConfiguration.RESOLUTION_WIDTH = 1920;
+                        VideoConfiguration.RESOLUTION_HEIGHT = 1080;
+                    }
+                    else
+                    {
+                        VideoConfiguration.RESOLUTION_WIDTH = 1280;
+                        VideoConfiguration.RESOLUTION_HEIGHT = 720;
+                    }
                     VideoConfiguration.FULLSCREEN = false;
 #else
                 VideoConfiguration.RESOLUTION_WIDTH = desktopWidth;
