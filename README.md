@@ -13,7 +13,7 @@ The engine is very young and I have a lot of documentation, cleanup and refactor
 
 Windows executable: https://lajbert.itch.io/platformer-demo  
 Android version: PlayStore url coming soon! For more information, head over the [project page](https://github.com/Lajbert/MonolithEngine/projects), or deploy the code to your phone (see below).  
-The shared source code of the game can be found under: GameSamples\PlatformerGame\PlatformerNetStandard  
+The shared source code of the game can be found under GameSamples\PlatformerGame\PlatformerNetStandard  
 To run on desktop, use the project under GameSamples\PlatformerGame\PlatformerOpenGL  
 To run on Android, use the project under GameSamples\PlatformerGame\PlatformerAndroid  
 
