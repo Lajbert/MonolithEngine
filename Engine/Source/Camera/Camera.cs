@@ -51,6 +51,8 @@ namespace MonolithEngine
 
         private CameraMode cameraMode;
 
+        private Vector2 moveToPosition = default;
+
         private int cameraNumber;
         
         public Camera(GraphicsDeviceManager graphicsDeviceManager, CameraMode cameraMode = CameraMode.SINGLE, int cameraNumber = 0)
@@ -129,9 +131,13 @@ namespace MonolithEngine
             float deadzone = Config.CAMERA_DEADZONE / zoomMultiplier;
             float elapsedTime = (float)Globals.ElapsedTime / Config.CAMERA_TIME_MULTIPLIER;
             // Follow target entity
-            if (target != null)
+            if (target != null || moveToPosition != default)
             {
-                Vector2 targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(Viewport.Width / 2.0f, Viewport.Height / 2.0f);
+                Vector2 targetPosition = moveToPosition;
+                if (target != null)
+                {
+                    targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(Viewport.Width / 2.0f, Viewport.Height / 2.0f);
+                }
 
                 float targetCameraDistance = Vector2.Distance(Position, targetPosition);
                 if (targetCameraDistance >= deadzone)
@@ -172,6 +178,21 @@ namespace MonolithEngine
                     shakeStarted = 0f;
                 }
             }
+        }
+
+        public void MoveTo(Vector2 position)
+        {
+            moveToPosition = position;
+        }
+
+        public void MoveBy(Vector2 position)
+        {
+            moveToPosition += position;
+        }
+
+        public Vector2 ScreenToWorldSpace(Vector2 mousePosition)
+        {
+            return Vector2.Transform(mousePosition, Matrix.Invert(WorldTranformMatrix));
         }
 
         public void TrackTarget(Entity entity, bool immediate, Vector2 tracingOffset = new Vector2())
