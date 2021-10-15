@@ -8,6 +8,9 @@ https://lajbert.github.io/
 The engine is very young and I have a lot of documentation, cleanup and refactoring work ahead of me to make it community-friendly. At this point, most commits go directly to the master so it changes frequently. If there will be a community around the engine, this will change. Originally I wasn't planning to open up the source code just yet, but I did it because of Ludum Dare 48, where I have to provide the source code of my submission. The code will undergo several improvements and cleanups in the next weeks/months. I am a beginner in video game development and this is my learning project, so if you find anything that could be improved or should be done better/differently, I am very happy to hear about it. Also, I am happy to recieve any feedback in general.
 
 # Sample platformer game:
+![ForestLevel](https://img.itch.zone/aW1hZ2UvMTAyMDA1MS81ODE2MDU4LmdpZg==/original/rC%2BG5S.gif)  
+![IceLevel](https://img.itch.zone/aW1hZ2UvMTAyMDA1MS81ODE2MDU5LmdpZg==/original/UghiPj.gif)
+
 Windows executable: https://lajbert.itch.io/platformer-demo  
 Android version: PlayStore url coming soon! For more information, head over the [project page](https://github.com/Lajbert/MonolithEngine/projects), or deploy the code to your phone (see below).  
 The shared source code of the game can be found under: GameSamples\PlatformerGame\PlatformerNetStandard  
