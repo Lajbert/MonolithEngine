@@ -37,7 +37,7 @@ Features so far:
 * AI with state machines (behavior trees coming soon)
 * TileGroups with automatic texture merging (very useful for external map editors!)
 * Layers (for parallax scrolling, background, foreground, etc) with optimized Y-sorting
-* 2D Camera with the usual functionalities (scroll, zoom, follow, shake, etc.)
+* 2D camera with the usual functionalities (scroll, zoom, follow, shake, etc.) with dual camera support (horizontal and vertical split)
 * Fixed timestep for game logic updates, interpolation for in-between frames (makes the physics predictable and easy on the CPU, while still having butter smooth movements)
 * [LDtk](https://ldtk.io/) map editor support ([Tiled](https://www.mapeditor.org/) support is also planned for future)
 * 2D grid based static environmental collisions (for dynamic objects colliding with static objects like ground, walls and other static environment colliders)
