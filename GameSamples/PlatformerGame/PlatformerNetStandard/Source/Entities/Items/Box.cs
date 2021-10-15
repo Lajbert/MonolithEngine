@@ -137,7 +137,11 @@ namespace ForestPlatformerExample
                 c.SetBump(new Vector2(0, -0.5f));
                 Timer.TriggerAfter(500, () => c.CollisionsEnabled = true);
             }
-            Scene.Camera.Shake();
+            foreach (Camera cameara in Scene.Cameras)
+            {
+                cameara.Shake();
+            }
+
             Die();
         }
 

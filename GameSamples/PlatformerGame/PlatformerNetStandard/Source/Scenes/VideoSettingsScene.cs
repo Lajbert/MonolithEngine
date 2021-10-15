@@ -256,7 +256,10 @@ namespace ForestPlatformerExample
 
             VideoConfiguration.Apply();
 
-            Camera.Initialize();
+            foreach (Camera camera in Cameras)
+            {
+                camera.Initialize();
+            }
 
             SceneManager.OnResolutionChanged();
         }

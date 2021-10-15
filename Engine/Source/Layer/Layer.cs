@@ -79,17 +79,22 @@ namespace MonolithEngine
                         return a.Transform.Y.CompareTo(b.Transform.Y);
                     });
                 }
-
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Scene.Camera.GetWorldTransformMatrix(scrollSpeedModifier, lockY));
-
-                foreach (Entity entity in visibleObjects)
+                Viewport vpBackup = GraphicsDeviceManager.GraphicsDevice.Viewport;
+                foreach (Camera camera in Scene.Cameras)
                 {
-                    if (entity.Visible)
+                    GraphicsDeviceManager.GraphicsDevice.Viewport = camera.Viewport;
+                    spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetWorldTransformMatrix(scrollSpeedModifier, lockY));
+
+                    foreach (Entity entity in visibleObjects)
                     {
-                        entity.Draw(spriteBatch);
+                        if (entity.Visible)
+                        {
+                            entity.Draw(spriteBatch);
+                        }
                     }
+                    spriteBatch.End();
                 }
-                spriteBatch.End();
+                GraphicsDeviceManager.GraphicsDevice.Viewport = vpBackup;
             }
 
             HandleChangedObjects();

@@ -39,17 +39,19 @@ namespace ForestPlatformerExample
             LoadData();
 
             Logger.Debug("Loading LEVEL 1: adjusting camera");
-            Camera.Initialize();
-            if (PlatformerGame.ANDROID)
+            foreach (Camera cameara in Cameras)
             {
-                Camera.Zoom += 0.5f;
-                Camera.Zoom *= 2;
+                cameara.Initialize();
+                if (PlatformerGame.ANDROID)
+                {
+                    cameara.Zoom += 0.5f;
+                    cameara.Zoom *= 2;
+                }
+                else
+                {
+                    cameara.Zoom += 0.5f;
+                }
             }
-            else
-            {
-                Camera.Zoom += 0.5f;
-            }
-
         }
 
         private void LoadData()
@@ -87,7 +89,10 @@ namespace ForestPlatformerExample
 
         public override void OnStart()
         {
-            Camera.TrackTarget(hero, true);
+            foreach (Camera camera in Cameras)
+            {
+                camera.TrackTarget(hero, true);
+            }
             PlatformerGame.Paused = false;
             PlatformerGame.WasGameStarted = true;
             AudioEngine.Play("Level1Music");

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using static MonolithEngine.Camera;
 
 /// <summary>
 /// Base class for a game instance. Any new Monolith game should extends
@@ -13,7 +15,7 @@ namespace MonolithEngine
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        protected Camera Camera;
+        protected List<Camera> Cameras;
 
         private SpriteFont font;
         private FrameCounter frameCounter;
@@ -21,6 +23,8 @@ namespace MonolithEngine
         private int fixedUpdateRate;
 
         protected SceneManager SceneManager;
+
+        protected CameraMode CameraMode = CameraMode.SINGLE;
 
 #if DEBUG
         private SpriteFont debugFont;
@@ -90,6 +94,9 @@ namespace MonolithEngine
             Entity.DebugFont = debugFont;
 #endif
             VideoConfiguration.GameInstance = this;
+
+
+
             Init();
             Logger.Info("Engine initialized with " + Config.FIXED_UPDATE_FPS + " FPS");
             fixedUpdateRate = (int)(Config.FIXED_UPDATE_FPS == 0 ? 0 : (1000 / (float)Config.FIXED_UPDATE_FPS));
@@ -115,9 +122,20 @@ namespace MonolithEngine
 
             Config.ExitAction = Exit;
 
-            Camera = new Camera(graphics);
+            Cameras = new List<Camera>();
+            
 
-            SceneManager = new SceneManager(Camera, graphics.GraphicsDevice);
+            if (CameraMode == CameraMode.SINGLE)
+            {
+                Cameras.Add(new Camera(graphics));
+            }
+            else
+            {
+                Cameras.Add(new Camera(graphics, CameraMode, 0));
+                Cameras.Add(new Camera(graphics, CameraMode, 1));
+            }
+
+            SceneManager = new SceneManager(Cameras, graphics.GraphicsDevice);
 
             font = Content.Load<SpriteFont>("Fonts/DefaultFont");
 
@@ -164,7 +182,10 @@ namespace MonolithEngine
             Globals.ElapsedTime = elapsedTime;
             Globals.GameTime = gameTime;
             Timer.Update(elapsedTime);
-            Camera.Update();
+            foreach (Camera cameara in Cameras)
+            {
+                cameara.Update();
+            }
 
             float now = (float)gameTime.TotalGameTime.TotalMilliseconds;
             float frameTime = now - previousT;

@@ -539,14 +539,20 @@ namespace ForestPlatformerExample
                 {
                     Timer.Repeat(300, (elapsedTime) =>
                     {
-                        Scene.Camera.Zoom += 0.002f * elapsedTime;
+                        foreach (Camera camera in Scene.Cameras)
+                        {
+                            camera.Zoom += 0.002f * elapsedTime;
+                        }
                     });
                 },
                 () =>
                 {
                     Timer.Repeat(300, (elapsedTime) =>
                     {
-                        Scene.Camera.Zoom -= 0.002f * elapsedTime;
+                        foreach (Camera camera in Scene.Cameras)
+                        {
+                            camera.Zoom -= 0.002f * elapsedTime;
+                        }
                     });
                 }
             );

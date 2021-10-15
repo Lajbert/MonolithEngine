@@ -24,7 +24,7 @@ namespace MonolithEngine
         private AbstractScene nextSceneToLoad;
         private AbstractScene nextSceneToStart;
 
-        private Camera camera;
+        private List<Camera> cameras;
 
         private GraphicsDevice graphicsDevice;
 
@@ -32,9 +32,9 @@ namespace MonolithEngine
 
         private bool useLoadingScreen = false;
 
-        public SceneManager(Camera camera, GraphicsDevice graphicsDevice)
+        public SceneManager(List<Camera> cameras, GraphicsDevice graphicsDevice)
         {
-            this.camera = camera;
+            this.cameras = cameras;
             this.graphicsDevice = graphicsDevice;
         }
 
@@ -49,7 +49,7 @@ namespace MonolithEngine
                 throw new Exception("Scene name already exists!");
             }
             scenes.Add(scene.GetName(), scene);
-            scene.Camera = camera;
+            scene.Cameras = cameras;
             scene.SetSceneManager(this);
             if (scene.Preload)
             {

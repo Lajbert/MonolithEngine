@@ -110,7 +110,10 @@ namespace ForestPlatformerExample
         protected override void LoadGameContent()
         {
 
-            Camera.Limits = new Rectangle(0, 50, 5470, 700);
+            foreach (Camera camera in Cameras)
+            {
+                camera.Limits = new Rectangle(0, 50, 5470, 700);
+            }
 
             Logger.Debug("Loading map from json...");
 

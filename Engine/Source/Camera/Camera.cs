@@ -9,9 +9,17 @@ namespace MonolithEngine
     /// </summary>
     public class Camera
     {
+
+        public enum CameraMode
+        {
+            SINGLE,
+            DUAL_HORIZONTAL_SPLIT,
+            DUAL_VERTICAL_SPLIT
+        }
+
         private const float MinZoom = 0.01f;
 
-        private Viewport viewport;
+        internal Viewport Viewport;
         private Vector2 origin;
 
         private Vector2 position;
@@ -41,12 +49,18 @@ namespace MonolithEngine
 
         private float rotation = MathUtil.DegreesToRad(0);
 
-        public Camera(GraphicsDeviceManager graphicsDeviceManager)
+        private CameraMode cameraMode;
+
+        private int cameraNumber;
+        
+        public Camera(GraphicsDeviceManager graphicsDeviceManager, CameraMode cameraMode = CameraMode.SINGLE, int cameraNumber = 0)
         {
             this.graphicsDeviceManager = graphicsDeviceManager;
             Position = Vector2.Zero;
             direction = Vector2.Zero;
             Zoom = Config.SCALE;
+            this.cameraMode = cameraMode;
+            this.cameraNumber = cameraNumber;
             Initialize();
         }
 
@@ -55,11 +69,31 @@ namespace MonolithEngine
         /// </summary>
         public void Initialize()
         {
-            viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
+            Viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
 
-            Logger.Info("Configuring camera, viewport: " + viewport.ToString());
+            if (cameraMode != CameraMode.SINGLE)
+            {
+                if (cameraMode == CameraMode.DUAL_VERTICAL_SPLIT)
+                {
+                    Viewport.Width /= 2;
+                    if (cameraNumber == 1)
+                    {
+                        Viewport.X += Viewport.Width;
+                    }
+                }
+                else if (cameraMode == CameraMode.DUAL_HORIZONTAL_SPLIT)
+                {
+                    Viewport.Height /= 2;
+                    if (cameraNumber == 1)
+                    {
+                        Viewport.Y += Viewport.Height;
+                    }
+                }
+            }
 
-            origin = new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f);
+            Logger.Info("Configuring camera, viewport: [" + Viewport.ToString() + "], mode [" + cameraMode + "], camera number: " + cameraNumber);
+
+            origin = new Vector2(Viewport.Width / 2.0f, Viewport.Height / 2.0f);
             Zoom = Config.SCALE;
             if (target != null)
             {
@@ -97,7 +131,7 @@ namespace MonolithEngine
             // Follow target entity
             if (target != null)
             {
-                Vector2 targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f);
+                Vector2 targetPosition = target.Transform.Position + targetTracingOffset - new Vector2(Viewport.Width / 2.0f, Viewport.Height / 2.0f);
 
                 float targetCameraDistance = Vector2.Distance(Position, targetPosition);
                 if (targetCameraDistance >= deadzone)
@@ -225,7 +259,7 @@ namespace MonolithEngine
             if (limits.HasValue)
             {
                 Vector2 cameraWorldMin = Vector2.Transform(Vector2.Zero, Matrix.Invert(WorldTranformMatrix));
-                Vector2 cameraSize = new Vector2(viewport.Width, viewport.Height) / zoom;
+                Vector2 cameraSize = new Vector2(Viewport.Width, Viewport.Height) / zoom;
                 Vector2 limitWorldMin = new Vector2(limits.Value.Left, limits.Value.Top);
                 Vector2 limitWorldMax = new Vector2(limits.Value.Right, limits.Value.Bottom);
                 Vector2 positionOffset = position - cameraWorldMin;
@@ -237,8 +271,8 @@ namespace MonolithEngine
         {
             if (limits.HasValue)
             {
-                float minZoomX = (float)viewport.Width / limits.Value.Width;
-                float minZoomY = (float)viewport.Height / limits.Value.Height;
+                float minZoomX = (float)Viewport.Width / limits.Value.Width;
+                float minZoomY = (float)Viewport.Height / limits.Value.Height;
                 zoom = MathHelper.Max(zoom, MathHelper.Max(minZoomX, minZoomY));
             }
         }

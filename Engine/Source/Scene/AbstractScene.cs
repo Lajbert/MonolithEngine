@@ -40,7 +40,7 @@ namespace MonolithEngine
 
         public GridCollisionChecker GridCollisionChecker;
 
-        public Camera Camera;
+        public List<Camera> Cameras;
 
         // true: when loading the scene, a static, preconfigured loading screen appears
         // false; we load the scene without a loading screen
@@ -152,10 +152,12 @@ namespace MonolithEngine
         public void Draw(SpriteBatch spriteBatch)
         {
             LayerManager.DrawAll(spriteBatch);
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.GetUITransformMatrix());
-            UI.Draw(spriteBatch);
-            spriteBatch.End();
+            foreach (Camera camera in Cameras)
+            {
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetUITransformMatrix());
+                UI.Draw(spriteBatch);
+                spriteBatch.End();
+            }
         }
     }
 }
