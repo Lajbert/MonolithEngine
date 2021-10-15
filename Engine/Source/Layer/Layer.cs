@@ -83,6 +83,7 @@ namespace MonolithEngine
                 foreach (Camera camera in Scene.Cameras)
                 {
                     GraphicsDeviceManager.GraphicsDevice.Viewport = camera.Viewport;
+                    Scene.CurrentCamera = camera;
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetWorldTransformMatrix(scrollSpeedModifier, lockY));
 
                     foreach (Entity entity in visibleObjects)

@@ -50,6 +50,7 @@ namespace MonolithEngine
             }
             scenes.Add(scene.GetName(), scene);
             scene.Cameras = cameras;
+            scene.CurrentCamera = cameras[0];
             scene.SetSceneManager(this);
             if (scene.Preload)
             {

@@ -42,6 +42,8 @@ namespace MonolithEngine
 
         public List<Camera> Cameras;
 
+        public Camera CurrentCamera;
+
         // true: when loading the scene, a static, preconfigured loading screen appears
         // false; we load the scene without a loading screen
         public bool UseLoadingScreen;
@@ -154,6 +156,7 @@ namespace MonolithEngine
             LayerManager.DrawAll(spriteBatch);
             foreach (Camera camera in Cameras)
             {
+                CurrentCamera = camera;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.GetUITransformMatrix());
                 UI.Draw(spriteBatch);
                 spriteBatch.End();

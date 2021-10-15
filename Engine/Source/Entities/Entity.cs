@@ -21,7 +21,8 @@ namespace MonolithEngine
 
         internal bool IsCollisionCheckedInCurrentLoop = false;
 
-        public bool IsDestroyed { get {
+        public bool IsDestroyed { 
+            get {
                 return Destroyed || BeingDestroyed;
             } 
         }
