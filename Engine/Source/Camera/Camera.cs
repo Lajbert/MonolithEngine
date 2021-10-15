@@ -26,7 +26,7 @@ namespace MonolithEngine
         private float zoom = 1f;
         private Rectangle? limits;
 
-        public static Entity target;
+        public Entity target;
         private Vector2 targetTracingOffset = Vector2.Zero;
         private float friction = 0.89f;
 
@@ -174,10 +174,10 @@ namespace MonolithEngine
             }
         }
 
-        public void TrackTarget(Entity e, bool immediate, Vector2 tracingOffset = new Vector2())
+        public void TrackTarget(Entity entity, bool immediate, Vector2 tracingOffset = new Vector2())
         {
             targetTracingOffset = tracingOffset;
-            target = e;
+            target = entity;
             if (immediate)
             {
                 Recenter();
