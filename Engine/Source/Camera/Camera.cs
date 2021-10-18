@@ -195,7 +195,7 @@ namespace MonolithEngine
             return Vector2.Transform(mousePosition, Matrix.Invert(WorldTranformMatrix));
         }
 
-        public void TrackTarget(Entity entity, bool immediate, Vector2 tracingOffset = new Vector2())
+        public void TrackTarget(Entity entity, bool immediate = true, Vector2 tracingOffset = default)
         {
             targetTracingOffset = tracingOffset;
             target = entity;
