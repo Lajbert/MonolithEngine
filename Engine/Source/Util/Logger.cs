@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 namespace MonolithEngine
@@ -62,7 +63,9 @@ namespace MonolithEngine
 
         private static void Log(string level, string message)
         {
-            string logMessage = DateTime.Now + " [" + level + "]: " + message;
+            string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff",
+                                            CultureInfo.InvariantCulture);
+            string logMessage = timestamp + " [" + level + "]: " + message;
             if (level == DEBUG)
             {
                 System.Diagnostics.Debug.WriteLine(logMessage);

@@ -195,13 +195,13 @@ namespace MonolithEngine
             return Vector2.Transform(mousePosition, Matrix.Invert(WorldTranformMatrix));
         }
 
-        public void TrackTarget(Entity entity, bool immediate = true, Vector2 tracingOffset = default)
+        public void TrackTarget(Entity entity, bool immediate = false, Vector2 tracingOffset = default)
         {
             targetTracingOffset = tracingOffset;
             target = entity;
             if (immediate)
             {
-                Recenter();
+                ImmediateRecenter();
             }
         }
 
@@ -210,11 +210,11 @@ namespace MonolithEngine
             target = null;
         }
 
-        public void Recenter()
+        public void ImmediateRecenter()
         {
             if (target != null)
             {
-                Position = target.Transform.Position + targetTracingOffset;
+                Position = target.Transform.Position + targetTracingOffset - new Vector2(Viewport.Width / 2.0f, Viewport.Height / 2.0f);
             }
         }
 
