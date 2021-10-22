@@ -140,6 +140,10 @@ namespace MonolithEngine
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
                         //tileGroup = new TileGroup();
                     }
+                    else
+                    {
+                        continue;
+                    }
 
                     if (layerInstance.Identifier.StartsWith(COLLIDERS))
                     {
@@ -289,6 +293,69 @@ namespace MonolithEngine
 
             }
             return entities;
+        }
+
+        public Texture2D GetLayerAsTexture(string levelName, string layerName)
+        {
+            TileGroup result = new TileGroup();
+            foreach (Level level in world.Levels)
+            {
+                if (level.Identifier != levelName)
+                {
+                    continue;
+                }
+                foreach (LayerInstance layerInstance in level.LayerInstances)
+                {
+                    Texture2D tileSet = null;
+                    if (layerName ==layerInstance.Identifier && layerInstance.GridTiles.Length > 0)
+                    {
+                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+
+                        foreach (TileInstance tile in layerInstance.GridTiles)
+                        {
+                            long tileId = tile.T;
+                            int atlasGridBaseWidth = (int)layerInstance.GridSize;
+                            int padding = 0;
+                            int spacing = 0;
+                            int gridSize = Config.GRID;
+
+                            int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
+                            int pixelTileX = padding + gridTileX * (gridSize + spacing);
+
+                            int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
+                            var pixelTileY = padding + gridTileY * (gridSize + spacing);
+
+                            Rectangle rect = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
+                            Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
+                            Color[] data = new Color[gridSize * gridSize];
+                            tileSet.GetData(0, rect, data, 0, data.Length);
+
+                            if (tile.F != 0)
+                            {
+                                Texture2D flipped = AssetUtil.CreateRectangle(gridSize, Color.Black);
+                                flipped.SetData(data);
+                                if (tile.F == 1)
+                                {
+                                    flipped = AssetUtil.FlipTexture(flipped, false, true);
+                                }
+                                else if (tile.F == 2)
+                                {
+                                    flipped = AssetUtil.FlipTexture(flipped, true, false);
+                                }
+                                else
+                                {
+                                    flipped = AssetUtil.FlipTexture(flipped, true, true);
+                                }
+
+                                flipped.GetData(data);
+                            }
+                            result.AddColorData(data, pos);
+                        }
+                        return result.GetTexture();
+                    }
+                }
+            }
+            return null;
         }
 
         private string GetMonoGameContentName(string fullpath)
