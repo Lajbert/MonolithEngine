@@ -24,6 +24,10 @@ namespace MonolithEngine
         private int currentRow;
         private int currentColumn;
 
+#if DEBUG
+        public bool DEBUG_SPRITESHEET = false;
+#endif
+
         private Dictionary<int, Rectangle> sourceRectangles = new Dictionary<int, Rectangle>();
 
         //private int frameSize;
@@ -130,6 +134,20 @@ namespace MonolithEngine
             }
             return biggestFrame;
         }
+
+#if DEBUG
+        public override void Play(SpriteBatch spriteBatch)
+        {
+            if (DEBUG_SPRITESHEET)
+            {
+                spriteBatch.Draw(texture, Parent.Transform.Position, Color.White);
+            }
+            else
+            {
+                base.Play(spriteBatch);
+            }
+        }
+#endif
 
         // Automatically determines the frame count in the sprite sheet.
         // Smart enough not to count empty frames at the end.
