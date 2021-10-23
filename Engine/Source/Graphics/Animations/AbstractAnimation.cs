@@ -20,6 +20,8 @@ namespace MonolithEngine
         internal int TotalFrames;
         private double delay = 0;
         private double currentDelay = 0;
+        public Color Color = Color.White;
+
         protected Entity Parent { get; set; }
         public float Scale = 1f;
         public Vector2 Offset = Vector2.Zero;
@@ -109,7 +111,7 @@ namespace MonolithEngine
         /// <param name="spriteBatch"></param>
         public virtual void Play(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GetTexture(), (Parent.DrawPosition + Offset), SourceRectangle, Color.White, Parent.DrawRotation, Origin, Scale, SpriteEffect, 0f);
+            spriteBatch.Draw(GetTexture(), (Parent.DrawPosition + Offset), SourceRectangle, Color, Parent.DrawRotation, Origin, Scale, SpriteEffect, 0f);
         }
 
         internal abstract Texture2D GetTexture();

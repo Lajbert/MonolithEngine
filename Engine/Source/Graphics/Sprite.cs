@@ -21,6 +21,8 @@ namespace MonolithEngine
         private Vector2 offset = Vector2.Zero;
         public float Scale = 1f;
 
+        public Color Color = Color.White;
+
         public Sprite(Entity owner, Texture2D texture, Rectangle sourceRectangle = default, Vector2 drawOffset = default, float rotation = 0f, Vector2 origin = default, bool flipHorizontal = false, bool flipVertical = false)
         {
             if (flipHorizontal || flipVertical)
@@ -60,7 +62,7 @@ namespace MonolithEngine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Owner.DrawPosition - offset, SourceRectangle, Color.White, Rotation, Origin, Scale, SpriteEffect, Owner.Depth);
+            spriteBatch.Draw(Texture, Owner.DrawPosition - offset, SourceRectangle, Color, Rotation, Origin, Scale, SpriteEffect, Owner.Depth);
         }
 
         public Type GetComponentType()
