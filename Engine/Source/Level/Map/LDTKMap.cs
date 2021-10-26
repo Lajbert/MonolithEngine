@@ -79,7 +79,7 @@ namespace MonolithEngine
             return li1.Identifier.CompareTo(li2.Identifier);
         }
 
-        public HashSet<EntityInstance> ParseLevel(AbstractScene scene, string levelID)
+        public HashSet<EntityInstance> ParseLevel(AbstractScene scene)
         {
             Logger.Debug("Parsing level...");
             HashSet<EntityInstance> entities = new HashSet<EntityInstance>();
@@ -90,7 +90,7 @@ namespace MonolithEngine
 
             foreach (Level level in world.Levels)
             {
-                if (!level.Identifier.Equals(levelID))
+                if (!level.Identifier.Equals(scene.GetName()))
                 {
                     continue;
                 }
@@ -145,131 +145,80 @@ namespace MonolithEngine
                         continue;
                     }
 
-                    if (layerInstance.Identifier.StartsWith(COLLIDERS))
+                    Logger.Debug("Loading grid tiles...");
+
+                    foreach (TileInstance tile in layerInstance.GridTiles)
                     {
-
-                        Logger.Debug("Loading colliders...");
-
-                        currentLayer = null;
-                        //public Dictionary<string, dynamic>[] IntGrid { get; set; }
-                        foreach (IntGridValueInstance grid in layerInstance.IntGrid)
+                        TileGroup currentTileGroup; 
+                        if (layerName.StartsWith(BACKGROUND))
                         {
-                            int y = (int)Math.Floor((decimal)grid.CoordId / layerInstance.CWid);
-                            int x = (int)(grid.CoordId - y * layerInstance.CWid);
-                            StaticCollider e = new StaticCollider(scene, (new Vector2(x, y)));
-                            switch (grid.V)
-                            {
-                                case 0:
-                                    e.AddTag("Collider");
-                                    break;
-                                case 1:
-                                    e.AddTag("SlideWall");
-                                    break;
-                                case 2:
-                                    //e.AddTag("Platform");
-                                    break;
-                                case 3:
-                                    //e.AddTag("Ladder");
-                                    //e.BlocksMovement = false;
-                                    break;
-                                case 4:
-                                    e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.WEST);
-                                    break;
-                                case 5:
-                                    e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.EAST);
-                                    break;
-                                case 6:
-                                    e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.NORTH);
-                                    break;
-                                case 7:
-                                    e.AddTag("Platform");
-                                    e.AddBlockedDirection(Direction.SOUTH);
-                                    break;
-                            }
+                            currentTileGroup = mergedBackgroundTileGroup;
                         }
-
-                    }
-                    else
-                    {
-
-                        Logger.Debug("Loading grid tiles...");
-
-                        foreach (TileInstance tile in layerInstance.GridTiles)
+                        else if (layerName.StartsWith(FOREGROUND))
                         {
-                            TileGroup currentTileGroup; 
-                            if (layerName.StartsWith(BACKGROUND))
+                            currentTileGroup = mergedForegroundTileGroup;
+                        }
+                        else
+                        {
+                            currentTileGroup = tileGroup;
+                        }
+                        //Logger.Log("Tile: " + tile.);
+                        //if (layerInstance.Identifier.StartsWith(PARALLAX)) { currentLayer = null;  continue; }
+                        long tileId = tile.T;
+                        int atlasGridBaseWidth = (int)layerInstance.GridSize;
+                        int padding = 0;
+                        int spacing = 0;
+                        int gridSize = Config.GRID;
+
+                        int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
+                        int pixelTileX = padding + gridTileX * (gridSize + spacing);
+
+                        int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
+                        var pixelTileY = padding + gridTileY * (gridSize + spacing);
+
+                        /*Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
+                        e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
+                        e.Pivot = pivot;*/
+
+                        Rectangle rect = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
+                        Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
+                        Color[] data = new Color[gridSize * gridSize];
+                        //tileSet.GetData<Color>(data);
+                        tileSet.GetData(0, rect, data, 0, data.Length);
+
+                        if (tile.F != 0)
+                        {
+                            Texture2D flipped = AssetUtil.CreateRectangle(gridSize, Color.Black);
+                            flipped.SetData(data);
+                            if (tile.F == 1)
                             {
-                                currentTileGroup = mergedBackgroundTileGroup;
+                                flipped = AssetUtil.FlipTexture(flipped, false, true);
                             }
-                            else if (layerName.StartsWith(FOREGROUND))
+                            else if (tile.F == 2)
                             {
-                                currentTileGroup = mergedForegroundTileGroup;
+                                flipped = AssetUtil.FlipTexture(flipped, true, false);
                             }
                             else
                             {
-                                currentTileGroup = tileGroup;
+                                flipped = AssetUtil.FlipTexture(flipped, true, true);
                             }
-                            //Logger.Log("Tile: " + tile.);
-                            //if (layerInstance.Identifier.StartsWith(PARALLAX)) { currentLayer = null;  continue; }
-                            long tileId = tile.T;
-                            int atlasGridBaseWidth = (int)layerInstance.GridSize;
-                            int padding = 0;
-                            int spacing = 0;
-                            int gridSize = Config.GRID;
 
-                            int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
-                            int pixelTileX = padding + gridTileX * (gridSize + spacing);
-
-                            int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
-                            var pixelTileY = padding + gridTileY * (gridSize + spacing);
-
-                            /*Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
-                            e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                            e.Pivot = pivot;*/
-
-                            Rectangle rect = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                            Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
-                            Color[] data = new Color[gridSize * gridSize];
-                            //tileSet.GetData<Color>(data);
-                            tileSet.GetData(0, rect, data, 0, data.Length);
-
-                            if (tile.F != 0)
-                            {
-                                Texture2D flipped = AssetUtil.CreateRectangle(gridSize, Color.Black);
-                                flipped.SetData(data);
-                                if (tile.F == 1)
-                                {
-                                    flipped = AssetUtil.FlipTexture(flipped, false, true);
-                                }
-                                else if (tile.F == 2)
-                                {
-                                    flipped = AssetUtil.FlipTexture(flipped, true, false);
-                                }
-                                else
-                                {
-                                    flipped = AssetUtil.FlipTexture(flipped, true, true);
-                                }
-
-                                flipped.GetData(data);
-                            }
-                            //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
-
-                            currentTileGroup.AddColorData(data, pos);
-                            //e.Visible = false;
-                            //e.Active = false;
-                            //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
-
+                            flipped.GetData(data);
                         }
-                        if (currentLayer != null && !layerName.StartsWith(BACKGROUND) && !layerName.StartsWith(FOREGROUND))
-                        {
-                            Entity tile = new Entity(currentLayer, null, new Vector2(0, 0));
-                            tile.SetSprite(tileGroup.GetTexture());
-                            tile.GetComponent<Sprite>().DrawOffset = pivot;
-                            //tile.Pivot = pivot;
-                        }
+                        //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
+
+                        currentTileGroup.AddColorData(data, pos);
+                        //e.Visible = false;
+                        //e.Active = false;
+                        //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
+
+                    }
+                    if (currentLayer != null && !layerName.StartsWith(BACKGROUND) && !layerName.StartsWith(FOREGROUND))
+                    {
+                        Entity tile = new Entity(currentLayer, null, new Vector2(0, 0));
+                        tile.SetSprite(tileGroup.GetTexture());
+                        tile.GetComponent<Sprite>().DrawOffset = pivot;
+                        //tile.Pivot = pivot;
                     }
                 }
                 if (!mergedBackgroundTileGroup.IsEmpty())
@@ -293,6 +242,37 @@ namespace MonolithEngine
 
             }
             return entities;
+        }
+
+        public Dictionary<Vector2, int> GetIntGrid(AbstractScene scene, string gridName)
+        {
+            Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
+            foreach (Level level in world.Levels)
+            {
+                if (!level.Identifier.Equals(scene.GetName()))
+                {
+                    continue;
+                }
+
+                foreach (LayerInstance layerInstance in level.LayerInstances)
+                {
+                    if (layerInstance.Identifier.Equals(gridName))
+                    {
+                        for (int i = 0; i < layerInstance.IntGridCsv.Length; i++)
+                        {
+                            int grid = (int)layerInstance.IntGridCsv[i];
+                            if (grid == 0)
+                            {
+                                continue;
+                            }
+                            int y = (int)Math.Floor((decimal)i / layerInstance.CWid);
+                            int x = (int)(i - y * layerInstance.CWid);
+                            result.Add(new Vector2(x, y), grid);
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         public Texture2D GetLayerAsTexture(string levelName, string layerName)

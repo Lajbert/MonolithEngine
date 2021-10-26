@@ -60,6 +60,7 @@ namespace ForestPlatformerExample
             EntityParser parser = new EntityParser(world);
 
             parser.LoadEntities(this, SceneName);
+            parser.LoadIntGrid(this);
 
             hero = parser.GetHero();
 

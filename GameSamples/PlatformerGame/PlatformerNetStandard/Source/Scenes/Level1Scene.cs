@@ -67,6 +67,7 @@ namespace ForestPlatformerExample
 
             Logger.Debug("Loading LEVEL 1: loading entities...");
             parser.LoadEntities(this, SceneName);
+            parser.LoadIntGrid(this);
 
             hero = parser.GetHero();
 

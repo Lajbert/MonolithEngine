@@ -21,7 +21,7 @@ namespace ForestPlatformerExample
             Vector2 heroPosition = Vector2.Zero;
             List<(Vector2, int, int)> movingPlatforms = new List<(Vector2, int, int)>();
 
-            foreach (EntityInstance entity in world.ParseLevel(scene, levelID))
+            foreach (EntityInstance entity in world.ParseLevel(scene))
             {
 
                 Logger.Debug("Parsing entity: " + entity.Identifier);
@@ -221,6 +221,48 @@ namespace ForestPlatformerExample
             (collisionTest.GetCollisionComponent() as BoxCollisionComponent).DEBUG_DISPLAY_COLLISION = true;*/
 #endif
 
+        }
+
+        public void LoadIntGrid(AbstractScene scene)
+        {
+            foreach (KeyValuePair<Vector2, int> entry in world.GetIntGrid(scene, "Colliders"))
+            {
+                Vector2 position = new Vector2(entry.Key.X, entry.Key.Y);
+                StaticCollider e = new StaticCollider(scene, position);
+
+                switch (entry.Value)
+                {
+                    case 1:
+                        e.AddTag("Collider");
+                        break;
+                    case 2:
+                        e.AddTag("SlideWall");
+                        break;
+                    case 3:
+                        //e.AddTag("Platform");
+                        break;
+                    case 4:
+                        //e.AddTag("Ladder");
+                        //e.BlocksMovement = false;
+                        break;
+                    case 5:
+                        e.AddTag("Platform");
+                        e.AddBlockedDirection(Direction.WEST);
+                        break;
+                    case 6:
+                        e.AddTag("Platform");
+                        e.AddBlockedDirection(Direction.EAST);
+                        break;
+                    case 7:
+                        e.AddTag("Platform");
+                        e.AddBlockedDirection(Direction.NORTH);
+                        break;
+                    case 8:
+                        e.AddTag("Platform");
+                        e.AddBlockedDirection(Direction.SOUTH);
+                        break;
+                }
+            }
         }
 
         public Hero GetHero()

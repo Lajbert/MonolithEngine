@@ -229,7 +229,7 @@ namespace MonolithEngine
             }
             if (DebugFunction != null)
             {
-                spriteBatch.DrawString(DebugFont, DebugFunction.Invoke(), DrawPosition, Color.Black);
+                spriteBatch.DrawString(DebugFont, DebugFunction.Invoke(), DrawPosition, Color.Red);
             }
 #endif
             /*if (font != null)
