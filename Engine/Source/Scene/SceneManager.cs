@@ -105,6 +105,7 @@ namespace MonolithEngine
                 {
                     activeScenes.RemoveIfExists(currentScene);
                 }
+                scenes.Remove(currentScene.GetName());
             }
             currentScene = nextSceneToLoad;
             nextSceneToLoad = null;
