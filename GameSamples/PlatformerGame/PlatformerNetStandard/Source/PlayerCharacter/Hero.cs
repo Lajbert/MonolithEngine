@@ -59,6 +59,8 @@ namespace ForestPlatformerExample
 
         private float horizFrictBackup;
 
+        public bool MovementButtonDown = false;
+
         public bool LevelEndReached
         {
             get
@@ -96,6 +98,10 @@ namespace ForestPlatformerExample
                     HorizontalFriction = Config.HORIZONTAL_FRICTION;
                     MovementSpeed = Config.CHARACTER_SPEED;
                 }
+            }
+            get
+            {
+                return HorizontalFriction != Config.HORIZONTAL_FRICTION;
             }
         }
 
@@ -239,11 +245,11 @@ namespace ForestPlatformerExample
                 }
             };
 
-            bool isRunningRight() => Transform.VelocityX > 0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
+            bool isRunningRight() => MovementButtonDown && Transform.VelocityX > 0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.EAST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningRight", runningRight, isRunningRight, 1);
 
             SpriteSheetAnimation runningLeft = runningRight.CopyFlipped();
-            bool isRunningLeft() => Transform.VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
+            bool isRunningLeft() => MovementButtonDown && Transform.VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
             SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
@@ -534,6 +540,10 @@ namespace ForestPlatformerExample
 
             UserInput.RegisterKeyPressAction(Keys.RightShift,InteractWithItem, true);
 
+            UserInput.RegisterKeyReleaseAction(Keys.Left, () => MovementButtonDown = false);
+
+            UserInput.RegisterKeyReleaseAction(Keys.Right, () => MovementButtonDown = false);
+
             UserInput.RegisterMouseActions(
                 () =>
                 {
@@ -560,22 +570,28 @@ namespace ForestPlatformerExample
 
         public void MoveLeft()
         {
-            if (slideDirection != Direction.WEST)
-            {
-                Transform.VelocityX -= MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
-            }
-            CurrentFaceDirection = Direction.WEST;
-            fist.ChangeDirection();
+            Move(Direction.WEST);
         }
 
         public void MoveRight()
         {
-            if (slideDirection != Direction.EAST)
+            Move(Direction.EAST);
+        }
+
+        private void Move(Direction direction)
+        {
+            int mul = 1;
+            if (direction == Direction.WEST)
             {
-                Transform.VelocityX += MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+                mul = -1;
             }
-            CurrentFaceDirection = Direction.EAST;
+            if (slideDirection != direction)
+            {
+                Transform.VelocityX += mul * MovementSpeed * (float)Globals.GameTime.ElapsedGameTime.TotalSeconds * Config.TIME_OFFSET;
+            }
+            CurrentFaceDirection = direction;
             fist.ChangeDirection();
+            MovementButtonDown = true;
         }
 
         public void Jump()
