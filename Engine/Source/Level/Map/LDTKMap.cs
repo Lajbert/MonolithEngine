@@ -20,11 +20,6 @@ namespace MonolithEngine
         private readonly string FOREGROUND = "Foreground";
         private readonly string PARALLAX = "Parallax";
         private readonly string COLLIDERS = "Colliders";
-        private readonly string ENTITIES = "Entities";
-        private readonly string COIN = "Coin";
-
-        //string path = "SpriteSheets/MagicCliffsEnvironment/";
-        //Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
 
         private TileGroup tileGroup;
 
@@ -34,7 +29,6 @@ namespace MonolithEngine
         private TileGroup mergedForegroundTileGroup;
         private Layer mergedForegroundLayer;
 
-        //private Vector2 pivot = new Vector2(-Config.GRID / 2, 0);
         private Vector2 pivot = Vector2.Zero;
 
         private LDTKJson world;
@@ -112,22 +106,20 @@ namespace MonolithEngine
                     string layerName = layerInstance.Identifier;
                     Layer currentLayer = null;
                     Texture2D tileSet = null;
+                    Color[] imageData;
+
                     if (layerName.StartsWith(COLLIDERS) && layerInstance.GridTiles.Length > 0)
                     {
                         currentLayer = scene.LayerManager.EntityLayer;
                         tileSet = null;
-                        //continue;
                     }
                     else if (layerName.StartsWith(BACKGROUND) && layerInstance.GridTiles.Length > 0)
                     {
-                        //currentLayer = RootContainer.Instance.BackgroundLayer;
                         currentLayer = scene.LayerManager.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
-                        //tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(PARALLAX) && layerInstance.GridTiles.Length > 0)
                     {
-                        //currentLayer = RootContainer.Instance.BackgroundLayer;
                         scrollSpeedModifier += 0.1f;
                         currentLayer = scene.LayerManager.CreateParallaxLayer(int.Parse(layerName[layerName.Length - 1] + ""), scrollSpeedModifier, true);
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
@@ -135,10 +127,7 @@ namespace MonolithEngine
                     }
                     else if (layerName.StartsWith(FOREGROUND) && layerInstance.GridTiles.Length > 0)
                     {
-                        //currentLayer = RootContainer.Instance.BackgroundLayer;
-                        //currentLayer = scene.LayerManager.CreateForegroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
                         tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
-                        //tileGroup = new TileGroup();
                     }
                     else
                     {
@@ -147,9 +136,13 @@ namespace MonolithEngine
 
                     Logger.Debug("Loading grid tiles...");
 
+                    imageData = new Color[tileSet.Width * tileSet.Height];
+                    tileSet.GetData(0, new Rectangle(0, 0, tileSet.Width, tileSet.Height), imageData, 0, imageData.Length);
+
                     foreach (TileInstance tile in layerInstance.GridTiles)
                     {
-                        TileGroup currentTileGroup; 
+                        TileGroup currentTileGroup;
+
                         if (layerName.StartsWith(BACKGROUND))
                         {
                             currentTileGroup = mergedBackgroundTileGroup;
@@ -162,29 +155,35 @@ namespace MonolithEngine
                         {
                             currentTileGroup = tileGroup;
                         }
-                        //Logger.Log("Tile: " + tile.);
-                        //if (layerInstance.Identifier.StartsWith(PARALLAX)) { currentLayer = null;  continue; }
-                        long tileId = tile.T;
+
+                        int gridSize = Config.GRID;
+                        /*long tileId = tile.T;
                         int atlasGridBaseWidth = (int)layerInstance.GridSize;
                         int padding = 0;
                         int spacing = 0;
-                        int gridSize = Config.GRID;
 
                         int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
                         int pixelTileX = padding + gridTileX * (gridSize + spacing);
 
                         int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
-                        var pixelTileY = padding + gridTileY * (gridSize + spacing);
-
-                        /*Entity e = new Entity(currentLayer, null, new Vector2(tile.Px[0], tile.Px[1]), tileSet);
-                        e.SourceRectangle = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
-                        e.Pivot = pivot;*/
+                        var pixelTileY = padding + gridTileY * (gridSize + spacing);*/
 
                         Rectangle rect = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
                         Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
+
                         Color[] data = new Color[gridSize * gridSize];
-                        //tileSet.GetData<Color>(data);
-                        tileSet.GetData(0, rect, data, 0, data.Length);
+                        //tileSet.GetData(0, rect, data, 0, data.Length);
+
+                        int i = 0;
+                        for (int y = rect.Y; y < rect.Y + gridSize; y++)
+                        {
+                            for (int x = rect.X; x < rect.X + gridSize; x++)
+                            {
+
+                                int idx1D = y * tileSet.Width + x;
+                                data[i++] = imageData[idx1D];
+                            }
+                        }
 
                         if (tile.F != 0)
                         {
@@ -205,20 +204,14 @@ namespace MonolithEngine
 
                             flipped.GetData(data);
                         }
-                        //public void GetData<T>(int level, int arraySlice, Rectangle? rect, T[] data, int startIndex, int elementCount) where T : struct;
 
                         currentTileGroup.AddColorData(data, pos);
-                        //e.Visible = false;
-                        //e.Active = false;
-                        //e.Pivot = new Vector2(gridSize / 2, gridSize / 2);
-
                     }
                     if (currentLayer != null && !layerName.StartsWith(BACKGROUND) && !layerName.StartsWith(FOREGROUND))
                     {
                         Entity tile = new Entity(currentLayer, null, new Vector2(0, 0));
                         tile.SetSprite(tileGroup.GetTexture());
                         tile.GetComponent<Sprite>().DrawOffset = pivot;
-                        //tile.Pivot = pivot;
                     }
                 }
                 if (!mergedBackgroundTileGroup.IsEmpty())
