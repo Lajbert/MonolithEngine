@@ -35,13 +35,11 @@ namespace MonolithEngine
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="position"></param>
-        private void AddTile(Texture2D texture, Vector2 position)
+        public void AddTile(Texture2D texture, Vector2 position, BlendMode blendMode = BlendMode.MERGE)
         {
             Color[] data = new Color[texture.Width * texture.Height];
             texture.GetData(data);
-            tiles.Add(position, data);
-            width = Math.Max(width, (int)position.X + Config.GRID);
-            height = Math.Max(height, (int)position.Y + Config.GRID);
+            AddColorData(data, position, blendMode);
         }
 
         /// <summary>
