@@ -44,6 +44,20 @@ namespace MonolithEngine
 
         public Camera CurrentCamera;
 
+        private int width;
+
+        private int height;
+
+        public int Width
+        {
+            get => width;
+        }
+
+        public int Height
+        {
+            get => height;
+        }
+
         // true: when loading the scene, a static, preconfigured loading screen appears
         // false; we load the scene without a loading screen
         public bool UseLoadingScreen;
@@ -161,6 +175,16 @@ namespace MonolithEngine
                 UI.Draw(spriteBatch);
                 spriteBatch.End();
             }
+        }
+
+        internal void SetWidth(int width)
+        {
+            this.width = width;
+        }
+
+        internal void SetHeight(int height)
+        {
+            this.height = height;
         }
     }
 }

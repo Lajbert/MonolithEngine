@@ -84,6 +84,9 @@ namespace MonolithEngine
 
             foreach (Level level in world.Levels)
             {
+                scene.SetWidth((int)level.PxWid);
+                scene.SetHeight((int)level.PxHei);
+
                 if (!level.Identifier.Equals(scene.GetName()))
                 {
                     continue;
