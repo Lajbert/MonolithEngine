@@ -30,4 +30,12 @@
   <ItemGroup>
     <ProjectReference Include="..\PlatformerNetStandard\PlatformerNetStandard.csproj" />
   </ItemGroup>
+<ItemGroup>
+    <MonoGameContentReference Include="..\PlatformerNetStandard\Content\Content.mgcb">
+      <Link>Content\GameContent.mgcb</Link>
+    </MonoGameContentReference>
+    <MonoGameContentReference Include="..\..\..\Engine\Content\Content.mgcb">
+      <Link>Content\EngineContent.mgcb</Link>
+    </MonoGameContentReference>
+  </ItemGroup>
 </Project>

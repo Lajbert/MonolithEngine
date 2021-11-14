@@ -45,11 +45,9 @@
     <None Include="$(MSBuildThisFileDirectory)Content\obj\DesktopGL\Fonts\DefaultFont.mgcontent" />
     <None Include="$(MSBuildThisFileDirectory)Content\obj\DesktopGL\Shaders\Effects\Tutorial.mgcontent" />
     <None Include="$(MSBuildThisFileDirectory)Content\obj\DesktopGL\Shaders\Textures\Lightmask.mgcontent" />
-    <None Include="$(MSBuildThisFileDirectory)Content\Shaders\Effects\Tutorial.fx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Content\Fonts\MinecraftCHMC.ttf" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\Shaders\Textures\lightmask.png" />
     <Content Include="$(MSBuildThisFileDirectory)Icon.bmp" />
     <Content Include="$(MSBuildThisFileDirectory)Icon.ico" />
     <Content Include="$(MSBuildThisFileDirectory)Properties\launchSettings.json" />
