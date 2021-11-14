@@ -13,8 +13,6 @@ namespace ForestPlatformerExample
 
         public static bool ANDROID = false;
 
-        private SpriteFont font;
-
         private KeyboardState prevKeyboardState;
 
         public static bool Paused = false;
@@ -35,7 +33,7 @@ namespace ForestPlatformerExample
 
             Logger.Info("Launching game...");
 
-            font = Content.Load<SpriteFont>("Fonts/DefaultFont");
+            Assets.LoadSpriteFont("DefaultFont", "Fonts/DefaultFont.spritefont");
 
             Logger.LogToFile = true;
 
@@ -241,7 +239,7 @@ namespace ForestPlatformerExample
             Logger.Debug("Loading assets: traps and items...");
 
             // Traps
-            Assets.LoadTexture("Saw", "IcySkies/Traps/Saw/saw");
+            Assets.LoadTexture("Saw", "IcySkies/Traps/Saw/Off");
 
             // Items
 
@@ -255,12 +253,12 @@ namespace ForestPlatformerExample
             Assets.LoadTexture("BoxHit", "ForestAssets/Items/box-hit");
             Assets.LoadTexture("BoxDestroy", "ForestAssets/Items/box-destroy");
 
-            Assets.LoadTexture("FanAnim", "IcySkies/Items/Fan/fan");
+            Assets.LoadTexture("FanAnim", "IcySkies/Items/Fan/On");
 
             Assets.LoadTexture("FinishedTrophy", "IcySkies/Items/POI/End (Idle)");
 
             Logger.Debug("Loading assets: fonts...");
-            Assets.AddFont("InGameText", Content.Load<SpriteFont>("Text/InGameText"));
+            Assets.LoadSpriteFont("InGameText", "Text/InGameText");
 
             // Sounds
 
@@ -312,10 +310,10 @@ namespace ForestPlatformerExample
 
             MainMenuScene mainMenuScene = new MainMenuScene();
             PauseMenuScene pauseMenuScene = new PauseMenuScene();
-            Level1Scene level1 = new Level1Scene(world, font);
+            Level1Scene level1 = new Level1Scene(world, Assets.GetFont("DefaultFont"));
             VideoSettingsScene videoSettings = new VideoSettingsScene();
             LoadingScreenScene loadingScreen = new LoadingScreenScene();
-            Level2Scene level2 = new Level2Scene(world, font);
+            Level2Scene level2 = new Level2Scene(world, Assets.GetFont("DefaultFont"));
             LevelSelectScreen levelSelectScreen = new LevelSelectScreen();
             GameEndScene endScene = new GameEndScene();
             if (!ANDROID)

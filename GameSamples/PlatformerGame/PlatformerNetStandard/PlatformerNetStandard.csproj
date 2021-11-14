@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
@@ -10,8 +10,11 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
       <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+      <PackageReference Include="XNAssets" Version="0.5.1.14" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="XNAssets" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Content\Map\level.json">

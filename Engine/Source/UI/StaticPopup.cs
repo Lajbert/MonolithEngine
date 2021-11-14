@@ -69,7 +69,7 @@ namespace MonolithEngine
 
             if (text != null)
             {
-                spriteBatch.DrawString(font, text, Transform.Position, textColor);
+                //spriteBatch.DrawString(font, text, Transform.Position, textColor);
             }
         }
 

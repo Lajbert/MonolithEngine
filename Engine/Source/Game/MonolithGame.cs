@@ -17,7 +17,6 @@ namespace MonolithEngine
 
         protected List<Camera> Cameras;
 
-        private SpriteFont font;
         private FrameCounter frameCounter;
 
         private int fixedUpdateRate;
@@ -25,10 +24,6 @@ namespace MonolithEngine
         protected SceneManager SceneManager;
 
         protected CameraMode CameraMode = CameraMode.SINGLE;
-
-#if DEBUG
-        private SpriteFont debugFont;
-#endif
 
         private readonly int DEFAULT_FIXED_UPDATE_RATE = 30;
 
@@ -85,13 +80,11 @@ namespace MonolithEngine
 
         protected sealed override void Initialize()
         {
-            AssetUtil.Content = Content;
-            AssetUtil.GraphicsDeviceManager = graphics;
+            AssetUtil.Init(graphics);
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
 #if DEBUG
-            debugFont = Content.Load<SpriteFont>("Fonts/DefaultFont");
-            Entity.DebugFont = debugFont;
+            Assets.LoadSpriteFont("DebugFont", "Fonts/DefaultFont");
 #endif
             VideoConfiguration.GameInstance = this;
 
@@ -136,8 +129,6 @@ namespace MonolithEngine
             }
 
             SceneManager = new SceneManager(Cameras, graphics.GraphicsDevice);
-
-            font = Content.Load<SpriteFont>("Fonts/DefaultFont");
 
             //TODO: use this.Content to load your game content here
 
@@ -233,7 +224,7 @@ namespace MonolithEngine
             }
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, fps, new Vector2(1, 100), Color.Red, 0f, default, 3, SpriteEffects.None, 0);
+            //spriteBatch.DrawString(Assets.GetFont("DefaultFont"), fps, new Vector2(1, 100), Color.Red, 0f, default, 3, SpriteEffects.None, 0);
             spriteBatch.End();
 
 #endif

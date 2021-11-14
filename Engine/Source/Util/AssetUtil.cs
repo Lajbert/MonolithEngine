@@ -5,18 +5,30 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using XNAssets;
+using XNAssets.Utility;
+using System.IO;
 
 namespace MonolithEngine
 {
     internal class AssetUtil
     {
 
-        public static GraphicsDeviceManager GraphicsDeviceManager;
-        public static ContentManager Content;
+        private static GraphicsDeviceManager GraphicsDeviceManager;
+
+        private static FileAssetResolver assetResolver;
+        private static AssetManager assetManager;
 
         private static Dictionary<RectangleKey, Texture2D> rectangleCache = new Dictionary<RectangleKey, Texture2D>();
 
         private static Random random = new Random();
+
+        public static void Init(GraphicsDeviceManager graphicsDeviceManager)
+        {
+            GraphicsDeviceManager = graphicsDeviceManager;
+            assetResolver = new FileAssetResolver(Path.Combine(PathUtils.ExecutingAssemblyDirectory, "Content"));
+            assetManager = new AssetManager(graphicsDeviceManager.GraphicsDevice, assetResolver);
+        }
 
         public static Texture2D CreateCircle(int diameter, Color color, bool filled = false)
         {
@@ -170,7 +182,7 @@ namespace MonolithEngine
             List<Texture2D> result = new List<Texture2D>();
             for (int i = startFrame; i <= endFrame; i++)
             {
-                result.Add(Content.Load<Texture2D>(fullPath + i));
+                result.Add(assetManager.Load<Texture2D>(fullPath + i));
             }
 
             return result;
@@ -178,7 +190,13 @@ namespace MonolithEngine
 
         public static Texture2D LoadTexture(string path)
         {
-            return Content.Load<Texture2D>(path);
+            return assetManager.Load<Texture2D>(path + ".png");
+        }
+
+        public static SpriteFont LoadSpriteFont(string path)
+        {
+            //return assetManager.Load<SpriteFont>(path);
+            return null;
         }
 
         public static  Color GetRandomColor()
@@ -212,12 +230,12 @@ namespace MonolithEngine
 
         public static SoundEffect LoadSoundEffect(string path)
         {
-            return Content.Load<SoundEffect>(path);
+            return assetManager.Load<SoundEffect>(path + ".wav");
         }
 
         public static Song LoadSong(string path)
         {
-            return Content.Load<Song>(path);
+            return assetManager.Load<Song>(path);
         }
 
         public static Rectangle AutoBoundingBox(Color[] inputImage, int imageWidth)

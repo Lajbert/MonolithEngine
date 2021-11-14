@@ -117,7 +117,6 @@ namespace MonolithEngine
         public bool BlocksRay { get; set; }
 
 #if DEBUG
-        public static SpriteFont DebugFont;
         public Func<string> DebugFunction = null;
 #endif
 
@@ -229,7 +228,7 @@ namespace MonolithEngine
             }
             if (DebugFunction != null)
             {
-                spriteBatch.DrawString(DebugFont, DebugFunction.Invoke(), DrawPosition, Color.Red);
+                spriteBatch.DrawString(Assets.GetFont("DebugFont"), DebugFunction.Invoke(), DrawPosition, Color.Red);
             }
 #endif
             /*if (font != null)

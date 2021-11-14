@@ -26,6 +26,11 @@ namespace MonolithEngine
             }
         }
 
+        public static void LoadSpriteFont(string name, string path)
+        {
+            fonts.Add(name, AssetUtil.LoadSpriteFont(path));
+        }
+
         public static Texture2D GetTexture(string name)
         {
             return textures[name];
@@ -71,11 +76,6 @@ namespace MonolithEngine
         public static Texture2D CreateCircle(int diameter, Color color, bool filled = false)
         {
             return AssetUtil.CreateCircle(diameter, color, filled);
-        }
-
-        public static void AddFont(string name, SpriteFont spriteFont)
-        {
-            fonts.Add(name, spriteFont);
         }
 
         public static SpriteFont GetFont(string name)
