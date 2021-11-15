@@ -4,18 +4,18 @@ using System;
 
 namespace MonolithEngine
 {
+    public enum CameraMode
+    {
+        SINGLE,
+        DUAL_HORIZONTAL_SPLIT,
+        DUAL_VERTICAL_SPLIT
+    }
+
     /// <summary>
     /// Camera class abstraction.
     /// </summary>
     public class Camera
     {
-
-        public enum CameraMode
-        {
-            SINGLE,
-            DUAL_HORIZONTAL_SPLIT,
-            DUAL_VERTICAL_SPLIT
-        }
 
         private const float MinZoom = 0.01f;
 
@@ -49,7 +49,7 @@ namespace MonolithEngine
 
         private float rotation = MathUtil.DegreesToRad(0);
 
-        private CameraMode cameraMode;
+        public CameraMode CameraMode;
 
         private Vector2 moveToPosition = default;
 
@@ -61,7 +61,7 @@ namespace MonolithEngine
             Position = Vector2.Zero;
             direction = Vector2.Zero;
             Zoom = Config.SCALE;
-            this.cameraMode = cameraMode;
+            this.CameraMode = cameraMode;
             this.cameraNumber = cameraNumber;
             Initialize();
         }
@@ -73,9 +73,9 @@ namespace MonolithEngine
         {
             Viewport = graphicsDeviceManager.GraphicsDevice.Viewport;
 
-            if (cameraMode != CameraMode.SINGLE)
+            if (CameraMode != CameraMode.SINGLE)
             {
-                if (cameraMode == CameraMode.DUAL_VERTICAL_SPLIT)
+                if (CameraMode == CameraMode.DUAL_VERTICAL_SPLIT)
                 {
                     Viewport.Width /= 2;
                     if (cameraNumber == 1)
@@ -83,7 +83,7 @@ namespace MonolithEngine
                         Viewport.X += Viewport.Width;
                     }
                 }
-                else if (cameraMode == CameraMode.DUAL_HORIZONTAL_SPLIT)
+                else if (CameraMode == CameraMode.DUAL_HORIZONTAL_SPLIT)
                 {
                     Viewport.Height /= 2;
                     if (cameraNumber == 1)
@@ -93,7 +93,7 @@ namespace MonolithEngine
                 }
             }
 
-            Logger.Info("Configuring camera, viewport: [" + Viewport.ToString() + "], mode [" + cameraMode + "], camera number: " + cameraNumber);
+            Logger.Info("Configuring camera, viewport: [" + Viewport.ToString() + "], mode [" + CameraMode + "], camera number: " + cameraNumber);
 
             origin = new Vector2(Viewport.Width / 2.0f, Viewport.Height / 2.0f);
             Zoom = Config.SCALE;
