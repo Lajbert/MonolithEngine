@@ -102,38 +102,6 @@ namespace MonolithEngine
             return LoadTextures(fullPath, 0, frameCount);
         }
 
-        /*public static Texture2D LoadTexturesWithMerge(string fullPath, int frameCount)
-        {
-            return LoadTexturesWithMerge(fullPath, 0, frameCount);
-        }
-
-        public static Texture2D LoadTexturesWithMerge(string fullPath, int startFrame, int endFrame)
-        {
-            List<Texture2D> textures = LoadTextures(fullPath, startFrame, endFrame);
-            int resWidth = 0;
-            int resHeight = 0;
-            foreach (Texture2D texture in textures)
-            {
-                resWidth += texture.Width;
-                resHeight += texture.Height;
-            }
-            //Color[] resultColor = new Color[resWidth * resHeight];
-            int i = 0;
-            Color[] currentColor;
-            Texture2D result = new Texture2D(GraphicsDeviceManager.GraphicsDevice, resWidth, resHeight);
-            foreach (Texture2D texture in textures)
-            {
-                currentColor = new Color[texture.Width * texture.Height];
-                texture.GetData(currentColor);
-                result.SetData(currentColor, i, currentColor.Length);
-                //currentColor.CopyTo(resultColor, i);
-                i += currentColor.Length + 1;
-            }
-            
-            //result.SetData(resultColor);
-            return result;
-        }*/
-
         public static Texture2D FlipTexture(Texture2D input, bool vertical, bool horizontal)
         {
             Texture2D flipped = new Texture2D(GraphicsDeviceManager.GraphicsDevice, input.Width, input.Height);

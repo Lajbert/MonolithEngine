@@ -20,7 +20,8 @@ namespace MonolithEngine
             if (flipVertical || flipHorizontal)
             {
                 textures.Add(name, AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal));
-            } else
+            }
+            else
             {
                 textures.Add(name, AssetUtil.LoadTexture(path));
             }
