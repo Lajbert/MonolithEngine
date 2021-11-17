@@ -43,8 +43,9 @@ namespace ForestPlatformerExample
 
             if (Direction == Direction.SOUTH || Direction == Direction.NORTH)
             {
-
-                sprite = new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, length, Config.GRID), flipVertical: direction == Direction.SOUTH);
+                SpriteEffects flip = direction == Direction.SOUTH ? SpriteEffects.FlipVertically : SpriteEffects.None;
+                sprite = new Sprite(this, new MonolithTexture(tg.GetTexture(), new Rectangle(0, 0, length, Config.GRID)));
+                sprite.SpriteEffect = flip;
                 AddComponent(new BoxCollisionComponent(this, length, Config.GRID));
             } 
             else if (Direction == Direction.WEST || Direction == Direction.EAST)
@@ -61,7 +62,7 @@ namespace ForestPlatformerExample
                     rotation = MathUtil.DegreesToRad(-90);
                     offset = new Vector2(0, -length);
                 }
-                sprite = new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, length, Config.GRID), rotation: rotation, drawOffset: offset);
+                sprite = new Sprite(this, new MonolithTexture(tg.GetTexture(), new Rectangle(0, 0, length, Config.GRID)), rotation: rotation, drawOffset: offset);
                 AddComponent(new BoxCollisionComponent(this, Config.GRID, length));
             } 
             else

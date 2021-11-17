@@ -160,22 +160,11 @@ namespace MonolithEngine
                         }
 
                         int gridSize = Config.GRID;
-                        /*long tileId = tile.T;
-                        int atlasGridBaseWidth = (int)layerInstance.GridSize;
-                        int padding = 0;
-                        int spacing = 0;
-
-                        int gridTileX = (int)tileId - atlasGridBaseWidth * (int)Math.Floor((decimal)(tileId / atlasGridBaseWidth));
-                        int pixelTileX = padding + gridTileX * (gridSize + spacing);
-
-                        int gridTileY = (int)Math.Floor((decimal)tileId / atlasGridBaseWidth);
-                        var pixelTileY = padding + gridTileY * (gridSize + spacing);*/
 
                         Rectangle rect = new Rectangle((int)tile.Src[0], (int)tile.Src[1], gridSize, gridSize);
                         Vector2 pos = new Vector2(tile.Px[0], tile.Px[1]);
 
                         Color[] data = new Color[gridSize * gridSize];
-                        //tileSet.GetData(0, rect, data, 0, data.Length);
 
                         int i = 0;
                         for (int y = rect.Y; y < rect.Y + gridSize; y++)
@@ -213,7 +202,7 @@ namespace MonolithEngine
                     if (currentLayer != null && !layerName.StartsWith(BACKGROUND) && !layerName.StartsWith(FOREGROUND))
                     {
                         Entity tile = new Entity(currentLayer, null, new Vector2(0, 0));
-                        tile.SetSprite(tileGroup.GetTexture());
+                        tile.SetSprite(new MonolithTexture(tileGroup.GetTexture()));
                         tile.GetComponent<Sprite>().DrawOffset = pivot;
                     }
                 }
@@ -222,7 +211,7 @@ namespace MonolithEngine
                     Logger.Debug("Starting texture merging...");
                     Logger.Debug("Merging background layers into one texture: " + mergedBackgroundTileGroup.GetTexture().Bounds);
                     Entity mergedBG = new Entity(mergedBackgroundLayer, null, new Vector2(0, 0));
-                    mergedBG.SetSprite(mergedBackgroundTileGroup.GetTexture());
+                    mergedBG.SetSprite(new MonolithTexture(mergedBackgroundTileGroup.GetTexture()));
                     mergedBG.GetComponent<Sprite>().DrawOffset = pivot;
                     mergedBG.Active = false;
                 }
@@ -231,7 +220,7 @@ namespace MonolithEngine
                 {
                     Logger.Debug("Merging foreground layers into one texture: " + mergedForegroundTileGroup.GetTexture().Bounds);
                     Entity mergedFG = new Entity(mergedForegroundLayer, null, new Vector2(0, 0));
-                    mergedFG.SetSprite(mergedForegroundTileGroup.GetTexture());
+                    mergedFG.SetSprite(new MonolithTexture(mergedForegroundTileGroup.GetTexture()));
                     mergedFG.GetComponent<Sprite>().DrawOffset = pivot;
                     mergedFG.Active = false;
                 }

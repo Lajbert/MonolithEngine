@@ -39,7 +39,7 @@ namespace MonolithEngine
 
         public void SetSprite(Texture2D texture, float scale)
         {
-            Sprite s = new Sprite(this, texture, new Rectangle(0, 0, texture.Width, texture.Height));
+            Sprite s = new Sprite(this, new MonolithTexture(texture));
             s.Scale = scale;
             AddComponent(s);
         }

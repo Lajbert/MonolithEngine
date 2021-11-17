@@ -154,11 +154,12 @@ namespace MonolithEngine
         private int GetFrameCount()
         {
             int frameCount = 0;
+            Color[] allPixelData = texture.GetPixels();
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    Color[] data = texture.GetPixels(new Rectangle(j * width, i * height, width, height));
+                    Color[] data = AssetUtil.GetPixels(allPixelData, new Rectangle(j * width, i * height, width, height), texture.GetTexture2D().Width);
                     bool emptyFrameFound = true;
                     for (int c = 0; c < width * height; c++)
                     {

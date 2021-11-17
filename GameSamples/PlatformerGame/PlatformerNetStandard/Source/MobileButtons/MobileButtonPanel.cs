@@ -59,7 +59,7 @@ namespace ForestPlatformerExample
                 Assets.LoadTexture("TriangleButton", "MobileButtons/triangle_button");
                 Assets.LoadTexture("MenuButton", "MobileButtons/menu_button");
              * */
-            /*SelectableImage menuButton = new SelectableImage(Assets.GetTexture("MenuButton"), null, new Vector2(150, 50), default, 4);
+            /*SelectableImage menuButton = new SelectableImage(Assets.GetTexture2D("MenuButton"), null, new Vector2(150, 50), default, 4);
             menuButton.OnClick = hero.Jump;
             buttons.Add(menuButton);*/
         }

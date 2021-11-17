@@ -20,7 +20,7 @@ namespace MonolithEngine
                 Destroy();
             });
 
-            Sprite s = new Sprite(this, texture, new Rectangle(0, 0, texture.Width, texture.Height));
+            Sprite s = new Sprite(this, new MonolithTexture(texture));
             s.Scale = scale;
             AddComponent(s);
 

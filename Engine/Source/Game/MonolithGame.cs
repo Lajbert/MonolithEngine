@@ -87,6 +87,7 @@ namespace MonolithEngine
         {
             AssetUtil.Content = Content;
             AssetUtil.GraphicsDeviceManager = graphics;
+            MonolithTexture.GraphicsDevice = graphics.GraphicsDevice;
             Layer.GraphicsDeviceManager = graphics;
             TileGroup.GraphicsDevice = graphics.GraphicsDevice;
 #if DEBUG

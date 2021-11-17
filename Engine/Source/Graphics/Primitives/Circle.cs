@@ -16,7 +16,7 @@ namespace MonolithEngine
 
         public Circle(AbstractScene scene, Entity parent, Vector2 center, int radius, Color color) : base(scene.LayerManager.EntityLayer, parent, center)
         {
-            SetSprite(AssetUtil.CreateCircle(radius, color));
+            SetSprite(new MonolithTexture(AssetUtil.CreateCircle(radius, color)));
             this.color = color;
             this.center = center;
             this.radius = radius;

@@ -15,7 +15,7 @@ namespace MonolithEngine
         public MonolithTexture(Texture2D texture, Rectangle sourceRectangle = default, Rectangle boundingBox = default, bool cachePixels = false)
         {
             this.texture = texture;
-            this.sourceRectangle = sourceRectangle == default ? new Rectangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
+            this.sourceRectangle = sourceRectangle == default ? TextureBorders() : sourceRectangle;
             this.boundingBox = boundingBox == default ? AssetUtil.AutoBoundingBox(texture) : boundingBox;
             if (cachePixels)
             {
@@ -25,20 +25,34 @@ namespace MonolithEngine
 
         private void InitPixels()
         {
-            int width = sourceRectangle == default ? texture.Width : sourceRectangle.Size.X - sourceRectangle.X;
-            int height = sourceRectangle == default ? texture.Height : sourceRectangle.Size.Y - sourceRectangle.Y;
             RenderTarget2D renderTarget = new RenderTarget2D(
                            GraphicsDevice,
-                           width,
-                           height,
+                           sourceRectangle.Width,
+                           sourceRectangle.Height,
                            false,
                            GraphicsDevice.PresentationParameters.BackBufferFormat,
                            DepthFormat.Depth24);
+            GraphicsDevice.SetRenderTarget(renderTarget);
+
+            GraphicsDevice.Clear(Color.Transparent);
+
+            SpriteBatch spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch.Begin();
+            spriteBatch.Draw(texture, sourceRectangle, Color.White);
+            spriteBatch.End();
+            GraphicsDevice.SetRenderTarget(null);
+            pixels = new Color[renderTarget.Width * renderTarget.Height];
+            renderTarget.GetData(pixels);
         }
 
         public Texture2D GetTexture2D()
         {
             return texture;
+        }
+
+        private Rectangle TextureBorders()
+        {
+            return new Rectangle(0, 0, texture.Width, texture.Height);
         }
 
         public Color[] GetPixels(Rectangle sourceRect = default)
@@ -48,7 +62,7 @@ namespace MonolithEngine
             {
                 InitPixels();
             }
-            if (sourceRect == default)
+            if (sourceRect == TextureBorders() || sourceRect == default)
             {
                 Color[] res = new Color[pixels.Length];
                 Array.Copy(pixels, res, pixels.Length);
@@ -58,44 +72,19 @@ namespace MonolithEngine
                 }
                 return res;
             }
-            Color[] partial = new Color[sourceRect.Size.X * sourceRect.Size.Y];
-            int i = 0;
-            if (sourceRect.Size.Y - sourceRect.Y > 0)
-            {
-                for (int y = sourceRect.Y; y < sourceRect.Size.Y; y++)
-                {
-                    if (sourceRect.Size.X - sourceRect.X > 0)
-                    {
-                        for (int x = sourceRect.X; x < sourceRect.Size.X; x++)
-                        {
-                            //int idx = (y * sourceRect.Size.X) + x;
-                            //int oneDindex = (row * length_of_row) + column; // Indexes
-                            int idx = (y * sourceRect.Size.X) + x;
-                            partial[i++] = pixels[idx];
-                        }
-                    }
-                    else
-                    {
-                        int idx = (y * sourceRect.Size.X);
-                        partial[i++] = pixels[idx];
-                    }
-                }
-            }
-            else
-            {
-                for (int x = sourceRect.X; x < sourceRect.Size.X; x++)
-                {
-                    //int idx = (y * sourceRect.Size.X) + x;
-                    //int oneDindex = (row * length_of_row) + column; // Indexes
-                    int idx = (0 * sourceRect.Size.X) + x;
-                    partial[i++] = pixels[idx];
-                }
-            }
+
+            Color[] partial = AssetUtil.GetPixels(pixels, sourceRect, texture.Width);
+
             if (deletePixels)
             {
                 pixels = null;
             }
             return partial;
+        }
+
+        public Rectangle GetSourceRectangle()
+        {
+            return sourceRectangle;
         }
     }
 }

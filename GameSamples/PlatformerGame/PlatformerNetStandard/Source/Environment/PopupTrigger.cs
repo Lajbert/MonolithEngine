@@ -32,7 +32,7 @@ namespace ForestPlatformerExample
                     "\n\n You won't take any damage while sliding." +
                     "\n\n [PRESS ENTER TO CONTINUE]";
                 popup.SetText(Assets.GetFont("InGameText"), text, Color.White);
-                popup.SetSprite(Assets.CreateRectangle(230, 230, Color.Black));
+                popup.SetSprite(new MonolithTexture(Assets.CreateRectangle(230, 230, Color.Black)));
             }
             else if (textName == "BoxThrow")
             {
@@ -40,14 +40,14 @@ namespace ForestPlatformerExample
                 string text = " Reminder: you can pick up boxes with SHIFT,\n then press SPACE to throw them at enemies.\n You can jump while holding a box!" +
                 "\n\n [PRESS ENTER TO CONTINUE]";
                 popup.SetText(Assets.GetFont("InGameText"), text, Color.White);
-                popup.SetSprite(Assets.CreateRectangle(270, 80, Color.Black));
+                popup.SetSprite(new MonolithTexture(Assets.CreateRectangle(270, 80, Color.Black)));
             }
             else if (textName == "SpikeReminder")
             {
                 popup = new StaticPopup(Scene, Transform.Position + new Vector2(0, -10), 6000, Keys.Enter);
                 string text = " Reminder: Press CONTROL to slide through spikes\n without taking damage.";
                 popup.SetText(Assets.GetFont("InGameText"), text, Color.White);
-                popup.SetSprite(Assets.CreateRectangle(270, 30, Color.Black));
+                popup.SetSprite(new MonolithTexture(Assets.CreateRectangle(270, 30, Color.Black)));
             }
 
             this.textName = textName;

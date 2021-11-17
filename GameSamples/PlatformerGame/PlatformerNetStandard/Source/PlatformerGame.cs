@@ -220,8 +220,8 @@ namespace ForestPlatformerExample
             Assets.LoadTexture("IceCreamHurt", "IcySkies/Characters/IceCream/ice-cream@hurt");
             Assets.LoadTexture("IceCreamMove", "IcySkies/Characters/IceCream/ice-cream@move");
             Assets.LoadTexture("IceCreamAttack", "IcySkies/Characters/IceCream/ice-cream@attack");
-            Assets.LoadTexture("IceCreamProjectileHit", "IcySkies/Characters/IceCream/ice-cream-projectile@hit");
-            Assets.LoadTexture("IceCreamProjectileIdle", "IcySkies/Characters/IceCream/ice-cream-projectile@idle");
+            Assets.LoadTexture("IceCreamProjectileHit", "IcySkies/Characters/IceCream/ice-cream-projectile@hit", cachePixels: true);
+            Assets.LoadTexture("IceCreamProjectileIdle", "IcySkies/Characters/IceCream/ice-cream-projectile@idle", cachePixels: true);
 
             Assets.LoadTexture("Rock1Idle", "IcySkies/Characters/Rock/Rock1_Idle (38x34)");
             Assets.LoadTexture("Rock1Run", "IcySkies/Characters/Rock/Rock1_Run (38x34)");

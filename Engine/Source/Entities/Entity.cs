@@ -394,13 +394,13 @@ namespace MonolithEngine
             BlocksRay = false;
         }
 
-        public void SetSprite(Texture2D sprite)
+        public void SetSprite(MonolithTexture texture)
         {
-            if (sprite == null)
+            if (texture == null)
             {
                 return;
             }
-            AddComponent(new Sprite(this, sprite, new Rectangle(0, 0, sprite.Width, sprite.Height)));
+            AddComponent(new Sprite(this, texture));
         }
 
         public virtual List<(Vector2 start, Vector2 end)> GetRayBlockerLines()

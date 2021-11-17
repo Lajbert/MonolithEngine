@@ -144,6 +144,21 @@ namespace MonolithEngine
             return result;
         }
 
+        public static Color[] GetPixels(Color[] allPixels, Rectangle targetArea, int textureWidth)
+        {
+            Color[] partial = new Color[targetArea.Width * targetArea.Height];
+            int i = 0;
+            for (int y = targetArea.Y; y < targetArea.Y + targetArea.Height; y++)
+            {
+                for (int x = targetArea.X; x < targetArea.X + targetArea.Width; x++)
+                {
+                    int idx = (y * textureWidth) + x;
+                    partial[i++] = allPixels[idx];
+                }
+            }
+            return partial;
+        }
+
         public static MonolithTexture LoadTexture(string path, bool cachePixels = false)
         {
             return new MonolithTexture(Content.Load<Texture2D>(path), cachePixels: cachePixels);
@@ -234,7 +249,7 @@ namespace MonolithEngine
 
         public static Rectangle AutoBoundingBox(Sprite sprite)
         {
-            return AutoBoundingBox(sprite.Texture);
+            return AutoBoundingBox(sprite.Texture.GetTexture2D());
         }
 
         public static float AutoCircumscribedCircle(AbstractAnimation anim, BoundCalculationMode calculationMode = BoundCalculationMode.MAX)
@@ -265,7 +280,7 @@ namespace MonolithEngine
 
         public static float AutoCircumscribedCircle(Sprite sprite, BoundCalculationMode calculationMode)
         {
-            return AutoCircumscribedCircle(sprite.Texture, calculationMode);
+            return AutoCircumscribedCircle(sprite.Texture.GetTexture2D(), calculationMode);
         }
 
         public static Rectangle AutoBoundingBox(AbstractAnimation anim, BoundCalculationMode calculationMode = BoundCalculationMode.MAX)

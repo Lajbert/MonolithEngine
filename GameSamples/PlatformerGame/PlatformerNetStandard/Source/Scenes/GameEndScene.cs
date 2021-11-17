@@ -30,7 +30,7 @@ namespace ForestPlatformerExample
         {
             Image congrats = new Image(Assets.GetTexture2D("FinishedText"), new Vector2(150, 150), scale: 0.25f);
             /*
-            SelectableImage restart = new SelectableImage(Assets.GetTexture("RestartBase"), Assets.GetTexture("RestartSelected"), new Vector2(150, 200), scale: 0.25f);
+            SelectableImage restart = new SelectableImage(Assets.GetTexture2D("RestartBase"), Assets.GetTexture2D("RestartSelected"), new Vector2(150, 200), scale: 0.25f);
             restart.HoverSoundEffectName = "MenuHover";
             restart.SelectSoundEffectName = "MenuSelect";
 

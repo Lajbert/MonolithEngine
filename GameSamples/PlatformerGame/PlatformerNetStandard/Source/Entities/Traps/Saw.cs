@@ -30,7 +30,7 @@ namespace ForestPlatformerExample
 
             Pivot = pivot;
 
-            sprite = new Sprite(this, Assets.GetTexture2D("Saw"));
+            sprite = new Sprite(this, Assets.GetTexture("Saw"));
             sprite.Origin = new Vector2(sprite.SourceRectangle.Width / 2, sprite.SourceRectangle.Height / 2);
             AddComponent(sprite);
             HasGravity = false;

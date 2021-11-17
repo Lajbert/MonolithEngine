@@ -39,7 +39,7 @@ namespace ForestPlatformerExample
                     tg.AddColorData(data, new Vector2(i, j));
                 }
             }
-            AddComponent(new Sprite(this, tg.GetTexture(), new Rectangle(0, 0, width, height)));
+            AddComponent(new Sprite(this, new MonolithTexture(tg.GetTexture())));
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             AddCollisionAgainst(typeof(MovingPlatformTurner));
             AddTag("Mountable");

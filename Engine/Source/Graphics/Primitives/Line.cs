@@ -30,7 +30,7 @@ namespace MonolithEngine
             this.To = toSaved = to;
             this.thickness = thickness;
             this.color = color;
-            SetSprite(AssetUtil.CreateRectangle(1, Color.White));
+            SetSprite(new MonolithTexture(AssetUtil.CreateRectangle(1, Color.White)));
             length = Vector2.Distance(from, to);
             angleRad = MathUtil.RadFromVectors(from, to);
             Origin = new Vector2(0f, 0f);
@@ -42,7 +42,7 @@ namespace MonolithEngine
             this.From = fromSaved = from;
             this.thickness = thickness;
             this.color = color;
-            SetSprite(AssetUtil.CreateRectangle(1, Color.White));
+            SetSprite(new MonolithTexture(AssetUtil.CreateRectangle(1, Color.White)));
             this.length = length;
             this.angleRad = angleRad;
             To = toSaved = MathUtil.EndPointOfLine(from, length, this.angleRad);
@@ -69,7 +69,7 @@ namespace MonolithEngine
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GetComponent<Sprite>().Texture, Transform.Position, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(GetComponent<Sprite>().Texture.GetTexture2D(), Transform.Position, null, color, angleRad, Origin, Scale, SpriteEffects.None, 0);
         }
 
         protected override void SetRayBlockers()
