@@ -33,10 +33,11 @@ namespace ForestPlatformerExample
             {
                 for (int j = 0; j < height; j += Config.GRID)
                 {
-                    tg.AddColorData(data, new Vector2(i, j));
+                    tg.AddTile(tileSet, new Vector2(i,j), new Rectangle(304, 288, Config.GRID, Config.GRID));
                 }
             }
-            AddComponent(new Sprite(this, new MonolithTexture(tg.GetTexture())));
+            
+           AddComponent(new Sprite(this, new MonolithTexture(tg.GetTexture())));
             //(GetCollisionComponent() as AbstractCollisionComponent).DEBUG_DISPLAY_COLLISION = true;
             AddCollisionAgainst(typeof(MovingPlatformTurner));
             AddTag("Mountable");
