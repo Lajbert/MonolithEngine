@@ -10,6 +10,7 @@ namespace MonolithEngine
         private Rectangle sourceRectangle;
         private Rectangle boundingBox;
         private Color[] pixels;
+        public static GraphicsDevice GraphicsDevice;
 
         public MonolithTexture(Texture2D texture, Rectangle sourceRectangle = default, Rectangle boundingBox = default, bool cachePixels = false)
         {
@@ -24,8 +25,15 @@ namespace MonolithEngine
 
         private void InitPixels()
         {
-            pixels = new Color[texture.Width * texture.Height];
-            texture.GetData(pixels);
+            int width = sourceRectangle == default ? texture.Width : sourceRectangle.Size.X - sourceRectangle.X;
+            int height = sourceRectangle == default ? texture.Height : sourceRectangle.Size.Y - sourceRectangle.Y;
+            RenderTarget2D renderTarget = new RenderTarget2D(
+                           GraphicsDevice,
+                           width,
+                           height,
+                           false,
+                           GraphicsDevice.PresentationParameters.BackBufferFormat,
+                           DepthFormat.Depth24);
         }
 
         public Texture2D GetTexture2D()
