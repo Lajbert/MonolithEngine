@@ -24,7 +24,7 @@ namespace ForestPlatformerExample
             CollisionOffsetBottom = 1;
             //DEBUG_SHOW_COLLIDER = true;
 
-            SpriteSheetAnimation idleNormalLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleIdleNormal"), 44, 26, 24);
+            SpriteSheetAnimation idleNormalLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TurtleIdleNormal"), 24);
             idleNormalLeft.Looping = true;
             idleNormalLeft.StartedCallback = () =>
             {
@@ -39,14 +39,14 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation idleNormalRight = idleNormalLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleNormalRight", idleNormalRight, () => CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation idleSpikedLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleIdleSpiked"), 44, 26, 24);
+            SpriteSheetAnimation idleSpikedLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TurtleIdleSpiked"), 24);
             idleSpikedLeft.Looping = true;
             Animations.RegisterAnimation("IdleSpikedLeft", idleSpikedLeft, () => CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleSpikedRight = idleSpikedLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleSpikedRight", idleSpikedRight, () => CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleHit"), 44, 26, 24);
+            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TurtleHit"), 24);
             hitLeft.Looping = false;
             hitLeft.StartedCallback = () => { beingHit = true; };
             hitLeft.StoppedCallback = () => { beingHit = false; };
@@ -55,7 +55,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation hitRight = hitLeft.CopyFlipped();
             Animations.RegisterAnimation("HitRight", hitRight, () => CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation spikesOutLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleSpikesOut"), 44, 26, 240);
+            SpriteSheetAnimation spikesOutLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TurtleSpikesOut"), 240);
             spikesOutLeft.Looping = false;
             spikesOutLeft.AddFrameAction(5, (frame) =>
             {
@@ -70,7 +70,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation spikesOutRight = spikesOutLeft.CopyFlipped();
             Animations.RegisterAnimation("SpikesOutRight", spikesOutRight, () => false);
 
-            SpriteSheetAnimation spikesInLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TurtleSpikesIn"), 44, 26, 240);
+            SpriteSheetAnimation spikesInLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TurtleSpikesIn"), 240);
             spikesInLeft.Looping = false;
             spikesInLeft.AddFrameAction(6, (frame) =>
             {

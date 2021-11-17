@@ -17,24 +17,20 @@ namespace MonolithEngine
             get => frameCount;
         }
 
-        private int frameSize;
-
-
-        public AnimationTexture(Texture2D texture, int frameSizeOverride = 0, int rows = 0, int columns = 0, int totalFrames = 0, int width = 0, int height = 0) : base(texture)
+        public AnimationTexture(Texture2D texture, int width = 0, int height = 0, int rows = 0, int columns = 0, int totalFrames = 0) : base(texture)
         {
 
-            if (frameSizeOverride == 0)
+            if (width == 0 && height == 0)
             {
-                frameSize = GetFrameSize();
+                Width = Height = GetFrameSize();
             }
             else
             {
-                frameSize = frameSizeOverride;
+                Width = width;
+                Height = height;
             }
-            this.Rows = rows == 0 ? texture.Height / frameSize : rows;
-            this.Columns = columns == 0 ? texture.Width / frameSize : columns;
-            this.Width = width == 0 ? frameSize : width;
-            this.Height = height == 0 ? frameSize : height;
+            Rows = rows == 0 ? texture.Height / Height : rows;
+            Columns = columns == 0 ? texture.Width / Width : columns;
 
             if (totalFrames == 0)
             {
@@ -58,7 +54,7 @@ namespace MonolithEngine
                 Color[] pixels = new Color[renderTarget.Width * renderTarget.Height];
                 renderTarget.GetData(pixels);
 
-                frameCount = GetFrameCount(pixels, rows, columns);
+                frameCount = GetFrameCount(pixels, Rows, Columns);
             }
             else
             {

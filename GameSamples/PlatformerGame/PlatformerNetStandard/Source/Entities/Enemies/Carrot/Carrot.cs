@@ -56,7 +56,7 @@ namespace ForestPlatformerExample
             AddComponent(Animations);
             Animations.Offset = new Vector2(3, -33);
 
-            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotMove"), 12);
+            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("CarrotMove"), 12);
             Animations.RegisterAnimation("MoveLeft", moveLeft, () => CurrentFaceDirection == Direction.WEST && Transform.VelocityX != 0);
 
             void setSpeed(int frame)
@@ -77,7 +77,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
-            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotHurt"), 24)
+            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("CarrotHurt"), 24)
             {
                 Looping = false
             };
@@ -90,7 +90,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
-            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotDeath"), 24)
+            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("CarrotDeath"), 24)
             {
                 Looping = false
             };
@@ -99,13 +99,13 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation deathRight = deathLeft.CopyFlipped();
             Animations.RegisterAnimation("DeathRight", deathRight, () => false);
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotIdle"), 24);
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("CarrotIdle"), 24);
             Animations.RegisterAnimation("IdleLeft", idleLeft, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleRight", idleRight, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation fallLeft = new SpriteSheetAnimation(this, Assets.GetTexture("CarrotMove"), 2);
+            SpriteSheetAnimation fallLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("CarrotMove"), 2);
             fallLeft.Looping = true;
             fallLeft.StartFrame = 5;
             fallLeft.EndFrame = 6;

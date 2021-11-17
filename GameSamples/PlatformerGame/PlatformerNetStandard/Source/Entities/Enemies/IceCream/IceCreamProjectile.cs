@@ -20,11 +20,11 @@ namespace ForestPlatformerExample
 
             AnimationStateMachine Animations = new AnimationStateMachine();
             AddComponent(Animations);
-            SpriteSheetAnimation idle = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileIdle"), 11, 11, 24);
+            SpriteSheetAnimation idle = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("IceCreamProjectileIdle"), 24);
             Animations.RegisterAnimation("Idle", idle);
 
             //SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 24);
-            SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamProjectileHit"), 45, 45, 24);
+            SpriteSheetAnimation hit = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("IceCreamProjectileHit"), 24);
             hit.Looping = false;
             hit.StartedCallback = () =>
             {

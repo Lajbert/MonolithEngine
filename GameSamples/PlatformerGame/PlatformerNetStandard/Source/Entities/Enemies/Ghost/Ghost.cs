@@ -16,7 +16,7 @@ namespace ForestPlatformerExample
             AnimationStateMachine animations = new AnimationStateMachine();
             AddComponent(animations);
 
-            SpriteSheetAnimation appearLeft = new SpriteSheetAnimation(this, Assets.GetTexture("GhostAppear"), 44, 30, 24);
+            SpriteSheetAnimation appearLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("GhostAppear"), 24);
             appearLeft.Looping = false;
             appearLeft.StoppedCallback = () =>
             {
@@ -26,7 +26,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation appearRight = appearLeft.CopyFlipped();
             animations.RegisterAnimation("AppearRight", appearRight, () => false);
 
-            SpriteSheetAnimation disappearLeft = new SpriteSheetAnimation(this, Assets.GetTexture("GhostDisappear"), 44, 30, 24);
+            SpriteSheetAnimation disappearLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("GhostDisappear"), 24);
             disappearLeft.Looping = false;
             disappearLeft.StoppedCallback = () =>
             {
@@ -37,7 +37,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation disappearRight = disappearLeft.CopyFlipped();
             animations.RegisterAnimation("DisappearRight", disappearRight, () => false);
 
-            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("GhostHit"), 44, 30, 24);
+            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("GhostHit"), 24);
             hitLeft.Looping = false;
             hitLeft.StartedCallback = () =>
             {
@@ -52,7 +52,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation hitRight = hitLeft.CopyFlipped();
             animations.RegisterAnimation("HitRight", hitRight, () => false);
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("GhostIdle"), 44, 30, 24);
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("GhostIdle"), 24);
             animations.RegisterAnimation("IdleLeft", idleLeft, () => CurrentFaceDirection == Direction.WEST);
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
             animations.RegisterAnimation("IdleRight", idleRight, () => CurrentFaceDirection == Direction.EAST);

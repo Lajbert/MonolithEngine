@@ -57,7 +57,6 @@ namespace MonolithEngine
         {
             SpriteSheetAnimation newAnim = Copy();
             newAnim.Flip();
-            newAnim.SetupSourceRectangles();
             return newAnim;
         }
 

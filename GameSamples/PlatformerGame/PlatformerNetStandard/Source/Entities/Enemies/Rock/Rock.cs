@@ -35,13 +35,13 @@ namespace ForestPlatformerExample
             {
                 health = 2;
 
-                runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock1Run"), 38, 34, 24);
+                runLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock1Run"), 24);
                 runRight = runLeft.CopyFlipped();
 
-                idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock1Idle"), 38, 34, 24);
+                idleLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock1Idle"), 24);
                 idleRight = idleLeft.CopyFlipped();
 
-                hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock1Hit"), 38, 34, 24);
+                hitLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock1Hit"), 24);
                 hitRight = hitLeft.CopyFlipped();
 
                 drawOffset = new Vector2(8, -18);
@@ -55,13 +55,13 @@ namespace ForestPlatformerExample
 
                 CurrentSpeed = (float)random.Next(8, 11) / 100f;
 
-                runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock2Run"), 32, 28, 24);
+                runLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock2Run"), 24);
                 runRight = runLeft.CopyFlipped();
 
-                idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock2Idle"), 32, 28, 24);
+                idleLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock2Idle"), 24);
                 idleRight = idleLeft.CopyFlipped();
 
-                hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock2Hit"), 32, 28, 24);
+                hitLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock2Hit"), 24);
                 hitRight = hitLeft.CopyFlipped();
 
                 drawOffset = new Vector2(8, -14);
@@ -74,13 +74,13 @@ namespace ForestPlatformerExample
 
                 CurrentSpeed = (float)random.Next(12, 16) / 100f;
 
-                runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock3Run"), 22, 18, 24);
+                runLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock3Run"), 24);
                 runRight = runLeft.CopyFlipped();
 
-                idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock3Idle"), 22, 18, 24);
+                idleLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock3Idle"), 24);
                 idleRight = idleLeft.CopyFlipped();
 
-                hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("Rock3Hit"), 22, 18, 24);
+                hitLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("Rock3Hit"), 24);
                 hitRight = hitLeft.CopyFlipped();
 
                 drawOffset = new Vector2(3, -10);

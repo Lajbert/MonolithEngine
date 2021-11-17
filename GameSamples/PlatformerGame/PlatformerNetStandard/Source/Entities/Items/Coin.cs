@@ -27,14 +27,14 @@ namespace ForestPlatformerExample
             Animations.Offset = new Vector2(8, 8);
             AddComponent(Animations);
 
-            SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickup"), 30);
+            SpriteSheetAnimation coinAnim = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("CoinPickup"), 30);
             coinAnim.AnimationPauseCondition = () =>
             {
                 return !IsAtRest();
             };
             Animations.RegisterAnimation("Idle", coinAnim);
 
-            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetTexture("CoinPickupEffect"), 45);
+            SpriteSheetAnimation pickupAnim = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("CoinPickupEffect"), 45);
             SetDestroyAnimation(pickupAnim);
 
             //SetSprite(SpriteUtil.CreateRectangle(16, Color.Black));

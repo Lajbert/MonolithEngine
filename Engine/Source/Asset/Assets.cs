@@ -17,11 +17,23 @@ namespace MonolithEngine
         {
             if (flipVertical || flipHorizontal)
             {
-                textures.Add(name, new MonolithTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path).GetTexture2D(), flipVertical, flipHorizontal)));
+                textures.Add(name, new MonolithTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal)));
             }
             else
             {
-                textures.Add(name, AssetUtil.LoadTexture(path));
+                textures.Add(name, new MonolithTexture(AssetUtil.LoadTexture(path)));
+            }
+        }
+
+        public static void LoadAnimationTexture(string name, string path, int width = 0, int height = 0, int rows = 0, int columns = 0, int totalFrames = 0, bool flipVertical = false, bool flipHorizontal = false)
+        {//public AnimationTexture(Texture2D texture, int width = 0, int height = 0, int rows = 0, int columns = 0, int frameSizeOverride = 0, int totalFrames = 0) : base(texture)
+            if (flipVertical || flipHorizontal)
+            {
+                textures.Add(name, new AnimationTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal), width, height, rows, columns, totalFrames));
+            }
+            else
+            {
+                textures.Add(name, new AnimationTexture(AssetUtil.LoadTexture(path), width, height, rows, columns, totalFrames));
             }
         }
 
@@ -33,6 +45,11 @@ namespace MonolithEngine
         public static MonolithTexture GetTexture(string name)
         {
             return textures[name];
+        }
+
+        public static AnimationTexture GetAnimationTexture(string name)
+        {
+            return (AnimationTexture)textures[name];
         }
 
         public static Texture2D LoadAndGetTexture2D(string name, string path)

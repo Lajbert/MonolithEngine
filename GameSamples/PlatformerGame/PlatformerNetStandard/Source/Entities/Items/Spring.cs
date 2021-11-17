@@ -24,7 +24,7 @@ namespace ForestPlatformerExample
             AddComponent(Animations);
             Animations.Offset = new Vector2(8, 8);
 
-            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, Assets.GetTexture("SpringAnim"), 24)
+            SpriteSheetAnimation springAnim = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("SpringAnim"), 24)
             {
                 Looping = false
             };

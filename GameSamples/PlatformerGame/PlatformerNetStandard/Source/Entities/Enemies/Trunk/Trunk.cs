@@ -42,20 +42,20 @@ namespace ForestPlatformerExample
             Assets.LoadTexture("TrunkBullet", "ForestAssets/Characters/Trunk/Bullet");
             */
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkIdle"), 64, 32, 24);
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TrunkIdle"), 24);
             idleLeft.Looping = true;
             Animations.RegisterAnimation("IdleLeft", idleLeft, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.WEST);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleRight", idleRight, () => Transform.VelocityX == 0 && CurrentFaceDirection == Direction.EAST);
 
-            SpriteSheetAnimation runLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkRun"), 64, 32, 24);
+            SpriteSheetAnimation runLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TrunkRun"), 24);
             Animations.RegisterAnimation("RunLeft", runLeft, () => Transform.VelocityX < 0);
 
             SpriteSheetAnimation runRight = runLeft.CopyFlipped();
             Animations.RegisterAnimation("RunRight", runRight, () => Transform.VelocityX > 0);
 
-            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkAttack"),  64, 32, 24);
+            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TrunkAttack"), 24);
             attackLeft.AddFrameAction(8, (frame) => {
                 SpawnBullet();
             });
@@ -69,7 +69,7 @@ namespace ForestPlatformerExample
             attackRight.StoppedCallback = () => turnedLeft = true;
             Animations.RegisterAnimation("AttackRight", attackRight, () => false);
 
-            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetTexture("TrunkHit"), 64, 32, 24);
+            SpriteSheetAnimation hitLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("TrunkHit"), 24);
             hitLeft.Looping = false;
             hitLeft.StartedCallback = () => canAttack = false;
             hitLeft.StoppedCallback = () => canAttack = true;

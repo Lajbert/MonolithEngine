@@ -188,7 +188,7 @@ namespace ForestPlatformerExample
             CollisionOffsetBottom = 1f;
             CollisionOffsetTop = 1f;
 
-            SpriteSheetAnimation hurtRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroHurt"), 24)
+            SpriteSheetAnimation hurtRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroHurt"), 24)
             {
                 Looping = false
             };
@@ -197,7 +197,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation hurtLeft = hurtRight.CopyFlipped();
             Animations.RegisterAnimation("HurtLeft", hurtLeft, () => false);
 
-            SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroIdle"), 24);
+            SpriteSheetAnimation idleRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroIdle"), 24);
             bool isIdleRight() => CurrentFaceDirection == Direction.EAST && !isCarryingItem;
             Animations.RegisterAnimation("IdleRight", idleRight, isIdleRight);
 
@@ -205,7 +205,7 @@ namespace ForestPlatformerExample
             bool isIdleLeft() => CurrentFaceDirection == Direction.WEST && !isCarryingItem;
             Animations.RegisterAnimation("IdleLeft", idleLeft, isIdleLeft);
 
-            SpriteSheetAnimation idleCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroIdleWithItem"), 24)
+            SpriteSheetAnimation idleCarryRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroIdleWithItem"), 24)
             {
                 AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; },
                 EveryFrameAction = (frame) =>
@@ -236,7 +236,7 @@ namespace ForestPlatformerExample
             bool isIdleCarryLeft() => CurrentFaceDirection == Direction.WEST && isCarryingItem;
             Animations.RegisterAnimation("IdleCarryLeft", idleCarryLeft, isIdleCarryLeft);
 
-            SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 40);
+            SpriteSheetAnimation runningRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroRun"), 40);
             runningRight.EveryFrameAction = (frame) =>
             {
                 if (frame == 1 || frame == 6)
@@ -252,7 +252,7 @@ namespace ForestPlatformerExample
             bool isRunningLeft() => MovementButtonDown && Transform.VelocityX < -0.1 && !Scene.GridCollisionChecker.HasBlockingColliderAt(this, Direction.WEST) && !isCarryingItem;
             Animations.RegisterAnimation("RunningLeft", runningLeft, isRunningLeft, 1);
 
-            SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
+            SpriteSheetAnimation walkingLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroRun"), 12, SpriteEffects.FlipHorizontally);
             /*walkingLeft.StartedCallback = () =>
             {
                 AudioEngine.Play("SlowFootstepsSound");
@@ -272,7 +272,7 @@ namespace ForestPlatformerExample
             Animations.AddFrameTransition("RunningRight", "WalkingRight");
             Animations.AddFrameTransition("RunningLeft", "WalkingLeft");*/
 
-            SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroRunWithItem"), 24)
+            SpriteSheetAnimation runningCarryRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroRunWithItem"), 24)
             {
                 AnimationSwitchCallback = () => { if (carriedItem != null) (carriedItem as Entity).GetComponent<AnimationStateMachine>().Offset = originalAnimOffset; },
                 EveryFrameAction = (frame) =>
@@ -328,7 +328,7 @@ namespace ForestPlatformerExample
             Animations.AddFrameTransition("RunningCarryRight", "WalkingCarryRight");
             Animations.AddFrameTransition("RunningCarryLeft", "WalkingCarryLeft");*/
 
-            SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroJump"), 24)
+            SpriteSheetAnimation jumpRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroJump"), 24)
             {
                 Looping = false
             };
@@ -341,7 +341,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("JumpingRight", "JumpingLeft");
 
-            SpriteSheetAnimation jumpCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroJumpWithItem"), 24)
+            SpriteSheetAnimation jumpCarryRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroJumpWithItem"), 24)
             {
                 Looping = false
             };
@@ -354,7 +354,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("CarryJumpingRight", "JumpingCarryLeft");
 
-            SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroWallSlide"), 12, SpriteEffects.FlipHorizontally, 64);
+            SpriteSheetAnimation wallSlideRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroWallSlide"), 12, SpriteEffects.FlipHorizontally);
             bool isWallSlidingRight() => isWallSliding && CurrentFaceDirection == Direction.EAST;
             Animations.RegisterAnimation("WallSlideRight", wallSlideRight, isWallSlidingRight, 6);
             wallSlideRight.Offset += new Vector2(6, 0);
@@ -364,7 +364,7 @@ namespace ForestPlatformerExample
             bool isWallSlidingLeft() => isWallSliding && CurrentFaceDirection == Direction.WEST;
             Animations.RegisterAnimation("WallSlideLeft", wallSlideLeft, isWallSlidingLeft, 6);
 
-            SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroDoubleJump"), 12)
+            SpriteSheetAnimation doubleJumpRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroDoubleJump"), 12)
             {
                 StartFrame = 12,
                 EndFrame = 16
@@ -378,7 +378,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("DoubleJumpingRight", "DoubleJumpingLeft");
 
-            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, Assets.GetTexture("HeroClimb"), 40);
+            SpriteSheetAnimation climb = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroClimb"), 40);
 
             climb.EveryFrameAction = (frame) =>
             {
@@ -429,7 +429,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("ClimbingLadder", "SlowClimbingLadder");*/
 
-            SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroJump"), 24)
+            SpriteSheetAnimation fallingRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroJump"), 24)
             {
                 StartFrame = 9,
                 EndFrame = 11
@@ -443,7 +443,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("FallingRight", "FallingLeft");
 
-            SpriteSheetAnimation fallingCarryRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroJumpWithItem"), 24)
+            SpriteSheetAnimation fallingCarryRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroJumpWithItem"), 24)
             {
                 StartFrame = 9,
                 EndFrame = 11
@@ -457,7 +457,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("CarryFallingRight", "CarryFallingLeft");
 
-            SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroAttack"), 48)
+            SpriteSheetAnimation attackRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroAttack"), 48)
             {
                 Looping = false
             };
@@ -466,7 +466,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation attackLeft = attackRight.CopyFlipped();
             Animations.RegisterAnimation("AttackLeft", attackLeft, () => false, 8);
 
-            SpriteSheetAnimation pickupRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroPickup"), 24)
+            SpriteSheetAnimation pickupRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroPickup"), 24)
             {
                 Looping = false,
                 StartedCallback = () => UserInput.ControlsDisabled = true,
@@ -481,7 +481,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation pickupLeft = pickupRight.CopyFlipped();
             Animations.RegisterAnimation("PickupLeft", pickupLeft, () => false);
 
-            SpriteSheetAnimation slideRight = new SpriteSheetAnimation(this, Assets.GetTexture("HeroSlide"), 24)
+            SpriteSheetAnimation slideRight = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("HeroSlide"), 24)
             {
                 Looping = false
             };

@@ -183,60 +183,60 @@ namespace ForestPlatformerExample
 
             Logger.Debug("Loading assets: entities...");
 
-            Assets.LoadTexture("CarrotMove", "ForestAssets/Characters/Carrot/carrot@move-sheet");
-            Assets.LoadTexture("CarrotHurt", "ForestAssets/Characters/Carrot/carrot@hurt-sheet");
-            Assets.LoadTexture("CarrotDeath", "ForestAssets/Characters/Carrot/carrot@death-sheet");
-            Assets.LoadTexture("CarrotIdle", "ForestAssets/Characters/Carrot/carrot@idle-sheet");
+            Assets.LoadAnimationTexture("CarrotMove", "ForestAssets/Characters/Carrot/carrot@move-sheet");
+            Assets.LoadAnimationTexture("CarrotHurt", "ForestAssets/Characters/Carrot/carrot@hurt-sheet");
+            Assets.LoadAnimationTexture("CarrotDeath", "ForestAssets/Characters/Carrot/carrot@death-sheet");
+            Assets.LoadAnimationTexture("CarrotIdle", "ForestAssets/Characters/Carrot/carrot@idle-sheet");
 
-            Assets.LoadTexture("HeroHurt", "ForestAssets/Characters/Hero/main-character@hurt-sheet");
-            Assets.LoadTexture("HeroIdle", "ForestAssets/Characters/Hero/main-character@idle-sheet");
-            Assets.LoadTexture("HeroIdleWithItem", "ForestAssets/Characters/Hero/main-character@idle-with-item-sheet");
-            Assets.LoadTexture("HeroRun", "ForestAssets/Characters/Hero/main-character@run-sheet");
-            Assets.LoadTexture("HeroRunWithItem", "ForestAssets/Characters/Hero/main-character@run-with-item-sheet");
-            Assets.LoadTexture("HeroJump", "ForestAssets/Characters/Hero/main-character@jump-sheet");
-            Assets.LoadTexture("HeroJumpWithItem", "ForestAssets/Characters/Hero/main-character@jump-with-item-sheet");
-            Assets.LoadTexture("HeroWallSlide", "ForestAssets/Characters/Hero/main-character@wall-slide-sheet");
-            Assets.LoadTexture("HeroDoubleJump", "ForestAssets/Characters/Hero/main-character@double-jump-sheet");
-            Assets.LoadTexture("HeroClimb", "ForestAssets/Characters/Hero/main-character@climb-sheet");
-            Assets.LoadTexture("HeroAttack", "ForestAssets/Characters/Hero/main-character@attack-sheet");
-            Assets.LoadTexture("HeroPickup", "ForestAssets/Characters/Hero/main-character@pick-up-sheet");
-            Assets.LoadTexture("HeroSlide", "ForestAssets/Characters/Hero/main-character@slide-sheet");
+            Assets.LoadAnimationTexture("HeroHurt", "ForestAssets/Characters/Hero/main-character@hurt-sheet");
+            Assets.LoadAnimationTexture("HeroIdle", "ForestAssets/Characters/Hero/main-character@idle-sheet");
+            Assets.LoadAnimationTexture("HeroIdleWithItem", "ForestAssets/Characters/Hero/main-character@idle-with-item-sheet");
+            Assets.LoadAnimationTexture("HeroRun", "ForestAssets/Characters/Hero/main-character@run-sheet");
+            Assets.LoadAnimationTexture("HeroRunWithItem", "ForestAssets/Characters/Hero/main-character@run-with-item-sheet");
+            Assets.LoadAnimationTexture("HeroJump", "ForestAssets/Characters/Hero/main-character@jump-sheet");
+            Assets.LoadAnimationTexture("HeroJumpWithItem", "ForestAssets/Characters/Hero/main-character@jump-with-item-sheet");
+            Assets.LoadAnimationTexture("HeroWallSlide", "ForestAssets/Characters/Hero/main-character@wall-slide-sheet", 64, 64);
+            Assets.LoadAnimationTexture("HeroDoubleJump", "ForestAssets/Characters/Hero/main-character@double-jump-sheet");
+            Assets.LoadAnimationTexture("HeroClimb", "ForestAssets/Characters/Hero/main-character@climb-sheet");
+            Assets.LoadAnimationTexture("HeroAttack", "ForestAssets/Characters/Hero/main-character@attack-sheet");
+            Assets.LoadAnimationTexture("HeroPickup", "ForestAssets/Characters/Hero/main-character@pick-up-sheet");
+            Assets.LoadAnimationTexture("HeroSlide", "ForestAssets/Characters/Hero/main-character@slide-sheet");
 
-            Assets.LoadTexture("TrunkAttack", "ForestAssets/Characters/Trunk/Attack (64x32)");
-            Assets.LoadTexture("TrunkBulletPieces", "ForestAssets/Characters/Trunk/Bullet Pieces");
+            Assets.LoadAnimationTexture("TrunkAttack", "ForestAssets/Characters/Trunk/Attack (64x32)", 64, 32);
+            //Assets.LoadTexture("TrunkBulletPieces", "ForestAssets/Characters/Trunk/Bullet Pieces");
             Assets.LoadTexture("TrunkBullet", "ForestAssets/Characters/Trunk/Bullet");
-            Assets.LoadTexture("TrunkHit", "ForestAssets/Characters/Trunk/Hit (64x32)");
-            Assets.LoadTexture("TrunkIdle", "ForestAssets/Characters/Trunk/Idle (64x32)");
-            Assets.LoadTexture("TrunkRun", "ForestAssets/Characters/Trunk/Run (64x32)");
+            Assets.LoadAnimationTexture("TrunkHit", "ForestAssets/Characters/Trunk/Hit (64x32)", 64, 32);
+            Assets.LoadAnimationTexture("TrunkIdle", "ForestAssets/Characters/Trunk/Idle (64x32)", 64, 32);
+            Assets.LoadAnimationTexture("TrunkRun", "ForestAssets/Characters/Trunk/Run (64x32)", 64, 32);
 
-            Assets.LoadTexture("TurtleSpikesIn", "ForestAssets/Characters/SpikedTurtle/Spikes in (44x26)");
-            Assets.LoadTexture("TurtleSpikesOut", "ForestAssets/Characters/SpikedTurtle/Spikes out (44x26)");
-            Assets.LoadTexture("TurtleHit", "ForestAssets/Characters/SpikedTurtle/Hit (44x26)");
-            Assets.LoadTexture("TurtleIdleSpiked", "ForestAssets/Characters/SpikedTurtle/Idle 1 (44x26)");
-            Assets.LoadTexture("TurtleIdleNormal", "ForestAssets/Characters/SpikedTurtle/Idle 2 (44x26)");
+            Assets.LoadAnimationTexture("TurtleSpikesIn", "ForestAssets/Characters/SpikedTurtle/Spikes in (44x26)", 44, 26);
+            Assets.LoadAnimationTexture("TurtleSpikesOut", "ForestAssets/Characters/SpikedTurtle/Spikes out (44x26)", 44, 26);
+            Assets.LoadAnimationTexture("TurtleHit", "ForestAssets/Characters/SpikedTurtle/Hit (44x26)", 44, 26);
+            Assets.LoadAnimationTexture("TurtleIdleSpiked", "ForestAssets/Characters/SpikedTurtle/Idle 1 (44x26)", 44, 26);
+            Assets.LoadAnimationTexture("TurtleIdleNormal", "ForestAssets/Characters/SpikedTurtle/Idle 2 (44x26)", 44, 26);
 
-            Assets.LoadTexture("IceCreamIdle", "IcySkies/Characters/IceCream/ice-cream@idle");
-            Assets.LoadTexture("IceCreamDeath", "IcySkies/Characters/IceCream/ice-cream@death");
-            Assets.LoadTexture("IceCreamHurt", "IcySkies/Characters/IceCream/ice-cream@hurt");
-            Assets.LoadTexture("IceCreamMove", "IcySkies/Characters/IceCream/ice-cream@move");
-            Assets.LoadTexture("IceCreamAttack", "IcySkies/Characters/IceCream/ice-cream@attack");
-            Assets.LoadTexture("IceCreamProjectileHit", "IcySkies/Characters/IceCream/ice-cream-projectile@hit", cachePixels: true);
-            Assets.LoadTexture("IceCreamProjectileIdle", "IcySkies/Characters/IceCream/ice-cream-projectile@idle", cachePixels: true);
+            Assets.LoadAnimationTexture("IceCreamIdle", "IcySkies/Characters/IceCream/ice-cream@idle");
+            Assets.LoadAnimationTexture("IceCreamDeath", "IcySkies/Characters/IceCream/ice-cream@death");
+            Assets.LoadAnimationTexture("IceCreamHurt", "IcySkies/Characters/IceCream/ice-cream@hurt");
+            Assets.LoadAnimationTexture("IceCreamMove", "IcySkies/Characters/IceCream/ice-cream@move");
+            Assets.LoadAnimationTexture("IceCreamAttack", "IcySkies/Characters/IceCream/ice-cream@attack");
+            Assets.LoadAnimationTexture("IceCreamProjectileHit", "IcySkies/Characters/IceCream/ice-cream-projectile@hit", 45, 45);
+            Assets.LoadAnimationTexture("IceCreamProjectileIdle", "IcySkies/Characters/IceCream/ice-cream-projectile@idle", 11, 11);
 
-            Assets.LoadTexture("Rock1Idle", "IcySkies/Characters/Rock/Rock1_Idle (38x34)");
-            Assets.LoadTexture("Rock1Run", "IcySkies/Characters/Rock/Rock1_Run (38x34)");
-            Assets.LoadTexture("Rock1Hit", "IcySkies/Characters/Rock/Rock1_Hit");
-            Assets.LoadTexture("Rock2Idle", "IcySkies/Characters/Rock/Rock2_Idle (32x28)");
-            Assets.LoadTexture("Rock2Run", "IcySkies/Characters/Rock/Rock2_Run (32x28)");
-            Assets.LoadTexture("Rock2Hit", "IcySkies/Characters/Rock/Rock2_Hit (32x28)");
-            Assets.LoadTexture("Rock3Idle", "IcySkies/Characters/Rock/Rock3_Idle (22x18)");
-            Assets.LoadTexture("Rock3Run", "IcySkies/Characters/Rock/Rock3_Run (22x18)");
-            Assets.LoadTexture("Rock3Hit", "IcySkies/Characters/Rock/Rock3_Hit (22x18)");
+            Assets.LoadAnimationTexture("Rock1Idle", "IcySkies/Characters/Rock/Rock1_Idle (38x34)", 38, 34);
+            Assets.LoadAnimationTexture("Rock1Run", "IcySkies/Characters/Rock/Rock1_Run (38x34)", 38, 34);
+            Assets.LoadAnimationTexture("Rock1Hit", "IcySkies/Characters/Rock/Rock1_Hit", 38, 34);
+            Assets.LoadAnimationTexture("Rock2Idle", "IcySkies/Characters/Rock/Rock2_Idle (32x28)", 32, 28);
+            Assets.LoadAnimationTexture("Rock2Run", "IcySkies/Characters/Rock/Rock2_Run (32x28)", 32, 28);
+            Assets.LoadAnimationTexture("Rock2Hit", "IcySkies/Characters/Rock/Rock2_Hit (32x28)", 32, 28);
+            Assets.LoadAnimationTexture("Rock3Idle", "IcySkies/Characters/Rock/Rock3_Idle (22x18)", 22, 18);
+            Assets.LoadAnimationTexture("Rock3Run", "IcySkies/Characters/Rock/Rock3_Run (22x18)", 22, 18);
+            Assets.LoadAnimationTexture("Rock3Hit", "IcySkies/Characters/Rock/Rock3_Hit (22x18)", 22, 18);
 
-            Assets.LoadTexture("GhostAppear", "IcySkies/Characters/Ghost/Appear (44x30)");
-            Assets.LoadTexture("GhostDisappear", "IcySkies/Characters/Ghost/Desappear (44x30)");
-            Assets.LoadTexture("GhostHit", "IcySkies/Characters/Ghost/Hit (44x30)");
-            Assets.LoadTexture("GhostIdle", "IcySkies/Characters/Ghost/Idle (44x30)");
+            Assets.LoadAnimationTexture("GhostAppear", "IcySkies/Characters/Ghost/Appear (44x30)", 44, 30);
+            Assets.LoadAnimationTexture("GhostDisappear", "IcySkies/Characters/Ghost/Desappear (44x30)", 44, 30);
+            Assets.LoadAnimationTexture("GhostHit", "IcySkies/Characters/Ghost/Hit (44x30)", 44, 30);
+            Assets.LoadAnimationTexture("GhostIdle", "IcySkies/Characters/Ghost/Idle (44x30)", 44, 30);
 
             Logger.Debug("Loading assets: traps and items...");
 
@@ -245,17 +245,17 @@ namespace ForestPlatformerExample
 
             // Items
 
-            Assets.LoadTexture("CoinPickup", "ForestAssets/Items/coin-pickup");
-            Assets.LoadTexture("CoinPickupEffect", "ForestAssets/Items/pickup-effect");
-            Assets.LoadTexture("SpringAnim", "ForestAssets/Items/spring_spritesheet");
+            Assets.LoadAnimationTexture("CoinPickup", "ForestAssets/Items/coin-pickup");
+            Assets.LoadAnimationTexture("CoinPickupEffect", "ForestAssets/Items/pickup-effect");
+            Assets.LoadAnimationTexture("SpringAnim", "ForestAssets/Items/spring_spritesheet");
 
             Assets.LoadTexture("ForestTileset", "ForestAssets/Tiles/forest-tileset");
 
-            Assets.LoadTexture("BoxIdle", "ForestAssets/Items/box-idle");
-            Assets.LoadTexture("BoxHit", "ForestAssets/Items/box-hit");
-            Assets.LoadTexture("BoxDestroy", "ForestAssets/Items/box-destroy");
+            Assets.LoadAnimationTexture("BoxIdle", "ForestAssets/Items/box-idle");
+            Assets.LoadAnimationTexture("BoxHit", "ForestAssets/Items/box-hit");
+            Assets.LoadAnimationTexture("BoxDestroy", "ForestAssets/Items/box-destroy");
 
-            Assets.LoadTexture("FanAnim", "IcySkies/Items/Fan/fan");
+            Assets.LoadAnimationTexture("FanAnim", "IcySkies/Items/Fan/fan", width: 24, height:8);
 
             Assets.LoadTexture("FinishedTrophy", "IcySkies/Items/POI/End (Idle)");
 

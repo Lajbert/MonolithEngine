@@ -87,11 +87,8 @@ namespace MonolithEngine
                 scene.SetWidth(width);
                 scene.SetHeight(height);
 
-                if (mergedBackgroundTileGroup == null)
-                {
-                    mergedBackgroundTileGroup = new TileGroup(width, height);
-                    mergedForegroundTileGroup = new TileGroup(width, height);
-                }
+                mergedBackgroundTileGroup = new TileGroup(width, height);
+                mergedForegroundTileGroup = new TileGroup(width, height);
 
                 if (!level.Identifier.Equals(scene.GetName()))
                 {

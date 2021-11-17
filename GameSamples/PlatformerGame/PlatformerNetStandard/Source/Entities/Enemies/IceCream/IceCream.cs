@@ -42,13 +42,13 @@ namespace ForestPlatformerExample
             AddComponent(Animations);
             Animations.Offset = new Vector2(3, -33);
 
-            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamIdle"), 23);
+            SpriteSheetAnimation idleLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("IceCreamIdle"), 23);
             Animations.RegisterAnimation("IdleLeft", idleLeft, () => CurrentFaceDirection == Direction.WEST && Transform.VelocityX == 0);
 
             SpriteSheetAnimation idleRight = idleLeft.CopyFlipped();
             Animations.RegisterAnimation("IdleRight", idleRight, () => CurrentFaceDirection == Direction.EAST && Transform.VelocityX == 0);
 
-            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamHurt"), 24);
+            SpriteSheetAnimation hurtLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("IceCreamHurt"), 24);
             hurtLeft.Looping = false;
             hurtLeft.StartedCallback = () =>
             {
@@ -65,7 +65,7 @@ namespace ForestPlatformerExample
             SpriteSheetAnimation hurtRight = hurtLeft.CopyFlipped();
             Animations.RegisterAnimation("HurtRight", hurtRight, () => false);
 
-            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamMove"), 17);
+            SpriteSheetAnimation moveLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("IceCreamMove"), 17);
             moveLeft.EveryFrameAction = (frame) =>
             {
                 if (frame >= 7 && frame <= 10)
@@ -84,7 +84,7 @@ namespace ForestPlatformerExample
 
             Animations.AddFrameTransition("MoveLeft", "MoveRight");
 
-            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamAttack"), 36);
+            SpriteSheetAnimation attackLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("IceCreamAttack"), 36);
             attackLeft.Looping = false;
             attackLeft.StartedCallback = () => isAttacking = true;
             attackLeft.StoppedCallback = () => isAttacking = false;
@@ -105,7 +105,7 @@ namespace ForestPlatformerExample
 
             AddComponent(AI);
 
-            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetTexture("IceCreamDeath"), 24);
+            SpriteSheetAnimation deathLeft = new SpriteSheetAnimation(this, Assets.GetAnimationTexture("IceCreamDeath"), 24);
             deathLeft.Looping = false;
             Animations.RegisterAnimation("DeathLeft", deathLeft, () => false);
 
