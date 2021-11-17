@@ -34,17 +34,17 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
-            Image resolutionLabel = new Image(Assets.GetTexture("HUDResolutionLabel"), new Vector2(150, 50), scale: 0.25f);
-            resolutionSelect.AddOption("720p", Assets.GetTexture("HUD720p"));
-            resolutionSelect.AddOption("1080p", Assets.GetTexture("HUD1080p"));
-            resolutionSelect.AddOption("1440p", Assets.GetTexture("HUD1440p"));
-            resolutionSelect.AddOption("4K", Assets.GetTexture("HUD4K"));
-            SelectableImage resolutionRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 100), scale: 0.02f);
+            Image resolutionLabel = new Image(Assets.GetTexture2D("HUDResolutionLabel"), new Vector2(150, 50), scale: 0.25f);
+            resolutionSelect.AddOption("720p", Assets.GetTexture2D("HUD720p"));
+            resolutionSelect.AddOption("1080p", Assets.GetTexture2D("HUD1080p"));
+            resolutionSelect.AddOption("1440p", Assets.GetTexture2D("HUD1440p"));
+            resolutionSelect.AddOption("4K", Assets.GetTexture2D("HUD4K"));
+            SelectableImage resolutionRight = new SelectableImage(Assets.GetTexture2D("HUDArrowRightBase"), Assets.GetTexture2D("HUDArrowRightSelected"), new Vector2(485, 100), scale: 0.02f);
             resolutionRight.OnClick = () =>
             {
                 resolutionSelect.Next();
             };
-            SelectableImage resolutionLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 100), scale: 0.02f);
+            SelectableImage resolutionLeft = new SelectableImage(Assets.GetTexture2D("HUDArrowLeftBase"), Assets.GetTexture2D("HUDArrowLeftSelected"), new Vector2(265, 100), scale: 0.02f);
             resolutionLeft.OnClick = () =>
             {
                 resolutionSelect.Previous();
@@ -56,18 +56,18 @@ namespace ForestPlatformerExample
             resolutionLeft.SelectSoundEffectName = "MenuSelect";
 
 
-            Image frameLimiterLabel = new Image(Assets.GetTexture("HUDFPSLimitLabel"), new Vector2(150, 150), scale: 0.25f);
-            frameLimitSelect.AddOption("30", Assets.GetTexture("HUD30"));
-            frameLimitSelect.AddOption("60", Assets.GetTexture("HUD60"));
-            frameLimitSelect.AddOption("120", Assets.GetTexture("HUD120"));
-            frameLimitSelect.AddOption("Unlimited", Assets.GetTexture("HUDUnlimited"));
+            Image frameLimiterLabel = new Image(Assets.GetTexture2D("HUDFPSLimitLabel"), new Vector2(150, 150), scale: 0.25f);
+            frameLimitSelect.AddOption("30", Assets.GetTexture2D("HUD30"));
+            frameLimitSelect.AddOption("60", Assets.GetTexture2D("HUD60"));
+            frameLimitSelect.AddOption("120", Assets.GetTexture2D("HUD120"));
+            frameLimitSelect.AddOption("Unlimited", Assets.GetTexture2D("HUDUnlimited"));
 
-            SelectableImage fpsRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 200), scale: 0.02f);
+            SelectableImage fpsRight = new SelectableImage(Assets.GetTexture2D("HUDArrowRightBase"), Assets.GetTexture2D("HUDArrowRightSelected"), new Vector2(485, 200), scale: 0.02f);
             fpsRight.OnClick = () =>
             {
                 frameLimitSelect.Next();
             };
-            SelectableImage fpsLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 200), scale: 0.02f);
+            SelectableImage fpsLeft = new SelectableImage(Assets.GetTexture2D("HUDArrowLeftBase"), Assets.GetTexture2D("HUDArrowLeftSelected"), new Vector2(265, 200), scale: 0.02f);
             fpsLeft.OnClick = () =>
             {
                 frameLimitSelect.Previous();
@@ -78,16 +78,16 @@ namespace ForestPlatformerExample
             fpsLeft.HoverSoundEffectName = "MenuHover";
             fpsLeft.SelectSoundEffectName = "MenuSelect";
 
-            Image vsyncLabel = new Image(Assets.GetTexture("HUDVsyncLabel"), new Vector2(150, 250), scale: 0.25f);
-            vsyncSelect.AddOption("On", Assets.GetTexture("HUDOn"));
-            vsyncSelect.AddOption("Off", Assets.GetTexture("HUDOff"));
+            Image vsyncLabel = new Image(Assets.GetTexture2D("HUDVsyncLabel"), new Vector2(150, 250), scale: 0.25f);
+            vsyncSelect.AddOption("On", Assets.GetTexture2D("HUDOn"));
+            vsyncSelect.AddOption("Off", Assets.GetTexture2D("HUDOff"));
 
-            SelectableImage vsyncRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 300), scale: 0.02f);
+            SelectableImage vsyncRight = new SelectableImage(Assets.GetTexture2D("HUDArrowRightBase"), Assets.GetTexture2D("HUDArrowRightSelected"), new Vector2(485, 300), scale: 0.02f);
             vsyncRight.OnClick = () =>
             {
                 vsyncSelect.Next();
             };
-            SelectableImage vsyncLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 300), scale: 0.02f);
+            SelectableImage vsyncLeft = new SelectableImage(Assets.GetTexture2D("HUDArrowLeftBase"), Assets.GetTexture2D("HUDArrowLeftSelected"), new Vector2(265, 300), scale: 0.02f);
             vsyncLeft.OnClick = () =>
             {
                 vsyncSelect.Previous();
@@ -98,16 +98,16 @@ namespace ForestPlatformerExample
             vsyncLeft.HoverSoundEffectName = "MenuHover";
             vsyncLeft.SelectSoundEffectName = "MenuSelect";
 
-            Image windowModeLabel = new Image(Assets.GetTexture("HUDWindowModeLabel"), new Vector2(150, 350), scale: 0.25f);
-            windowModeSelect.AddOption("Fullscreen", Assets.GetTexture("HUDFullscreen"));
-            windowModeSelect.AddOption("Windowed", Assets.GetTexture("HUDWindowed"));
+            Image windowModeLabel = new Image(Assets.GetTexture2D("HUDWindowModeLabel"), new Vector2(150, 350), scale: 0.25f);
+            windowModeSelect.AddOption("Fullscreen", Assets.GetTexture2D("HUDFullscreen"));
+            windowModeSelect.AddOption("Windowed", Assets.GetTexture2D("HUDWindowed"));
 
-            SelectableImage windowModeRight = new SelectableImage(Assets.GetTexture("HUDArrowRightBase"), Assets.GetTexture("HUDArrowRightSelected"), new Vector2(485, 400), scale: 0.02f);
+            SelectableImage windowModeRight = new SelectableImage(Assets.GetTexture2D("HUDArrowRightBase"), Assets.GetTexture2D("HUDArrowRightSelected"), new Vector2(485, 400), scale: 0.02f);
             windowModeRight.OnClick = () =>
             {
                 windowModeSelect.Next();
             };
-            SelectableImage windowModeLeft = new SelectableImage(Assets.GetTexture("HUDArrowLeftBase"), Assets.GetTexture("HUDArrowLeftSelected"), new Vector2(265, 400), scale: 0.02f);
+            SelectableImage windowModeLeft = new SelectableImage(Assets.GetTexture2D("HUDArrowLeftBase"), Assets.GetTexture2D("HUDArrowLeftSelected"), new Vector2(265, 400), scale: 0.02f);
             windowModeLeft.OnClick = () =>
             {
                 windowModeSelect.Previous();
@@ -118,7 +118,7 @@ namespace ForestPlatformerExample
             windowModeLeft.HoverSoundEffectName = "MenuHover";
             windowModeLeft.SelectSoundEffectName = "MenuSelect";
 
-            SelectableImage cancel = new SelectableImage(Assets.GetTexture("HUDCancelBase"), Assets.GetTexture("HUDCancelSelected"), new Vector2(150, 500), scale: 0.25f);
+            SelectableImage cancel = new SelectableImage(Assets.GetTexture2D("HUDCancelBase"), Assets.GetTexture2D("HUDCancelSelected"), new Vector2(150, 500), scale: 0.25f);
             cancel.HoverSoundEffectName = "MenuHover";
             cancel.SelectSoundEffectName = "MenuSelect";
 
@@ -127,7 +127,7 @@ namespace ForestPlatformerExample
                 SceneManager.StartScene("Settings");
             };
 
-            SelectableImage apply = new SelectableImage(Assets.GetTexture("HUDApplyBase"), Assets.GetTexture("HUDApplySelected"), new Vector2(450, 500), scale: 0.25f);
+            SelectableImage apply = new SelectableImage(Assets.GetTexture2D("HUDApplyBase"), Assets.GetTexture2D("HUDApplySelected"), new Vector2(450, 500), scale: 0.25f);
             apply.HoverSoundEffectName = "MenuHover";
             apply.SelectSoundEffectName = "MenuSelect";
 

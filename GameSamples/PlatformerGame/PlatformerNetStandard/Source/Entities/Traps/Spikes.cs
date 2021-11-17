@@ -15,7 +15,7 @@ namespace ForestPlatformerExample
             Direction = direction;
             AddTag("Spikes");
             TileGroup tg = new TileGroup();
-            Texture2D tileSet = Assets.GetTexture("ForestTileset");
+            Texture2D tileSet = Assets.GetTexture2D("ForestTileset");
             Color[] data = new Color[Config.GRID * Config.GRID];
             Sprite sprite = null;
 

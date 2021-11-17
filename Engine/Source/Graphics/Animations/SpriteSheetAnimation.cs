@@ -15,7 +15,7 @@ namespace MonolithEngine
     /// </summary>
     public class SpriteSheetAnimation : AbstractAnimation
     {
-        private Texture2D texture;
+        private MonolithTexture texture;
         private int rows;
         private int columns;
         private int width;
@@ -32,7 +32,7 @@ namespace MonolithEngine
 
         //private int frameSize;
 
-        public SpriteSheetAnimation(Entity parent, Texture2D texture, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
+        public SpriteSheetAnimation(Entity parent, MonolithTexture texture, int framerate = 0, SpriteEffects spriteEffect = SpriteEffects.None, int frameSizeOverride = 0) : base(parent, 0, framerate, spriteEffect)
         {
             int frameSize;
             this.texture = texture;
@@ -43,23 +43,23 @@ namespace MonolithEngine
             {
                 frameSize = frameSizeOverride;
             }
-            rows = texture.Height / frameSize;
-            columns = texture.Width / frameSize;
+            rows = texture.GetTexture2D().Height / frameSize;
+            columns = texture.GetTexture2D().Width / frameSize;
             this.width = frameSize;
             this.height = frameSize;
             TotalFrames = GetFrameCount();
             SetupSourceRectangles();
         }
 
-        private SpriteSheetAnimation(Entity parent, Texture2D texture, int rows, int columns, int totalFrames, int width, int height, int framerate, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
+        private SpriteSheetAnimation(Entity parent, MonolithTexture texture, int rows, int columns, int totalFrames, int width, int height, int framerate, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, totalFrames, framerate, spriteEffect)
         {
             this.texture = texture;
             this.rows = rows;
             this.columns = columns;
             if (width == 0 || height == 0)
             {
-                this.width = texture.Width / columns;
-                this.height = texture.Height / rows;
+                this.width = texture.GetTexture2D().Width / columns;
+                this.height = texture.GetTexture2D().Height / rows;
             } else
             {
                 this.width = width;
@@ -67,13 +67,13 @@ namespace MonolithEngine
             }
         }
 
-        public SpriteSheetAnimation(Entity parent, Texture2D texture, int frameWidth, int frameHeight, int framerate, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, 0, framerate, spriteEffect)
+        public SpriteSheetAnimation(Entity parent, MonolithTexture texture, int frameWidth, int frameHeight, int framerate, SpriteEffects spriteEffect = SpriteEffects.None) : base(parent, 0, framerate, spriteEffect)
         {
             this.texture = texture;
             this.width = frameWidth;
             this.height = frameHeight;
-            this.rows = texture.Height / frameHeight;
-            this.columns = texture.Width / frameWidth;
+            this.rows = texture.GetTexture2D().Height / frameHeight;
+            this.columns = texture.GetTexture2D().Width / frameWidth;
             TotalFrames = GetFrameCount();
             SetupSourceRectangles();
         }
@@ -111,19 +111,19 @@ namespace MonolithEngine
         {
             SourceRectangle = sourceRectangles[CurrentFrame];
             Origin = new Vector2(width / 2, height / 2);
-            return texture;
+            return texture.GetTexture2D();
         }
 
         private int GetFrameSize()
         {
-            int longerSide = Math.Max(texture.Width, texture.Height);
+            int longerSide = Math.Max(texture.GetTexture2D().Width, texture.GetTexture2D().Height);
 
             int biggestFrame = 0;
 
             for (int i = 1; i <= Math.Log(longerSide); i++)
             {
                 int pow = (int)Math.Pow(2, i);
-                if (texture.Width % pow == 0 && texture.Height % pow == 0)
+                if (texture.GetTexture2D().Width % pow == 0 && texture.GetTexture2D().Height % pow == 0)
                 {
                     biggestFrame = pow;
                 }
@@ -140,7 +140,7 @@ namespace MonolithEngine
         {
             if (DEBUG_SPRITESHEET)
             {
-                spriteBatch.Draw(texture, Parent.Transform.Position, Color.White);
+                spriteBatch.Draw(texture.GetTexture2D(), Parent.Transform.Position, Color.White);
             }
             else
             {
@@ -158,8 +158,7 @@ namespace MonolithEngine
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    Color[] data = new Color[width * height];
-                    texture.GetData(0, new Rectangle(j * width, i * height, width, height), data, 0, data.Length);
+                    Color[] data = texture.GetPixels(new Rectangle(j * width, i * height, width, height));
                     bool emptyFrameFound = true;
                     for (int c = 0; c < width * height; c++)
                     {

@@ -9,54 +9,36 @@ namespace MonolithEngine
     /// </summary>
     public class Assets
     {
-        private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-
-        private static Dictionary<string, List<Texture2D>> textureGroups = new Dictionary<string, List<Texture2D>>();
+        private static Dictionary<string, MonolithTexture> textures = new Dictionary<string, MonolithTexture>();
 
         private static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
 
-        public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false)
+        public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false, bool cachePixels = false)
         {
             if (flipVertical || flipHorizontal)
             {
-                textures.Add(name, AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal));
+                textures.Add(name, new MonolithTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path).GetTexture2D(), flipVertical, flipHorizontal), cachePixels: cachePixels));
             }
             else
             {
-                textures.Add(name, AssetUtil.LoadTexture(path));
+                textures.Add(name, AssetUtil.LoadTexture(path, cachePixels));
             }
         }
 
-        public static Texture2D GetTexture(string name)
+        public static Texture2D GetTexture2D(string name)
+        {
+            return textures[name].GetTexture2D();
+        }
+
+        public static MonolithTexture GetTexture(string name)
         {
             return textures[name];
         }
 
-        public static Texture2D LoadAndGetTexture(string name, string path)
+        public static Texture2D LoadAndGetTexture2D(string name, string path)
         {
             LoadTexture(name, path);
-            return textures[name];
-        }
-
-        public static List<Texture2D> GetTextureGroup(string name)
-        {
-            return textureGroups[name];
-        }
-
-        public static void LoadTextureGroup(string name, List<string> paths)
-        {
-            List<Texture2D> result = new List<Texture2D>();
-            foreach (string path in paths)
-            {
-                result.Add(AssetUtil.LoadTexture(path));
-            }
-            textureGroups.Add(name, result);
-        }
-
-        public static List<Texture2D> LoadAndGetTextureGroup(string name, List<string> paths)
-        {
-            LoadTextureGroup(name, paths);
-            return textureGroups[name];
+            return textures[name].GetTexture2D();
         }
 
         public static Texture2D CreateRectangle(int size, Color color)

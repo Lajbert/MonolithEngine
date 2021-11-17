@@ -12,7 +12,7 @@ namespace ForestPlatformerExample
             DrawPriority = 3;
 
             AddTag("Projectile");
-            Sprite sprite = new Sprite(this, Assets.GetTexture("TrunkBullet"));
+            Sprite sprite = new Sprite(this, Assets.GetTexture2D("TrunkBullet"));
             if (speed.X > 0)
             {
                 sprite.SpriteEffect = SpriteEffects.FlipHorizontally;

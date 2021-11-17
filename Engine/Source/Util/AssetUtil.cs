@@ -144,9 +144,9 @@ namespace MonolithEngine
             return result;
         }
 
-        public static Texture2D LoadTexture(string path)
+        public static MonolithTexture LoadTexture(string path, bool cachePixels = false)
         {
-            return Content.Load<Texture2D>(path);
+            return new MonolithTexture(Content.Load<Texture2D>(path), cachePixels: cachePixels);
         }
 
         public static  Color GetRandomColor()

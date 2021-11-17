@@ -28,7 +28,7 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
-            Image congrats = new Image(Assets.GetTexture("FinishedText"), new Vector2(150, 150), scale: 0.25f);
+            Image congrats = new Image(Assets.GetTexture2D("FinishedText"), new Vector2(150, 150), scale: 0.25f);
             /*
             SelectableImage restart = new SelectableImage(Assets.GetTexture("RestartBase"), Assets.GetTexture("RestartSelected"), new Vector2(150, 200), scale: 0.25f);
             restart.HoverSoundEffectName = "MenuHover";
@@ -39,7 +39,7 @@ namespace ForestPlatformerExample
                 SceneManager.LoadScene("MainMenu");
             };*/
 
-            SelectableImage quit = new SelectableImage(Assets.GetTexture("HUDQuitBase"), Assets.GetTexture("HUDQuitSelected"), new Vector2(150, 250), scale: 0.25f);
+            SelectableImage quit = new SelectableImage(Assets.GetTexture2D("HUDQuitBase"), Assets.GetTexture2D("HUDQuitSelected"), new Vector2(150, 250), scale: 0.25f);
             quit.HoverSoundEffectName = "MenuHover";
             quit.SelectSoundEffectName = "MenuSelect";
 

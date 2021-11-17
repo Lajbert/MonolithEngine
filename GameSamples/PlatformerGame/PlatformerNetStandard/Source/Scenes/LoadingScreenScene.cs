@@ -28,7 +28,7 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
-            Image loadingImage = new Image(Assets.GetTexture("HUDLoading"), new Vector2(200, 200));
+            Image loadingImage = new Image(Assets.GetTexture2D("HUDLoading"), new Vector2(200, 200));
             
             UI.AddUIElement(loadingImage);
         }

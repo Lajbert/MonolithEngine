@@ -29,7 +29,7 @@ namespace ForestPlatformerExample
         public override void Load()
         {
 
-            SelectableImage videoSettings = new SelectableImage(Assets.GetTexture("HUDVideoSettingsBase"), Assets.GetTexture("HUDVideoSettingsSelected"), new Vector2(150, 150), scale: 0.25f);
+            SelectableImage videoSettings = new SelectableImage(Assets.GetTexture2D("HUDVideoSettingsBase"), Assets.GetTexture2D("HUDVideoSettingsSelected"), new Vector2(150, 150), scale: 0.25f);
             videoSettings.HoverSoundEffectName = "MenuHover";
             videoSettings.SelectSoundEffectName = "MenuSelect";
 
@@ -38,7 +38,7 @@ namespace ForestPlatformerExample
                 SceneManager.StartScene("VideoSettings");
             };
 
-            SelectableImage audioSettings = new SelectableImage(Assets.GetTexture("HUDAudioSettingsBase"), Assets.GetTexture("HUDAudioSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
+            SelectableImage audioSettings = new SelectableImage(Assets.GetTexture2D("HUDAudioSettingsBase"), Assets.GetTexture2D("HUDAudioSettingsSelected"), new Vector2(150, 200), scale: 0.25f);
             audioSettings.HoverSoundEffectName = "MenuHover";
             audioSettings.SelectSoundEffectName = "MenuSelect";
 
@@ -47,7 +47,7 @@ namespace ForestPlatformerExample
                 SceneManager.StartScene("AudioSettings");
             };
 
-            SelectableImage back = new SelectableImage(Assets.GetTexture("HUDBackBase"), Assets.GetTexture("HUDBackSelected"), new Vector2(150, 250), scale: 0.25f);
+            SelectableImage back = new SelectableImage(Assets.GetTexture2D("HUDBackBase"), Assets.GetTexture2D("HUDBackSelected"), new Vector2(150, 250), scale: 0.25f);
             back.HoverSoundEffectName = "MenuHover";
             back.SelectSoundEffectName = "MenuSelect";
 

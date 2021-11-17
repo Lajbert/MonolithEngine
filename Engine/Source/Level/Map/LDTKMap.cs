@@ -119,18 +119,18 @@ namespace MonolithEngine
                     else if (layerName.StartsWith(BACKGROUND) && layerInstance.GridTiles.Length > 0)
                     {
                         currentLayer = scene.LayerManager.CreateBackgroundLayer(int.Parse(layerName[layerName.Length - 1] + ""));
-                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+                        tileSet = Assets.GetTexture2D(GetMonoGameContentName(layerInstance.TilesetRelPath));
                     }
                     else if (layerName.StartsWith(PARALLAX) && layerInstance.GridTiles.Length > 0)
                     {
                         scrollSpeedModifier += 0.1f;
                         currentLayer = scene.LayerManager.CreateParallaxLayer(int.Parse(layerName[layerName.Length - 1] + ""), scrollSpeedModifier, true);
-                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+                        tileSet = Assets.GetTexture2D(GetMonoGameContentName(layerInstance.TilesetRelPath));
                         tileGroup = new TileGroup();
                     }
                     else if (layerName.StartsWith(FOREGROUND) && layerInstance.GridTiles.Length > 0)
                     {
-                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+                        tileSet = Assets.GetTexture2D(GetMonoGameContentName(layerInstance.TilesetRelPath));
                     }
                     else
                     {
@@ -285,7 +285,7 @@ namespace MonolithEngine
                     Texture2D tileSet = null;
                     if (layerName ==layerInstance.Identifier && layerInstance.GridTiles.Length > 0)
                     {
-                        tileSet = Assets.GetTexture(GetMonoGameContentName(layerInstance.TilesetRelPath));
+                        tileSet = Assets.GetTexture2D(GetMonoGameContentName(layerInstance.TilesetRelPath));
 
                         foreach (TileInstance tile in layerInstance.GridTiles)
                         {

@@ -54,7 +54,7 @@ namespace ForestPlatformerExample
         private void LoadData()
         {
 
-            UI.AddUIElement(new Image(Assets.GetTexture("HUDCointCount"), new Vector2(5, 5), scale: 2));
+            UI.AddUIElement(new Image(Assets.GetTexture2D("HUDCointCount"), new Vector2(5, 5), scale: 2));
             UI.AddUIElement(new TextField(font, () => PlatformerGame.CoinCount.ToString(), new Vector2(50, 5), scale: 0.2f));
 
             EntityParser parser = new EntityParser(world);

@@ -17,7 +17,7 @@ namespace ForestPlatformerExample
 
             CollisionOffsetBottom = 1f;
 
-            AddComponent(new Sprite(this, Assets.GetTexture("FinishedTrophy")));
+            AddComponent(new Sprite(this, Assets.GetTexture2D("FinishedTrophy")));
             Rectangle SourceRectangle = GetComponent<Sprite>().SourceRectangle;
             Vector2 offset = new Vector2(SourceRectangle.Width * -Pivot.X, SourceRectangle.Height * -Pivot.Y);
             AddComponent(new BoxCollisionComponent(this, SourceRectangle.Width, SourceRectangle.Height, offset));
