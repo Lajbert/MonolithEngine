@@ -18,6 +18,7 @@ namespace MonolithEngine
 
         internal int CurrentFrame;
         internal int TotalFrames;
+        internal int Framerate;
         private double delay = 0;
         private double currentDelay = 0;
         public Color Color = Color.White;
@@ -70,6 +71,7 @@ namespace MonolithEngine
             {
                 throw new Exception("Invalid framerate!");
             }
+            this.Framerate = framerate;
             this.Parent = parent;
             CurrentFrame = StartFrame;
             this.TotalFrames = totalFrames;

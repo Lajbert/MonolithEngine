@@ -418,5 +418,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Source\Util\PhysicsUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Source\Util\Timer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Source\Graphics\MonolithTexture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Source\Graphics\MonolithAnimationTexture.cs" />
   </ItemGroup>
 </Project>
