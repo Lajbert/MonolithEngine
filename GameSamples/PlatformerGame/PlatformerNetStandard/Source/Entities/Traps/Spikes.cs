@@ -14,30 +14,28 @@ namespace ForestPlatformerExample
         {
             Direction = direction;
             AddTag("Spikes");
-            TileGroup tg = new TileGroup();
+            TileGroup tg = new TileGroup(length, Config.GRID);
             Texture2D tileSet = Assets.GetTexture2D("ForestTileset");
-            Color[] data = new Color[Config.GRID * Config.GRID];
             Sprite sprite = null;
 
             for (int i = 0; i < length; i += Config.GRID)
             {
+                Rectangle rect;
                 if (i == 0)
                 {
-                    tileSet.GetData(0, new Rectangle(240, 368, Config.GRID, Config.GRID), data, 0, data.Length);
+                    rect = new Rectangle(240, 368, Config.GRID, Config.GRID);
                 }
                 else if (i == length - Config.GRID)
                 {
-                    data = new Color[Config.GRID * Config.GRID];
-                    tileSet.GetData(0, new Rectangle(272, 368, Config.GRID, Config.GRID), data, 0, data.Length);
+                    rect = new Rectangle(272, 368, Config.GRID, Config.GRID);
                 }
                 else
                 {
-                    data = new Color[Config.GRID * Config.GRID];
-                    tileSet.GetData(0, new Rectangle(256, 368, Config.GRID, Config.GRID), data, 0, data.Length);
+                    rect = new Rectangle(256, 368, Config.GRID, Config.GRID);
                 }
                 for (int j = 0; j < Config.GRID; j += Config.GRID)
                 {
-                    tg.AddColorData(data, new Vector2(i, j));
+                    tg.AddTile(tileSet, new Vector2(i, j), rect);
                 }
             }
 

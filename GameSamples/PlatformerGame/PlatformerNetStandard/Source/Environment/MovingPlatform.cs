@@ -25,13 +25,10 @@ namespace ForestPlatformerExample
             BumpFriction = 0f;
             Transform.VelocityX = speedX * directionX;
             Transform.VelocityY = speedY * directionY;
-            //AddComponent(new Sprite(SpriteUtil.LoadTexture("ForestAssets/Tiles/forest-tileset"), new Rectangle(304, 288, Config.GRID, Config.GRID)));
-            //new Sprite(this, Assets.GetTexture("ForestTileset"), new Rectangle(304, 288, Config.GRID, Config.GRID));
+
             AddComponent(new BoxCollisionComponent(this, width, height));
-            TileGroup tg = new TileGroup();
+            TileGroup tg = new TileGroup(width, height);
             Texture2D tileSet = Assets.GetTexture2D("ForestTileset");
-            Color[] data = new Color[Config.GRID * Config.GRID];
-            tileSet.GetData(0, new Rectangle(304, 288, Config.GRID, Config.GRID), data, 0, data.Length);
             for (int i = 0; i < width; i += Config.GRID)
             {
                 for (int j = 0; j < height; j += Config.GRID)

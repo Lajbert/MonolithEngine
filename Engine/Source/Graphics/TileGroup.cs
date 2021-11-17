@@ -19,141 +19,75 @@ namespace MonolithEngine
 
         private Dictionary<Vector2, Color[]> tiles = new Dictionary<Vector2, Color[]>();
 
-        private int width = 0;
-        private int height = 0;
-
         public static GraphicsDevice GraphicsDevice;
 
-        private Texture2D texture;
+        private RenderTarget2D renderTarget;
 
-        public TileGroup()
+        private SpriteBatch spriteBatch;
+
+        private Dictionary<Texture2D, List<TileGroupEntry>> textures = new Dictionary<Texture2D, List<TileGroupEntry>>();
+
+        public TileGroup(int width, int height)
         {
+            renderTarget = new RenderTarget2D(
+                           GraphicsDevice,
+                           width,
+                           height,
+                           false,
+                           GraphicsDevice.PresentationParameters.BackBufferFormat,
+                           DepthFormat.Depth24);
         }
 
-        /// <summary>
-        /// Adds a new texture to a specific tile.
-        /// </summary>
-        /// <param name="texture"></param>
-        /// <param name="position"></param>
-        public void AddTile(Texture2D texture, Vector2 position, BlendMode blendMode = BlendMode.MERGE)
+        public void AddTile(Texture2D texture, Vector2 position, Rectangle sourceRectangle = default, SpriteEffects spriteEffects = SpriteEffects.None)
         {
-            Color[] data = new Color[texture.Width * texture.Height];
-            texture.GetData(data);
-            AddColorData(data, position, blendMode);
+            List<TileGroupEntry> entries = new List<TileGroupEntry>();
+            if (textures.ContainsKey(texture))
+            {
+                entries = textures[texture];
+            }
+            Rectangle drawRect = sourceRectangle == default ? new Rectangle(0, 0, texture.Width, texture.Height) : sourceRectangle;
+            entries.Add(new TileGroupEntry(position, drawRect, spriteEffects));
+            textures[texture] = entries;
         }
-
-        /// <summary>
-        /// Adds a new texture (as Color[]) to a specific tile.
-        /// </summary>
-        /// <param name="texture"></param>
-        /// <param name="position"></param>
-        public void AddColorData(Color[] data, Vector2 position, BlendMode blendMode = BlendMode.MERGE)
-        {
-            if (blendMode == BlendMode.MERGE)
-            {
-                if (tiles.ContainsKey(position)) {
-                    Color[] result = MergeTile(tiles[position], data);
-                    tiles[position] = result;
-                }
-                else
-                {
-                    tiles[position] = data;
-                }
-
-            }
-            else if (blendMode == BlendMode.OVERWRITE)
-            {
-                tiles[position] = data;
-            }
-            else if (blendMode == BlendMode.NONE)
-            {
-                tiles.Add(position, data);
-            }
-
-            width = Math.Max(width, (int)position.X + Config.GRID);
-            height = Math.Max(height, (int)position.Y + Config.GRID);
-        }
-
-        /// <summary>
-        /// When using BlendMode.MERGE, we want the new tile to be on top of the
-        /// existing tile. It basically takes every non-transparent pixel from the new image
-        /// and overwrites the existing pixel on the same position in the existing image.
-        /// Similar to opening 2 images in a text editor, putting one 
-        /// image on top of the other and saving the result as one single image.
-        /// </summary>
-        /// <param name="data1"></param>
-        /// <param name="data2"></param>
-        /// <returns></returns>
-        private Color[] MergeTile(Color[] data1, Color[] data2)
-        {
-            if (data1.Length != data2.Length)
-            {
-                throw new Exception("Can't merge different sized color arrays");
-            }
-            Color[] result = new Color[data1.Length];
-
-            for (int i = 0; i < data1.Length; i++)
-            {
-                Color c = data1[i];
-                if (data2[i].A == 255)
-                {
-                    c.R = data2[i].R;
-                    c.G = data2[i].G;
-                    c.B = data2[i].B;
-                    c.A = data2[i].A;
-                }
-                result[i] = c;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Merges and returns the merge texture.
-        /// </summary>
-        /// <returns></returns>
         public Texture2D GetTexture()
         {
-            if (texture == null)
+            if (textures.Count == 0)
             {
-                Build();
+                throw new Exception("Attempted to create empty TileGroup...");
             }
-
-            return texture;
-        }
-
-        /// <summary>
-        /// Creates the new merged texture from the individual small textures.
-        /// </summary>
-        private void Build()
-        {
-            if (width == 0 || height == 0)
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.Clear(Color.Transparent);
+            spriteBatch.Begin();
+            foreach (Texture2D texture in textures.Keys)
             {
-                throw new Exception("Incorrect tileset dimensions!");
+                foreach (TileGroupEntry tge in textures[texture])
+                {
+                    spriteBatch.Draw(texture, tge.Position, tge.SourceRectangle, Color.White, 0f, Vector2.Zero, 1f, tge.SpriteEffects, 0);
+                }
             }
-
-            texture = new Texture2D(GraphicsDevice, width, height);
-            
-            foreach(KeyValuePair<Vector2, Color[]> tile in tiles)
-            {
-                texture.SetData(0, new Rectangle((int)tile.Key.X, (int)tile.Key.Y, Config.GRID, Config.GRID), tile.Value, 0, tile.Value.Length);
-            }
-        }
-
-        /// <summary>
-        /// Defines what we want to do when adding a new texture to an 
-        /// existing position.
-        /// </summary>
-        public enum BlendMode
-        {
-            OVERWRITE,
-            MERGE,
-            NONE
+            spriteBatch.End();
+            GraphicsDevice.SetRenderTarget(null);
+            return renderTarget;
         }
 
         public bool IsEmpty()
         {
-            return width == 0 && height == 0;
+            return textures.Count == 0;
+        }
+
+        private struct TileGroupEntry
+        {
+            public Vector2 Position;
+            public Rectangle SourceRectangle;
+            public SpriteEffects SpriteEffects;
+
+            public TileGroupEntry(Vector2 position, Rectangle sourceRectangle, SpriteEffects spriteEffects)
+            {
+                Position = position;
+                SourceRectangle = sourceRectangle;
+                SpriteEffects = spriteEffects;
+            }
         }
     }
 }
