@@ -26,9 +26,7 @@ namespace PlatformerAndroid
         {
             base.OnCreate(bundle);
 
-            PlatformerGame.ANDROID = true;
-            Config.ANDROID = true;
-            _game = new PlatformerGame();
+            _game = new PlatformerGame(Platform.ANDROID);
             _view = _game.Services.GetService(typeof(View)) as View;
 
             SetContentView(_view);

@@ -13,15 +13,27 @@ namespace MonolithEngine
 
         private static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
 
-        public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false)
+        public static void LoadTexture(string name, string path, bool flipVertical = false, bool flipHorizontal = false, bool autoBoundingBox = false)
         {
             if (flipVertical || flipHorizontal)
             {
-                textures.Add(name, new MonolithTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal)));
+                textures.Add(name, new MonolithTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal), autoBoundingBox));
             }
             else
             {
-                textures.Add(name, new MonolithTexture(AssetUtil.LoadTexture(path)));
+                textures.Add(name, new MonolithTexture(AssetUtil.LoadTexture(path), autoBoundingBox: autoBoundingBox));
+            }
+        }
+
+        public static void LoadTexture(string name, string path, Rectangle boundingBox, bool flipVertical = false, bool flipHorizontal = false)
+        {
+            if (flipVertical || flipHorizontal)
+            {
+                textures.Add(name, new MonolithTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal), boundingBox));
+            }
+            else
+            {
+                textures.Add(name, new MonolithTexture(AssetUtil.LoadTexture(path), boundingBox));
             }
         }
 

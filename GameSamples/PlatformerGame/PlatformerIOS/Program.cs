@@ -13,9 +13,7 @@ namespace PlatformerIOS
 
         internal static void RunGame()
         {
-            PlatformerGame.ANDROID = true;
-            Config.ANDROID = true;
-            game = new PlatformerGame();
+            game = new PlatformerGame(Platform.IOS);
             game.Run();
         }
 

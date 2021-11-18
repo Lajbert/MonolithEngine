@@ -26,6 +26,12 @@ namespace MonolithEngine
             Height = height;
         }
 
+        public BoxCollisionComponent(IColliderEntity owner, Rectangle boundingBox, Vector2 positionOffset = default) : base(ColliderType.BOX, owner, positionOffset)
+        {
+            Width = boundingBox.Width;
+            Height = boundingBox.Height;
+        }
+
 
         public override bool CollidesWith(IColliderEntity otherCollider)
         {

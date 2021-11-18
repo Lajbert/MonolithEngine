@@ -9,9 +9,12 @@ namespace ForestPlatformerExample
     public class PlatformerGame : MonolithGame
     {
 
-        public static int CoinCount = 0;
+        public PlatformerGame(Platform platform) : base(platform)
+        {
 
-        public static bool ANDROID = false;
+        }
+
+        public static int CoinCount = 0;
 
         private SpriteFont font;
 
@@ -44,7 +47,7 @@ namespace ForestPlatformerExample
             int desktopWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             int desktopHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             
-            if (ANDROID)
+            if (Platform.IsMobile())
             {
                 VideoConfiguration.RESOLUTION_WIDTH = Window.ClientBounds.Width;
                 VideoConfiguration.RESOLUTION_HEIGHT = Window.ClientBounds.Height;
@@ -75,9 +78,9 @@ namespace ForestPlatformerExample
                 }
                 else
                 {
-                    VideoConfiguration.RESOLUTION_WIDTH = 1440;
-                    VideoConfiguration.RESOLUTION_HEIGHT = 2560;
-                    VideoConfiguration.FULLSCREEN = true;
+                    VideoConfiguration.RESOLUTION_WIDTH = 1280;
+                    VideoConfiguration.RESOLUTION_HEIGHT = 720;
+                    VideoConfiguration.FULLSCREEN = false;
                 }
             }
 
@@ -257,7 +260,7 @@ namespace ForestPlatformerExample
 
             Assets.LoadAnimationTexture("FanAnim", "IcySkies/Items/Fan/fan", width: 24, height:8);
 
-            Assets.LoadTexture("FinishedTrophy", "IcySkies/Items/POI/End (Idle)");
+            Assets.LoadTexture("FinishedTrophy", "IcySkies/Items/POI/End (Idle)", autoBoundingBox: true);
 
             Logger.Debug("Loading assets: fonts...");
             Assets.AddFont("InGameText", Content.Load<SpriteFont>("Text/InGameText"));
@@ -291,7 +294,7 @@ namespace ForestPlatformerExample
             AudioEngine.AddSound("GostAppear", "ForestAssets/Audio/sfx_wpn_laser11"); 
             AudioEngine.AddSound("RockSplit", "ForestAssets/Audio/sfx_sounds_impact10");
 
-            if (ANDROID)
+            if (Platform.IsMobile())
             {
                 Assets.LoadTexture("LeftArrow", "MobileButtons/left_arrow");
                 Assets.LoadTexture("RightArrow", "MobileButtons/right_arrow");
@@ -318,7 +321,7 @@ namespace ForestPlatformerExample
             Level2Scene level2 = new Level2Scene(world, font);
             LevelSelectScreen levelSelectScreen = new LevelSelectScreen();
             GameEndScene endScene = new GameEndScene();
-            if (!ANDROID)
+            if (!Platform.IsMobile())
             {
                 SettingsScene settings = new SettingsScene();
                 SceneManager.AddScene(settings);

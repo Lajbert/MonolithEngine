@@ -39,7 +39,7 @@ namespace ForestPlatformerExample
             foreach (Camera cameara in Cameras)
             {
                 cameara.Initialize();
-                if (PlatformerGame.ANDROID)
+                if (MonolithGame.Platform.IsMobile())
                 {
                     cameara.Zoom += 0.5f;
                     cameara.Zoom *= 2;
@@ -64,7 +64,7 @@ namespace ForestPlatformerExample
 
             hero = parser.GetHero();
 
-            if (PlatformerGame.ANDROID)
+            if (MonolithGame.Platform.IsMobile())
             {
                 MobileButtonPanel controlButtons = new MobileButtonPanel(hero);
                 foreach (SelectableImage button in controlButtons.GetButtons())

@@ -9,7 +9,7 @@ namespace PlatformerOpenGL
         [STAThread]
         static void Main()
         {
-            using (PlatformerGame game = new PlatformerGame())
+            using (PlatformerGame game = new PlatformerGame(Platform.WINDOWS))
             {
                 game.Run();
             }

@@ -25,8 +25,6 @@ namespace MonolithEngine
             this.boundingBox = autoBoundingBox ? AssetUtil.AutoBoundingBox(texture) : default;
         }
 
-
-
         public Texture2D GetTexture2D()
         {
             return texture;

@@ -32,8 +32,16 @@ namespace MonolithEngine
 
         private readonly int DEFAULT_FIXED_UPDATE_RATE = 30;
 
-        public MonolithGame()
+        private static Platform platform;
+
+        public static Platform Platform
         {
+            get => platform;
+        }
+
+        public MonolithGame(Platform targetPlatform)
+        {
+            platform = targetPlatform;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -71,7 +79,7 @@ namespace MonolithEngine
             graphics.PreferredBackBufferWidth = VideoConfiguration.RESOLUTION_WIDTH;
             graphics.PreferredBackBufferHeight = VideoConfiguration.RESOLUTION_HEIGHT;
             graphics.IsFullScreen = VideoConfiguration.FULLSCREEN;
-            if (Config.ANDROID)
+            if (Platform.IsMobile())
             {
                 Config.SCALE = ((float)VideoConfiguration.RESOLUTION_HEIGHT / 1920) * 2.8f;
             }
@@ -244,5 +252,14 @@ namespace MonolithEngine
             base.Draw(gameTime);
         }
 
+    }
+
+    public enum Platform
+    {
+        MAC_OSX,
+        LINUX,
+        WINDOWS,
+        ANDROID,
+        IOS
     }
 }

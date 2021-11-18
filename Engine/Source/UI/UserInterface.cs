@@ -69,7 +69,7 @@ namespace MonolithEngine
 
         public void Update()
         {
-            if (Config.ANDROID)
+            if (MonolithGame.Platform.IsMobile())
             {
                 foreach (IUIElement element in elements)
                 {

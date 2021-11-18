@@ -33,7 +33,7 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
-            float scale = PlatformerGame.ANDROID ? 1f : 0.25f;
+            float scale = MonolithGame.Platform.IsMobile() ? 1f : 0.25f;
             Logger.Debug("Loading main menu UI elements...");
             SelectableImage newGame = new SelectableImage(Assets.GetTexture2D("HUDNewGameBase"), Assets.GetTexture2D("HUDNewGameSelected"), new Vector2(150, 150), scale: scale);
             newGame.HoverSoundEffectName = "MenuHover";
@@ -45,7 +45,7 @@ namespace ForestPlatformerExample
             };
 
             SelectableImage settings = null;
-            if (!PlatformerGame.ANDROID)
+            if (!MonolithGame.Platform.IsMobile())
             {
                 settings = new SelectableImage(Assets.GetTexture2D("HUDSettingsBase"), Assets.GetTexture2D("HUDSettingsSelected"), new Vector2(150, 200), scale: scale);
                 settings.HoverSoundEffectName = "MenuHover";
@@ -65,7 +65,7 @@ namespace ForestPlatformerExample
             quit.OnClick = Config.ExitAction;
 
             UI.AddUIElement(quit);
-            if (!PlatformerGame.ANDROID)
+            if (!MonolithGame.Platform.IsMobile())
             {
                 UI.AddUIElement(settings);
             }

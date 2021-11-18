@@ -28,7 +28,7 @@ namespace ForestPlatformerExample
 
         public override void Load()
         {
-            float scale = PlatformerGame.ANDROID ? 0.5f : 0.25f;
+            float scale = MonolithGame.Platform.IsMobile() ? 0.5f : 0.25f;
             Logger.Debug("Loading level select scene UI...");
             SelectableImage videoSettings = new SelectableImage(Assets.GetTexture2D("Level1Base"), Assets.GetTexture2D("Level1Selected"), new Vector2(150, 150), scale: scale);
             videoSettings.HoverSoundEffectName = "MenuHover";

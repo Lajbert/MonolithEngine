@@ -50,5 +50,15 @@ namespace MonolithEngine
         {
             return Enum.GetValues(typeof(T)).Cast<T>();
         }
+
+        public static bool IsMobile(this Platform platform)
+        {
+            return platform == Platform.ANDROID || platform == Platform.IOS;
+        }
+
+        public static bool IsDesktop(this Platform platform)
+        {
+            return platform == Platform.MAC_OSX || platform == Platform.WINDOWS || platform == Platform.LINUX;
+        }
     }
 }
