@@ -26,7 +26,7 @@ namespace MonolithEngine
         }
 
         public static void LoadAnimationTexture(string name, string path, int width = 0, int height = 0, int rows = 0, int columns = 0, int totalFrames = 0, bool flipVertical = false, bool flipHorizontal = false)
-        {//public AnimationTexture(Texture2D texture, int width = 0, int height = 0, int rows = 0, int columns = 0, int frameSizeOverride = 0, int totalFrames = 0) : base(texture)
+        {
             if (flipVertical || flipHorizontal)
             {
                 textures.Add(name, new AnimationTexture(AssetUtil.FlipTexture(AssetUtil.LoadTexture(path), flipVertical, flipHorizontal), width, height, rows, columns, totalFrames));

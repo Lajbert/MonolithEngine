@@ -11,11 +11,18 @@ namespace MonolithEngine
         private Rectangle boundingBox;
         internal static GraphicsDevice GraphicsDevice;
 
-        public MonolithTexture(Texture2D texture, Rectangle sourceRectangle = default, Rectangle boundingBox = default)
+        public MonolithTexture(Texture2D texture, Rectangle boundingBox, Rectangle sourceRectangle = default)
         {
             this.texture = texture;
             this.sourceRectangle = sourceRectangle == default ? TextureBorders() : sourceRectangle;
-            this.boundingBox = boundingBox == default ? AssetUtil.AutoBoundingBox(texture) : boundingBox;
+            this.boundingBox = boundingBox;
+        }
+
+        public MonolithTexture(Texture2D texture, bool autoBoundingBox = false, Rectangle sourceRectangle = default)
+        {
+            this.texture = texture;
+            this.sourceRectangle = sourceRectangle == default ? TextureBorders() : sourceRectangle;
+            this.boundingBox = autoBoundingBox ? AssetUtil.AutoBoundingBox(texture) : default;
         }
 
 
