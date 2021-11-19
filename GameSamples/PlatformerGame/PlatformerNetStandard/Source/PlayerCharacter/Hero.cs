@@ -9,7 +9,7 @@ namespace ForestPlatformerExample
 {
     class Hero : PhysicalEntity
     {
-
+        private readonly int CAMERA_HOOK_SPEED = 5;
         private readonly float JUMP_RATE = 0.1f;
         private readonly float SLIDE_FORCE = 1f;
 
@@ -59,7 +59,7 @@ namespace ForestPlatformerExample
 
         private float horizFrictBackup;
 
-        public bool MovementButtonDown = false;
+        public bool MovementButtonDown;
 
         public bool LevelEndReached
         {
@@ -108,6 +108,13 @@ namespace ForestPlatformerExample
         private Fan fan;
 
         UserInputController UserInput;
+
+        private PhysicalEntity cameraHook;
+        public PhysicalEntity CameraHook
+        {
+            get => cameraHook;
+        }
+
 
         public Hero(AbstractScene scene, Vector2 position) : base(scene.LayerManager.EntityLayer, null, position)
         {
@@ -175,6 +182,10 @@ namespace ForestPlatformerExample
                 l.SetParent(this, new Vector2(0, -Config.GRID / 2 - 15));*/
             }
 #endif
+
+            cameraHook = new PhysicalEntity(scene.LayerManager.EntityLayer, this, new Vector2(0, -10));
+            cameraHook.AddComponent(new Sprite(CameraHook, new MonolithTexture(Assets.CreateRectangle(Config.GRID * 2, Color.Blue))));
+            cameraHook.HasGravity = false;
         }
 
         private void SetupAnimations()
@@ -783,6 +794,30 @@ namespace ForestPlatformerExample
 
         public override void FixedUpdate()
         {
+
+            if (MovementButtonDown && Math.Abs(cameraHook.Transform.PositionWithoutParent.X) < 160)
+            {
+                if (Transform.Velocity.X < 0)
+                {
+                    cameraHook.Transform.PositionWithoutParent -= new Vector2((float)CAMERA_HOOK_SPEED * Globals.FixedUpdateMultiplier, 0);
+                }
+                else if (Transform.Velocity.X > 0)
+                {
+                    cameraHook.Transform.PositionWithoutParent += new Vector2((float)CAMERA_HOOK_SPEED * Globals.FixedUpdateMultiplier, 0);
+                }
+                Logger.Info("hook pos: " + cameraHook.Transform.PositionWithoutParent);
+            }
+            else if (!MovementButtonDown)
+            {
+                if (CurrentFaceDirection == Direction.WEST && cameraHook.Transform.PositionWithoutParent.X < 0)
+                {
+                    cameraHook.Transform.PositionWithoutParent += new Vector2((float)CAMERA_HOOK_SPEED * 3 * Globals.FixedUpdateMultiplier, 0);
+                }
+                else if (CurrentFaceDirection == Direction.EAST && cameraHook.Transform.PositionWithoutParent.X > 0)
+                {
+                    cameraHook.Transform.PositionWithoutParent -= new Vector2((float)CAMERA_HOOK_SPEED * 3 * Globals.FixedUpdateMultiplier, 0);
+                }
+            }
 
             if (LevelEndReached && Ladder != null)
             {

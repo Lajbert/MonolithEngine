@@ -92,7 +92,7 @@ namespace ForestPlatformerExample
         {
             foreach (Camera camera in Cameras)
             {
-                camera.TrackTarget(hero, true);
+                camera.TrackTarget(hero.CameraHook, true);
             }
             PlatformerGame.Paused = false;
             PlatformerGame.WasGameStarted = true;
